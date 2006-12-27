@@ -8,14 +8,14 @@ LIB_OCC= -L$(CASROOT)/$(STATION)/lib -lTKernel -lTKMath -lTKG2d -lTKG3d -lTKGeom
 
 AM_CXXFLAGS=-DCSFDB -DNO_CXX_EXCEPTION -DNo_Exception -DHAVE_CONFIG_H -DHAVE_WOK_CONFIG_H -DLIN -DLININTEL
 
-INCLUDES = \
+AM_CPPFLAGS= \
 	-DPACKAGE_DATA_DIR=\""$(datadir)"\" \
 	-DPACKAGE_LOCALE_DIR=\""$(prefix)/$(DATADIRNAME)/locale"\" \
-	@PACKAGE_CFLAGS@ -I$(CASROOT)/inc -I$(CASROOT)/src/WOKTclLib
+	@GTK_CFLAGS@ @GTKGLEXT_CFLAGS@ @LIBGLADE_CFLAGS@ @GMODULE_CFLAGS@ -I$(CASROOT)/inc -I$(CASROOT)/src/WOKTclLib
 
-bin_PROGRAMS = occviewer
+bin_PROGRAMS = ark3d
 
-occviewer_SOURCES = \
+ark3d_SOURCES = \
 	main.cpp \
 	Support.cpp Support.h \
 	Interface.cpp Interface.h \
@@ -24,5 +24,5 @@ occviewer_SOURCES = \
 	Translate.cpp Translate.h \
 	MakeBottle.cpp
 
-occviewer_LDADD = @PACKAGE_LIBS@ $(INTLLIBS) $(LIB_OCC)
+ark3d_LDADD = @GTK_LIBS@ @GTKGLEXT_LIBS@ @LIBGLADE_LIBS@ @GMODULE_LIBS@ $(INTLLIBS) $(LIB_OCC)
 
