@@ -5,7 +5,6 @@ ADD_DEFINITIONS (-DVERSION="\\"${ARK3D_VERSION}\\"")
 
 # Some of the opencascade headers require the following compiler defines
 ADD_DEFINITIONS (-DHAVE_IOSTREAM -DHAVE_LIMITS -DHAVE_FSTREAM -DCSFDB)
-ADD_DEFINITIONS ( -DNO_CXX_EXCEPTION -DNo_Exception -DHAVE_WOK_CONFIG_H -DLIN -DLININTEL)
 
 # FindPkcConfig is in the following directory since it is not part of the
 # official cmake release yet (it's in CVS)
