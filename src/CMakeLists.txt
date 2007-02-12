@@ -1,5 +1,3 @@
-include(UsePkgConfig)
-
 # The fllowing forces cmake to show the compiler command line arguements, usefull for debugging
 SET (CMAKE_VERBOSE_MAKEFILE TRUE)
 
