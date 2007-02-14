@@ -32,7 +32,8 @@ int main (int argc, char *argv[])
   //gtkgl
   gtk_gl_init (&argc, &argv);
 
-  add_pixmap_directory (PACKAGE_DATA_DIR "/" PACKAGE "/pixmaps");
+  //add_pixmap_directory (PACKAGE_DATA_DIR "/" PACKAGE "/pixmaps");
+	add_pixmap_directory (PACKAGE_DATA_DIR);
 
   /* Try double-buffered visual */
     glconfig = gdk_gl_config_new_by_mode (GdkGLConfigMode(GDK_GL_MODE_RGB    |
@@ -53,7 +54,7 @@ int main (int argc, char *argv[])
 	}
     }
 
-	MainWindowXML = glade_xml_new("ark3d.glade", "MainWindow", NULL);
+	MainWindowXML = glade_xml_new("./glade/ark3d.glade", "MainWindow", NULL);
 	if (MainWindowXML == NULL)
 	{
 	    g_print ("*** Failed creating main window.\n");
