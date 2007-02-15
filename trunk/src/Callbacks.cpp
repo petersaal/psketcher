@@ -361,7 +361,8 @@ on_about1_activate                     (GtkMenuItem     *menuitem,
 on_import_iges_toolbutton_clicked      (GtkToolButton   *toolbutton,
 	gpointer         user_data)
 {
-    GtkWidget* menuitem = lookup_widget(GTK_WIDGET(toolbutton), "import_iges1");
+		GladeXML *MainWindowXML = glade_get_widget_tree(GTK_WIDGET(toolbutton));
+		GtkWidget* menuitem = glade_xml_get_widget(MainWindowXML, "import_iges1");
     on_import_iges1_activate(GTK_MENU_ITEM(menuitem), NULL);
 }
 
@@ -370,7 +371,8 @@ on_import_iges_toolbutton_clicked      (GtkToolButton   *toolbutton,
 on_import_step_toolbutton_clicked      (GtkToolButton   *toolbutton,
 	gpointer         user_data)
 {
-    GtkWidget* menuitem = lookup_widget(GTK_WIDGET(toolbutton), "import_step1");
+		GladeXML *MainWindowXML = glade_get_widget_tree(GTK_WIDGET(toolbutton));
+		GtkWidget* menuitem = glade_xml_get_widget(MainWindowXML, "import_step1");
     on_import_step1_activate(GTK_MENU_ITEM(menuitem), NULL);
 }
 
@@ -379,7 +381,8 @@ on_import_step_toolbutton_clicked      (GtkToolButton   *toolbutton,
 on_import_brep_toolbutton_clicked      (GtkToolButton   *toolbutton,
 	gpointer         user_data)
 {
-    GtkWidget* menuitem = lookup_widget(GTK_WIDGET(toolbutton), "import_brep1");
+		GladeXML *MainWindowXML = glade_get_widget_tree(GTK_WIDGET(toolbutton));
+		GtkWidget* menuitem = glade_xml_get_widget(MainWindowXML, "import_brep1");
     on_import_brep1_activate(GTK_MENU_ITEM(menuitem), NULL);
 }
 
@@ -388,7 +391,8 @@ on_import_brep_toolbutton_clicked      (GtkToolButton   *toolbutton,
 on_import_csfdb_toolbutton_clicked     (GtkToolButton   *toolbutton,
 	gpointer         user_data)
 {
-    GtkWidget* menuitem = lookup_widget(GTK_WIDGET(toolbutton), "import_csfdb1");
+		GladeXML *MainWindowXML = glade_get_widget_tree(GTK_WIDGET(toolbutton));
+		GtkWidget* menuitem = glade_xml_get_widget(MainWindowXML, "import_csfdb1");
     on_import_csfdb1_activate(GTK_MENU_ITEM(menuitem), NULL);
 }
 
@@ -397,7 +401,8 @@ on_import_csfdb_toolbutton_clicked     (GtkToolButton   *toolbutton,
 on_export_iges_toolbutton_clicked      (GtkToolButton   *toolbutton,
 	gpointer         user_data)
 {
-    GtkWidget* menuitem = lookup_widget(GTK_WIDGET(toolbutton), "export_iges2");
+		GladeXML *MainWindowXML = glade_get_widget_tree(GTK_WIDGET(toolbutton));
+		GtkWidget* menuitem = glade_xml_get_widget(MainWindowXML, "export_iges2");
     on_export_iges2_activate(GTK_MENU_ITEM(menuitem), NULL);
 }
 
@@ -406,7 +411,8 @@ on_export_iges_toolbutton_clicked      (GtkToolButton   *toolbutton,
 on_export_step_toolbutton_clicked      (GtkToolButton   *toolbutton,
 	gpointer         user_data)
 {
-    GtkWidget* menuitem = lookup_widget(GTK_WIDGET(toolbutton), "export_step2");
+		GladeXML *MainWindowXML = glade_get_widget_tree(GTK_WIDGET(toolbutton));
+		GtkWidget* menuitem = glade_xml_get_widget(MainWindowXML, "export_step2");
     on_export_step2_activate(GTK_MENU_ITEM(menuitem), NULL);
 }
 
@@ -415,7 +421,8 @@ on_export_step_toolbutton_clicked      (GtkToolButton   *toolbutton,
 on_export_brep_toolbutton_clicked      (GtkToolButton   *toolbutton,
 	gpointer         user_data)
 {
-    GtkWidget* menuitem = lookup_widget(GTK_WIDGET(toolbutton), "export_brep2");
+		GladeXML *MainWindowXML = glade_get_widget_tree(GTK_WIDGET(toolbutton));
+		GtkWidget* menuitem = glade_xml_get_widget(MainWindowXML, "export_brep2");
     on_export_brep2_activate(GTK_MENU_ITEM(menuitem), NULL);
 }
 
@@ -424,7 +431,8 @@ on_export_brep_toolbutton_clicked      (GtkToolButton   *toolbutton,
 on_export_csfdb_toolbutton_clicked     (GtkToolButton   *toolbutton,
 	gpointer         user_data)
 {
-    GtkWidget* menuitem = lookup_widget(GTK_WIDGET(toolbutton), "export_csfdb2");
+		GladeXML *MainWindowXML = glade_get_widget_tree(GTK_WIDGET(toolbutton));
+		GtkWidget* menuitem = glade_xml_get_widget(MainWindowXML, "export_csfdb2");
     on_export_csfdb2_activate(GTK_MENU_ITEM(menuitem), NULL);
 }
 
@@ -433,7 +441,8 @@ on_export_csfdb_toolbutton_clicked     (GtkToolButton   *toolbutton,
 on_export_stl_toolbutton_clicked       (GtkToolButton   *toolbutton,
 	gpointer         user_data)
 {
-    GtkWidget* menuitem = lookup_widget(GTK_WIDGET(toolbutton), "export_stl1");
+		GladeXML *MainWindowXML = glade_get_widget_tree(GTK_WIDGET(toolbutton));
+		GtkWidget* menuitem = glade_xml_get_widget(MainWindowXML, "export_stl1");
     on_export_stl1_activate(GTK_MENU_ITEM(menuitem), NULL);
 }
 
@@ -442,7 +451,8 @@ on_export_stl_toolbutton_clicked       (GtkToolButton   *toolbutton,
 on_export_vrml_toolbutton_clicked      (GtkToolButton   *toolbutton,
 	gpointer         user_data)
 {
-    GtkWidget* menuitem = lookup_widget(GTK_WIDGET(toolbutton), "export_vrml2");
+		GladeXML *MainWindowXML = glade_get_widget_tree(GTK_WIDGET(toolbutton));
+		GtkWidget* menuitem = glade_xml_get_widget(MainWindowXML, "export_vrml2");
     on_export_vrml2_activate(GTK_MENU_ITEM(menuitem), NULL);
 }
 
@@ -451,7 +461,8 @@ on_export_vrml_toolbutton_clicked      (GtkToolButton   *toolbutton,
 on_export_image_toolbutton_clicked     (GtkToolButton   *toolbutton,
 	gpointer         user_data)
 {
-    GtkWidget* menuitem = lookup_widget(GTK_WIDGET(toolbutton), "export_image2");
+		GladeXML *MainWindowXML = glade_get_widget_tree(GTK_WIDGET(toolbutton));
+		GtkWidget* menuitem = glade_xml_get_widget(MainWindowXML, "export_image2");
     on_export_image2_activate(GTK_MENU_ITEM(menuitem), NULL);
 }
 
@@ -460,7 +471,8 @@ on_export_image_toolbutton_clicked     (GtkToolButton   *toolbutton,
 on_about_toolbutton_clicked            (GtkToolButton   *toolbutton,
 	gpointer         user_data)
 {
-    GtkWidget* menuitem = lookup_widget(GTK_WIDGET(toolbutton), "about1");
+		GladeXML *MainWindowXML = glade_get_widget_tree(GTK_WIDGET(toolbutton));
+		GtkWidget* menuitem = glade_xml_get_widget(MainWindowXML, "about1");
     on_about1_activate(GTK_MENU_ITEM(menuitem), NULL);
 }
 
