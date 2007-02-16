@@ -26,7 +26,6 @@ Here's an example of the build and run process on my machine
 
 export CASROOT=~/opencascade-6.1/ros
 export LD_LIBRARY_PATH=/opt/OpenCASCADE-6.1/lib
-export LDFLAGS=-L/opt/OpenCASCADE-6.1/lib
 cmake .
 make
 ./src/Interface/ark3d
