@@ -54,7 +54,7 @@ int main (int argc, char *argv[])
 	}
     }
 
-	MainWindowXML = glade_xml_new("./glade/ark3d.glade", "MainWindow", NULL);
+	MainWindowXML = glade_xml_new("./src/Interface/GladeFiles/ark3d.glade", "MainWindow", NULL);
 	if (MainWindowXML == NULL)
 	{
 	    g_print ("*** Failed creating main window.\n");

@@ -29,7 +29,7 @@ export LD_LIBRARY_PATH=/opt/OpenCASCADE-6.1/lib
 export LDFLAGS=-L/opt/OpenCASCADE-6.1/lib
 cmake .
 make
-./src/ark3d
+./src/Interface/ark3d
 
 
 
