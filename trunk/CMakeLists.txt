@@ -20,4 +20,4 @@ SET (OPENCASCADE_LIBS "-lTKernel -lTKMath -lTKG2d -lTKG3d -lTKGeomBase -lTKBRep 
 
 add_subdirectory (src/Interface)
 add_subdirectory (src/NumOptimization)
-add_subdirectory (src/mmcMatrixClass)
+add_subdirectory (src/mmcMatrix)
