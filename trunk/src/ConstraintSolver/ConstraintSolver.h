@@ -2,7 +2,7 @@
 #define ConstraintSolverH
 
 #include <vector>
-#include "../mmcMatrixClass/mmcMatrix.h"
+#include "../mmcMatrix/mmcMatrix.h"
 #include "../NumOptimization/bfgs.h"
 #include <ginac/ginac.h>
 
