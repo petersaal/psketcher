@@ -5,7 +5,7 @@
 #include <iostream>
 #include <math.h>
 #include <time.h>
-#include "../mmcMatrixClass/mmcMatrix.h"
+#include "../mmcMatrix/mmcMatrix.h"
 using namespace std ;
 
 enum LINE_SEARCH {GOLDEN_SECTION, BACK_TRACK}; 

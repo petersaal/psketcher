@@ -1,1 +1,1 @@
-ADD_LIBRARY (NumOptimization STATIC NumOptimization.cpp)
+ADD_LIBRARY (bfgs STATIC bfgs.cpp)
