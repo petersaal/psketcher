@@ -2,7 +2,7 @@
 #define PrimitivesH
 
 #include <vector>
-#include "../mmcMatrixClass/mmcMatrix.h"
+#include "../mmcMatrix/mmcMatrix.h"
 #include <ginac/ginac.h>
 
 // dof class

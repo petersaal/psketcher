@@ -3,7 +3,7 @@
 #include <time.h>
 #include <math.h>
 #include "ConstraintSolver.h"
-#include "../mmcMatrixClass/mmcMatrix.h"
+#include "../mmcMatrix/mmcMatrix.h"
 
 int main(void)
 {
