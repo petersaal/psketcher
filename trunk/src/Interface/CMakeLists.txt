@@ -1,7 +1,8 @@
 # The fllowing forces cmake to show the compiler command line arguements, usefull for debugging
 SET (CMAKE_VERBOSE_MAKEFILE TRUE)
 
-ADD_DEFINITIONS (-DPACKAGE="\\"ark3d\\"" -DGETTEXT_PACKAGE="\\"ark3d\\"" -DPACKAGE_DATA_DIR="\\"./glade\\"" -DPACKAGE_LOCALE_DIR="\\"/home/grem/opt/ark3d/share/locale\\"")
+ADD_DEFINITIONS (-DPACKAGE="\\"ark3d\\"" -DGETTEXT_PACKAGE="\\"ark3d\\""
+-DPACKAGE_DATA_DIR="\\"./src/Interface/GladeFiles\\"" -DPACKAGE_LOCALE_DIR="\\"/home/grem/opt/ark3d/share/locale\\"")
 
 ADD_EXECUTABLE (ark3d Callbacks.cpp Interface.cpp OccGtkGLView.cpp Support.cpp Translate.cpp main.cpp)
 
