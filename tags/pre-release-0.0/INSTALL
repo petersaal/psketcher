@@ -1,0 +1,35 @@
+Installation Instructions
+*************************
+
+What you need installed
+***********************
+
+cmake-2.4 (this is the build system used)
+gtk+-2
+libglade-2
+gmodule-2
+gtkglext-1.0
+OpenCascade6.1
+
+
+Compile and run instructions
+****************************
+
+1. set CASROOT environment variable
+2. run cmake
+3. run make
+4. execute ark3d
+
+
+Here's an example of the build and run process on my machine
+**********************************************
+
+export CASROOT=~/opencascade-6.1/ros
+export LD_LIBRARY_PATH=/opt/OpenCASCADE-6.1/lib
+export LDFLAGS=-L/opt/OpenCASCADE-6.1/lib
+cmake .
+make
+./src/ark3d
+
+
+
