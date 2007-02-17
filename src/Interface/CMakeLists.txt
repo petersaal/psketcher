@@ -37,7 +37,7 @@ LINK_DIRECTORIES (${OPENCASCADE_LINK_DIR})
 INCLUDE_DIRECTORIES (${CASROOT}/inc)
 INCLUDE_DIRECTORIES (${CASROOT}/src/WOKTclLib)
 
-ADD_EXECUTABLE (ark3d Callbacks.cpp Interface.cpp OccGtkGLView.cpp Support.cpp Translate.cpp main.cpp)
+ADD_EXECUTABLE (ark3d Callbacks.cpp Interface.cpp OccGtkGLView.cpp Support.cpp Translate.cpp MakeBottle.cpp main.cpp)
 TARGET_LINK_LIBRARIES (ark3d ${OPENGL_LIBRARIES})
 TARGET_LINK_LIBRARIES (ark3d ${GTK_LIBRARIES})
 TARGET_LINK_LIBRARIES (ark3d ${LIBGLADE_LIBRARIES})

@@ -1,9 +1,11 @@
-#include <iostream.h>
+#include <iostream>
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
 #include "ConstraintSolver.h"
 #include "../mmcMatrix/mmcMatrix.h"
+
+using namespace std;
 
 int main(void)
 {

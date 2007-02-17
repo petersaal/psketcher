@@ -199,6 +199,23 @@ on_export_stl1_activate                (GtkMenuItem     *menuitem,
     bool status = anTrans->exportModel( Translate::FormatSTL, context );
 }
 
+void
+on_make_bottle_activate                (GtkMenuItem     *menuitem,
+                                        gpointer         user_data)
+{
+    theViewer->ShowWaitCursor( true );
+    TopoDS_Shape aBottle=MakeBottle(50,70,30);
+    Handle(AIS_Shape) AISBottle=new AIS_Shape(aBottle);
+    Handle(AIS_InteractiveContext) myContext = theViewer->getContext();
+    myContext->SetMaterial(AISBottle,Graphic3d_NOM_GOLD);
+    myContext->SetDisplayMode(AISBottle,1,Standard_False);
+    myContext->Display(AISBottle, Standard_False);
+    myContext->SetCurrentObject(AISBottle,Standard_False);
+    theViewer->SelectionChanged();
+    theViewer->FitAll();
+    theViewer->ShowWaitCursor( false );
+}
+
 
     void
 on_export_vrml2_activate               (GtkMenuItem     *menuitem,
