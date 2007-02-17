@@ -2,7 +2,7 @@
 SET (CMAKE_VERBOSE_MAKEFILE TRUE)
 
 ADD_DEFINITIONS (-DPACKAGE="\\"ark3d\\"" -DGETTEXT_PACKAGE="\\"ark3d\\""
--DPACKAGE_DATA_DIR="\\"./src/Interface/GladeFiles\\"" -DPACKAGE_LOCALE_DIR="\\"/home/grem/opt/ark3d/share/locale\\"")
+-DPACKAGE_DATA_DIR="\\"./res\\"" -DPACKAGE_LOCALE_DIR="\\"/home/grem/opt/ark3d/share/locale\\"")
 
 # Add include paths and libraries for ark3d's dependencies
 #OpenGL
