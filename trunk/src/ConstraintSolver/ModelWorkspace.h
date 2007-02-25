@@ -13,8 +13,8 @@ public:
 	void DeleteDOF(DOF *OldDOF);
 	
 	// Constraint equation management
-	void AddConstraintEquation(ConstraintEquationPointer new_constraint_equation);
-	void DeleteConstraintEquation(ConstraintEquationPointer constraint_to_delete);
+	void AddConstraintEquation(ConstraintEquationBasePointer new_constraint_equation);
+	void DeleteConstraintEquation(ConstraintEquationBasePointer constraint_to_delete);
 	
 	// Primitive management
 	void AddPrimitive(PrimitiveBasePointer new_primitive);
@@ -22,7 +22,7 @@ public:
 
 private:
 	std::vector<DOFPointer> dof_list_;
-	std::vector<ConstraintEquationPointer> constraint_equation_list_;
+	std::vector<ConstraintEquationBasePointer> constraint_equation_list_;
 	std::vector<PrimitiveBasePointer> primitive_list_;
 };
 

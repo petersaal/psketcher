@@ -104,10 +104,10 @@ class SketchPlane : public PrimitiveBase
 
 
 // constraint equation class
-class ConstraintEquation
+class ConstraintEquationBase
 {
 	public:
-		void Draw() const {;}
+		virtual void Draw() const {;}
 
 		void SetDisplacement(const Point &point1, const Point &point2, double distance);
 
@@ -117,6 +117,16 @@ class ConstraintEquation
 
 };
 
-typedef boost::shared_ptr<ConstraintEquation> ConstraintEquationPointer;
+class DisplacementConstraint : public ConstraintEquationBase
+{
+	public:
+		DisplacementConstraint(const Point &point1, const Point &point2, double distance);
+
+	private:
+		std::vector< boost::shared_ptr<GiNaC::ex> > constraints_;
+		std::vector<DOFPointer> dof_list_;
+};
+
+typedef boost::shared_ptr<ConstraintEquationBase> ConstraintEquationBasePointer;
 
 #endif //PrimitivesH

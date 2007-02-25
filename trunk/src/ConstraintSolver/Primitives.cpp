@@ -38,7 +38,7 @@ Line :: Line(const Point &point1, const Point &point2)
 }
 
 // Create a constraint that defines the distance between two points
-void ConstraintEquation::SetDisplacement(const Point &point1, const Point &point2, double distance)
+DisplacementConstraint::DisplacementConstraint(const Point &point1, const Point &point2, double distance)
 {
 	// First must clear existing constraint since this class is only intended to manage a single constraint type at a time
 	constraints_.clear();
