@@ -17,14 +17,13 @@ public:
     void DeleteConstraintEquation(ConstraintEquationPointer constraint_to_delete);
 
     // Primitive management
-    void AddPrimitiveBase(PrimitiveBasePointer new_primitive);
+    void AddPrimitive(PrimitiveBasePointer new_primitive);
     void DeletePrimitive(PrimitiveBasePointer primitive_to_delete);
 
 private:
-	vector<DOFPointer> dof_list_;
-	vector<ConstraintEquationPointer> constraint_equation_list_;
-	vector<PrimitiveBasePointer> primitive_list_;
-
+	std::vector<DOFPointer> dof_list_;
+	std::vector<ConstraintEquationPointer> constraint_equation_list_;
+	std::vector<PrimitiveBasePointer> primitive_list_;
 };
 
 #endif //ModelWorksapceH

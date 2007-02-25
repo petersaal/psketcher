@@ -7,6 +7,8 @@
 #include <gsl/gsl_linalg.h>
 #include "mmcMatrix.h"
 
+using namespace std;
+
 pthread_mutex_t mmcLock; // mutex lock
 
 // Default constructor, does not allocate memory

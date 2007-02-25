@@ -10,20 +10,19 @@
 // dof class
 class DOF
 {
-public:
-	DOF(double value = 0.0, bool free = false);
-	DOF(const char *name, double value = 0.0, bool free = false);
-	~DOF();
+	public:
+		DOF ( double value = 0.0, bool free = false );
+		DOF ( const char *name, double value = 0.0, bool free = false );
 
-	//Accessor methods
-	void SetValue(double value) {value_ = value;}
-	double GetValue()const {return value_;}
+		//Accessor methods
+		void SetValue ( double value ) {value_ = value;}
+		double GetValue() const {return value_;}
 
-private:
-	GiNaC::symbol variable_;
-	bool free_;
-	double value_;
-	int reference_counter_;
+	private:
+		GiNaC::symbol variable_;
+		bool free_;
+		double value_;
+		int reference_counter_;
 };
 
 typedef boost::shared_ptr<DOF> DOFPointer;
@@ -32,93 +31,90 @@ typedef boost::shared_ptr<DOF> DOFPointer;
 /* Now will define the merit function derived class used in the template matching */
 class PrimitiveBase
 {
-public:
-	PrimitiveBase();
-	virtual ~PrimitiveBase();
-	virtual void Draw();
+	public:
+		virtual void Draw() {;}
 
-private:
+	private:
 
 };
 
-typedef boost::shared_ptr<DOF> PrimitiveBasePointer;
+typedef boost::shared_ptr<PrimitiveBase> PrimitiveBasePointer;
 
 
 // constraint equation class
 class ConstraintEquation
 {
-public:
-	ConstraintEquation();
-	~ConstraintEquation();
+	public:
+		ConstraintEquation();
 
-	void Draw();
+		void Draw();
 
-private:
-	vector< boost::shared_ptr<GiNaC::ex> > constraints_;
-	
+	private:
+		std::vector< boost::shared_ptr<GiNaC::ex> > constraints_;
+
 };
 
-typedef boost::shared_ptr<DOF> ConstraintEquationPointer;
+typedef boost::shared_ptr<ConstraintEquation> ConstraintEquationPointer;
 
 // point class
 class Point : public PrimitiveBase
 {
-public:
-	Point(double x,double y,double z,vector<DOFPointer> dof_list);
-	Point(DOFPointer x, DOFPointer y, DOFPointer z);
-	~Point();
+	public:
+		Point ( double x, double y, double z );
+		Point ( DOFPointer x, DOFPointer y, DOFPointer z );
 
-private:
-	DOFPointer x_;
-	DOFPointer y_;
-	DOFPointer z_;
+		DOFPointer GetXDOF() {return x_;}
+		DOFPointer GetYDOF() {return y_;}
+		DOFPointer GetZDOF() {return z_;}
+
+	private:
+		DOFPointer x_;
+		DOFPointer y_;
+		DOFPointer z_;
 };
 
-typedef boost::shared_ptr<DOF> PointPointer;
+typedef boost::shared_ptr<Point> PointPointer;
 
 // line class
 class Line : public PrimitiveBase
 {
-public:
-	Line(PointPointer point1, PointPointer point2);
-	~Line();
+	public:
+		Line ( PointPointer point1, PointPointer point2 );
 
-private:
-	DOFPointer x1_;
-	DOFPointer y1_;
-	DOFPointer z1_;
-	DOFPointer x2_;
-	DOFPointer y2_;
-	DOFPointer z2_;
+	private:
+		DOFPointer x1_;
+		DOFPointer y1_;
+		DOFPointer z1_;
+		DOFPointer x2_;
+		DOFPointer y2_;
+		DOFPointer z2_;
 };
 
 
 // vector class
 class Vector : public PrimitiveBase
 {
-public:
-	Vector(double x, double y, double z,vector<DOFPointer> dof_list);
-	Vector(DOFPointer x, DOFPointer y, DOFPointer z);
-	~Vector();
+	public:
+		Vector ( double x, double y, double z,std::vector<DOFPointer> dof_list );
+		Vector ( DOFPointer x, DOFPointer y, DOFPointer z );
 
-private:
-	DOFPointer x_;
-	DOFPointer y_;
-	DOFPointer z_;
+	private:
+		DOFPointer x_;
+		DOFPointer y_;
+		DOFPointer z_;
 };
 
-typedef boost::shared_ptr<DOF> VectorPointer;
+typedef boost::shared_ptr<Vector> VectorPointer;
 
 // sketch plane class (includes up vector)
 class SketchPlane : public PrimitiveBase
 {
-public:
-	SketchPlane(VectorPointer normal, VectorPointer up);
-	~SketchPlane();
+	public:
+		SketchPlane ( VectorPointer normal, VectorPointer up );
 
-private:
-	VectorPointer normal_;
-	VectorPointer up_;
+	private:
+		VectorPointer normal_;
+		VectorPointer up_;
 };
 
 

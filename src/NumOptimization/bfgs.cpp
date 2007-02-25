@@ -1,6 +1,8 @@
 #include <iostream>
 #include "bfgs.h"
 
+using namespace std;
+
 void display_vector(mmcMatrix vector, ostream *out_buf);
 
 /**********************************************************************/
