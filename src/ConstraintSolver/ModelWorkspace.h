@@ -1,8 +1,7 @@
 #ifndef ModelWorkspaceH
 #define ModelWorksapceH
 
-#include <vector>
-#include"Primitives.cpp"
+#include"Primitives.h"
 
 class ModelWorksapce
 {
@@ -14,17 +13,17 @@ public:
     void DeleteDOF(DOF *OldDOF);
 
     // Constraint equation management
-    AddConstraintEquation
-    DeleteConstraintEquation
+    void AddConstraintEquation(ConstraintEquationPointer new_constraint_equation);
+    void DeleteConstraintEquation(ConstraintEquationPointer constraint_to_delete);
 
     // Primitive management
-    AddPrimitive
-    DeletePrimitive
+    void AddPrimitiveBase(PrimitiveBasePointer new_primitive);
+    void DeletePrimitive(PrimitiveBasePointer primitive_to_delete);
 
 private:
-	vector<DOF> dof_list_;
-	vector<ConstraintEquation> constraint_equation_list_;
-	vector<Primitive> primitive_list_;
+	vector<DOFPointer> dof_list_;
+	vector<ConstraintEquationPointer> constraint_equation_list_;
+	vector<PrimitiveBasePointer> primitive_list_;
 
 };
 

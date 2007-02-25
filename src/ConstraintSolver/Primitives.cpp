@@ -6,9 +6,6 @@ DOF :: DOF(double value, bool free)
 	free_ = free;
 	value_ = value;
 
-	reference_counter = 1;
-
-	return this;
 }
 
 
