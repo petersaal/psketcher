@@ -16,7 +16,9 @@ class DOF
 
 		//Accessor methods
 		void SetValue ( double value ) {value_ = value;}
-		double GetValue() const {return value_;}
+		double GetValue()const {return value_;}
+		
+		const GiNaC::symbol & GetVariable()const {return variable_ ;}
 
 	private:
 		GiNaC::symbol variable_;
@@ -32,7 +34,7 @@ typedef boost::shared_ptr<DOF> DOFPointer;
 class PrimitiveBase
 {
 	public:
-		virtual void Draw() {;}
+		virtual void Draw() const {;}
 
 	private:
 
@@ -41,21 +43,6 @@ class PrimitiveBase
 typedef boost::shared_ptr<PrimitiveBase> PrimitiveBasePointer;
 
 
-// constraint equation class
-class ConstraintEquation
-{
-	public:
-		ConstraintEquation();
-
-		void Draw();
-
-	private:
-		std::vector< boost::shared_ptr<GiNaC::ex> > constraints_;
-
-};
-
-typedef boost::shared_ptr<ConstraintEquation> ConstraintEquationPointer;
-
 // point class
 class Point : public PrimitiveBase
 {
@@ -63,9 +50,9 @@ class Point : public PrimitiveBase
 		Point ( double x, double y, double z );
 		Point ( DOFPointer x, DOFPointer y, DOFPointer z );
 
-		DOFPointer GetXDOF() {return x_;}
-		DOFPointer GetYDOF() {return y_;}
-		DOFPointer GetZDOF() {return z_;}
+		DOFPointer GetXDOF()const {return x_;}
+		DOFPointer GetYDOF()const {return y_;}
+		DOFPointer GetZDOF()const {return z_;}
 
 	private:
 		DOFPointer x_;
@@ -77,7 +64,7 @@ class Point : public PrimitiveBase
 class Line : public PrimitiveBase
 {
 	public:
-		Line (Point point1, Point point2);
+		Line (const Point &point1, const Point &point2);
 
 	private:
 		DOFPointer x1_;
@@ -115,5 +102,21 @@ class SketchPlane : public PrimitiveBase
 		VectorPointer up_;
 };
 
+
+// constraint equation class
+class ConstraintEquation
+{
+	public:
+		void Draw() const {;}
+
+		void SetDisplacement(const Point &point1, const Point &point2, double distance);
+
+	private:
+		std::vector< boost::shared_ptr<GiNaC::ex> > constraints_;
+		std::vector<DOFPointer> dof_list_;
+
+};
+
+typedef boost::shared_ptr<ConstraintEquation> ConstraintEquationPointer;
 
 #endif //PrimitivesH
