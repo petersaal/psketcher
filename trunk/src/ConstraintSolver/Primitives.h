@@ -4,6 +4,7 @@
 #include <vector>
 #include "../mmcMatrix/mmcMatrix.h"
 #include <ginac/ginac.h>
+#include <boost/shared_ptr.hpp>
 
 // dof class
 class DOF
@@ -24,20 +25,14 @@ private:
 	int reference_counter_;
 };
 
-class DOFSet
-{
-public:
+typedef boost::shared_ptr<DOF> DOFPointer;
 
-
-private:
-    vector<*DOF> dof_list;
-};
 
 /* Now will define the merit function derived class used in the template matching */
-class Primitive
+class PrimitiveBase
 {
 public:
-	virtual PrimitiveBase();
+	PrimitiveBase();
 	virtual ~PrimitiveBase();
 	virtual void Draw();
 
@@ -45,61 +40,7 @@ private:
 
 };
 
-// line class
-class Line : public Primitive
-{
-public:
-	Line(Point *point1, Point *point2);
-	~Line();
-
-private:
-	DOF *x1_;
-	DOF *y1_;
-	DOF *z1_;
-	DOF *x2_;
-	DOF *y2_;
-	DOF *z2_;
-};
-
-// point class
-class Point : public Primitive
-{
-public:
-	Point(double x,double y,double z,vector<*DOF> dof_list);
-	Point(DOF *x, DOF *y, DOF *z);
-	~Point();
-
-private:
-	DOF *x_;
-	DOF *y_;
-	DOF *z_;
-};
-
-// vector class
-class Vector : public Primitive
-{
-public:
-	Vector(double x, double y, double z,vector<*DOF> list);
-	Vector(DOF *x, DOF *y, DOF *z);
-	~Vector();
-
-private:
-	DOF *x_;
-	DOF *y_;
-	DOF *z_;
-};
-
-// sketch plane class (includes up vector)
-class SketchPlane : public Primitive
-{
-public:
-	SketchPlane(Vector *normal, Vector *up);
-	~SletchPlane();
-
-private:
-	Vector *normal_;
-	Vector *up_;
-};
+typedef boost::shared_ptr<DOF> PrimitiveBasePointer;
 
 
 // constraint equation class
@@ -109,10 +50,75 @@ public:
 	ConstraintEquation();
 	~ConstraintEquation();
 
-private:
+	void Draw();
 
+private:
+	vector< boost::shared_ptr<ex> > constraints_;
+	
 };
 
+typedef boost::shared_ptr<DOF> ConstraintEquationPointer;
+
+// point class
+class Point : public PrimitiveBase
+{
+public:
+	Point(double x,double y,double z,vector<DOFPointer> dof_list);
+	Point(DOFPointer x, DOFPointer y, DOFPointer z);
+	~Point();
+
+private:
+	DOFPointer x_;
+	DOFPointer y_;
+	DOFPointer z_;
+};
+
+typedef boost::shared_ptr<DOF> PointPointer;
+
+// line class
+class Line : public PrimitiveBase
+{
+public:
+	Line(PointPointer point1, PointPointer point2);
+	~Line();
+
+private:
+	DOFPointer x1_;
+	DOFPointer y1_;
+	DOFPointer z1_;
+	DOFPointer x2_;
+	DOFPointer y2_;
+	DOFPointer z2_;
+};
+
+
+// vector class
+class Vector : public PrimitiveBase
+{
+public:
+	Vector(double x, double y, double z,vector<DOFPointer> dof_list);
+	Vector(DOFPointer x, DOFPointer y, DOFPointer z);
+	~Vector();
+
+private:
+	DOFPointer x_;
+	DOFPointer y_;
+	DOFPointer z_;
+};
+
+typedef boost::shared_ptr<DOF> VectorPointer;
+
+// sketch plane class (includes up vector)
+class SketchPlane : public PrimitiveBase
+{
+public:
+	SketchPlane(VectorPointer normal, VectorPointer up);
+	~SketchPlane();
+
+private:
+	VectorPointer normal_;
+	VectorPointer up_;
+};
 
 
 #endif //PrimitivesH
