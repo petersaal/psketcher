@@ -10,6 +10,7 @@ libglade-2
 gmodule-2
 gtkglext-1.0
 OpenCascade6.1
+boost C++ libraries (only use shared_ptr.hpp)
 
 
 Compile and run instructions
