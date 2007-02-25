@@ -2,7 +2,7 @@
 #define mmcMatrixH
 
 #include <iostream>
-using namespace std;
+
 
 // If MMC_ERROR_CHECK is set to 1, mmcMatrix class checks for overruns when accessing matrices.
 // If MMC_ERROR_CHECK is set to 0, the class will be much faster and some methods will be inlined.
@@ -153,8 +153,8 @@ public:
   double *GetMatrixData()const{return MatrixData;}
 
   // overide the indirection operators, used for file I/O
-  friend ostream& operator<< ( ostream &os, const mmcMatrix &rhs );
-  friend istream& operator>> (istream& is, mmcMatrix &rhs);
+  friend std::ostream& operator<< ( std::ostream &os, const mmcMatrix &rhs );
+  friend std::istream& operator>> (std::istream& is, mmcMatrix &rhs);
   
   // file IO
   bool WriteToFile(const char *file_name)const;
@@ -181,9 +181,9 @@ private:
 class mmcException{
 public:	
   mmcException(mmcECODE error_code,int line_num) {ErrorCode = error_code;
-                                                  cout << "mmcError: " << mmcECODE_STRINGS[error_code] << " at line " << line_num << " in " << "mmcMatrix.cpp." << endl;}
+                                                  std::cout << "mmcError: " << mmcECODE_STRINGS[error_code] << " at line " << line_num << " in " << "mmcMatrix.cpp." << std::endl;}
   mmcException(mmcECODE error_code,int line_num, const char *source_file) {ErrorCode = error_code;
-                                                                           cout << "mmcError: " << mmcECODE_STRINGS[error_code] << " at line " << line_num << " in " << source_file << "." << endl;}
+                                                                           std::cout << "mmcError: " << mmcECODE_STRINGS[error_code] << " at line " << line_num << " in " << source_file << "." << std::endl;}
 
 private:
   mmcECODE ErrorCode;

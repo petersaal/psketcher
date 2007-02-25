@@ -6,28 +6,26 @@
 #include "../NumOptimization/bfgs.h"
 #include <ginac/ginac.h>
 
-using namespace GiNaC;
-
 /* Now will define the merit function derived class used in the template matching */
 class ConstraintSolver : public MeritFunction
 {
 public:
-	ConstraintSolver(vector<ex> constraints_, vector<double> weights_, vector<symbol> free_parameters_,
-                     vector<symbol> fixed_parameters_, vector<double> fixed_values_);
+	ConstraintSolver(std::vector<GiNaC::ex> constraints_, std::vector<double> weights_, std::vector<GiNaC::symbol> free_parameters_,
+                     std::vector<GiNaC::symbol> fixed_parameters_, std::vector<double> fixed_values_);
 	virtual ~ConstraintSolver() {;}
 
 	virtual double GetMeritValue(const mmcMatrix & x);
 	virtual mmcMatrix GetMeritGradient(const mmcMatrix & x);
 
 private:
-	vector<symbol> free_parameters;
-	vector<symbol> fixed_parameters;
-	vector<double> fixed_values;
-	vector<double> weights;
-	vector<ex> constraints;
-	vector<ex> grad_expressions;
+	std::vector<GiNaC::symbol> free_parameters;
+	std::vector<GiNaC::symbol> fixed_parameters;
+	std::vector<double> fixed_values;
+	std::vector<double> weights;
+	std::vector<GiNaC::ex> constraints;
+	std::vector<GiNaC::ex> grad_expressions;
 
-	ex error_function;
+	GiNaC::ex error_function;
 };
 
 #endif //ConstraintSolverH

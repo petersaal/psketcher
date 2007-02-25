@@ -6,7 +6,6 @@
 #include <math.h>
 #include <time.h>
 #include "../mmcMatrix/mmcMatrix.h"
-using namespace std ;
 
 enum LINE_SEARCH {GOLDEN_SECTION, BACK_TRACK}; 
 
@@ -34,14 +33,14 @@ public:
 	void SetNumDims(int num_dims) {NumDimensions = num_dims;}
 	
 	//Methods that are not virtual
-	mmcMatrix MinimizeMeritFunction(const mmcMatrix &x_init, double search_distance, double tolerance, double mult_gold_resolution, int maxit, int verbose_level, ostream *output_buffer = &cout, int max_merit_evals = 0);
+	mmcMatrix MinimizeMeritFunction(const mmcMatrix &x_init, double search_distance, double tolerance, double mult_gold_resolution, int maxit, int verbose_level, std::ostream *output_buffer = &std::cout, int max_merit_evals = 0);
 	mmcMatrix GetNextBfgsSearchDir(const mmcMatrix &current_position, 
 									const mmcMatrix &previous_position,
 									const mmcMatrix &current_gradient,
 									const mmcMatrix &previous_gradient,
 									const mmcMatrix &prev_inv_hessian,
 									mmcMatrix &new_inv_hessian)const;
-    mmcMatrix ConjugateGradient(const mmcMatrix &x_init, double search_distance, double tolerance, double mult_gold_resolution, int maxit, int verbose_level, ostream *output_buffer);
+    mmcMatrix ConjugateGradient(const mmcMatrix &x_init, double search_distance, double tolerance, double mult_gold_resolution, int maxit, int verbose_level, std::ostream *output_buffer);
 
 	double  GetLambdaLimit(const mmcMatrix & x_ref, const mmcMatrix & search_dir);
 	double  GetF(const mmcMatrix & search_dir);
@@ -66,7 +65,7 @@ private:
 	int VerboseLevel;
 	int MaxMeritEvals;
 	int MeritEvals;
-	ostream *out_buf;
+	std::ostream *out_buf;
 	LINE_SEARCH LineSearch;
 };
 

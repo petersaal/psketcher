@@ -6,6 +6,7 @@
 #include "../mmcMatrix/mmcMatrix.h"
 
 using namespace std;
+using namespace GiNaC;
 
 int main(void)
 {
