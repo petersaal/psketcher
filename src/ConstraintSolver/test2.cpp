@@ -20,9 +20,7 @@ int main(void)
 	Line line3(point3,point4);
 	Line line4(point4,point1);
 
-	ConstraintEquation constraint1;
-
-	constraint1.SetDisplacement(point1,point2,11);
+	DisplacementConstraint constraint1(point1,point2,11);
 
 	return 0;
 }
