@@ -73,13 +73,11 @@ class Point : public PrimitiveBase
 		DOFPointer z_;
 };
 
-typedef boost::shared_ptr<Point> PointPointer;
-
 // line class
 class Line : public PrimitiveBase
 {
 	public:
-		Line ( PointPointer point1, PointPointer point2 );
+		Line (Point point1, Point point2);
 
 	private:
 		DOFPointer x1_;

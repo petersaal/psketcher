@@ -25,14 +25,13 @@ z_(new DOF(z,false))
 
 }
 
-Line :: Line(PointPointer point1, PointPointer point2)
+Line :: Line(Point point1, Point point2)
 {
-	x1_ = point1->GetXDOF();
-	y1_ = point1->GetYDOF();
-	z1_ = point1->GetZDOF();
+	x1_ = point1.GetXDOF();
+	y1_ = point1.GetYDOF();
+	z1_ = point1.GetZDOF();
 
-	x2_ = point2->GetXDOF();
-	y2_ = point2->GetYDOF();
-	z2_ = point2->GetZDOF();
+	x2_ = point2.GetXDOF();
+	y2_ = point2.GetYDOF();
+	z2_ = point2.GetZDOF();
 }
-
