@@ -1,5 +1,7 @@
 #include "Primitives.h"
 
+using namespace std;
+
 
 DOF :: DOF(double value, bool free)
 {
@@ -11,14 +13,9 @@ DOF :: DOF(double value, bool free)
 
 DOF :: DOF(const char *name, double value, bool free)
 {
-
 	free_ = free;
 	variable_.set_name(name);
 	value_ = value;
-
-	reference_counter = 1;
-
-	return this;
 }
 
 

@@ -2,9 +2,10 @@
 #define PrimitivesH
 
 #include <vector>
-#include "../mmcMatrix/mmcMatrix.h"
-#include <ginac/ginac.h>
 #include <boost/shared_ptr.hpp>
+#include <ginac/ginac.h>
+
+#include "../mmcMatrix/mmcMatrix.h"
 
 // dof class
 class DOF
@@ -19,7 +20,7 @@ public:
 	double GetValue()const {return value_;}
 
 private:
-	symbol variable_;
+	GiNaC::symbol variable_;
 	bool free_;
 	double value_;
 	int reference_counter_;
@@ -53,7 +54,7 @@ public:
 	void Draw();
 
 private:
-	vector< boost::shared_ptr<ex> > constraints_;
+	vector< boost::shared_ptr<GiNaC::ex> > constraints_;
 	
 };
 
