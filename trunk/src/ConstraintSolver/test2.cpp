@@ -3,7 +3,7 @@
 #include <time.h>
 #include <math.h>
 #include "ConstraintSolver.h"
-#include "ModelWorkspace.h"
+#include "Ark3DModel.h"
 #include "../mmcMatrix/mmcMatrix.h"
 
 using namespace std;
