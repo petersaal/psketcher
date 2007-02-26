@@ -18,10 +18,10 @@ DOF :: DOF(const char *name, double value, bool free)
 }
 
 
-Point :: Point (double x,double y,double z):
-x_(new DOF(x,false)),
-y_(new DOF(y,false)),
-z_(new DOF(z,false))
+Point :: Point ( double x, double y, double z, bool x_free, bool y_free, bool z_free):
+x_(new DOF(x,x_free)),
+y_(new DOF(y,y_free)),
+z_(new DOF(z,z_free))
 {
 
 }
@@ -38,14 +38,8 @@ Line :: Line(const Point &point1, const Point &point2)
 }
 
 // Create a constraint that defines the distance between two points
-DisplacementConstraint::DisplacementConstraint(const Point &point1, const Point &point2, double distance)
+DistanceConstraint::DistanceConstraint(const Point &point1, const Point &point2, double distance)
 {
-	// First must clear existing constraint since this class is only intended to manage a single constraint type at a time
-	constraints_.clear();
-
-	// clear any existing DOF's
-	dof_list_.clear();
-
 	// Create a DOF for the distance parameter
 	DOFPointer new_dof(new DOF(distance,false));
 	
@@ -58,6 +52,29 @@ DisplacementConstraint::DisplacementConstraint(const Point &point1, const Point 
 													pow(point1.GetYDOF()->GetVariable() - point2.GetYDOF()->GetVariable(),2) +
 													pow(point1.GetZDOF()->GetVariable() - point2.GetZDOF()->GetVariable(),2))
 										- new_dof->GetVariable();
+
+	constraints_.push_back(new_constraint);
+}
+
+// Create a parallelism constrain between two lines
+ParallelConstraint::ParallelConstraint(const Line &line1, const Line &line2)
+{
+	// create the expression that defines the parallel constraint and add it the the constraint list
+	boost::shared_ptr<ex> new_constraint(new ex);
+	
+	ex line1_dx = line1.GetX1()->GetVariable() - line1.GetX2()->GetVariable();
+	ex line1_dy = line1.GetY1()->GetVariable() - line1.GetY2()->GetVariable();
+	ex line1_dz = line1.GetZ1()->GetVariable() - line1.GetZ2()->GetVariable();
+	ex line1_length = sqrt(pow(line1_dx,2)+pow(line1_dy,2)+pow(line1_dz,2));
+
+	ex line2_dx = line2.GetX1()->GetVariable() - line2.GetX2()->GetVariable();
+	ex line2_dy = line2.GetY1()->GetVariable() - line2.GetY2()->GetVariable();
+	ex line2_dz = line2.GetZ1()->GetVariable() - line2.GetZ2()->GetVariable();
+	ex line2_length = sqrt(pow(line2_dx,2)+pow(line2_dy,2)+pow(line2_dz,2));
+
+	// Calculate the dot product normalized by the vector lengths and subtract one
+	// this expression will be zero when the lines are parallel
+	*new_constraint = (1/(line1_length*line2_length))*(line1_dx*line2_dx + line1_dy*line2_dy + line1_dz*line2_dz)-1;
 
 	constraints_.push_back(new_constraint);
 }
