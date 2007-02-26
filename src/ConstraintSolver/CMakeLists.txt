@@ -21,7 +21,7 @@ TARGET_LINK_LIBRARIES (test ${GSL_LIBRARIES})
 TARGET_LINK_LIBRARIES (test ${GINAC_LIBRARIES})
 TARGET_LINK_LIBRARIES(test bfgs)
 
-ADD_EXECUTABLE (test2 test2.cpp ConstraintSolver.cpp ModelWorkspace.cpp Primitives.cpp)
+ADD_EXECUTABLE (test2 test2.cpp ConstraintSolver.cpp Ark3DModel.cpp Primitives.cpp)
 TARGET_LINK_LIBRARIES(test2 mmcMatrix)
 TARGET_LINK_LIBRARIES (test2 ${GSL_LIBRARIES})
 TARGET_LINK_LIBRARIES (test2 ${GINAC_LIBRARIES})
