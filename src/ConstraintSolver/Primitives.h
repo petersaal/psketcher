@@ -47,7 +47,7 @@ typedef boost::shared_ptr<PrimitiveBase> PrimitiveBasePointer;
 class Point : public PrimitiveBase
 {
 	public:
-		Point ( double x, double y, double z );
+		Point ( double x, double y, double z, bool x_free = false, bool y_free = false, bool z_free = false);
 		Point ( DOFPointer x, DOFPointer y, DOFPointer z );
 
 		DOFPointer GetXDOF()const {return x_;}
@@ -65,6 +65,13 @@ class Line : public PrimitiveBase
 {
 	public:
 		Line (const Point &point1, const Point &point2);
+
+		DOFPointer GetX1()const {return x1_;}
+		DOFPointer GetY1()const {return y1_;}
+		DOFPointer GetZ1()const {return z1_;}
+		DOFPointer GetX2()const {return x2_;}
+		DOFPointer GetY2()const {return y2_;}
+		DOFPointer GetZ2()const {return z2_;}
 
 	private:
 		DOFPointer x1_;
@@ -117,10 +124,20 @@ class ConstraintEquationBase
 
 };
 
-class DisplacementConstraint : public ConstraintEquationBase
+class DistanceConstraint : public ConstraintEquationBase
 {
 	public:
-		DisplacementConstraint(const Point &point1, const Point &point2, double distance);
+		DistanceConstraint(const Point &point1, const Point &point2, double distance);
+
+	private:
+		std::vector< boost::shared_ptr<GiNaC::ex> > constraints_;
+		std::vector<DOFPointer> dof_list_;
+};
+
+class ParallelConstraint : public ConstraintEquationBase
+{
+	public:
+		ParallelConstraint(const Line &line1, const Line &line2);
 
 	private:
 		std::vector< boost::shared_ptr<GiNaC::ex> > constraints_;
