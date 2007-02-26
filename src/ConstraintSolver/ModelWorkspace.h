@@ -1,9 +1,9 @@
-#ifndef ModelWorkspaceH
-#define ModelWorksapceH
+#ifndef Ark3DModelH
+#define Ark3DModelH
 
 #include "Primitives.h"
 
-class ModelWorksapce
+class Ark3DModel
 {
 public:
 
@@ -26,4 +26,4 @@ private:
 	std::vector<PrimitiveBasePointer> primitive_list_;
 };
 
-#endif //ModelWorksapceH
+#endif //Ark3DModelH
