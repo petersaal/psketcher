@@ -20,6 +20,7 @@ int main(void)
 	Line line3(point3,point4);
 	Line line4(point4,point1);
 
+	// These 4 constraints will fully constrain the four free DOF's defined about
 	DistanceConstraint constraint1(point1,point2,11);
 	DistanceConstraint constraint2(point2,point3,12);
 	ParallelConstraint constraint3(line1,line3);

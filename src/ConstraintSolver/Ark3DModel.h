@@ -6,6 +6,8 @@
 class Ark3DModel
 {
 public:
+	// Acessor Methods
+	~Ark3DModel() {dof_list_.clear(); constraint_equation_list_.clear(); primitive_list_.clear();}
 
 	// DOF Management
 	DOF *GetNewDOF(double value = 0.0);
