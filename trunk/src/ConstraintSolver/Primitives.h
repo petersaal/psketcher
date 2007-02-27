@@ -1,6 +1,7 @@
 #ifndef PrimitivesH
 #define PrimitivesH
 
+
 #include <vector>
 #include <boost/shared_ptr.hpp>
 #include <ginac/ginac.h>
@@ -34,9 +35,11 @@ typedef boost::shared_ptr<DOF> DOFPointer;
 class PrimitiveBase
 {
 	public:
+		virtual ~PrimitiveBase() {;}
+
 		virtual void Draw() const {;}
 
-	private:
+	protected:
 
 };
 
@@ -114,14 +117,13 @@ class SketchPlane : public PrimitiveBase
 class ConstraintEquationBase
 {
 	public:
+		virtual ~ConstraintEquationBase() {constraints_.clear(); dof_list_.clear();}
+
 		virtual void Draw() const {;}
 
-		void SetDisplacement(const Point &point1, const Point &point2, double distance);
-
-	private:
+	protected:
 		std::vector< boost::shared_ptr<GiNaC::ex> > constraints_;
 		std::vector<DOFPointer> dof_list_;
-
 };
 
 class DistanceConstraint : public ConstraintEquationBase
@@ -130,8 +132,6 @@ class DistanceConstraint : public ConstraintEquationBase
 		DistanceConstraint(const Point &point1, const Point &point2, double distance);
 
 	private:
-		std::vector< boost::shared_ptr<GiNaC::ex> > constraints_;
-		std::vector<DOFPointer> dof_list_;
 };
 
 class ParallelConstraint : public ConstraintEquationBase
@@ -140,8 +140,7 @@ class ParallelConstraint : public ConstraintEquationBase
 		ParallelConstraint(const Line &line1, const Line &line2);
 
 	private:
-		std::vector< boost::shared_ptr<GiNaC::ex> > constraints_;
-		std::vector<DOFPointer> dof_list_;
+
 };
 
 typedef boost::shared_ptr<ConstraintEquationBase> ConstraintEquationBasePointer;
