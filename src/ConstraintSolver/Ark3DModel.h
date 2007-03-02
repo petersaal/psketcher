@@ -8,18 +8,15 @@ class Ark3DModel
 public:
 	// Acessor Methods
 	~Ark3DModel() {dof_list_.clear(); constraint_equation_list_.clear(); primitive_list_.clear();}
-
-	// DOF Management
-	DOF *GetNewDOF(double value = 0.0);
-	DOF *GetNewDOF(const char *name,double value = 0.0);
-	void DeleteDOF(DOF *OldDOF);
 	
 	// Constraint equation management
-	void AddConstraintEquation(ConstraintEquationBasePointer new_constraint_equation);
+	void AddConstraintEquation(const ConstraintEquationBasePointer &new_constraint_equation);
+	void AddConstraintEquations(const std::vector<ConstraintEquationBasePointer> &new_constraint_equations);
 	void DeleteConstraintEquation(ConstraintEquationBasePointer constraint_to_delete);
 	
 	// Primitive management
-	void AddPrimitive(PrimitiveBasePointer new_primitive);
+	void AddPrimitive(const PrimitiveBasePointer &new_primitive);
+	void AddPrimitives(const std::vector<PrimitiveBasePointer> &new_primitives);
 	void DeletePrimitive(PrimitiveBasePointer primitive_to_delete);
 
 private:

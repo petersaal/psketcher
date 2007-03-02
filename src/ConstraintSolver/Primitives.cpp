@@ -54,6 +54,7 @@ DistanceConstraint::DistanceConstraint(const Point &point1, const Point &point2,
 										- new_dof->GetVariable();
 
 	constraints_.push_back(new_constraint);
+	constraint_weights_.push_back(1.0);
 }
 
 // Create a parallelism constrain between two lines
@@ -77,4 +78,38 @@ ParallelConstraint::ParallelConstraint(const Line &line1, const Line &line2)
 	*new_constraint = (1/(line1_length*line2_length))*(line1_dx*line2_dx + line1_dy*line2_dy + line1_dz*line2_dz)-1;
 
 	constraints_.push_back(new_constraint);
+	constraint_weights_.push_back(1.0);
+}
+
+
+// @todo implement dof accesor methods for classes derived from PrimitiveBase
+std::vector<DOFPointer> Line::GetDOFList()
+{
+	vector<DOFPointer> dof_list;
+
+
+	return dof_list;
+}
+
+std::vector<DOFPointer> Point::GetDOFList()
+{
+	vector<DOFPointer> dof_list;
+
+
+	return dof_list;
+}
+
+std::vector<DOFPointer> Vector::GetDOFList()
+{
+	vector<DOFPointer> dof_list;
+
+
+	return dof_list;}
+
+std::vector<DOFPointer> SketchPlane::GetDOFList()
+{
+	vector<DOFPointer> dof_list;
+
+
+	return dof_list;
 }

@@ -38,7 +38,9 @@ class PrimitiveBase
 		virtual ~PrimitiveBase() {;}
 
 		virtual void Draw() const {;}
-
+		
+		// Accessor methods
+		virtual std::vector<DOFPointer> GetDOFList() = 0;
 	protected:
 
 };
@@ -56,6 +58,8 @@ class Point : public PrimitiveBase
 		DOFPointer GetXDOF()const {return x_;}
 		DOFPointer GetYDOF()const {return y_;}
 		DOFPointer GetZDOF()const {return z_;}
+
+		std::vector<DOFPointer> GetDOFList();
 
 	private:
 		DOFPointer x_;
@@ -76,6 +80,8 @@ class Line : public PrimitiveBase
 		DOFPointer GetY2()const {return y2_;}
 		DOFPointer GetZ2()const {return z2_;}
 
+		std::vector<DOFPointer> GetDOFList();
+
 	private:
 		DOFPointer x1_;
 		DOFPointer y1_;
@@ -93,6 +99,8 @@ class Vector : public PrimitiveBase
 		Vector ( double x, double y, double z,std::vector<DOFPointer> dof_list );
 		Vector ( DOFPointer x, DOFPointer y, DOFPointer z );
 
+		std::vector<DOFPointer> GetDOFList();
+	
 	private:
 		DOFPointer x_;
 		DOFPointer y_;
@@ -106,6 +114,8 @@ class SketchPlane : public PrimitiveBase
 {
 	public:
 		SketchPlane ( VectorPointer normal, VectorPointer up );
+
+		std::vector<DOFPointer> GetDOFList();
 
 	private:
 		VectorPointer normal_;
@@ -122,8 +132,15 @@ class ConstraintEquationBase
 		virtual void Draw() const {;}
 
 	protected:
-		std::vector< boost::shared_ptr<GiNaC::ex> > constraints_;
+		// constraints and constraint_weights_ are parallel vectors
+		// stores constraints
+		std::vector< boost::shared_ptr<GiNaC::ex> > constraints_; 
+
+		// this vector stores the weights for the constraints
+		std::vector< double > constraint_weights_; 
+
 		std::vector<DOFPointer> dof_list_;
+
 };
 
 class DistanceConstraint : public ConstraintEquationBase
