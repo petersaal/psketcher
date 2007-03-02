@@ -35,14 +35,15 @@ typedef boost::shared_ptr<DOF> DOFPointer;
 class PrimitiveBase
 {
 	public:
-		virtual ~PrimitiveBase() {;}
+		virtual ~PrimitiveBase() {dof_list_.clear();}
 
 		virtual void Draw() const {;}
 		
 		// Accessor methods
-		virtual std::vector<DOFPointer> GetDOFList() = 0;
-	protected:
+		const std::vector<DOFPointer> & GetDOFList() {return dof_list_;}
 
+	protected:
+		std::vector<DOFPointer> dof_list_;
 };
 
 typedef boost::shared_ptr<PrimitiveBase> PrimitiveBasePointer;
@@ -58,8 +59,6 @@ class Point : public PrimitiveBase
 		DOFPointer GetXDOF()const {return x_;}
 		DOFPointer GetYDOF()const {return y_;}
 		DOFPointer GetZDOF()const {return z_;}
-
-		std::vector<DOFPointer> GetDOFList();
 
 	private:
 		DOFPointer x_;
@@ -80,8 +79,6 @@ class Line : public PrimitiveBase
 		DOFPointer GetY2()const {return y2_;}
 		DOFPointer GetZ2()const {return z2_;}
 
-		std::vector<DOFPointer> GetDOFList();
-
 	private:
 		DOFPointer x1_;
 		DOFPointer y1_;
@@ -98,8 +95,6 @@ class Vector : public PrimitiveBase
 	public:
 		Vector ( double x, double y, double z,std::vector<DOFPointer> dof_list );
 		Vector ( DOFPointer x, DOFPointer y, DOFPointer z );
-
-		std::vector<DOFPointer> GetDOFList();
 	
 	private:
 		DOFPointer x_;
@@ -115,8 +110,6 @@ class SketchPlane : public PrimitiveBase
 	public:
 		SketchPlane ( VectorPointer normal, VectorPointer up );
 
-		std::vector<DOFPointer> GetDOFList();
-
 	private:
 		VectorPointer normal_;
 		VectorPointer up_;
@@ -130,6 +123,9 @@ class ConstraintEquationBase
 		virtual ~ConstraintEquationBase() {constraints_.clear(); dof_list_.clear();}
 
 		virtual void Draw() const {;}
+	
+		// Accessor methods
+		const std::vector<DOFPointer> & GetDOFList() {return dof_list_;}
 
 	protected:
 		// constraints and constraint_weights_ are parallel vectors
