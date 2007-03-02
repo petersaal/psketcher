@@ -6,7 +6,6 @@ void Ark3DModel::AddConstraintEquation(const ConstraintEquationBasePointer &new_
 	constraint_equation_list_.push_back(new_constraint_equation);
 	
 	// delete duplicate constraint equations
-	// @todo warn the user that the constraint equation entered was a duplicatoin
 
 	// Add DOF's to DOF vector containter
 

@@ -23,7 +23,9 @@ x_(new DOF(x,x_free)),
 y_(new DOF(y,y_free)),
 z_(new DOF(z,z_free))
 {
-
+	dof_list_.push_back(x_);
+	dof_list_.push_back(y_);
+	dof_list_.push_back(z_);
 }
 
 Line :: Line(const Point &point1, const Point &point2)
@@ -35,6 +37,14 @@ Line :: Line(const Point &point1, const Point &point2)
 	x2_ = point2.GetXDOF();
 	y2_ = point2.GetYDOF();
 	z2_ = point2.GetZDOF();
+
+	dof_list_.push_back(x1_);
+	dof_list_.push_back(y1_);
+	dof_list_.push_back(z1_);
+
+	dof_list_.push_back(x2_);
+	dof_list_.push_back(y2_);
+	dof_list_.push_back(z2_);
 }
 
 // Create a constraint that defines the distance between two points
@@ -79,37 +89,4 @@ ParallelConstraint::ParallelConstraint(const Line &line1, const Line &line2)
 
 	constraints_.push_back(new_constraint);
 	constraint_weights_.push_back(1.0);
-}
-
-
-// @todo implement dof accesor methods for classes derived from PrimitiveBase
-std::vector<DOFPointer> Line::GetDOFList()
-{
-	vector<DOFPointer> dof_list;
-
-
-	return dof_list;
-}
-
-std::vector<DOFPointer> Point::GetDOFList()
-{
-	vector<DOFPointer> dof_list;
-
-
-	return dof_list;
-}
-
-std::vector<DOFPointer> Vector::GetDOFList()
-{
-	vector<DOFPointer> dof_list;
-
-
-	return dof_list;}
-
-std::vector<DOFPointer> SketchPlane::GetDOFList()
-{
-	vector<DOFPointer> dof_list;
-
-
-	return dof_list;
 }
