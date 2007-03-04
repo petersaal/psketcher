@@ -65,12 +65,13 @@ class Point : public PrimitiveBase
 		DOFPointer y_;
 		DOFPointer z_;
 };
+typedef boost::shared_ptr<Point> PointPointer;
 
 // line class
 class Line : public PrimitiveBase
 {
 	public:
-		Line (const Point &point1, const Point &point2);
+		Line (const PointPointer point1, const PointPointer point2);
 
 		DOFPointer GetX1()const {return x1_;}
 		DOFPointer GetY1()const {return y1_;}
@@ -87,7 +88,7 @@ class Line : public PrimitiveBase
 		DOFPointer y2_;
 		DOFPointer z2_;
 };
-
+typedef boost::shared_ptr<Line> LinePointer;
 
 // vector class
 class Vector : public PrimitiveBase
@@ -101,7 +102,6 @@ class Vector : public PrimitiveBase
 		DOFPointer y_;
 		DOFPointer z_;
 };
-
 typedef boost::shared_ptr<Vector> VectorPointer;
 
 // sketch plane class (includes up vector)
@@ -114,7 +114,6 @@ class SketchPlane : public PrimitiveBase
 		VectorPointer normal_;
 		VectorPointer up_;
 };
-
 
 // constraint equation class
 class ConstraintEquationBase
@@ -138,24 +137,27 @@ class ConstraintEquationBase
 		std::vector<DOFPointer> dof_list_;
 
 };
+typedef boost::shared_ptr<ConstraintEquationBase> ConstraintEquationBasePointer;
 
 class DistanceConstraint : public ConstraintEquationBase
 {
 	public:
-		DistanceConstraint(const Point &point1, const Point &point2, double distance);
+		DistanceConstraint(const PointPointer point1, const PointPointer point2, double distance);
 
 	private:
 };
+typedef boost::shared_ptr<DistanceConstraint> DistanceConstraintPointer;
 
 class ParallelConstraint : public ConstraintEquationBase
 {
 	public:
-		ParallelConstraint(const Line &line1, const Line &line2);
+		ParallelConstraint(const LinePointer line1, const LinePointer line2);
 
 	private:
 
 };
+typedef boost::shared_ptr<ParallelConstraint> ParallelConstraintPointer;
 
-typedef boost::shared_ptr<ConstraintEquationBase> ConstraintEquationBasePointer;
+
 
 #endif //PrimitivesH
