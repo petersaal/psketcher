@@ -19,6 +19,8 @@ public:
 	void AddPrimitives(const std::vector<PrimitiveBasePointer> &new_primitives);
 	void DeletePrimitive(PrimitiveBasePointer primitive_to_delete);
 
+	void SolveConstraints();
+
 private:
 	std::vector<DOFPointer> dof_list_;
 	std::vector<ConstraintEquationBasePointer> constraint_equation_list_;

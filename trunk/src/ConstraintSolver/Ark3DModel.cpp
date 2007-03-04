@@ -25,7 +25,6 @@ void Ark3DModel::AddConstraintEquations(const std::vector<ConstraintEquationBase
 		AddConstraintEquation(new_constraint_equations[current_equation]);
 }
 
-
 void Ark3DModel::AddPrimitive(const PrimitiveBasePointer &new_primitive)
 {
 	// Add primitive to the primitive vector container
@@ -51,3 +50,8 @@ void Ark3DModel::AddPrimitives(const std::vector<PrimitiveBasePointer> &new_prim
 		AddPrimitive(new_primitives[current_primitive]);
 }
 
+// This method solves the system of constraint equations for this model
+void SolveConstraints()
+{
+
+}
