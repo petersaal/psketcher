@@ -125,14 +125,15 @@ class ConstraintEquationBase
 	
 		// Accessor methods
 		const std::vector<DOFPointer> & GetDOFList() {return dof_list_;}
+		const std::vector<double> & GetWeightList() {return weight_list_;}
 
 	protected:
-		// constraints and constraint_weights_ are parallel vectors
+		// constraints and weight_list_ are parallel vectors
 		// stores constraints
 		std::vector< boost::shared_ptr<GiNaC::ex> > constraints_; 
 
 		// this vector stores the weights for the constraints
-		std::vector< double > constraint_weights_; 
+		std::vector< double > weight_list_; 
 
 		std::vector<DOFPointer> dof_list_;
 
