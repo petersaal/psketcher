@@ -64,7 +64,7 @@ DistanceConstraint::DistanceConstraint(const PointPointer point1, const PointPoi
 										- new_dof->GetVariable();
 
 	constraints_.push_back(new_constraint);
-	constraint_weights_.push_back(1.0);
+	weight_list_.push_back(1.0);
 }
 
 // Create a parallelism constrain between two lines
@@ -88,5 +88,5 @@ ParallelConstraint::ParallelConstraint(const LinePointer line1, const LinePointe
 	*new_constraint = (1/(line1_length*line2_length))*(line1_dx*line2_dx + line1_dy*line2_dy + line1_dz*line2_dz)-1;
 
 	constraints_.push_back(new_constraint);
-	constraint_weights_.push_back(1.0);
+	weight_list_.push_back(1.0);
 }

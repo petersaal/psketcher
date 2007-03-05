@@ -53,5 +53,18 @@ void Ark3DModel::AddPrimitives(const std::vector<PrimitiveBasePointer> &new_prim
 // This method solves the system of constraint equations for this model
 void SolveConstraints()
 {
+	unsigned int num_free_values;
+	unsigned int num_fixed_values; 
+	
+	/*
 
+	//ConstraintSolver::ConstraintSolver(vector<ex> constraints_, vector<double> weights_, vector<symbol> free_parameters_, vector<symbol> fixed_parameters_, vector<double> fixed_values_)
+	ConstraintSolver my_constraint_solver(constraints, weights, free_parameters,
+                                    fixed_parameters, fixed_values);
+
+	mmcMatrix initial_free_values(num_free_values,1);
+
+	mmcMatrix computed_free_values = my_constraints.MinimizeMeritFunction(computed_free_values, 1000, 1e-10, 1e-15, 50, 1, &cout);
+
+	*/
 }

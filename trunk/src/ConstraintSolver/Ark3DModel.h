@@ -2,6 +2,7 @@
 #define Ark3DModelH
 
 #include "Primitives.h"
+#include "ConstraintSolver.h"
 
 class Ark3DModel
 {
