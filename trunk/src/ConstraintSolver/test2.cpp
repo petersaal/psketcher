@@ -45,8 +45,20 @@ int main(void)
 	my_model.AddConstraintEquation(constraint3);
 	my_model.AddConstraintEquation(constraint4);
 
+	// check some of the DOF's before the solve step
+	cout << "Point 1 (x,y,z): (" << point1->GetXDOF()->GetValue() << ", " << point1->GetYDOF()->GetValue() << ", " << point1->GetZDOF()->GetValue() << ")" << endl;
+	cout << "Point 2 (x,y,z): (" << point2->GetXDOF()->GetValue() << ", " << point2->GetYDOF()->GetValue() << ", " << point2->GetZDOF()->GetValue() << ")" << endl;
+	cout << "Point 3 (x,y,z): (" << point3->GetXDOF()->GetValue() << ", " << point3->GetYDOF()->GetValue() << ", " << point3->GetZDOF()->GetValue() << ")" << endl;
+	cout << "Point 4 (x,y,z): (" << point4->GetXDOF()->GetValue() << ", " << point4->GetYDOF()->GetValue() << ", " << point4->GetZDOF()->GetValue() << ")" << endl;
+
 	// solve the constraint equations
 	my_model.SolveConstraints();
+
+	// check some of the DOF's to see what happened during the solve step 
+	cout << "Point 1 (x,y,z): (" << point1->GetXDOF()->GetValue() << ", " << point1->GetYDOF()->GetValue() << ", " << point1->GetZDOF()->GetValue() << ")" << endl;
+	cout << "Point 2 (x,y,z): (" << point2->GetXDOF()->GetValue() << ", " << point2->GetYDOF()->GetValue() << ", " << point2->GetZDOF()->GetValue() << ")" << endl;
+	cout << "Point 3 (x,y,z): (" << point3->GetXDOF()->GetValue() << ", " << point3->GetYDOF()->GetValue() << ", " << point3->GetZDOF()->GetValue() << ")" << endl;
+	cout << "Point 4 (x,y,z): (" << point4->GetXDOF()->GetValue() << ", " << point4->GetYDOF()->GetValue() << ", " << point4->GetZDOF()->GetValue() << ")" << endl;
 
 	return 0;
 }

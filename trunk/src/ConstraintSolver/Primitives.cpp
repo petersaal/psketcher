@@ -85,7 +85,9 @@ ParallelConstraint::ParallelConstraint(const LinePointer line1, const LinePointe
 
 	// Calculate the dot product normalized by the vector lengths and subtract one
 	// this expression will be zero when the lines are parallel
-	*new_constraint = (1/(line1_length*line2_length))*(line1_dx*line2_dx + line1_dy*line2_dy + line1_dz*line2_dz)-1;
+	// Ideally, I would use abs() instead of pow() but abs is not differentiable. 
+	// @todo find a better function besides pow to use for the parallel constraint
+	*new_constraint = pow((1/(line1_length*line2_length))*(line1_dx*line2_dx + line1_dy*line2_dy + line1_dz*line2_dz),2)-1;
 
 	constraints_.push_back(new_constraint);
 	weight_list_.push_back(1.0);

@@ -104,7 +104,7 @@ void Ark3DModel::SolveConstraints()
 	ConstraintSolver my_constraint_solver(constraints, weights, free_parameters,
                                     fixed_parameters, fixed_values);
 
-	mmcMatrix computed_free_values = my_constraint_solver.MinimizeMeritFunction(initial_free_values, 1000, 1e-10, 1e-15, 50, 1, &std::cout);
+	mmcMatrix computed_free_values = my_constraint_solver.MinimizeMeritFunction(initial_free_values, 1000, 1e-10, 1e-15, 100, 1, &std::cout);
 
 	// Update the free DOF's with the solution
 	for(unsigned int current_dof = 0; current_dof < free_dof_list.size(); current_dof++)
