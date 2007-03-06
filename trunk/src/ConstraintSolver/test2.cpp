@@ -45,6 +45,9 @@ int main(void)
 	my_model.AddConstraintEquation(constraint3);
 	my_model.AddConstraintEquation(constraint4);
 
+	// solve the constraint equations
+	my_model.SolveConstraints();
+
 	return 0;
 }
 

@@ -5,8 +5,7 @@ using namespace std;
 using namespace GiNaC;
 
 // Constructor
-ConstraintSolver::ConstraintSolver(vector<ex> constraints_, vector<double> weights_, vector<symbol> free_parameters_,
-                                   vector<symbol> fixed_parameters_, vector<double> fixed_values_):
+ConstraintSolver::ConstraintSolver(const std::vector<GiNaC::ex> &constraints_, const std::vector<double> & weights_, const std::vector<GiNaC::symbol> & free_parameters_, const std::vector<GiNaC::symbol> & fixed_parameters_, const std::vector<double> & fixed_values_):
 MeritFunction(free_parameters_.size())
 {
 	if(constraints_.size() < 1)

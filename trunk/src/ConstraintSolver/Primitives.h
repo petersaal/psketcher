@@ -18,8 +18,9 @@ class DOF
 		//Accessor methods
 		void SetValue ( double value ) {value_ = value;}
 		double GetValue()const {return value_;}
-		
+
 		const GiNaC::symbol & GetVariable()const {return variable_ ;}
+		bool IsFree()const {return free_;}
 
 	private:
 		GiNaC::symbol variable_;
@@ -125,6 +126,7 @@ class ConstraintEquationBase
 	
 		// Accessor methods
 		const std::vector<DOFPointer> & GetDOFList() {return dof_list_;}
+		const std::vector< boost::shared_ptr<GiNaC::ex> > & GetConstraintList() {return constraints_;}
 		const std::vector<double> & GetWeightList() {return weight_list_;}
 
 	protected:
