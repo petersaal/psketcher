@@ -10,8 +10,7 @@
 class ConstraintSolver : public MeritFunction
 {
 public:
-	ConstraintSolver(std::vector<GiNaC::ex> constraints_, std::vector<double> weights_, std::vector<GiNaC::symbol> free_parameters_,
-                     std::vector<GiNaC::symbol> fixed_parameters_, std::vector<double> fixed_values_);
+	ConstraintSolver(const std::vector<GiNaC::ex> &constraints_, const std::vector<double> & weights_, const std::vector<GiNaC::symbol> & free_parameters_, const std::vector<GiNaC::symbol> & fixed_parameters_, const std::vector<double> & fixed_values_);
 	virtual ~ConstraintSolver() {;}
 
 	virtual double GetMeritValue(const mmcMatrix & x);
