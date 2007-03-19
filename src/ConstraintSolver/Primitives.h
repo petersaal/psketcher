@@ -37,8 +37,6 @@ class PrimitiveBase
 {
 	public:
 		virtual ~PrimitiveBase() {dof_list_.clear();}
-
-		virtual void Draw() const {;}
 		
 		// Accessor methods
 		const std::vector<DOFPointer> & GetDOFList() {return dof_list_;}
@@ -121,8 +119,6 @@ class ConstraintEquationBase
 {
 	public:
 		virtual ~ConstraintEquationBase() {constraints_.clear(); dof_list_.clear();}
-
-		virtual void Draw() const {;}
 	
 		// Accessor methods
 		const std::vector<DOFPointer> & GetDOFList() {return dof_list_;}
