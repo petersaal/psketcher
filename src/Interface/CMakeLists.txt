@@ -4,6 +4,12 @@ SET (CMAKE_VERBOSE_MAKEFILE TRUE)
 ADD_DEFINITIONS (-DPACKAGE="\\"ark3d\\"" -DGETTEXT_PACKAGE="\\"ark3d\\""
 -DPACKAGE_DATA_DIR="\\"./res\\"" -DPACKAGE_LOCALE_DIR="\\"/home/grem/opt/ark3d/share/locale\\"")
 
+# Add local link paths
+LINK_DIRECTORIES ("../mmcMatrix")
+LINK_DIRECTORIES ("../NumOptimization")
+LINK_DIRECTORIES ("../ConstraintSolver")
+LINK_DIRECTORIES ("../OpenCascadeBinding")
+
 # Add include paths and libraries for ark3d's dependencies
 #OpenGL
 FIND_PACKAGE (OpenGL REQUIRED)
@@ -37,11 +43,29 @@ LINK_DIRECTORIES (${OPENCASCADE_LINK_DIR})
 INCLUDE_DIRECTORIES (${CASROOT}/inc)
 INCLUDE_DIRECTORIES (${CASROOT}/src/WOKTclLib)
 
-ADD_EXECUTABLE (ark3d Callbacks.cpp Interface.cpp OccGtkGLView.cpp Support.cpp Translate.cpp MakeBottle.cpp main.cpp)
+#gsl
+pkg_check_modules(GSL gsl)
+LINK_DIRECTORIES (${GSL_LIBRARY_DIRS})
+INCLUDE_DIRECTORIES (${GSL_INCLUDE_DIRS})
+
+#ginac
+pkg_check_modules(GINAC ginac)
+LINK_DIRECTORIES (${GINAC_LIBRARY_DIRS})
+INCLUDE_DIRECTORIES (${GINAC_INCLUDE_DIRS})
+
+ADD_EXECUTABLE (ark3d Callbacks.cpp Interface.cpp OccGtkGLView.cpp Support.cpp Translate.cpp MakeBottle.cpp main.cpp ../OpenCascadeBinding/test.cpp)
 TARGET_LINK_LIBRARIES (ark3d ${OPENGL_LIBRARIES})
 TARGET_LINK_LIBRARIES (ark3d ${GTK_LIBRARIES})
 TARGET_LINK_LIBRARIES (ark3d ${LIBGLADE_LIBRARIES})
 TARGET_LINK_LIBRARIES (ark3d ${GMODULE_LIBRARIES})
 TARGET_LINK_LIBRARIES (ark3d ${GTKGLEXT_LIBRARIES})
 TARGET_LINK_LIBRARIES (ark3d ${OPENCASCADE_LIBS})
+TARGET_LINK_LIBRARIES (ark3d Ark3d)
+TARGET_LINK_LIBRARIES (ark3d Ark3dOpenCascadeBinding)
+TARGET_LINK_LIBRARIES (ark3d mmcMatrix)
+TARGET_LINK_LIBRARIES (ark3d ${GSL_LIBRARIES})
+TARGET_LINK_LIBRARIES (ark3d ${GINAC_LIBRARIES})
+TARGET_LINK_LIBRARIES (ark3d bfgs)
+
+
 

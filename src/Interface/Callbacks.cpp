@@ -18,6 +18,11 @@ static bool firstTime = true;
 TopoDS_Shape
 MakeBottle(const Standard_Real myWidth , const Standard_Real myHeight , const Standard_Real myThickness);
 
+void constraint_solver_test(Handle(AIS_InteractiveContext) ais_context);
+
+
+
+
     gboolean
 on_MainWindow_configure_event          (GtkWidget       *widget,
 	GdkEventConfigure *event,
@@ -216,6 +221,12 @@ on_make_bottle_activate                (GtkMenuItem     *menuitem,
     theViewer->ShowWaitCursor( false );
 }
 
+void
+on_test_constraint_solver1_activate                (GtkMenuItem     *menuitem,
+                                        gpointer         user_data)
+{
+	constraint_solver_test(theViewer->getContext());
+}
 
     void
 on_export_vrml2_activate               (GtkMenuItem     *menuitem,
