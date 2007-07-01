@@ -1,7 +1,7 @@
-#include "OcPrimitives.h"
+#include "OccPrimitives.h"
 
-OcLine::OcLine (const LinePointer line, Handle(AIS_InteractiveContext) ais_context) :
-OcPrimitiveBase(ais_context)
+OccLine::OccLine (const LinePointer line, Handle(AIS_InteractiveContext) ais_context) :
+OccPrimitiveBase(ais_context)
 {
 	line_ = line;
 
@@ -21,8 +21,8 @@ OcPrimitiveBase(ais_context)
 }
 
 
-OcPoint::OcPoint (const PointPointer point, Handle(AIS_InteractiveContext) ais_context) :
-OcPrimitiveBase(ais_context)
+OccPoint::OccPoint (const PointPointer point, Handle(AIS_InteractiveContext) ais_context) :
+OccPrimitiveBase(ais_context)
 {
 	point_ = point;
 	
@@ -37,7 +37,7 @@ OcPrimitiveBase(ais_context)
 	Display();
 }
 
-void OcPrimitiveBase::Display()
+void OccPrimitiveBase::Display()
 {
 	ais_context_->Display(ais_object_, Standard_False);
 }
