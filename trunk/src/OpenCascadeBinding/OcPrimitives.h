@@ -1,5 +1,5 @@
-#ifndef OcPrimitivesH
-#define OcPrimitivesH
+#ifndef OccPrimitivesH
+#define OccPrimitivesH
 
 #include "../ConstraintSolver/Primitives.h"
 #include <AIS_InteractiveContext.hxx>
@@ -8,13 +8,13 @@
 #include <AIS_Line.hxx>
 #include <Geom_CartesianPoint.hxx>
 
-// OcPrimitiveBase class
-class OcPrimitiveBase
+// OccPrimitiveBase class
+class OccPrimitiveBase
 {
 	public:
-		OcPrimitiveBase(Handle(AIS_InteractiveContext) ais_context) {ais_context_ = ais_context;}
+		OccPrimitiveBase(Handle(AIS_InteractiveContext) ais_context) {ais_context_ = ais_context;}
 
-		virtual ~OcPrimitiveBase() {/* @TODO add code here to delete ais_object_ from ais_context_ */;}
+		virtual ~OccPrimitiveBase() {/* @TODO add code here to delete ais_object_ from ais_context_ */;}
 
 	void Display();
 
@@ -24,12 +24,12 @@ class OcPrimitiveBase
 };
 
 // point class
-class OcPoint : public OcPrimitiveBase
+class OccPoint : public OccPrimitiveBase
 {
 	
 
 	public:
-		OcPoint (const PointPointer point, Handle(AIS_InteractiveContext) ais_context);
+		OccPoint (const PointPointer point, Handle(AIS_InteractiveContext) ais_context);
 
 	private:
 		PointPointer point_;
@@ -37,13 +37,13 @@ class OcPoint : public OcPrimitiveBase
 		Handle(Geom_Point) oc_point_;
 
 };
-typedef boost::shared_ptr<OcPoint> OcPointPointer;
+typedef boost::shared_ptr<OccPoint> OccPointPointer;
 
 // line class
-class OcLine : public OcPrimitiveBase
+class OccLine : public OccPrimitiveBase
 {
 	public:
-		OcLine (const LinePointer line, Handle(AIS_InteractiveContext) ais_context);
+		OccLine (const LinePointer line, Handle(AIS_InteractiveContext) ais_context);
 
 	private:
 		LinePointer line_;
@@ -51,6 +51,6 @@ class OcLine : public OcPrimitiveBase
 		Handle(Geom_Point) oc_point1_;
 		Handle(Geom_Point) oc_point2_;
 };
-typedef boost::shared_ptr<OcLine> OcLinePointer;
+typedef boost::shared_ptr<OccLine> OccLinePointer;
 
-#endif //OcPrimitivesH
+#endif //OccPrimitivesH

@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
-#include "../OpenCascadeBinding/OcPrimitives.h"
+#include "../OpenCascadeBinding/OccPrimitives.h"
 #include "../ConstraintSolver/Ark3DModel.h"
 #include "../mmcMatrix/mmcMatrix.h"
 
@@ -21,15 +21,15 @@ void constraint_solver_test(Handle(AIS_InteractiveContext) ais_context)
 	LinePointer line4(new Line(point4,point1));
 
 	// create the AIS interactive objects using the ark3d OpenCascade binding
-	OcLine oc_line1(line1,ais_context);
-	OcLine oc_line2(line2,ais_context);
-	OcLine oc_line3(line3,ais_context);
-	OcLine oc_line4(line4,ais_context);
+	OccLine oc_line1(line1,ais_context);
+	OccLine oc_line2(line2,ais_context);
+	OccLine oc_line3(line3,ais_context);
+	OccLine oc_line4(line4,ais_context);
 
-	OcPoint oc_point1(point1,ais_context);
-	OcPoint oc_point2(point2,ais_context);
-	OcPoint oc_point3(point3,ais_context);
-	OcPoint oc_point4(point4,ais_context);
+	OccPoint oc_point1(point1,ais_context);
+	OccPoint oc_point2(point2,ais_context);
+	OccPoint oc_point3(point3,ais_context);
+	OccPoint oc_point4(point4,ais_context);
 
 	// These 4 constraints will fully constrain the four free DOF's defined about
 	DistanceConstraintPointer constraint1(new DistanceConstraint(point1,point2,11));
