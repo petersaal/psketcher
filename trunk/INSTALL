@@ -9,7 +9,7 @@ gtk+-2
 libglade-2
 gmodule-2
 gtkglext-1.0
-OpenCascade6.1
+OpenCascade6.2
 boost C++ libraries (only use shared_ptr.hpp)
 
 
@@ -25,8 +25,8 @@ Compile and run instructions
 Here's an example of the build and run process on my machine
 **********************************************
 
-export CASROOT=~/opencascade-6.1/ros
-export LD_LIBRARY_PATH=/opt/OpenCASCADE-6.1/lib
+export CASROOT=~/opencascade-6.2/ros
+export LD_LIBRARY_PATH=/opt/OpenCASCADE-6.2/lib
 cmake .
 make
 ./src/Interface/ark3d
