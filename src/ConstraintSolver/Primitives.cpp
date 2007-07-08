@@ -56,6 +56,31 @@ Line :: Line(const PointPointer point1, const PointPointer point2)
 	dof_list_.push_back(z2_);
 }
 
+Line2D :: Line2D(const Point2DPointer point1, const Point2DPointer point2, SketchPlanePointer sketch_plane):
+sketch_plane_(sketch_plane)
+{
+	s1_ = point1->GetSDOF();
+	t1_ = point1->GetTDOF();
+
+	s2_ = point2->GetSDOF();
+	t2_ = point2->GetTDOF();
+
+	dof_list_.push_back(s1_);
+	dof_list_.push_back(t1_);
+
+	dof_list_.push_back(s2_);
+	dof_list_.push_back(t2_);
+}
+
+// returns global coordinates of line end points
+void Line2D :: Get3DLocations(double & x1, double & y1, double & z1,
+															double & x2, double & y2, double & z2)
+{
+	sketch_plane_->Get3DLocation(s1_->GetValue(), t1_->GetValue(), x1, y1, z1);
+	sketch_plane_->Get3DLocation(s2_->GetValue(), t2_->GetValue(), x2, y2, z2);
+}
+
+
 // Create a constraint that defines the distance between two points
 DistanceConstraint::DistanceConstraint(const PointPointer point1, const PointPointer point2, double distance)
 {
@@ -108,6 +133,8 @@ normal_(normal),
 up_(up),
 base_(base)
 {
+	// @TODO need to check to insure that the normal vector and the up vector are normalized, calculations later on will assume this
+
 	// Populate the primitve base classes DOF list for each of the primitives referenced by this SketchPlane
 	std::vector<DOFPointer> current_dof_list = normal_->GetDOFList();
 	for(unsigned int current_dof = 0; current_dof < current_dof_list.size(); current_dof++)
@@ -128,12 +155,47 @@ base_(base)
 	}
 };
 
-
-// Return the global coordinates for a Point2D object
-void Point2D::Get3DLocation(const double & x_location,const double & y_location, const double & z_location)const
+// Return the global coordinates of a point on the sketch plane
+void SketchPlane::Get3DLocation ( double s, double t, double & x, double & y, double & z)
 {
-	// @TODO implement Get3DLocation method for Point2D class
+	mmcMatrix j_vector = up_->GetmmcMatrix();  // t axis direction vector in sketch plane
+	mmcMatrix i_vector = j_vector.CrossProduct(normal_->GetmmcMatrix()); // s axis direction vector in sketch plane
 
+	mmcMatrix global_position = base_->GetmmcMatrix() + s*i_vector + t*j_vector;
 
+	x = global_position(0,0);
+	y = global_position(1,0);
+	z = global_position(2,0);
 }
 
+// Return the global coordinates for a Point2D object
+void Point2D::Get3DLocation(double & x_location,double & y_location, double & z_location)const
+{
+	sketch_plane_->Get3DLocation(s_->GetValue(), t_->GetValue(), x_location, y_location, z_location);
+}
+
+// Return mmaMatrix vector of current x,y,z values
+// used for numerical calculations only, loses associativity with DOF's
+mmcMatrix Vector::GetmmcMatrix()
+{
+	mmcMatrix result(3,1);
+
+	result(0,0) = x_->GetValue();
+	result(1,0) = y_->GetValue();
+	result(2,0) = z_->GetValue();
+
+	return result;
+}
+
+// Return mmaMatrix vector of current x,y,z values
+// used for numerical calculations only, loses associativity with DOF's
+mmcMatrix Point::GetmmcMatrix()
+{
+	mmcMatrix result(3,1);
+
+	result(0,0) = x_->GetValue();
+	result(1,0) = y_->GetValue();
+	result(2,0) = z_->GetValue();
+
+	return result;
+}
