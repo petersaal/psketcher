@@ -28,6 +28,15 @@ z_(new DOF(z,z_free))
 	dof_list_.push_back(z_);
 }
 
+Point2D :: Point2D ( double s, double t, SketchPlanePointer sketch_plane, bool s_free, bool t_free):
+s_(new DOF(s,s_free)),
+t_(new DOF(t,t_free)),
+sketch_plane_(sketch_plane)
+{
+	dof_list_.push_back(s_);
+	dof_list_.push_back(t_);
+}
+
 Line :: Line(const PointPointer point1, const PointPointer point2)
 {
 	x1_ = point1->GetXDOF();
