@@ -101,6 +101,25 @@ DistanceConstraint::DistanceConstraint(const PointPointer point1, const PointPoi
 	weight_list_.push_back(1.0);
 }
 
+// Create a constraint that defines the distance between two points confined to a sketch plane
+DistanceConstraint::DistanceConstraint(const Point2DPointer point1, const Point2DPointer point2, double distance)
+{
+	// Create a DOF for the distance parameter
+	DOFPointer new_dof(new DOF(distance,false));
+	
+	dof_list_.push_back(new_dof);
+
+	// create the expression that defines the constraint and add it the the constraint list
+	boost::shared_ptr<ex> new_constraint(new ex);
+	
+	*new_constraint = sqrt( pow(point1->GetSDOF()->GetVariable() - point2->GetSDOF()->GetVariable(),2) +
+													pow(point1->GetTDOF()->GetVariable() - point2->GetTDOF()->GetVariable(),2))
+										- new_dof->GetVariable();
+
+	constraints_.push_back(new_constraint);
+	weight_list_.push_back(1.0);
+}
+
 // Create a parallelism constrain between two lines
 ParallelConstraint::ParallelConstraint(const LinePointer line1, const LinePointer line2)
 {
@@ -126,6 +145,32 @@ ParallelConstraint::ParallelConstraint(const LinePointer line1, const LinePointe
 	constraints_.push_back(new_constraint);
 	weight_list_.push_back(1.0);
 }
+
+
+// Create a parallelism constrain between two lines
+ParallelConstraint::ParallelConstraint(const Line2DPointer line1, const Line2DPointer line2)
+{
+	// create the expression that defines the parallel constraint and add it the the constraint list
+	boost::shared_ptr<ex> new_constraint(new ex);
+	
+	ex line1_ds = line1->GetS1()->GetVariable() - line1->GetS2()->GetVariable();
+	ex line1_dt = line1->GetT1()->GetVariable() - line1->GetT2()->GetVariable();
+	ex line1_length = sqrt(pow(line1_ds,2)+pow(line1_dt,2));
+
+	ex line2_ds = line2->GetS1()->GetVariable() - line2->GetS2()->GetVariable();
+	ex line2_dt = line2->GetT1()->GetVariable() - line2->GetT2()->GetVariable();
+	ex line2_length = sqrt(pow(line2_ds,2)+pow(line2_dt,2));
+
+	// Calculate the dot product normalized by the vector lengths and subtract one
+	// this expression will be zero when the lines are parallel
+	// Ideally, I would use abs() instead of pow() but abs is not differentiable. 
+	// @todo find a better function besides pow to use for the parallel constraint
+	*new_constraint = pow((1/(line1_length*line2_length))*(line1_ds*line2_ds + line1_dt*line2_dt),2)-1;
+
+	constraints_.push_back(new_constraint);
+	weight_list_.push_back(1.0);
+}
+
 
 // Constructor for SketchPlane class
 SketchPlane::SketchPlane ( VectorPointer normal, VectorPointer up, PointPointer base):

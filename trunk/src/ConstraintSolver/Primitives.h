@@ -193,6 +193,7 @@ class DistanceConstraint : public ConstraintEquationBase
 {
 	public:
 		DistanceConstraint(const PointPointer point1, const PointPointer point2, double distance);
+		DistanceConstraint(const Point2DPointer point1, const Point2DPointer point2, double distance);
 
 	private:
 };
@@ -202,6 +203,7 @@ class ParallelConstraint : public ConstraintEquationBase
 {
 	public:
 		ParallelConstraint(const LinePointer line1, const LinePointer line2);
+		ParallelConstraint(const Line2DPointer line1, const Line2DPointer line2);
 
 	private:
 
