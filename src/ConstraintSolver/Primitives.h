@@ -66,29 +66,6 @@ class Point : public PrimitiveBase
 };
 typedef boost::shared_ptr<Point> PointPointer;
 
-// line class
-class Line : public PrimitiveBase
-{
-	public:
-		Line (const PointPointer point1, const PointPointer point2);
-
-		DOFPointer GetX1()const {return x1_;}
-		DOFPointer GetY1()const {return y1_;}
-		DOFPointer GetZ1()const {return z1_;}
-		DOFPointer GetX2()const {return x2_;}
-		DOFPointer GetY2()const {return y2_;}
-		DOFPointer GetZ2()const {return z2_;}
-
-	private:
-		DOFPointer x1_;
-		DOFPointer y1_;
-		DOFPointer z1_;
-		DOFPointer x2_;
-		DOFPointer y2_;
-		DOFPointer z2_;
-};
-typedef boost::shared_ptr<Line> LinePointer;
-
 // vector class
 class Vector : public PrimitiveBase
 {
@@ -112,7 +89,49 @@ class SketchPlane : public PrimitiveBase
 	private:
 		VectorPointer normal_;
 		VectorPointer up_;
+		PointPointer base_;
 };
+typedef boost::shared_ptr<SketchPlane> SketchPlanePointer;
+
+// Point2D class
+class Point2D : public PrimitiveBase
+{
+	public:
+		Point2D ( double s, double t, SketchPlanePointer sketch_plane, bool s_free = false, bool t_free = false);
+		Point2D ( DOFPointer s, DOFPointer t, SketchPlanePointer sketch_plane);
+
+		DOFPointer GetSDOF()const {return s_;}
+		DOFPointer GetTDOF()const {return t_;}
+
+	private:
+		DOFPointer s_;
+		DOFPointer t_;
+		SketchPlanePointer sketch_plane_;
+};
+typedef boost::shared_ptr<Point2D> Point2DPointer;
+
+// line class
+class Line : public PrimitiveBase
+{
+	public:
+		Line (const PointPointer point1, const PointPointer point2);
+
+		DOFPointer GetX1()const {return x1_;}
+		DOFPointer GetY1()const {return y1_;}
+		DOFPointer GetZ1()const {return z1_;}
+		DOFPointer GetX2()const {return x2_;}
+		DOFPointer GetY2()const {return y2_;}
+		DOFPointer GetZ2()const {return z2_;}
+
+	private:
+		DOFPointer x1_;
+		DOFPointer y1_;
+		DOFPointer z1_;
+		DOFPointer x2_;
+		DOFPointer y2_;
+		DOFPointer z2_;
+};
+typedef boost::shared_ptr<Line> LinePointer;
 
 // constraint equation class
 class ConstraintEquationBase
