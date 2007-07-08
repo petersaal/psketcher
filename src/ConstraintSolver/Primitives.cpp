@@ -101,3 +101,39 @@ ParallelConstraint::ParallelConstraint(const LinePointer line1, const LinePointe
 	constraints_.push_back(new_constraint);
 	weight_list_.push_back(1.0);
 }
+
+// Constructor for SketchPlane class
+SketchPlane::SketchPlane ( VectorPointer normal, VectorPointer up, PointPointer base):
+normal_(normal),
+up_(up),
+base_(base)
+{
+	// Populate the primitve base classes DOF list for each of the primitives referenced by this SketchPlane
+	std::vector<DOFPointer> current_dof_list = normal_->GetDOFList();
+	for(unsigned int current_dof = 0; current_dof < current_dof_list.size(); current_dof++)
+	{
+		dof_list_.push_back(current_dof_list[current_dof]);
+	}
+
+	current_dof_list = up_->GetDOFList();
+	for(unsigned int current_dof = 0; current_dof < current_dof_list.size(); current_dof++)
+	{
+		dof_list_.push_back(current_dof_list[current_dof]);
+	}
+
+	current_dof_list = base_->GetDOFList();
+	for(unsigned int current_dof = 0; current_dof < current_dof_list.size(); current_dof++)
+	{
+		dof_list_.push_back(current_dof_list[current_dof]);
+	}
+};
+
+
+// Return the global coordinates for a Point2D object
+void Point2D::Get3DLocation(const double & x_location,const double & y_location, const double & z_location)const
+{
+	// @TODO implement Get3DLocation method for Point2D class
+
+
+}
+

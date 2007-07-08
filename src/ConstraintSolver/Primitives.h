@@ -84,7 +84,7 @@ typedef boost::shared_ptr<Vector> VectorPointer;
 class SketchPlane : public PrimitiveBase
 {
 	public:
-		SketchPlane ( VectorPointer normal, VectorPointer up );
+		SketchPlane ( VectorPointer normal, VectorPointer up, PointPointer base);
 
 	private:
 		VectorPointer normal_;
@@ -93,7 +93,7 @@ class SketchPlane : public PrimitiveBase
 };
 typedef boost::shared_ptr<SketchPlane> SketchPlanePointer;
 
-// Point2D class
+// Point2D class (a point constrained to a sketch plane)
 class Point2D : public PrimitiveBase
 {
 	public:
@@ -102,6 +102,8 @@ class Point2D : public PrimitiveBase
 
 		DOFPointer GetSDOF()const {return s_;}
 		DOFPointer GetTDOF()const {return t_;}
+
+		void Get3DLocation(const double & x_location,const double & y_location, const double & z_location)const;
 
 	private:
 		DOFPointer s_;
