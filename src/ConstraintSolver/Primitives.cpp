@@ -244,3 +244,14 @@ mmcMatrix Point::GetmmcMatrix()
 
 	return result;
 }
+
+Vector :: Vector ( double x, double y, double z, bool x_free, bool y_free, bool z_free):
+x_(new DOF(x,x_free)),
+y_(new DOF(y,y_free)),
+z_(new DOF(z,z_free))
+{
+	dof_list_.push_back(x_);
+	dof_list_.push_back(y_);
+	dof_list_.push_back(z_);
+}
+

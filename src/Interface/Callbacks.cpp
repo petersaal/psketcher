@@ -19,6 +19,7 @@ TopoDS_Shape
 MakeBottle(const Standard_Real myWidth , const Standard_Real myHeight , const Standard_Real myThickness);
 
 void constraint_solver_test(Handle(AIS_InteractiveContext) ais_context);
+void constraint_solver_test_2(Handle(AIS_InteractiveContext) ais_context);
 
 
 
@@ -225,7 +226,7 @@ void
 on_test_constraint_solver1_activate                (GtkMenuItem     *menuitem,
                                         gpointer         user_data)
 {
-	constraint_solver_test(theViewer->getContext());
+	constraint_solver_test_2(theViewer->getContext());
 }
 
     void
