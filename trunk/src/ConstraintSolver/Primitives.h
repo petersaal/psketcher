@@ -72,7 +72,7 @@ typedef boost::shared_ptr<Point> PointPointer;
 class Vector : public PrimitiveBase
 {
 	public:
-		Vector ( double x, double y, double z,std::vector<DOFPointer> dof_list );
+		Vector ( double x, double y, double z, bool x_free = false, bool y_free = false, bool z_free = false);
 		Vector ( DOFPointer x, DOFPointer y, DOFPointer z );
 		mmcMatrix GetmmcMatrix();  // returns mmcMatrix vector containing current location 
 

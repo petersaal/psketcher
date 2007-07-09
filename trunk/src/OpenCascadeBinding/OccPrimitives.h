@@ -26,10 +26,9 @@ class OccPrimitiveBase
 // point class
 class OccPoint : public OccPrimitiveBase
 {
-	
-
 	public:
 		OccPoint (const PointPointer point, Handle(AIS_InteractiveContext) ais_context);
+		OccPoint (const Point2DPointer point, Handle(AIS_InteractiveContext) ais_context);
 
 	private:
 		PointPointer point_;
@@ -38,6 +37,20 @@ class OccPoint : public OccPrimitiveBase
 
 };
 typedef boost::shared_ptr<OccPoint> OccPointPointer;
+
+// point class
+class OccPoint2D : public OccPrimitiveBase
+{
+	public:
+		OccPoint2D (const Point2DPointer point, Handle(AIS_InteractiveContext) ais_context);
+
+	private:
+		Point2DPointer point_;
+
+		Handle(Geom_Point) oc_point_;
+
+};
+typedef boost::shared_ptr<OccPoint2D> OccPoint2DPointer;
 
 // line class
 class OccLine : public OccPrimitiveBase
@@ -52,5 +65,19 @@ class OccLine : public OccPrimitiveBase
 		Handle(Geom_Point) oc_point2_;
 };
 typedef boost::shared_ptr<OccLine> OccLinePointer;
+
+// line class
+class OccLine2D : public OccPrimitiveBase
+{
+	public:
+		OccLine2D (const Line2DPointer line, Handle(AIS_InteractiveContext) ais_context);
+
+	private:
+		Line2DPointer line_;
+
+		Handle(Geom_Point) oc_point1_;
+		Handle(Geom_Point) oc_point2_;
+};
+typedef boost::shared_ptr<OccLine2D> OccLine2DPointer;
 
 #endif //OccPrimitivesH
