@@ -82,7 +82,7 @@ void Line2D :: Get3DLocations(double & x1, double & y1, double & z1,
 
 
 // Create a constraint that defines the distance between two points
-DistanceConstraint::DistanceConstraint(const PointPointer point1, const PointPointer point2, double distance)
+DistanceConstraintPointPoint::DistanceConstraintPointPoint(const PointPointer point1, const PointPointer point2, double distance)
 {
 	// Create a DOF for the distance parameter
 	DOFPointer new_dof(new DOF(distance,false));
@@ -102,7 +102,7 @@ DistanceConstraint::DistanceConstraint(const PointPointer point1, const PointPoi
 }
 
 // Create a constraint that defines the distance between two points confined to a sketch plane
-DistanceConstraint::DistanceConstraint(const Point2DPointer point1, const Point2DPointer point2, double distance)
+DistanceConstraintPoint2DPoint2D::DistanceConstraintPoint2DPoint2D(const Point2DPointer point1, const Point2DPointer point2, double distance)
 {
 	// Create a DOF for the distance parameter
 	DOFPointer new_dof(new DOF(distance,false));
@@ -121,7 +121,7 @@ DistanceConstraint::DistanceConstraint(const Point2DPointer point1, const Point2
 }
 
 // Create a parallelism constrain between two lines
-ParallelConstraint::ParallelConstraint(const LinePointer line1, const LinePointer line2)
+ParallelConstraintLineLine::ParallelConstraintLineLine(const LinePointer line1, const LinePointer line2)
 {
 	// create the expression that defines the parallel constraint and add it the the constraint list
 	boost::shared_ptr<ex> new_constraint(new ex);
@@ -148,7 +148,7 @@ ParallelConstraint::ParallelConstraint(const LinePointer line1, const LinePointe
 
 
 // Create a parallelism constrain between two lines
-ParallelConstraint::ParallelConstraint(const Line2DPointer line1, const Line2DPointer line2)
+ParallelConstraintLine2DLine2D::ParallelConstraintLine2DLine2D(const Line2DPointer line1, const Line2DPointer line2)
 {
 	// create the expression that defines the parallel constraint and add it the the constraint list
 	boost::shared_ptr<ex> new_constraint(new ex);
@@ -179,6 +179,8 @@ up_(up),
 base_(base)
 {
 	// @TODO need to check to insure that the normal vector and the up vector are normalized, calculations later on will assume this
+
+	// @TODO need to make sure that up vector lies in plane defined by normal vector (up vector must be orthogonal to normal vector)
 
 	// Populate the primitve base classes DOF list for each of the primitives referenced by this SketchPlane
 	std::vector<DOFPointer> current_dof_list = normal_->GetDOFList();
@@ -253,5 +255,33 @@ z_(new DOF(z,z_free))
 	dof_list_.push_back(x_);
 	dof_list_.push_back(y_);
 	dof_list_.push_back(z_);
+}
+
+ParallelConstraint::ParallelConstraint(const Line2DPointer line1, const Line2DPointer line2)
+{
+	ConstraintEquationBasePointer new_constraint(new ParallelConstraintLine2DLine2D(line1,line2));
+	
+	SetConstraintEquation(new_constraint);
+}
+
+ParallelConstraint::ParallelConstraint(const LinePointer line1, const LinePointer line2)
+{
+	ConstraintEquationBasePointer new_constraint(new ParallelConstraintLineLine(line1,line2));
+	
+	SetConstraintEquation(new_constraint);
+}
+
+DistanceConstraint::DistanceConstraint(const Point2DPointer point1, const Point2DPointer point2, double distance)
+{
+	ConstraintEquationBasePointer new_constraint(new DistanceConstraintPoint2DPoint2D(point1,point2,distance));
+	
+	SetConstraintEquation(new_constraint);
+}
+
+DistanceConstraint::DistanceConstraint(const PointPointer point1, const PointPointer point2, double distance)
+{
+	ConstraintEquationBasePointer new_constraint(new DistanceConstraintPointPoint(point1,point2,distance));
+	
+	SetConstraintEquation(new_constraint);
 }
 

@@ -80,4 +80,20 @@ class OccLine2D : public OccPrimitiveBase
 };
 typedef boost::shared_ptr<OccLine2D> OccLine2DPointer;
 
+// line class
+class OccParallelConstraint : public OccPrimitiveBase
+{
+	public:
+		OccParallelConstraint (const Line2DPointer line1, const Line2DPointer line2, Handle(AIS_InteractiveContext) ais_context);
+
+	private:
+		Line2DPointer line_;
+
+		Handle(Geom_Point) oc_point1_;
+		Handle(Geom_Point) oc_point2_;
+
+// 		Handle(Geom_Plane) oc_plane_;
+};
+typedef boost::shared_ptr<OccParallelConstraint> OccParallelConstraintPointer;
+
 #endif //OccPrimitivesH
