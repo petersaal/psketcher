@@ -7,6 +7,7 @@
 #include <AIS_Point.hxx>
 #include <AIS_Line.hxx>
 #include <Geom_CartesianPoint.hxx>
+#include <Geom_Plane.hxx>
 
 // OccPrimitiveBase class
 class OccPrimitiveBase
@@ -16,7 +17,7 @@ class OccPrimitiveBase
 
 		virtual ~OccPrimitiveBase() {/* @TODO add code here to delete ais_object_ from ais_context_ */;}
 
-	void Display();
+		virtual void Display();
 
 	protected:
 		Handle(AIS_InteractiveContext) ais_context_;
@@ -24,57 +25,55 @@ class OccPrimitiveBase
 };
 
 // point class
-class OccPoint : public OccPrimitiveBase
+class OccPoint : public OccPrimitiveBase, public Point
 {
 	public:
-		OccPoint (const PointPointer point, Handle(AIS_InteractiveContext) ais_context);
-		OccPoint (const Point2DPointer point, Handle(AIS_InteractiveContext) ais_context);
+		OccPoint (Handle(AIS_InteractiveContext) ais_context, double x, double y, double z, bool x_free = false, bool y_free = false, bool z_free = false);
 
+		void Display() {return OccPrimitiveBase::Display();}
 	private:
-		PointPointer point_;
 
 		Handle(Geom_Point) oc_point_;
-
 };
 typedef boost::shared_ptr<OccPoint> OccPointPointer;
 
 // point class
-class OccPoint2D : public OccPrimitiveBase
+class OccPoint2D : public OccPrimitiveBase, public Point2D
 {
 	public:
-		OccPoint2D (const Point2DPointer point, Handle(AIS_InteractiveContext) ais_context);
+		OccPoint2D (Handle(AIS_InteractiveContext) ais_context,double s, double t, SketchPlanePointer sketch_plane, bool s_free = false, bool t_free = false);
+
+		void Display() {return OccPrimitiveBase::Display();}
 
 	private:
-		Point2DPointer point_;
-
 		Handle(Geom_Point) oc_point_;
 
 };
 typedef boost::shared_ptr<OccPoint2D> OccPoint2DPointer;
 
 // line class
-class OccLine : public OccPrimitiveBase
+class OccLine : public OccPrimitiveBase, public Line
 {
 	public:
-		OccLine (const LinePointer line, Handle(AIS_InteractiveContext) ais_context);
+		OccLine (Handle(AIS_InteractiveContext) ais_context, const PointPointer point1, const PointPointer point2);
+
+		void Display() {return OccPrimitiveBase::Display();}
 
 	private:
-		LinePointer line_;
-
 		Handle(Geom_Point) oc_point1_;
 		Handle(Geom_Point) oc_point2_;
 };
 typedef boost::shared_ptr<OccLine> OccLinePointer;
 
 // line class
-class OccLine2D : public OccPrimitiveBase
+class OccLine2D : public OccPrimitiveBase, public Line2D
 {
 	public:
-		OccLine2D (const Line2DPointer line, Handle(AIS_InteractiveContext) ais_context);
+		OccLine2D (Handle(AIS_InteractiveContext) ais_context, const Point2DPointer point1, const Point2DPointer point2, SketchPlanePointer sketch_plane);
+
+		void Display() {return OccPrimitiveBase::Display();}
 
 	private:
-		Line2DPointer line_;
-
 		Handle(Geom_Point) oc_point1_;
 		Handle(Geom_Point) oc_point2_;
 };
@@ -84,15 +83,17 @@ typedef boost::shared_ptr<OccLine2D> OccLine2DPointer;
 class OccParallelConstraint : public OccPrimitiveBase
 {
 	public:
-		OccParallelConstraint (const Line2DPointer line1, const Line2DPointer line2, Handle(AIS_InteractiveContext) ais_context);
+		OccParallelConstraint (const ParallelConstraintPointer parallel_constraint_, Handle(AIS_InteractiveContext) ais_context);
+
+		void Display() {return OccPrimitiveBase::Display();}
 
 	private:
-		Line2DPointer line_;
+		ParallelConstraintPointer line_;
 
 		Handle(Geom_Point) oc_point1_;
 		Handle(Geom_Point) oc_point2_;
 
-// 		Handle(Geom_Plane) oc_plane_;
+ 		Handle(Geom_Plane) oc_plane_;
 };
 typedef boost::shared_ptr<OccParallelConstraint> OccParallelConstraintPointer;
 
