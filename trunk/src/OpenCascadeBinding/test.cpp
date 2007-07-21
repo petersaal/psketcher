@@ -28,7 +28,7 @@ void constraint_solver_test_2(Handle(AIS_InteractiveContext) ais_context)
 	Line2DPointer line4(new OccLine2D(ais_context,point4,point1,my_sketch_plane));
 
 	// These 4 constraints will fully constrain the four free DOF's defined about
-	DistanceConstraintPointer constraint1(new DistanceConstraint(point1,point2,11));
+	DistanceConstraintPointer constraint1(new DistanceConstraint(point1,point2,6));
 	DistanceConstraintPointer constraint2(new DistanceConstraint(point2,point3,12));
 	ParallelConstraintPointer constraint3(new ParallelConstraint(line1,line3));
 	ParallelConstraintPointer constraint4(new ParallelConstraint(line2,line4));
@@ -65,6 +65,7 @@ void constraint_solver_test_2(Handle(AIS_InteractiveContext) ais_context)
 	
 	// solve the constraint equations
 	my_model.SolveConstraints();
+	my_model.UpdateDisplay();
 
 	// check some of the DOF's to see what happened during the solve step 
 	point1->Get3DLocation(x1, y1, z1);

@@ -42,6 +42,7 @@ class PrimitiveBase
 		const std::vector<DOFPointer> & GetDOFList() {return dof_list_;}
 
 		virtual void Display() {;}
+		virtual void UpdateDisplay() {;}
 
 	protected:
 		std::vector<DOFPointer> dof_list_;
@@ -178,6 +179,9 @@ class ConstraintEquationBase
 		const std::vector<DOFPointer> & GetDOFList() {return dof_list_;}
 		const std::vector< boost::shared_ptr<GiNaC::ex> > & GetConstraintList() {return constraints_;}
 		const std::vector<double> & GetWeightList() {return weight_list_;}
+
+		virtual void Display() {;}
+		virtual void UpdateDisplay() {;}
 
 	protected:
 		// constraints and weight_list_ are parallel vectors

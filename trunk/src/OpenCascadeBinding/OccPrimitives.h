@@ -19,6 +19,9 @@ class OccPrimitiveBase
 
 		virtual void Display();
 
+		// update coordinates of primitive
+		virtual void UpdateDisplay() {ais_object_->Redisplay();}
+
 	protected:
 		Handle(AIS_InteractiveContext) ais_context_;
 		Handle(AIS_InteractiveObject) ais_object_;
@@ -31,9 +34,11 @@ class OccPoint : public OccPrimitiveBase, public Point
 		OccPoint (Handle(AIS_InteractiveContext) ais_context, double x, double y, double z, bool x_free = false, bool y_free = false, bool z_free = false);
 
 		void Display() {return OccPrimitiveBase::Display();}
+
+		void UpdateDisplay();
 	private:
 
-		Handle(Geom_Point) oc_point_;
+		Handle(Geom_CartesianPoint) oc_point_;
 };
 typedef boost::shared_ptr<OccPoint> OccPointPointer;
 
@@ -45,8 +50,10 @@ class OccPoint2D : public OccPrimitiveBase, public Point2D
 
 		void Display() {return OccPrimitiveBase::Display();}
 
+		void UpdateDisplay();
+
 	private:
-		Handle(Geom_Point) oc_point_;
+		Handle(Geom_CartesianPoint) oc_point_;
 
 };
 typedef boost::shared_ptr<OccPoint2D> OccPoint2DPointer;
@@ -59,9 +66,11 @@ class OccLine : public OccPrimitiveBase, public Line
 
 		void Display() {return OccPrimitiveBase::Display();}
 
+		void UpdateDisplay();
+
 	private:
-		Handle(Geom_Point) oc_point1_;
-		Handle(Geom_Point) oc_point2_;
+		Handle(Geom_CartesianPoint) oc_point1_;
+		Handle(Geom_CartesianPoint) oc_point2_;
 };
 typedef boost::shared_ptr<OccLine> OccLinePointer;
 
@@ -73,9 +82,11 @@ class OccLine2D : public OccPrimitiveBase, public Line2D
 
 		void Display() {return OccPrimitiveBase::Display();}
 
+		void UpdateDisplay();
+
 	private:
-		Handle(Geom_Point) oc_point1_;
-		Handle(Geom_Point) oc_point2_;
+		Handle(Geom_CartesianPoint) oc_point1_;
+		Handle(Geom_CartesianPoint) oc_point2_;
 };
 typedef boost::shared_ptr<OccLine2D> OccLine2DPointer;
 
@@ -87,11 +98,13 @@ class OccParallelConstraint : public OccPrimitiveBase
 
 		void Display() {return OccPrimitiveBase::Display();}
 
+		void UpdateDisplay();
+
 	private:
 		ParallelConstraintPointer line_;
 
-		Handle(Geom_Point) oc_point1_;
-		Handle(Geom_Point) oc_point2_;
+		Handle(Geom_CartesianPoint) oc_point1_;
+		Handle(Geom_CartesianPoint) oc_point2_;
 
  		Handle(Geom_Plane) oc_plane_;
 };

@@ -110,3 +110,15 @@ void Ark3DModel::SolveConstraints()
 	for(unsigned int current_dof = 0; current_dof < free_dof_list.size(); current_dof++)
 		free_dof_list[current_dof]->SetValue(computed_free_values(current_dof,0));
 }
+
+
+void Ark3DModel::UpdateDisplay()
+{
+	// Update display for all of the constraint equations
+	for(unsigned int current_equation = 0; current_equation < constraint_equation_list_.size(); current_equation++)
+		constraint_equation_list_[current_equation]->UpdateDisplay();
+
+	// Update display for all of the primitives
+	for(unsigned int current_primitive = 0; current_primitive < primitive_list_.size(); current_primitive++)
+		primitive_list_[current_primitive]->UpdateDisplay();
+}

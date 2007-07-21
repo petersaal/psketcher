@@ -19,6 +19,19 @@ Line(point1,point2)
 	Display();
 }
 
+void OccLine::UpdateDisplay()
+{
+	oc_point1_->SetCoord(GetX1()->GetValue(),
+											 GetY1()->GetValue(),
+											 GetZ1()->GetValue());
+
+	oc_point2_->SetCoord(GetX2()->GetValue(),
+											 GetY2()->GetValue(),
+											 GetZ2()->GetValue());
+
+	OccPrimitiveBase::UpdateDisplay();
+}
+
 OccLine2D::OccLine2D (Handle(AIS_InteractiveContext) ais_context, const Point2DPointer point1, const Point2DPointer point2, SketchPlanePointer sketch_plane) :
 OccPrimitiveBase(ais_context),
 Line2D(point1, point2, sketch_plane)
@@ -38,6 +51,19 @@ Line2D(point1, point2, sketch_plane)
 	Display();
 }
 
+void OccLine2D::UpdateDisplay()
+{
+	double x1, y1, z1, x2, y2, z2;	
+
+	Get3DLocations(x1, y1, z1, x2, y2, z2);
+
+	oc_point1_->SetCoord(x1, y1, z1);
+
+	oc_point2_->SetCoord(x2, y2, z2);
+
+	OccPrimitiveBase::UpdateDisplay();
+}
+
 OccPoint::OccPoint (Handle(AIS_InteractiveContext) ais_context, double x, double y, double z, bool x_free, bool y_free, bool z_free) :
 OccPrimitiveBase(ais_context),
 Point(x,y,z,x_free,y_free,z_free)
@@ -51,6 +77,15 @@ Point(x,y,z,x_free,y_free,z_free)
 
 	// Display the newly create ais_object
 	Display();
+}
+
+void OccPoint::UpdateDisplay()
+{
+	oc_point_->SetCoord(GetXDOF()->GetValue(),
+											GetYDOF()->GetValue(),
+											GetZDOF()->GetValue());
+
+	OccPrimitiveBase::UpdateDisplay();
 }
 
 OccPoint2D::OccPoint2D (Handle(AIS_InteractiveContext) ais_context,double s, double t, SketchPlanePointer sketch_plane, bool s_free, bool t_free) :
@@ -68,6 +103,17 @@ Point2D(s,t,sketch_plane,s_free,t_free)
 
 	// Display the newly create ais_object
 	Display();
+}
+
+void OccPoint2D::UpdateDisplay()
+{
+	double x_position, y_position, z_position;
+
+	Get3DLocation(x_position, y_position, z_position);
+
+	oc_point_->SetCoord(x_position, y_position, z_position);
+
+	OccPrimitiveBase::UpdateDisplay();
 }
 
 void OccPrimitiveBase::Display()

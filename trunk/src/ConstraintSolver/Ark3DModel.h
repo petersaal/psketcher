@@ -22,6 +22,8 @@ public:
 
 	void SolveConstraints();
 
+	void UpdateDisplay();
+
 private:
 	std::vector<DOFPointer> dof_list_;
 	std::vector<ConstraintEquationBasePointer> constraint_equation_list_;
