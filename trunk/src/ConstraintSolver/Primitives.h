@@ -41,6 +41,8 @@ class PrimitiveBase
 		// Accessor methods
 		const std::vector<DOFPointer> & GetDOFList() {return dof_list_;}
 
+		virtual void Display() {;}
+
 	protected:
 		std::vector<DOFPointer> dof_list_;
 };
