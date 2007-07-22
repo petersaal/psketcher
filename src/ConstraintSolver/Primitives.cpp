@@ -102,7 +102,10 @@ DistanceConstraintPointPoint::DistanceConstraintPointPoint(const PointPointer po
 }
 
 // Create a constraint that defines the distance between two points confined to a sketch plane
-DistanceConstraintPoint2DPoint2D::DistanceConstraintPoint2DPoint2D(const Point2DPointer point1, const Point2DPointer point2, double distance)
+DistanceConstraintPoint2DPoint2D::DistanceConstraintPoint2DPoint2D(const Point2DPointer point1, const Point2DPointer point2, double distance):
+point1_(point1),
+point2_(point2),
+distance_(distance)
 {
 	// Create a DOF for the distance parameter
 	DOFPointer new_dof(new DOF(distance,false));

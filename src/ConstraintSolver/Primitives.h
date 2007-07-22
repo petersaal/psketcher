@@ -231,7 +231,10 @@ class DistanceConstraintPoint2DPoint2D : public ConstraintEquationBase
 	public:
 		DistanceConstraintPoint2DPoint2D(const Point2DPointer point1, const Point2DPointer point2, double distance);
 
-	private:
+	protected:
+		Point2DPointer point1_;
+		Point2DPointer point2_;
+		double distance_;
 };
 typedef boost::shared_ptr<DistanceConstraintPoint2DPoint2D> DistanceConstraintPoint2DPoint2DPointer;
 

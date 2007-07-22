@@ -121,6 +121,12 @@ void OccPrimitiveBase::Display()
 	ais_context_->Display(ais_object_, Standard_False);
 }
 
+// Erase current ais_object from the ais_context
+void OccPrimitiveBase::Erase()
+{
+	ais_context_->Erase(ais_object_);
+}
+
 OccParallelConstraintLine2DLine2D::OccParallelConstraintLine2DLine2D(Handle(AIS_InteractiveContext) ais_context, const Line2DPointer line1, const Line2DPointer line2):
 OccPrimitiveBase(ais_context),
 ParallelConstraintLine2DLine2D(line1,line2)
@@ -135,7 +141,7 @@ ParallelConstraintLine2DLine2D(line1,line2)
 void OccParallelConstraintLine2DLine2D::UpdateDisplay()
 {
 	// first, erase the pervious AIS_ParallelRelation from the display because we'll have to recreate it
-	ais_context_->Erase(ais_object_);
+	Erase();
 	
 	GenerateAISObject();
 
@@ -175,10 +181,63 @@ void OccParallelConstraintLine2DLine2D::GenerateAISObject()
 
 	// define the plane that is needed by the AIS_parallelRelation object
 	double coef_a, coef_b, coef_c, coef_d;
-	SketchPlanePointer sketch_plane = line1_->GetSketchPlane();
-	sketch_plane->GetABCD(coef_a,coef_b,coef_c,coef_d);
+	line1_->GetSketchPlane()->GetABCD(coef_a,coef_b,coef_c,coef_d);
 	oc_plane_ = new Geom_Plane(coef_a, coef_b, coef_c, coef_d);
 
 	// create the interactive ais_object, this is what will actually be displayed
 	ais_object_ = new AIS_ParallelRelation(oc_shape1_,oc_shape2_,oc_plane_);
+}
+
+
+
+OccDistanceConstraintPoint2DPoint2D::OccDistanceConstraintPoint2DPoint2D(Handle(AIS_InteractiveContext) ais_context,const Point2DPointer point1, const Point2DPointer point2,double distance):
+OccPrimitiveBase(ais_context),
+DistanceConstraintPoint2DPoint2D(point1,point2,distance)
+{
+	GenerateAISObject();
+
+	// Display the newly create ais_object
+	Display();
+}
+
+
+void OccDistanceConstraintPoint2DPoint2D::UpdateDisplay()
+{
+	// first, erase the pervious AIS_ParallelRelation from the display because we'll have to recreate it
+	Erase();
+	
+	GenerateAISObject();
+
+	Display();
+
+	OccPrimitiveBase::UpdateDisplay();
+}
+
+void OccDistanceConstraintPoint2DPoint2D::GenerateAISObject()
+{
+	// create the points needed to create the line segment
+	double x1, y1, z1, x2, y2, z2;	
+	point1_->Get3DLocation(x1, y1, z1);
+	point2_->Get3DLocation(x2, y2, z2);
+
+	oc_point1_.SetX(x1);
+	oc_point1_.SetY(y1);
+	oc_point1_.SetZ(z1);
+
+	oc_point2_.SetX(x2);
+	oc_point2_.SetY(y2);
+	oc_point2_.SetZ(z2);
+
+
+	// create the line segments (the AIS_ParallelRelation object needs to know where the lines are in order to display the parallel constraint)
+	oc_shape1_ = BRepBuilderAPI_MakeVertex(oc_point1_);
+	oc_shape2_ = BRepBuilderAPI_MakeVertex(oc_point2_);
+
+	// define the plane that is needed by the AIS_parallelRelation object
+	double coef_a, coef_b, coef_c, coef_d;
+	point1_->GetSketchPlane()->GetABCD(coef_a,coef_b,coef_c,coef_d);
+	oc_plane_ = new Geom_Plane(coef_a, coef_b, coef_c, coef_d);
+
+	// create the interactive ais_object, this is what will actually be displayed
+	ais_object_ = new AIS_LengthDimension(oc_shape1_,oc_shape2_,oc_plane_,distance_,distance_);
 }

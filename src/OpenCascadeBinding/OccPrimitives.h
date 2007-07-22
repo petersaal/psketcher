@@ -7,6 +7,7 @@
 #include <AIS_Point.hxx>
 #include <AIS_Line.hxx>
 #include <AIS_ParallelRelation.hxx>
+#include <AIS_LengthDimension.hxx>
 #include <Geom_CartesianPoint.hxx>
 #include <Geom_Plane.hxx>
 #include <gp_Pnt.hxx>
@@ -16,6 +17,7 @@
 #include <TopoDS_Shape.hxx>
 
 #include <BRepBuilderAPI_MakeEdge.hxx>
+#include <BRepBuilderAPI_MakeVertex.hxx>
 
 // OccPrimitiveBase class
 class OccPrimitiveBase
@@ -23,9 +25,11 @@ class OccPrimitiveBase
 	public:
 		OccPrimitiveBase(Handle(AIS_InteractiveContext) ais_context) {ais_context_ = ais_context;}
 
-		virtual ~OccPrimitiveBase() {/* @TODO add code here to delete ais_object_ from ais_context_ */;}
+		virtual ~OccPrimitiveBase() { /*Erase();*/  /*@TODO need to uncomment Erase(); so that AIS interactive objects are not displayed after this oject no longer exits*/ }
 
 		virtual void Display();
+
+		void Erase();
 
 		// update coordinates of primitive
 		virtual void UpdateDisplay() {ais_object_->Redisplay();}
@@ -98,7 +102,6 @@ class OccLine2D : public OccPrimitiveBase, public Line2D
 };
 typedef boost::shared_ptr<OccLine2D> OccLine2DPointer;
 
-// line class
 class OccParallelConstraintLine2DLine2D : public OccPrimitiveBase, public ParallelConstraintLine2DLine2D
 {
 	public:
@@ -124,4 +127,27 @@ class OccParallelConstraintLine2DLine2D : public OccPrimitiveBase, public Parall
 };
 typedef boost::shared_ptr<OccParallelConstraintLine2DLine2D> OccParallelConstraintLine2DLine2DPointer;
 
+class OccDistanceConstraintPoint2DPoint2D : public OccPrimitiveBase, public DistanceConstraintPoint2DPoint2D
+{
+	public:
+		OccDistanceConstraintPoint2DPoint2D (Handle(AIS_InteractiveContext) ais_context,
+																			   const Point2DPointer point1, const Point2DPointer point2, 
+																				 double distance);
+
+		void Display() {return OccPrimitiveBase::Display();}
+
+		void UpdateDisplay();
+
+		void GenerateAISObject();
+
+	private:
+		gp_Pnt oc_point1_;
+		gp_Pnt oc_point2_;
+
+		TopoDS_Vertex oc_shape1_;
+		TopoDS_Vertex oc_shape2_;
+
+ 		Handle(Geom_Plane) oc_plane_;
+};
+typedef boost::shared_ptr<OccDistanceConstraintPoint2DPoint2D> OccDistanceConstraintPoint2DPoint2DPointer;
 #endif //OccPrimitivesH
