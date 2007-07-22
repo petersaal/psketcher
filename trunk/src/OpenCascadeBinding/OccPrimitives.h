@@ -6,8 +6,16 @@
 #include <AIS_InteractiveObject.hxx>
 #include <AIS_Point.hxx>
 #include <AIS_Line.hxx>
+#include <AIS_ParallelRelation.hxx>
 #include <Geom_CartesianPoint.hxx>
 #include <Geom_Plane.hxx>
+#include <gp_Pnt.hxx>
+
+#include <TopoDS_Vertex.hxx>
+#include <TopoDS_Edge.hxx>
+#include <TopoDS_Shape.hxx>
+
+#include <BRepBuilderAPI_MakeEdge.hxx>
 
 // OccPrimitiveBase class
 class OccPrimitiveBase
@@ -91,23 +99,29 @@ class OccLine2D : public OccPrimitiveBase, public Line2D
 typedef boost::shared_ptr<OccLine2D> OccLine2DPointer;
 
 // line class
-class OccParallelConstraint : public OccPrimitiveBase
+class OccParallelConstraintLine2DLine2D : public OccPrimitiveBase, public ParallelConstraintLine2DLine2D
 {
 	public:
-		OccParallelConstraint (const ParallelConstraintPointer parallel_constraint_, Handle(AIS_InteractiveContext) ais_context);
+		OccParallelConstraintLine2DLine2D (Handle(AIS_InteractiveContext) ais_context,
+																			 const Line2DPointer line1, const Line2DPointer line2);
 
 		void Display() {return OccPrimitiveBase::Display();}
 
 		void UpdateDisplay();
 
-	private:
-		ParallelConstraintPointer line_;
+		void GenerateAISObject();
 
-		Handle(Geom_CartesianPoint) oc_point1_;
-		Handle(Geom_CartesianPoint) oc_point2_;
+	private:
+		gp_Pnt oc_point1_;
+		gp_Pnt oc_point2_;
+		gp_Pnt oc_point3_;
+		gp_Pnt oc_point4_;
+
+		TopoDS_Edge oc_shape1_;
+		TopoDS_Edge oc_shape2_;
 
  		Handle(Geom_Plane) oc_plane_;
 };
-typedef boost::shared_ptr<OccParallelConstraint> OccParallelConstraintPointer;
+typedef boost::shared_ptr<OccParallelConstraintLine2DLine2D> OccParallelConstraintLine2DLine2DPointer;
 
 #endif //OccPrimitivesH

@@ -31,7 +31,7 @@ z_(new DOF(z,z_free))
 Point2D :: Point2D ( double s, double t, SketchPlanePointer sketch_plane, bool s_free, bool t_free):
 s_(new DOF(s,s_free)),
 t_(new DOF(t,t_free)),
-sketch_plane_(sketch_plane)
+Primitive2DBase(sketch_plane)
 {
 	dof_list_.push_back(s_);
 	dof_list_.push_back(t_);
@@ -57,7 +57,7 @@ Line :: Line(const PointPointer point1, const PointPointer point2)
 }
 
 Line2D :: Line2D(const Point2DPointer point1, const Point2DPointer point2, SketchPlanePointer sketch_plane):
-sketch_plane_(sketch_plane)
+Primitive2DBase(sketch_plane)
 {
 	s1_ = point1->GetSDOF();
 	t1_ = point1->GetTDOF();
@@ -148,7 +148,9 @@ ParallelConstraintLineLine::ParallelConstraintLineLine(const LinePointer line1, 
 
 
 // Create a parallelism constrain between two lines
-ParallelConstraintLine2DLine2D::ParallelConstraintLine2DLine2D(const Line2DPointer line1, const Line2DPointer line2)
+ParallelConstraintLine2DLine2D::ParallelConstraintLine2DLine2D(const Line2DPointer line1, const Line2DPointer line2):
+line1_(line1),
+line2_(line2)
 {
 	// create the expression that defines the parallel constraint and add it the the constraint list
 	boost::shared_ptr<ex> new_constraint(new ex);
@@ -200,7 +202,18 @@ base_(base)
 	{
 		dof_list_.push_back(current_dof_list[current_dof]);
 	}
-};
+}
+
+void SketchPlane::GetABCD ( double & coef_a, double & coef_b, double & coef_c, double & coef_d)
+{
+	mmcMatrix normal_vector = normal_->GetmmcMatrix();
+	mmcMatrix base_vector = base_->GetmmcMatrix();
+
+	coef_a = normal_vector(0,0);
+	coef_b = normal_vector(1,0);
+	coef_c = normal_vector(2,0);
+	coef_d = normal_vector.DotProduct(base_vector);
+}
 
 // Return the global coordinates of a point on the sketch plane
 void SketchPlane::Get3DLocation ( double s, double t, double & x, double & y, double & z)
