@@ -92,6 +92,7 @@ class SketchPlane : public PrimitiveBase
 	public:
 		SketchPlane ( VectorPointer normal, VectorPointer up, PointPointer base);
 		void Get3DLocation ( double s, double t, double & x, double & y, double & z);
+		void GetABCD ( double & coef_a, double & coef_b, double & coef_c, double & coef_d);
 
 	private:
 		VectorPointer normal_;
@@ -100,8 +101,21 @@ class SketchPlane : public PrimitiveBase
 };
 typedef boost::shared_ptr<SketchPlane> SketchPlanePointer;
 
+// Base class for points constrained to a sketch plane
+class Primitive2DBase : public PrimitiveBase
+{
+	public:
+		Primitive2DBase(SketchPlanePointer sketch_plane) {sketch_plane_ = sketch_plane;}
+		SketchPlanePointer GetSketchPlane() { return sketch_plane_;}
+
+	protected:
+		SketchPlanePointer sketch_plane_;
+};
+typedef boost::shared_ptr<Primitive2DBase> Primitive2DBasePointer;
+
+
 // Point2D class (a point constrained to a sketch plane)
-class Point2D : public PrimitiveBase
+class Point2D : public Primitive2DBase
 {
 	public:
 		Point2D ( double s, double t, SketchPlanePointer sketch_plane, bool s_free = false, bool t_free = false);
@@ -115,7 +129,6 @@ class Point2D : public PrimitiveBase
 	private:
 		DOFPointer s_;
 		DOFPointer t_;
-		SketchPlanePointer sketch_plane_;
 };
 typedef boost::shared_ptr<Point2D> Point2DPointer;
 
@@ -143,7 +156,7 @@ class Line : public PrimitiveBase
 typedef boost::shared_ptr<Line> LinePointer;
 
 // Line2D class
-class Line2D : public PrimitiveBase
+class Line2D : public Primitive2DBase
 {
 	public:
 		Line2D (const Point2DPointer point1, const Point2DPointer point2, SketchPlanePointer sketch_plane);
@@ -163,8 +176,6 @@ class Line2D : public PrimitiveBase
 
 		DOFPointer s2_;
 		DOFPointer t2_;
-
-		SketchPlanePointer sketch_plane_;
 };
 typedef boost::shared_ptr<Line2D> Line2DPointer;
 
@@ -248,7 +259,9 @@ class ParallelConstraintLine2DLine2D : public ConstraintEquationBase
 	public:
 		ParallelConstraintLine2DLine2D(const Line2DPointer line1, const Line2DPointer line2);
 
-	private:
+	protected:
+		Line2DPointer line1_;
+		Line2DPointer line2_;
 
 };
 typedef boost::shared_ptr<ParallelConstraintLine2DLine2D> ParallelConstraintLine2DLine2DPointer;
