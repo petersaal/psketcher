@@ -98,8 +98,8 @@ void constraint_solver_test_2(Handle(AIS_InteractiveContext) ais_context)
 	Line2DPointer line4(new OccLine2D(ais_context,point4,point1,my_sketch_plane));
 
 	// These 4 constraints will fully constrain the four free DOF's defined about
-	DistanceConstraintPointer constraint1(new DistanceConstraint(point1,point2,6));
-	DistanceConstraintPointer constraint2(new DistanceConstraint(point2,point3,12));
+	OccDistanceConstraintPoint2DPoint2DPointer constraint1(new OccDistanceConstraintPoint2DPoint2D(ais_context,point1,point2,6.0));
+	OccDistanceConstraintPoint2DPoint2DPointer constraint2(new OccDistanceConstraintPoint2DPoint2D(ais_context,point2,point3,12.0));
 	ParallelConstraintLine2DLine2DPointer constraint3(new OccParallelConstraintLine2DLine2D(ais_context,line1,line3));
 	ParallelConstraintLine2DLine2DPointer constraint4(new OccParallelConstraintLine2DLine2D(ais_context,line2,line4));
 
