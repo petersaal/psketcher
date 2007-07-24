@@ -208,88 +208,50 @@ class ConstraintEquationBase
 typedef boost::shared_ptr<ConstraintEquationBase> ConstraintEquationBasePointer;
 
 
-// Constraint equation wrapper base
-// This class is used as a container for a constraint equation
-// Used to provide more user friendly interfrace
-class ConstraintEquationWrapper : public ConstraintEquationBase
+
+
+
+class DistancePoint2D : public ConstraintEquationBase
 {
 	public:
-
-
-	protected:
-		void SetConstraintEquation(const ConstraintEquationBasePointer constraint_equation) {constraint_equation_ = constraint_equation;
-		constraints_ = constraint_equation_->GetConstraintList();
-		weight_list_ = constraint_equation_->GetWeightList();
-		dof_list_ = constraint_equation_->GetDOFList();}
-
-		ConstraintEquationBasePointer constraint_equation_;
-};
-
-
-class DistanceConstraintPoint2DPoint2D : public ConstraintEquationBase
-{
-	public:
-		DistanceConstraintPoint2DPoint2D(const Point2DPointer point1, const Point2DPointer point2, double distance);
+		DistancePoint2D(const Point2DPointer point1, const Point2DPointer point2, double distance);
 
 	protected:
 		Point2DPointer point1_;
 		Point2DPointer point2_;
 		double distance_;
 };
-typedef boost::shared_ptr<DistanceConstraintPoint2DPoint2D> DistanceConstraintPoint2DPoint2DPointer;
+typedef boost::shared_ptr<DistancePoint2D> DistancePoint2DPointer;
 
-class DistanceConstraintPointPoint : public ConstraintEquationBase
+class DistancePoint : public ConstraintEquationBase
 {
 	public:
-		DistanceConstraintPointPoint(const PointPointer point1, const PointPointer point2, double distance);
+		DistancePoint(const PointPointer point1, const PointPointer point2, double distance);
 
 	private:
 };
-typedef boost::shared_ptr<DistanceConstraintPointPoint> DistanceConstraintPointPointPointer;
+typedef boost::shared_ptr<DistancePoint> DistancePointPointer;
 
-class ParallelConstraintLineLine : public ConstraintEquationBase
+class ParallelLine : public ConstraintEquationBase
 {
 	public:
-		ParallelConstraintLineLine(const LinePointer line1, const LinePointer line2);
+		ParallelLine(const LinePointer line1, const LinePointer line2);
 
 	private:
 
 };
-typedef boost::shared_ptr<ParallelConstraintLineLine> ParallelConstraintLineLinePointer;
+typedef boost::shared_ptr<ParallelLine> ParallelLinePointer;
 
-class ParallelConstraintLine2DLine2D : public ConstraintEquationBase
+class ParallelLine2D : public ConstraintEquationBase
 {
 	public:
-		ParallelConstraintLine2DLine2D(const Line2DPointer line1, const Line2DPointer line2);
+		ParallelLine2D(const Line2DPointer line1, const Line2DPointer line2);
 
 	protected:
 		Line2DPointer line1_;
 		Line2DPointer line2_;
 
 };
-typedef boost::shared_ptr<ParallelConstraintLine2DLine2D> ParallelConstraintLine2DLine2DPointer;
-
-class ParallelConstraint : public ConstraintEquationWrapper
-{
-	public:
-		ParallelConstraint(const Line2DPointer line1, const Line2DPointer line2);
-		ParallelConstraint(const LinePointer line1, const LinePointer line2);
-
-	private:
-
-};
-typedef boost::shared_ptr<ParallelConstraint> ParallelConstraintPointer;
-
-class DistanceConstraint : public ConstraintEquationWrapper
-{
-	public:
-		DistanceConstraint(const Point2DPointer point1, const Point2DPointer point2, double distance);
-		DistanceConstraint(const PointPointer point1, const PointPointer point2, double distance);
-
-	private:
-};
-typedef boost::shared_ptr<DistanceConstraint> DistanceConstraintPointer;
-
-
+typedef boost::shared_ptr<ParallelLine2D> ParallelLine2DPointer;
 
 #endif //PrimitivesH

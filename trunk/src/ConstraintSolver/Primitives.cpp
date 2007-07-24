@@ -82,7 +82,7 @@ void Line2D :: Get3DLocations(double & x1, double & y1, double & z1,
 
 
 // Create a constraint that defines the distance between two points
-DistanceConstraintPointPoint::DistanceConstraintPointPoint(const PointPointer point1, const PointPointer point2, double distance)
+DistancePoint::DistancePoint(const PointPointer point1, const PointPointer point2, double distance)
 {
 	// Create a DOF for the distance parameter
 	DOFPointer new_dof(new DOF(distance,false));
@@ -102,7 +102,7 @@ DistanceConstraintPointPoint::DistanceConstraintPointPoint(const PointPointer po
 }
 
 // Create a constraint that defines the distance between two points confined to a sketch plane
-DistanceConstraintPoint2DPoint2D::DistanceConstraintPoint2DPoint2D(const Point2DPointer point1, const Point2DPointer point2, double distance):
+DistancePoint2D::DistancePoint2D(const Point2DPointer point1, const Point2DPointer point2, double distance):
 point1_(point1),
 point2_(point2),
 distance_(distance)
@@ -124,7 +124,7 @@ distance_(distance)
 }
 
 // Create a parallelism constrain between two lines
-ParallelConstraintLineLine::ParallelConstraintLineLine(const LinePointer line1, const LinePointer line2)
+ParallelLine::ParallelLine(const LinePointer line1, const LinePointer line2)
 {
 	// create the expression that defines the parallel constraint and add it the the constraint list
 	boost::shared_ptr<ex> new_constraint(new ex);
@@ -151,7 +151,7 @@ ParallelConstraintLineLine::ParallelConstraintLineLine(const LinePointer line1, 
 
 
 // Create a parallelism constrain between two lines
-ParallelConstraintLine2DLine2D::ParallelConstraintLine2DLine2D(const Line2DPointer line1, const Line2DPointer line2):
+ParallelLine2D::ParallelLine2D(const Line2DPointer line1, const Line2DPointer line2):
 line1_(line1),
 line2_(line2)
 {
@@ -272,32 +272,3 @@ z_(new DOF(z,z_free))
 	dof_list_.push_back(y_);
 	dof_list_.push_back(z_);
 }
-
-ParallelConstraint::ParallelConstraint(const Line2DPointer line1, const Line2DPointer line2)
-{
-	ConstraintEquationBasePointer new_constraint(new ParallelConstraintLine2DLine2D(line1,line2));
-	
-	SetConstraintEquation(new_constraint);
-}
-
-ParallelConstraint::ParallelConstraint(const LinePointer line1, const LinePointer line2)
-{
-	ConstraintEquationBasePointer new_constraint(new ParallelConstraintLineLine(line1,line2));
-	
-	SetConstraintEquation(new_constraint);
-}
-
-DistanceConstraint::DistanceConstraint(const Point2DPointer point1, const Point2DPointer point2, double distance)
-{
-	ConstraintEquationBasePointer new_constraint(new DistanceConstraintPoint2DPoint2D(point1,point2,distance));
-	
-	SetConstraintEquation(new_constraint);
-}
-
-DistanceConstraint::DistanceConstraint(const PointPointer point1, const PointPointer point2, double distance)
-{
-	ConstraintEquationBasePointer new_constraint(new DistanceConstraintPointPoint(point1,point2,distance));
-	
-	SetConstraintEquation(new_constraint);
-}
-

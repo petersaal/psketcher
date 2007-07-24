@@ -21,10 +21,10 @@ int main(void)
 	LinePointer line4(new Line(point4,point1));
 
 	// These 4 constraints will fully constrain the four free DOF's defined about
-	DistanceConstraintPointer constraint1(new DistanceConstraint(point1,point2,11));
-	DistanceConstraintPointer constraint2(new DistanceConstraint(point2,point3,12));
-	ParallelConstraintPointer constraint3(new ParallelConstraint(line1,line3));
-	ParallelConstraintPointer constraint4(new ParallelConstraint(line2,line4));
+	ConstraintEquationBasePointer constraint1(new DistancePoint(point1,point2,11));
+	ConstraintEquationBasePointer constraint2(new DistancePoint(point2,point3,12));
+	ConstraintEquationBasePointer constraint3(new ParallelLine(line1,line3));
+	ConstraintEquationBasePointer constraint4(new ParallelLine(line2,line4));
 
 	// Create the ark 3d model object
 	Ark3DModel my_model;

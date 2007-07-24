@@ -127,9 +127,9 @@ void OccPrimitiveBase::Erase()
 	ais_context_->Erase(ais_object_);
 }
 
-OccParallelConstraintLine2DLine2D::OccParallelConstraintLine2DLine2D(Handle(AIS_InteractiveContext) ais_context, const Line2DPointer line1, const Line2DPointer line2):
+OccParallelLine2D::OccParallelLine2D(Handle(AIS_InteractiveContext) ais_context, const Line2DPointer line1, const Line2DPointer line2):
 OccPrimitiveBase(ais_context),
-ParallelConstraintLine2DLine2D(line1,line2)
+ParallelLine2D(line1,line2)
 {
 	GenerateAISObject();
 
@@ -138,7 +138,7 @@ ParallelConstraintLine2DLine2D(line1,line2)
 }
 
 
-void OccParallelConstraintLine2DLine2D::UpdateDisplay()
+void OccParallelLine2D::UpdateDisplay()
 {
 	// first, erase the pervious AIS_ParallelRelation from the display because we'll have to recreate it
 	Erase();
@@ -150,7 +150,7 @@ void OccParallelConstraintLine2DLine2D::UpdateDisplay()
 	OccPrimitiveBase::UpdateDisplay();
 }
 
-void OccParallelConstraintLine2DLine2D::GenerateAISObject()
+void OccParallelLine2D::GenerateAISObject()
 {
 	// create the points needed to create the line segment
 	double x1, y1, z1, x2, y2, z2;	
@@ -190,9 +190,9 @@ void OccParallelConstraintLine2DLine2D::GenerateAISObject()
 
 
 
-OccDistanceConstraintPoint2DPoint2D::OccDistanceConstraintPoint2DPoint2D(Handle(AIS_InteractiveContext) ais_context,const Point2DPointer point1, const Point2DPointer point2,double distance):
+OccDistancePoint2D::OccDistancePoint2D(Handle(AIS_InteractiveContext) ais_context,const Point2DPointer point1, const Point2DPointer point2,double distance):
 OccPrimitiveBase(ais_context),
-DistanceConstraintPoint2DPoint2D(point1,point2,distance)
+DistancePoint2D(point1,point2,distance)
 {
 	GenerateAISObject();
 
@@ -201,7 +201,7 @@ DistanceConstraintPoint2DPoint2D(point1,point2,distance)
 }
 
 
-void OccDistanceConstraintPoint2DPoint2D::UpdateDisplay()
+void OccDistancePoint2D::UpdateDisplay()
 {
 	// first, erase the pervious AIS_ParallelRelation from the display because we'll have to recreate it
 	Erase();
@@ -213,7 +213,7 @@ void OccDistanceConstraintPoint2DPoint2D::UpdateDisplay()
 	OccPrimitiveBase::UpdateDisplay();
 }
 
-void OccDistanceConstraintPoint2DPoint2D::GenerateAISObject()
+void OccDistancePoint2D::GenerateAISObject()
 {
 	// create the points needed to create the line segment
 	double x1, y1, z1, x2, y2, z2;	

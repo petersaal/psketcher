@@ -102,10 +102,10 @@ class OccLine2D : public OccPrimitiveBase, public Line2D
 };
 typedef boost::shared_ptr<OccLine2D> OccLine2DPointer;
 
-class OccParallelConstraintLine2DLine2D : public OccPrimitiveBase, public ParallelConstraintLine2DLine2D
+class OccParallelLine2D : public OccPrimitiveBase, public ParallelLine2D
 {
 	public:
-		OccParallelConstraintLine2DLine2D (Handle(AIS_InteractiveContext) ais_context,
+		OccParallelLine2D (Handle(AIS_InteractiveContext) ais_context,
 																			 const Line2DPointer line1, const Line2DPointer line2);
 
 		void Display() {return OccPrimitiveBase::Display();}
@@ -125,12 +125,12 @@ class OccParallelConstraintLine2DLine2D : public OccPrimitiveBase, public Parall
 
  		Handle(Geom_Plane) oc_plane_;
 };
-typedef boost::shared_ptr<OccParallelConstraintLine2DLine2D> OccParallelConstraintLine2DLine2DPointer;
+typedef boost::shared_ptr<OccParallelLine2D> OccParallelLine2DPointer;
 
-class OccDistanceConstraintPoint2DPoint2D : public OccPrimitiveBase, public DistanceConstraintPoint2DPoint2D
+class OccDistancePoint2D : public OccPrimitiveBase, public DistancePoint2D
 {
 	public:
-		OccDistanceConstraintPoint2DPoint2D (Handle(AIS_InteractiveContext) ais_context,
+		OccDistancePoint2D (Handle(AIS_InteractiveContext) ais_context,
 																			   const Point2DPointer point1, const Point2DPointer point2, 
 																				 double distance);
 
@@ -149,5 +149,5 @@ class OccDistanceConstraintPoint2DPoint2D : public OccPrimitiveBase, public Dist
 
  		Handle(Geom_Plane) oc_plane_;
 };
-typedef boost::shared_ptr<OccDistanceConstraintPoint2DPoint2D> OccDistanceConstraintPoint2DPoint2DPointer;
+typedef boost::shared_ptr<OccDistancePoint2D> OccDistancePoint2DPointer;
 #endif //OccPrimitivesH
