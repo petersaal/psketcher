@@ -254,4 +254,17 @@ class ParallelLine2D : public ConstraintEquationBase
 };
 typedef boost::shared_ptr<ParallelLine2D> ParallelLine2DPointer;
 
+class AngleLine2D : public ConstraintEquationBase
+{
+	public:
+		AngleLine2D(const Line2DPointer line1, const Line2DPointer line2, double angle /* radians */);
+
+	protected:
+		Line2DPointer line1_;
+		Line2DPointer line2_;
+
+		double angle_;
+};
+typedef boost::shared_ptr<AngleLine2D> AngleLine2DPointer;
+
 #endif //PrimitivesH

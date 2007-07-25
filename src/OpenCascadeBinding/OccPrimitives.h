@@ -6,8 +6,10 @@
 #include <AIS_InteractiveObject.hxx>
 #include <AIS_Point.hxx>
 #include <AIS_Line.hxx>
+#include <AIS_Relation.hxx>
 #include <AIS_ParallelRelation.hxx>
 #include <AIS_LengthDimension.hxx>
+#include <AIS_AngleDimension.hxx>
 #include <Geom_CartesianPoint.hxx>
 #include <Geom_Plane.hxx>
 #include <gp_Pnt.hxx>
@@ -150,4 +152,35 @@ class OccDistancePoint2D : public OccPrimitiveBase, public DistancePoint2D
  		Handle(Geom_Plane) oc_plane_;
 };
 typedef boost::shared_ptr<OccDistancePoint2D> OccDistancePoint2DPointer;
+
+
+
+
+class OccAngleLine2D : public OccPrimitiveBase, public AngleLine2D
+{
+	public:
+		OccAngleLine2D (Handle(AIS_InteractiveContext) ais_context,
+																			 const Line2DPointer line1, const Line2DPointer line2, double angle);
+
+		void Display() {return OccPrimitiveBase::Display();}
+
+		void UpdateDisplay();
+
+		void GenerateAISObject();
+
+	private:
+		gp_Pnt oc_point1_;
+		gp_Pnt oc_point2_;
+		gp_Pnt oc_point3_;
+		gp_Pnt oc_point4_;
+
+		TopoDS_Edge oc_shape1_;
+		TopoDS_Edge oc_shape2_;
+
+ 		Handle(Geom_Plane) oc_plane_;
+};
+typedef boost::shared_ptr<OccAngleLine2D> OccAngleLine2DPointer;
+
+
+
 #endif //OccPrimitivesH
