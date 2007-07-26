@@ -27,7 +27,7 @@ class OccPrimitiveBase
 	public:
 		OccPrimitiveBase(Handle(AIS_InteractiveContext) ais_context) {ais_context_ = ais_context;}
 
-		virtual ~OccPrimitiveBase() { /*Erase();*/  /*@TODO need to uncomment Erase(); so that AIS interactive objects are not displayed after this oject no longer exits*/ }
+		virtual ~OccPrimitiveBase() { Erase();  }
 
 		virtual void Display();
 

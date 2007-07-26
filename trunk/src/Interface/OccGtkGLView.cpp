@@ -37,6 +37,8 @@ email                : |sharjith_ssn@hotmail.com|
 #include <gdk/gdkx.h>
 #endif
 
+#include "../OpenCascadeBinding/OccPrimitives.h"
+
 // for elastic bean selection
 #define ValZWMin 1
 
@@ -840,3 +842,46 @@ void OccGtkGLView::SelectionChanged()
     gtk_widget_set_sensitive(GTK_WIDGET(menuitem), (gboolean)numSel);
 }
 
+
+void OccGtkGLView::GenerateTestSketch()
+{
+	VectorPointer normal( new Vector(0.0,0.0,1.0));
+	VectorPointer up( new Vector(0.0,1.0,0.0));
+	PointPointer base( new Point(0.0,0.0,0.0));
+
+	SketchPlanePointer my_sketch_plane(new SketchPlane(normal, up, base) );
+
+	Point2DPointer point1(new OccPoint2D(myContext,0.0,0.0,my_sketch_plane,false,false));  // none of the dof's can vary
+	Point2DPointer point2(new OccPoint2D(myContext,10.0,0.0,my_sketch_plane,true,false));  // only x dof can vary
+	Point2DPointer point3(new OccPoint2D(myContext,10.0,10.0,my_sketch_plane,true,true));  // x and y dof's can vary
+	Point2DPointer point4(new OccPoint2D(myContext,0.0,10.0,my_sketch_plane,true,true));  // x and y dof's can vary	
+
+	Line2DPointer line1(new OccLine2D(myContext,point1,point2,my_sketch_plane));
+	Line2DPointer line2(new OccLine2D(myContext,point2,point3,my_sketch_plane));
+	Line2DPointer line3(new OccLine2D(myContext,point3,point4,my_sketch_plane));
+	Line2DPointer line4(new OccLine2D(myContext,point4,point1,my_sketch_plane));
+
+	// These 5 constraints will fully constrain the four free DOF's defined about
+	ConstraintEquationBasePointer constraint1(new OccDistancePoint2D(myContext,point1,point2,6.0));
+	ConstraintEquationBasePointer constraint2(new OccDistancePoint2D(myContext,point2,point3,12.0));
+	ConstraintEquationBasePointer constraint3(new OccParallelLine2D(myContext,line1,line3));
+	ConstraintEquationBasePointer constraint4(new OccParallelLine2D(myContext,line2,line4));
+	ConstraintEquationBasePointer constraint5(new OccAngleLine2D(myContext,line1,line2,mmcPI/2.0));
+	
+	// Add the primitives to the 3d model object
+	ark3d_model_.AddPrimitive(point1);
+	ark3d_model_.AddPrimitive(point2);
+	ark3d_model_.AddPrimitive(point3);
+	ark3d_model_.AddPrimitive(point4);
+	ark3d_model_.AddPrimitive(line1);
+	ark3d_model_.AddPrimitive(line2);
+	ark3d_model_.AddPrimitive(line3);
+	ark3d_model_.AddPrimitive(line4);
+
+	// Add the constraints to the 3d model object
+	ark3d_model_.AddConstraintEquation(constraint1);
+	ark3d_model_.AddConstraintEquation(constraint2);
+	ark3d_model_.AddConstraintEquation(constraint3);
+	ark3d_model_.AddConstraintEquation(constraint4);
+	ark3d_model_.AddConstraintEquation(constraint5);
+}

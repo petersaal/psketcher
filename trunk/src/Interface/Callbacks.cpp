@@ -222,11 +222,23 @@ on_make_bottle_activate                (GtkMenuItem     *menuitem,
     theViewer->ShowWaitCursor( false );
 }
 
+
+
 void
-on_test_constraint_solver1_activate                (GtkMenuItem     *menuitem,
-                                        gpointer         user_data)
+on_gen_sketch_toolbutton_clicked (GtkButton *button,
+                                            gpointer user_data)
 {
-	constraint_solver_test_2(theViewer->getContext());
+	theViewer->GenerateTestSketch();
+	theViewer->Refresh();
+	theViewer->FitAll();
+}
+
+void
+on_solve_toolbutton_clicked (GtkButton *button,
+                                            gpointer user_data)
+{
+	theViewer->SolveConstraints();
+	theViewer->Refresh();
 }
 
     void
