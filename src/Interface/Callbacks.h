@@ -68,8 +68,12 @@ on_make_bottle_activate                (GtkMenuItem     *menuitem,
                                         gpointer         user_data);
 
 void
-on_test_constraint_solver1_activate    (GtkMenuItem     *menuitem,
-                                        gpointer         user_data);
+on_gen_sketch_toolbutton_clicked   (GtkButton *button,
+                                            gpointer user_data);
+
+void
+on_solve_toolbutton_clicked    (GtkButton *button,
+                                            gpointer user_data);
 
 void
 on_quit1_activate                      (GtkMenuItem     *menuitem,

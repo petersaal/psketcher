@@ -49,6 +49,8 @@ email                : |sharjith@gmail.com|
 #include <Aspect_Handle.hxx>
 #include <Handle_AIS_Trihedron.hxx>
 
+#include "../ConstraintSolver/Ark3DModel.h"
+
 /**
  *@author Sharjith
  */
@@ -189,6 +191,13 @@ public:
     void opencascade_realize (void);
     void opencascade_init    (void);
 
+
+		// methods that 
+		void SolveConstraints() {ark3d_model_.SolveConstraints();
+														 ark3d_model_.UpdateDisplay();}
+
+		void GenerateTestSketch();
+
 public:
     bool isInitialized(void)
     {
@@ -220,6 +229,8 @@ private:
     Handle(V3d_View)   myView;
     Handle(V3d_Viewer) myViewer;
     Handle(AIS_InteractiveContext) myContext;
+
+		Ark3DModel ark3d_model_;
 
     bool opencascade_inited;
 
