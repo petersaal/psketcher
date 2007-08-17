@@ -5,6 +5,7 @@ What you need installed
 ***********************
 
 cmake-2.4 (this is the build system used)
+gsl-1.9
 gtk+-2
 libglade-2
 gmodule-2
@@ -27,6 +28,7 @@ Here's an example of the build and run process on my machine
 
 export CASROOT=~/opencascade-6.2/ros
 export LD_LIBRARY_PATH=/opt/OpenCASCADE-6.2/lib
+export CSF_GraphicShr=/opt/OpenCASCADE-6.2/lib/libTKOpenGl.so
 cmake .
 make
 ./src/Interface/ark3d
