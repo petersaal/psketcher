@@ -267,4 +267,33 @@ class AngleLine2D : public ConstraintEquationBase
 };
 typedef boost::shared_ptr<AngleLine2D> AngleLine2DPointer;
 
+// Line2D class
+class Arc2D : public Primitive2DBase
+{
+	public:
+		Arc2D (double s_center, double t_center, double theta_1, double theta_2, double radius, SketchPlanePointer sketch_plane,
+               bool s_center_free = false, bool t_center_free = false, bool theta_1_free = false, bool theta_2_free = false, bool radius_free = false);
+
+		DOFPointer GetSCenter()const {return s_center_;}
+		DOFPointer GetTCenter()const {return t_center_;}
+
+		DOFPointer GetTheta1()const {return theta_1_;}
+		DOFPointer GetTheta2()const {return theta_2_;}
+
+		DOFPointer GetRadius()const {return radius_;}
+
+		void Get3DLocations(double & x_center, double & y_center, double & z_center, double & theta_1, double & theta_2);
+
+	private:
+		// parameters that define the arc
+		DOFPointer s_center_;
+		DOFPointer t_center_;
+
+		DOFPointer theta_1_;	// start angle
+		DOFPointer theta_2_;	// end angle
+
+		DOFPointer radius_;
+};
+typedef boost::shared_ptr<Arc2D> Arc2DPointer;
+
 #endif //PrimitivesH
