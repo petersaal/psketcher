@@ -305,3 +305,26 @@ angle_(angle)
 	constraints_.push_back(new_constraint);
 	weight_list_.push_back(1.0);
 }
+
+
+// create an arc
+Arc2D::Arc2D (double s_center, double t_center, double theta_1, double theta_2, double radius, SketchPlanePointer sketch_plane,
+			  bool s_center_free, bool t_center_free, bool theta_1_free, bool theta_2_free, bool radius_free):
+s_center_(new DOF(s_center,s_center_free)),
+t_center_(new DOF(t_center,t_center_free)),
+theta_1_(new DOF(theta_1,theta_1_free)),
+theta_2_(new DOF(theta_2,theta_2_free)),
+radius_(new DOF(radius,radius_free)),
+Primitive2DBase(sketch_plane)
+{
+	dof_list_.push_back(s_center_);
+	dof_list_.push_back(t_center_);
+	dof_list_.push_back(theta_1_);
+	dof_list_.push_back(theta_2_);
+	dof_list_.push_back(radius_);
+}
+
+void Arc2D::Get3DLocations(double & x_center, double & y_center, double & z_center, double & theta_1, double & theta_2)
+{
+	sketch_plane_->Get3DLocation(s_center_->GetValue(), t_center_->GetValue(), x_center, y_center, z_center);
+}

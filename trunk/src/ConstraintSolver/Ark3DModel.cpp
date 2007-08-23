@@ -54,7 +54,7 @@ void Ark3DModel::AddPrimitives(const std::vector<PrimitiveBasePointer> &new_prim
 // This method solves the system of constraint equations for this model
 void Ark3DModel::SolveConstraints()
 {
-	// only procedd if constraint equations exist
+	// only procedd if at least one constraint equation exists
 	if(constraint_equation_list_.size() > 0)
 	{
 		unsigned int num_free_values;
