@@ -861,6 +861,8 @@ void OccGtkGLView::GenerateTestSketch()
 	Line2DPointer line3(new OccLine2D(myContext,point3,point4,my_sketch_plane));
 	Line2DPointer line4(new OccLine2D(myContext,point4,point1,my_sketch_plane));
 
+	Arc2DPointer arc1(new OccArc2D(myContext,0.0,0.0,0.0,3.14,10.0,my_sketch_plane));
+
 	// These 5 constraints will fully constrain the four free DOF's defined about
 	ConstraintEquationBasePointer constraint1(new OccDistancePoint2D(myContext,point1,point2,6.0));
 	ConstraintEquationBasePointer constraint2(new OccDistancePoint2D(myContext,point2,point3,12.0));
@@ -877,6 +879,7 @@ void OccGtkGLView::GenerateTestSketch()
 	ark3d_model_.AddPrimitive(line2);
 	ark3d_model_.AddPrimitive(line3);
 	ark3d_model_.AddPrimitive(line4);
+	ark3d_model_.AddPrimitive(arc1);
 
 	// Add the constraints to the 3d model object
 	ark3d_model_.AddConstraintEquation(constraint1);

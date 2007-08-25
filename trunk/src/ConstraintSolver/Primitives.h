@@ -93,7 +93,10 @@ class SketchPlane : public PrimitiveBase
 		SketchPlane ( VectorPointer normal, VectorPointer up, PointPointer base);
 		void Get3DLocation ( double s, double t, double & x, double & y, double & z);
 		void GetABCD ( double & coef_a, double & coef_b, double & coef_c, double & coef_d);
-
+		
+		VectorPointer GetNormal() {return normal_;}
+		VectorPointer GetUp() {return up_;}
+		PointPointer GetBase() {return base_;}
 	private:
 		VectorPointer normal_;
 		VectorPointer up_;
@@ -282,7 +285,7 @@ class Arc2D : public Primitive2DBase
 
 		DOFPointer GetRadius()const {return radius_;}
 
-		void Get3DLocations(double & x_center, double & y_center, double & z_center, double & theta_1, double & theta_2);
+		void Get3DLocations(double & x_center, double & y_center, double & z_center);
 
 	private:
 		// parameters that define the arc

@@ -324,7 +324,7 @@ Primitive2DBase(sketch_plane)
 	dof_list_.push_back(radius_);
 }
 
-void Arc2D::Get3DLocations(double & x_center, double & y_center, double & z_center, double & theta_1, double & theta_2)
+void Arc2D::Get3DLocations(double & x_center, double & y_center, double & z_center)
 {
 	sketch_plane_->Get3DLocation(s_center_->GetValue(), t_center_->GetValue(), x_center, y_center, z_center);
 }

@@ -306,3 +306,47 @@ void OccAngleLine2D::GenerateAISObject()
 }
 
 
+OccArc2D::OccArc2D (Handle(AIS_InteractiveContext) ais_context, double s_center, double t_center, double theta_1, double theta_2, double radius, 
+					SketchPlanePointer sketch_plane, bool s_center_free, bool t_center_free, bool theta_1_free, bool theta_2_free, 
+					bool radius_free):
+OccPrimitiveBase(ais_context),
+Arc2D(s_center,t_center,theta_1,theta_2,radius,sketch_plane, s_center_free, t_center_free, theta_1_free, theta_2_free,radius_free)
+{
+	GenerateAISObject();
+
+	// Display the newly create ais_object
+	Display();
+}
+
+void OccArc2D::GenerateAISObject()
+{
+	// get the axis that define the plane of the circle (i_vector (x-axis), j_vector (y-axis), and normal_vector (z-axis))
+	mmcMatrix j_vector = sketch_plane_->GetUp()->GetmmcMatrix();  // t axis direction vector in sketch plane
+	mmcMatrix normal_vector = sketch_plane_->GetNormal()->GetmmcMatrix();
+	mmcMatrix i_vector = j_vector.CrossProduct(normal_vector); // s axis direction vector in sketch plane
+
+	// get the center coordinates for the circle
+	double x_center,y_center,z_center;
+	Get3DLocations(x_center, y_center, z_center);
+
+	gp_Dir Zaxis(normal_vector(0,0),normal_vector(1,0),normal_vector(2,0));
+	gp_Dir XvAxis(i_vector(0,0),i_vector(1,0),i_vector(2,0));
+	gp_Pnt Origin(x_center,y_center,z_center);
+	gp_Ax2 Csys(Origin,Zaxis,XvAxis);
+	Handle(Geom_Circle) Circ = new Geom_Circle(Csys,GetRadius()->GetValue());
+	ais_object_ = new AIS_Circle(Circ,GetTheta1()->GetValue(),GetTheta2()->GetValue(),Standard_True);
+}
+
+void OccArc2D::UpdateDisplay()
+{
+	// first, erase the pervious AIS_ParallelRelation from the display because we'll have to recreate it
+	Erase();
+	
+	GenerateAISObject();
+
+	Display();
+
+	OccPrimitiveBase::UpdateDisplay();
+}
+
+
