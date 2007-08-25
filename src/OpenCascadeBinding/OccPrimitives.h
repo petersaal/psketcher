@@ -6,12 +6,14 @@
 #include <AIS_InteractiveObject.hxx>
 #include <AIS_Point.hxx>
 #include <AIS_Line.hxx>
+#include <AIS_Circle.hxx>
 #include <AIS_Relation.hxx>
 #include <AIS_ParallelRelation.hxx>
 #include <AIS_LengthDimension.hxx>
 #include <AIS_AngleDimension.hxx>
 #include <Geom_CartesianPoint.hxx>
 #include <Geom_Plane.hxx>
+#include <Geom_Circle.hxx>
 #include <gp_Pnt.hxx>
 
 #include <TopoDS_Vertex.hxx>
@@ -101,6 +103,25 @@ class OccLine2D : public OccPrimitiveBase, public Line2D
 	private:
 		Handle(Geom_CartesianPoint) oc_point1_;
 		Handle(Geom_CartesianPoint) oc_point2_;
+};
+typedef boost::shared_ptr<OccLine2D> OccLine2DPointer;
+
+// line class
+class OccArc2D : public OccPrimitiveBase, public Arc2D
+{
+	public:
+		OccArc2D (Handle(AIS_InteractiveContext) ais_context, double s_center, double t_center, double theta_1, double theta_2, double radius, 
+			      SketchPlanePointer sketch_plane, bool s_center_free = false, bool t_center_free = false, bool theta_1_free = false, bool theta_2_free = false, 
+			      bool radius_free = false);
+
+		void Display() {return OccPrimitiveBase::Display();}
+
+		void UpdateDisplay();
+
+		void GenerateAISObject();
+
+	private:
+
 };
 typedef boost::shared_ptr<OccLine2D> OccLine2DPointer;
 
