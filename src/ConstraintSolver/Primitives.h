@@ -1,35 +1,52 @@
 #ifndef PrimitivesH
 #define PrimitivesH
 
-
 #include <vector>
 #include <boost/shared_ptr.hpp>
 #include <ginac/ginac.h>
 
 #include "../mmcMatrix/mmcMatrix.h"
 
-// dof class
+// Abstract DOF base class
 class DOF
 {
 	public:
-		DOF ( double value = 0.0, bool free = false );
-		DOF ( const char *name, double value = 0.0, bool free = false );
+		DOF (bool free, bool dependent){free_ = free; dependent_ = dependent;}
+		DOF ( const char *name, bool free, bool dependent){free_ = free; dependent_ = dependent; variable_.set_name(name);}
+
+		virtual ~DOF() {;}
+
+		//Accessor methods
+		virtual void SetValue ( double value ) = 0;
+		virtual double GetValue()const = 0;
+
+		const GiNaC::symbol & GetVariable()const {return variable_ ;}
+		bool IsFree()const {return free_;}
+
+		bool IsDependent()const {return dependent_;}
+
+	private:
+		GiNaC::symbol variable_;
+		bool free_;
+		bool dependent_;
+};
+typedef boost::shared_ptr<DOF> DOFPointer;
+
+// IndependentDOF class
+class IndependentDOF : public DOF
+{
+	public:
+		IndependentDOF ( double value = 0.0, bool free = false );
+		IndependentDOF ( const char *name, double value = 0.0, bool free = false );
 
 		//Accessor methods
 		void SetValue ( double value ) {value_ = value;}
 		double GetValue()const {return value_;}
 
-		const GiNaC::symbol & GetVariable()const {return variable_ ;}
-		bool IsFree()const {return free_;}
-
 	private:
-		GiNaC::symbol variable_;
-		bool free_;
 		double value_;
-		int reference_counter_;
 };
-
-typedef boost::shared_ptr<DOF> DOFPointer;
+typedef boost::shared_ptr<IndependentDOF> IndependentDOFPointer;
 
 
 /* Now will define the merit function derived class used in the template matching */

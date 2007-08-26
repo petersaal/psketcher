@@ -3,25 +3,23 @@
 using namespace std;
 using namespace GiNaC;
 
-DOF :: DOF(double value, bool free)
+IndependentDOF ::IndependentDOF ( double value, bool free):
+DOF(free,false)
 {
-	free_ = free;
-	value_ = value;
-
+	value_=value;
 }
 
-DOF :: DOF(const char *name, double value, bool free)
+IndependentDOF :: IndependentDOF ( const char *name, double value, bool free):
+DOF(name,free,false)
 {
-	free_ = free;
-	variable_.set_name(name);
 	value_ = value;
 }
 
 
 Point :: Point ( double x, double y, double z, bool x_free, bool y_free, bool z_free):
-x_(new DOF(x,x_free)),
-y_(new DOF(y,y_free)),
-z_(new DOF(z,z_free))
+x_(new IndependentDOF(x,x_free)),
+y_(new IndependentDOF(y,y_free)),
+z_(new IndependentDOF(z,z_free))
 {
 	dof_list_.push_back(x_);
 	dof_list_.push_back(y_);
@@ -29,8 +27,8 @@ z_(new DOF(z,z_free))
 }
 
 Point2D :: Point2D ( double s, double t, SketchPlanePointer sketch_plane, bool s_free, bool t_free):
-s_(new DOF(s,s_free)),
-t_(new DOF(t,t_free)),
+s_(new IndependentDOF(s,s_free)),
+t_(new IndependentDOF(t,t_free)),
 Primitive2DBase(sketch_plane)
 {
 	dof_list_.push_back(s_);
@@ -85,7 +83,7 @@ void Line2D :: Get3DLocations(double & x1, double & y1, double & z1,
 DistancePoint::DistancePoint(const PointPointer point1, const PointPointer point2, double distance)
 {
 	// Create a DOF for the distance parameter
-	DOFPointer new_dof(new DOF(distance,false));
+	DOFPointer new_dof(new IndependentDOF(distance,false));
 	
 	dof_list_.push_back(new_dof);
 
@@ -108,7 +106,7 @@ point2_(point2),
 distance_(distance)
 {
 	// Create a DOF for the distance parameter
-	DOFPointer new_dof(new DOF(distance,false));
+	DOFPointer new_dof(new IndependentDOF(distance,false));
 	
 	dof_list_.push_back(new_dof);
 
@@ -263,9 +261,9 @@ mmcMatrix Point::GetmmcMatrix()
 }
 
 Vector :: Vector ( double x, double y, double z, bool x_free, bool y_free, bool z_free):
-x_(new DOF(x,x_free)),
-y_(new DOF(y,y_free)),
-z_(new DOF(z,z_free))
+x_(new IndependentDOF(x,x_free)),
+y_(new IndependentDOF(y,y_free)),
+z_(new IndependentDOF(z,z_free))
 {
 	dof_list_.push_back(x_);
 	dof_list_.push_back(y_);
@@ -281,7 +279,7 @@ line2_(line2),
 angle_(angle)
 {
 	// Create a DOF for the angle parameter
-	DOFPointer new_dof(new DOF(angle_,false));
+	DOFPointer new_dof(new IndependentDOF(angle_,false));
 	
 	dof_list_.push_back(new_dof);
 
@@ -310,11 +308,11 @@ angle_(angle)
 // create an arc
 Arc2D::Arc2D (double s_center, double t_center, double theta_1, double theta_2, double radius, SketchPlanePointer sketch_plane,
 			  bool s_center_free, bool t_center_free, bool theta_1_free, bool theta_2_free, bool radius_free):
-s_center_(new DOF(s_center,s_center_free)),
-t_center_(new DOF(t_center,t_center_free)),
-theta_1_(new DOF(theta_1,theta_1_free)),
-theta_2_(new DOF(theta_2,theta_2_free)),
-radius_(new DOF(radius,radius_free)),
+s_center_(new IndependentDOF(s_center,s_center_free)),
+t_center_(new IndependentDOF(t_center,t_center_free)),
+theta_1_(new IndependentDOF(theta_1,theta_1_free)),
+theta_2_(new IndependentDOF(theta_2,theta_2_free)),
+radius_(new IndependentDOF(radius,radius_free)),
 Primitive2DBase(sketch_plane)
 {
 	dof_list_.push_back(s_center_);
