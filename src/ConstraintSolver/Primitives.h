@@ -7,6 +7,9 @@
 
 #include "../mmcMatrix/mmcMatrix.h"
 
+//Exception class
+class PrimitiveException{};
+
 // Abstract DOF base class
 class DOF
 {
@@ -19,6 +22,8 @@ class DOF
 		//Accessor methods
 		virtual void SetValue ( double value ) = 0;
 		virtual double GetValue()const = 0;
+		virtual GiNaC::ex GetExpression()const {return variable_;}
+
 
 		const GiNaC::symbol & GetVariable()const {return variable_ ;}
 		bool IsFree()const {return free_;}
@@ -48,6 +53,25 @@ class IndependentDOF : public DOF
 };
 typedef boost::shared_ptr<IndependentDOF> IndependentDOFPointer;
 
+// DependentDOF class
+class DependentDOF : public DOF
+{
+	public:
+		DependentDOF ( double expression, std::vector<DOFPointer> source_dof_list);
+		DependentDOF ( const char *name, double expression, std::vector<DOFPointer> source_dof_list);
+
+		~DependentDOF () {source_dof_list_.clear();}
+		
+		//Accessor methods
+		void SetValue ( double value ) { /* @fixme warn user about an attempt to modify a dependent DOF */;}
+		double GetValue()const;
+		GiNaC::ex GetExpression()const;
+
+	private:
+		GiNaC::ex expression_;
+		std::vector<DOFPointer> source_dof_list_;
+};
+typedef boost::shared_ptr<DependentDOF> DependentDOFPointer;
 
 /* Now will define the merit function derived class used in the template matching */
 class PrimitiveBase
