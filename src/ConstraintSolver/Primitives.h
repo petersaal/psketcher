@@ -330,7 +330,7 @@ class Arc2D : public Primitive2DBase
 		Point2DPointer GetPoint1();
 		Point2DPointer GetPoint2();
 	
-	private:
+	protected:
 		// parameters that define the arc
 		DOFPointer s_center_;
 		DOFPointer t_center_;

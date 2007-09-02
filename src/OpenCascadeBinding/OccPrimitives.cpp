@@ -334,7 +334,48 @@ void OccArc2D::GenerateAISObject()
 	gp_Pnt Origin(x_center,y_center,z_center);
 	gp_Ax2 Csys(Origin,Zaxis,XvAxis);
 	Handle(Geom_Circle) Circ = new Geom_Circle(Csys,GetRadius()->GetValue());
-	ais_object_ = new AIS_Circle(Circ,GetTheta1()->GetValue(),GetTheta2()->GetValue(),Standard_True);
+	
+	// create the AIS multiple connected object so that mutliple AIS objects can be grouped together	
+	Handle(AIS_MultipleConnectedInteractive) ais_multiple_object = new AIS_MultipleConnectedInteractive();
+
+	// create the arc AIS object
+	ais_multiple_object->Connect(new AIS_Circle(Circ,GetTheta1()->GetValue(),GetTheta2()->GetValue(),Standard_True));
+
+	// create the radius dimension
+	// Only display the radius if it is not a free parameter
+	// If it is a free parameter, it is not really a constraint and should not be displayed as such
+	if( ! radius_->IsFree())
+	{
+		// create TopoDS object to attach radius dimension to
+		TopoDS_Edge oc_arc = BRepBuilderAPI_MakeEdge(Circ,GetTheta1()->GetValue(),GetTheta2()->GetValue());
+
+		// create the radius dimension interactive object
+		ais_multiple_object->Connect(new AIS_RadiusDimension(oc_arc,radius_->GetValue(),radius_->GetValue()));
+	}
+
+	// create the end point AIS objects and the center point AIS object
+	// endpoint 1
+	double x_location, y_location, z_location;
+	sketch_plane_->Get3DLocation(s_center_->GetValue()+radius_->GetValue()*cos(theta_1_->GetValue()),
+								 t_center_->GetValue()+radius_->GetValue()*sin(theta_1_->GetValue()), x_location, y_location, z_location);
+	Handle(Geom_CartesianPoint) oc_point_1;
+	oc_point_1 = new Geom_CartesianPoint(x_location, y_location, z_location);
+	ais_multiple_object->Connect(new AIS_Point(oc_point_1));
+	
+	// endpoint 2
+	sketch_plane_->Get3DLocation(s_center_->GetValue()+radius_->GetValue()*cos(theta_2_->GetValue()),
+								 t_center_->GetValue()+radius_->GetValue()*sin(theta_2_->GetValue()), x_location, y_location, z_location);
+	Handle(Geom_CartesianPoint) oc_point_2;
+	oc_point_2 = new Geom_CartesianPoint(x_location, y_location, z_location);
+	ais_multiple_object->Connect(new AIS_Point(oc_point_2));
+
+	// center point
+	sketch_plane_->Get3DLocation(s_center_->GetValue(),t_center_->GetValue(), x_location, y_location, z_location);
+	Handle(Geom_CartesianPoint) oc_point_center;
+	oc_point_center = new Geom_CartesianPoint(x_location, y_location, z_location);
+	ais_multiple_object->Connect(new AIS_Point(oc_point_center));
+
+	ais_object_ = ais_multiple_object;
 }
 
 void OccArc2D::UpdateDisplay()

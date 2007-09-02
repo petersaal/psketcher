@@ -11,6 +11,8 @@
 #include <AIS_ParallelRelation.hxx>
 #include <AIS_LengthDimension.hxx>
 #include <AIS_AngleDimension.hxx>
+#include <AIS_MultipleConnectedInteractive.hxx>
+#include <AIS_RadiusDimension.hxx>
 #include <Geom_CartesianPoint.hxx>
 #include <Geom_Plane.hxx>
 #include <Geom_Circle.hxx>
