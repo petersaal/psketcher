@@ -854,14 +854,13 @@ void OccGtkGLView::GenerateTestSketch()
 	Point2DPointer point1(new OccPoint2D(myContext,0.0,0.0,my_sketch_plane,false,false));  // none of the dof's can vary
 	Point2DPointer point2(new OccPoint2D(myContext,10.0,0.0,my_sketch_plane,true,false));  // only x dof can vary
 	Point2DPointer point3(new OccPoint2D(myContext,10.0,10.0,my_sketch_plane,true,true));  // x and y dof's can vary
-	Point2DPointer point4(new OccPoint2D(myContext,0.0,10.0,my_sketch_plane,true,true));  // x and y dof's can vary	
+
+	Arc2DPointer arc1(new OccArc2D(myContext,1.5,6.0,mmcPI/2.0,mmcPI,2.0,my_sketch_plane,true,true,false,false,false));
 
 	Line2DPointer line1(new OccLine2D(myContext,point1,point2,my_sketch_plane));
 	Line2DPointer line2(new OccLine2D(myContext,point2,point3,my_sketch_plane));
-	Line2DPointer line3(new OccLine2D(myContext,point3,point4,my_sketch_plane));
-	Line2DPointer line4(new OccLine2D(myContext,point4,point1,my_sketch_plane));
-
-	Arc2DPointer arc1(new OccArc2D(myContext,0.0,0.0,0.0,3.14,10.0,my_sketch_plane,true,true,true,true,false));
+	Line2DPointer line3(new OccLine2D(myContext,point3,arc1->GetPoint1(),my_sketch_plane));
+	Line2DPointer line4(new OccLine2D(myContext,arc1->GetPoint2(),point1,my_sketch_plane));
 
 	// These 5 constraints will fully constrain the four free DOF's defined about
 	ConstraintEquationBasePointer constraint1(new OccDistancePoint2D(myContext,point1,point2,6.0));
@@ -874,7 +873,6 @@ void OccGtkGLView::GenerateTestSketch()
 	ark3d_model_.AddPrimitive(point1);
 	ark3d_model_.AddPrimitive(point2);
 	ark3d_model_.AddPrimitive(point3);
-	ark3d_model_.AddPrimitive(point4);
 	ark3d_model_.AddPrimitive(line1);
 	ark3d_model_.AddPrimitive(line2);
 	ark3d_model_.AddPrimitive(line3);

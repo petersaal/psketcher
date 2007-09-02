@@ -57,8 +57,8 @@ typedef boost::shared_ptr<IndependentDOF> IndependentDOFPointer;
 class DependentDOF : public DOF
 {
 	public:
-		DependentDOF ( double expression, std::vector<DOFPointer> source_dof_list);
-		DependentDOF ( const char *name, double expression, std::vector<DOFPointer> source_dof_list);
+		DependentDOF ( GiNaC::ex expression, std::vector<DOFPointer> source_dof_list);
+		DependentDOF ( const char *name, GiNaC::ex expression, std::vector<DOFPointer> source_dof_list);
 
 		~DependentDOF () {source_dof_list_.clear();}
 		
@@ -327,6 +327,9 @@ class Arc2D : public Primitive2DBase
 
 		void Get3DLocations(double & x_center, double & y_center, double & z_center);
 
+		Point2DPointer GetPoint1();
+		Point2DPointer GetPoint2();
+	
 	private:
 		// parameters that define the arc
 		DOFPointer s_center_;
