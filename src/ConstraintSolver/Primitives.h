@@ -244,10 +244,9 @@ class ConstraintEquationBase
 		std::vector< boost::shared_ptr<GiNaC::ex> > constraints_; 
 
 		// this vector stores the weights for the constraints
-		std::vector< double > weight_list_; 
+		std::vector< double > weight_list_;
 
 		std::vector<DOFPointer> dof_list_;
-
 };
 typedef boost::shared_ptr<ConstraintEquationBase> ConstraintEquationBasePointer;
 
