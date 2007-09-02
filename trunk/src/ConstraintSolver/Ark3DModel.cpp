@@ -78,6 +78,19 @@ void Ark3DModel::SolveConstraints()
 				}
 		}
 	
+		// For each dependent DOF, substitute its defining expression into all of the constraint equations that reference it
+		for(unsigned int current_dof = 0; current_dof < dof_list_.size(); current_dof++)
+		{
+			if(dof_list_[current_dof]->IsDependent())
+			{
+				// loop over each constraint equation and substitute the dependent DOF
+				for(unsigned int current_equation = 0; current_equation < constraints.size(); current_equation++)
+				{
+					constraints[current_equation] = constraints[current_equation].subs(dof_list_[current_dof]->GetVariable() == dof_list_[current_dof]->GetExpression(),GiNaC::subs_options::no_pattern);
+				}
+			}
+		}
+
 		// create the free parameters, free_values, fixed_parameters, and fixed_values lists
 		std::vector<GiNaC::symbol> free_parameters;
 		std::vector<DOFPointer> free_dof_list;   // This vector will be used to update the DOF's after solving the constraint equations
@@ -88,11 +101,12 @@ void Ark3DModel::SolveConstraints()
 		for(unsigned int current_dof = 0; current_dof < dof_list_.size(); current_dof++)
 		{
 			if(dof_list_[current_dof]->IsFree())
-			{
+			{	// free parameter
 				free_parameters.push_back(dof_list_[current_dof]->GetVariable());
 				free_dof_list.push_back(dof_list_[current_dof]);
 				free_values.push_back(dof_list_[current_dof]->GetValue());
-			} else {
+			} else if( ! dof_list_[current_dof]->IsDependent()) 
+			{	// fixed, independent parameter
 				fixed_parameters.push_back(dof_list_[current_dof]->GetVariable());
 				fixed_values.push_back(dof_list_[current_dof]->GetValue());
 			}
