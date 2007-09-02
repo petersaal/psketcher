@@ -15,7 +15,7 @@ DOF(name,free,false /*dependent*/)
 	value_ = value;
 }
 
-DependentDOF :: DependentDOF (double expression, std::vector<DOFPointer> source_dof_list):
+DependentDOF :: DependentDOF (ex expression, std::vector<DOFPointer> source_dof_list):
 DOF(false /*free*/,true /*dependent*/)
 {
 	// @fixme Need to make sure that all DOF's in expression are included in the DOF list
@@ -23,7 +23,7 @@ DOF(false /*free*/,true /*dependent*/)
 	source_dof_list_ = source_dof_list;
 }
 
-DependentDOF :: DependentDOF ( const char *name, double expression, std::vector<DOFPointer> source_dof_list):
+DependentDOF :: DependentDOF ( const char *name, ex expression, std::vector<DOFPointer> source_dof_list):
 DOF(name,false /*free*/,true /*dependent*/)
 {
 	// @fixme Need to make sure that all DOF's in expression are included in the DOF list
@@ -86,6 +86,15 @@ z_(new IndependentDOF(z,z_free))
 Point2D :: Point2D ( double s, double t, SketchPlanePointer sketch_plane, bool s_free, bool t_free):
 s_(new IndependentDOF(s,s_free)),
 t_(new IndependentDOF(t,t_free)),
+Primitive2DBase(sketch_plane)
+{
+	dof_list_.push_back(s_);
+	dof_list_.push_back(t_);
+}
+
+Point2D :: Point2D ( DOFPointer s, DOFPointer t, SketchPlanePointer sketch_plane):
+s_(s),
+t_(t),
 Primitive2DBase(sketch_plane)
 {
 	dof_list_.push_back(s_);
@@ -382,4 +391,60 @@ Primitive2DBase(sketch_plane)
 void Arc2D::Get3DLocations(double & x_center, double & y_center, double & z_center)
 {
 	sketch_plane_->Get3DLocation(s_center_->GetValue(), t_center_->GetValue(), x_center, y_center, z_center);
+}
+
+// Return a point that will follow the first endpoint of the arc
+// This point will use dependent DOF's to define its location
+Point2DPointer Arc2D::GetPoint1()
+{
+	// Create expressions defining s and t coordinates of the first endpoint of the arc
+	ex s_1 = s_center_->GetVariable() + radius_->GetVariable()*cos(theta_1_->GetVariable());
+	ex t_1 = t_center_->GetVariable() + radius_->GetVariable()*sin(theta_1_->GetVariable());
+
+	// create DOF lists for each DOF
+	std::vector <DOFPointer> s_1_dof_list;
+	s_1_dof_list.push_back(s_center_);
+	s_1_dof_list.push_back(radius_);
+	s_1_dof_list.push_back(theta_1_);
+
+	std::vector <DOFPointer> t_1_dof_list;
+	t_1_dof_list.push_back(t_center_);
+	t_1_dof_list.push_back(radius_);
+	t_1_dof_list.push_back(theta_1_);
+
+	// create dependent DOF's based on the above expressions
+	DOFPointer s_dof(new DependentDOF(s_1, s_1_dof_list));
+	DOFPointer t_dof(new DependentDOF(t_1, t_1_dof_list));
+
+	// create the actual point object
+	Point2DPointer result(new Point2D(s_dof, t_dof, sketch_plane_));
+	return result;
+}
+
+// Return a point that will follow the second endpoint of the arc
+// This point will use dependent DOF's to define its location
+Point2DPointer Arc2D::GetPoint2()
+{
+	// Create expressions defining s and t coordinates of the second endpoint of the arc
+	ex s_2 = s_center_->GetVariable() + radius_->GetVariable()*cos(theta_2_->GetVariable());
+	ex t_2 = t_center_->GetVariable() + radius_->GetVariable()*sin(theta_2_->GetVariable());
+
+	// create DOF lists for each DOF
+	std::vector <DOFPointer> s_2_dof_list;
+	s_2_dof_list.push_back(s_center_);
+	s_2_dof_list.push_back(radius_);
+	s_2_dof_list.push_back(theta_2_);
+
+	std::vector <DOFPointer> t_2_dof_list;
+	t_2_dof_list.push_back(t_center_);
+	t_2_dof_list.push_back(radius_);
+	t_2_dof_list.push_back(theta_2_);
+
+	// create dependent DOF's based on the above expressions
+	DOFPointer s_dof(new DependentDOF(s_2, s_2_dof_list));
+	DOFPointer t_dof(new DependentDOF(t_2, t_2_dof_list));
+
+	// create the actual point object
+	Point2DPointer result(new Point2D(s_dof, t_dof, sketch_plane_));
+	return result;
 }
