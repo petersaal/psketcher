@@ -157,7 +157,6 @@ class Primitive2DBase : public PrimitiveBase
 };
 typedef boost::shared_ptr<Primitive2DBase> Primitive2DBasePointer;
 
-
 // Point2D class (a point constrained to a sketch plane)
 class Point2D : public Primitive2DBase
 {
@@ -175,6 +174,24 @@ class Point2D : public Primitive2DBase
 		DOFPointer t_;
 };
 typedef boost::shared_ptr<Point2D> Point2DPointer;
+
+// Abstract base class for 2D edges
+enum EdgePointNumber {Point1, Point2};
+class Edge2DBase : public Primitive2DBase
+{
+	public:
+		Edge2DBase(SketchPlanePointer sketch_plane);
+		virtual ~Edge2DBase() {;}
+		
+		// virtual methods that must be implemented by child classes
+		virtual Point2DPointer GetPoint1() = 0;		// returns end point of edge (these may include dependentDOF's as is the case of the arc primitive)
+		virtual Point2DPointer GetPoint2() = 0;
+		virtual void GetTangent1(GiNaC::ex & s_component, GiNaC::ex & t_component) = 0;  // returns expression that defines tangent vector for each endpoint of the edge
+		virtual void GetTangent2(GiNaC::ex & s_component, GiNaC::ex & t_component) = 0;
+	protected:
+
+};
+typedef boost::shared_ptr<Edge2DBase> Edge2DBasePointer;
 
 // line class
 class Line : public PrimitiveBase
@@ -200,7 +217,7 @@ class Line : public PrimitiveBase
 typedef boost::shared_ptr<Line> LinePointer;
 
 // Line2D class
-class Line2D : public Primitive2DBase
+class Line2D : public Edge2DBase
 {
 	public:
 		Line2D (const Point2DPointer point1, const Point2DPointer point2, SketchPlanePointer sketch_plane);
@@ -213,6 +230,12 @@ class Line2D : public Primitive2DBase
 
 		void Get3DLocations(double & x1, double & y1, double & z1,
 												double & x2, double & y2, double & z2);
+
+		Point2DPointer GetPoint1();
+		Point2DPointer GetPoint2();
+
+		void GetTangent1(GiNaC::ex & s_component, GiNaC::ex & t_component);  // returns expression that defines tangent vector for each endpoint of the edge
+		void GetTangent2(GiNaC::ex & s_component, GiNaC::ex & t_component);
 
 	private:
 		DOFPointer s1_;
@@ -297,6 +320,17 @@ class ParallelLine2D : public ConstraintEquationBase
 };
 typedef boost::shared_ptr<ParallelLine2D> ParallelLine2DPointer;
 
+class TangentEdge2D : public ConstraintEquationBase
+{
+	public:
+		TangentEdge2D(const Edge2DBasePointer edge1, EdgePointNumber point_num_1, const Edge2DBasePointer edge2, EdgePointNumber point_num_2);
+
+	protected:
+		Edge2DBasePointer edge1_;
+		Edge2DBasePointer edge2_;
+};
+typedef boost::shared_ptr<TangentEdge2D> TangentEdge2DPointer;
+
 class AngleLine2D : public ConstraintEquationBase
 {
 	public:
@@ -311,7 +345,7 @@ class AngleLine2D : public ConstraintEquationBase
 typedef boost::shared_ptr<AngleLine2D> AngleLine2DPointer;
 
 // Line2D class
-class Arc2D : public Primitive2DBase
+class Arc2D : public Edge2DBase
 {
 	public:
 		Arc2D (double s_center, double t_center, double theta_1, double theta_2, double radius, SketchPlanePointer sketch_plane,
@@ -329,6 +363,9 @@ class Arc2D : public Primitive2DBase
 
 		Point2DPointer GetPoint1();
 		Point2DPointer GetPoint2();
+
+		void GetTangent1(GiNaC::ex & s_component, GiNaC::ex & t_component);  // returns expression that defines tangent vector for each endpoint of the edge
+		void GetTangent2(GiNaC::ex & s_component, GiNaC::ex & t_component);
 	
 	protected:
 		// parameters that define the arc

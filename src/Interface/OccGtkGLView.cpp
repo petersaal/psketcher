@@ -855,7 +855,7 @@ void OccGtkGLView::GenerateTestSketch()
 	Point2DPointer point2(new OccPoint2D(myContext,10.0,0.0,my_sketch_plane,true,false));  // only x dof can vary
 	Point2DPointer point3(new OccPoint2D(myContext,10.0,10.0,my_sketch_plane,true,true));  // x and y dof's can vary
 
-	Arc2DPointer arc1(new OccArc2D(myContext,1.5,6.0,mmcPI/2.0,mmcPI,2.0,my_sketch_plane,true,true,false,false,false));
+	Arc2DPointer arc1(new OccArc2D(myContext,1.5,6.0,(mmcPI/2.0)*.8,(mmcPI)*1.2,2.0,my_sketch_plane,true,true,true,true,false));
 
 	Line2DPointer line1(new OccLine2D(myContext,point1,point2,my_sketch_plane));
 	Line2DPointer line2(new OccLine2D(myContext,point2,point3,my_sketch_plane));
@@ -868,6 +868,9 @@ void OccGtkGLView::GenerateTestSketch()
 	ConstraintEquationBasePointer constraint3(new OccParallelLine2D(myContext,line1,line3));
 	ConstraintEquationBasePointer constraint4(new OccParallelLine2D(myContext,line2,line4));
 	ConstraintEquationBasePointer constraint5(new OccAngleLine2D(myContext,line1,line2,mmcPI/2.0));
+
+	ConstraintEquationBasePointer constraint6(new TangentEdge2D(line3,Point2,arc1,Point1));
+	ConstraintEquationBasePointer constraint7(new TangentEdge2D(line4,Point1,arc1,Point2));
 	
 	// Add the primitives to the 3d model object
 	ark3d_model_.AddPrimitive(point1);
@@ -885,4 +888,6 @@ void OccGtkGLView::GenerateTestSketch()
 	ark3d_model_.AddConstraintEquation(constraint3);
 	ark3d_model_.AddConstraintEquation(constraint4);
 	ark3d_model_.AddConstraintEquation(constraint5);
+	ark3d_model_.AddConstraintEquation(constraint6);
+	ark3d_model_.AddConstraintEquation(constraint7);
 }
