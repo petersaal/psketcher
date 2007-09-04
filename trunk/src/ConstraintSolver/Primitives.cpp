@@ -121,7 +121,7 @@ Line :: Line(const PointPointer point1, const PointPointer point2)
 }
 
 Line2D :: Line2D(const Point2DPointer point1, const Point2DPointer point2, SketchPlanePointer sketch_plane):
-Primitive2DBase(sketch_plane)
+Edge2DBase(sketch_plane)
 {
 	s1_ = point1->GetSDOF();
 	t1_ = point1->GetTDOF();
@@ -134,6 +134,36 @@ Primitive2DBase(sketch_plane)
 
 	dof_list_.push_back(s2_);
 	dof_list_.push_back(t2_);
+}
+
+Point2DPointer Line2D::GetPoint1()
+{
+	// create the actual point object
+	Point2DPointer result(new Point2D(GetS1(), GetT1(), GetSketchPlane()));
+	return result;
+}
+
+Point2DPointer Line2D::GetPoint2()
+{
+	// create the actual point object
+	Point2DPointer result(new Point2D(GetS2(), GetT2(), GetSketchPlane()));
+	return result;
+}
+
+void Line2D::GetTangent1(GiNaC::ex & s_component, GiNaC::ex & t_component)
+{
+	ex length = sqrt(pow(GetS1()->GetVariable()-GetS2()->GetVariable(),2)+pow(GetT1()->GetVariable()-GetT2()->GetVariable(),2));
+	
+	s_component = (GetS1()->GetVariable() - GetS2()->GetVariable())/length;
+	t_component = (GetT1()->GetVariable() - GetT2()->GetVariable())/length;
+}
+
+void Line2D::GetTangent2(GiNaC::ex & s_component, GiNaC::ex & t_component)
+{
+	ex length = sqrt(pow(GetS1()->GetVariable()-GetS2()->GetVariable(),2)+pow(GetT1()->GetVariable()-GetT2()->GetVariable(),2));
+	
+	s_component = (GetS2()->GetVariable() - GetS1()->GetVariable())/length;
+	t_component = (GetT2()->GetVariable() - GetT1()->GetVariable())/length;
 }
 
 // returns global coordinates of line end points
@@ -235,6 +265,42 @@ line2_(line2)
 	// Ideally, I would use abs() instead of pow() but abs is not differentiable. 
 	*new_constraint = pow((1/(line1_length*line2_length))*(line1_ds*line2_ds + line1_dt*line2_dt),2)-1;
 
+	constraints_.push_back(new_constraint);
+	weight_list_.push_back(1.0);
+}
+
+TangentEdge2D::TangentEdge2D(const Edge2DBasePointer edge1, EdgePointNumber point_num_1, const Edge2DBasePointer edge2, EdgePointNumber point_num_2):
+edge1_(edge1),
+edge2_(edge2)
+{
+	ex s_1, t_1, s_2, t_2;	// tangent vector for edge1 (s_1,t_1) and tangent vector for edge2 (s_2,t_2)
+
+	if(point_num_1 == Point1)
+	{	// use point1 of edge1
+		edge1->GetTangent1(s_1,t_1);
+	} else {
+		// use point2 of edge1
+		edge1->GetTangent2(s_1,t_1);
+	}
+
+	if(point_num_2 == Point1)
+	{
+		// use point1 of edge2
+		edge2->GetTangent1(s_2,t_2);
+	} else {
+		// use point2 of edge2
+		edge2->GetTangent2(s_2,t_2);
+	}
+
+	// create the expression object that will store the constraint
+	boost::shared_ptr<ex> new_constraint(new ex);
+
+	// Calculate the dot product between the two tangent vectors
+	// this expression will be zero when the lines are parallel
+	// Ideally, I would use abs() instead of pow() but abs is not differentiable. 
+	*new_constraint = pow((s_1*s_2 + t_1*t_2),2)-1;
+
+	// populate the lists
 	constraints_.push_back(new_constraint);
 	weight_list_.push_back(1.0);
 }
@@ -379,7 +445,7 @@ t_center_(new IndependentDOF(t_center,t_center_free)),
 theta_1_(new IndependentDOF(theta_1,theta_1_free)),
 theta_2_(new IndependentDOF(theta_2,theta_2_free)),
 radius_(new IndependentDOF(radius,radius_free)),
-Primitive2DBase(sketch_plane)
+Edge2DBase(sketch_plane)
 {
 	dof_list_.push_back(s_center_);
 	dof_list_.push_back(t_center_);
@@ -447,4 +513,21 @@ Point2DPointer Arc2D::GetPoint2()
 	// create the actual point object
 	Point2DPointer result(new Point2D(s_dof, t_dof, sketch_plane_));
 	return result;
+}
+
+void Arc2D::GetTangent1(GiNaC::ex & s_component, GiNaC::ex & t_component)
+{
+	s_component = sin(GetTheta1()->GetVariable());
+	t_component = -cos(GetTheta1()->GetVariable());
+}
+
+void Arc2D::GetTangent2(GiNaC::ex & s_component, GiNaC::ex & t_component)
+{
+	s_component = -sin(GetTheta2()->GetVariable());
+	t_component = cos(GetTheta2()->GetVariable());
+}
+
+Edge2DBase::Edge2DBase(SketchPlanePointer sketch_plane):
+Primitive2DBase(sketch_plane)
+{
 }
