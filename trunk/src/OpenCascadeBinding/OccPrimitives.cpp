@@ -14,7 +14,7 @@ Line(point1,point2)
 																			 GetY2()->GetValue(),
 																			 GetZ2()->GetValue());
 
-	ais_object_ = new AIS_Line(oc_point1_, oc_point2_);
+	ais_object_list_.push_back(new AIS_Line(oc_point1_, oc_point2_));
 
 	// Display the newly create ais_object
 	Display();
@@ -46,7 +46,7 @@ Line2D(point1, point2, sketch_plane)
 
 	oc_point2_ = new Geom_CartesianPoint(x2, y2, z2);
 
-	ais_object_ = new AIS_Line(oc_point1_, oc_point2_);
+	ais_object_list_.push_back(new AIS_Line(oc_point1_, oc_point2_));
 
 	// Display the newly create ais_object
 	Display();
@@ -74,7 +74,7 @@ Point(x,y,z,x_free,y_free,z_free)
 																			GetYDOF()->GetValue(),
 																			GetZDOF()->GetValue());
 
-	ais_object_ = new AIS_Point(oc_point_);
+	ais_object_list_.push_back(new AIS_Point(oc_point_));
 
 	// Display the newly create ais_object
 	Display();
@@ -100,7 +100,7 @@ Point2D(s,t,sketch_plane,s_free,t_free)
 	// create the ais interactive object that will represent the point
 	oc_point_ = new Geom_CartesianPoint(x_position, y_position, z_position);
 
-	ais_object_ = new AIS_Point(oc_point_);
+	ais_object_list_.push_back(new AIS_Point(oc_point_));
 
 	// Display the newly create ais_object
 	Display();
@@ -119,13 +119,29 @@ void OccPoint2D::UpdateDisplay()
 
 void OccPrimitiveBase::Display()
 {
-	ais_context_->Display(ais_object_, Standard_False);
+	for(unsigned int current_index = 0; current_index < ais_object_list_.size(); current_index++)
+	{
+		ais_context_->Display(ais_object_list_[current_index], Standard_False);
+	}
+}
+
+void OccPrimitiveBase::UpdateDisplay()
+{
+	for(unsigned int current_index = 0; current_index < ais_object_list_.size(); current_index++)
+	{
+		ais_object_list_[current_index]->Redisplay();
+	}
 }
 
 // Erase current ais_object from the ais_context
 void OccPrimitiveBase::Erase()
 {
-	ais_context_->Erase(ais_object_);
+	for(unsigned int current_index = 0; current_index < ais_object_list_.size(); current_index++)
+	{
+		ais_context_->Erase(ais_object_list_[current_index]);
+	}
+
+	ais_object_list_.clear();
 }
 
 OccParallelLine2D::OccParallelLine2D(Handle(AIS_InteractiveContext) ais_context, const Line2DPointer line1, const Line2DPointer line2):
@@ -186,7 +202,7 @@ void OccParallelLine2D::GenerateAISObject()
 	oc_plane_ = new Geom_Plane(coef_a, coef_b, coef_c, coef_d);
 
 	// create the interactive ais_object, this is what will actually be displayed
-	ais_object_ = new AIS_ParallelRelation(oc_shape1_,oc_shape2_,oc_plane_);
+	ais_object_list_.push_back(new AIS_ParallelRelation(oc_shape1_,oc_shape2_,oc_plane_));
 }
 
 
@@ -240,7 +256,7 @@ void OccDistancePoint2D::GenerateAISObject()
 	oc_plane_ = new Geom_Plane(coef_a, coef_b, coef_c, coef_d);
 
 	// create the interactive ais_object, this is what will actually be displayed
-	ais_object_ = new AIS_LengthDimension(oc_shape1_,oc_shape2_,oc_plane_,distance_,distance_);
+	ais_object_list_.push_back(new AIS_LengthDimension(oc_shape1_,oc_shape2_,oc_plane_,distance_,distance_));
 }
 
 
@@ -302,7 +318,7 @@ void OccAngleLine2D::GenerateAISObject()
 	oc_plane_ = new Geom_Plane(coef_a, coef_b, coef_c, coef_d);
 
 	// create the interactive ais_object, this is what will actually be displayed
-	ais_object_ = new AIS_AngleDimension(oc_shape1_,oc_shape2_,oc_plane_,-angle_*(180.0/mmcPI),angle_*(180.0/mmcPI));
+	ais_object_list_.push_back(new AIS_AngleDimension(oc_shape1_,oc_shape2_,oc_plane_,-angle_*(180.0/mmcPI),angle_*(180.0/mmcPI)));
 }
 
 
@@ -334,12 +350,9 @@ void OccArc2D::GenerateAISObject()
 	gp_Pnt Origin(x_center,y_center,z_center);
 	gp_Ax2 Csys(Origin,Zaxis,XvAxis);
 	Handle(Geom_Circle) Circ = new Geom_Circle(Csys,GetRadius()->GetValue());
-	
-	// create the AIS multiple connected object so that mutliple AIS objects can be grouped together	
-	Handle(AIS_MultipleConnectedInteractive) ais_multiple_object = new AIS_MultipleConnectedInteractive();
 
 	// create the arc AIS object
-	ais_multiple_object->Connect(new AIS_Circle(Circ,GetTheta1()->GetValue(),GetTheta2()->GetValue(),Standard_True));
+	ais_object_list_.push_back(new AIS_Circle(Circ,GetTheta1()->GetValue(),GetTheta2()->GetValue(),Standard_True));
 
 	// create the radius dimension
 	// Only display the radius if it is not a free parameter
@@ -350,7 +363,7 @@ void OccArc2D::GenerateAISObject()
 		TopoDS_Edge oc_arc = BRepBuilderAPI_MakeEdge(Circ,GetTheta1()->GetValue(),GetTheta2()->GetValue());
 
 		// create the radius dimension interactive object
-		ais_multiple_object->Connect(new AIS_RadiusDimension(oc_arc,radius_->GetValue(),radius_->GetValue()));
+		ais_object_list_.push_back(new AIS_RadiusDimension(oc_arc,radius_->GetValue(),radius_->GetValue()));
 	}
 
 	// create the end point AIS objects and the center point AIS object
@@ -360,22 +373,20 @@ void OccArc2D::GenerateAISObject()
 								 t_center_->GetValue()+radius_->GetValue()*sin(theta_1_->GetValue()), x_location, y_location, z_location);
 	Handle(Geom_CartesianPoint) oc_point_1;
 	oc_point_1 = new Geom_CartesianPoint(x_location, y_location, z_location);
-	ais_multiple_object->Connect(new AIS_Point(oc_point_1));
+	ais_object_list_.push_back(new AIS_Point(oc_point_1));
 	
 	// endpoint 2
 	sketch_plane_->Get3DLocation(s_center_->GetValue()+radius_->GetValue()*cos(theta_2_->GetValue()),
 								 t_center_->GetValue()+radius_->GetValue()*sin(theta_2_->GetValue()), x_location, y_location, z_location);
 	Handle(Geom_CartesianPoint) oc_point_2;
 	oc_point_2 = new Geom_CartesianPoint(x_location, y_location, z_location);
-	ais_multiple_object->Connect(new AIS_Point(oc_point_2));
+	ais_object_list_.push_back(new AIS_Point(oc_point_2));
 
 	// center point
 	sketch_plane_->Get3DLocation(s_center_->GetValue(),t_center_->GetValue(), x_location, y_location, z_location);
 	Handle(Geom_CartesianPoint) oc_point_center;
 	oc_point_center = new Geom_CartesianPoint(x_location, y_location, z_location);
-	ais_multiple_object->Connect(new AIS_Point(oc_point_center));
-
-	ais_object_ = ais_multiple_object;
+	ais_object_list_.push_back(new AIS_Point(oc_point_center));
 }
 
 void OccArc2D::UpdateDisplay()

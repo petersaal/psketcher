@@ -2,6 +2,7 @@
 #define OccPrimitivesH
 
 #include "../ConstraintSolver/Primitives.h"
+
 #include <AIS_InteractiveContext.hxx>
 #include <AIS_InteractiveObject.hxx>
 #include <AIS_Point.hxx>
@@ -13,6 +14,7 @@
 #include <AIS_AngleDimension.hxx>
 #include <AIS_MultipleConnectedInteractive.hxx>
 #include <AIS_RadiusDimension.hxx>
+
 #include <Geom_CartesianPoint.hxx>
 #include <Geom_Plane.hxx>
 #include <Geom_Circle.hxx>
@@ -30,19 +32,20 @@ class OccPrimitiveBase
 {
 	public:
 		OccPrimitiveBase(Handle(AIS_InteractiveContext) ais_context) {ais_context_ = ais_context;}
-
-		virtual ~OccPrimitiveBase() { Erase();  }
+		
+		// erase from the AIS_InteractiveContext and clear vector container
+		virtual ~OccPrimitiveBase() { Erase();}
 
 		virtual void Display();
 
 		void Erase();
 
 		// update coordinates of primitive
-		virtual void UpdateDisplay() {ais_object_->Redisplay();}
+		virtual void UpdateDisplay();
 
 	protected:
 		Handle(AIS_InteractiveContext) ais_context_;
-		Handle(AIS_InteractiveObject) ais_object_;
+		std::vector<Handle(AIS_InteractiveObject)> ais_object_list_;
 };
 
 // point class
