@@ -188,8 +188,10 @@ class Edge2DBase : public Primitive2DBase
 		virtual Point2DPointer GetPoint2() = 0;
 		virtual void GetTangent1(GiNaC::ex & s_component, GiNaC::ex & t_component) = 0;  // returns expression that defines tangent vector for each endpoint of the edge
 		virtual void GetTangent2(GiNaC::ex & s_component, GiNaC::ex & t_component) = 0;
-	protected:
 
+		// methods implemented by this base class
+		bool IsPointCoincident(EdgePointNumber my_point_number, boost::shared_ptr<Edge2DBase> other_edge, EdgePointNumber other_point_number);
+	protected:
 };
 typedef boost::shared_ptr<Edge2DBase> Edge2DBasePointer;
 
@@ -361,8 +363,11 @@ class Arc2D : public Edge2DBase
 
 		void Get3DLocations(double & x_center, double & y_center, double & z_center);
 
-		Point2DPointer GetPoint1();
-		Point2DPointer GetPoint2();
+		Point2DPointer GetPoint1(){return point1_;}
+		Point2DPointer GetPoint2(){return point2_;}
+
+		Point2DPointer GeneratePoint1();
+		Point2DPointer GeneratePoint2();
 
 		void GetTangent1(GiNaC::ex & s_component, GiNaC::ex & t_component);  // returns expression that defines tangent vector for each endpoint of the edge
 		void GetTangent2(GiNaC::ex & s_component, GiNaC::ex & t_component);
@@ -376,7 +381,30 @@ class Arc2D : public Edge2DBase
 		DOFPointer theta_2_;	// end angle
 
 		DOFPointer radius_;
+
+		// Points based on dependent DOF's that provide the location of the arc endpoints
+		// It is important that these points be maintained here so that Edge2DCBase point coincident checks can be performed by comparing DOF pointers
+		// If these points are generated for each call to GetPoint1() then, for every call to GetPoint*(), the pointers to the S and T DOF's will be unique
+		Point2DPointer point1_;
+		Point2DPointer point2_;
 };
 typedef boost::shared_ptr<Arc2D> Arc2DPointer;
+
+// 2D edge loop classs
+class EdgeLoop2D
+{
+	public:
+		// constructor and destructor
+		EdgeLoop2D(std::vector<Edge2DBasePointer> edge_list);
+		~EdgeLoop2D() {edge_list_.clear();}
+		
+		// utility methods
+		bool IsLoopValid();		// Check to insure that the loop is well defined
+
+	private:
+		std::vector<Edge2DBasePointer> edge_list_;
+};
+typedef boost::shared_ptr<EdgeLoop2D> EdgeLoop2DPointer;
+
 
 #endif //PrimitivesH

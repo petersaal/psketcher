@@ -452,6 +452,9 @@ Edge2DBase(sketch_plane)
 	dof_list_.push_back(theta_1_);
 	dof_list_.push_back(theta_2_);
 	dof_list_.push_back(radius_);
+
+	point1_ = GeneratePoint1();
+	point2_ = GeneratePoint2();
 }
 
 void Arc2D::Get3DLocations(double & x_center, double & y_center, double & z_center)
@@ -461,7 +464,7 @@ void Arc2D::Get3DLocations(double & x_center, double & y_center, double & z_cent
 
 // Return a point that will follow the first endpoint of the arc
 // This point will use dependent DOF's to define its location
-Point2DPointer Arc2D::GetPoint1()
+Point2DPointer Arc2D::GeneratePoint1()
 {
 	// Create expressions defining s and t coordinates of the first endpoint of the arc
 	ex s_1 = s_center_->GetVariable() + radius_->GetVariable()*cos(theta_1_->GetVariable());
@@ -489,7 +492,7 @@ Point2DPointer Arc2D::GetPoint1()
 
 // Return a point that will follow the second endpoint of the arc
 // This point will use dependent DOF's to define its location
-Point2DPointer Arc2D::GetPoint2()
+Point2DPointer Arc2D::GeneratePoint2()
 {
 	// Create expressions defining s and t coordinates of the second endpoint of the arc
 	ex s_2 = s_center_->GetVariable() + radius_->GetVariable()*cos(theta_2_->GetVariable());
@@ -530,4 +533,49 @@ void Arc2D::GetTangent2(GiNaC::ex & s_component, GiNaC::ex & t_component)
 Edge2DBase::Edge2DBase(SketchPlanePointer sketch_plane):
 Primitive2DBase(sketch_plane)
 {
+}
+
+bool Edge2DBase::IsPointCoincident(EdgePointNumber my_point_number, boost::shared_ptr<Edge2DBase> other_edge, EdgePointNumber other_point_number)
+{
+	bool result;
+
+	Point2DPointer my_point;
+	Point2DPointer other_point;
+	
+	// assign the Point pointers
+	if(my_point_number == Point1)
+		my_point = GetPoint1();
+	else
+		my_point = GetPoint2();
+
+	if(other_point_number == Point1)
+		other_point = other_edge->GetPoint1();
+	else
+		other_point = other_edge->GetPoint2();
+
+	// perform the comparison
+	if(my_point->GetSDOF() == other_point->GetSDOF() && my_point->GetTDOF() == other_point->GetTDOF())
+		result = true;
+	else
+		result = false;
+
+	return result;
+}
+
+EdgeLoop2D::EdgeLoop2D(std::vector<Edge2DBasePointer> edge_list):
+edge_list_(edge_list)
+{
+	// check to insure that the supplied loop was valid
+	if(! IsLoopValid())
+	{
+		// loop not valid, through an exception
+		throw PrimitiveException();
+	}
+}
+
+bool EdgeLoop2D::IsLoopValid()
+{
+	bool result;
+
+	return result;
 }
