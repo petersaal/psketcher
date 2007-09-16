@@ -395,8 +395,12 @@ class EdgeLoop2D
 {
 	public:
 		// constructor and destructor
+		EdgeLoop2D() {;}
 		EdgeLoop2D(std::vector<Edge2DBasePointer> edge_list);
 		~EdgeLoop2D() {edge_list_.clear();}
+
+		// Acessor methods
+		void AddEdge(Edge2DBasePointer new_edge);
 		
 		// utility methods
 		bool IsLoopValid();		// Check to insure that the loop is well defined
