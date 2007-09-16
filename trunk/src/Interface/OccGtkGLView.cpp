@@ -872,6 +872,15 @@ void OccGtkGLView::GenerateTestSketch()
 	ConstraintEquationBasePointer constraint6(new TangentEdge2D(line3,Point2,arc1,Point1));
 	ConstraintEquationBasePointer constraint7(new TangentEdge2D(line4,Point1,arc1,Point2));
 	
+	// create an edge loop
+	EdgeLoop2DPointer edge_loop1(new EdgeLoop2D());
+	edge_loop1->AddEdge(line1);
+	edge_loop1->AddEdge(line2);
+	edge_loop1->AddEdge(line3);
+	edge_loop1->AddEdge(arc1);
+	edge_loop1->AddEdge(line4);
+	cout << "Is loop valid: " << edge_loop1->IsLoopValid() << endl;
+
 	// Add the primitives to the 3d model object
 	ark3d_model_.AddPrimitive(point1);
 	ark3d_model_.AddPrimitive(point2);
