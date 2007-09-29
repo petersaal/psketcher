@@ -9,6 +9,7 @@ LINK_DIRECTORIES ("../mmcMatrix")
 LINK_DIRECTORIES ("../NumOptimization")
 LINK_DIRECTORIES ("../ConstraintSolver")
 LINK_DIRECTORIES ("../OpenCascadeBinding")
+LINK_DIRECTORIES ("../LuaBinding")
 
 # Add include paths and libraries for ark3d's dependencies
 #OpenGL
@@ -53,6 +54,11 @@ pkg_check_modules(GINAC ginac)
 LINK_DIRECTORIES (${GINAC_LIBRARY_DIRS})
 INCLUDE_DIRECTORIES (${GINAC_INCLUDE_DIRS})
 
+#lualib50
+pkg_check_modules(LUALIB lualib50)
+LINK_DIRECTORIES (${LUALIB_LIBRARY_DIRS})
+INCLUDE_DIRECTORIES (${LUALIB_INCLUDE_DIRS})
+
 ADD_EXECUTABLE (ark3d Callbacks.cpp Interface.cpp OccGtkGLView.cpp Support.cpp Translate.cpp MakeBottle.cpp main.cpp ../OpenCascadeBinding/test.cpp)
 TARGET_LINK_LIBRARIES (ark3d ${OPENGL_LIBRARIES})
 TARGET_LINK_LIBRARIES (ark3d ${GTK_LIBRARIES})
@@ -66,6 +72,7 @@ TARGET_LINK_LIBRARIES (ark3d mmcMatrix)
 TARGET_LINK_LIBRARIES (ark3d ${GSL_LIBRARIES})
 TARGET_LINK_LIBRARIES (ark3d ${GINAC_LIBRARIES})
 TARGET_LINK_LIBRARIES (ark3d bfgs)
-
+TARGET_LINK_LIBRARIES (ark3d Ark3dLuaModule)
+TARGET_LINK_LIBRARIES (ark3d ${LUALIB_LIBRARIES})
 
 

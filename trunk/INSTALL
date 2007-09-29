@@ -27,7 +27,7 @@ Compile and run instructions
 Here's an example of the build and run process on my machine
 **********************************************
 
-export CASROOT=~/opencascade-6.2/ros
+export CASROOT=~/download/opencascade/Linux/ros
 export LD_LIBRARY_PATH=/opt/OpenCASCADE-6.2/lib
 export CSF_GraphicShr=/opt/OpenCASCADE-6.2/lib/libTKOpenGl.so
 cmake .
