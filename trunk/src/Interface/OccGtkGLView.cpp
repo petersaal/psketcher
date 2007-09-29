@@ -42,6 +42,12 @@ email                : |sharjith_ssn@hotmail.com|
 // for elastic bean selection
 #define ValZWMin 1
 
+// define lua ark3d binding
+#include "../LuaBinding/swigluarun.h"
+extern "C" {
+extern int Ark3d_Init(lua_State* L);  // Declare the wrapped module
+}
+#define LUA_EXTRALIBS {"ark3d",Ark3d_Init}
 
 OccGtkGLView::OccGtkGLView()
 {   
@@ -72,10 +78,22 @@ OccGtkGLView::OccGtkGLView()
 
     myCurrentMode = CurAction3d_Nothing;
     myDegenerateModeIsOn = Standard_True;
+
+	// create the lua instance
+	lua_state_ = lua_open();
+	luaopen_base(lua_state_);	// load basic libs (eg. print)
+	Ark3d_Init(lua_state_);	// load the wrappered module
+
+	//SWIG_NewPointerObj(lua_state_,&ark3d_model_,SWIGTYPE_p_Ark3DModel,0);
+	lua_pushlightuserdata (lua_state_, &ark3d_model_);
+	lua_setglobal (lua_state_, "Ark3DModel");
 }
 
 OccGtkGLView::~OccGtkGLView()
 {
+	// close down lua
+	lua_close(lua_state_);
+
     g_free(zoom_cursor);
     g_free(pan_cursor);
     g_free(glob_pan_cursor);
@@ -83,6 +101,7 @@ OccGtkGLView::~OccGtkGLView()
     g_free(pick_cursor);
     g_free(cross_cursor);
     g_free(rect_cursor);
+
 }
 
 void OccGtkGLView::InitOCC(GtkDrawingArea* widget)
