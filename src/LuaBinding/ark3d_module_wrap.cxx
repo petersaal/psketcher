@@ -1386,74 +1386,72 @@ SWIG_Lua_SetModule(lua_State* L, swig_module_info *module) {
 /* -------- TYPES TABLE (BEGIN) -------- */
 
 #define SWIGTYPE_GiNaC__ex swig_types[0]
-#define SWIGTYPE_boost__shared_ptrTConstraintEquationBase_t swig_types[1]
-#define SWIGTYPE_boost__shared_ptrTDOF_t swig_types[2]
-#define SWIGTYPE_boost__shared_ptrTEdge2DBase_t swig_types[3]
-#define SWIGTYPE_boost__shared_ptrTLine2D_t swig_types[4]
-#define SWIGTYPE_boost__shared_ptrTLine_t swig_types[5]
-#define SWIGTYPE_boost__shared_ptrTPoint2D_t swig_types[6]
-#define SWIGTYPE_boost__shared_ptrTPoint_t swig_types[7]
-#define SWIGTYPE_boost__shared_ptrTPrimitiveBase_t swig_types[8]
-#define SWIGTYPE_boost__shared_ptrTSketchPlane_t swig_types[9]
-#define SWIGTYPE_boost__shared_ptrTVector_t swig_types[10]
-#define SWIGTYPE_p_AngleLine2D swig_types[11]
-#define SWIGTYPE_p_Arc2D swig_types[12]
-#define SWIGTYPE_p_Ark3DModel swig_types[13]
-#define SWIGTYPE_p_ConstraintEquationBase swig_types[14]
-#define SWIGTYPE_p_DOF swig_types[15]
-#define SWIGTYPE_p_DependentDOF swig_types[16]
-#define SWIGTYPE_p_DistancePoint swig_types[17]
-#define SWIGTYPE_p_DistancePoint2D swig_types[18]
-#define SWIGTYPE_p_Edge2DBase swig_types[19]
-#define SWIGTYPE_p_EdgeLoop2D swig_types[20]
-#define SWIGTYPE_p_GiNaC__ex swig_types[21]
-#define SWIGTYPE_p_GiNaC__symbol swig_types[22]
-#define SWIGTYPE_p_IndependentDOF swig_types[23]
-#define SWIGTYPE_p_Line swig_types[24]
-#define SWIGTYPE_p_Line2D swig_types[25]
-#define SWIGTYPE_p_ParallelLine swig_types[26]
-#define SWIGTYPE_p_ParallelLine2D swig_types[27]
-#define SWIGTYPE_p_Point swig_types[28]
-#define SWIGTYPE_p_Point2D swig_types[29]
-#define SWIGTYPE_p_Primitive2DBase swig_types[30]
-#define SWIGTYPE_p_PrimitiveBase swig_types[31]
-#define SWIGTYPE_p_PrimitiveException swig_types[32]
-#define SWIGTYPE_p_SketchPlane swig_types[33]
-#define SWIGTYPE_p_TangentEdge2D swig_types[34]
-#define SWIGTYPE_p_Vector swig_types[35]
-#define SWIGTYPE_p_boost__shared_ptrTAngleLine2D_t swig_types[36]
-#define SWIGTYPE_p_boost__shared_ptrTArc2D_t swig_types[37]
-#define SWIGTYPE_p_boost__shared_ptrTConstraintEquationBase_t swig_types[38]
-#define SWIGTYPE_p_boost__shared_ptrTDOF_t swig_types[39]
-#define SWIGTYPE_p_boost__shared_ptrTDependentDOF_t swig_types[40]
-#define SWIGTYPE_p_boost__shared_ptrTDistancePoint2D_t swig_types[41]
-#define SWIGTYPE_p_boost__shared_ptrTDistancePoint_t swig_types[42]
-#define SWIGTYPE_p_boost__shared_ptrTEdge2DBase_t swig_types[43]
-#define SWIGTYPE_p_boost__shared_ptrTEdgeLoop2D_t swig_types[44]
-#define SWIGTYPE_p_boost__shared_ptrTIndependentDOF_t swig_types[45]
-#define SWIGTYPE_p_boost__shared_ptrTLine2D_t swig_types[46]
-#define SWIGTYPE_p_boost__shared_ptrTLine_t swig_types[47]
-#define SWIGTYPE_p_boost__shared_ptrTParallelLine2D_t swig_types[48]
-#define SWIGTYPE_p_boost__shared_ptrTParallelLine_t swig_types[49]
-#define SWIGTYPE_p_boost__shared_ptrTPoint2D_t swig_types[50]
-#define SWIGTYPE_p_boost__shared_ptrTPoint_t swig_types[51]
-#define SWIGTYPE_p_boost__shared_ptrTPrimitive2DBase_t swig_types[52]
-#define SWIGTYPE_p_boost__shared_ptrTPrimitiveBase_t swig_types[53]
-#define SWIGTYPE_p_boost__shared_ptrTSketchPlane_t swig_types[54]
-#define SWIGTYPE_p_boost__shared_ptrTTangentEdge2D_t swig_types[55]
-#define SWIGTYPE_p_boost__shared_ptrTVector_t swig_types[56]
-#define SWIGTYPE_p_double swig_types[57]
-#define SWIGTYPE_p_mmcMatrix swig_types[58]
-#define SWIGTYPE_p_std__vectorTboost__shared_ptrTConstraintEquationBase_t_t swig_types[59]
-#define SWIGTYPE_p_std__vectorTboost__shared_ptrTDOF_t_t swig_types[60]
-#define SWIGTYPE_p_std__vectorTboost__shared_ptrTEdge2DBase_t_t swig_types[61]
-#define SWIGTYPE_p_std__vectorTboost__shared_ptrTGiNaC__ex_t_t swig_types[62]
-#define SWIGTYPE_p_std__vectorTboost__shared_ptrTPrimitiveBase_t_t swig_types[63]
-#define SWIGTYPE_p_std__vectorTdouble_t swig_types[64]
-#define SWIGTYPE_std__vectorTboost__shared_ptrTDOF_t_t swig_types[65]
-#define SWIGTYPE_std__vectorTboost__shared_ptrTEdge2DBase_t_t swig_types[66]
-static swig_type_info *swig_types[68];
-static swig_module_info swig_module = {swig_types, 67, 0, 0, 0, 0};
+#define SWIGTYPE_boost__shared_ptrTDOF_t swig_types[1]
+#define SWIGTYPE_boost__shared_ptrTEdge2DBase_t swig_types[2]
+#define SWIGTYPE_boost__shared_ptrTLine2D_t swig_types[3]
+#define SWIGTYPE_boost__shared_ptrTLine_t swig_types[4]
+#define SWIGTYPE_boost__shared_ptrTPoint2D_t swig_types[5]
+#define SWIGTYPE_boost__shared_ptrTPoint_t swig_types[6]
+#define SWIGTYPE_boost__shared_ptrTSketchPlane_t swig_types[7]
+#define SWIGTYPE_boost__shared_ptrTVector_t swig_types[8]
+#define SWIGTYPE_p_AngleLine2D swig_types[9]
+#define SWIGTYPE_p_Arc2D swig_types[10]
+#define SWIGTYPE_p_Ark3DModel swig_types[11]
+#define SWIGTYPE_p_ConstraintEquationBase swig_types[12]
+#define SWIGTYPE_p_DOF swig_types[13]
+#define SWIGTYPE_p_DependentDOF swig_types[14]
+#define SWIGTYPE_p_DistancePoint swig_types[15]
+#define SWIGTYPE_p_DistancePoint2D swig_types[16]
+#define SWIGTYPE_p_Edge2DBase swig_types[17]
+#define SWIGTYPE_p_EdgeLoop2D swig_types[18]
+#define SWIGTYPE_p_GiNaC__ex swig_types[19]
+#define SWIGTYPE_p_GiNaC__symbol swig_types[20]
+#define SWIGTYPE_p_IndependentDOF swig_types[21]
+#define SWIGTYPE_p_Line swig_types[22]
+#define SWIGTYPE_p_Line2D swig_types[23]
+#define SWIGTYPE_p_ParallelLine swig_types[24]
+#define SWIGTYPE_p_ParallelLine2D swig_types[25]
+#define SWIGTYPE_p_Point swig_types[26]
+#define SWIGTYPE_p_Point2D swig_types[27]
+#define SWIGTYPE_p_Primitive2DBase swig_types[28]
+#define SWIGTYPE_p_PrimitiveBase swig_types[29]
+#define SWIGTYPE_p_PrimitiveException swig_types[30]
+#define SWIGTYPE_p_SketchPlane swig_types[31]
+#define SWIGTYPE_p_TangentEdge2D swig_types[32]
+#define SWIGTYPE_p_Vector swig_types[33]
+#define SWIGTYPE_p_boost__shared_ptrTAngleLine2D_t swig_types[34]
+#define SWIGTYPE_p_boost__shared_ptrTArc2D_t swig_types[35]
+#define SWIGTYPE_p_boost__shared_ptrTConstraintEquationBase_t swig_types[36]
+#define SWIGTYPE_p_boost__shared_ptrTDOF_t swig_types[37]
+#define SWIGTYPE_p_boost__shared_ptrTDependentDOF_t swig_types[38]
+#define SWIGTYPE_p_boost__shared_ptrTDistancePoint2D_t swig_types[39]
+#define SWIGTYPE_p_boost__shared_ptrTDistancePoint_t swig_types[40]
+#define SWIGTYPE_p_boost__shared_ptrTEdge2DBase_t swig_types[41]
+#define SWIGTYPE_p_boost__shared_ptrTEdgeLoop2D_t swig_types[42]
+#define SWIGTYPE_p_boost__shared_ptrTIndependentDOF_t swig_types[43]
+#define SWIGTYPE_p_boost__shared_ptrTLine2D_t swig_types[44]
+#define SWIGTYPE_p_boost__shared_ptrTLine_t swig_types[45]
+#define SWIGTYPE_p_boost__shared_ptrTParallelLine2D_t swig_types[46]
+#define SWIGTYPE_p_boost__shared_ptrTParallelLine_t swig_types[47]
+#define SWIGTYPE_p_boost__shared_ptrTPoint2D_t swig_types[48]
+#define SWIGTYPE_p_boost__shared_ptrTPoint_t swig_types[49]
+#define SWIGTYPE_p_boost__shared_ptrTPrimitive2DBase_t swig_types[50]
+#define SWIGTYPE_p_boost__shared_ptrTPrimitiveBase_t swig_types[51]
+#define SWIGTYPE_p_boost__shared_ptrTSketchPlane_t swig_types[52]
+#define SWIGTYPE_p_boost__shared_ptrTTangentEdge2D_t swig_types[53]
+#define SWIGTYPE_p_boost__shared_ptrTVector_t swig_types[54]
+#define SWIGTYPE_p_double swig_types[55]
+#define SWIGTYPE_p_mmcMatrix swig_types[56]
+#define SWIGTYPE_p_std__vectorTboost__shared_ptrTConstraintEquationBase_t_t swig_types[57]
+#define SWIGTYPE_p_std__vectorTboost__shared_ptrTDOF_t_t swig_types[58]
+#define SWIGTYPE_p_std__vectorTboost__shared_ptrTEdge2DBase_t_t swig_types[59]
+#define SWIGTYPE_p_std__vectorTboost__shared_ptrTGiNaC__ex_t_t swig_types[60]
+#define SWIGTYPE_p_std__vectorTboost__shared_ptrTPrimitiveBase_t_t swig_types[61]
+#define SWIGTYPE_p_std__vectorTdouble_t swig_types[62]
+#define SWIGTYPE_std__vectorTboost__shared_ptrTDOF_t_t swig_types[63]
+#define SWIGTYPE_std__vectorTboost__shared_ptrTEdge2DBase_t_t swig_types[64]
+static swig_type_info *swig_types[66];
+static swig_module_info swig_module = {swig_types, 65, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -1548,36 +1546,6 @@ fail:
 }
 
 
-static int _wrap_Ark3DModel_DeleteConstraintEquation(lua_State* L) {
-  int SWIG_arg = -1;
-  Ark3DModel *arg1 = (Ark3DModel *) 0 ;
-  ConstraintEquationBasePointer arg2 ;
-  ConstraintEquationBasePointer *argp2 ;
-  
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
-  if(!lua_isuserdata(L,2)) SWIG_fail_arg(2);
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Ark3DModel,0))){
-    SWIG_fail_ptr("Ark3DModel_DeleteConstraintEquation",1,SWIGTYPE_p_Ark3DModel);
-  }
-  
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&argp2,SWIGTYPE_p_boost__shared_ptrTConstraintEquationBase_t,0))){
-    SWIG_fail_ptr("Ark3DModel_DeleteConstraintEquation",2,SWIGTYPE_boost__shared_ptrTConstraintEquationBase_t);
-  }
-  arg2 = *argp2;
-  
-  (arg1)->DeleteConstraintEquation(arg2);
-  SWIG_arg=0;
-  
-  return SWIG_arg;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
 static int _wrap_Ark3DModel_AddPrimitive(lua_State* L) {
   int SWIG_arg = -1;
   Ark3DModel *arg1 = (Ark3DModel *) 0 ;
@@ -1624,36 +1592,6 @@ static int _wrap_Ark3DModel_AddPrimitives(lua_State* L) {
   }
   
   (arg1)->AddPrimitives((std::vector<PrimitiveBasePointer > const &)*arg2);
-  SWIG_arg=0;
-  
-  return SWIG_arg;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_Ark3DModel_DeletePrimitive(lua_State* L) {
-  int SWIG_arg = -1;
-  Ark3DModel *arg1 = (Ark3DModel *) 0 ;
-  PrimitiveBasePointer arg2 ;
-  PrimitiveBasePointer *argp2 ;
-  
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
-  if(!lua_isuserdata(L,2)) SWIG_fail_arg(2);
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Ark3DModel,0))){
-    SWIG_fail_ptr("Ark3DModel_DeletePrimitive",1,SWIGTYPE_p_Ark3DModel);
-  }
-  
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&argp2,SWIGTYPE_p_boost__shared_ptrTPrimitiveBase_t,0))){
-    SWIG_fail_ptr("Ark3DModel_DeletePrimitive",2,SWIGTYPE_boost__shared_ptrTPrimitiveBase_t);
-  }
-  arg2 = *argp2;
-  
-  (arg1)->DeletePrimitive(arg2);
   SWIG_arg=0;
   
   return SWIG_arg;
@@ -1728,10 +1666,8 @@ delete arg1;
 static swig_lua_method swig_Ark3DModel_methods[] = {
     {"AddConstraintEquation", _wrap_Ark3DModel_AddConstraintEquation}, 
     {"AddConstraintEquations", _wrap_Ark3DModel_AddConstraintEquations}, 
-    {"DeleteConstraintEquation", _wrap_Ark3DModel_DeleteConstraintEquation}, 
     {"AddPrimitive", _wrap_Ark3DModel_AddPrimitive}, 
     {"AddPrimitives", _wrap_Ark3DModel_AddPrimitives}, 
-    {"DeletePrimitive", _wrap_Ark3DModel_DeletePrimitive}, 
     {"SolveConstraints", _wrap_Ark3DModel_SolveConstraints}, 
     {"UpdateDisplay", _wrap_Ark3DModel_UpdateDisplay}, 
     {0,0}
@@ -2732,48 +2668,6 @@ fail:
 }
 
 
-static int _wrap_new_Point__SWIG_4(lua_State* L) {
-  int SWIG_arg = -1;
-  DOFPointer arg1 ;
-  DOFPointer arg2 ;
-  DOFPointer arg3 ;
-  Point *result = 0 ;
-  DOFPointer *argp1 ;
-  DOFPointer *argp2 ;
-  DOFPointer *argp3 ;
-  
-  if(!lua_isuserdata(L,1)) SWIG_fail_arg(1);
-  if(!lua_isuserdata(L,2)) SWIG_fail_arg(2);
-  if(!lua_isuserdata(L,3)) SWIG_fail_arg(3);
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&argp1,SWIGTYPE_p_boost__shared_ptrTDOF_t,0))){
-    SWIG_fail_ptr("new_Point",1,SWIGTYPE_boost__shared_ptrTDOF_t);
-  }
-  arg1 = *argp1;
-  
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&argp2,SWIGTYPE_p_boost__shared_ptrTDOF_t,0))){
-    SWIG_fail_ptr("new_Point",2,SWIGTYPE_boost__shared_ptrTDOF_t);
-  }
-  arg2 = *argp2;
-  
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,3,(void**)&argp3,SWIGTYPE_p_boost__shared_ptrTDOF_t,0))){
-    SWIG_fail_ptr("new_Point",3,SWIGTYPE_boost__shared_ptrTDOF_t);
-  }
-  arg3 = *argp3;
-  
-  result = (Point *)new Point(arg1,arg2,arg3);
-  SWIG_arg=0;
-  SWIG_NewPointerObj(L,result,SWIGTYPE_p_Point,1); SWIG_arg++; 
-  return SWIG_arg;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
 static int _wrap_new_Point(lua_State* L) {
   int argc;
   int argv[7]={
@@ -2781,40 +2675,6 @@ static int _wrap_new_Point(lua_State* L) {
   };
   
   argc = lua_gettop(L);
-  if (argc == 3) {
-    int _v;
-    {
-      void *ptr;
-      if (lua_isuserdata(L,argv[0])==0 || SWIG_ConvertPtr(L,argv[0], (void **) &ptr, SWIGTYPE_boost__shared_ptrTDOF_t, 0)) {
-        _v = 0;
-      } else {
-        _v = 1;
-      }
-    }
-    if (_v) {
-      {
-        void *ptr;
-        if (lua_isuserdata(L,argv[1])==0 || SWIG_ConvertPtr(L,argv[1], (void **) &ptr, SWIGTYPE_boost__shared_ptrTDOF_t, 0)) {
-          _v = 0;
-        } else {
-          _v = 1;
-        }
-      }
-      if (_v) {
-        {
-          void *ptr;
-          if (lua_isuserdata(L,argv[2])==0 || SWIG_ConvertPtr(L,argv[2], (void **) &ptr, SWIGTYPE_boost__shared_ptrTDOF_t, 0)) {
-            _v = 0;
-          } else {
-            _v = 1;
-          }
-        }
-        if (_v) {
-          return _wrap_new_Point__SWIG_4(L);
-        }
-      }
-    }
-  }
   if (argc == 3) {
     int _v;
     {
@@ -3180,48 +3040,6 @@ fail:
 }
 
 
-static int _wrap_new_Vector__SWIG_4(lua_State* L) {
-  int SWIG_arg = -1;
-  DOFPointer arg1 ;
-  DOFPointer arg2 ;
-  DOFPointer arg3 ;
-  Vector *result = 0 ;
-  DOFPointer *argp1 ;
-  DOFPointer *argp2 ;
-  DOFPointer *argp3 ;
-  
-  if(!lua_isuserdata(L,1)) SWIG_fail_arg(1);
-  if(!lua_isuserdata(L,2)) SWIG_fail_arg(2);
-  if(!lua_isuserdata(L,3)) SWIG_fail_arg(3);
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&argp1,SWIGTYPE_p_boost__shared_ptrTDOF_t,0))){
-    SWIG_fail_ptr("new_Vector",1,SWIGTYPE_boost__shared_ptrTDOF_t);
-  }
-  arg1 = *argp1;
-  
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&argp2,SWIGTYPE_p_boost__shared_ptrTDOF_t,0))){
-    SWIG_fail_ptr("new_Vector",2,SWIGTYPE_boost__shared_ptrTDOF_t);
-  }
-  arg2 = *argp2;
-  
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,3,(void**)&argp3,SWIGTYPE_p_boost__shared_ptrTDOF_t,0))){
-    SWIG_fail_ptr("new_Vector",3,SWIGTYPE_boost__shared_ptrTDOF_t);
-  }
-  arg3 = *argp3;
-  
-  result = (Vector *)new Vector(arg1,arg2,arg3);
-  SWIG_arg=0;
-  SWIG_NewPointerObj(L,result,SWIGTYPE_p_Vector,1); SWIG_arg++; 
-  return SWIG_arg;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
 static int _wrap_new_Vector(lua_State* L) {
   int argc;
   int argv[7]={
@@ -3229,40 +3047,6 @@ static int _wrap_new_Vector(lua_State* L) {
   };
   
   argc = lua_gettop(L);
-  if (argc == 3) {
-    int _v;
-    {
-      void *ptr;
-      if (lua_isuserdata(L,argv[0])==0 || SWIG_ConvertPtr(L,argv[0], (void **) &ptr, SWIGTYPE_boost__shared_ptrTDOF_t, 0)) {
-        _v = 0;
-      } else {
-        _v = 1;
-      }
-    }
-    if (_v) {
-      {
-        void *ptr;
-        if (lua_isuserdata(L,argv[1])==0 || SWIG_ConvertPtr(L,argv[1], (void **) &ptr, SWIGTYPE_boost__shared_ptrTDOF_t, 0)) {
-          _v = 0;
-        } else {
-          _v = 1;
-        }
-      }
-      if (_v) {
-        {
-          void *ptr;
-          if (lua_isuserdata(L,argv[2])==0 || SWIG_ConvertPtr(L,argv[2], (void **) &ptr, SWIGTYPE_boost__shared_ptrTDOF_t, 0)) {
-            _v = 0;
-          } else {
-            _v = 1;
-          }
-        }
-        if (_v) {
-          return _wrap_new_Vector__SWIG_4(L);
-        }
-      }
-    }
-  }
   if (argc == 3) {
     int _v;
     {
@@ -6716,10 +6500,8 @@ static const struct luaL_reg swig_commands[] = {
     { "delete_Ark3DModel", _wrap_delete_Ark3DModel},
     { "Ark3DModel_AddConstraintEquation", _wrap_Ark3DModel_AddConstraintEquation},
     { "Ark3DModel_AddConstraintEquations", _wrap_Ark3DModel_AddConstraintEquations},
-    { "Ark3DModel_DeleteConstraintEquation", _wrap_Ark3DModel_DeleteConstraintEquation},
     { "Ark3DModel_AddPrimitive", _wrap_Ark3DModel_AddPrimitive},
     { "Ark3DModel_AddPrimitives", _wrap_Ark3DModel_AddPrimitives},
-    { "Ark3DModel_DeletePrimitive", _wrap_Ark3DModel_DeletePrimitive},
     { "Ark3DModel_SolveConstraints", _wrap_Ark3DModel_SolveConstraints},
     { "Ark3DModel_UpdateDisplay", _wrap_Ark3DModel_UpdateDisplay},
     { "new_Ark3DModel", _wrap_new_Ark3DModel},
@@ -6917,14 +6699,12 @@ static void *_p_Point2DTo_p_PrimitiveBase(void *x) {
     return (void *)((PrimitiveBase *) (Primitive2DBase *) ((Point2D *) x));
 }
 static swig_type_info _swigt__GiNaC__ex = {"_GiNaC__ex", "GiNaC::ex", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__boost__shared_ptrTConstraintEquationBase_t = {"_boost__shared_ptrTConstraintEquationBase_t", "boost::shared_ptr<ConstraintEquationBase >|ConstraintEquationBasePointer", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__boost__shared_ptrTDOF_t = {"_boost__shared_ptrTDOF_t", "boost::shared_ptr<DOF >|DOFPointer", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__boost__shared_ptrTEdge2DBase_t = {"_boost__shared_ptrTEdge2DBase_t", "boost::shared_ptr<Edge2DBase >|Edge2DBasePointer", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__boost__shared_ptrTLine2D_t = {"_boost__shared_ptrTLine2D_t", "boost::shared_ptr<Line2D >|Line2DPointer", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__boost__shared_ptrTLine_t = {"_boost__shared_ptrTLine_t", "boost::shared_ptr<Line >|LinePointer", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__boost__shared_ptrTPoint2D_t = {"_boost__shared_ptrTPoint2D_t", "boost::shared_ptr<Point2D >|Point2DPointer", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__boost__shared_ptrTPoint_t = {"_boost__shared_ptrTPoint_t", "boost::shared_ptr<Point >|PointPointer", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__boost__shared_ptrTPrimitiveBase_t = {"_boost__shared_ptrTPrimitiveBase_t", "boost::shared_ptr<PrimitiveBase >|PrimitiveBasePointer", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__boost__shared_ptrTSketchPlane_t = {"_boost__shared_ptrTSketchPlane_t", "boost::shared_ptr<SketchPlane >|SketchPlanePointer", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__boost__shared_ptrTVector_t = {"_boost__shared_ptrTVector_t", "boost::shared_ptr<Vector >|VectorPointer", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_AngleLine2D = {"_p_AngleLine2D", "AngleLine2D *", 0, 0, (void*)&_wrap_class_AngleLine2D, 0};
@@ -6986,14 +6766,12 @@ static swig_type_info _swigt__std__vectorTboost__shared_ptrTEdge2DBase_t_t = {"_
 
 static swig_type_info *swig_type_initial[] = {
   &_swigt__GiNaC__ex,
-  &_swigt__boost__shared_ptrTConstraintEquationBase_t,
   &_swigt__boost__shared_ptrTDOF_t,
   &_swigt__boost__shared_ptrTEdge2DBase_t,
   &_swigt__boost__shared_ptrTLine2D_t,
   &_swigt__boost__shared_ptrTLine_t,
   &_swigt__boost__shared_ptrTPoint2D_t,
   &_swigt__boost__shared_ptrTPoint_t,
-  &_swigt__boost__shared_ptrTPrimitiveBase_t,
   &_swigt__boost__shared_ptrTSketchPlane_t,
   &_swigt__boost__shared_ptrTVector_t,
   &_swigt__p_AngleLine2D,
@@ -7055,14 +6833,12 @@ static swig_type_info *swig_type_initial[] = {
 };
 
 static swig_cast_info _swigc__GiNaC__ex[] = {  {&_swigt__GiNaC__ex, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__boost__shared_ptrTConstraintEquationBase_t[] = {  {&_swigt__boost__shared_ptrTConstraintEquationBase_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__boost__shared_ptrTDOF_t[] = {  {&_swigt__boost__shared_ptrTDOF_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__boost__shared_ptrTEdge2DBase_t[] = {  {&_swigt__boost__shared_ptrTEdge2DBase_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__boost__shared_ptrTLine2D_t[] = {  {&_swigt__boost__shared_ptrTLine2D_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__boost__shared_ptrTLine_t[] = {  {&_swigt__boost__shared_ptrTLine_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__boost__shared_ptrTPoint2D_t[] = {  {&_swigt__boost__shared_ptrTPoint2D_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__boost__shared_ptrTPoint_t[] = {  {&_swigt__boost__shared_ptrTPoint_t, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__boost__shared_ptrTPrimitiveBase_t[] = {  {&_swigt__boost__shared_ptrTPrimitiveBase_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__boost__shared_ptrTSketchPlane_t[] = {  {&_swigt__boost__shared_ptrTSketchPlane_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__boost__shared_ptrTVector_t[] = {  {&_swigt__boost__shared_ptrTVector_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_AngleLine2D[] = {  {&_swigt__p_AngleLine2D, 0, 0, 0},{0, 0, 0, 0}};
@@ -7124,14 +6900,12 @@ static swig_cast_info _swigc__std__vectorTboost__shared_ptrTEdge2DBase_t_t[] = {
 
 static swig_cast_info *swig_cast_initial[] = {
   _swigc__GiNaC__ex,
-  _swigc__boost__shared_ptrTConstraintEquationBase_t,
   _swigc__boost__shared_ptrTDOF_t,
   _swigc__boost__shared_ptrTEdge2DBase_t,
   _swigc__boost__shared_ptrTLine2D_t,
   _swigc__boost__shared_ptrTLine_t,
   _swigc__boost__shared_ptrTPoint2D_t,
   _swigc__boost__shared_ptrTPoint_t,
-  _swigc__boost__shared_ptrTPrimitiveBase_t,
   _swigc__boost__shared_ptrTSketchPlane_t,
   _swigc__boost__shared_ptrTVector_t,
   _swigc__p_AngleLine2D,
