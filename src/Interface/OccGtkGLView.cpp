@@ -82,7 +82,7 @@ OccGtkGLView::OccGtkGLView()
 
 	// create the lua instance
 	lua_state_ = lua_open();
-	luaopen_base(lua_state_);	// load basic libs (eg. print)
+	luaL_openlibs(lua_state_);  // open the lua built in libraries
 	Ark3d_Init(lua_state_);	// load the wrappered module
 }
 
