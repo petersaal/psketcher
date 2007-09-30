@@ -43,7 +43,6 @@ email                : |sharjith_ssn@hotmail.com|
 #define ValZWMin 1
 
 // define lua ark3d binding
-#include "../LuaBinding/swigluarun.h"
 extern "C" {
 extern int Ark3d_Init(lua_State* L);  // Declare the wrapped module
 }
