@@ -919,23 +919,15 @@ void OccGtkGLView::GenerateTestSketch()
 
 void OccGtkGLView::SolveConstraints() 
 {
-	//ark3d_model_.SolveConstraints();
-	//ark3d_model_.UpdateDisplay();
-
-	int error;
-
-	error = luaL_dostring(lua_state_, "ark3d_model:SolveConstraints()");
-
-	if (error) {
-		cout << lua_tostring(lua_state_, -1) << endl;
-		lua_pop(lua_state_, 1);  /* pop error message from the stack */
-	}
-
-	error = luaL_dostring(lua_state_, "ark3d_model:UpdateDisplay()");
-
-	if (error) {
-		cout << lua_tostring(lua_state_, -1) << endl;
-		lua_pop(lua_state_, 1);  /* pop error message from the stack */
-	}
+	ark3d_model_.SolveConstraints();
+	ark3d_model_.UpdateDisplay();
 }
 
+void OccGtkGLView::ExecuteLuaScript()
+{
+	// Run a lua script and display erros to stdout if there are any
+	if(luaL_loadfile(lua_state_, "./src/LuaScripts/test_sketch.lua") || lua_pcall(lua_state_, 0, 0, 0))
+	{
+		cout << (lua_tostring(lua_state_, -1)) << endl;
+	}
+}
