@@ -199,8 +199,7 @@ public:
 
 
 		// methods that 
-		void SolveConstraints() {ark3d_model_.SolveConstraints();
-														 ark3d_model_.UpdateDisplay();}
+		void SolveConstraints();
 
 		void GenerateTestSketch();
 
