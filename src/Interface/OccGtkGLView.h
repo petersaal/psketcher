@@ -203,6 +203,8 @@ public:
 
 		void GenerateTestSketch();
 
+		void ExecuteLuaScript();
+
 public:
     bool isInitialized(void)
     {

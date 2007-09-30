@@ -76,6 +76,10 @@ on_solve_toolbutton_clicked    (GtkButton *button,
                                             gpointer user_data);
 
 void
+on_run_lua_toolbutton_clicked   (GtkButton *button,
+                                            gpointer user_data);
+
+void
 on_quit1_activate                      (GtkMenuItem     *menuitem,
                                         gpointer         user_data);
 
