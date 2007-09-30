@@ -1464,6 +1464,7 @@ static swig_module_info swig_module = {swig_types, 65, 0, 0, 0, 0};
 
 #include "../ConstraintSolver/Primitives.h"
 #include "../ConstraintSolver/Ark3DModel.h"
+#include "/usr/include/boost/shared_ptr.hpp"
 
 #ifdef __cplusplus
 extern "C" {
@@ -2193,7 +2194,7 @@ swig_lua_class _wrap_class_IndependentDOF = { "IndependentDOF", &SWIGTYPE_p_Inde
 static int _wrap_new_DependentDOF__SWIG_0(lua_State* L) {
   int SWIG_arg = -1;
   GiNaC::ex arg1 ;
-  std::vector<DOFPointer > arg2 ;
+  SwigValueWrapper<std::vector<boost::shared_ptr<DOF > > > arg2 ;
   DependentDOF *result = 0 ;
   GiNaC::ex *argp1 ;
   std::vector<DOFPointer > *argp2 ;
@@ -2227,7 +2228,7 @@ static int _wrap_new_DependentDOF__SWIG_1(lua_State* L) {
   int SWIG_arg = -1;
   char *arg1 = (char *) 0 ;
   GiNaC::ex arg2 ;
-  std::vector<DOFPointer > arg3 ;
+  SwigValueWrapper<std::vector<boost::shared_ptr<DOF > > > arg3 ;
   DependentDOF *result = 0 ;
   GiNaC::ex *argp2 ;
   std::vector<DOFPointer > *argp3 ;
@@ -6351,7 +6352,7 @@ fail:
 
 static int _wrap_new_EdgeLoop2D__SWIG_1(lua_State* L) {
   int SWIG_arg = -1;
-  std::vector<Edge2DBasePointer > arg1 ;
+  SwigValueWrapper<std::vector<boost::shared_ptr<Edge2DBase > > > arg1 ;
   EdgeLoop2D *result = 0 ;
   std::vector<Edge2DBasePointer > *argp1 ;
   
@@ -6492,6 +6493,5152 @@ static swig_lua_attribute swig_EdgeLoop2D_attributes[] = {
 static swig_lua_class *swig_EdgeLoop2D_bases[] = {0};
 swig_lua_class _wrap_class_EdgeLoop2D = { "EdgeLoop2D", &SWIGTYPE_p_EdgeLoop2D,_wrap_new_EdgeLoop2D, swig_delete_EdgeLoop2D, swig_EdgeLoop2D_methods, swig_EdgeLoop2D_attributes, swig_EdgeLoop2D_bases };
 
+static int _wrap_DOFPointer___deref__(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<DOF > *arg1 = (boost::shared_ptr<DOF > *) 0 ;
+  DOF *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTDOF_t,0))){
+    SWIG_fail_ptr("DOFPointer___deref__",1,SWIGTYPE_p_boost__shared_ptrTDOF_t);
+  }
+  
+  result = (DOF *)((boost::shared_ptr<DOF > const *)arg1)->operator ->();
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_DOF,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_DOFPointer(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<DOF > *result = 0 ;
+  
+  result = (boost::shared_ptr<DOF > *)new boost::shared_ptr<DOF >();
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_boost__shared_ptrTDOF_t,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_delete_DOFPointer(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<DOF > *arg1 = (boost::shared_ptr<DOF > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTDOF_t,0))){
+    SWIG_fail_ptr("delete_DOFPointer",1,SWIGTYPE_p_boost__shared_ptrTDOF_t);
+  }
+  
+  delete arg1;
+  
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_DOFPointer_SetValue(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<DOF > *arg1 = (boost::shared_ptr<DOF > *) 0 ;
+  double arg2 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  if(!lua_isnumber(L,2)) SWIG_fail_arg(2);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTDOF_t,0))){
+    SWIG_fail_ptr("DOFPointer_SetValue",1,SWIGTYPE_p_boost__shared_ptrTDOF_t);
+  }
+  
+  arg2 = (double)lua_tonumber(L, 2);
+  (*arg1)->SetValue(arg2);
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_DOFPointer_GetValue(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<DOF > *arg1 = (boost::shared_ptr<DOF > *) 0 ;
+  double result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTDOF_t,0))){
+    SWIG_fail_ptr("DOFPointer_GetValue",1,SWIGTYPE_p_boost__shared_ptrTDOF_t);
+  }
+  
+  result = (double)(*arg1)->GetValue();
+  SWIG_arg=0;
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_DOFPointer_GetExpression(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<DOF > *arg1 = (boost::shared_ptr<DOF > *) 0 ;
+  GiNaC::ex result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTDOF_t,0))){
+    SWIG_fail_ptr("DOFPointer_GetExpression",1,SWIGTYPE_p_boost__shared_ptrTDOF_t);
+  }
+  
+  result = (*arg1)->GetExpression();
+  SWIG_arg=0;
+  {
+    GiNaC::ex * resultptr = new GiNaC::ex((GiNaC::ex &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_GiNaC__ex,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_DOFPointer_GetVariable(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<DOF > *arg1 = (boost::shared_ptr<DOF > *) 0 ;
+  GiNaC::symbol *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTDOF_t,0))){
+    SWIG_fail_ptr("DOFPointer_GetVariable",1,SWIGTYPE_p_boost__shared_ptrTDOF_t);
+  }
+  
+  {
+    GiNaC::symbol const &_result_ref = (*arg1)->GetVariable();
+    result = (GiNaC::symbol *) &_result_ref;
+  }
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_GiNaC__symbol,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_DOFPointer_IsFree(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<DOF > *arg1 = (boost::shared_ptr<DOF > *) 0 ;
+  bool result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTDOF_t,0))){
+    SWIG_fail_ptr("DOFPointer_IsFree",1,SWIGTYPE_p_boost__shared_ptrTDOF_t);
+  }
+  
+  result = (bool)(*arg1)->IsFree();
+  SWIG_arg=0;
+  lua_pushboolean(L,(int)result); SWIG_arg++;
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_DOFPointer_IsDependent(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<DOF > *arg1 = (boost::shared_ptr<DOF > *) 0 ;
+  bool result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTDOF_t,0))){
+    SWIG_fail_ptr("DOFPointer_IsDependent",1,SWIGTYPE_p_boost__shared_ptrTDOF_t);
+  }
+  
+  result = (bool)(*arg1)->IsDependent();
+  SWIG_arg=0;
+  lua_pushboolean(L,(int)result); SWIG_arg++;
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_DOFPointer(void *obj) {
+boost::shared_ptr<DOF > *arg1 = (boost::shared_ptr<DOF > *) obj;
+delete arg1;
+}
+static swig_lua_method swig_boost_shared_ptr_Sl_DOF_Sg__methods[] = {
+    {"__deref__", _wrap_DOFPointer___deref__}, 
+    {"SetValue", _wrap_DOFPointer_SetValue}, 
+    {"GetValue", _wrap_DOFPointer_GetValue}, 
+    {"GetExpression", _wrap_DOFPointer_GetExpression}, 
+    {"GetVariable", _wrap_DOFPointer_GetVariable}, 
+    {"IsFree", _wrap_DOFPointer_IsFree}, 
+    {"IsDependent", _wrap_DOFPointer_IsDependent}, 
+    {0,0}
+};
+static swig_lua_attribute swig_boost_shared_ptr_Sl_DOF_Sg__attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_boost_shared_ptr_Sl_DOF_Sg__bases[] = {0};
+swig_lua_class _wrap_class_boost_shared_ptr_Sl_DOF_Sg_ = { "DOFPointer", &SWIGTYPE_p_boost__shared_ptrTDOF_t,_wrap_new_DOFPointer, swig_delete_DOFPointer, swig_boost_shared_ptr_Sl_DOF_Sg__methods, swig_boost_shared_ptr_Sl_DOF_Sg__attributes, swig_boost_shared_ptr_Sl_DOF_Sg__bases };
+
+static int _wrap_IndependentDOFPointer___deref__(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<IndependentDOF > *arg1 = (boost::shared_ptr<IndependentDOF > *) 0 ;
+  IndependentDOF *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTIndependentDOF_t,0))){
+    SWIG_fail_ptr("IndependentDOFPointer___deref__",1,SWIGTYPE_p_boost__shared_ptrTIndependentDOF_t);
+  }
+  
+  result = (IndependentDOF *)((boost::shared_ptr<IndependentDOF > const *)arg1)->operator ->();
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_IndependentDOF,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_IndependentDOFPointer(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<IndependentDOF > *result = 0 ;
+  
+  result = (boost::shared_ptr<IndependentDOF > *)new boost::shared_ptr<IndependentDOF >();
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_boost__shared_ptrTIndependentDOF_t,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_delete_IndependentDOFPointer(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<IndependentDOF > *arg1 = (boost::shared_ptr<IndependentDOF > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTIndependentDOF_t,0))){
+    SWIG_fail_ptr("delete_IndependentDOFPointer",1,SWIGTYPE_p_boost__shared_ptrTIndependentDOF_t);
+  }
+  
+  delete arg1;
+  
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_IndependentDOFPointer_SetValue(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<IndependentDOF > *arg1 = (boost::shared_ptr<IndependentDOF > *) 0 ;
+  double arg2 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  if(!lua_isnumber(L,2)) SWIG_fail_arg(2);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTIndependentDOF_t,0))){
+    SWIG_fail_ptr("IndependentDOFPointer_SetValue",1,SWIGTYPE_p_boost__shared_ptrTIndependentDOF_t);
+  }
+  
+  arg2 = (double)lua_tonumber(L, 2);
+  (*arg1)->SetValue(arg2);
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_IndependentDOFPointer_GetValue(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<IndependentDOF > *arg1 = (boost::shared_ptr<IndependentDOF > *) 0 ;
+  double result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTIndependentDOF_t,0))){
+    SWIG_fail_ptr("IndependentDOFPointer_GetValue",1,SWIGTYPE_p_boost__shared_ptrTIndependentDOF_t);
+  }
+  
+  result = (double)(*arg1)->GetValue();
+  SWIG_arg=0;
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_IndependentDOFPointer_GetExpression(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<IndependentDOF > *arg1 = (boost::shared_ptr<IndependentDOF > *) 0 ;
+  GiNaC::ex result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTIndependentDOF_t,0))){
+    SWIG_fail_ptr("IndependentDOFPointer_GetExpression",1,SWIGTYPE_p_boost__shared_ptrTIndependentDOF_t);
+  }
+  
+  result = (*arg1)->GetExpression();
+  SWIG_arg=0;
+  {
+    GiNaC::ex * resultptr = new GiNaC::ex((GiNaC::ex &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_GiNaC__ex,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_IndependentDOFPointer_GetVariable(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<IndependentDOF > *arg1 = (boost::shared_ptr<IndependentDOF > *) 0 ;
+  GiNaC::symbol *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTIndependentDOF_t,0))){
+    SWIG_fail_ptr("IndependentDOFPointer_GetVariable",1,SWIGTYPE_p_boost__shared_ptrTIndependentDOF_t);
+  }
+  
+  {
+    GiNaC::symbol const &_result_ref = (*arg1)->GetVariable();
+    result = (GiNaC::symbol *) &_result_ref;
+  }
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_GiNaC__symbol,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_IndependentDOFPointer_IsFree(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<IndependentDOF > *arg1 = (boost::shared_ptr<IndependentDOF > *) 0 ;
+  bool result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTIndependentDOF_t,0))){
+    SWIG_fail_ptr("IndependentDOFPointer_IsFree",1,SWIGTYPE_p_boost__shared_ptrTIndependentDOF_t);
+  }
+  
+  result = (bool)(*arg1)->IsFree();
+  SWIG_arg=0;
+  lua_pushboolean(L,(int)result); SWIG_arg++;
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_IndependentDOFPointer_IsDependent(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<IndependentDOF > *arg1 = (boost::shared_ptr<IndependentDOF > *) 0 ;
+  bool result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTIndependentDOF_t,0))){
+    SWIG_fail_ptr("IndependentDOFPointer_IsDependent",1,SWIGTYPE_p_boost__shared_ptrTIndependentDOF_t);
+  }
+  
+  result = (bool)(*arg1)->IsDependent();
+  SWIG_arg=0;
+  lua_pushboolean(L,(int)result); SWIG_arg++;
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_IndependentDOFPointer(void *obj) {
+boost::shared_ptr<IndependentDOF > *arg1 = (boost::shared_ptr<IndependentDOF > *) obj;
+delete arg1;
+}
+static swig_lua_method swig_boost_shared_ptr_Sl_IndependentDOF_Sg__methods[] = {
+    {"__deref__", _wrap_IndependentDOFPointer___deref__}, 
+    {"SetValue", _wrap_IndependentDOFPointer_SetValue}, 
+    {"GetValue", _wrap_IndependentDOFPointer_GetValue}, 
+    {"GetExpression", _wrap_IndependentDOFPointer_GetExpression}, 
+    {"GetVariable", _wrap_IndependentDOFPointer_GetVariable}, 
+    {"IsFree", _wrap_IndependentDOFPointer_IsFree}, 
+    {"IsDependent", _wrap_IndependentDOFPointer_IsDependent}, 
+    {0,0}
+};
+static swig_lua_attribute swig_boost_shared_ptr_Sl_IndependentDOF_Sg__attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_boost_shared_ptr_Sl_IndependentDOF_Sg__bases[] = {0};
+swig_lua_class _wrap_class_boost_shared_ptr_Sl_IndependentDOF_Sg_ = { "IndependentDOFPointer", &SWIGTYPE_p_boost__shared_ptrTIndependentDOF_t,_wrap_new_IndependentDOFPointer, swig_delete_IndependentDOFPointer, swig_boost_shared_ptr_Sl_IndependentDOF_Sg__methods, swig_boost_shared_ptr_Sl_IndependentDOF_Sg__attributes, swig_boost_shared_ptr_Sl_IndependentDOF_Sg__bases };
+
+static int _wrap_DependentDOFPointer___deref__(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<DependentDOF > *arg1 = (boost::shared_ptr<DependentDOF > *) 0 ;
+  DependentDOF *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTDependentDOF_t,0))){
+    SWIG_fail_ptr("DependentDOFPointer___deref__",1,SWIGTYPE_p_boost__shared_ptrTDependentDOF_t);
+  }
+  
+  result = (DependentDOF *)((boost::shared_ptr<DependentDOF > const *)arg1)->operator ->();
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_DependentDOF,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_DependentDOFPointer(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<DependentDOF > *result = 0 ;
+  
+  result = (boost::shared_ptr<DependentDOF > *)new boost::shared_ptr<DependentDOF >();
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_boost__shared_ptrTDependentDOF_t,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_delete_DependentDOFPointer(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<DependentDOF > *arg1 = (boost::shared_ptr<DependentDOF > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTDependentDOF_t,0))){
+    SWIG_fail_ptr("delete_DependentDOFPointer",1,SWIGTYPE_p_boost__shared_ptrTDependentDOF_t);
+  }
+  
+  delete arg1;
+  
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_DependentDOFPointer_SetValue(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<DependentDOF > *arg1 = (boost::shared_ptr<DependentDOF > *) 0 ;
+  double arg2 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  if(!lua_isnumber(L,2)) SWIG_fail_arg(2);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTDependentDOF_t,0))){
+    SWIG_fail_ptr("DependentDOFPointer_SetValue",1,SWIGTYPE_p_boost__shared_ptrTDependentDOF_t);
+  }
+  
+  arg2 = (double)lua_tonumber(L, 2);
+  (*arg1)->SetValue(arg2);
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_DependentDOFPointer_GetValue(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<DependentDOF > *arg1 = (boost::shared_ptr<DependentDOF > *) 0 ;
+  double result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTDependentDOF_t,0))){
+    SWIG_fail_ptr("DependentDOFPointer_GetValue",1,SWIGTYPE_p_boost__shared_ptrTDependentDOF_t);
+  }
+  
+  result = (double)(*arg1)->GetValue();
+  SWIG_arg=0;
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_DependentDOFPointer_GetExpression(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<DependentDOF > *arg1 = (boost::shared_ptr<DependentDOF > *) 0 ;
+  GiNaC::ex result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTDependentDOF_t,0))){
+    SWIG_fail_ptr("DependentDOFPointer_GetExpression",1,SWIGTYPE_p_boost__shared_ptrTDependentDOF_t);
+  }
+  
+  result = (*arg1)->GetExpression();
+  SWIG_arg=0;
+  {
+    GiNaC::ex * resultptr = new GiNaC::ex((GiNaC::ex &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_GiNaC__ex,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_DependentDOFPointer_GetVariable(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<DependentDOF > *arg1 = (boost::shared_ptr<DependentDOF > *) 0 ;
+  GiNaC::symbol *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTDependentDOF_t,0))){
+    SWIG_fail_ptr("DependentDOFPointer_GetVariable",1,SWIGTYPE_p_boost__shared_ptrTDependentDOF_t);
+  }
+  
+  {
+    GiNaC::symbol const &_result_ref = (*arg1)->GetVariable();
+    result = (GiNaC::symbol *) &_result_ref;
+  }
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_GiNaC__symbol,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_DependentDOFPointer_IsFree(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<DependentDOF > *arg1 = (boost::shared_ptr<DependentDOF > *) 0 ;
+  bool result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTDependentDOF_t,0))){
+    SWIG_fail_ptr("DependentDOFPointer_IsFree",1,SWIGTYPE_p_boost__shared_ptrTDependentDOF_t);
+  }
+  
+  result = (bool)(*arg1)->IsFree();
+  SWIG_arg=0;
+  lua_pushboolean(L,(int)result); SWIG_arg++;
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_DependentDOFPointer_IsDependent(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<DependentDOF > *arg1 = (boost::shared_ptr<DependentDOF > *) 0 ;
+  bool result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTDependentDOF_t,0))){
+    SWIG_fail_ptr("DependentDOFPointer_IsDependent",1,SWIGTYPE_p_boost__shared_ptrTDependentDOF_t);
+  }
+  
+  result = (bool)(*arg1)->IsDependent();
+  SWIG_arg=0;
+  lua_pushboolean(L,(int)result); SWIG_arg++;
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_DependentDOFPointer(void *obj) {
+boost::shared_ptr<DependentDOF > *arg1 = (boost::shared_ptr<DependentDOF > *) obj;
+delete arg1;
+}
+static swig_lua_method swig_boost_shared_ptr_Sl_DependentDOF_Sg__methods[] = {
+    {"__deref__", _wrap_DependentDOFPointer___deref__}, 
+    {"SetValue", _wrap_DependentDOFPointer_SetValue}, 
+    {"GetValue", _wrap_DependentDOFPointer_GetValue}, 
+    {"GetExpression", _wrap_DependentDOFPointer_GetExpression}, 
+    {"GetVariable", _wrap_DependentDOFPointer_GetVariable}, 
+    {"IsFree", _wrap_DependentDOFPointer_IsFree}, 
+    {"IsDependent", _wrap_DependentDOFPointer_IsDependent}, 
+    {0,0}
+};
+static swig_lua_attribute swig_boost_shared_ptr_Sl_DependentDOF_Sg__attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_boost_shared_ptr_Sl_DependentDOF_Sg__bases[] = {0};
+swig_lua_class _wrap_class_boost_shared_ptr_Sl_DependentDOF_Sg_ = { "DependentDOFPointer", &SWIGTYPE_p_boost__shared_ptrTDependentDOF_t,_wrap_new_DependentDOFPointer, swig_delete_DependentDOFPointer, swig_boost_shared_ptr_Sl_DependentDOF_Sg__methods, swig_boost_shared_ptr_Sl_DependentDOF_Sg__attributes, swig_boost_shared_ptr_Sl_DependentDOF_Sg__bases };
+
+static int _wrap_PrimitiveBasePointer___deref__(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<PrimitiveBase > *arg1 = (boost::shared_ptr<PrimitiveBase > *) 0 ;
+  PrimitiveBase *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTPrimitiveBase_t,0))){
+    SWIG_fail_ptr("PrimitiveBasePointer___deref__",1,SWIGTYPE_p_boost__shared_ptrTPrimitiveBase_t);
+  }
+  
+  result = (PrimitiveBase *)((boost::shared_ptr<PrimitiveBase > const *)arg1)->operator ->();
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_PrimitiveBase,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_PrimitiveBasePointer(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<PrimitiveBase > *result = 0 ;
+  
+  result = (boost::shared_ptr<PrimitiveBase > *)new boost::shared_ptr<PrimitiveBase >();
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_boost__shared_ptrTPrimitiveBase_t,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_delete_PrimitiveBasePointer(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<PrimitiveBase > *arg1 = (boost::shared_ptr<PrimitiveBase > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTPrimitiveBase_t,0))){
+    SWIG_fail_ptr("delete_PrimitiveBasePointer",1,SWIGTYPE_p_boost__shared_ptrTPrimitiveBase_t);
+  }
+  
+  delete arg1;
+  
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_PrimitiveBasePointer_GetDOFList(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<PrimitiveBase > *arg1 = (boost::shared_ptr<PrimitiveBase > *) 0 ;
+  std::vector<DOFPointer > *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTPrimitiveBase_t,0))){
+    SWIG_fail_ptr("PrimitiveBasePointer_GetDOFList",1,SWIGTYPE_p_boost__shared_ptrTPrimitiveBase_t);
+  }
+  
+  {
+    std::vector<DOFPointer > const &_result_ref = (*arg1)->GetDOFList();
+    result = (std::vector<DOFPointer > *) &_result_ref;
+  }
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_std__vectorTboost__shared_ptrTDOF_t_t,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_PrimitiveBasePointer_Display(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<PrimitiveBase > *arg1 = (boost::shared_ptr<PrimitiveBase > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTPrimitiveBase_t,0))){
+    SWIG_fail_ptr("PrimitiveBasePointer_Display",1,SWIGTYPE_p_boost__shared_ptrTPrimitiveBase_t);
+  }
+  
+  (*arg1)->Display();
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_PrimitiveBasePointer_UpdateDisplay(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<PrimitiveBase > *arg1 = (boost::shared_ptr<PrimitiveBase > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTPrimitiveBase_t,0))){
+    SWIG_fail_ptr("PrimitiveBasePointer_UpdateDisplay",1,SWIGTYPE_p_boost__shared_ptrTPrimitiveBase_t);
+  }
+  
+  (*arg1)->UpdateDisplay();
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_PrimitiveBasePointer(void *obj) {
+boost::shared_ptr<PrimitiveBase > *arg1 = (boost::shared_ptr<PrimitiveBase > *) obj;
+delete arg1;
+}
+static swig_lua_method swig_boost_shared_ptr_Sl_PrimitiveBase_Sg__methods[] = {
+    {"__deref__", _wrap_PrimitiveBasePointer___deref__}, 
+    {"GetDOFList", _wrap_PrimitiveBasePointer_GetDOFList}, 
+    {"Display", _wrap_PrimitiveBasePointer_Display}, 
+    {"UpdateDisplay", _wrap_PrimitiveBasePointer_UpdateDisplay}, 
+    {0,0}
+};
+static swig_lua_attribute swig_boost_shared_ptr_Sl_PrimitiveBase_Sg__attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_boost_shared_ptr_Sl_PrimitiveBase_Sg__bases[] = {0};
+swig_lua_class _wrap_class_boost_shared_ptr_Sl_PrimitiveBase_Sg_ = { "PrimitiveBasePointer", &SWIGTYPE_p_boost__shared_ptrTPrimitiveBase_t,_wrap_new_PrimitiveBasePointer, swig_delete_PrimitiveBasePointer, swig_boost_shared_ptr_Sl_PrimitiveBase_Sg__methods, swig_boost_shared_ptr_Sl_PrimitiveBase_Sg__attributes, swig_boost_shared_ptr_Sl_PrimitiveBase_Sg__bases };
+
+static int _wrap_PointPointer___deref__(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Point > *arg1 = (boost::shared_ptr<Point > *) 0 ;
+  Point *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTPoint_t,0))){
+    SWIG_fail_ptr("PointPointer___deref__",1,SWIGTYPE_p_boost__shared_ptrTPoint_t);
+  }
+  
+  result = (Point *)((boost::shared_ptr<Point > const *)arg1)->operator ->();
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_Point,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_PointPointer(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Point > *result = 0 ;
+  
+  result = (boost::shared_ptr<Point > *)new boost::shared_ptr<Point >();
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_boost__shared_ptrTPoint_t,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_delete_PointPointer(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Point > *arg1 = (boost::shared_ptr<Point > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTPoint_t,0))){
+    SWIG_fail_ptr("delete_PointPointer",1,SWIGTYPE_p_boost__shared_ptrTPoint_t);
+  }
+  
+  delete arg1;
+  
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_PointPointer_GetXDOF(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Point > *arg1 = (boost::shared_ptr<Point > *) 0 ;
+  DOFPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTPoint_t,0))){
+    SWIG_fail_ptr("PointPointer_GetXDOF",1,SWIGTYPE_p_boost__shared_ptrTPoint_t);
+  }
+  
+  result = (*arg1)->GetXDOF();
+  SWIG_arg=0;
+  {
+    DOFPointer * resultptr = new DOFPointer((DOFPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTDOF_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_PointPointer_GetYDOF(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Point > *arg1 = (boost::shared_ptr<Point > *) 0 ;
+  DOFPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTPoint_t,0))){
+    SWIG_fail_ptr("PointPointer_GetYDOF",1,SWIGTYPE_p_boost__shared_ptrTPoint_t);
+  }
+  
+  result = (*arg1)->GetYDOF();
+  SWIG_arg=0;
+  {
+    DOFPointer * resultptr = new DOFPointer((DOFPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTDOF_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_PointPointer_GetZDOF(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Point > *arg1 = (boost::shared_ptr<Point > *) 0 ;
+  DOFPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTPoint_t,0))){
+    SWIG_fail_ptr("PointPointer_GetZDOF",1,SWIGTYPE_p_boost__shared_ptrTPoint_t);
+  }
+  
+  result = (*arg1)->GetZDOF();
+  SWIG_arg=0;
+  {
+    DOFPointer * resultptr = new DOFPointer((DOFPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTDOF_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_PointPointer_GetmmcMatrix(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Point > *arg1 = (boost::shared_ptr<Point > *) 0 ;
+  mmcMatrix result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTPoint_t,0))){
+    SWIG_fail_ptr("PointPointer_GetmmcMatrix",1,SWIGTYPE_p_boost__shared_ptrTPoint_t);
+  }
+  
+  result = (*arg1)->GetmmcMatrix();
+  SWIG_arg=0;
+  {
+    mmcMatrix * resultptr = new mmcMatrix((mmcMatrix &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_mmcMatrix,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_PointPointer_GetDOFList(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Point > *arg1 = (boost::shared_ptr<Point > *) 0 ;
+  std::vector<DOFPointer > *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTPoint_t,0))){
+    SWIG_fail_ptr("PointPointer_GetDOFList",1,SWIGTYPE_p_boost__shared_ptrTPoint_t);
+  }
+  
+  {
+    std::vector<DOFPointer > const &_result_ref = (*arg1)->GetDOFList();
+    result = (std::vector<DOFPointer > *) &_result_ref;
+  }
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_std__vectorTboost__shared_ptrTDOF_t_t,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_PointPointer_Display(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Point > *arg1 = (boost::shared_ptr<Point > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTPoint_t,0))){
+    SWIG_fail_ptr("PointPointer_Display",1,SWIGTYPE_p_boost__shared_ptrTPoint_t);
+  }
+  
+  (*arg1)->Display();
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_PointPointer_UpdateDisplay(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Point > *arg1 = (boost::shared_ptr<Point > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTPoint_t,0))){
+    SWIG_fail_ptr("PointPointer_UpdateDisplay",1,SWIGTYPE_p_boost__shared_ptrTPoint_t);
+  }
+  
+  (*arg1)->UpdateDisplay();
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_PointPointer(void *obj) {
+boost::shared_ptr<Point > *arg1 = (boost::shared_ptr<Point > *) obj;
+delete arg1;
+}
+static swig_lua_method swig_boost_shared_ptr_Sl_Point_Sg__methods[] = {
+    {"__deref__", _wrap_PointPointer___deref__}, 
+    {"GetXDOF", _wrap_PointPointer_GetXDOF}, 
+    {"GetYDOF", _wrap_PointPointer_GetYDOF}, 
+    {"GetZDOF", _wrap_PointPointer_GetZDOF}, 
+    {"GetmmcMatrix", _wrap_PointPointer_GetmmcMatrix}, 
+    {"GetDOFList", _wrap_PointPointer_GetDOFList}, 
+    {"Display", _wrap_PointPointer_Display}, 
+    {"UpdateDisplay", _wrap_PointPointer_UpdateDisplay}, 
+    {0,0}
+};
+static swig_lua_attribute swig_boost_shared_ptr_Sl_Point_Sg__attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_boost_shared_ptr_Sl_Point_Sg__bases[] = {0};
+swig_lua_class _wrap_class_boost_shared_ptr_Sl_Point_Sg_ = { "PointPointer", &SWIGTYPE_p_boost__shared_ptrTPoint_t,_wrap_new_PointPointer, swig_delete_PointPointer, swig_boost_shared_ptr_Sl_Point_Sg__methods, swig_boost_shared_ptr_Sl_Point_Sg__attributes, swig_boost_shared_ptr_Sl_Point_Sg__bases };
+
+static int _wrap_VectorPointer___deref__(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Vector > *arg1 = (boost::shared_ptr<Vector > *) 0 ;
+  Vector *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTVector_t,0))){
+    SWIG_fail_ptr("VectorPointer___deref__",1,SWIGTYPE_p_boost__shared_ptrTVector_t);
+  }
+  
+  result = (Vector *)((boost::shared_ptr<Vector > const *)arg1)->operator ->();
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_Vector,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_VectorPointer(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Vector > *result = 0 ;
+  
+  result = (boost::shared_ptr<Vector > *)new boost::shared_ptr<Vector >();
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_boost__shared_ptrTVector_t,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_delete_VectorPointer(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Vector > *arg1 = (boost::shared_ptr<Vector > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTVector_t,0))){
+    SWIG_fail_ptr("delete_VectorPointer",1,SWIGTYPE_p_boost__shared_ptrTVector_t);
+  }
+  
+  delete arg1;
+  
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_VectorPointer_GetmmcMatrix(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Vector > *arg1 = (boost::shared_ptr<Vector > *) 0 ;
+  mmcMatrix result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTVector_t,0))){
+    SWIG_fail_ptr("VectorPointer_GetmmcMatrix",1,SWIGTYPE_p_boost__shared_ptrTVector_t);
+  }
+  
+  result = (*arg1)->GetmmcMatrix();
+  SWIG_arg=0;
+  {
+    mmcMatrix * resultptr = new mmcMatrix((mmcMatrix &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_mmcMatrix,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_VectorPointer_GetDOFList(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Vector > *arg1 = (boost::shared_ptr<Vector > *) 0 ;
+  std::vector<DOFPointer > *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTVector_t,0))){
+    SWIG_fail_ptr("VectorPointer_GetDOFList",1,SWIGTYPE_p_boost__shared_ptrTVector_t);
+  }
+  
+  {
+    std::vector<DOFPointer > const &_result_ref = (*arg1)->GetDOFList();
+    result = (std::vector<DOFPointer > *) &_result_ref;
+  }
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_std__vectorTboost__shared_ptrTDOF_t_t,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_VectorPointer_Display(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Vector > *arg1 = (boost::shared_ptr<Vector > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTVector_t,0))){
+    SWIG_fail_ptr("VectorPointer_Display",1,SWIGTYPE_p_boost__shared_ptrTVector_t);
+  }
+  
+  (*arg1)->Display();
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_VectorPointer_UpdateDisplay(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Vector > *arg1 = (boost::shared_ptr<Vector > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTVector_t,0))){
+    SWIG_fail_ptr("VectorPointer_UpdateDisplay",1,SWIGTYPE_p_boost__shared_ptrTVector_t);
+  }
+  
+  (*arg1)->UpdateDisplay();
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_VectorPointer(void *obj) {
+boost::shared_ptr<Vector > *arg1 = (boost::shared_ptr<Vector > *) obj;
+delete arg1;
+}
+static swig_lua_method swig_boost_shared_ptr_Sl_Vector_Sg__methods[] = {
+    {"__deref__", _wrap_VectorPointer___deref__}, 
+    {"GetmmcMatrix", _wrap_VectorPointer_GetmmcMatrix}, 
+    {"GetDOFList", _wrap_VectorPointer_GetDOFList}, 
+    {"Display", _wrap_VectorPointer_Display}, 
+    {"UpdateDisplay", _wrap_VectorPointer_UpdateDisplay}, 
+    {0,0}
+};
+static swig_lua_attribute swig_boost_shared_ptr_Sl_Vector_Sg__attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_boost_shared_ptr_Sl_Vector_Sg__bases[] = {0};
+swig_lua_class _wrap_class_boost_shared_ptr_Sl_Vector_Sg_ = { "VectorPointer", &SWIGTYPE_p_boost__shared_ptrTVector_t,_wrap_new_VectorPointer, swig_delete_VectorPointer, swig_boost_shared_ptr_Sl_Vector_Sg__methods, swig_boost_shared_ptr_Sl_Vector_Sg__attributes, swig_boost_shared_ptr_Sl_Vector_Sg__bases };
+
+static int _wrap_SketchPlanePointer___deref__(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<SketchPlane > *arg1 = (boost::shared_ptr<SketchPlane > *) 0 ;
+  SketchPlane *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTSketchPlane_t,0))){
+    SWIG_fail_ptr("SketchPlanePointer___deref__",1,SWIGTYPE_p_boost__shared_ptrTSketchPlane_t);
+  }
+  
+  result = (SketchPlane *)((boost::shared_ptr<SketchPlane > const *)arg1)->operator ->();
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_SketchPlane,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_SketchPlanePointer(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<SketchPlane > *result = 0 ;
+  
+  result = (boost::shared_ptr<SketchPlane > *)new boost::shared_ptr<SketchPlane >();
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_boost__shared_ptrTSketchPlane_t,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_delete_SketchPlanePointer(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<SketchPlane > *arg1 = (boost::shared_ptr<SketchPlane > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTSketchPlane_t,0))){
+    SWIG_fail_ptr("delete_SketchPlanePointer",1,SWIGTYPE_p_boost__shared_ptrTSketchPlane_t);
+  }
+  
+  delete arg1;
+  
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_SketchPlanePointer_Get3DLocation(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<SketchPlane > *arg1 = (boost::shared_ptr<SketchPlane > *) 0 ;
+  double arg2 ;
+  double arg3 ;
+  double *arg4 = 0 ;
+  double *arg5 = 0 ;
+  double *arg6 = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  if(!lua_isnumber(L,2)) SWIG_fail_arg(2);
+  if(!lua_isnumber(L,3)) SWIG_fail_arg(3);
+  if(!lua_isuserdata(L,4)) SWIG_fail_arg(4);
+  if(!lua_isuserdata(L,5)) SWIG_fail_arg(5);
+  if(!lua_isuserdata(L,6)) SWIG_fail_arg(6);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTSketchPlane_t,0))){
+    SWIG_fail_ptr("SketchPlanePointer_Get3DLocation",1,SWIGTYPE_p_boost__shared_ptrTSketchPlane_t);
+  }
+  
+  arg2 = (double)lua_tonumber(L, 2);
+  arg3 = (double)lua_tonumber(L, 3);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,4,(void**)&arg4,SWIGTYPE_p_double,0))){
+    SWIG_fail_ptr("SketchPlanePointer_Get3DLocation",4,SWIGTYPE_p_double);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,5,(void**)&arg5,SWIGTYPE_p_double,0))){
+    SWIG_fail_ptr("SketchPlanePointer_Get3DLocation",5,SWIGTYPE_p_double);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,6,(void**)&arg6,SWIGTYPE_p_double,0))){
+    SWIG_fail_ptr("SketchPlanePointer_Get3DLocation",6,SWIGTYPE_p_double);
+  }
+  
+  (*arg1)->Get3DLocation(arg2,arg3,*arg4,*arg5,*arg6);
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_SketchPlanePointer_GetABCD(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<SketchPlane > *arg1 = (boost::shared_ptr<SketchPlane > *) 0 ;
+  double *arg2 = 0 ;
+  double *arg3 = 0 ;
+  double *arg4 = 0 ;
+  double *arg5 = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  if(!lua_isuserdata(L,2)) SWIG_fail_arg(2);
+  if(!lua_isuserdata(L,3)) SWIG_fail_arg(3);
+  if(!lua_isuserdata(L,4)) SWIG_fail_arg(4);
+  if(!lua_isuserdata(L,5)) SWIG_fail_arg(5);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTSketchPlane_t,0))){
+    SWIG_fail_ptr("SketchPlanePointer_GetABCD",1,SWIGTYPE_p_boost__shared_ptrTSketchPlane_t);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&arg2,SWIGTYPE_p_double,0))){
+    SWIG_fail_ptr("SketchPlanePointer_GetABCD",2,SWIGTYPE_p_double);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,3,(void**)&arg3,SWIGTYPE_p_double,0))){
+    SWIG_fail_ptr("SketchPlanePointer_GetABCD",3,SWIGTYPE_p_double);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,4,(void**)&arg4,SWIGTYPE_p_double,0))){
+    SWIG_fail_ptr("SketchPlanePointer_GetABCD",4,SWIGTYPE_p_double);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,5,(void**)&arg5,SWIGTYPE_p_double,0))){
+    SWIG_fail_ptr("SketchPlanePointer_GetABCD",5,SWIGTYPE_p_double);
+  }
+  
+  (*arg1)->GetABCD(*arg2,*arg3,*arg4,*arg5);
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_SketchPlanePointer_GetNormal(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<SketchPlane > *arg1 = (boost::shared_ptr<SketchPlane > *) 0 ;
+  VectorPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTSketchPlane_t,0))){
+    SWIG_fail_ptr("SketchPlanePointer_GetNormal",1,SWIGTYPE_p_boost__shared_ptrTSketchPlane_t);
+  }
+  
+  result = (*arg1)->GetNormal();
+  SWIG_arg=0;
+  {
+    VectorPointer * resultptr = new VectorPointer((VectorPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTVector_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_SketchPlanePointer_GetUp(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<SketchPlane > *arg1 = (boost::shared_ptr<SketchPlane > *) 0 ;
+  VectorPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTSketchPlane_t,0))){
+    SWIG_fail_ptr("SketchPlanePointer_GetUp",1,SWIGTYPE_p_boost__shared_ptrTSketchPlane_t);
+  }
+  
+  result = (*arg1)->GetUp();
+  SWIG_arg=0;
+  {
+    VectorPointer * resultptr = new VectorPointer((VectorPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTVector_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_SketchPlanePointer_GetBase(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<SketchPlane > *arg1 = (boost::shared_ptr<SketchPlane > *) 0 ;
+  PointPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTSketchPlane_t,0))){
+    SWIG_fail_ptr("SketchPlanePointer_GetBase",1,SWIGTYPE_p_boost__shared_ptrTSketchPlane_t);
+  }
+  
+  result = (*arg1)->GetBase();
+  SWIG_arg=0;
+  {
+    PointPointer * resultptr = new PointPointer((PointPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTPoint_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_SketchPlanePointer_GetDOFList(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<SketchPlane > *arg1 = (boost::shared_ptr<SketchPlane > *) 0 ;
+  std::vector<DOFPointer > *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTSketchPlane_t,0))){
+    SWIG_fail_ptr("SketchPlanePointer_GetDOFList",1,SWIGTYPE_p_boost__shared_ptrTSketchPlane_t);
+  }
+  
+  {
+    std::vector<DOFPointer > const &_result_ref = (*arg1)->GetDOFList();
+    result = (std::vector<DOFPointer > *) &_result_ref;
+  }
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_std__vectorTboost__shared_ptrTDOF_t_t,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_SketchPlanePointer_Display(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<SketchPlane > *arg1 = (boost::shared_ptr<SketchPlane > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTSketchPlane_t,0))){
+    SWIG_fail_ptr("SketchPlanePointer_Display",1,SWIGTYPE_p_boost__shared_ptrTSketchPlane_t);
+  }
+  
+  (*arg1)->Display();
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_SketchPlanePointer_UpdateDisplay(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<SketchPlane > *arg1 = (boost::shared_ptr<SketchPlane > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTSketchPlane_t,0))){
+    SWIG_fail_ptr("SketchPlanePointer_UpdateDisplay",1,SWIGTYPE_p_boost__shared_ptrTSketchPlane_t);
+  }
+  
+  (*arg1)->UpdateDisplay();
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_SketchPlanePointer(void *obj) {
+boost::shared_ptr<SketchPlane > *arg1 = (boost::shared_ptr<SketchPlane > *) obj;
+delete arg1;
+}
+static swig_lua_method swig_boost_shared_ptr_Sl_SketchPlane_Sg__methods[] = {
+    {"__deref__", _wrap_SketchPlanePointer___deref__}, 
+    {"Get3DLocation", _wrap_SketchPlanePointer_Get3DLocation}, 
+    {"GetABCD", _wrap_SketchPlanePointer_GetABCD}, 
+    {"GetNormal", _wrap_SketchPlanePointer_GetNormal}, 
+    {"GetUp", _wrap_SketchPlanePointer_GetUp}, 
+    {"GetBase", _wrap_SketchPlanePointer_GetBase}, 
+    {"GetDOFList", _wrap_SketchPlanePointer_GetDOFList}, 
+    {"Display", _wrap_SketchPlanePointer_Display}, 
+    {"UpdateDisplay", _wrap_SketchPlanePointer_UpdateDisplay}, 
+    {0,0}
+};
+static swig_lua_attribute swig_boost_shared_ptr_Sl_SketchPlane_Sg__attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_boost_shared_ptr_Sl_SketchPlane_Sg__bases[] = {0};
+swig_lua_class _wrap_class_boost_shared_ptr_Sl_SketchPlane_Sg_ = { "SketchPlanePointer", &SWIGTYPE_p_boost__shared_ptrTSketchPlane_t,_wrap_new_SketchPlanePointer, swig_delete_SketchPlanePointer, swig_boost_shared_ptr_Sl_SketchPlane_Sg__methods, swig_boost_shared_ptr_Sl_SketchPlane_Sg__attributes, swig_boost_shared_ptr_Sl_SketchPlane_Sg__bases };
+
+static int _wrap_Primitive2DBasePointer___deref__(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Primitive2DBase > *arg1 = (boost::shared_ptr<Primitive2DBase > *) 0 ;
+  Primitive2DBase *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTPrimitive2DBase_t,0))){
+    SWIG_fail_ptr("Primitive2DBasePointer___deref__",1,SWIGTYPE_p_boost__shared_ptrTPrimitive2DBase_t);
+  }
+  
+  result = (Primitive2DBase *)((boost::shared_ptr<Primitive2DBase > const *)arg1)->operator ->();
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_Primitive2DBase,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_Primitive2DBasePointer(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Primitive2DBase > *result = 0 ;
+  
+  result = (boost::shared_ptr<Primitive2DBase > *)new boost::shared_ptr<Primitive2DBase >();
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_boost__shared_ptrTPrimitive2DBase_t,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_delete_Primitive2DBasePointer(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Primitive2DBase > *arg1 = (boost::shared_ptr<Primitive2DBase > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTPrimitive2DBase_t,0))){
+    SWIG_fail_ptr("delete_Primitive2DBasePointer",1,SWIGTYPE_p_boost__shared_ptrTPrimitive2DBase_t);
+  }
+  
+  delete arg1;
+  
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Primitive2DBasePointer_GetSketchPlane(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Primitive2DBase > *arg1 = (boost::shared_ptr<Primitive2DBase > *) 0 ;
+  SketchPlanePointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTPrimitive2DBase_t,0))){
+    SWIG_fail_ptr("Primitive2DBasePointer_GetSketchPlane",1,SWIGTYPE_p_boost__shared_ptrTPrimitive2DBase_t);
+  }
+  
+  result = (*arg1)->GetSketchPlane();
+  SWIG_arg=0;
+  {
+    SketchPlanePointer * resultptr = new SketchPlanePointer((SketchPlanePointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTSketchPlane_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Primitive2DBasePointer_GetDOFList(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Primitive2DBase > *arg1 = (boost::shared_ptr<Primitive2DBase > *) 0 ;
+  std::vector<DOFPointer > *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTPrimitive2DBase_t,0))){
+    SWIG_fail_ptr("Primitive2DBasePointer_GetDOFList",1,SWIGTYPE_p_boost__shared_ptrTPrimitive2DBase_t);
+  }
+  
+  {
+    std::vector<DOFPointer > const &_result_ref = (*arg1)->GetDOFList();
+    result = (std::vector<DOFPointer > *) &_result_ref;
+  }
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_std__vectorTboost__shared_ptrTDOF_t_t,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Primitive2DBasePointer_Display(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Primitive2DBase > *arg1 = (boost::shared_ptr<Primitive2DBase > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTPrimitive2DBase_t,0))){
+    SWIG_fail_ptr("Primitive2DBasePointer_Display",1,SWIGTYPE_p_boost__shared_ptrTPrimitive2DBase_t);
+  }
+  
+  (*arg1)->Display();
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Primitive2DBasePointer_UpdateDisplay(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Primitive2DBase > *arg1 = (boost::shared_ptr<Primitive2DBase > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTPrimitive2DBase_t,0))){
+    SWIG_fail_ptr("Primitive2DBasePointer_UpdateDisplay",1,SWIGTYPE_p_boost__shared_ptrTPrimitive2DBase_t);
+  }
+  
+  (*arg1)->UpdateDisplay();
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_Primitive2DBasePointer(void *obj) {
+boost::shared_ptr<Primitive2DBase > *arg1 = (boost::shared_ptr<Primitive2DBase > *) obj;
+delete arg1;
+}
+static swig_lua_method swig_boost_shared_ptr_Sl_Primitive2DBase_Sg__methods[] = {
+    {"__deref__", _wrap_Primitive2DBasePointer___deref__}, 
+    {"GetSketchPlane", _wrap_Primitive2DBasePointer_GetSketchPlane}, 
+    {"GetDOFList", _wrap_Primitive2DBasePointer_GetDOFList}, 
+    {"Display", _wrap_Primitive2DBasePointer_Display}, 
+    {"UpdateDisplay", _wrap_Primitive2DBasePointer_UpdateDisplay}, 
+    {0,0}
+};
+static swig_lua_attribute swig_boost_shared_ptr_Sl_Primitive2DBase_Sg__attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_boost_shared_ptr_Sl_Primitive2DBase_Sg__bases[] = {0};
+swig_lua_class _wrap_class_boost_shared_ptr_Sl_Primitive2DBase_Sg_ = { "Primitive2DBasePointer", &SWIGTYPE_p_boost__shared_ptrTPrimitive2DBase_t,_wrap_new_Primitive2DBasePointer, swig_delete_Primitive2DBasePointer, swig_boost_shared_ptr_Sl_Primitive2DBase_Sg__methods, swig_boost_shared_ptr_Sl_Primitive2DBase_Sg__attributes, swig_boost_shared_ptr_Sl_Primitive2DBase_Sg__bases };
+
+static int _wrap_Point2DPointer___deref__(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Point2D > *arg1 = (boost::shared_ptr<Point2D > *) 0 ;
+  Point2D *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTPoint2D_t,0))){
+    SWIG_fail_ptr("Point2DPointer___deref__",1,SWIGTYPE_p_boost__shared_ptrTPoint2D_t);
+  }
+  
+  result = (Point2D *)((boost::shared_ptr<Point2D > const *)arg1)->operator ->();
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_Point2D,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_Point2DPointer(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Point2D > *result = 0 ;
+  
+  result = (boost::shared_ptr<Point2D > *)new boost::shared_ptr<Point2D >();
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_boost__shared_ptrTPoint2D_t,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_delete_Point2DPointer(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Point2D > *arg1 = (boost::shared_ptr<Point2D > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTPoint2D_t,0))){
+    SWIG_fail_ptr("delete_Point2DPointer",1,SWIGTYPE_p_boost__shared_ptrTPoint2D_t);
+  }
+  
+  delete arg1;
+  
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Point2DPointer_GetSDOF(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Point2D > *arg1 = (boost::shared_ptr<Point2D > *) 0 ;
+  DOFPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTPoint2D_t,0))){
+    SWIG_fail_ptr("Point2DPointer_GetSDOF",1,SWIGTYPE_p_boost__shared_ptrTPoint2D_t);
+  }
+  
+  result = (*arg1)->GetSDOF();
+  SWIG_arg=0;
+  {
+    DOFPointer * resultptr = new DOFPointer((DOFPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTDOF_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Point2DPointer_GetTDOF(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Point2D > *arg1 = (boost::shared_ptr<Point2D > *) 0 ;
+  DOFPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTPoint2D_t,0))){
+    SWIG_fail_ptr("Point2DPointer_GetTDOF",1,SWIGTYPE_p_boost__shared_ptrTPoint2D_t);
+  }
+  
+  result = (*arg1)->GetTDOF();
+  SWIG_arg=0;
+  {
+    DOFPointer * resultptr = new DOFPointer((DOFPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTDOF_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Point2DPointer_Get3DLocation(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Point2D > *arg1 = (boost::shared_ptr<Point2D > *) 0 ;
+  double *arg2 = 0 ;
+  double *arg3 = 0 ;
+  double *arg4 = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  if(!lua_isuserdata(L,2)) SWIG_fail_arg(2);
+  if(!lua_isuserdata(L,3)) SWIG_fail_arg(3);
+  if(!lua_isuserdata(L,4)) SWIG_fail_arg(4);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTPoint2D_t,0))){
+    SWIG_fail_ptr("Point2DPointer_Get3DLocation",1,SWIGTYPE_p_boost__shared_ptrTPoint2D_t);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&arg2,SWIGTYPE_p_double,0))){
+    SWIG_fail_ptr("Point2DPointer_Get3DLocation",2,SWIGTYPE_p_double);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,3,(void**)&arg3,SWIGTYPE_p_double,0))){
+    SWIG_fail_ptr("Point2DPointer_Get3DLocation",3,SWIGTYPE_p_double);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,4,(void**)&arg4,SWIGTYPE_p_double,0))){
+    SWIG_fail_ptr("Point2DPointer_Get3DLocation",4,SWIGTYPE_p_double);
+  }
+  
+  (*arg1)->Get3DLocation(*arg2,*arg3,*arg4);
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Point2DPointer_GetSketchPlane(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Point2D > *arg1 = (boost::shared_ptr<Point2D > *) 0 ;
+  SketchPlanePointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTPoint2D_t,0))){
+    SWIG_fail_ptr("Point2DPointer_GetSketchPlane",1,SWIGTYPE_p_boost__shared_ptrTPoint2D_t);
+  }
+  
+  result = (*arg1)->GetSketchPlane();
+  SWIG_arg=0;
+  {
+    SketchPlanePointer * resultptr = new SketchPlanePointer((SketchPlanePointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTSketchPlane_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Point2DPointer_GetDOFList(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Point2D > *arg1 = (boost::shared_ptr<Point2D > *) 0 ;
+  std::vector<DOFPointer > *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTPoint2D_t,0))){
+    SWIG_fail_ptr("Point2DPointer_GetDOFList",1,SWIGTYPE_p_boost__shared_ptrTPoint2D_t);
+  }
+  
+  {
+    std::vector<DOFPointer > const &_result_ref = (*arg1)->GetDOFList();
+    result = (std::vector<DOFPointer > *) &_result_ref;
+  }
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_std__vectorTboost__shared_ptrTDOF_t_t,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Point2DPointer_Display(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Point2D > *arg1 = (boost::shared_ptr<Point2D > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTPoint2D_t,0))){
+    SWIG_fail_ptr("Point2DPointer_Display",1,SWIGTYPE_p_boost__shared_ptrTPoint2D_t);
+  }
+  
+  (*arg1)->Display();
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Point2DPointer_UpdateDisplay(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Point2D > *arg1 = (boost::shared_ptr<Point2D > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTPoint2D_t,0))){
+    SWIG_fail_ptr("Point2DPointer_UpdateDisplay",1,SWIGTYPE_p_boost__shared_ptrTPoint2D_t);
+  }
+  
+  (*arg1)->UpdateDisplay();
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_Point2DPointer(void *obj) {
+boost::shared_ptr<Point2D > *arg1 = (boost::shared_ptr<Point2D > *) obj;
+delete arg1;
+}
+static swig_lua_method swig_boost_shared_ptr_Sl_Point2D_Sg__methods[] = {
+    {"__deref__", _wrap_Point2DPointer___deref__}, 
+    {"GetSDOF", _wrap_Point2DPointer_GetSDOF}, 
+    {"GetTDOF", _wrap_Point2DPointer_GetTDOF}, 
+    {"Get3DLocation", _wrap_Point2DPointer_Get3DLocation}, 
+    {"GetSketchPlane", _wrap_Point2DPointer_GetSketchPlane}, 
+    {"GetDOFList", _wrap_Point2DPointer_GetDOFList}, 
+    {"Display", _wrap_Point2DPointer_Display}, 
+    {"UpdateDisplay", _wrap_Point2DPointer_UpdateDisplay}, 
+    {0,0}
+};
+static swig_lua_attribute swig_boost_shared_ptr_Sl_Point2D_Sg__attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_boost_shared_ptr_Sl_Point2D_Sg__bases[] = {0};
+swig_lua_class _wrap_class_boost_shared_ptr_Sl_Point2D_Sg_ = { "Point2DPointer", &SWIGTYPE_p_boost__shared_ptrTPoint2D_t,_wrap_new_Point2DPointer, swig_delete_Point2DPointer, swig_boost_shared_ptr_Sl_Point2D_Sg__methods, swig_boost_shared_ptr_Sl_Point2D_Sg__attributes, swig_boost_shared_ptr_Sl_Point2D_Sg__bases };
+
+static int _wrap_Edge2DBasePointer___deref__(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Edge2DBase > *arg1 = (boost::shared_ptr<Edge2DBase > *) 0 ;
+  Edge2DBase *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTEdge2DBase_t,0))){
+    SWIG_fail_ptr("Edge2DBasePointer___deref__",1,SWIGTYPE_p_boost__shared_ptrTEdge2DBase_t);
+  }
+  
+  result = (Edge2DBase *)((boost::shared_ptr<Edge2DBase > const *)arg1)->operator ->();
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_Edge2DBase,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_Edge2DBasePointer(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Edge2DBase > *result = 0 ;
+  
+  result = (boost::shared_ptr<Edge2DBase > *)new boost::shared_ptr<Edge2DBase >();
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_boost__shared_ptrTEdge2DBase_t,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_delete_Edge2DBasePointer(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Edge2DBase > *arg1 = (boost::shared_ptr<Edge2DBase > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTEdge2DBase_t,0))){
+    SWIG_fail_ptr("delete_Edge2DBasePointer",1,SWIGTYPE_p_boost__shared_ptrTEdge2DBase_t);
+  }
+  
+  delete arg1;
+  
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Edge2DBasePointer_GetPoint1(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Edge2DBase > *arg1 = (boost::shared_ptr<Edge2DBase > *) 0 ;
+  Point2DPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTEdge2DBase_t,0))){
+    SWIG_fail_ptr("Edge2DBasePointer_GetPoint1",1,SWIGTYPE_p_boost__shared_ptrTEdge2DBase_t);
+  }
+  
+  result = (*arg1)->GetPoint1();
+  SWIG_arg=0;
+  {
+    Point2DPointer * resultptr = new Point2DPointer((Point2DPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTPoint2D_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Edge2DBasePointer_GetPoint2(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Edge2DBase > *arg1 = (boost::shared_ptr<Edge2DBase > *) 0 ;
+  Point2DPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTEdge2DBase_t,0))){
+    SWIG_fail_ptr("Edge2DBasePointer_GetPoint2",1,SWIGTYPE_p_boost__shared_ptrTEdge2DBase_t);
+  }
+  
+  result = (*arg1)->GetPoint2();
+  SWIG_arg=0;
+  {
+    Point2DPointer * resultptr = new Point2DPointer((Point2DPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTPoint2D_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Edge2DBasePointer_GetTangent1(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Edge2DBase > *arg1 = (boost::shared_ptr<Edge2DBase > *) 0 ;
+  GiNaC::ex *arg2 = 0 ;
+  GiNaC::ex *arg3 = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  if(!lua_isuserdata(L,2)) SWIG_fail_arg(2);
+  if(!lua_isuserdata(L,3)) SWIG_fail_arg(3);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTEdge2DBase_t,0))){
+    SWIG_fail_ptr("Edge2DBasePointer_GetTangent1",1,SWIGTYPE_p_boost__shared_ptrTEdge2DBase_t);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&arg2,SWIGTYPE_p_GiNaC__ex,0))){
+    SWIG_fail_ptr("Edge2DBasePointer_GetTangent1",2,SWIGTYPE_p_GiNaC__ex);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,3,(void**)&arg3,SWIGTYPE_p_GiNaC__ex,0))){
+    SWIG_fail_ptr("Edge2DBasePointer_GetTangent1",3,SWIGTYPE_p_GiNaC__ex);
+  }
+  
+  (*arg1)->GetTangent1(*arg2,*arg3);
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Edge2DBasePointer_GetTangent2(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Edge2DBase > *arg1 = (boost::shared_ptr<Edge2DBase > *) 0 ;
+  GiNaC::ex *arg2 = 0 ;
+  GiNaC::ex *arg3 = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  if(!lua_isuserdata(L,2)) SWIG_fail_arg(2);
+  if(!lua_isuserdata(L,3)) SWIG_fail_arg(3);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTEdge2DBase_t,0))){
+    SWIG_fail_ptr("Edge2DBasePointer_GetTangent2",1,SWIGTYPE_p_boost__shared_ptrTEdge2DBase_t);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&arg2,SWIGTYPE_p_GiNaC__ex,0))){
+    SWIG_fail_ptr("Edge2DBasePointer_GetTangent2",2,SWIGTYPE_p_GiNaC__ex);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,3,(void**)&arg3,SWIGTYPE_p_GiNaC__ex,0))){
+    SWIG_fail_ptr("Edge2DBasePointer_GetTangent2",3,SWIGTYPE_p_GiNaC__ex);
+  }
+  
+  (*arg1)->GetTangent2(*arg2,*arg3);
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Edge2DBasePointer_IsPointCoincident(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Edge2DBase > *arg1 = (boost::shared_ptr<Edge2DBase > *) 0 ;
+  EdgePointNumber arg2 ;
+  boost::shared_ptr<Edge2DBase > arg3 ;
+  EdgePointNumber arg4 ;
+  bool result;
+  boost::shared_ptr<Edge2DBase > *argp3 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  if(!lua_isnumber(L,2)) SWIG_fail_arg(2);
+  if(!lua_isuserdata(L,3)) SWIG_fail_arg(3);
+  if(!lua_isnumber(L,4)) SWIG_fail_arg(4);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTEdge2DBase_t,0))){
+    SWIG_fail_ptr("Edge2DBasePointer_IsPointCoincident",1,SWIGTYPE_p_boost__shared_ptrTEdge2DBase_t);
+  }
+  
+  arg2 = (EdgePointNumber)(int)lua_tonumber(L, 2);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,3,(void**)&argp3,SWIGTYPE_p_boost__shared_ptrTEdge2DBase_t,0))){
+    SWIG_fail_ptr("Edge2DBasePointer_IsPointCoincident",3,SWIGTYPE_boost__shared_ptrTEdge2DBase_t);
+  }
+  arg3 = *argp3;
+  
+  arg4 = (EdgePointNumber)(int)lua_tonumber(L, 4);
+  result = (bool)(*arg1)->IsPointCoincident(arg2,arg3,arg4);
+  SWIG_arg=0;
+  lua_pushboolean(L,(int)result); SWIG_arg++;
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Edge2DBasePointer_GetSketchPlane(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Edge2DBase > *arg1 = (boost::shared_ptr<Edge2DBase > *) 0 ;
+  SketchPlanePointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTEdge2DBase_t,0))){
+    SWIG_fail_ptr("Edge2DBasePointer_GetSketchPlane",1,SWIGTYPE_p_boost__shared_ptrTEdge2DBase_t);
+  }
+  
+  result = (*arg1)->GetSketchPlane();
+  SWIG_arg=0;
+  {
+    SketchPlanePointer * resultptr = new SketchPlanePointer((SketchPlanePointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTSketchPlane_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Edge2DBasePointer_GetDOFList(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Edge2DBase > *arg1 = (boost::shared_ptr<Edge2DBase > *) 0 ;
+  std::vector<DOFPointer > *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTEdge2DBase_t,0))){
+    SWIG_fail_ptr("Edge2DBasePointer_GetDOFList",1,SWIGTYPE_p_boost__shared_ptrTEdge2DBase_t);
+  }
+  
+  {
+    std::vector<DOFPointer > const &_result_ref = (*arg1)->GetDOFList();
+    result = (std::vector<DOFPointer > *) &_result_ref;
+  }
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_std__vectorTboost__shared_ptrTDOF_t_t,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Edge2DBasePointer_Display(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Edge2DBase > *arg1 = (boost::shared_ptr<Edge2DBase > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTEdge2DBase_t,0))){
+    SWIG_fail_ptr("Edge2DBasePointer_Display",1,SWIGTYPE_p_boost__shared_ptrTEdge2DBase_t);
+  }
+  
+  (*arg1)->Display();
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Edge2DBasePointer_UpdateDisplay(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Edge2DBase > *arg1 = (boost::shared_ptr<Edge2DBase > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTEdge2DBase_t,0))){
+    SWIG_fail_ptr("Edge2DBasePointer_UpdateDisplay",1,SWIGTYPE_p_boost__shared_ptrTEdge2DBase_t);
+  }
+  
+  (*arg1)->UpdateDisplay();
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_Edge2DBasePointer(void *obj) {
+boost::shared_ptr<Edge2DBase > *arg1 = (boost::shared_ptr<Edge2DBase > *) obj;
+delete arg1;
+}
+static swig_lua_method swig_boost_shared_ptr_Sl_Edge2DBase_Sg__methods[] = {
+    {"__deref__", _wrap_Edge2DBasePointer___deref__}, 
+    {"GetPoint1", _wrap_Edge2DBasePointer_GetPoint1}, 
+    {"GetPoint2", _wrap_Edge2DBasePointer_GetPoint2}, 
+    {"GetTangent1", _wrap_Edge2DBasePointer_GetTangent1}, 
+    {"GetTangent2", _wrap_Edge2DBasePointer_GetTangent2}, 
+    {"IsPointCoincident", _wrap_Edge2DBasePointer_IsPointCoincident}, 
+    {"GetSketchPlane", _wrap_Edge2DBasePointer_GetSketchPlane}, 
+    {"GetDOFList", _wrap_Edge2DBasePointer_GetDOFList}, 
+    {"Display", _wrap_Edge2DBasePointer_Display}, 
+    {"UpdateDisplay", _wrap_Edge2DBasePointer_UpdateDisplay}, 
+    {0,0}
+};
+static swig_lua_attribute swig_boost_shared_ptr_Sl_Edge2DBase_Sg__attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_boost_shared_ptr_Sl_Edge2DBase_Sg__bases[] = {0};
+swig_lua_class _wrap_class_boost_shared_ptr_Sl_Edge2DBase_Sg_ = { "Edge2DBasePointer", &SWIGTYPE_p_boost__shared_ptrTEdge2DBase_t,_wrap_new_Edge2DBasePointer, swig_delete_Edge2DBasePointer, swig_boost_shared_ptr_Sl_Edge2DBase_Sg__methods, swig_boost_shared_ptr_Sl_Edge2DBase_Sg__attributes, swig_boost_shared_ptr_Sl_Edge2DBase_Sg__bases };
+
+static int _wrap_LinePointer___deref__(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Line > *arg1 = (boost::shared_ptr<Line > *) 0 ;
+  Line *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTLine_t,0))){
+    SWIG_fail_ptr("LinePointer___deref__",1,SWIGTYPE_p_boost__shared_ptrTLine_t);
+  }
+  
+  result = (Line *)((boost::shared_ptr<Line > const *)arg1)->operator ->();
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_Line,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_LinePointer(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Line > *result = 0 ;
+  
+  result = (boost::shared_ptr<Line > *)new boost::shared_ptr<Line >();
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_boost__shared_ptrTLine_t,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_delete_LinePointer(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Line > *arg1 = (boost::shared_ptr<Line > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTLine_t,0))){
+    SWIG_fail_ptr("delete_LinePointer",1,SWIGTYPE_p_boost__shared_ptrTLine_t);
+  }
+  
+  delete arg1;
+  
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_LinePointer_GetX1(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Line > *arg1 = (boost::shared_ptr<Line > *) 0 ;
+  DOFPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTLine_t,0))){
+    SWIG_fail_ptr("LinePointer_GetX1",1,SWIGTYPE_p_boost__shared_ptrTLine_t);
+  }
+  
+  result = (*arg1)->GetX1();
+  SWIG_arg=0;
+  {
+    DOFPointer * resultptr = new DOFPointer((DOFPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTDOF_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_LinePointer_GetY1(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Line > *arg1 = (boost::shared_ptr<Line > *) 0 ;
+  DOFPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTLine_t,0))){
+    SWIG_fail_ptr("LinePointer_GetY1",1,SWIGTYPE_p_boost__shared_ptrTLine_t);
+  }
+  
+  result = (*arg1)->GetY1();
+  SWIG_arg=0;
+  {
+    DOFPointer * resultptr = new DOFPointer((DOFPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTDOF_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_LinePointer_GetZ1(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Line > *arg1 = (boost::shared_ptr<Line > *) 0 ;
+  DOFPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTLine_t,0))){
+    SWIG_fail_ptr("LinePointer_GetZ1",1,SWIGTYPE_p_boost__shared_ptrTLine_t);
+  }
+  
+  result = (*arg1)->GetZ1();
+  SWIG_arg=0;
+  {
+    DOFPointer * resultptr = new DOFPointer((DOFPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTDOF_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_LinePointer_GetX2(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Line > *arg1 = (boost::shared_ptr<Line > *) 0 ;
+  DOFPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTLine_t,0))){
+    SWIG_fail_ptr("LinePointer_GetX2",1,SWIGTYPE_p_boost__shared_ptrTLine_t);
+  }
+  
+  result = (*arg1)->GetX2();
+  SWIG_arg=0;
+  {
+    DOFPointer * resultptr = new DOFPointer((DOFPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTDOF_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_LinePointer_GetY2(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Line > *arg1 = (boost::shared_ptr<Line > *) 0 ;
+  DOFPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTLine_t,0))){
+    SWIG_fail_ptr("LinePointer_GetY2",1,SWIGTYPE_p_boost__shared_ptrTLine_t);
+  }
+  
+  result = (*arg1)->GetY2();
+  SWIG_arg=0;
+  {
+    DOFPointer * resultptr = new DOFPointer((DOFPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTDOF_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_LinePointer_GetZ2(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Line > *arg1 = (boost::shared_ptr<Line > *) 0 ;
+  DOFPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTLine_t,0))){
+    SWIG_fail_ptr("LinePointer_GetZ2",1,SWIGTYPE_p_boost__shared_ptrTLine_t);
+  }
+  
+  result = (*arg1)->GetZ2();
+  SWIG_arg=0;
+  {
+    DOFPointer * resultptr = new DOFPointer((DOFPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTDOF_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_LinePointer_GetDOFList(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Line > *arg1 = (boost::shared_ptr<Line > *) 0 ;
+  std::vector<DOFPointer > *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTLine_t,0))){
+    SWIG_fail_ptr("LinePointer_GetDOFList",1,SWIGTYPE_p_boost__shared_ptrTLine_t);
+  }
+  
+  {
+    std::vector<DOFPointer > const &_result_ref = (*arg1)->GetDOFList();
+    result = (std::vector<DOFPointer > *) &_result_ref;
+  }
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_std__vectorTboost__shared_ptrTDOF_t_t,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_LinePointer_Display(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Line > *arg1 = (boost::shared_ptr<Line > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTLine_t,0))){
+    SWIG_fail_ptr("LinePointer_Display",1,SWIGTYPE_p_boost__shared_ptrTLine_t);
+  }
+  
+  (*arg1)->Display();
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_LinePointer_UpdateDisplay(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Line > *arg1 = (boost::shared_ptr<Line > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTLine_t,0))){
+    SWIG_fail_ptr("LinePointer_UpdateDisplay",1,SWIGTYPE_p_boost__shared_ptrTLine_t);
+  }
+  
+  (*arg1)->UpdateDisplay();
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_LinePointer(void *obj) {
+boost::shared_ptr<Line > *arg1 = (boost::shared_ptr<Line > *) obj;
+delete arg1;
+}
+static swig_lua_method swig_boost_shared_ptr_Sl_Line_Sg__methods[] = {
+    {"__deref__", _wrap_LinePointer___deref__}, 
+    {"GetX1", _wrap_LinePointer_GetX1}, 
+    {"GetY1", _wrap_LinePointer_GetY1}, 
+    {"GetZ1", _wrap_LinePointer_GetZ1}, 
+    {"GetX2", _wrap_LinePointer_GetX2}, 
+    {"GetY2", _wrap_LinePointer_GetY2}, 
+    {"GetZ2", _wrap_LinePointer_GetZ2}, 
+    {"GetDOFList", _wrap_LinePointer_GetDOFList}, 
+    {"Display", _wrap_LinePointer_Display}, 
+    {"UpdateDisplay", _wrap_LinePointer_UpdateDisplay}, 
+    {0,0}
+};
+static swig_lua_attribute swig_boost_shared_ptr_Sl_Line_Sg__attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_boost_shared_ptr_Sl_Line_Sg__bases[] = {0};
+swig_lua_class _wrap_class_boost_shared_ptr_Sl_Line_Sg_ = { "LinePointer", &SWIGTYPE_p_boost__shared_ptrTLine_t,_wrap_new_LinePointer, swig_delete_LinePointer, swig_boost_shared_ptr_Sl_Line_Sg__methods, swig_boost_shared_ptr_Sl_Line_Sg__attributes, swig_boost_shared_ptr_Sl_Line_Sg__bases };
+
+static int _wrap_Line2DPointer___deref__(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Line2D > *arg1 = (boost::shared_ptr<Line2D > *) 0 ;
+  Line2D *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTLine2D_t,0))){
+    SWIG_fail_ptr("Line2DPointer___deref__",1,SWIGTYPE_p_boost__shared_ptrTLine2D_t);
+  }
+  
+  result = (Line2D *)((boost::shared_ptr<Line2D > const *)arg1)->operator ->();
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_Line2D,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_Line2DPointer(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Line2D > *result = 0 ;
+  
+  result = (boost::shared_ptr<Line2D > *)new boost::shared_ptr<Line2D >();
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_boost__shared_ptrTLine2D_t,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_delete_Line2DPointer(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Line2D > *arg1 = (boost::shared_ptr<Line2D > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTLine2D_t,0))){
+    SWIG_fail_ptr("delete_Line2DPointer",1,SWIGTYPE_p_boost__shared_ptrTLine2D_t);
+  }
+  
+  delete arg1;
+  
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Line2DPointer_GetS1(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Line2D > *arg1 = (boost::shared_ptr<Line2D > *) 0 ;
+  DOFPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTLine2D_t,0))){
+    SWIG_fail_ptr("Line2DPointer_GetS1",1,SWIGTYPE_p_boost__shared_ptrTLine2D_t);
+  }
+  
+  result = (*arg1)->GetS1();
+  SWIG_arg=0;
+  {
+    DOFPointer * resultptr = new DOFPointer((DOFPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTDOF_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Line2DPointer_GetT1(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Line2D > *arg1 = (boost::shared_ptr<Line2D > *) 0 ;
+  DOFPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTLine2D_t,0))){
+    SWIG_fail_ptr("Line2DPointer_GetT1",1,SWIGTYPE_p_boost__shared_ptrTLine2D_t);
+  }
+  
+  result = (*arg1)->GetT1();
+  SWIG_arg=0;
+  {
+    DOFPointer * resultptr = new DOFPointer((DOFPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTDOF_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Line2DPointer_GetS2(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Line2D > *arg1 = (boost::shared_ptr<Line2D > *) 0 ;
+  DOFPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTLine2D_t,0))){
+    SWIG_fail_ptr("Line2DPointer_GetS2",1,SWIGTYPE_p_boost__shared_ptrTLine2D_t);
+  }
+  
+  result = (*arg1)->GetS2();
+  SWIG_arg=0;
+  {
+    DOFPointer * resultptr = new DOFPointer((DOFPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTDOF_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Line2DPointer_GetT2(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Line2D > *arg1 = (boost::shared_ptr<Line2D > *) 0 ;
+  DOFPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTLine2D_t,0))){
+    SWIG_fail_ptr("Line2DPointer_GetT2",1,SWIGTYPE_p_boost__shared_ptrTLine2D_t);
+  }
+  
+  result = (*arg1)->GetT2();
+  SWIG_arg=0;
+  {
+    DOFPointer * resultptr = new DOFPointer((DOFPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTDOF_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Line2DPointer_Get3DLocations(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Line2D > *arg1 = (boost::shared_ptr<Line2D > *) 0 ;
+  double *arg2 = 0 ;
+  double *arg3 = 0 ;
+  double *arg4 = 0 ;
+  double *arg5 = 0 ;
+  double *arg6 = 0 ;
+  double *arg7 = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  if(!lua_isuserdata(L,2)) SWIG_fail_arg(2);
+  if(!lua_isuserdata(L,3)) SWIG_fail_arg(3);
+  if(!lua_isuserdata(L,4)) SWIG_fail_arg(4);
+  if(!lua_isuserdata(L,5)) SWIG_fail_arg(5);
+  if(!lua_isuserdata(L,6)) SWIG_fail_arg(6);
+  if(!lua_isuserdata(L,7)) SWIG_fail_arg(7);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTLine2D_t,0))){
+    SWIG_fail_ptr("Line2DPointer_Get3DLocations",1,SWIGTYPE_p_boost__shared_ptrTLine2D_t);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&arg2,SWIGTYPE_p_double,0))){
+    SWIG_fail_ptr("Line2DPointer_Get3DLocations",2,SWIGTYPE_p_double);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,3,(void**)&arg3,SWIGTYPE_p_double,0))){
+    SWIG_fail_ptr("Line2DPointer_Get3DLocations",3,SWIGTYPE_p_double);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,4,(void**)&arg4,SWIGTYPE_p_double,0))){
+    SWIG_fail_ptr("Line2DPointer_Get3DLocations",4,SWIGTYPE_p_double);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,5,(void**)&arg5,SWIGTYPE_p_double,0))){
+    SWIG_fail_ptr("Line2DPointer_Get3DLocations",5,SWIGTYPE_p_double);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,6,(void**)&arg6,SWIGTYPE_p_double,0))){
+    SWIG_fail_ptr("Line2DPointer_Get3DLocations",6,SWIGTYPE_p_double);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,7,(void**)&arg7,SWIGTYPE_p_double,0))){
+    SWIG_fail_ptr("Line2DPointer_Get3DLocations",7,SWIGTYPE_p_double);
+  }
+  
+  (*arg1)->Get3DLocations(*arg2,*arg3,*arg4,*arg5,*arg6,*arg7);
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Line2DPointer_GetPoint1(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Line2D > *arg1 = (boost::shared_ptr<Line2D > *) 0 ;
+  Point2DPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTLine2D_t,0))){
+    SWIG_fail_ptr("Line2DPointer_GetPoint1",1,SWIGTYPE_p_boost__shared_ptrTLine2D_t);
+  }
+  
+  result = (*arg1)->GetPoint1();
+  SWIG_arg=0;
+  {
+    Point2DPointer * resultptr = new Point2DPointer((Point2DPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTPoint2D_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Line2DPointer_GetPoint2(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Line2D > *arg1 = (boost::shared_ptr<Line2D > *) 0 ;
+  Point2DPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTLine2D_t,0))){
+    SWIG_fail_ptr("Line2DPointer_GetPoint2",1,SWIGTYPE_p_boost__shared_ptrTLine2D_t);
+  }
+  
+  result = (*arg1)->GetPoint2();
+  SWIG_arg=0;
+  {
+    Point2DPointer * resultptr = new Point2DPointer((Point2DPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTPoint2D_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Line2DPointer_GetTangent1(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Line2D > *arg1 = (boost::shared_ptr<Line2D > *) 0 ;
+  GiNaC::ex *arg2 = 0 ;
+  GiNaC::ex *arg3 = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  if(!lua_isuserdata(L,2)) SWIG_fail_arg(2);
+  if(!lua_isuserdata(L,3)) SWIG_fail_arg(3);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTLine2D_t,0))){
+    SWIG_fail_ptr("Line2DPointer_GetTangent1",1,SWIGTYPE_p_boost__shared_ptrTLine2D_t);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&arg2,SWIGTYPE_p_GiNaC__ex,0))){
+    SWIG_fail_ptr("Line2DPointer_GetTangent1",2,SWIGTYPE_p_GiNaC__ex);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,3,(void**)&arg3,SWIGTYPE_p_GiNaC__ex,0))){
+    SWIG_fail_ptr("Line2DPointer_GetTangent1",3,SWIGTYPE_p_GiNaC__ex);
+  }
+  
+  (*arg1)->GetTangent1(*arg2,*arg3);
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Line2DPointer_GetTangent2(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Line2D > *arg1 = (boost::shared_ptr<Line2D > *) 0 ;
+  GiNaC::ex *arg2 = 0 ;
+  GiNaC::ex *arg3 = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  if(!lua_isuserdata(L,2)) SWIG_fail_arg(2);
+  if(!lua_isuserdata(L,3)) SWIG_fail_arg(3);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTLine2D_t,0))){
+    SWIG_fail_ptr("Line2DPointer_GetTangent2",1,SWIGTYPE_p_boost__shared_ptrTLine2D_t);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&arg2,SWIGTYPE_p_GiNaC__ex,0))){
+    SWIG_fail_ptr("Line2DPointer_GetTangent2",2,SWIGTYPE_p_GiNaC__ex);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,3,(void**)&arg3,SWIGTYPE_p_GiNaC__ex,0))){
+    SWIG_fail_ptr("Line2DPointer_GetTangent2",3,SWIGTYPE_p_GiNaC__ex);
+  }
+  
+  (*arg1)->GetTangent2(*arg2,*arg3);
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Line2DPointer_IsPointCoincident(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Line2D > *arg1 = (boost::shared_ptr<Line2D > *) 0 ;
+  EdgePointNumber arg2 ;
+  boost::shared_ptr<Edge2DBase > arg3 ;
+  EdgePointNumber arg4 ;
+  bool result;
+  boost::shared_ptr<Edge2DBase > *argp3 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  if(!lua_isnumber(L,2)) SWIG_fail_arg(2);
+  if(!lua_isuserdata(L,3)) SWIG_fail_arg(3);
+  if(!lua_isnumber(L,4)) SWIG_fail_arg(4);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTLine2D_t,0))){
+    SWIG_fail_ptr("Line2DPointer_IsPointCoincident",1,SWIGTYPE_p_boost__shared_ptrTLine2D_t);
+  }
+  
+  arg2 = (EdgePointNumber)(int)lua_tonumber(L, 2);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,3,(void**)&argp3,SWIGTYPE_p_boost__shared_ptrTEdge2DBase_t,0))){
+    SWIG_fail_ptr("Line2DPointer_IsPointCoincident",3,SWIGTYPE_boost__shared_ptrTEdge2DBase_t);
+  }
+  arg3 = *argp3;
+  
+  arg4 = (EdgePointNumber)(int)lua_tonumber(L, 4);
+  result = (bool)(*arg1)->IsPointCoincident(arg2,arg3,arg4);
+  SWIG_arg=0;
+  lua_pushboolean(L,(int)result); SWIG_arg++;
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Line2DPointer_GetSketchPlane(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Line2D > *arg1 = (boost::shared_ptr<Line2D > *) 0 ;
+  SketchPlanePointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTLine2D_t,0))){
+    SWIG_fail_ptr("Line2DPointer_GetSketchPlane",1,SWIGTYPE_p_boost__shared_ptrTLine2D_t);
+  }
+  
+  result = (*arg1)->GetSketchPlane();
+  SWIG_arg=0;
+  {
+    SketchPlanePointer * resultptr = new SketchPlanePointer((SketchPlanePointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTSketchPlane_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Line2DPointer_GetDOFList(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Line2D > *arg1 = (boost::shared_ptr<Line2D > *) 0 ;
+  std::vector<DOFPointer > *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTLine2D_t,0))){
+    SWIG_fail_ptr("Line2DPointer_GetDOFList",1,SWIGTYPE_p_boost__shared_ptrTLine2D_t);
+  }
+  
+  {
+    std::vector<DOFPointer > const &_result_ref = (*arg1)->GetDOFList();
+    result = (std::vector<DOFPointer > *) &_result_ref;
+  }
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_std__vectorTboost__shared_ptrTDOF_t_t,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Line2DPointer_Display(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Line2D > *arg1 = (boost::shared_ptr<Line2D > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTLine2D_t,0))){
+    SWIG_fail_ptr("Line2DPointer_Display",1,SWIGTYPE_p_boost__shared_ptrTLine2D_t);
+  }
+  
+  (*arg1)->Display();
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Line2DPointer_UpdateDisplay(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Line2D > *arg1 = (boost::shared_ptr<Line2D > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTLine2D_t,0))){
+    SWIG_fail_ptr("Line2DPointer_UpdateDisplay",1,SWIGTYPE_p_boost__shared_ptrTLine2D_t);
+  }
+  
+  (*arg1)->UpdateDisplay();
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_Line2DPointer(void *obj) {
+boost::shared_ptr<Line2D > *arg1 = (boost::shared_ptr<Line2D > *) obj;
+delete arg1;
+}
+static swig_lua_method swig_boost_shared_ptr_Sl_Line2D_Sg__methods[] = {
+    {"__deref__", _wrap_Line2DPointer___deref__}, 
+    {"GetS1", _wrap_Line2DPointer_GetS1}, 
+    {"GetT1", _wrap_Line2DPointer_GetT1}, 
+    {"GetS2", _wrap_Line2DPointer_GetS2}, 
+    {"GetT2", _wrap_Line2DPointer_GetT2}, 
+    {"Get3DLocations", _wrap_Line2DPointer_Get3DLocations}, 
+    {"GetPoint1", _wrap_Line2DPointer_GetPoint1}, 
+    {"GetPoint2", _wrap_Line2DPointer_GetPoint2}, 
+    {"GetTangent1", _wrap_Line2DPointer_GetTangent1}, 
+    {"GetTangent2", _wrap_Line2DPointer_GetTangent2}, 
+    {"IsPointCoincident", _wrap_Line2DPointer_IsPointCoincident}, 
+    {"GetSketchPlane", _wrap_Line2DPointer_GetSketchPlane}, 
+    {"GetDOFList", _wrap_Line2DPointer_GetDOFList}, 
+    {"Display", _wrap_Line2DPointer_Display}, 
+    {"UpdateDisplay", _wrap_Line2DPointer_UpdateDisplay}, 
+    {0,0}
+};
+static swig_lua_attribute swig_boost_shared_ptr_Sl_Line2D_Sg__attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_boost_shared_ptr_Sl_Line2D_Sg__bases[] = {0};
+swig_lua_class _wrap_class_boost_shared_ptr_Sl_Line2D_Sg_ = { "Line2DPointer", &SWIGTYPE_p_boost__shared_ptrTLine2D_t,_wrap_new_Line2DPointer, swig_delete_Line2DPointer, swig_boost_shared_ptr_Sl_Line2D_Sg__methods, swig_boost_shared_ptr_Sl_Line2D_Sg__attributes, swig_boost_shared_ptr_Sl_Line2D_Sg__bases };
+
+static int _wrap_ConstraintEquationBasePointer___deref__(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<ConstraintEquationBase > *arg1 = (boost::shared_ptr<ConstraintEquationBase > *) 0 ;
+  ConstraintEquationBase *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTConstraintEquationBase_t,0))){
+    SWIG_fail_ptr("ConstraintEquationBasePointer___deref__",1,SWIGTYPE_p_boost__shared_ptrTConstraintEquationBase_t);
+  }
+  
+  result = (ConstraintEquationBase *)((boost::shared_ptr<ConstraintEquationBase > const *)arg1)->operator ->();
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_ConstraintEquationBase,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_ConstraintEquationBasePointer(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<ConstraintEquationBase > *result = 0 ;
+  
+  result = (boost::shared_ptr<ConstraintEquationBase > *)new boost::shared_ptr<ConstraintEquationBase >();
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_boost__shared_ptrTConstraintEquationBase_t,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_delete_ConstraintEquationBasePointer(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<ConstraintEquationBase > *arg1 = (boost::shared_ptr<ConstraintEquationBase > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTConstraintEquationBase_t,0))){
+    SWIG_fail_ptr("delete_ConstraintEquationBasePointer",1,SWIGTYPE_p_boost__shared_ptrTConstraintEquationBase_t);
+  }
+  
+  delete arg1;
+  
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ConstraintEquationBasePointer_GetDOFList(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<ConstraintEquationBase > *arg1 = (boost::shared_ptr<ConstraintEquationBase > *) 0 ;
+  std::vector<DOFPointer > *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTConstraintEquationBase_t,0))){
+    SWIG_fail_ptr("ConstraintEquationBasePointer_GetDOFList",1,SWIGTYPE_p_boost__shared_ptrTConstraintEquationBase_t);
+  }
+  
+  {
+    std::vector<DOFPointer > const &_result_ref = (*arg1)->GetDOFList();
+    result = (std::vector<DOFPointer > *) &_result_ref;
+  }
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_std__vectorTboost__shared_ptrTDOF_t_t,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ConstraintEquationBasePointer_GetConstraintList(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<ConstraintEquationBase > *arg1 = (boost::shared_ptr<ConstraintEquationBase > *) 0 ;
+  std::vector<boost::shared_ptr<GiNaC::ex > > *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTConstraintEquationBase_t,0))){
+    SWIG_fail_ptr("ConstraintEquationBasePointer_GetConstraintList",1,SWIGTYPE_p_boost__shared_ptrTConstraintEquationBase_t);
+  }
+  
+  {
+    std::vector<boost::shared_ptr<GiNaC::ex > > const &_result_ref = (*arg1)->GetConstraintList();
+    result = (std::vector<boost::shared_ptr<GiNaC::ex > > *) &_result_ref;
+  }
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_std__vectorTboost__shared_ptrTGiNaC__ex_t_t,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ConstraintEquationBasePointer_GetWeightList(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<ConstraintEquationBase > *arg1 = (boost::shared_ptr<ConstraintEquationBase > *) 0 ;
+  std::vector<double > *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTConstraintEquationBase_t,0))){
+    SWIG_fail_ptr("ConstraintEquationBasePointer_GetWeightList",1,SWIGTYPE_p_boost__shared_ptrTConstraintEquationBase_t);
+  }
+  
+  {
+    std::vector<double > const &_result_ref = (*arg1)->GetWeightList();
+    result = (std::vector<double > *) &_result_ref;
+  }
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_std__vectorTdouble_t,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ConstraintEquationBasePointer_Display(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<ConstraintEquationBase > *arg1 = (boost::shared_ptr<ConstraintEquationBase > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTConstraintEquationBase_t,0))){
+    SWIG_fail_ptr("ConstraintEquationBasePointer_Display",1,SWIGTYPE_p_boost__shared_ptrTConstraintEquationBase_t);
+  }
+  
+  (*arg1)->Display();
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ConstraintEquationBasePointer_UpdateDisplay(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<ConstraintEquationBase > *arg1 = (boost::shared_ptr<ConstraintEquationBase > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTConstraintEquationBase_t,0))){
+    SWIG_fail_ptr("ConstraintEquationBasePointer_UpdateDisplay",1,SWIGTYPE_p_boost__shared_ptrTConstraintEquationBase_t);
+  }
+  
+  (*arg1)->UpdateDisplay();
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_ConstraintEquationBasePointer(void *obj) {
+boost::shared_ptr<ConstraintEquationBase > *arg1 = (boost::shared_ptr<ConstraintEquationBase > *) obj;
+delete arg1;
+}
+static swig_lua_method swig_boost_shared_ptr_Sl_ConstraintEquationBase_Sg__methods[] = {
+    {"__deref__", _wrap_ConstraintEquationBasePointer___deref__}, 
+    {"GetDOFList", _wrap_ConstraintEquationBasePointer_GetDOFList}, 
+    {"GetConstraintList", _wrap_ConstraintEquationBasePointer_GetConstraintList}, 
+    {"GetWeightList", _wrap_ConstraintEquationBasePointer_GetWeightList}, 
+    {"Display", _wrap_ConstraintEquationBasePointer_Display}, 
+    {"UpdateDisplay", _wrap_ConstraintEquationBasePointer_UpdateDisplay}, 
+    {0,0}
+};
+static swig_lua_attribute swig_boost_shared_ptr_Sl_ConstraintEquationBase_Sg__attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_boost_shared_ptr_Sl_ConstraintEquationBase_Sg__bases[] = {0};
+swig_lua_class _wrap_class_boost_shared_ptr_Sl_ConstraintEquationBase_Sg_ = { "ConstraintEquationBasePointer", &SWIGTYPE_p_boost__shared_ptrTConstraintEquationBase_t,_wrap_new_ConstraintEquationBasePointer, swig_delete_ConstraintEquationBasePointer, swig_boost_shared_ptr_Sl_ConstraintEquationBase_Sg__methods, swig_boost_shared_ptr_Sl_ConstraintEquationBase_Sg__attributes, swig_boost_shared_ptr_Sl_ConstraintEquationBase_Sg__bases };
+
+static int _wrap_DistancePoint2DPointer___deref__(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<DistancePoint2D > *arg1 = (boost::shared_ptr<DistancePoint2D > *) 0 ;
+  DistancePoint2D *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTDistancePoint2D_t,0))){
+    SWIG_fail_ptr("DistancePoint2DPointer___deref__",1,SWIGTYPE_p_boost__shared_ptrTDistancePoint2D_t);
+  }
+  
+  result = (DistancePoint2D *)((boost::shared_ptr<DistancePoint2D > const *)arg1)->operator ->();
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_DistancePoint2D,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_DistancePoint2DPointer(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<DistancePoint2D > *result = 0 ;
+  
+  result = (boost::shared_ptr<DistancePoint2D > *)new boost::shared_ptr<DistancePoint2D >();
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_boost__shared_ptrTDistancePoint2D_t,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_delete_DistancePoint2DPointer(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<DistancePoint2D > *arg1 = (boost::shared_ptr<DistancePoint2D > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTDistancePoint2D_t,0))){
+    SWIG_fail_ptr("delete_DistancePoint2DPointer",1,SWIGTYPE_p_boost__shared_ptrTDistancePoint2D_t);
+  }
+  
+  delete arg1;
+  
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_DistancePoint2DPointer_GetDOFList(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<DistancePoint2D > *arg1 = (boost::shared_ptr<DistancePoint2D > *) 0 ;
+  std::vector<DOFPointer > *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTDistancePoint2D_t,0))){
+    SWIG_fail_ptr("DistancePoint2DPointer_GetDOFList",1,SWIGTYPE_p_boost__shared_ptrTDistancePoint2D_t);
+  }
+  
+  {
+    std::vector<DOFPointer > const &_result_ref = (*arg1)->GetDOFList();
+    result = (std::vector<DOFPointer > *) &_result_ref;
+  }
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_std__vectorTboost__shared_ptrTDOF_t_t,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_DistancePoint2DPointer_GetConstraintList(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<DistancePoint2D > *arg1 = (boost::shared_ptr<DistancePoint2D > *) 0 ;
+  std::vector<boost::shared_ptr<GiNaC::ex > > *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTDistancePoint2D_t,0))){
+    SWIG_fail_ptr("DistancePoint2DPointer_GetConstraintList",1,SWIGTYPE_p_boost__shared_ptrTDistancePoint2D_t);
+  }
+  
+  {
+    std::vector<boost::shared_ptr<GiNaC::ex > > const &_result_ref = (*arg1)->GetConstraintList();
+    result = (std::vector<boost::shared_ptr<GiNaC::ex > > *) &_result_ref;
+  }
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_std__vectorTboost__shared_ptrTGiNaC__ex_t_t,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_DistancePoint2DPointer_GetWeightList(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<DistancePoint2D > *arg1 = (boost::shared_ptr<DistancePoint2D > *) 0 ;
+  std::vector<double > *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTDistancePoint2D_t,0))){
+    SWIG_fail_ptr("DistancePoint2DPointer_GetWeightList",1,SWIGTYPE_p_boost__shared_ptrTDistancePoint2D_t);
+  }
+  
+  {
+    std::vector<double > const &_result_ref = (*arg1)->GetWeightList();
+    result = (std::vector<double > *) &_result_ref;
+  }
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_std__vectorTdouble_t,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_DistancePoint2DPointer_Display(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<DistancePoint2D > *arg1 = (boost::shared_ptr<DistancePoint2D > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTDistancePoint2D_t,0))){
+    SWIG_fail_ptr("DistancePoint2DPointer_Display",1,SWIGTYPE_p_boost__shared_ptrTDistancePoint2D_t);
+  }
+  
+  (*arg1)->Display();
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_DistancePoint2DPointer_UpdateDisplay(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<DistancePoint2D > *arg1 = (boost::shared_ptr<DistancePoint2D > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTDistancePoint2D_t,0))){
+    SWIG_fail_ptr("DistancePoint2DPointer_UpdateDisplay",1,SWIGTYPE_p_boost__shared_ptrTDistancePoint2D_t);
+  }
+  
+  (*arg1)->UpdateDisplay();
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_DistancePoint2DPointer(void *obj) {
+boost::shared_ptr<DistancePoint2D > *arg1 = (boost::shared_ptr<DistancePoint2D > *) obj;
+delete arg1;
+}
+static swig_lua_method swig_boost_shared_ptr_Sl_DistancePoint2D_Sg__methods[] = {
+    {"__deref__", _wrap_DistancePoint2DPointer___deref__}, 
+    {"GetDOFList", _wrap_DistancePoint2DPointer_GetDOFList}, 
+    {"GetConstraintList", _wrap_DistancePoint2DPointer_GetConstraintList}, 
+    {"GetWeightList", _wrap_DistancePoint2DPointer_GetWeightList}, 
+    {"Display", _wrap_DistancePoint2DPointer_Display}, 
+    {"UpdateDisplay", _wrap_DistancePoint2DPointer_UpdateDisplay}, 
+    {0,0}
+};
+static swig_lua_attribute swig_boost_shared_ptr_Sl_DistancePoint2D_Sg__attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_boost_shared_ptr_Sl_DistancePoint2D_Sg__bases[] = {0};
+swig_lua_class _wrap_class_boost_shared_ptr_Sl_DistancePoint2D_Sg_ = { "DistancePoint2DPointer", &SWIGTYPE_p_boost__shared_ptrTDistancePoint2D_t,_wrap_new_DistancePoint2DPointer, swig_delete_DistancePoint2DPointer, swig_boost_shared_ptr_Sl_DistancePoint2D_Sg__methods, swig_boost_shared_ptr_Sl_DistancePoint2D_Sg__attributes, swig_boost_shared_ptr_Sl_DistancePoint2D_Sg__bases };
+
+static int _wrap_DistancePointPointer___deref__(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<DistancePoint > *arg1 = (boost::shared_ptr<DistancePoint > *) 0 ;
+  DistancePoint *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTDistancePoint_t,0))){
+    SWIG_fail_ptr("DistancePointPointer___deref__",1,SWIGTYPE_p_boost__shared_ptrTDistancePoint_t);
+  }
+  
+  result = (DistancePoint *)((boost::shared_ptr<DistancePoint > const *)arg1)->operator ->();
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_DistancePoint,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_DistancePointPointer(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<DistancePoint > *result = 0 ;
+  
+  result = (boost::shared_ptr<DistancePoint > *)new boost::shared_ptr<DistancePoint >();
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_boost__shared_ptrTDistancePoint_t,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_delete_DistancePointPointer(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<DistancePoint > *arg1 = (boost::shared_ptr<DistancePoint > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTDistancePoint_t,0))){
+    SWIG_fail_ptr("delete_DistancePointPointer",1,SWIGTYPE_p_boost__shared_ptrTDistancePoint_t);
+  }
+  
+  delete arg1;
+  
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_DistancePointPointer_GetDOFList(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<DistancePoint > *arg1 = (boost::shared_ptr<DistancePoint > *) 0 ;
+  std::vector<DOFPointer > *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTDistancePoint_t,0))){
+    SWIG_fail_ptr("DistancePointPointer_GetDOFList",1,SWIGTYPE_p_boost__shared_ptrTDistancePoint_t);
+  }
+  
+  {
+    std::vector<DOFPointer > const &_result_ref = (*arg1)->GetDOFList();
+    result = (std::vector<DOFPointer > *) &_result_ref;
+  }
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_std__vectorTboost__shared_ptrTDOF_t_t,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_DistancePointPointer_GetConstraintList(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<DistancePoint > *arg1 = (boost::shared_ptr<DistancePoint > *) 0 ;
+  std::vector<boost::shared_ptr<GiNaC::ex > > *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTDistancePoint_t,0))){
+    SWIG_fail_ptr("DistancePointPointer_GetConstraintList",1,SWIGTYPE_p_boost__shared_ptrTDistancePoint_t);
+  }
+  
+  {
+    std::vector<boost::shared_ptr<GiNaC::ex > > const &_result_ref = (*arg1)->GetConstraintList();
+    result = (std::vector<boost::shared_ptr<GiNaC::ex > > *) &_result_ref;
+  }
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_std__vectorTboost__shared_ptrTGiNaC__ex_t_t,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_DistancePointPointer_GetWeightList(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<DistancePoint > *arg1 = (boost::shared_ptr<DistancePoint > *) 0 ;
+  std::vector<double > *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTDistancePoint_t,0))){
+    SWIG_fail_ptr("DistancePointPointer_GetWeightList",1,SWIGTYPE_p_boost__shared_ptrTDistancePoint_t);
+  }
+  
+  {
+    std::vector<double > const &_result_ref = (*arg1)->GetWeightList();
+    result = (std::vector<double > *) &_result_ref;
+  }
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_std__vectorTdouble_t,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_DistancePointPointer_Display(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<DistancePoint > *arg1 = (boost::shared_ptr<DistancePoint > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTDistancePoint_t,0))){
+    SWIG_fail_ptr("DistancePointPointer_Display",1,SWIGTYPE_p_boost__shared_ptrTDistancePoint_t);
+  }
+  
+  (*arg1)->Display();
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_DistancePointPointer_UpdateDisplay(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<DistancePoint > *arg1 = (boost::shared_ptr<DistancePoint > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTDistancePoint_t,0))){
+    SWIG_fail_ptr("DistancePointPointer_UpdateDisplay",1,SWIGTYPE_p_boost__shared_ptrTDistancePoint_t);
+  }
+  
+  (*arg1)->UpdateDisplay();
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_DistancePointPointer(void *obj) {
+boost::shared_ptr<DistancePoint > *arg1 = (boost::shared_ptr<DistancePoint > *) obj;
+delete arg1;
+}
+static swig_lua_method swig_boost_shared_ptr_Sl_DistancePoint_Sg__methods[] = {
+    {"__deref__", _wrap_DistancePointPointer___deref__}, 
+    {"GetDOFList", _wrap_DistancePointPointer_GetDOFList}, 
+    {"GetConstraintList", _wrap_DistancePointPointer_GetConstraintList}, 
+    {"GetWeightList", _wrap_DistancePointPointer_GetWeightList}, 
+    {"Display", _wrap_DistancePointPointer_Display}, 
+    {"UpdateDisplay", _wrap_DistancePointPointer_UpdateDisplay}, 
+    {0,0}
+};
+static swig_lua_attribute swig_boost_shared_ptr_Sl_DistancePoint_Sg__attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_boost_shared_ptr_Sl_DistancePoint_Sg__bases[] = {0};
+swig_lua_class _wrap_class_boost_shared_ptr_Sl_DistancePoint_Sg_ = { "DistancePointPointer", &SWIGTYPE_p_boost__shared_ptrTDistancePoint_t,_wrap_new_DistancePointPointer, swig_delete_DistancePointPointer, swig_boost_shared_ptr_Sl_DistancePoint_Sg__methods, swig_boost_shared_ptr_Sl_DistancePoint_Sg__attributes, swig_boost_shared_ptr_Sl_DistancePoint_Sg__bases };
+
+static int _wrap_ParallelLinePointer___deref__(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<ParallelLine > *arg1 = (boost::shared_ptr<ParallelLine > *) 0 ;
+  ParallelLine *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTParallelLine_t,0))){
+    SWIG_fail_ptr("ParallelLinePointer___deref__",1,SWIGTYPE_p_boost__shared_ptrTParallelLine_t);
+  }
+  
+  result = (ParallelLine *)((boost::shared_ptr<ParallelLine > const *)arg1)->operator ->();
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_ParallelLine,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_ParallelLinePointer(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<ParallelLine > *result = 0 ;
+  
+  result = (boost::shared_ptr<ParallelLine > *)new boost::shared_ptr<ParallelLine >();
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_boost__shared_ptrTParallelLine_t,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_delete_ParallelLinePointer(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<ParallelLine > *arg1 = (boost::shared_ptr<ParallelLine > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTParallelLine_t,0))){
+    SWIG_fail_ptr("delete_ParallelLinePointer",1,SWIGTYPE_p_boost__shared_ptrTParallelLine_t);
+  }
+  
+  delete arg1;
+  
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ParallelLinePointer_GetDOFList(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<ParallelLine > *arg1 = (boost::shared_ptr<ParallelLine > *) 0 ;
+  std::vector<DOFPointer > *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTParallelLine_t,0))){
+    SWIG_fail_ptr("ParallelLinePointer_GetDOFList",1,SWIGTYPE_p_boost__shared_ptrTParallelLine_t);
+  }
+  
+  {
+    std::vector<DOFPointer > const &_result_ref = (*arg1)->GetDOFList();
+    result = (std::vector<DOFPointer > *) &_result_ref;
+  }
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_std__vectorTboost__shared_ptrTDOF_t_t,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ParallelLinePointer_GetConstraintList(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<ParallelLine > *arg1 = (boost::shared_ptr<ParallelLine > *) 0 ;
+  std::vector<boost::shared_ptr<GiNaC::ex > > *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTParallelLine_t,0))){
+    SWIG_fail_ptr("ParallelLinePointer_GetConstraintList",1,SWIGTYPE_p_boost__shared_ptrTParallelLine_t);
+  }
+  
+  {
+    std::vector<boost::shared_ptr<GiNaC::ex > > const &_result_ref = (*arg1)->GetConstraintList();
+    result = (std::vector<boost::shared_ptr<GiNaC::ex > > *) &_result_ref;
+  }
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_std__vectorTboost__shared_ptrTGiNaC__ex_t_t,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ParallelLinePointer_GetWeightList(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<ParallelLine > *arg1 = (boost::shared_ptr<ParallelLine > *) 0 ;
+  std::vector<double > *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTParallelLine_t,0))){
+    SWIG_fail_ptr("ParallelLinePointer_GetWeightList",1,SWIGTYPE_p_boost__shared_ptrTParallelLine_t);
+  }
+  
+  {
+    std::vector<double > const &_result_ref = (*arg1)->GetWeightList();
+    result = (std::vector<double > *) &_result_ref;
+  }
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_std__vectorTdouble_t,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ParallelLinePointer_Display(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<ParallelLine > *arg1 = (boost::shared_ptr<ParallelLine > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTParallelLine_t,0))){
+    SWIG_fail_ptr("ParallelLinePointer_Display",1,SWIGTYPE_p_boost__shared_ptrTParallelLine_t);
+  }
+  
+  (*arg1)->Display();
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ParallelLinePointer_UpdateDisplay(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<ParallelLine > *arg1 = (boost::shared_ptr<ParallelLine > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTParallelLine_t,0))){
+    SWIG_fail_ptr("ParallelLinePointer_UpdateDisplay",1,SWIGTYPE_p_boost__shared_ptrTParallelLine_t);
+  }
+  
+  (*arg1)->UpdateDisplay();
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_ParallelLinePointer(void *obj) {
+boost::shared_ptr<ParallelLine > *arg1 = (boost::shared_ptr<ParallelLine > *) obj;
+delete arg1;
+}
+static swig_lua_method swig_boost_shared_ptr_Sl_ParallelLine_Sg__methods[] = {
+    {"__deref__", _wrap_ParallelLinePointer___deref__}, 
+    {"GetDOFList", _wrap_ParallelLinePointer_GetDOFList}, 
+    {"GetConstraintList", _wrap_ParallelLinePointer_GetConstraintList}, 
+    {"GetWeightList", _wrap_ParallelLinePointer_GetWeightList}, 
+    {"Display", _wrap_ParallelLinePointer_Display}, 
+    {"UpdateDisplay", _wrap_ParallelLinePointer_UpdateDisplay}, 
+    {0,0}
+};
+static swig_lua_attribute swig_boost_shared_ptr_Sl_ParallelLine_Sg__attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_boost_shared_ptr_Sl_ParallelLine_Sg__bases[] = {0};
+swig_lua_class _wrap_class_boost_shared_ptr_Sl_ParallelLine_Sg_ = { "ParallelLinePointer", &SWIGTYPE_p_boost__shared_ptrTParallelLine_t,_wrap_new_ParallelLinePointer, swig_delete_ParallelLinePointer, swig_boost_shared_ptr_Sl_ParallelLine_Sg__methods, swig_boost_shared_ptr_Sl_ParallelLine_Sg__attributes, swig_boost_shared_ptr_Sl_ParallelLine_Sg__bases };
+
+static int _wrap_ParallelLine2DPointer___deref__(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<ParallelLine2D > *arg1 = (boost::shared_ptr<ParallelLine2D > *) 0 ;
+  ParallelLine2D *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTParallelLine2D_t,0))){
+    SWIG_fail_ptr("ParallelLine2DPointer___deref__",1,SWIGTYPE_p_boost__shared_ptrTParallelLine2D_t);
+  }
+  
+  result = (ParallelLine2D *)((boost::shared_ptr<ParallelLine2D > const *)arg1)->operator ->();
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_ParallelLine2D,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_ParallelLine2DPointer(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<ParallelLine2D > *result = 0 ;
+  
+  result = (boost::shared_ptr<ParallelLine2D > *)new boost::shared_ptr<ParallelLine2D >();
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_boost__shared_ptrTParallelLine2D_t,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_delete_ParallelLine2DPointer(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<ParallelLine2D > *arg1 = (boost::shared_ptr<ParallelLine2D > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTParallelLine2D_t,0))){
+    SWIG_fail_ptr("delete_ParallelLine2DPointer",1,SWIGTYPE_p_boost__shared_ptrTParallelLine2D_t);
+  }
+  
+  delete arg1;
+  
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ParallelLine2DPointer_GetDOFList(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<ParallelLine2D > *arg1 = (boost::shared_ptr<ParallelLine2D > *) 0 ;
+  std::vector<DOFPointer > *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTParallelLine2D_t,0))){
+    SWIG_fail_ptr("ParallelLine2DPointer_GetDOFList",1,SWIGTYPE_p_boost__shared_ptrTParallelLine2D_t);
+  }
+  
+  {
+    std::vector<DOFPointer > const &_result_ref = (*arg1)->GetDOFList();
+    result = (std::vector<DOFPointer > *) &_result_ref;
+  }
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_std__vectorTboost__shared_ptrTDOF_t_t,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ParallelLine2DPointer_GetConstraintList(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<ParallelLine2D > *arg1 = (boost::shared_ptr<ParallelLine2D > *) 0 ;
+  std::vector<boost::shared_ptr<GiNaC::ex > > *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTParallelLine2D_t,0))){
+    SWIG_fail_ptr("ParallelLine2DPointer_GetConstraintList",1,SWIGTYPE_p_boost__shared_ptrTParallelLine2D_t);
+  }
+  
+  {
+    std::vector<boost::shared_ptr<GiNaC::ex > > const &_result_ref = (*arg1)->GetConstraintList();
+    result = (std::vector<boost::shared_ptr<GiNaC::ex > > *) &_result_ref;
+  }
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_std__vectorTboost__shared_ptrTGiNaC__ex_t_t,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ParallelLine2DPointer_GetWeightList(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<ParallelLine2D > *arg1 = (boost::shared_ptr<ParallelLine2D > *) 0 ;
+  std::vector<double > *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTParallelLine2D_t,0))){
+    SWIG_fail_ptr("ParallelLine2DPointer_GetWeightList",1,SWIGTYPE_p_boost__shared_ptrTParallelLine2D_t);
+  }
+  
+  {
+    std::vector<double > const &_result_ref = (*arg1)->GetWeightList();
+    result = (std::vector<double > *) &_result_ref;
+  }
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_std__vectorTdouble_t,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ParallelLine2DPointer_Display(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<ParallelLine2D > *arg1 = (boost::shared_ptr<ParallelLine2D > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTParallelLine2D_t,0))){
+    SWIG_fail_ptr("ParallelLine2DPointer_Display",1,SWIGTYPE_p_boost__shared_ptrTParallelLine2D_t);
+  }
+  
+  (*arg1)->Display();
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ParallelLine2DPointer_UpdateDisplay(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<ParallelLine2D > *arg1 = (boost::shared_ptr<ParallelLine2D > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTParallelLine2D_t,0))){
+    SWIG_fail_ptr("ParallelLine2DPointer_UpdateDisplay",1,SWIGTYPE_p_boost__shared_ptrTParallelLine2D_t);
+  }
+  
+  (*arg1)->UpdateDisplay();
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_ParallelLine2DPointer(void *obj) {
+boost::shared_ptr<ParallelLine2D > *arg1 = (boost::shared_ptr<ParallelLine2D > *) obj;
+delete arg1;
+}
+static swig_lua_method swig_boost_shared_ptr_Sl_ParallelLine2D_Sg__methods[] = {
+    {"__deref__", _wrap_ParallelLine2DPointer___deref__}, 
+    {"GetDOFList", _wrap_ParallelLine2DPointer_GetDOFList}, 
+    {"GetConstraintList", _wrap_ParallelLine2DPointer_GetConstraintList}, 
+    {"GetWeightList", _wrap_ParallelLine2DPointer_GetWeightList}, 
+    {"Display", _wrap_ParallelLine2DPointer_Display}, 
+    {"UpdateDisplay", _wrap_ParallelLine2DPointer_UpdateDisplay}, 
+    {0,0}
+};
+static swig_lua_attribute swig_boost_shared_ptr_Sl_ParallelLine2D_Sg__attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_boost_shared_ptr_Sl_ParallelLine2D_Sg__bases[] = {0};
+swig_lua_class _wrap_class_boost_shared_ptr_Sl_ParallelLine2D_Sg_ = { "ParallelLine2DPointer", &SWIGTYPE_p_boost__shared_ptrTParallelLine2D_t,_wrap_new_ParallelLine2DPointer, swig_delete_ParallelLine2DPointer, swig_boost_shared_ptr_Sl_ParallelLine2D_Sg__methods, swig_boost_shared_ptr_Sl_ParallelLine2D_Sg__attributes, swig_boost_shared_ptr_Sl_ParallelLine2D_Sg__bases };
+
+static int _wrap_TangentEdge2DPointer___deref__(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<TangentEdge2D > *arg1 = (boost::shared_ptr<TangentEdge2D > *) 0 ;
+  TangentEdge2D *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTTangentEdge2D_t,0))){
+    SWIG_fail_ptr("TangentEdge2DPointer___deref__",1,SWIGTYPE_p_boost__shared_ptrTTangentEdge2D_t);
+  }
+  
+  result = (TangentEdge2D *)((boost::shared_ptr<TangentEdge2D > const *)arg1)->operator ->();
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_TangentEdge2D,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_TangentEdge2DPointer(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<TangentEdge2D > *result = 0 ;
+  
+  result = (boost::shared_ptr<TangentEdge2D > *)new boost::shared_ptr<TangentEdge2D >();
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_boost__shared_ptrTTangentEdge2D_t,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_delete_TangentEdge2DPointer(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<TangentEdge2D > *arg1 = (boost::shared_ptr<TangentEdge2D > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTTangentEdge2D_t,0))){
+    SWIG_fail_ptr("delete_TangentEdge2DPointer",1,SWIGTYPE_p_boost__shared_ptrTTangentEdge2D_t);
+  }
+  
+  delete arg1;
+  
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_TangentEdge2DPointer_GetDOFList(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<TangentEdge2D > *arg1 = (boost::shared_ptr<TangentEdge2D > *) 0 ;
+  std::vector<DOFPointer > *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTTangentEdge2D_t,0))){
+    SWIG_fail_ptr("TangentEdge2DPointer_GetDOFList",1,SWIGTYPE_p_boost__shared_ptrTTangentEdge2D_t);
+  }
+  
+  {
+    std::vector<DOFPointer > const &_result_ref = (*arg1)->GetDOFList();
+    result = (std::vector<DOFPointer > *) &_result_ref;
+  }
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_std__vectorTboost__shared_ptrTDOF_t_t,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_TangentEdge2DPointer_GetConstraintList(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<TangentEdge2D > *arg1 = (boost::shared_ptr<TangentEdge2D > *) 0 ;
+  std::vector<boost::shared_ptr<GiNaC::ex > > *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTTangentEdge2D_t,0))){
+    SWIG_fail_ptr("TangentEdge2DPointer_GetConstraintList",1,SWIGTYPE_p_boost__shared_ptrTTangentEdge2D_t);
+  }
+  
+  {
+    std::vector<boost::shared_ptr<GiNaC::ex > > const &_result_ref = (*arg1)->GetConstraintList();
+    result = (std::vector<boost::shared_ptr<GiNaC::ex > > *) &_result_ref;
+  }
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_std__vectorTboost__shared_ptrTGiNaC__ex_t_t,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_TangentEdge2DPointer_GetWeightList(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<TangentEdge2D > *arg1 = (boost::shared_ptr<TangentEdge2D > *) 0 ;
+  std::vector<double > *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTTangentEdge2D_t,0))){
+    SWIG_fail_ptr("TangentEdge2DPointer_GetWeightList",1,SWIGTYPE_p_boost__shared_ptrTTangentEdge2D_t);
+  }
+  
+  {
+    std::vector<double > const &_result_ref = (*arg1)->GetWeightList();
+    result = (std::vector<double > *) &_result_ref;
+  }
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_std__vectorTdouble_t,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_TangentEdge2DPointer_Display(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<TangentEdge2D > *arg1 = (boost::shared_ptr<TangentEdge2D > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTTangentEdge2D_t,0))){
+    SWIG_fail_ptr("TangentEdge2DPointer_Display",1,SWIGTYPE_p_boost__shared_ptrTTangentEdge2D_t);
+  }
+  
+  (*arg1)->Display();
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_TangentEdge2DPointer_UpdateDisplay(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<TangentEdge2D > *arg1 = (boost::shared_ptr<TangentEdge2D > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTTangentEdge2D_t,0))){
+    SWIG_fail_ptr("TangentEdge2DPointer_UpdateDisplay",1,SWIGTYPE_p_boost__shared_ptrTTangentEdge2D_t);
+  }
+  
+  (*arg1)->UpdateDisplay();
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_TangentEdge2DPointer(void *obj) {
+boost::shared_ptr<TangentEdge2D > *arg1 = (boost::shared_ptr<TangentEdge2D > *) obj;
+delete arg1;
+}
+static swig_lua_method swig_boost_shared_ptr_Sl_TangentEdge2D_Sg__methods[] = {
+    {"__deref__", _wrap_TangentEdge2DPointer___deref__}, 
+    {"GetDOFList", _wrap_TangentEdge2DPointer_GetDOFList}, 
+    {"GetConstraintList", _wrap_TangentEdge2DPointer_GetConstraintList}, 
+    {"GetWeightList", _wrap_TangentEdge2DPointer_GetWeightList}, 
+    {"Display", _wrap_TangentEdge2DPointer_Display}, 
+    {"UpdateDisplay", _wrap_TangentEdge2DPointer_UpdateDisplay}, 
+    {0,0}
+};
+static swig_lua_attribute swig_boost_shared_ptr_Sl_TangentEdge2D_Sg__attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_boost_shared_ptr_Sl_TangentEdge2D_Sg__bases[] = {0};
+swig_lua_class _wrap_class_boost_shared_ptr_Sl_TangentEdge2D_Sg_ = { "TangentEdge2DPointer", &SWIGTYPE_p_boost__shared_ptrTTangentEdge2D_t,_wrap_new_TangentEdge2DPointer, swig_delete_TangentEdge2DPointer, swig_boost_shared_ptr_Sl_TangentEdge2D_Sg__methods, swig_boost_shared_ptr_Sl_TangentEdge2D_Sg__attributes, swig_boost_shared_ptr_Sl_TangentEdge2D_Sg__bases };
+
+static int _wrap_AngleLine2DPointer___deref__(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<AngleLine2D > *arg1 = (boost::shared_ptr<AngleLine2D > *) 0 ;
+  AngleLine2D *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTAngleLine2D_t,0))){
+    SWIG_fail_ptr("AngleLine2DPointer___deref__",1,SWIGTYPE_p_boost__shared_ptrTAngleLine2D_t);
+  }
+  
+  result = (AngleLine2D *)((boost::shared_ptr<AngleLine2D > const *)arg1)->operator ->();
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_AngleLine2D,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_AngleLine2DPointer(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<AngleLine2D > *result = 0 ;
+  
+  result = (boost::shared_ptr<AngleLine2D > *)new boost::shared_ptr<AngleLine2D >();
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_boost__shared_ptrTAngleLine2D_t,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_delete_AngleLine2DPointer(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<AngleLine2D > *arg1 = (boost::shared_ptr<AngleLine2D > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTAngleLine2D_t,0))){
+    SWIG_fail_ptr("delete_AngleLine2DPointer",1,SWIGTYPE_p_boost__shared_ptrTAngleLine2D_t);
+  }
+  
+  delete arg1;
+  
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_AngleLine2DPointer_GetDOFList(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<AngleLine2D > *arg1 = (boost::shared_ptr<AngleLine2D > *) 0 ;
+  std::vector<DOFPointer > *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTAngleLine2D_t,0))){
+    SWIG_fail_ptr("AngleLine2DPointer_GetDOFList",1,SWIGTYPE_p_boost__shared_ptrTAngleLine2D_t);
+  }
+  
+  {
+    std::vector<DOFPointer > const &_result_ref = (*arg1)->GetDOFList();
+    result = (std::vector<DOFPointer > *) &_result_ref;
+  }
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_std__vectorTboost__shared_ptrTDOF_t_t,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_AngleLine2DPointer_GetConstraintList(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<AngleLine2D > *arg1 = (boost::shared_ptr<AngleLine2D > *) 0 ;
+  std::vector<boost::shared_ptr<GiNaC::ex > > *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTAngleLine2D_t,0))){
+    SWIG_fail_ptr("AngleLine2DPointer_GetConstraintList",1,SWIGTYPE_p_boost__shared_ptrTAngleLine2D_t);
+  }
+  
+  {
+    std::vector<boost::shared_ptr<GiNaC::ex > > const &_result_ref = (*arg1)->GetConstraintList();
+    result = (std::vector<boost::shared_ptr<GiNaC::ex > > *) &_result_ref;
+  }
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_std__vectorTboost__shared_ptrTGiNaC__ex_t_t,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_AngleLine2DPointer_GetWeightList(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<AngleLine2D > *arg1 = (boost::shared_ptr<AngleLine2D > *) 0 ;
+  std::vector<double > *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTAngleLine2D_t,0))){
+    SWIG_fail_ptr("AngleLine2DPointer_GetWeightList",1,SWIGTYPE_p_boost__shared_ptrTAngleLine2D_t);
+  }
+  
+  {
+    std::vector<double > const &_result_ref = (*arg1)->GetWeightList();
+    result = (std::vector<double > *) &_result_ref;
+  }
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_std__vectorTdouble_t,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_AngleLine2DPointer_Display(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<AngleLine2D > *arg1 = (boost::shared_ptr<AngleLine2D > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTAngleLine2D_t,0))){
+    SWIG_fail_ptr("AngleLine2DPointer_Display",1,SWIGTYPE_p_boost__shared_ptrTAngleLine2D_t);
+  }
+  
+  (*arg1)->Display();
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_AngleLine2DPointer_UpdateDisplay(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<AngleLine2D > *arg1 = (boost::shared_ptr<AngleLine2D > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTAngleLine2D_t,0))){
+    SWIG_fail_ptr("AngleLine2DPointer_UpdateDisplay",1,SWIGTYPE_p_boost__shared_ptrTAngleLine2D_t);
+  }
+  
+  (*arg1)->UpdateDisplay();
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_AngleLine2DPointer(void *obj) {
+boost::shared_ptr<AngleLine2D > *arg1 = (boost::shared_ptr<AngleLine2D > *) obj;
+delete arg1;
+}
+static swig_lua_method swig_boost_shared_ptr_Sl_AngleLine2D_Sg__methods[] = {
+    {"__deref__", _wrap_AngleLine2DPointer___deref__}, 
+    {"GetDOFList", _wrap_AngleLine2DPointer_GetDOFList}, 
+    {"GetConstraintList", _wrap_AngleLine2DPointer_GetConstraintList}, 
+    {"GetWeightList", _wrap_AngleLine2DPointer_GetWeightList}, 
+    {"Display", _wrap_AngleLine2DPointer_Display}, 
+    {"UpdateDisplay", _wrap_AngleLine2DPointer_UpdateDisplay}, 
+    {0,0}
+};
+static swig_lua_attribute swig_boost_shared_ptr_Sl_AngleLine2D_Sg__attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_boost_shared_ptr_Sl_AngleLine2D_Sg__bases[] = {0};
+swig_lua_class _wrap_class_boost_shared_ptr_Sl_AngleLine2D_Sg_ = { "AngleLine2DPointer", &SWIGTYPE_p_boost__shared_ptrTAngleLine2D_t,_wrap_new_AngleLine2DPointer, swig_delete_AngleLine2DPointer, swig_boost_shared_ptr_Sl_AngleLine2D_Sg__methods, swig_boost_shared_ptr_Sl_AngleLine2D_Sg__attributes, swig_boost_shared_ptr_Sl_AngleLine2D_Sg__bases };
+
+static int _wrap_Arc2DPointer___deref__(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Arc2D > *arg1 = (boost::shared_ptr<Arc2D > *) 0 ;
+  Arc2D *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTArc2D_t,0))){
+    SWIG_fail_ptr("Arc2DPointer___deref__",1,SWIGTYPE_p_boost__shared_ptrTArc2D_t);
+  }
+  
+  result = (Arc2D *)((boost::shared_ptr<Arc2D > const *)arg1)->operator ->();
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_Arc2D,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_Arc2DPointer(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Arc2D > *result = 0 ;
+  
+  result = (boost::shared_ptr<Arc2D > *)new boost::shared_ptr<Arc2D >();
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_boost__shared_ptrTArc2D_t,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_delete_Arc2DPointer(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Arc2D > *arg1 = (boost::shared_ptr<Arc2D > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTArc2D_t,0))){
+    SWIG_fail_ptr("delete_Arc2DPointer",1,SWIGTYPE_p_boost__shared_ptrTArc2D_t);
+  }
+  
+  delete arg1;
+  
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Arc2DPointer_GetSCenter(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Arc2D > *arg1 = (boost::shared_ptr<Arc2D > *) 0 ;
+  DOFPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTArc2D_t,0))){
+    SWIG_fail_ptr("Arc2DPointer_GetSCenter",1,SWIGTYPE_p_boost__shared_ptrTArc2D_t);
+  }
+  
+  result = (*arg1)->GetSCenter();
+  SWIG_arg=0;
+  {
+    DOFPointer * resultptr = new DOFPointer((DOFPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTDOF_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Arc2DPointer_GetTCenter(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Arc2D > *arg1 = (boost::shared_ptr<Arc2D > *) 0 ;
+  DOFPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTArc2D_t,0))){
+    SWIG_fail_ptr("Arc2DPointer_GetTCenter",1,SWIGTYPE_p_boost__shared_ptrTArc2D_t);
+  }
+  
+  result = (*arg1)->GetTCenter();
+  SWIG_arg=0;
+  {
+    DOFPointer * resultptr = new DOFPointer((DOFPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTDOF_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Arc2DPointer_GetTheta1(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Arc2D > *arg1 = (boost::shared_ptr<Arc2D > *) 0 ;
+  DOFPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTArc2D_t,0))){
+    SWIG_fail_ptr("Arc2DPointer_GetTheta1",1,SWIGTYPE_p_boost__shared_ptrTArc2D_t);
+  }
+  
+  result = (*arg1)->GetTheta1();
+  SWIG_arg=0;
+  {
+    DOFPointer * resultptr = new DOFPointer((DOFPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTDOF_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Arc2DPointer_GetTheta2(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Arc2D > *arg1 = (boost::shared_ptr<Arc2D > *) 0 ;
+  DOFPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTArc2D_t,0))){
+    SWIG_fail_ptr("Arc2DPointer_GetTheta2",1,SWIGTYPE_p_boost__shared_ptrTArc2D_t);
+  }
+  
+  result = (*arg1)->GetTheta2();
+  SWIG_arg=0;
+  {
+    DOFPointer * resultptr = new DOFPointer((DOFPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTDOF_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Arc2DPointer_GetRadius(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Arc2D > *arg1 = (boost::shared_ptr<Arc2D > *) 0 ;
+  DOFPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTArc2D_t,0))){
+    SWIG_fail_ptr("Arc2DPointer_GetRadius",1,SWIGTYPE_p_boost__shared_ptrTArc2D_t);
+  }
+  
+  result = (*arg1)->GetRadius();
+  SWIG_arg=0;
+  {
+    DOFPointer * resultptr = new DOFPointer((DOFPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTDOF_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Arc2DPointer_Get3DLocations(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Arc2D > *arg1 = (boost::shared_ptr<Arc2D > *) 0 ;
+  double *arg2 = 0 ;
+  double *arg3 = 0 ;
+  double *arg4 = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  if(!lua_isuserdata(L,2)) SWIG_fail_arg(2);
+  if(!lua_isuserdata(L,3)) SWIG_fail_arg(3);
+  if(!lua_isuserdata(L,4)) SWIG_fail_arg(4);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTArc2D_t,0))){
+    SWIG_fail_ptr("Arc2DPointer_Get3DLocations",1,SWIGTYPE_p_boost__shared_ptrTArc2D_t);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&arg2,SWIGTYPE_p_double,0))){
+    SWIG_fail_ptr("Arc2DPointer_Get3DLocations",2,SWIGTYPE_p_double);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,3,(void**)&arg3,SWIGTYPE_p_double,0))){
+    SWIG_fail_ptr("Arc2DPointer_Get3DLocations",3,SWIGTYPE_p_double);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,4,(void**)&arg4,SWIGTYPE_p_double,0))){
+    SWIG_fail_ptr("Arc2DPointer_Get3DLocations",4,SWIGTYPE_p_double);
+  }
+  
+  (*arg1)->Get3DLocations(*arg2,*arg3,*arg4);
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Arc2DPointer_GetPoint1(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Arc2D > *arg1 = (boost::shared_ptr<Arc2D > *) 0 ;
+  Point2DPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTArc2D_t,0))){
+    SWIG_fail_ptr("Arc2DPointer_GetPoint1",1,SWIGTYPE_p_boost__shared_ptrTArc2D_t);
+  }
+  
+  result = (*arg1)->GetPoint1();
+  SWIG_arg=0;
+  {
+    Point2DPointer * resultptr = new Point2DPointer((Point2DPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTPoint2D_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Arc2DPointer_GetPoint2(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Arc2D > *arg1 = (boost::shared_ptr<Arc2D > *) 0 ;
+  Point2DPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTArc2D_t,0))){
+    SWIG_fail_ptr("Arc2DPointer_GetPoint2",1,SWIGTYPE_p_boost__shared_ptrTArc2D_t);
+  }
+  
+  result = (*arg1)->GetPoint2();
+  SWIG_arg=0;
+  {
+    Point2DPointer * resultptr = new Point2DPointer((Point2DPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTPoint2D_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Arc2DPointer_GeneratePoint1(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Arc2D > *arg1 = (boost::shared_ptr<Arc2D > *) 0 ;
+  Point2DPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTArc2D_t,0))){
+    SWIG_fail_ptr("Arc2DPointer_GeneratePoint1",1,SWIGTYPE_p_boost__shared_ptrTArc2D_t);
+  }
+  
+  result = (*arg1)->GeneratePoint1();
+  SWIG_arg=0;
+  {
+    Point2DPointer * resultptr = new Point2DPointer((Point2DPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTPoint2D_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Arc2DPointer_GeneratePoint2(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Arc2D > *arg1 = (boost::shared_ptr<Arc2D > *) 0 ;
+  Point2DPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTArc2D_t,0))){
+    SWIG_fail_ptr("Arc2DPointer_GeneratePoint2",1,SWIGTYPE_p_boost__shared_ptrTArc2D_t);
+  }
+  
+  result = (*arg1)->GeneratePoint2();
+  SWIG_arg=0;
+  {
+    Point2DPointer * resultptr = new Point2DPointer((Point2DPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTPoint2D_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Arc2DPointer_GetTangent1(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Arc2D > *arg1 = (boost::shared_ptr<Arc2D > *) 0 ;
+  GiNaC::ex *arg2 = 0 ;
+  GiNaC::ex *arg3 = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  if(!lua_isuserdata(L,2)) SWIG_fail_arg(2);
+  if(!lua_isuserdata(L,3)) SWIG_fail_arg(3);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTArc2D_t,0))){
+    SWIG_fail_ptr("Arc2DPointer_GetTangent1",1,SWIGTYPE_p_boost__shared_ptrTArc2D_t);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&arg2,SWIGTYPE_p_GiNaC__ex,0))){
+    SWIG_fail_ptr("Arc2DPointer_GetTangent1",2,SWIGTYPE_p_GiNaC__ex);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,3,(void**)&arg3,SWIGTYPE_p_GiNaC__ex,0))){
+    SWIG_fail_ptr("Arc2DPointer_GetTangent1",3,SWIGTYPE_p_GiNaC__ex);
+  }
+  
+  (*arg1)->GetTangent1(*arg2,*arg3);
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Arc2DPointer_GetTangent2(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Arc2D > *arg1 = (boost::shared_ptr<Arc2D > *) 0 ;
+  GiNaC::ex *arg2 = 0 ;
+  GiNaC::ex *arg3 = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  if(!lua_isuserdata(L,2)) SWIG_fail_arg(2);
+  if(!lua_isuserdata(L,3)) SWIG_fail_arg(3);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTArc2D_t,0))){
+    SWIG_fail_ptr("Arc2DPointer_GetTangent2",1,SWIGTYPE_p_boost__shared_ptrTArc2D_t);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&arg2,SWIGTYPE_p_GiNaC__ex,0))){
+    SWIG_fail_ptr("Arc2DPointer_GetTangent2",2,SWIGTYPE_p_GiNaC__ex);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,3,(void**)&arg3,SWIGTYPE_p_GiNaC__ex,0))){
+    SWIG_fail_ptr("Arc2DPointer_GetTangent2",3,SWIGTYPE_p_GiNaC__ex);
+  }
+  
+  (*arg1)->GetTangent2(*arg2,*arg3);
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Arc2DPointer_IsPointCoincident(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Arc2D > *arg1 = (boost::shared_ptr<Arc2D > *) 0 ;
+  EdgePointNumber arg2 ;
+  boost::shared_ptr<Edge2DBase > arg3 ;
+  EdgePointNumber arg4 ;
+  bool result;
+  boost::shared_ptr<Edge2DBase > *argp3 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  if(!lua_isnumber(L,2)) SWIG_fail_arg(2);
+  if(!lua_isuserdata(L,3)) SWIG_fail_arg(3);
+  if(!lua_isnumber(L,4)) SWIG_fail_arg(4);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTArc2D_t,0))){
+    SWIG_fail_ptr("Arc2DPointer_IsPointCoincident",1,SWIGTYPE_p_boost__shared_ptrTArc2D_t);
+  }
+  
+  arg2 = (EdgePointNumber)(int)lua_tonumber(L, 2);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,3,(void**)&argp3,SWIGTYPE_p_boost__shared_ptrTEdge2DBase_t,0))){
+    SWIG_fail_ptr("Arc2DPointer_IsPointCoincident",3,SWIGTYPE_boost__shared_ptrTEdge2DBase_t);
+  }
+  arg3 = *argp3;
+  
+  arg4 = (EdgePointNumber)(int)lua_tonumber(L, 4);
+  result = (bool)(*arg1)->IsPointCoincident(arg2,arg3,arg4);
+  SWIG_arg=0;
+  lua_pushboolean(L,(int)result); SWIG_arg++;
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Arc2DPointer_GetSketchPlane(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Arc2D > *arg1 = (boost::shared_ptr<Arc2D > *) 0 ;
+  SketchPlanePointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTArc2D_t,0))){
+    SWIG_fail_ptr("Arc2DPointer_GetSketchPlane",1,SWIGTYPE_p_boost__shared_ptrTArc2D_t);
+  }
+  
+  result = (*arg1)->GetSketchPlane();
+  SWIG_arg=0;
+  {
+    SketchPlanePointer * resultptr = new SketchPlanePointer((SketchPlanePointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTSketchPlane_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Arc2DPointer_GetDOFList(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Arc2D > *arg1 = (boost::shared_ptr<Arc2D > *) 0 ;
+  std::vector<DOFPointer > *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTArc2D_t,0))){
+    SWIG_fail_ptr("Arc2DPointer_GetDOFList",1,SWIGTYPE_p_boost__shared_ptrTArc2D_t);
+  }
+  
+  {
+    std::vector<DOFPointer > const &_result_ref = (*arg1)->GetDOFList();
+    result = (std::vector<DOFPointer > *) &_result_ref;
+  }
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_std__vectorTboost__shared_ptrTDOF_t_t,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Arc2DPointer_Display(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Arc2D > *arg1 = (boost::shared_ptr<Arc2D > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTArc2D_t,0))){
+    SWIG_fail_ptr("Arc2DPointer_Display",1,SWIGTYPE_p_boost__shared_ptrTArc2D_t);
+  }
+  
+  (*arg1)->Display();
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Arc2DPointer_UpdateDisplay(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<Arc2D > *arg1 = (boost::shared_ptr<Arc2D > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTArc2D_t,0))){
+    SWIG_fail_ptr("Arc2DPointer_UpdateDisplay",1,SWIGTYPE_p_boost__shared_ptrTArc2D_t);
+  }
+  
+  (*arg1)->UpdateDisplay();
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_Arc2DPointer(void *obj) {
+boost::shared_ptr<Arc2D > *arg1 = (boost::shared_ptr<Arc2D > *) obj;
+delete arg1;
+}
+static swig_lua_method swig_boost_shared_ptr_Sl_Arc2D_Sg__methods[] = {
+    {"__deref__", _wrap_Arc2DPointer___deref__}, 
+    {"GetSCenter", _wrap_Arc2DPointer_GetSCenter}, 
+    {"GetTCenter", _wrap_Arc2DPointer_GetTCenter}, 
+    {"GetTheta1", _wrap_Arc2DPointer_GetTheta1}, 
+    {"GetTheta2", _wrap_Arc2DPointer_GetTheta2}, 
+    {"GetRadius", _wrap_Arc2DPointer_GetRadius}, 
+    {"Get3DLocations", _wrap_Arc2DPointer_Get3DLocations}, 
+    {"GetPoint1", _wrap_Arc2DPointer_GetPoint1}, 
+    {"GetPoint2", _wrap_Arc2DPointer_GetPoint2}, 
+    {"GeneratePoint1", _wrap_Arc2DPointer_GeneratePoint1}, 
+    {"GeneratePoint2", _wrap_Arc2DPointer_GeneratePoint2}, 
+    {"GetTangent1", _wrap_Arc2DPointer_GetTangent1}, 
+    {"GetTangent2", _wrap_Arc2DPointer_GetTangent2}, 
+    {"IsPointCoincident", _wrap_Arc2DPointer_IsPointCoincident}, 
+    {"GetSketchPlane", _wrap_Arc2DPointer_GetSketchPlane}, 
+    {"GetDOFList", _wrap_Arc2DPointer_GetDOFList}, 
+    {"Display", _wrap_Arc2DPointer_Display}, 
+    {"UpdateDisplay", _wrap_Arc2DPointer_UpdateDisplay}, 
+    {0,0}
+};
+static swig_lua_attribute swig_boost_shared_ptr_Sl_Arc2D_Sg__attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_boost_shared_ptr_Sl_Arc2D_Sg__bases[] = {0};
+swig_lua_class _wrap_class_boost_shared_ptr_Sl_Arc2D_Sg_ = { "Arc2DPointer", &SWIGTYPE_p_boost__shared_ptrTArc2D_t,_wrap_new_Arc2DPointer, swig_delete_Arc2DPointer, swig_boost_shared_ptr_Sl_Arc2D_Sg__methods, swig_boost_shared_ptr_Sl_Arc2D_Sg__attributes, swig_boost_shared_ptr_Sl_Arc2D_Sg__bases };
+
+static int _wrap_EdgeLoop2DPointer___deref__(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<EdgeLoop2D > *arg1 = (boost::shared_ptr<EdgeLoop2D > *) 0 ;
+  EdgeLoop2D *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTEdgeLoop2D_t,0))){
+    SWIG_fail_ptr("EdgeLoop2DPointer___deref__",1,SWIGTYPE_p_boost__shared_ptrTEdgeLoop2D_t);
+  }
+  
+  result = (EdgeLoop2D *)((boost::shared_ptr<EdgeLoop2D > const *)arg1)->operator ->();
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_EdgeLoop2D,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_EdgeLoop2DPointer(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<EdgeLoop2D > *result = 0 ;
+  
+  result = (boost::shared_ptr<EdgeLoop2D > *)new boost::shared_ptr<EdgeLoop2D >();
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_boost__shared_ptrTEdgeLoop2D_t,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_delete_EdgeLoop2DPointer(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<EdgeLoop2D > *arg1 = (boost::shared_ptr<EdgeLoop2D > *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTEdgeLoop2D_t,0))){
+    SWIG_fail_ptr("delete_EdgeLoop2DPointer",1,SWIGTYPE_p_boost__shared_ptrTEdgeLoop2D_t);
+  }
+  
+  delete arg1;
+  
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_EdgeLoop2DPointer_AddEdge(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<EdgeLoop2D > *arg1 = (boost::shared_ptr<EdgeLoop2D > *) 0 ;
+  Edge2DBasePointer arg2 ;
+  Edge2DBasePointer *argp2 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  if(!lua_isuserdata(L,2)) SWIG_fail_arg(2);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTEdgeLoop2D_t,0))){
+    SWIG_fail_ptr("EdgeLoop2DPointer_AddEdge",1,SWIGTYPE_p_boost__shared_ptrTEdgeLoop2D_t);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&argp2,SWIGTYPE_p_boost__shared_ptrTEdge2DBase_t,0))){
+    SWIG_fail_ptr("EdgeLoop2DPointer_AddEdge",2,SWIGTYPE_boost__shared_ptrTEdge2DBase_t);
+  }
+  arg2 = *argp2;
+  
+  (*arg1)->AddEdge(arg2);
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_EdgeLoop2DPointer_IsLoopValid(lua_State* L) {
+  int SWIG_arg = -1;
+  boost::shared_ptr<EdgeLoop2D > *arg1 = (boost::shared_ptr<EdgeLoop2D > *) 0 ;
+  bool result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_boost__shared_ptrTEdgeLoop2D_t,0))){
+    SWIG_fail_ptr("EdgeLoop2DPointer_IsLoopValid",1,SWIGTYPE_p_boost__shared_ptrTEdgeLoop2D_t);
+  }
+  
+  result = (bool)(*arg1)->IsLoopValid();
+  SWIG_arg=0;
+  lua_pushboolean(L,(int)result); SWIG_arg++;
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_EdgeLoop2DPointer(void *obj) {
+boost::shared_ptr<EdgeLoop2D > *arg1 = (boost::shared_ptr<EdgeLoop2D > *) obj;
+delete arg1;
+}
+static swig_lua_method swig_boost_shared_ptr_Sl_EdgeLoop2D_Sg__methods[] = {
+    {"__deref__", _wrap_EdgeLoop2DPointer___deref__}, 
+    {"AddEdge", _wrap_EdgeLoop2DPointer_AddEdge}, 
+    {"IsLoopValid", _wrap_EdgeLoop2DPointer_IsLoopValid}, 
+    {0,0}
+};
+static swig_lua_attribute swig_boost_shared_ptr_Sl_EdgeLoop2D_Sg__attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_boost_shared_ptr_Sl_EdgeLoop2D_Sg__bases[] = {0};
+swig_lua_class _wrap_class_boost_shared_ptr_Sl_EdgeLoop2D_Sg_ = { "EdgeLoop2DPointer", &SWIGTYPE_p_boost__shared_ptrTEdgeLoop2D_t,_wrap_new_EdgeLoop2DPointer, swig_delete_EdgeLoop2DPointer, swig_boost_shared_ptr_Sl_EdgeLoop2D_Sg__methods, swig_boost_shared_ptr_Sl_EdgeLoop2D_Sg__attributes, swig_boost_shared_ptr_Sl_EdgeLoop2D_Sg__bases };
+
 #ifdef __cplusplus
 }
 #endif
@@ -6614,6 +11761,206 @@ static const struct luaL_reg swig_commands[] = {
     { "delete_EdgeLoop2D", _wrap_delete_EdgeLoop2D},
     { "EdgeLoop2D_AddEdge", _wrap_EdgeLoop2D_AddEdge},
     { "EdgeLoop2D_IsLoopValid", _wrap_EdgeLoop2D_IsLoopValid},
+    { "DOFPointer___deref__", _wrap_DOFPointer___deref__},
+    { "new_DOFPointer", _wrap_new_DOFPointer},
+    { "delete_DOFPointer", _wrap_delete_DOFPointer},
+    { "DOFPointer_SetValue", _wrap_DOFPointer_SetValue},
+    { "DOFPointer_GetValue", _wrap_DOFPointer_GetValue},
+    { "DOFPointer_GetExpression", _wrap_DOFPointer_GetExpression},
+    { "DOFPointer_GetVariable", _wrap_DOFPointer_GetVariable},
+    { "DOFPointer_IsFree", _wrap_DOFPointer_IsFree},
+    { "DOFPointer_IsDependent", _wrap_DOFPointer_IsDependent},
+    { "IndependentDOFPointer___deref__", _wrap_IndependentDOFPointer___deref__},
+    { "new_IndependentDOFPointer", _wrap_new_IndependentDOFPointer},
+    { "delete_IndependentDOFPointer", _wrap_delete_IndependentDOFPointer},
+    { "IndependentDOFPointer_SetValue", _wrap_IndependentDOFPointer_SetValue},
+    { "IndependentDOFPointer_GetValue", _wrap_IndependentDOFPointer_GetValue},
+    { "IndependentDOFPointer_GetExpression", _wrap_IndependentDOFPointer_GetExpression},
+    { "IndependentDOFPointer_GetVariable", _wrap_IndependentDOFPointer_GetVariable},
+    { "IndependentDOFPointer_IsFree", _wrap_IndependentDOFPointer_IsFree},
+    { "IndependentDOFPointer_IsDependent", _wrap_IndependentDOFPointer_IsDependent},
+    { "DependentDOFPointer___deref__", _wrap_DependentDOFPointer___deref__},
+    { "new_DependentDOFPointer", _wrap_new_DependentDOFPointer},
+    { "delete_DependentDOFPointer", _wrap_delete_DependentDOFPointer},
+    { "DependentDOFPointer_SetValue", _wrap_DependentDOFPointer_SetValue},
+    { "DependentDOFPointer_GetValue", _wrap_DependentDOFPointer_GetValue},
+    { "DependentDOFPointer_GetExpression", _wrap_DependentDOFPointer_GetExpression},
+    { "DependentDOFPointer_GetVariable", _wrap_DependentDOFPointer_GetVariable},
+    { "DependentDOFPointer_IsFree", _wrap_DependentDOFPointer_IsFree},
+    { "DependentDOFPointer_IsDependent", _wrap_DependentDOFPointer_IsDependent},
+    { "PrimitiveBasePointer___deref__", _wrap_PrimitiveBasePointer___deref__},
+    { "new_PrimitiveBasePointer", _wrap_new_PrimitiveBasePointer},
+    { "delete_PrimitiveBasePointer", _wrap_delete_PrimitiveBasePointer},
+    { "PrimitiveBasePointer_GetDOFList", _wrap_PrimitiveBasePointer_GetDOFList},
+    { "PrimitiveBasePointer_Display", _wrap_PrimitiveBasePointer_Display},
+    { "PrimitiveBasePointer_UpdateDisplay", _wrap_PrimitiveBasePointer_UpdateDisplay},
+    { "PointPointer___deref__", _wrap_PointPointer___deref__},
+    { "new_PointPointer", _wrap_new_PointPointer},
+    { "delete_PointPointer", _wrap_delete_PointPointer},
+    { "PointPointer_GetXDOF", _wrap_PointPointer_GetXDOF},
+    { "PointPointer_GetYDOF", _wrap_PointPointer_GetYDOF},
+    { "PointPointer_GetZDOF", _wrap_PointPointer_GetZDOF},
+    { "PointPointer_GetmmcMatrix", _wrap_PointPointer_GetmmcMatrix},
+    { "PointPointer_GetDOFList", _wrap_PointPointer_GetDOFList},
+    { "PointPointer_Display", _wrap_PointPointer_Display},
+    { "PointPointer_UpdateDisplay", _wrap_PointPointer_UpdateDisplay},
+    { "VectorPointer___deref__", _wrap_VectorPointer___deref__},
+    { "new_VectorPointer", _wrap_new_VectorPointer},
+    { "delete_VectorPointer", _wrap_delete_VectorPointer},
+    { "VectorPointer_GetmmcMatrix", _wrap_VectorPointer_GetmmcMatrix},
+    { "VectorPointer_GetDOFList", _wrap_VectorPointer_GetDOFList},
+    { "VectorPointer_Display", _wrap_VectorPointer_Display},
+    { "VectorPointer_UpdateDisplay", _wrap_VectorPointer_UpdateDisplay},
+    { "SketchPlanePointer___deref__", _wrap_SketchPlanePointer___deref__},
+    { "new_SketchPlanePointer", _wrap_new_SketchPlanePointer},
+    { "delete_SketchPlanePointer", _wrap_delete_SketchPlanePointer},
+    { "SketchPlanePointer_Get3DLocation", _wrap_SketchPlanePointer_Get3DLocation},
+    { "SketchPlanePointer_GetABCD", _wrap_SketchPlanePointer_GetABCD},
+    { "SketchPlanePointer_GetNormal", _wrap_SketchPlanePointer_GetNormal},
+    { "SketchPlanePointer_GetUp", _wrap_SketchPlanePointer_GetUp},
+    { "SketchPlanePointer_GetBase", _wrap_SketchPlanePointer_GetBase},
+    { "SketchPlanePointer_GetDOFList", _wrap_SketchPlanePointer_GetDOFList},
+    { "SketchPlanePointer_Display", _wrap_SketchPlanePointer_Display},
+    { "SketchPlanePointer_UpdateDisplay", _wrap_SketchPlanePointer_UpdateDisplay},
+    { "Primitive2DBasePointer___deref__", _wrap_Primitive2DBasePointer___deref__},
+    { "new_Primitive2DBasePointer", _wrap_new_Primitive2DBasePointer},
+    { "delete_Primitive2DBasePointer", _wrap_delete_Primitive2DBasePointer},
+    { "Primitive2DBasePointer_GetSketchPlane", _wrap_Primitive2DBasePointer_GetSketchPlane},
+    { "Primitive2DBasePointer_GetDOFList", _wrap_Primitive2DBasePointer_GetDOFList},
+    { "Primitive2DBasePointer_Display", _wrap_Primitive2DBasePointer_Display},
+    { "Primitive2DBasePointer_UpdateDisplay", _wrap_Primitive2DBasePointer_UpdateDisplay},
+    { "Point2DPointer___deref__", _wrap_Point2DPointer___deref__},
+    { "new_Point2DPointer", _wrap_new_Point2DPointer},
+    { "delete_Point2DPointer", _wrap_delete_Point2DPointer},
+    { "Point2DPointer_GetSDOF", _wrap_Point2DPointer_GetSDOF},
+    { "Point2DPointer_GetTDOF", _wrap_Point2DPointer_GetTDOF},
+    { "Point2DPointer_Get3DLocation", _wrap_Point2DPointer_Get3DLocation},
+    { "Point2DPointer_GetSketchPlane", _wrap_Point2DPointer_GetSketchPlane},
+    { "Point2DPointer_GetDOFList", _wrap_Point2DPointer_GetDOFList},
+    { "Point2DPointer_Display", _wrap_Point2DPointer_Display},
+    { "Point2DPointer_UpdateDisplay", _wrap_Point2DPointer_UpdateDisplay},
+    { "Edge2DBasePointer___deref__", _wrap_Edge2DBasePointer___deref__},
+    { "new_Edge2DBasePointer", _wrap_new_Edge2DBasePointer},
+    { "delete_Edge2DBasePointer", _wrap_delete_Edge2DBasePointer},
+    { "Edge2DBasePointer_GetPoint1", _wrap_Edge2DBasePointer_GetPoint1},
+    { "Edge2DBasePointer_GetPoint2", _wrap_Edge2DBasePointer_GetPoint2},
+    { "Edge2DBasePointer_GetTangent1", _wrap_Edge2DBasePointer_GetTangent1},
+    { "Edge2DBasePointer_GetTangent2", _wrap_Edge2DBasePointer_GetTangent2},
+    { "Edge2DBasePointer_IsPointCoincident", _wrap_Edge2DBasePointer_IsPointCoincident},
+    { "Edge2DBasePointer_GetSketchPlane", _wrap_Edge2DBasePointer_GetSketchPlane},
+    { "Edge2DBasePointer_GetDOFList", _wrap_Edge2DBasePointer_GetDOFList},
+    { "Edge2DBasePointer_Display", _wrap_Edge2DBasePointer_Display},
+    { "Edge2DBasePointer_UpdateDisplay", _wrap_Edge2DBasePointer_UpdateDisplay},
+    { "LinePointer___deref__", _wrap_LinePointer___deref__},
+    { "new_LinePointer", _wrap_new_LinePointer},
+    { "delete_LinePointer", _wrap_delete_LinePointer},
+    { "LinePointer_GetX1", _wrap_LinePointer_GetX1},
+    { "LinePointer_GetY1", _wrap_LinePointer_GetY1},
+    { "LinePointer_GetZ1", _wrap_LinePointer_GetZ1},
+    { "LinePointer_GetX2", _wrap_LinePointer_GetX2},
+    { "LinePointer_GetY2", _wrap_LinePointer_GetY2},
+    { "LinePointer_GetZ2", _wrap_LinePointer_GetZ2},
+    { "LinePointer_GetDOFList", _wrap_LinePointer_GetDOFList},
+    { "LinePointer_Display", _wrap_LinePointer_Display},
+    { "LinePointer_UpdateDisplay", _wrap_LinePointer_UpdateDisplay},
+    { "Line2DPointer___deref__", _wrap_Line2DPointer___deref__},
+    { "new_Line2DPointer", _wrap_new_Line2DPointer},
+    { "delete_Line2DPointer", _wrap_delete_Line2DPointer},
+    { "Line2DPointer_GetS1", _wrap_Line2DPointer_GetS1},
+    { "Line2DPointer_GetT1", _wrap_Line2DPointer_GetT1},
+    { "Line2DPointer_GetS2", _wrap_Line2DPointer_GetS2},
+    { "Line2DPointer_GetT2", _wrap_Line2DPointer_GetT2},
+    { "Line2DPointer_Get3DLocations", _wrap_Line2DPointer_Get3DLocations},
+    { "Line2DPointer_GetPoint1", _wrap_Line2DPointer_GetPoint1},
+    { "Line2DPointer_GetPoint2", _wrap_Line2DPointer_GetPoint2},
+    { "Line2DPointer_GetTangent1", _wrap_Line2DPointer_GetTangent1},
+    { "Line2DPointer_GetTangent2", _wrap_Line2DPointer_GetTangent2},
+    { "Line2DPointer_IsPointCoincident", _wrap_Line2DPointer_IsPointCoincident},
+    { "Line2DPointer_GetSketchPlane", _wrap_Line2DPointer_GetSketchPlane},
+    { "Line2DPointer_GetDOFList", _wrap_Line2DPointer_GetDOFList},
+    { "Line2DPointer_Display", _wrap_Line2DPointer_Display},
+    { "Line2DPointer_UpdateDisplay", _wrap_Line2DPointer_UpdateDisplay},
+    { "ConstraintEquationBasePointer___deref__", _wrap_ConstraintEquationBasePointer___deref__},
+    { "new_ConstraintEquationBasePointer", _wrap_new_ConstraintEquationBasePointer},
+    { "delete_ConstraintEquationBasePointer", _wrap_delete_ConstraintEquationBasePointer},
+    { "ConstraintEquationBasePointer_GetDOFList", _wrap_ConstraintEquationBasePointer_GetDOFList},
+    { "ConstraintEquationBasePointer_GetConstraintList", _wrap_ConstraintEquationBasePointer_GetConstraintList},
+    { "ConstraintEquationBasePointer_GetWeightList", _wrap_ConstraintEquationBasePointer_GetWeightList},
+    { "ConstraintEquationBasePointer_Display", _wrap_ConstraintEquationBasePointer_Display},
+    { "ConstraintEquationBasePointer_UpdateDisplay", _wrap_ConstraintEquationBasePointer_UpdateDisplay},
+    { "DistancePoint2DPointer___deref__", _wrap_DistancePoint2DPointer___deref__},
+    { "new_DistancePoint2DPointer", _wrap_new_DistancePoint2DPointer},
+    { "delete_DistancePoint2DPointer", _wrap_delete_DistancePoint2DPointer},
+    { "DistancePoint2DPointer_GetDOFList", _wrap_DistancePoint2DPointer_GetDOFList},
+    { "DistancePoint2DPointer_GetConstraintList", _wrap_DistancePoint2DPointer_GetConstraintList},
+    { "DistancePoint2DPointer_GetWeightList", _wrap_DistancePoint2DPointer_GetWeightList},
+    { "DistancePoint2DPointer_Display", _wrap_DistancePoint2DPointer_Display},
+    { "DistancePoint2DPointer_UpdateDisplay", _wrap_DistancePoint2DPointer_UpdateDisplay},
+    { "DistancePointPointer___deref__", _wrap_DistancePointPointer___deref__},
+    { "new_DistancePointPointer", _wrap_new_DistancePointPointer},
+    { "delete_DistancePointPointer", _wrap_delete_DistancePointPointer},
+    { "DistancePointPointer_GetDOFList", _wrap_DistancePointPointer_GetDOFList},
+    { "DistancePointPointer_GetConstraintList", _wrap_DistancePointPointer_GetConstraintList},
+    { "DistancePointPointer_GetWeightList", _wrap_DistancePointPointer_GetWeightList},
+    { "DistancePointPointer_Display", _wrap_DistancePointPointer_Display},
+    { "DistancePointPointer_UpdateDisplay", _wrap_DistancePointPointer_UpdateDisplay},
+    { "ParallelLinePointer___deref__", _wrap_ParallelLinePointer___deref__},
+    { "new_ParallelLinePointer", _wrap_new_ParallelLinePointer},
+    { "delete_ParallelLinePointer", _wrap_delete_ParallelLinePointer},
+    { "ParallelLinePointer_GetDOFList", _wrap_ParallelLinePointer_GetDOFList},
+    { "ParallelLinePointer_GetConstraintList", _wrap_ParallelLinePointer_GetConstraintList},
+    { "ParallelLinePointer_GetWeightList", _wrap_ParallelLinePointer_GetWeightList},
+    { "ParallelLinePointer_Display", _wrap_ParallelLinePointer_Display},
+    { "ParallelLinePointer_UpdateDisplay", _wrap_ParallelLinePointer_UpdateDisplay},
+    { "ParallelLine2DPointer___deref__", _wrap_ParallelLine2DPointer___deref__},
+    { "new_ParallelLine2DPointer", _wrap_new_ParallelLine2DPointer},
+    { "delete_ParallelLine2DPointer", _wrap_delete_ParallelLine2DPointer},
+    { "ParallelLine2DPointer_GetDOFList", _wrap_ParallelLine2DPointer_GetDOFList},
+    { "ParallelLine2DPointer_GetConstraintList", _wrap_ParallelLine2DPointer_GetConstraintList},
+    { "ParallelLine2DPointer_GetWeightList", _wrap_ParallelLine2DPointer_GetWeightList},
+    { "ParallelLine2DPointer_Display", _wrap_ParallelLine2DPointer_Display},
+    { "ParallelLine2DPointer_UpdateDisplay", _wrap_ParallelLine2DPointer_UpdateDisplay},
+    { "TangentEdge2DPointer___deref__", _wrap_TangentEdge2DPointer___deref__},
+    { "new_TangentEdge2DPointer", _wrap_new_TangentEdge2DPointer},
+    { "delete_TangentEdge2DPointer", _wrap_delete_TangentEdge2DPointer},
+    { "TangentEdge2DPointer_GetDOFList", _wrap_TangentEdge2DPointer_GetDOFList},
+    { "TangentEdge2DPointer_GetConstraintList", _wrap_TangentEdge2DPointer_GetConstraintList},
+    { "TangentEdge2DPointer_GetWeightList", _wrap_TangentEdge2DPointer_GetWeightList},
+    { "TangentEdge2DPointer_Display", _wrap_TangentEdge2DPointer_Display},
+    { "TangentEdge2DPointer_UpdateDisplay", _wrap_TangentEdge2DPointer_UpdateDisplay},
+    { "AngleLine2DPointer___deref__", _wrap_AngleLine2DPointer___deref__},
+    { "new_AngleLine2DPointer", _wrap_new_AngleLine2DPointer},
+    { "delete_AngleLine2DPointer", _wrap_delete_AngleLine2DPointer},
+    { "AngleLine2DPointer_GetDOFList", _wrap_AngleLine2DPointer_GetDOFList},
+    { "AngleLine2DPointer_GetConstraintList", _wrap_AngleLine2DPointer_GetConstraintList},
+    { "AngleLine2DPointer_GetWeightList", _wrap_AngleLine2DPointer_GetWeightList},
+    { "AngleLine2DPointer_Display", _wrap_AngleLine2DPointer_Display},
+    { "AngleLine2DPointer_UpdateDisplay", _wrap_AngleLine2DPointer_UpdateDisplay},
+    { "Arc2DPointer___deref__", _wrap_Arc2DPointer___deref__},
+    { "new_Arc2DPointer", _wrap_new_Arc2DPointer},
+    { "delete_Arc2DPointer", _wrap_delete_Arc2DPointer},
+    { "Arc2DPointer_GetSCenter", _wrap_Arc2DPointer_GetSCenter},
+    { "Arc2DPointer_GetTCenter", _wrap_Arc2DPointer_GetTCenter},
+    { "Arc2DPointer_GetTheta1", _wrap_Arc2DPointer_GetTheta1},
+    { "Arc2DPointer_GetTheta2", _wrap_Arc2DPointer_GetTheta2},
+    { "Arc2DPointer_GetRadius", _wrap_Arc2DPointer_GetRadius},
+    { "Arc2DPointer_Get3DLocations", _wrap_Arc2DPointer_Get3DLocations},
+    { "Arc2DPointer_GetPoint1", _wrap_Arc2DPointer_GetPoint1},
+    { "Arc2DPointer_GetPoint2", _wrap_Arc2DPointer_GetPoint2},
+    { "Arc2DPointer_GeneratePoint1", _wrap_Arc2DPointer_GeneratePoint1},
+    { "Arc2DPointer_GeneratePoint2", _wrap_Arc2DPointer_GeneratePoint2},
+    { "Arc2DPointer_GetTangent1", _wrap_Arc2DPointer_GetTangent1},
+    { "Arc2DPointer_GetTangent2", _wrap_Arc2DPointer_GetTangent2},
+    { "Arc2DPointer_IsPointCoincident", _wrap_Arc2DPointer_IsPointCoincident},
+    { "Arc2DPointer_GetSketchPlane", _wrap_Arc2DPointer_GetSketchPlane},
+    { "Arc2DPointer_GetDOFList", _wrap_Arc2DPointer_GetDOFList},
+    { "Arc2DPointer_Display", _wrap_Arc2DPointer_Display},
+    { "Arc2DPointer_UpdateDisplay", _wrap_Arc2DPointer_UpdateDisplay},
+    { "EdgeLoop2DPointer___deref__", _wrap_EdgeLoop2DPointer___deref__},
+    { "new_EdgeLoop2DPointer", _wrap_new_EdgeLoop2DPointer},
+    { "delete_EdgeLoop2DPointer", _wrap_delete_EdgeLoop2DPointer},
+    { "EdgeLoop2DPointer_AddEdge", _wrap_EdgeLoop2DPointer_AddEdge},
+    { "EdgeLoop2DPointer_IsLoopValid", _wrap_EdgeLoop2DPointer_IsLoopValid},
     {0,0}
 };
 
@@ -6732,27 +12079,27 @@ static swig_type_info _swigt__p_PrimitiveException = {"_p_PrimitiveException", "
 static swig_type_info _swigt__p_SketchPlane = {"_p_SketchPlane", "SketchPlane *", 0, 0, (void*)&_wrap_class_SketchPlane, 0};
 static swig_type_info _swigt__p_TangentEdge2D = {"_p_TangentEdge2D", "TangentEdge2D *", 0, 0, (void*)&_wrap_class_TangentEdge2D, 0};
 static swig_type_info _swigt__p_Vector = {"_p_Vector", "Vector *", 0, 0, (void*)&_wrap_class_Vector, 0};
-static swig_type_info _swigt__p_boost__shared_ptrTAngleLine2D_t = {"_p_boost__shared_ptrTAngleLine2D_t", "boost::shared_ptr<AngleLine2D > *|AngleLine2DPointer *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_boost__shared_ptrTArc2D_t = {"_p_boost__shared_ptrTArc2D_t", "boost::shared_ptr<Arc2D > *|Arc2DPointer *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_boost__shared_ptrTConstraintEquationBase_t = {"_p_boost__shared_ptrTConstraintEquationBase_t", "boost::shared_ptr<ConstraintEquationBase > *|ConstraintEquationBasePointer *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_boost__shared_ptrTDOF_t = {"_p_boost__shared_ptrTDOF_t", "boost::shared_ptr<DOF > *|DOFPointer *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_boost__shared_ptrTDependentDOF_t = {"_p_boost__shared_ptrTDependentDOF_t", "boost::shared_ptr<DependentDOF > *|DependentDOFPointer *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_boost__shared_ptrTDistancePoint2D_t = {"_p_boost__shared_ptrTDistancePoint2D_t", "boost::shared_ptr<DistancePoint2D > *|DistancePoint2DPointer *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_boost__shared_ptrTDistancePoint_t = {"_p_boost__shared_ptrTDistancePoint_t", "boost::shared_ptr<DistancePoint > *|DistancePointPointer *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_boost__shared_ptrTEdge2DBase_t = {"_p_boost__shared_ptrTEdge2DBase_t", "boost::shared_ptr<Edge2DBase > *|Edge2DBasePointer *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_boost__shared_ptrTEdgeLoop2D_t = {"_p_boost__shared_ptrTEdgeLoop2D_t", "boost::shared_ptr<EdgeLoop2D > *|EdgeLoop2DPointer *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_boost__shared_ptrTIndependentDOF_t = {"_p_boost__shared_ptrTIndependentDOF_t", "boost::shared_ptr<IndependentDOF > *|IndependentDOFPointer *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_boost__shared_ptrTLine2D_t = {"_p_boost__shared_ptrTLine2D_t", "boost::shared_ptr<Line2D > *|Line2DPointer *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_boost__shared_ptrTLine_t = {"_p_boost__shared_ptrTLine_t", "boost::shared_ptr<Line > *|LinePointer *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_boost__shared_ptrTParallelLine2D_t = {"_p_boost__shared_ptrTParallelLine2D_t", "boost::shared_ptr<ParallelLine2D > *|ParallelLine2DPointer *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_boost__shared_ptrTParallelLine_t = {"_p_boost__shared_ptrTParallelLine_t", "boost::shared_ptr<ParallelLine > *|ParallelLinePointer *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_boost__shared_ptrTPoint2D_t = {"_p_boost__shared_ptrTPoint2D_t", "boost::shared_ptr<Point2D > *|Point2DPointer *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_boost__shared_ptrTPoint_t = {"_p_boost__shared_ptrTPoint_t", "boost::shared_ptr<Point > *|PointPointer *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_boost__shared_ptrTPrimitive2DBase_t = {"_p_boost__shared_ptrTPrimitive2DBase_t", "boost::shared_ptr<Primitive2DBase > *|Primitive2DBasePointer *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_boost__shared_ptrTPrimitiveBase_t = {"_p_boost__shared_ptrTPrimitiveBase_t", "boost::shared_ptr<PrimitiveBase > *|PrimitiveBasePointer *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_boost__shared_ptrTSketchPlane_t = {"_p_boost__shared_ptrTSketchPlane_t", "boost::shared_ptr<SketchPlane > *|SketchPlanePointer *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_boost__shared_ptrTTangentEdge2D_t = {"_p_boost__shared_ptrTTangentEdge2D_t", "boost::shared_ptr<TangentEdge2D > *|TangentEdge2DPointer *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_boost__shared_ptrTVector_t = {"_p_boost__shared_ptrTVector_t", "boost::shared_ptr<Vector > *|VectorPointer *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_boost__shared_ptrTAngleLine2D_t = {"_p_boost__shared_ptrTAngleLine2D_t", "boost::shared_ptr<AngleLine2D > *", 0, 0, (void*)&_wrap_class_boost_shared_ptr_Sl_AngleLine2D_Sg_, 0};
+static swig_type_info _swigt__p_boost__shared_ptrTArc2D_t = {"_p_boost__shared_ptrTArc2D_t", "boost::shared_ptr<Arc2D > *", 0, 0, (void*)&_wrap_class_boost_shared_ptr_Sl_Arc2D_Sg_, 0};
+static swig_type_info _swigt__p_boost__shared_ptrTConstraintEquationBase_t = {"_p_boost__shared_ptrTConstraintEquationBase_t", "boost::shared_ptr<ConstraintEquationBase > *", 0, 0, (void*)&_wrap_class_boost_shared_ptr_Sl_ConstraintEquationBase_Sg_, 0};
+static swig_type_info _swigt__p_boost__shared_ptrTDOF_t = {"_p_boost__shared_ptrTDOF_t", "boost::shared_ptr<DOF > *|DOFPointer *", 0, 0, (void*)&_wrap_class_boost_shared_ptr_Sl_DOF_Sg_, 0};
+static swig_type_info _swigt__p_boost__shared_ptrTDependentDOF_t = {"_p_boost__shared_ptrTDependentDOF_t", "boost::shared_ptr<DependentDOF > *", 0, 0, (void*)&_wrap_class_boost_shared_ptr_Sl_DependentDOF_Sg_, 0};
+static swig_type_info _swigt__p_boost__shared_ptrTDistancePoint2D_t = {"_p_boost__shared_ptrTDistancePoint2D_t", "boost::shared_ptr<DistancePoint2D > *", 0, 0, (void*)&_wrap_class_boost_shared_ptr_Sl_DistancePoint2D_Sg_, 0};
+static swig_type_info _swigt__p_boost__shared_ptrTDistancePoint_t = {"_p_boost__shared_ptrTDistancePoint_t", "boost::shared_ptr<DistancePoint > *", 0, 0, (void*)&_wrap_class_boost_shared_ptr_Sl_DistancePoint_Sg_, 0};
+static swig_type_info _swigt__p_boost__shared_ptrTEdge2DBase_t = {"_p_boost__shared_ptrTEdge2DBase_t", "boost::shared_ptr<Edge2DBase > *|Edge2DBasePointer *", 0, 0, (void*)&_wrap_class_boost_shared_ptr_Sl_Edge2DBase_Sg_, 0};
+static swig_type_info _swigt__p_boost__shared_ptrTEdgeLoop2D_t = {"_p_boost__shared_ptrTEdgeLoop2D_t", "boost::shared_ptr<EdgeLoop2D > *", 0, 0, (void*)&_wrap_class_boost_shared_ptr_Sl_EdgeLoop2D_Sg_, 0};
+static swig_type_info _swigt__p_boost__shared_ptrTIndependentDOF_t = {"_p_boost__shared_ptrTIndependentDOF_t", "boost::shared_ptr<IndependentDOF > *", 0, 0, (void*)&_wrap_class_boost_shared_ptr_Sl_IndependentDOF_Sg_, 0};
+static swig_type_info _swigt__p_boost__shared_ptrTLine2D_t = {"_p_boost__shared_ptrTLine2D_t", "boost::shared_ptr<Line2D > *", 0, 0, (void*)&_wrap_class_boost_shared_ptr_Sl_Line2D_Sg_, 0};
+static swig_type_info _swigt__p_boost__shared_ptrTLine_t = {"_p_boost__shared_ptrTLine_t", "boost::shared_ptr<Line > *", 0, 0, (void*)&_wrap_class_boost_shared_ptr_Sl_Line_Sg_, 0};
+static swig_type_info _swigt__p_boost__shared_ptrTParallelLine2D_t = {"_p_boost__shared_ptrTParallelLine2D_t", "boost::shared_ptr<ParallelLine2D > *", 0, 0, (void*)&_wrap_class_boost_shared_ptr_Sl_ParallelLine2D_Sg_, 0};
+static swig_type_info _swigt__p_boost__shared_ptrTParallelLine_t = {"_p_boost__shared_ptrTParallelLine_t", "boost::shared_ptr<ParallelLine > *", 0, 0, (void*)&_wrap_class_boost_shared_ptr_Sl_ParallelLine_Sg_, 0};
+static swig_type_info _swigt__p_boost__shared_ptrTPoint2D_t = {"_p_boost__shared_ptrTPoint2D_t", "boost::shared_ptr<Point2D > *|Point2DPointer *", 0, 0, (void*)&_wrap_class_boost_shared_ptr_Sl_Point2D_Sg_, 0};
+static swig_type_info _swigt__p_boost__shared_ptrTPoint_t = {"_p_boost__shared_ptrTPoint_t", "boost::shared_ptr<Point > *|PointPointer *", 0, 0, (void*)&_wrap_class_boost_shared_ptr_Sl_Point_Sg_, 0};
+static swig_type_info _swigt__p_boost__shared_ptrTPrimitive2DBase_t = {"_p_boost__shared_ptrTPrimitive2DBase_t", "boost::shared_ptr<Primitive2DBase > *", 0, 0, (void*)&_wrap_class_boost_shared_ptr_Sl_Primitive2DBase_Sg_, 0};
+static swig_type_info _swigt__p_boost__shared_ptrTPrimitiveBase_t = {"_p_boost__shared_ptrTPrimitiveBase_t", "boost::shared_ptr<PrimitiveBase > *", 0, 0, (void*)&_wrap_class_boost_shared_ptr_Sl_PrimitiveBase_Sg_, 0};
+static swig_type_info _swigt__p_boost__shared_ptrTSketchPlane_t = {"_p_boost__shared_ptrTSketchPlane_t", "boost::shared_ptr<SketchPlane > *|SketchPlanePointer *", 0, 0, (void*)&_wrap_class_boost_shared_ptr_Sl_SketchPlane_Sg_, 0};
+static swig_type_info _swigt__p_boost__shared_ptrTTangentEdge2D_t = {"_p_boost__shared_ptrTTangentEdge2D_t", "boost::shared_ptr<TangentEdge2D > *", 0, 0, (void*)&_wrap_class_boost_shared_ptr_Sl_TangentEdge2D_Sg_, 0};
+static swig_type_info _swigt__p_boost__shared_ptrTVector_t = {"_p_boost__shared_ptrTVector_t", "boost::shared_ptr<Vector > *|VectorPointer *", 0, 0, (void*)&_wrap_class_boost_shared_ptr_Sl_Vector_Sg_, 0};
 static swig_type_info _swigt__p_double = {"_p_double", "double *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_mmcMatrix = {"_p_mmcMatrix", "mmcMatrix *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__vectorTboost__shared_ptrTConstraintEquationBase_t_t = {"_p_std__vectorTboost__shared_ptrTConstraintEquationBase_t_t", "std::vector<boost::shared_ptr<ConstraintEquationBase > > *|std::vector<ConstraintEquationBasePointer > *", 0, 0, (void*)0, 0};
