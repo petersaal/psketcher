@@ -49,6 +49,8 @@ extern int Ark3d_Init(lua_State* L);  // Declare the wrapped module
 }
 #define LUA_EXTRALIBS {"ark3d",Ark3d_Init}
 
+double foo = 1;
+
 OccGtkGLView::OccGtkGLView()
 {   
     theWidget = 0;
@@ -83,10 +85,6 @@ OccGtkGLView::OccGtkGLView()
 	lua_state_ = lua_open();
 	luaopen_base(lua_state_);	// load basic libs (eg. print)
 	Ark3d_Init(lua_state_);	// load the wrappered module
-
-	//SWIG_NewPointerObj(lua_state_,&ark3d_model_,SWIGTYPE_p_Ark3DModel,0);
-	lua_pushlightuserdata (lua_state_, &ark3d_model_);
-	lua_setglobal (lua_state_, "Ark3DModel");
 }
 
 OccGtkGLView::~OccGtkGLView()
@@ -919,3 +917,26 @@ void OccGtkGLView::GenerateTestSketch()
 	ark3d_model_.AddConstraintEquation(constraint6);
 	ark3d_model_.AddConstraintEquation(constraint7);
 }
+
+void OccGtkGLView::SolveConstraints() 
+{
+	//ark3d_model_.SolveConstraints();
+	//ark3d_model_.UpdateDisplay();
+
+	int error;
+
+	error = luaL_dostring(lua_state_, "ark3d_model:SolveConstraints()");
+
+	if (error) {
+		cout << lua_tostring(lua_state_, -1) << endl;
+		lua_pop(lua_state_, 1);  /* pop error message from the stack */
+	}
+
+	error = luaL_dostring(lua_state_, "ark3d_model:UpdateDisplay()");
+
+	if (error) {
+		cout << lua_tostring(lua_state_, -1) << endl;
+		lua_pop(lua_state_, 1);  /* pop error message from the stack */
+	}
+}
+
