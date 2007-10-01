@@ -5,6 +5,7 @@ What you need installed
 ***********************
 
 cmake-2.4 (this is the build system used)
+swig-3.1 (used to generate Lua binding, not actually needed but build files will need to be tweeked to compile without it)
 lua5.1
 libginac-1.3.7
 gsl-1.9
