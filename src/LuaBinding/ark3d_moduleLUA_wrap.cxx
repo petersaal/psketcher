@@ -6493,6 +6493,838 @@ static swig_lua_attribute swig_EdgeLoop2D_attributes[] = {
 static swig_lua_class *swig_EdgeLoop2D_bases[] = {0};
 swig_lua_class _wrap_class_EdgeLoop2D = { "EdgeLoop2D", &SWIGTYPE_p_EdgeLoop2D,_wrap_new_EdgeLoop2D, swig_delete_EdgeLoop2D, swig_EdgeLoop2D_methods, swig_EdgeLoop2D_attributes, swig_EdgeLoop2D_bases };
 
+static int _wrap_CreatePoint2D(lua_State* L) {
+  int SWIG_arg = -1;
+  double arg1 ;
+  double arg2 ;
+  SketchPlanePointer arg3 ;
+  bool arg4 ;
+  bool arg5 ;
+  Point2DPointer result;
+  SketchPlanePointer *argp3 ;
+  
+  if(!lua_isnumber(L,1)) SWIG_fail_arg(1);
+  if(!lua_isnumber(L,2)) SWIG_fail_arg(2);
+  if(!lua_isuserdata(L,3)) SWIG_fail_arg(3);
+  if(!lua_isboolean(L,4)) SWIG_fail_arg(4);
+  if(!lua_isboolean(L,5)) SWIG_fail_arg(5);
+  arg1 = (double)lua_tonumber(L, 1);
+  arg2 = (double)lua_tonumber(L, 2);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,3,(void**)&argp3,SWIGTYPE_p_boost__shared_ptrTSketchPlane_t,0))){
+    SWIG_fail_ptr("CreatePoint2D",3,SWIGTYPE_boost__shared_ptrTSketchPlane_t);
+  }
+  arg3 = *argp3;
+  
+  arg4 = (bool)lua_toboolean(L, 4);
+  arg5 = (bool)lua_toboolean(L, 5);
+  result = CreatePoint2D(arg1,arg2,arg3,arg4,arg5);
+  SWIG_arg=0;
+  {
+    Point2DPointer * resultptr = new Point2DPointer((Point2DPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTPoint2D_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_CreatePoint__SWIG_0(lua_State* L) {
+  int SWIG_arg = -1;
+  double arg1 ;
+  double arg2 ;
+  double arg3 ;
+  bool arg4 ;
+  bool arg5 ;
+  bool arg6 ;
+  PointPointer result;
+  
+  if(!lua_isnumber(L,1)) SWIG_fail_arg(1);
+  if(!lua_isnumber(L,2)) SWIG_fail_arg(2);
+  if(!lua_isnumber(L,3)) SWIG_fail_arg(3);
+  if(!lua_isboolean(L,4)) SWIG_fail_arg(4);
+  if(!lua_isboolean(L,5)) SWIG_fail_arg(5);
+  if(!lua_isboolean(L,6)) SWIG_fail_arg(6);
+  arg1 = (double)lua_tonumber(L, 1);
+  arg2 = (double)lua_tonumber(L, 2);
+  arg3 = (double)lua_tonumber(L, 3);
+  arg4 = (bool)lua_toboolean(L, 4);
+  arg5 = (bool)lua_toboolean(L, 5);
+  arg6 = (bool)lua_toboolean(L, 6);
+  result = CreatePoint(arg1,arg2,arg3,arg4,arg5,arg6);
+  SWIG_arg=0;
+  {
+    PointPointer * resultptr = new PointPointer((PointPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTPoint_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_CreatePoint__SWIG_1(lua_State* L) {
+  int SWIG_arg = -1;
+  double arg1 ;
+  double arg2 ;
+  double arg3 ;
+  bool arg4 ;
+  bool arg5 ;
+  PointPointer result;
+  
+  if(!lua_isnumber(L,1)) SWIG_fail_arg(1);
+  if(!lua_isnumber(L,2)) SWIG_fail_arg(2);
+  if(!lua_isnumber(L,3)) SWIG_fail_arg(3);
+  if(!lua_isboolean(L,4)) SWIG_fail_arg(4);
+  if(!lua_isboolean(L,5)) SWIG_fail_arg(5);
+  arg1 = (double)lua_tonumber(L, 1);
+  arg2 = (double)lua_tonumber(L, 2);
+  arg3 = (double)lua_tonumber(L, 3);
+  arg4 = (bool)lua_toboolean(L, 4);
+  arg5 = (bool)lua_toboolean(L, 5);
+  result = CreatePoint(arg1,arg2,arg3,arg4,arg5);
+  SWIG_arg=0;
+  {
+    PointPointer * resultptr = new PointPointer((PointPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTPoint_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_CreatePoint__SWIG_2(lua_State* L) {
+  int SWIG_arg = -1;
+  double arg1 ;
+  double arg2 ;
+  double arg3 ;
+  bool arg4 ;
+  PointPointer result;
+  
+  if(!lua_isnumber(L,1)) SWIG_fail_arg(1);
+  if(!lua_isnumber(L,2)) SWIG_fail_arg(2);
+  if(!lua_isnumber(L,3)) SWIG_fail_arg(3);
+  if(!lua_isboolean(L,4)) SWIG_fail_arg(4);
+  arg1 = (double)lua_tonumber(L, 1);
+  arg2 = (double)lua_tonumber(L, 2);
+  arg3 = (double)lua_tonumber(L, 3);
+  arg4 = (bool)lua_toboolean(L, 4);
+  result = CreatePoint(arg1,arg2,arg3,arg4);
+  SWIG_arg=0;
+  {
+    PointPointer * resultptr = new PointPointer((PointPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTPoint_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_CreatePoint__SWIG_3(lua_State* L) {
+  int SWIG_arg = -1;
+  double arg1 ;
+  double arg2 ;
+  double arg3 ;
+  PointPointer result;
+  
+  if(!lua_isnumber(L,1)) SWIG_fail_arg(1);
+  if(!lua_isnumber(L,2)) SWIG_fail_arg(2);
+  if(!lua_isnumber(L,3)) SWIG_fail_arg(3);
+  arg1 = (double)lua_tonumber(L, 1);
+  arg2 = (double)lua_tonumber(L, 2);
+  arg3 = (double)lua_tonumber(L, 3);
+  result = CreatePoint(arg1,arg2,arg3);
+  SWIG_arg=0;
+  {
+    PointPointer * resultptr = new PointPointer((PointPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTPoint_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_CreatePoint(lua_State* L) {
+  int argc;
+  int argv[7]={
+    1,2,3,4,5,6,7
+  };
+  
+  argc = lua_gettop(L);
+  if (argc == 3) {
+    int _v;
+    {
+      _v = lua_isnumber(L,argv[0]);
+    }
+    if (_v) {
+      {
+        _v = lua_isnumber(L,argv[1]);
+      }
+      if (_v) {
+        {
+          _v = lua_isnumber(L,argv[2]);
+        }
+        if (_v) {
+          return _wrap_CreatePoint__SWIG_3(L);
+        }
+      }
+    }
+  }
+  if (argc == 4) {
+    int _v;
+    {
+      _v = lua_isnumber(L,argv[0]);
+    }
+    if (_v) {
+      {
+        _v = lua_isnumber(L,argv[1]);
+      }
+      if (_v) {
+        {
+          _v = lua_isnumber(L,argv[2]);
+        }
+        if (_v) {
+          {
+            _v = lua_isboolean(L,argv[3]);
+          }
+          if (_v) {
+            return _wrap_CreatePoint__SWIG_2(L);
+          }
+        }
+      }
+    }
+  }
+  if (argc == 5) {
+    int _v;
+    {
+      _v = lua_isnumber(L,argv[0]);
+    }
+    if (_v) {
+      {
+        _v = lua_isnumber(L,argv[1]);
+      }
+      if (_v) {
+        {
+          _v = lua_isnumber(L,argv[2]);
+        }
+        if (_v) {
+          {
+            _v = lua_isboolean(L,argv[3]);
+          }
+          if (_v) {
+            {
+              _v = lua_isboolean(L,argv[4]);
+            }
+            if (_v) {
+              return _wrap_CreatePoint__SWIG_1(L);
+            }
+          }
+        }
+      }
+    }
+  }
+  if (argc == 6) {
+    int _v;
+    {
+      _v = lua_isnumber(L,argv[0]);
+    }
+    if (_v) {
+      {
+        _v = lua_isnumber(L,argv[1]);
+      }
+      if (_v) {
+        {
+          _v = lua_isnumber(L,argv[2]);
+        }
+        if (_v) {
+          {
+            _v = lua_isboolean(L,argv[3]);
+          }
+          if (_v) {
+            {
+              _v = lua_isboolean(L,argv[4]);
+            }
+            if (_v) {
+              {
+                _v = lua_isboolean(L,argv[5]);
+              }
+              if (_v) {
+                return _wrap_CreatePoint__SWIG_0(L);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  lua_pushstring(L,"No matching function for overloaded 'CreatePoint'");
+  lua_error(L);return 0;
+}
+
+
+static int _wrap_CreateVector__SWIG_0(lua_State* L) {
+  int SWIG_arg = -1;
+  double arg1 ;
+  double arg2 ;
+  double arg3 ;
+  bool arg4 ;
+  bool arg5 ;
+  bool arg6 ;
+  VectorPointer result;
+  
+  if(!lua_isnumber(L,1)) SWIG_fail_arg(1);
+  if(!lua_isnumber(L,2)) SWIG_fail_arg(2);
+  if(!lua_isnumber(L,3)) SWIG_fail_arg(3);
+  if(!lua_isboolean(L,4)) SWIG_fail_arg(4);
+  if(!lua_isboolean(L,5)) SWIG_fail_arg(5);
+  if(!lua_isboolean(L,6)) SWIG_fail_arg(6);
+  arg1 = (double)lua_tonumber(L, 1);
+  arg2 = (double)lua_tonumber(L, 2);
+  arg3 = (double)lua_tonumber(L, 3);
+  arg4 = (bool)lua_toboolean(L, 4);
+  arg5 = (bool)lua_toboolean(L, 5);
+  arg6 = (bool)lua_toboolean(L, 6);
+  result = CreateVector(arg1,arg2,arg3,arg4,arg5,arg6);
+  SWIG_arg=0;
+  {
+    VectorPointer * resultptr = new VectorPointer((VectorPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTVector_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_CreateVector__SWIG_1(lua_State* L) {
+  int SWIG_arg = -1;
+  double arg1 ;
+  double arg2 ;
+  double arg3 ;
+  bool arg4 ;
+  bool arg5 ;
+  VectorPointer result;
+  
+  if(!lua_isnumber(L,1)) SWIG_fail_arg(1);
+  if(!lua_isnumber(L,2)) SWIG_fail_arg(2);
+  if(!lua_isnumber(L,3)) SWIG_fail_arg(3);
+  if(!lua_isboolean(L,4)) SWIG_fail_arg(4);
+  if(!lua_isboolean(L,5)) SWIG_fail_arg(5);
+  arg1 = (double)lua_tonumber(L, 1);
+  arg2 = (double)lua_tonumber(L, 2);
+  arg3 = (double)lua_tonumber(L, 3);
+  arg4 = (bool)lua_toboolean(L, 4);
+  arg5 = (bool)lua_toboolean(L, 5);
+  result = CreateVector(arg1,arg2,arg3,arg4,arg5);
+  SWIG_arg=0;
+  {
+    VectorPointer * resultptr = new VectorPointer((VectorPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTVector_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_CreateVector__SWIG_2(lua_State* L) {
+  int SWIG_arg = -1;
+  double arg1 ;
+  double arg2 ;
+  double arg3 ;
+  bool arg4 ;
+  VectorPointer result;
+  
+  if(!lua_isnumber(L,1)) SWIG_fail_arg(1);
+  if(!lua_isnumber(L,2)) SWIG_fail_arg(2);
+  if(!lua_isnumber(L,3)) SWIG_fail_arg(3);
+  if(!lua_isboolean(L,4)) SWIG_fail_arg(4);
+  arg1 = (double)lua_tonumber(L, 1);
+  arg2 = (double)lua_tonumber(L, 2);
+  arg3 = (double)lua_tonumber(L, 3);
+  arg4 = (bool)lua_toboolean(L, 4);
+  result = CreateVector(arg1,arg2,arg3,arg4);
+  SWIG_arg=0;
+  {
+    VectorPointer * resultptr = new VectorPointer((VectorPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTVector_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_CreateVector__SWIG_3(lua_State* L) {
+  int SWIG_arg = -1;
+  double arg1 ;
+  double arg2 ;
+  double arg3 ;
+  VectorPointer result;
+  
+  if(!lua_isnumber(L,1)) SWIG_fail_arg(1);
+  if(!lua_isnumber(L,2)) SWIG_fail_arg(2);
+  if(!lua_isnumber(L,3)) SWIG_fail_arg(3);
+  arg1 = (double)lua_tonumber(L, 1);
+  arg2 = (double)lua_tonumber(L, 2);
+  arg3 = (double)lua_tonumber(L, 3);
+  result = CreateVector(arg1,arg2,arg3);
+  SWIG_arg=0;
+  {
+    VectorPointer * resultptr = new VectorPointer((VectorPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTVector_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_CreateVector(lua_State* L) {
+  int argc;
+  int argv[7]={
+    1,2,3,4,5,6,7
+  };
+  
+  argc = lua_gettop(L);
+  if (argc == 3) {
+    int _v;
+    {
+      _v = lua_isnumber(L,argv[0]);
+    }
+    if (_v) {
+      {
+        _v = lua_isnumber(L,argv[1]);
+      }
+      if (_v) {
+        {
+          _v = lua_isnumber(L,argv[2]);
+        }
+        if (_v) {
+          return _wrap_CreateVector__SWIG_3(L);
+        }
+      }
+    }
+  }
+  if (argc == 4) {
+    int _v;
+    {
+      _v = lua_isnumber(L,argv[0]);
+    }
+    if (_v) {
+      {
+        _v = lua_isnumber(L,argv[1]);
+      }
+      if (_v) {
+        {
+          _v = lua_isnumber(L,argv[2]);
+        }
+        if (_v) {
+          {
+            _v = lua_isboolean(L,argv[3]);
+          }
+          if (_v) {
+            return _wrap_CreateVector__SWIG_2(L);
+          }
+        }
+      }
+    }
+  }
+  if (argc == 5) {
+    int _v;
+    {
+      _v = lua_isnumber(L,argv[0]);
+    }
+    if (_v) {
+      {
+        _v = lua_isnumber(L,argv[1]);
+      }
+      if (_v) {
+        {
+          _v = lua_isnumber(L,argv[2]);
+        }
+        if (_v) {
+          {
+            _v = lua_isboolean(L,argv[3]);
+          }
+          if (_v) {
+            {
+              _v = lua_isboolean(L,argv[4]);
+            }
+            if (_v) {
+              return _wrap_CreateVector__SWIG_1(L);
+            }
+          }
+        }
+      }
+    }
+  }
+  if (argc == 6) {
+    int _v;
+    {
+      _v = lua_isnumber(L,argv[0]);
+    }
+    if (_v) {
+      {
+        _v = lua_isnumber(L,argv[1]);
+      }
+      if (_v) {
+        {
+          _v = lua_isnumber(L,argv[2]);
+        }
+        if (_v) {
+          {
+            _v = lua_isboolean(L,argv[3]);
+          }
+          if (_v) {
+            {
+              _v = lua_isboolean(L,argv[4]);
+            }
+            if (_v) {
+              {
+                _v = lua_isboolean(L,argv[5]);
+              }
+              if (_v) {
+                return _wrap_CreateVector__SWIG_0(L);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  lua_pushstring(L,"No matching function for overloaded 'CreateVector'");
+  lua_error(L);return 0;
+}
+
+
+static int _wrap_CreateSketchPlane(lua_State* L) {
+  int SWIG_arg = -1;
+  VectorPointer arg1 ;
+  VectorPointer arg2 ;
+  PointPointer arg3 ;
+  SketchPlanePointer result;
+  VectorPointer *argp1 ;
+  VectorPointer *argp2 ;
+  PointPointer *argp3 ;
+  
+  if(!lua_isuserdata(L,1)) SWIG_fail_arg(1);
+  if(!lua_isuserdata(L,2)) SWIG_fail_arg(2);
+  if(!lua_isuserdata(L,3)) SWIG_fail_arg(3);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&argp1,SWIGTYPE_p_boost__shared_ptrTVector_t,0))){
+    SWIG_fail_ptr("CreateSketchPlane",1,SWIGTYPE_boost__shared_ptrTVector_t);
+  }
+  arg1 = *argp1;
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&argp2,SWIGTYPE_p_boost__shared_ptrTVector_t,0))){
+    SWIG_fail_ptr("CreateSketchPlane",2,SWIGTYPE_boost__shared_ptrTVector_t);
+  }
+  arg2 = *argp2;
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,3,(void**)&argp3,SWIGTYPE_p_boost__shared_ptrTPoint_t,0))){
+    SWIG_fail_ptr("CreateSketchPlane",3,SWIGTYPE_boost__shared_ptrTPoint_t);
+  }
+  arg3 = *argp3;
+  
+  result = CreateSketchPlane(arg1,arg2,arg3);
+  SWIG_arg=0;
+  {
+    SketchPlanePointer * resultptr = new SketchPlanePointer((SketchPlanePointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTSketchPlane_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_CreateArc2D(lua_State* L) {
+  int SWIG_arg = -1;
+  double arg1 ;
+  double arg2 ;
+  double arg3 ;
+  double arg4 ;
+  double arg5 ;
+  SketchPlanePointer arg6 ;
+  bool arg7 ;
+  bool arg8 ;
+  bool arg9 ;
+  bool arg10 ;
+  bool arg11 ;
+  Arc2DPointer result;
+  SketchPlanePointer *argp6 ;
+  
+  if(!lua_isnumber(L,1)) SWIG_fail_arg(1);
+  if(!lua_isnumber(L,2)) SWIG_fail_arg(2);
+  if(!lua_isnumber(L,3)) SWIG_fail_arg(3);
+  if(!lua_isnumber(L,4)) SWIG_fail_arg(4);
+  if(!lua_isnumber(L,5)) SWIG_fail_arg(5);
+  if(!lua_isuserdata(L,6)) SWIG_fail_arg(6);
+  if(!lua_isboolean(L,7)) SWIG_fail_arg(7);
+  if(!lua_isboolean(L,8)) SWIG_fail_arg(8);
+  if(!lua_isboolean(L,9)) SWIG_fail_arg(9);
+  if(!lua_isboolean(L,10)) SWIG_fail_arg(10);
+  if(!lua_isboolean(L,11)) SWIG_fail_arg(11);
+  arg1 = (double)lua_tonumber(L, 1);
+  arg2 = (double)lua_tonumber(L, 2);
+  arg3 = (double)lua_tonumber(L, 3);
+  arg4 = (double)lua_tonumber(L, 4);
+  arg5 = (double)lua_tonumber(L, 5);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,6,(void**)&argp6,SWIGTYPE_p_boost__shared_ptrTSketchPlane_t,0))){
+    SWIG_fail_ptr("CreateArc2D",6,SWIGTYPE_boost__shared_ptrTSketchPlane_t);
+  }
+  arg6 = *argp6;
+  
+  arg7 = (bool)lua_toboolean(L, 7);
+  arg8 = (bool)lua_toboolean(L, 8);
+  arg9 = (bool)lua_toboolean(L, 9);
+  arg10 = (bool)lua_toboolean(L, 10);
+  arg11 = (bool)lua_toboolean(L, 11);
+  result = CreateArc2D(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11);
+  SWIG_arg=0;
+  {
+    Arc2DPointer * resultptr = new Arc2DPointer((Arc2DPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTArc2D_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_CreateLine2D(lua_State* L) {
+  int SWIG_arg = -1;
+  Point2DPointer arg1 ;
+  Point2DPointer arg2 ;
+  SketchPlanePointer arg3 ;
+  Line2DPointer result;
+  Point2DPointer *argp1 ;
+  Point2DPointer *argp2 ;
+  SketchPlanePointer *argp3 ;
+  
+  if(!lua_isuserdata(L,1)) SWIG_fail_arg(1);
+  if(!lua_isuserdata(L,2)) SWIG_fail_arg(2);
+  if(!lua_isuserdata(L,3)) SWIG_fail_arg(3);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&argp1,SWIGTYPE_p_boost__shared_ptrTPoint2D_t,0))){
+    SWIG_fail_ptr("CreateLine2D",1,SWIGTYPE_boost__shared_ptrTPoint2D_t);
+  }
+  arg1 = *argp1;
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&argp2,SWIGTYPE_p_boost__shared_ptrTPoint2D_t,0))){
+    SWIG_fail_ptr("CreateLine2D",2,SWIGTYPE_boost__shared_ptrTPoint2D_t);
+  }
+  arg2 = *argp2;
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,3,(void**)&argp3,SWIGTYPE_p_boost__shared_ptrTSketchPlane_t,0))){
+    SWIG_fail_ptr("CreateLine2D",3,SWIGTYPE_boost__shared_ptrTSketchPlane_t);
+  }
+  arg3 = *argp3;
+  
+  result = CreateLine2D(arg1,arg2,arg3);
+  SWIG_arg=0;
+  {
+    Line2DPointer * resultptr = new Line2DPointer((Line2DPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTLine2D_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_CreateDistancePoint2D(lua_State* L) {
+  int SWIG_arg = -1;
+  Point2DPointer arg1 ;
+  Point2DPointer arg2 ;
+  double arg3 ;
+  DistancePoint2DPointer result;
+  Point2DPointer *argp1 ;
+  Point2DPointer *argp2 ;
+  
+  if(!lua_isuserdata(L,1)) SWIG_fail_arg(1);
+  if(!lua_isuserdata(L,2)) SWIG_fail_arg(2);
+  if(!lua_isnumber(L,3)) SWIG_fail_arg(3);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&argp1,SWIGTYPE_p_boost__shared_ptrTPoint2D_t,0))){
+    SWIG_fail_ptr("CreateDistancePoint2D",1,SWIGTYPE_boost__shared_ptrTPoint2D_t);
+  }
+  arg1 = *argp1;
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&argp2,SWIGTYPE_p_boost__shared_ptrTPoint2D_t,0))){
+    SWIG_fail_ptr("CreateDistancePoint2D",2,SWIGTYPE_boost__shared_ptrTPoint2D_t);
+  }
+  arg2 = *argp2;
+  
+  arg3 = (double)lua_tonumber(L, 3);
+  result = CreateDistancePoint2D(arg1,arg2,arg3);
+  SWIG_arg=0;
+  {
+    DistancePoint2DPointer * resultptr = new DistancePoint2DPointer((DistancePoint2DPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTDistancePoint2D_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_CreateParallelLine2D(lua_State* L) {
+  int SWIG_arg = -1;
+  Line2DPointer arg1 ;
+  Line2DPointer arg2 ;
+  ParallelLine2DPointer result;
+  Line2DPointer *argp1 ;
+  Line2DPointer *argp2 ;
+  
+  if(!lua_isuserdata(L,1)) SWIG_fail_arg(1);
+  if(!lua_isuserdata(L,2)) SWIG_fail_arg(2);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&argp1,SWIGTYPE_p_boost__shared_ptrTLine2D_t,0))){
+    SWIG_fail_ptr("CreateParallelLine2D",1,SWIGTYPE_boost__shared_ptrTLine2D_t);
+  }
+  arg1 = *argp1;
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&argp2,SWIGTYPE_p_boost__shared_ptrTLine2D_t,0))){
+    SWIG_fail_ptr("CreateParallelLine2D",2,SWIGTYPE_boost__shared_ptrTLine2D_t);
+  }
+  arg2 = *argp2;
+  
+  result = CreateParallelLine2D(arg1,arg2);
+  SWIG_arg=0;
+  {
+    ParallelLine2DPointer * resultptr = new ParallelLine2DPointer((ParallelLine2DPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTParallelLine2D_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_CreateAngleLine2D(lua_State* L) {
+  int SWIG_arg = -1;
+  Line2DPointer arg1 ;
+  Line2DPointer arg2 ;
+  double arg3 ;
+  AngleLine2DPointer result;
+  Line2DPointer *argp1 ;
+  Line2DPointer *argp2 ;
+  
+  if(!lua_isuserdata(L,1)) SWIG_fail_arg(1);
+  if(!lua_isuserdata(L,2)) SWIG_fail_arg(2);
+  if(!lua_isnumber(L,3)) SWIG_fail_arg(3);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&argp1,SWIGTYPE_p_boost__shared_ptrTLine2D_t,0))){
+    SWIG_fail_ptr("CreateAngleLine2D",1,SWIGTYPE_boost__shared_ptrTLine2D_t);
+  }
+  arg1 = *argp1;
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&argp2,SWIGTYPE_p_boost__shared_ptrTLine2D_t,0))){
+    SWIG_fail_ptr("CreateAngleLine2D",2,SWIGTYPE_boost__shared_ptrTLine2D_t);
+  }
+  arg2 = *argp2;
+  
+  arg3 = (double)lua_tonumber(L, 3);
+  result = CreateAngleLine2D(arg1,arg2,arg3);
+  SWIG_arg=0;
+  {
+    AngleLine2DPointer * resultptr = new AngleLine2DPointer((AngleLine2DPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTAngleLine2D_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_CreateTangentEdge2D(lua_State* L) {
+  int SWIG_arg = -1;
+  Edge2DBasePointer arg1 ;
+  EdgePointNumber arg2 ;
+  Edge2DBasePointer arg3 ;
+  EdgePointNumber arg4 ;
+  TangentEdge2DPointer result;
+  Edge2DBasePointer *argp1 ;
+  Edge2DBasePointer *argp3 ;
+  
+  if(!lua_isuserdata(L,1)) SWIG_fail_arg(1);
+  if(!lua_isnumber(L,2)) SWIG_fail_arg(2);
+  if(!lua_isuserdata(L,3)) SWIG_fail_arg(3);
+  if(!lua_isnumber(L,4)) SWIG_fail_arg(4);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&argp1,SWIGTYPE_p_boost__shared_ptrTEdge2DBase_t,0))){
+    SWIG_fail_ptr("CreateTangentEdge2D",1,SWIGTYPE_boost__shared_ptrTEdge2DBase_t);
+  }
+  arg1 = *argp1;
+  
+  arg2 = (EdgePointNumber)(int)lua_tonumber(L, 2);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,3,(void**)&argp3,SWIGTYPE_p_boost__shared_ptrTEdge2DBase_t,0))){
+    SWIG_fail_ptr("CreateTangentEdge2D",3,SWIGTYPE_boost__shared_ptrTEdge2DBase_t);
+  }
+  arg3 = *argp3;
+  
+  arg4 = (EdgePointNumber)(int)lua_tonumber(L, 4);
+  result = CreateTangentEdge2D(arg1,arg2,arg3,arg4);
+  SWIG_arg=0;
+  {
+    TangentEdge2DPointer * resultptr = new TangentEdge2DPointer((TangentEdge2DPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTTangentEdge2D_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
 static int _wrap_DOFPointer___deref__(lua_State* L) {
   int SWIG_arg = -1;
   boost::shared_ptr<DOF > *arg1 = (boost::shared_ptr<DOF > *) 0 ;
@@ -11761,6 +12593,16 @@ static const struct luaL_reg swig_commands[] = {
     { "delete_EdgeLoop2D", _wrap_delete_EdgeLoop2D},
     { "EdgeLoop2D_AddEdge", _wrap_EdgeLoop2D_AddEdge},
     { "EdgeLoop2D_IsLoopValid", _wrap_EdgeLoop2D_IsLoopValid},
+    { "CreatePoint2D", _wrap_CreatePoint2D},
+    { "CreatePoint",_wrap_CreatePoint},
+    { "CreateVector",_wrap_CreateVector},
+    { "CreateSketchPlane", _wrap_CreateSketchPlane},
+    { "CreateArc2D", _wrap_CreateArc2D},
+    { "CreateLine2D", _wrap_CreateLine2D},
+    { "CreateDistancePoint2D", _wrap_CreateDistancePoint2D},
+    { "CreateParallelLine2D", _wrap_CreateParallelLine2D},
+    { "CreateAngleLine2D", _wrap_CreateAngleLine2D},
+    { "CreateTangentEdge2D", _wrap_CreateTangentEdge2D},
     { "DOFPointer___deref__", _wrap_DOFPointer___deref__},
     { "new_DOFPointer", _wrap_new_DOFPointer},
     { "delete_DOFPointer", _wrap_delete_DOFPointer},
