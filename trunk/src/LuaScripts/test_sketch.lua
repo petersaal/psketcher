@@ -5,9 +5,13 @@
 
 	my_sketch_plane = ark3d.CreateSketchPlane(normal, up, base)
 
-	point1 = ark3d.CreatePoint2D(0.0,0.0,my_sketch_plane,true,true)  -- none of the dof's can vary
+	point1 = ark3d.CreatePoint2D(0.0,0.0,my_sketch_plane,false,false)  -- none of the dof's can vary
 	point2 = ark3d.CreatePoint2D(10.0,0.0,my_sketch_plane,true,false)  -- only x dof can vary
-	point3 = ark3d.CreatePoint2D(10.0,10.0,my_sketch_plane,true,false)  -- x and y dof's can vary
+	point3 = ark3d.CreatePoint2D(10.0,10.0,my_sketch_plane,true,true)  -- x and y dof's can vary
+
+	print("point 1 = (", point1:GetSDOF():GetValue(), ", ", point1:GetTDOF():GetValue(), ")")
+	print("point 2 = (", point2:GetSDOF():GetValue(), ", ", point2:GetTDOF():GetValue(), ")")
+	print("point 3 = (", point3:GetSDOF():GetValue(), ", ", point3:GetTDOF():GetValue(), ")")
 
 	pi = 3.1415927
 	arc1 =  ark3d.CreateArc2D(1.5,6.0,(pi/2.0)*.8,(pi)*1.2,2.0,my_sketch_plane,true,true,true,true,false)
@@ -23,34 +27,35 @@
 	constraint3 = ark3d.CreateParallelLine2D(line1,line3)
 	constraint4 = ark3d.CreateParallelLine2D(line2,line4)
 	constraint5 = ark3d.CreateAngleLine2D(line1,line2,pi/2.0)
-
-	--constraint6 = ark3d.CreateTangentEdge2D(line3,ark3d.Point2,arc1,ark3d.Point1)
-	--constraint7 = ark3d.CreateTangentEdge2D(line4,ark3d.Point1,arc1,ark3d.Point2)
+	constraint6 = ark3d.CreateTangentEdge2D(line3,ark3d.Point2,arc1,ark3d.Point1)
+	constraint7 = ark3d.CreateTangentEdge2D(line4,ark3d.Point1,arc1,ark3d.Point2)
 
 	-- Add the primitives to the 3d model object
 	ark3d_model_ = ark3d.Ark3DModel()
 
-	ark3d_model_:AddPrimitive(point1);
-
---[[
-
-	ark3d_model_:AddPrimitive(point2);
-	ark3d_model_:AddPrimitive(point3);
-	ark3d_model_:AddPrimitive(line1);
-	ark3d_model_:AddPrimitive(line2);
-	ark3d_model_:AddPrimitive(line3);
-	ark3d_model_:AddPrimitive(line4);
-	ark3d_model_:AddPrimitive(arc1);
+	ark3d_model_:AddPrimitive(point1)
+	ark3d_model_:AddPrimitive(point2)
+	ark3d_model_:AddPrimitive(point3)
+	ark3d_model_:AddPrimitive(line1)
+	ark3d_model_:AddPrimitive(line2)
+	ark3d_model_:AddPrimitive(line3)
+	ark3d_model_:AddPrimitive(line4)
+	ark3d_model_:AddPrimitive(arc1)
 
 	-- Add the constraints to the 3d model object
-	ark3d_model_:AddConstraintEquation(constraint1);
-	ark3d_model_:AddConstraintEquation(constraint2);
-	ark3d_model_:AddConstraintEquation(constraint3);
-	ark3d_model_:AddConstraintEquation(constraint4);
-	ark3d_model_:AddConstraintEquation(constraint5);
-	--ark3d_model_.AddConstraintEquation(constraint6);
-	--ark3d_model_.AddConstraintEquation(constraint7);
+	ark3d_model_:AddConstraintEquation(constraint1)
+	ark3d_model_:AddConstraintEquation(constraint2)
+	ark3d_model_:AddConstraintEquation(constraint3)
+	ark3d_model_:AddConstraintEquation(constraint4)
+	ark3d_model_:AddConstraintEquation(constraint5)
+	ark3d_model_:AddConstraintEquation(constraint6)
+	ark3d_model_:AddConstraintEquation(constraint7)
 
---]]
+	ark3d_model_:SolveConstraints()
+
+	print("point 1 = (", point1:GetSDOF():GetValue(), ", ", point1:GetTDOF():GetValue(), ")")
+	print("point 2 = (", point2:GetSDOF():GetValue(), ", ", point2:GetTDOF():GetValue(), ")")
+	print("point 3 = (", point3:GetSDOF():GetValue(), ", ", point3:GetTDOF():GetValue(), ")")
+
 io.flush()
 
