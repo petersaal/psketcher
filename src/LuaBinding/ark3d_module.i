@@ -5,8 +5,28 @@
 #include "/usr/include/boost/shared_ptr.hpp"
 %}
 
-%include "../ConstraintSolver/Ark3DModel.h"
-%include "../ConstraintSolver/Primitives.h"
+%ignore DOF;
+%ignore IndependentDOF;
+%ignore DependentDOF;
+%ignore PrimitiveBase;
+%ignore Point;
+%ignore Vector;
+%ignore SketchPlane;
+%ignore Primitive2DBase;
+%ignore Point2D;
+%ignore Edge2DBase;
+%ignore Line;
+%ignore Line2D;
+%ignore ConstraintEquationBase;
+%ignore DistancePoint2D;
+%ignore DistancePoint;
+%ignore ParallelLine;
+%ignore ParallelLine2D;
+%ignore TangentEdge2D;
+%ignore AngleLine2D;
+%ignore Arc2D;
+%ignore EdgeLoop2D;
+
 namespace boost {
   template<class T> class shared_ptr
   {
@@ -14,6 +34,9 @@ namespace boost {
       T * operator-> () const;
   };
 }
+
+%include "../ConstraintSolver/Primitives.h"
+%include "../ConstraintSolver/Ark3DModel.h"
 
 %template(DOFPointer) boost::shared_ptr<DOF>;
 %template(IndependentDOFPointer) boost::shared_ptr<IndependentDOF>;
