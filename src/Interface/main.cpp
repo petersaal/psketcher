@@ -13,10 +13,14 @@
 #include "Support.h"
 #include "Callbacks.h"
 
-
+// global
+OccGtkGLView* theViewer = 0;
+GdkGLConfig *glconfig = 0;
 
 int main (int argc, char *argv[])
 {
+theViewer = new OccGtkGLView();
+
   GladeXML *MainWindowXML;
   GtkWidget *MainWindow;
 
