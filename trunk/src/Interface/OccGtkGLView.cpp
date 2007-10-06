@@ -84,6 +84,8 @@ OccGtkGLView::OccGtkGLView()
 	lua_state_ = lua_open();
 	luaL_openlibs(lua_state_);  // open the lua built in libraries
 	Ark3d_Init(lua_state_);	    // load the Swig wrappered module
+	
+	cout << "got here 1" << endl;
 }
 
 OccGtkGLView::~OccGtkGLView()

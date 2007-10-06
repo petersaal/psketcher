@@ -3,8 +3,7 @@
 
 #include "OccGtkGLView.h"
 
-static OccGtkGLView* theViewer = new OccGtkGLView();
-static GdkGLConfig *glconfig = 0;
+extern OccGtkGLView* theViewer;
 
 extern "C" {
 	

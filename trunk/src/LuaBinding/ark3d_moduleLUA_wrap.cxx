@@ -1385,67 +1385,73 @@ SWIG_Lua_SetModule(lua_State* L, swig_module_info *module) {
 
 /* -------- TYPES TABLE (BEGIN) -------- */
 
-#define SWIGTYPE_boost__shared_ptrTEdge2DBase_t swig_types[0]
-#define SWIGTYPE_boost__shared_ptrTLine2D_t swig_types[1]
-#define SWIGTYPE_boost__shared_ptrTPoint2D_t swig_types[2]
-#define SWIGTYPE_boost__shared_ptrTPoint_t swig_types[3]
-#define SWIGTYPE_boost__shared_ptrTSketchPlane_t swig_types[4]
-#define SWIGTYPE_boost__shared_ptrTVector_t swig_types[5]
-#define SWIGTYPE_p_AngleLine2D swig_types[6]
-#define SWIGTYPE_p_Arc2D swig_types[7]
-#define SWIGTYPE_p_Ark3DModel swig_types[8]
-#define SWIGTYPE_p_ConstraintEquationBase swig_types[9]
-#define SWIGTYPE_p_DOF swig_types[10]
-#define SWIGTYPE_p_DependentDOF swig_types[11]
-#define SWIGTYPE_p_DistancePoint swig_types[12]
-#define SWIGTYPE_p_DistancePoint2D swig_types[13]
-#define SWIGTYPE_p_Edge2DBase swig_types[14]
-#define SWIGTYPE_p_EdgeLoop2D swig_types[15]
-#define SWIGTYPE_p_GiNaC__ex swig_types[16]
-#define SWIGTYPE_p_GiNaC__symbol swig_types[17]
-#define SWIGTYPE_p_IndependentDOF swig_types[18]
-#define SWIGTYPE_p_Line swig_types[19]
-#define SWIGTYPE_p_Line2D swig_types[20]
-#define SWIGTYPE_p_ParallelLine swig_types[21]
-#define SWIGTYPE_p_ParallelLine2D swig_types[22]
-#define SWIGTYPE_p_Point swig_types[23]
-#define SWIGTYPE_p_Point2D swig_types[24]
-#define SWIGTYPE_p_Primitive2DBase swig_types[25]
-#define SWIGTYPE_p_PrimitiveBase swig_types[26]
-#define SWIGTYPE_p_PrimitiveException swig_types[27]
-#define SWIGTYPE_p_SketchPlane swig_types[28]
-#define SWIGTYPE_p_TangentEdge2D swig_types[29]
-#define SWIGTYPE_p_Vector swig_types[30]
-#define SWIGTYPE_p_boost__shared_ptrTAngleLine2D_t swig_types[31]
-#define SWIGTYPE_p_boost__shared_ptrTArc2D_t swig_types[32]
-#define SWIGTYPE_p_boost__shared_ptrTConstraintEquationBase_t swig_types[33]
-#define SWIGTYPE_p_boost__shared_ptrTDOF_t swig_types[34]
-#define SWIGTYPE_p_boost__shared_ptrTDependentDOF_t swig_types[35]
-#define SWIGTYPE_p_boost__shared_ptrTDistancePoint2D_t swig_types[36]
-#define SWIGTYPE_p_boost__shared_ptrTDistancePoint_t swig_types[37]
-#define SWIGTYPE_p_boost__shared_ptrTEdge2DBase_t swig_types[38]
-#define SWIGTYPE_p_boost__shared_ptrTEdgeLoop2D_t swig_types[39]
-#define SWIGTYPE_p_boost__shared_ptrTIndependentDOF_t swig_types[40]
-#define SWIGTYPE_p_boost__shared_ptrTLine2D_t swig_types[41]
-#define SWIGTYPE_p_boost__shared_ptrTLine_t swig_types[42]
-#define SWIGTYPE_p_boost__shared_ptrTParallelLine2D_t swig_types[43]
-#define SWIGTYPE_p_boost__shared_ptrTParallelLine_t swig_types[44]
-#define SWIGTYPE_p_boost__shared_ptrTPoint2D_t swig_types[45]
-#define SWIGTYPE_p_boost__shared_ptrTPoint_t swig_types[46]
-#define SWIGTYPE_p_boost__shared_ptrTPrimitive2DBase_t swig_types[47]
-#define SWIGTYPE_p_boost__shared_ptrTPrimitiveBase_t swig_types[48]
-#define SWIGTYPE_p_boost__shared_ptrTSketchPlane_t swig_types[49]
-#define SWIGTYPE_p_boost__shared_ptrTTangentEdge2D_t swig_types[50]
-#define SWIGTYPE_p_boost__shared_ptrTVector_t swig_types[51]
-#define SWIGTYPE_p_double swig_types[52]
-#define SWIGTYPE_p_mmcMatrix swig_types[53]
-#define SWIGTYPE_p_std__vectorTboost__shared_ptrTConstraintEquationBase_t_t swig_types[54]
-#define SWIGTYPE_p_std__vectorTboost__shared_ptrTDOF_t_t swig_types[55]
-#define SWIGTYPE_p_std__vectorTboost__shared_ptrTGiNaC__ex_t_t swig_types[56]
-#define SWIGTYPE_p_std__vectorTboost__shared_ptrTPrimitiveBase_t_t swig_types[57]
-#define SWIGTYPE_p_std__vectorTdouble_t swig_types[58]
-static swig_type_info *swig_types[60];
-static swig_module_info swig_module = {swig_types, 59, 0, 0, 0, 0};
+#define SWIGTYPE_GiNaC__ex swig_types[0]
+#define SWIGTYPE_boost__shared_ptrTDOF_t swig_types[1]
+#define SWIGTYPE_boost__shared_ptrTEdge2DBase_t swig_types[2]
+#define SWIGTYPE_boost__shared_ptrTLine2D_t swig_types[3]
+#define SWIGTYPE_boost__shared_ptrTLine_t swig_types[4]
+#define SWIGTYPE_boost__shared_ptrTPoint2D_t swig_types[5]
+#define SWIGTYPE_boost__shared_ptrTPoint_t swig_types[6]
+#define SWIGTYPE_boost__shared_ptrTSketchPlane_t swig_types[7]
+#define SWIGTYPE_boost__shared_ptrTVector_t swig_types[8]
+#define SWIGTYPE_p_AngleLine2D swig_types[9]
+#define SWIGTYPE_p_Arc2D swig_types[10]
+#define SWIGTYPE_p_Ark3DModel swig_types[11]
+#define SWIGTYPE_p_ConstraintEquationBase swig_types[12]
+#define SWIGTYPE_p_DOF swig_types[13]
+#define SWIGTYPE_p_DependentDOF swig_types[14]
+#define SWIGTYPE_p_DistancePoint swig_types[15]
+#define SWIGTYPE_p_DistancePoint2D swig_types[16]
+#define SWIGTYPE_p_Edge2DBase swig_types[17]
+#define SWIGTYPE_p_EdgeLoop2D swig_types[18]
+#define SWIGTYPE_p_GiNaC__ex swig_types[19]
+#define SWIGTYPE_p_GiNaC__symbol swig_types[20]
+#define SWIGTYPE_p_IndependentDOF swig_types[21]
+#define SWIGTYPE_p_Line swig_types[22]
+#define SWIGTYPE_p_Line2D swig_types[23]
+#define SWIGTYPE_p_ParallelLine swig_types[24]
+#define SWIGTYPE_p_ParallelLine2D swig_types[25]
+#define SWIGTYPE_p_Point swig_types[26]
+#define SWIGTYPE_p_Point2D swig_types[27]
+#define SWIGTYPE_p_Primitive2DBase swig_types[28]
+#define SWIGTYPE_p_PrimitiveBase swig_types[29]
+#define SWIGTYPE_p_PrimitiveException swig_types[30]
+#define SWIGTYPE_p_SketchPlane swig_types[31]
+#define SWIGTYPE_p_TangentEdge2D swig_types[32]
+#define SWIGTYPE_p_Vector swig_types[33]
+#define SWIGTYPE_p_boost__shared_ptrTAngleLine2D_t swig_types[34]
+#define SWIGTYPE_p_boost__shared_ptrTArc2D_t swig_types[35]
+#define SWIGTYPE_p_boost__shared_ptrTConstraintEquationBase_t swig_types[36]
+#define SWIGTYPE_p_boost__shared_ptrTDOF_t swig_types[37]
+#define SWIGTYPE_p_boost__shared_ptrTDependentDOF_t swig_types[38]
+#define SWIGTYPE_p_boost__shared_ptrTDistancePoint2D_t swig_types[39]
+#define SWIGTYPE_p_boost__shared_ptrTDistancePoint_t swig_types[40]
+#define SWIGTYPE_p_boost__shared_ptrTEdge2DBase_t swig_types[41]
+#define SWIGTYPE_p_boost__shared_ptrTEdgeLoop2D_t swig_types[42]
+#define SWIGTYPE_p_boost__shared_ptrTIndependentDOF_t swig_types[43]
+#define SWIGTYPE_p_boost__shared_ptrTLine2D_t swig_types[44]
+#define SWIGTYPE_p_boost__shared_ptrTLine_t swig_types[45]
+#define SWIGTYPE_p_boost__shared_ptrTParallelLine2D_t swig_types[46]
+#define SWIGTYPE_p_boost__shared_ptrTParallelLine_t swig_types[47]
+#define SWIGTYPE_p_boost__shared_ptrTPoint2D_t swig_types[48]
+#define SWIGTYPE_p_boost__shared_ptrTPoint_t swig_types[49]
+#define SWIGTYPE_p_boost__shared_ptrTPrimitive2DBase_t swig_types[50]
+#define SWIGTYPE_p_boost__shared_ptrTPrimitiveBase_t swig_types[51]
+#define SWIGTYPE_p_boost__shared_ptrTSketchPlane_t swig_types[52]
+#define SWIGTYPE_p_boost__shared_ptrTTangentEdge2D_t swig_types[53]
+#define SWIGTYPE_p_boost__shared_ptrTVector_t swig_types[54]
+#define SWIGTYPE_p_double swig_types[55]
+#define SWIGTYPE_p_mmcMatrix swig_types[56]
+#define SWIGTYPE_p_std__vectorTboost__shared_ptrTConstraintEquationBase_t_t swig_types[57]
+#define SWIGTYPE_p_std__vectorTboost__shared_ptrTDOF_t_t swig_types[58]
+#define SWIGTYPE_p_std__vectorTboost__shared_ptrTEdge2DBase_t_t swig_types[59]
+#define SWIGTYPE_p_std__vectorTboost__shared_ptrTGiNaC__ex_t_t swig_types[60]
+#define SWIGTYPE_p_std__vectorTboost__shared_ptrTPrimitiveBase_t_t swig_types[61]
+#define SWIGTYPE_p_std__vectorTdouble_t swig_types[62]
+#define SWIGTYPE_std__vectorTboost__shared_ptrTDOF_t_t swig_types[63]
+#define SWIGTYPE_std__vectorTboost__shared_ptrTEdge2DBase_t_t swig_types[64]
+static swig_type_info *swig_types[66];
+static swig_module_info swig_module = {swig_types, 65, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -1512,6 +1518,4770 @@ static swig_lua_attribute swig_PrimitiveException_attributes[] = {
 };
 static swig_lua_class *swig_PrimitiveException_bases[] = {0};
 swig_lua_class _wrap_class_PrimitiveException = { "PrimitiveException", &SWIGTYPE_p_PrimitiveException,_wrap_new_PrimitiveException, swig_delete_PrimitiveException, swig_PrimitiveException_methods, swig_PrimitiveException_attributes, swig_PrimitiveException_bases };
+
+static int _wrap_delete_DOF(lua_State* L) {
+  int SWIG_arg = -1;
+  DOF *arg1 = (DOF *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_DOF,0))){
+    SWIG_fail_ptr("delete_DOF",1,SWIGTYPE_p_DOF);
+  }
+  
+  delete arg1;
+  
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_DOF_SetValue(lua_State* L) {
+  int SWIG_arg = -1;
+  DOF *arg1 = (DOF *) 0 ;
+  double arg2 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  if(!lua_isnumber(L,2)) SWIG_fail_arg(2);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_DOF,0))){
+    SWIG_fail_ptr("DOF_SetValue",1,SWIGTYPE_p_DOF);
+  }
+  
+  arg2 = (double)lua_tonumber(L, 2);
+  (arg1)->SetValue(arg2);
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_DOF_GetValue(lua_State* L) {
+  int SWIG_arg = -1;
+  DOF *arg1 = (DOF *) 0 ;
+  double result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_DOF,0))){
+    SWIG_fail_ptr("DOF_GetValue",1,SWIGTYPE_p_DOF);
+  }
+  
+  result = (double)((DOF const *)arg1)->GetValue();
+  SWIG_arg=0;
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_DOF_GetExpression(lua_State* L) {
+  int SWIG_arg = -1;
+  DOF *arg1 = (DOF *) 0 ;
+  GiNaC::ex result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_DOF,0))){
+    SWIG_fail_ptr("DOF_GetExpression",1,SWIGTYPE_p_DOF);
+  }
+  
+  result = ((DOF const *)arg1)->GetExpression();
+  SWIG_arg=0;
+  {
+    GiNaC::ex * resultptr = new GiNaC::ex((GiNaC::ex &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_GiNaC__ex,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_DOF_GetVariable(lua_State* L) {
+  int SWIG_arg = -1;
+  DOF *arg1 = (DOF *) 0 ;
+  GiNaC::symbol *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_DOF,0))){
+    SWIG_fail_ptr("DOF_GetVariable",1,SWIGTYPE_p_DOF);
+  }
+  
+  {
+    GiNaC::symbol const &_result_ref = ((DOF const *)arg1)->GetVariable();
+    result = (GiNaC::symbol *) &_result_ref;
+  }
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_GiNaC__symbol,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_DOF_IsFree(lua_State* L) {
+  int SWIG_arg = -1;
+  DOF *arg1 = (DOF *) 0 ;
+  bool result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_DOF,0))){
+    SWIG_fail_ptr("DOF_IsFree",1,SWIGTYPE_p_DOF);
+  }
+  
+  result = (bool)((DOF const *)arg1)->IsFree();
+  SWIG_arg=0;
+  lua_pushboolean(L,(int)result); SWIG_arg++;
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_DOF_IsDependent(lua_State* L) {
+  int SWIG_arg = -1;
+  DOF *arg1 = (DOF *) 0 ;
+  bool result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_DOF,0))){
+    SWIG_fail_ptr("DOF_IsDependent",1,SWIGTYPE_p_DOF);
+  }
+  
+  result = (bool)((DOF const *)arg1)->IsDependent();
+  SWIG_arg=0;
+  lua_pushboolean(L,(int)result); SWIG_arg++;
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_DOF(void *obj) {
+DOF *arg1 = (DOF *) obj;
+delete arg1;
+}
+static swig_lua_method swig_DOF_methods[] = {
+    {"SetValue", _wrap_DOF_SetValue}, 
+    {"GetValue", _wrap_DOF_GetValue}, 
+    {"GetExpression", _wrap_DOF_GetExpression}, 
+    {"GetVariable", _wrap_DOF_GetVariable}, 
+    {"IsFree", _wrap_DOF_IsFree}, 
+    {"IsDependent", _wrap_DOF_IsDependent}, 
+    {0,0}
+};
+static swig_lua_attribute swig_DOF_attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_DOF_bases[] = {0};
+swig_lua_class _wrap_class_DOF = { "DOF", &SWIGTYPE_p_DOF,0, swig_delete_DOF, swig_DOF_methods, swig_DOF_attributes, swig_DOF_bases };
+
+static int _wrap_new_IndependentDOF__SWIG_0(lua_State* L) {
+  int SWIG_arg = -1;
+  double arg1 ;
+  bool arg2 ;
+  IndependentDOF *result = 0 ;
+  
+  if(!lua_isnumber(L,1)) SWIG_fail_arg(1);
+  if(!lua_isboolean(L,2)) SWIG_fail_arg(2);
+  arg1 = (double)lua_tonumber(L, 1);
+  arg2 = (bool)lua_toboolean(L, 2);
+  result = (IndependentDOF *)new IndependentDOF(arg1,arg2);
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_IndependentDOF,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_IndependentDOF__SWIG_1(lua_State* L) {
+  int SWIG_arg = -1;
+  double arg1 ;
+  IndependentDOF *result = 0 ;
+  
+  if(!lua_isnumber(L,1)) SWIG_fail_arg(1);
+  arg1 = (double)lua_tonumber(L, 1);
+  result = (IndependentDOF *)new IndependentDOF(arg1);
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_IndependentDOF,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_IndependentDOF__SWIG_2(lua_State* L) {
+  int SWIG_arg = -1;
+  IndependentDOF *result = 0 ;
+  
+  result = (IndependentDOF *)new IndependentDOF();
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_IndependentDOF,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_IndependentDOF__SWIG_3(lua_State* L) {
+  int SWIG_arg = -1;
+  char *arg1 = (char *) 0 ;
+  double arg2 ;
+  bool arg3 ;
+  IndependentDOF *result = 0 ;
+  
+  if(!lua_isstring(L,1)) SWIG_fail_arg(1);
+  if(!lua_isnumber(L,2)) SWIG_fail_arg(2);
+  if(!lua_isboolean(L,3)) SWIG_fail_arg(3);
+  arg1 = (char *)lua_tostring(L, 1);
+  arg2 = (double)lua_tonumber(L, 2);
+  arg3 = (bool)lua_toboolean(L, 3);
+  result = (IndependentDOF *)new IndependentDOF((char const *)arg1,arg2,arg3);
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_IndependentDOF,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_IndependentDOF__SWIG_4(lua_State* L) {
+  int SWIG_arg = -1;
+  char *arg1 = (char *) 0 ;
+  double arg2 ;
+  IndependentDOF *result = 0 ;
+  
+  if(!lua_isstring(L,1)) SWIG_fail_arg(1);
+  if(!lua_isnumber(L,2)) SWIG_fail_arg(2);
+  arg1 = (char *)lua_tostring(L, 1);
+  arg2 = (double)lua_tonumber(L, 2);
+  result = (IndependentDOF *)new IndependentDOF((char const *)arg1,arg2);
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_IndependentDOF,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_IndependentDOF__SWIG_5(lua_State* L) {
+  int SWIG_arg = -1;
+  char *arg1 = (char *) 0 ;
+  IndependentDOF *result = 0 ;
+  
+  if(!lua_isstring(L,1)) SWIG_fail_arg(1);
+  arg1 = (char *)lua_tostring(L, 1);
+  result = (IndependentDOF *)new IndependentDOF((char const *)arg1);
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_IndependentDOF,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_IndependentDOF(lua_State* L) {
+  int argc;
+  int argv[4]={
+    1,2,3,4
+  };
+  
+  argc = lua_gettop(L);
+  if (argc == 0) {
+    return _wrap_new_IndependentDOF__SWIG_2(L);
+  }
+  if (argc == 1) {
+    int _v;
+    {
+      _v = lua_isnumber(L,argv[0]);
+    }
+    if (_v) {
+      return _wrap_new_IndependentDOF__SWIG_1(L);
+    }
+  }
+  if (argc == 1) {
+    int _v;
+    {
+      _v = lua_isstring(L,argv[0]);
+    }
+    if (_v) {
+      return _wrap_new_IndependentDOF__SWIG_5(L);
+    }
+  }
+  if (argc == 2) {
+    int _v;
+    {
+      _v = lua_isnumber(L,argv[0]);
+    }
+    if (_v) {
+      {
+        _v = lua_isboolean(L,argv[1]);
+      }
+      if (_v) {
+        return _wrap_new_IndependentDOF__SWIG_0(L);
+      }
+    }
+  }
+  if (argc == 2) {
+    int _v;
+    {
+      _v = lua_isstring(L,argv[0]);
+    }
+    if (_v) {
+      {
+        _v = lua_isnumber(L,argv[1]);
+      }
+      if (_v) {
+        return _wrap_new_IndependentDOF__SWIG_4(L);
+      }
+    }
+  }
+  if (argc == 3) {
+    int _v;
+    {
+      _v = lua_isstring(L,argv[0]);
+    }
+    if (_v) {
+      {
+        _v = lua_isnumber(L,argv[1]);
+      }
+      if (_v) {
+        {
+          _v = lua_isboolean(L,argv[2]);
+        }
+        if (_v) {
+          return _wrap_new_IndependentDOF__SWIG_3(L);
+        }
+      }
+    }
+  }
+  
+  lua_pushstring(L,"No matching function for overloaded 'new_IndependentDOF'");
+  lua_error(L);return 0;
+}
+
+
+static int _wrap_IndependentDOF_SetValue(lua_State* L) {
+  int SWIG_arg = -1;
+  IndependentDOF *arg1 = (IndependentDOF *) 0 ;
+  double arg2 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  if(!lua_isnumber(L,2)) SWIG_fail_arg(2);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_IndependentDOF,0))){
+    SWIG_fail_ptr("IndependentDOF_SetValue",1,SWIGTYPE_p_IndependentDOF);
+  }
+  
+  arg2 = (double)lua_tonumber(L, 2);
+  (arg1)->SetValue(arg2);
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_IndependentDOF_GetValue(lua_State* L) {
+  int SWIG_arg = -1;
+  IndependentDOF *arg1 = (IndependentDOF *) 0 ;
+  double result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_IndependentDOF,0))){
+    SWIG_fail_ptr("IndependentDOF_GetValue",1,SWIGTYPE_p_IndependentDOF);
+  }
+  
+  result = (double)((IndependentDOF const *)arg1)->GetValue();
+  SWIG_arg=0;
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_delete_IndependentDOF(lua_State* L) {
+  int SWIG_arg = -1;
+  IndependentDOF *arg1 = (IndependentDOF *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_IndependentDOF,0))){
+    SWIG_fail_ptr("delete_IndependentDOF",1,SWIGTYPE_p_IndependentDOF);
+  }
+  
+  delete arg1;
+  
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_IndependentDOF(void *obj) {
+IndependentDOF *arg1 = (IndependentDOF *) obj;
+delete arg1;
+}
+static swig_lua_method swig_IndependentDOF_methods[] = {
+    {"SetValue", _wrap_IndependentDOF_SetValue}, 
+    {"GetValue", _wrap_IndependentDOF_GetValue}, 
+    {0,0}
+};
+static swig_lua_attribute swig_IndependentDOF_attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_IndependentDOF_bases[] = {&_wrap_class_DOF,0};
+swig_lua_class _wrap_class_IndependentDOF = { "IndependentDOF", &SWIGTYPE_p_IndependentDOF,_wrap_new_IndependentDOF, swig_delete_IndependentDOF, swig_IndependentDOF_methods, swig_IndependentDOF_attributes, swig_IndependentDOF_bases };
+
+static int _wrap_new_DependentDOF__SWIG_0(lua_State* L) {
+  int SWIG_arg = -1;
+  GiNaC::ex arg1 ;
+  SwigValueWrapper<std::vector<boost::shared_ptr<DOF > > > arg2 ;
+  DependentDOF *result = 0 ;
+  GiNaC::ex *argp1 ;
+  std::vector<DOFPointer > *argp2 ;
+  
+  if(!lua_isuserdata(L,1)) SWIG_fail_arg(1);
+  if(!lua_isuserdata(L,2)) SWIG_fail_arg(2);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&argp1,SWIGTYPE_p_GiNaC__ex,0))){
+    SWIG_fail_ptr("new_DependentDOF",1,SWIGTYPE_GiNaC__ex);
+  }
+  arg1 = *argp1;
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&argp2,SWIGTYPE_p_std__vectorTboost__shared_ptrTDOF_t_t,0))){
+    SWIG_fail_ptr("new_DependentDOF",2,SWIGTYPE_std__vectorTboost__shared_ptrTDOF_t_t);
+  }
+  arg2 = *argp2;
+  
+  result = (DependentDOF *)new DependentDOF(arg1,arg2);
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_DependentDOF,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_DependentDOF__SWIG_1(lua_State* L) {
+  int SWIG_arg = -1;
+  char *arg1 = (char *) 0 ;
+  GiNaC::ex arg2 ;
+  SwigValueWrapper<std::vector<boost::shared_ptr<DOF > > > arg3 ;
+  DependentDOF *result = 0 ;
+  GiNaC::ex *argp2 ;
+  std::vector<DOFPointer > *argp3 ;
+  
+  if(!lua_isstring(L,1)) SWIG_fail_arg(1);
+  if(!lua_isuserdata(L,2)) SWIG_fail_arg(2);
+  if(!lua_isuserdata(L,3)) SWIG_fail_arg(3);
+  arg1 = (char *)lua_tostring(L, 1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&argp2,SWIGTYPE_p_GiNaC__ex,0))){
+    SWIG_fail_ptr("new_DependentDOF",2,SWIGTYPE_GiNaC__ex);
+  }
+  arg2 = *argp2;
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,3,(void**)&argp3,SWIGTYPE_p_std__vectorTboost__shared_ptrTDOF_t_t,0))){
+    SWIG_fail_ptr("new_DependentDOF",3,SWIGTYPE_std__vectorTboost__shared_ptrTDOF_t_t);
+  }
+  arg3 = *argp3;
+  
+  result = (DependentDOF *)new DependentDOF((char const *)arg1,arg2,arg3);
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_DependentDOF,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_DependentDOF(lua_State* L) {
+  int argc;
+  int argv[4]={
+    1,2,3,4
+  };
+  
+  argc = lua_gettop(L);
+  if (argc == 2) {
+    int _v;
+    {
+      void *ptr;
+      if (lua_isuserdata(L,argv[0])==0 || SWIG_ConvertPtr(L,argv[0], (void **) &ptr, SWIGTYPE_GiNaC__ex, 0)) {
+        _v = 0;
+      } else {
+        _v = 1;
+      }
+    }
+    if (_v) {
+      {
+        void *ptr;
+        if (lua_isuserdata(L,argv[1])==0 || SWIG_ConvertPtr(L,argv[1], (void **) &ptr, SWIGTYPE_std__vectorTboost__shared_ptrTDOF_t_t, 0)) {
+          _v = 0;
+        } else {
+          _v = 1;
+        }
+      }
+      if (_v) {
+        return _wrap_new_DependentDOF__SWIG_0(L);
+      }
+    }
+  }
+  if (argc == 3) {
+    int _v;
+    {
+      _v = lua_isstring(L,argv[0]);
+    }
+    if (_v) {
+      {
+        void *ptr;
+        if (lua_isuserdata(L,argv[1])==0 || SWIG_ConvertPtr(L,argv[1], (void **) &ptr, SWIGTYPE_GiNaC__ex, 0)) {
+          _v = 0;
+        } else {
+          _v = 1;
+        }
+      }
+      if (_v) {
+        {
+          void *ptr;
+          if (lua_isuserdata(L,argv[2])==0 || SWIG_ConvertPtr(L,argv[2], (void **) &ptr, SWIGTYPE_std__vectorTboost__shared_ptrTDOF_t_t, 0)) {
+            _v = 0;
+          } else {
+            _v = 1;
+          }
+        }
+        if (_v) {
+          return _wrap_new_DependentDOF__SWIG_1(L);
+        }
+      }
+    }
+  }
+  
+  lua_pushstring(L,"No matching function for overloaded 'new_DependentDOF'");
+  lua_error(L);return 0;
+}
+
+
+static int _wrap_delete_DependentDOF(lua_State* L) {
+  int SWIG_arg = -1;
+  DependentDOF *arg1 = (DependentDOF *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_DependentDOF,0))){
+    SWIG_fail_ptr("delete_DependentDOF",1,SWIGTYPE_p_DependentDOF);
+  }
+  
+  delete arg1;
+  
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_DependentDOF_SetValue(lua_State* L) {
+  int SWIG_arg = -1;
+  DependentDOF *arg1 = (DependentDOF *) 0 ;
+  double arg2 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  if(!lua_isnumber(L,2)) SWIG_fail_arg(2);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_DependentDOF,0))){
+    SWIG_fail_ptr("DependentDOF_SetValue",1,SWIGTYPE_p_DependentDOF);
+  }
+  
+  arg2 = (double)lua_tonumber(L, 2);
+  (arg1)->SetValue(arg2);
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_DependentDOF_GetValue(lua_State* L) {
+  int SWIG_arg = -1;
+  DependentDOF *arg1 = (DependentDOF *) 0 ;
+  double result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_DependentDOF,0))){
+    SWIG_fail_ptr("DependentDOF_GetValue",1,SWIGTYPE_p_DependentDOF);
+  }
+  
+  result = (double)((DependentDOF const *)arg1)->GetValue();
+  SWIG_arg=0;
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_DependentDOF_GetExpression(lua_State* L) {
+  int SWIG_arg = -1;
+  DependentDOF *arg1 = (DependentDOF *) 0 ;
+  GiNaC::ex result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_DependentDOF,0))){
+    SWIG_fail_ptr("DependentDOF_GetExpression",1,SWIGTYPE_p_DependentDOF);
+  }
+  
+  result = ((DependentDOF const *)arg1)->GetExpression();
+  SWIG_arg=0;
+  {
+    GiNaC::ex * resultptr = new GiNaC::ex((GiNaC::ex &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_GiNaC__ex,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_DependentDOF(void *obj) {
+DependentDOF *arg1 = (DependentDOF *) obj;
+delete arg1;
+}
+static swig_lua_method swig_DependentDOF_methods[] = {
+    {"SetValue", _wrap_DependentDOF_SetValue}, 
+    {"GetValue", _wrap_DependentDOF_GetValue}, 
+    {"GetExpression", _wrap_DependentDOF_GetExpression}, 
+    {0,0}
+};
+static swig_lua_attribute swig_DependentDOF_attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_DependentDOF_bases[] = {&_wrap_class_DOF,0};
+swig_lua_class _wrap_class_DependentDOF = { "DependentDOF", &SWIGTYPE_p_DependentDOF,_wrap_new_DependentDOF, swig_delete_DependentDOF, swig_DependentDOF_methods, swig_DependentDOF_attributes, swig_DependentDOF_bases };
+
+static int _wrap_delete_PrimitiveBase(lua_State* L) {
+  int SWIG_arg = -1;
+  PrimitiveBase *arg1 = (PrimitiveBase *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_PrimitiveBase,0))){
+    SWIG_fail_ptr("delete_PrimitiveBase",1,SWIGTYPE_p_PrimitiveBase);
+  }
+  
+  delete arg1;
+  
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_PrimitiveBase_GetDOFList(lua_State* L) {
+  int SWIG_arg = -1;
+  PrimitiveBase *arg1 = (PrimitiveBase *) 0 ;
+  std::vector<DOFPointer > *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_PrimitiveBase,0))){
+    SWIG_fail_ptr("PrimitiveBase_GetDOFList",1,SWIGTYPE_p_PrimitiveBase);
+  }
+  
+  {
+    std::vector<DOFPointer > const &_result_ref = (arg1)->GetDOFList();
+    result = (std::vector<DOFPointer > *) &_result_ref;
+  }
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_std__vectorTboost__shared_ptrTDOF_t_t,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_PrimitiveBase_Display(lua_State* L) {
+  int SWIG_arg = -1;
+  PrimitiveBase *arg1 = (PrimitiveBase *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_PrimitiveBase,0))){
+    SWIG_fail_ptr("PrimitiveBase_Display",1,SWIGTYPE_p_PrimitiveBase);
+  }
+  
+  (arg1)->Display();
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_PrimitiveBase_UpdateDisplay(lua_State* L) {
+  int SWIG_arg = -1;
+  PrimitiveBase *arg1 = (PrimitiveBase *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_PrimitiveBase,0))){
+    SWIG_fail_ptr("PrimitiveBase_UpdateDisplay",1,SWIGTYPE_p_PrimitiveBase);
+  }
+  
+  (arg1)->UpdateDisplay();
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_PrimitiveBase(lua_State* L) {
+  int SWIG_arg = -1;
+  PrimitiveBase *result = 0 ;
+  
+  result = (PrimitiveBase *)new PrimitiveBase();
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_PrimitiveBase,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_PrimitiveBase(void *obj) {
+PrimitiveBase *arg1 = (PrimitiveBase *) obj;
+delete arg1;
+}
+static swig_lua_method swig_PrimitiveBase_methods[] = {
+    {"GetDOFList", _wrap_PrimitiveBase_GetDOFList}, 
+    {"Display", _wrap_PrimitiveBase_Display}, 
+    {"UpdateDisplay", _wrap_PrimitiveBase_UpdateDisplay}, 
+    {0,0}
+};
+static swig_lua_attribute swig_PrimitiveBase_attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_PrimitiveBase_bases[] = {0};
+swig_lua_class _wrap_class_PrimitiveBase = { "PrimitiveBase", &SWIGTYPE_p_PrimitiveBase,_wrap_new_PrimitiveBase, swig_delete_PrimitiveBase, swig_PrimitiveBase_methods, swig_PrimitiveBase_attributes, swig_PrimitiveBase_bases };
+
+static int _wrap_new_Point__SWIG_0(lua_State* L) {
+  int SWIG_arg = -1;
+  double arg1 ;
+  double arg2 ;
+  double arg3 ;
+  bool arg4 ;
+  bool arg5 ;
+  bool arg6 ;
+  Point *result = 0 ;
+  
+  if(!lua_isnumber(L,1)) SWIG_fail_arg(1);
+  if(!lua_isnumber(L,2)) SWIG_fail_arg(2);
+  if(!lua_isnumber(L,3)) SWIG_fail_arg(3);
+  if(!lua_isboolean(L,4)) SWIG_fail_arg(4);
+  if(!lua_isboolean(L,5)) SWIG_fail_arg(5);
+  if(!lua_isboolean(L,6)) SWIG_fail_arg(6);
+  arg1 = (double)lua_tonumber(L, 1);
+  arg2 = (double)lua_tonumber(L, 2);
+  arg3 = (double)lua_tonumber(L, 3);
+  arg4 = (bool)lua_toboolean(L, 4);
+  arg5 = (bool)lua_toboolean(L, 5);
+  arg6 = (bool)lua_toboolean(L, 6);
+  result = (Point *)new Point(arg1,arg2,arg3,arg4,arg5,arg6);
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_Point,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_Point__SWIG_1(lua_State* L) {
+  int SWIG_arg = -1;
+  double arg1 ;
+  double arg2 ;
+  double arg3 ;
+  bool arg4 ;
+  bool arg5 ;
+  Point *result = 0 ;
+  
+  if(!lua_isnumber(L,1)) SWIG_fail_arg(1);
+  if(!lua_isnumber(L,2)) SWIG_fail_arg(2);
+  if(!lua_isnumber(L,3)) SWIG_fail_arg(3);
+  if(!lua_isboolean(L,4)) SWIG_fail_arg(4);
+  if(!lua_isboolean(L,5)) SWIG_fail_arg(5);
+  arg1 = (double)lua_tonumber(L, 1);
+  arg2 = (double)lua_tonumber(L, 2);
+  arg3 = (double)lua_tonumber(L, 3);
+  arg4 = (bool)lua_toboolean(L, 4);
+  arg5 = (bool)lua_toboolean(L, 5);
+  result = (Point *)new Point(arg1,arg2,arg3,arg4,arg5);
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_Point,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_Point__SWIG_2(lua_State* L) {
+  int SWIG_arg = -1;
+  double arg1 ;
+  double arg2 ;
+  double arg3 ;
+  bool arg4 ;
+  Point *result = 0 ;
+  
+  if(!lua_isnumber(L,1)) SWIG_fail_arg(1);
+  if(!lua_isnumber(L,2)) SWIG_fail_arg(2);
+  if(!lua_isnumber(L,3)) SWIG_fail_arg(3);
+  if(!lua_isboolean(L,4)) SWIG_fail_arg(4);
+  arg1 = (double)lua_tonumber(L, 1);
+  arg2 = (double)lua_tonumber(L, 2);
+  arg3 = (double)lua_tonumber(L, 3);
+  arg4 = (bool)lua_toboolean(L, 4);
+  result = (Point *)new Point(arg1,arg2,arg3,arg4);
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_Point,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_Point__SWIG_3(lua_State* L) {
+  int SWIG_arg = -1;
+  double arg1 ;
+  double arg2 ;
+  double arg3 ;
+  Point *result = 0 ;
+  
+  if(!lua_isnumber(L,1)) SWIG_fail_arg(1);
+  if(!lua_isnumber(L,2)) SWIG_fail_arg(2);
+  if(!lua_isnumber(L,3)) SWIG_fail_arg(3);
+  arg1 = (double)lua_tonumber(L, 1);
+  arg2 = (double)lua_tonumber(L, 2);
+  arg3 = (double)lua_tonumber(L, 3);
+  result = (Point *)new Point(arg1,arg2,arg3);
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_Point,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_Point(lua_State* L) {
+  int argc;
+  int argv[7]={
+    1,2,3,4,5,6,7
+  };
+  
+  argc = lua_gettop(L);
+  if (argc == 3) {
+    int _v;
+    {
+      _v = lua_isnumber(L,argv[0]);
+    }
+    if (_v) {
+      {
+        _v = lua_isnumber(L,argv[1]);
+      }
+      if (_v) {
+        {
+          _v = lua_isnumber(L,argv[2]);
+        }
+        if (_v) {
+          return _wrap_new_Point__SWIG_3(L);
+        }
+      }
+    }
+  }
+  if (argc == 4) {
+    int _v;
+    {
+      _v = lua_isnumber(L,argv[0]);
+    }
+    if (_v) {
+      {
+        _v = lua_isnumber(L,argv[1]);
+      }
+      if (_v) {
+        {
+          _v = lua_isnumber(L,argv[2]);
+        }
+        if (_v) {
+          {
+            _v = lua_isboolean(L,argv[3]);
+          }
+          if (_v) {
+            return _wrap_new_Point__SWIG_2(L);
+          }
+        }
+      }
+    }
+  }
+  if (argc == 5) {
+    int _v;
+    {
+      _v = lua_isnumber(L,argv[0]);
+    }
+    if (_v) {
+      {
+        _v = lua_isnumber(L,argv[1]);
+      }
+      if (_v) {
+        {
+          _v = lua_isnumber(L,argv[2]);
+        }
+        if (_v) {
+          {
+            _v = lua_isboolean(L,argv[3]);
+          }
+          if (_v) {
+            {
+              _v = lua_isboolean(L,argv[4]);
+            }
+            if (_v) {
+              return _wrap_new_Point__SWIG_1(L);
+            }
+          }
+        }
+      }
+    }
+  }
+  if (argc == 6) {
+    int _v;
+    {
+      _v = lua_isnumber(L,argv[0]);
+    }
+    if (_v) {
+      {
+        _v = lua_isnumber(L,argv[1]);
+      }
+      if (_v) {
+        {
+          _v = lua_isnumber(L,argv[2]);
+        }
+        if (_v) {
+          {
+            _v = lua_isboolean(L,argv[3]);
+          }
+          if (_v) {
+            {
+              _v = lua_isboolean(L,argv[4]);
+            }
+            if (_v) {
+              {
+                _v = lua_isboolean(L,argv[5]);
+              }
+              if (_v) {
+                return _wrap_new_Point__SWIG_0(L);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  lua_pushstring(L,"No matching function for overloaded 'new_Point'");
+  lua_error(L);return 0;
+}
+
+
+static int _wrap_Point_GetXDOF(lua_State* L) {
+  int SWIG_arg = -1;
+  Point *arg1 = (Point *) 0 ;
+  DOFPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Point,0))){
+    SWIG_fail_ptr("Point_GetXDOF",1,SWIGTYPE_p_Point);
+  }
+  
+  result = ((Point const *)arg1)->GetXDOF();
+  SWIG_arg=0;
+  {
+    DOFPointer * resultptr = new DOFPointer((DOFPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTDOF_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Point_GetYDOF(lua_State* L) {
+  int SWIG_arg = -1;
+  Point *arg1 = (Point *) 0 ;
+  DOFPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Point,0))){
+    SWIG_fail_ptr("Point_GetYDOF",1,SWIGTYPE_p_Point);
+  }
+  
+  result = ((Point const *)arg1)->GetYDOF();
+  SWIG_arg=0;
+  {
+    DOFPointer * resultptr = new DOFPointer((DOFPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTDOF_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Point_GetZDOF(lua_State* L) {
+  int SWIG_arg = -1;
+  Point *arg1 = (Point *) 0 ;
+  DOFPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Point,0))){
+    SWIG_fail_ptr("Point_GetZDOF",1,SWIGTYPE_p_Point);
+  }
+  
+  result = ((Point const *)arg1)->GetZDOF();
+  SWIG_arg=0;
+  {
+    DOFPointer * resultptr = new DOFPointer((DOFPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTDOF_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Point_GetmmcMatrix(lua_State* L) {
+  int SWIG_arg = -1;
+  Point *arg1 = (Point *) 0 ;
+  mmcMatrix result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Point,0))){
+    SWIG_fail_ptr("Point_GetmmcMatrix",1,SWIGTYPE_p_Point);
+  }
+  
+  result = (arg1)->GetmmcMatrix();
+  SWIG_arg=0;
+  {
+    mmcMatrix * resultptr = new mmcMatrix((mmcMatrix &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_mmcMatrix,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_delete_Point(lua_State* L) {
+  int SWIG_arg = -1;
+  Point *arg1 = (Point *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Point,0))){
+    SWIG_fail_ptr("delete_Point",1,SWIGTYPE_p_Point);
+  }
+  
+  delete arg1;
+  
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_Point(void *obj) {
+Point *arg1 = (Point *) obj;
+delete arg1;
+}
+static swig_lua_method swig_Point_methods[] = {
+    {"GetXDOF", _wrap_Point_GetXDOF}, 
+    {"GetYDOF", _wrap_Point_GetYDOF}, 
+    {"GetZDOF", _wrap_Point_GetZDOF}, 
+    {"GetmmcMatrix", _wrap_Point_GetmmcMatrix}, 
+    {0,0}
+};
+static swig_lua_attribute swig_Point_attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_Point_bases[] = {&_wrap_class_PrimitiveBase,0};
+swig_lua_class _wrap_class_Point = { "Point", &SWIGTYPE_p_Point,_wrap_new_Point, swig_delete_Point, swig_Point_methods, swig_Point_attributes, swig_Point_bases };
+
+static int _wrap_new_Vector__SWIG_0(lua_State* L) {
+  int SWIG_arg = -1;
+  double arg1 ;
+  double arg2 ;
+  double arg3 ;
+  bool arg4 ;
+  bool arg5 ;
+  bool arg6 ;
+  Vector *result = 0 ;
+  
+  if(!lua_isnumber(L,1)) SWIG_fail_arg(1);
+  if(!lua_isnumber(L,2)) SWIG_fail_arg(2);
+  if(!lua_isnumber(L,3)) SWIG_fail_arg(3);
+  if(!lua_isboolean(L,4)) SWIG_fail_arg(4);
+  if(!lua_isboolean(L,5)) SWIG_fail_arg(5);
+  if(!lua_isboolean(L,6)) SWIG_fail_arg(6);
+  arg1 = (double)lua_tonumber(L, 1);
+  arg2 = (double)lua_tonumber(L, 2);
+  arg3 = (double)lua_tonumber(L, 3);
+  arg4 = (bool)lua_toboolean(L, 4);
+  arg5 = (bool)lua_toboolean(L, 5);
+  arg6 = (bool)lua_toboolean(L, 6);
+  result = (Vector *)new Vector(arg1,arg2,arg3,arg4,arg5,arg6);
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_Vector,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_Vector__SWIG_1(lua_State* L) {
+  int SWIG_arg = -1;
+  double arg1 ;
+  double arg2 ;
+  double arg3 ;
+  bool arg4 ;
+  bool arg5 ;
+  Vector *result = 0 ;
+  
+  if(!lua_isnumber(L,1)) SWIG_fail_arg(1);
+  if(!lua_isnumber(L,2)) SWIG_fail_arg(2);
+  if(!lua_isnumber(L,3)) SWIG_fail_arg(3);
+  if(!lua_isboolean(L,4)) SWIG_fail_arg(4);
+  if(!lua_isboolean(L,5)) SWIG_fail_arg(5);
+  arg1 = (double)lua_tonumber(L, 1);
+  arg2 = (double)lua_tonumber(L, 2);
+  arg3 = (double)lua_tonumber(L, 3);
+  arg4 = (bool)lua_toboolean(L, 4);
+  arg5 = (bool)lua_toboolean(L, 5);
+  result = (Vector *)new Vector(arg1,arg2,arg3,arg4,arg5);
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_Vector,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_Vector__SWIG_2(lua_State* L) {
+  int SWIG_arg = -1;
+  double arg1 ;
+  double arg2 ;
+  double arg3 ;
+  bool arg4 ;
+  Vector *result = 0 ;
+  
+  if(!lua_isnumber(L,1)) SWIG_fail_arg(1);
+  if(!lua_isnumber(L,2)) SWIG_fail_arg(2);
+  if(!lua_isnumber(L,3)) SWIG_fail_arg(3);
+  if(!lua_isboolean(L,4)) SWIG_fail_arg(4);
+  arg1 = (double)lua_tonumber(L, 1);
+  arg2 = (double)lua_tonumber(L, 2);
+  arg3 = (double)lua_tonumber(L, 3);
+  arg4 = (bool)lua_toboolean(L, 4);
+  result = (Vector *)new Vector(arg1,arg2,arg3,arg4);
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_Vector,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_Vector__SWIG_3(lua_State* L) {
+  int SWIG_arg = -1;
+  double arg1 ;
+  double arg2 ;
+  double arg3 ;
+  Vector *result = 0 ;
+  
+  if(!lua_isnumber(L,1)) SWIG_fail_arg(1);
+  if(!lua_isnumber(L,2)) SWIG_fail_arg(2);
+  if(!lua_isnumber(L,3)) SWIG_fail_arg(3);
+  arg1 = (double)lua_tonumber(L, 1);
+  arg2 = (double)lua_tonumber(L, 2);
+  arg3 = (double)lua_tonumber(L, 3);
+  result = (Vector *)new Vector(arg1,arg2,arg3);
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_Vector,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_Vector(lua_State* L) {
+  int argc;
+  int argv[7]={
+    1,2,3,4,5,6,7
+  };
+  
+  argc = lua_gettop(L);
+  if (argc == 3) {
+    int _v;
+    {
+      _v = lua_isnumber(L,argv[0]);
+    }
+    if (_v) {
+      {
+        _v = lua_isnumber(L,argv[1]);
+      }
+      if (_v) {
+        {
+          _v = lua_isnumber(L,argv[2]);
+        }
+        if (_v) {
+          return _wrap_new_Vector__SWIG_3(L);
+        }
+      }
+    }
+  }
+  if (argc == 4) {
+    int _v;
+    {
+      _v = lua_isnumber(L,argv[0]);
+    }
+    if (_v) {
+      {
+        _v = lua_isnumber(L,argv[1]);
+      }
+      if (_v) {
+        {
+          _v = lua_isnumber(L,argv[2]);
+        }
+        if (_v) {
+          {
+            _v = lua_isboolean(L,argv[3]);
+          }
+          if (_v) {
+            return _wrap_new_Vector__SWIG_2(L);
+          }
+        }
+      }
+    }
+  }
+  if (argc == 5) {
+    int _v;
+    {
+      _v = lua_isnumber(L,argv[0]);
+    }
+    if (_v) {
+      {
+        _v = lua_isnumber(L,argv[1]);
+      }
+      if (_v) {
+        {
+          _v = lua_isnumber(L,argv[2]);
+        }
+        if (_v) {
+          {
+            _v = lua_isboolean(L,argv[3]);
+          }
+          if (_v) {
+            {
+              _v = lua_isboolean(L,argv[4]);
+            }
+            if (_v) {
+              return _wrap_new_Vector__SWIG_1(L);
+            }
+          }
+        }
+      }
+    }
+  }
+  if (argc == 6) {
+    int _v;
+    {
+      _v = lua_isnumber(L,argv[0]);
+    }
+    if (_v) {
+      {
+        _v = lua_isnumber(L,argv[1]);
+      }
+      if (_v) {
+        {
+          _v = lua_isnumber(L,argv[2]);
+        }
+        if (_v) {
+          {
+            _v = lua_isboolean(L,argv[3]);
+          }
+          if (_v) {
+            {
+              _v = lua_isboolean(L,argv[4]);
+            }
+            if (_v) {
+              {
+                _v = lua_isboolean(L,argv[5]);
+              }
+              if (_v) {
+                return _wrap_new_Vector__SWIG_0(L);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  lua_pushstring(L,"No matching function for overloaded 'new_Vector'");
+  lua_error(L);return 0;
+}
+
+
+static int _wrap_Vector_GetmmcMatrix(lua_State* L) {
+  int SWIG_arg = -1;
+  Vector *arg1 = (Vector *) 0 ;
+  mmcMatrix result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Vector,0))){
+    SWIG_fail_ptr("Vector_GetmmcMatrix",1,SWIGTYPE_p_Vector);
+  }
+  
+  result = (arg1)->GetmmcMatrix();
+  SWIG_arg=0;
+  {
+    mmcMatrix * resultptr = new mmcMatrix((mmcMatrix &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_mmcMatrix,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_delete_Vector(lua_State* L) {
+  int SWIG_arg = -1;
+  Vector *arg1 = (Vector *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Vector,0))){
+    SWIG_fail_ptr("delete_Vector",1,SWIGTYPE_p_Vector);
+  }
+  
+  delete arg1;
+  
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_Vector(void *obj) {
+Vector *arg1 = (Vector *) obj;
+delete arg1;
+}
+static swig_lua_method swig_Vector_methods[] = {
+    {"GetmmcMatrix", _wrap_Vector_GetmmcMatrix}, 
+    {0,0}
+};
+static swig_lua_attribute swig_Vector_attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_Vector_bases[] = {&_wrap_class_PrimitiveBase,0};
+swig_lua_class _wrap_class_Vector = { "Vector", &SWIGTYPE_p_Vector,_wrap_new_Vector, swig_delete_Vector, swig_Vector_methods, swig_Vector_attributes, swig_Vector_bases };
+
+static int _wrap_new_SketchPlane(lua_State* L) {
+  int SWIG_arg = -1;
+  VectorPointer arg1 ;
+  VectorPointer arg2 ;
+  PointPointer arg3 ;
+  SketchPlane *result = 0 ;
+  VectorPointer *argp1 ;
+  VectorPointer *argp2 ;
+  PointPointer *argp3 ;
+  
+  if(!lua_isuserdata(L,1)) SWIG_fail_arg(1);
+  if(!lua_isuserdata(L,2)) SWIG_fail_arg(2);
+  if(!lua_isuserdata(L,3)) SWIG_fail_arg(3);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&argp1,SWIGTYPE_p_boost__shared_ptrTVector_t,0))){
+    SWIG_fail_ptr("new_SketchPlane",1,SWIGTYPE_boost__shared_ptrTVector_t);
+  }
+  arg1 = *argp1;
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&argp2,SWIGTYPE_p_boost__shared_ptrTVector_t,0))){
+    SWIG_fail_ptr("new_SketchPlane",2,SWIGTYPE_boost__shared_ptrTVector_t);
+  }
+  arg2 = *argp2;
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,3,(void**)&argp3,SWIGTYPE_p_boost__shared_ptrTPoint_t,0))){
+    SWIG_fail_ptr("new_SketchPlane",3,SWIGTYPE_boost__shared_ptrTPoint_t);
+  }
+  arg3 = *argp3;
+  
+  result = (SketchPlane *)new SketchPlane(arg1,arg2,arg3);
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_SketchPlane,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_SketchPlane_Get3DLocation(lua_State* L) {
+  int SWIG_arg = -1;
+  SketchPlane *arg1 = (SketchPlane *) 0 ;
+  double arg2 ;
+  double arg3 ;
+  double *arg4 = 0 ;
+  double *arg5 = 0 ;
+  double *arg6 = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  if(!lua_isnumber(L,2)) SWIG_fail_arg(2);
+  if(!lua_isnumber(L,3)) SWIG_fail_arg(3);
+  if(!lua_isuserdata(L,4)) SWIG_fail_arg(4);
+  if(!lua_isuserdata(L,5)) SWIG_fail_arg(5);
+  if(!lua_isuserdata(L,6)) SWIG_fail_arg(6);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_SketchPlane,0))){
+    SWIG_fail_ptr("SketchPlane_Get3DLocation",1,SWIGTYPE_p_SketchPlane);
+  }
+  
+  arg2 = (double)lua_tonumber(L, 2);
+  arg3 = (double)lua_tonumber(L, 3);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,4,(void**)&arg4,SWIGTYPE_p_double,0))){
+    SWIG_fail_ptr("SketchPlane_Get3DLocation",4,SWIGTYPE_p_double);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,5,(void**)&arg5,SWIGTYPE_p_double,0))){
+    SWIG_fail_ptr("SketchPlane_Get3DLocation",5,SWIGTYPE_p_double);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,6,(void**)&arg6,SWIGTYPE_p_double,0))){
+    SWIG_fail_ptr("SketchPlane_Get3DLocation",6,SWIGTYPE_p_double);
+  }
+  
+  (arg1)->Get3DLocation(arg2,arg3,*arg4,*arg5,*arg6);
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_SketchPlane_GetABCD(lua_State* L) {
+  int SWIG_arg = -1;
+  SketchPlane *arg1 = (SketchPlane *) 0 ;
+  double *arg2 = 0 ;
+  double *arg3 = 0 ;
+  double *arg4 = 0 ;
+  double *arg5 = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  if(!lua_isuserdata(L,2)) SWIG_fail_arg(2);
+  if(!lua_isuserdata(L,3)) SWIG_fail_arg(3);
+  if(!lua_isuserdata(L,4)) SWIG_fail_arg(4);
+  if(!lua_isuserdata(L,5)) SWIG_fail_arg(5);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_SketchPlane,0))){
+    SWIG_fail_ptr("SketchPlane_GetABCD",1,SWIGTYPE_p_SketchPlane);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&arg2,SWIGTYPE_p_double,0))){
+    SWIG_fail_ptr("SketchPlane_GetABCD",2,SWIGTYPE_p_double);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,3,(void**)&arg3,SWIGTYPE_p_double,0))){
+    SWIG_fail_ptr("SketchPlane_GetABCD",3,SWIGTYPE_p_double);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,4,(void**)&arg4,SWIGTYPE_p_double,0))){
+    SWIG_fail_ptr("SketchPlane_GetABCD",4,SWIGTYPE_p_double);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,5,(void**)&arg5,SWIGTYPE_p_double,0))){
+    SWIG_fail_ptr("SketchPlane_GetABCD",5,SWIGTYPE_p_double);
+  }
+  
+  (arg1)->GetABCD(*arg2,*arg3,*arg4,*arg5);
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_SketchPlane_GetNormal(lua_State* L) {
+  int SWIG_arg = -1;
+  SketchPlane *arg1 = (SketchPlane *) 0 ;
+  VectorPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_SketchPlane,0))){
+    SWIG_fail_ptr("SketchPlane_GetNormal",1,SWIGTYPE_p_SketchPlane);
+  }
+  
+  result = (arg1)->GetNormal();
+  SWIG_arg=0;
+  {
+    VectorPointer * resultptr = new VectorPointer((VectorPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTVector_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_SketchPlane_GetUp(lua_State* L) {
+  int SWIG_arg = -1;
+  SketchPlane *arg1 = (SketchPlane *) 0 ;
+  VectorPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_SketchPlane,0))){
+    SWIG_fail_ptr("SketchPlane_GetUp",1,SWIGTYPE_p_SketchPlane);
+  }
+  
+  result = (arg1)->GetUp();
+  SWIG_arg=0;
+  {
+    VectorPointer * resultptr = new VectorPointer((VectorPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTVector_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_SketchPlane_GetBase(lua_State* L) {
+  int SWIG_arg = -1;
+  SketchPlane *arg1 = (SketchPlane *) 0 ;
+  PointPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_SketchPlane,0))){
+    SWIG_fail_ptr("SketchPlane_GetBase",1,SWIGTYPE_p_SketchPlane);
+  }
+  
+  result = (arg1)->GetBase();
+  SWIG_arg=0;
+  {
+    PointPointer * resultptr = new PointPointer((PointPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTPoint_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_delete_SketchPlane(lua_State* L) {
+  int SWIG_arg = -1;
+  SketchPlane *arg1 = (SketchPlane *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_SketchPlane,0))){
+    SWIG_fail_ptr("delete_SketchPlane",1,SWIGTYPE_p_SketchPlane);
+  }
+  
+  delete arg1;
+  
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_SketchPlane(void *obj) {
+SketchPlane *arg1 = (SketchPlane *) obj;
+delete arg1;
+}
+static swig_lua_method swig_SketchPlane_methods[] = {
+    {"Get3DLocation", _wrap_SketchPlane_Get3DLocation}, 
+    {"GetABCD", _wrap_SketchPlane_GetABCD}, 
+    {"GetNormal", _wrap_SketchPlane_GetNormal}, 
+    {"GetUp", _wrap_SketchPlane_GetUp}, 
+    {"GetBase", _wrap_SketchPlane_GetBase}, 
+    {0,0}
+};
+static swig_lua_attribute swig_SketchPlane_attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_SketchPlane_bases[] = {&_wrap_class_PrimitiveBase,0};
+swig_lua_class _wrap_class_SketchPlane = { "SketchPlane", &SWIGTYPE_p_SketchPlane,_wrap_new_SketchPlane, swig_delete_SketchPlane, swig_SketchPlane_methods, swig_SketchPlane_attributes, swig_SketchPlane_bases };
+
+static int _wrap_new_Primitive2DBase(lua_State* L) {
+  int SWIG_arg = -1;
+  SketchPlanePointer arg1 ;
+  Primitive2DBase *result = 0 ;
+  SketchPlanePointer *argp1 ;
+  
+  if(!lua_isuserdata(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&argp1,SWIGTYPE_p_boost__shared_ptrTSketchPlane_t,0))){
+    SWIG_fail_ptr("new_Primitive2DBase",1,SWIGTYPE_boost__shared_ptrTSketchPlane_t);
+  }
+  arg1 = *argp1;
+  
+  result = (Primitive2DBase *)new Primitive2DBase(arg1);
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_Primitive2DBase,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Primitive2DBase_GetSketchPlane(lua_State* L) {
+  int SWIG_arg = -1;
+  Primitive2DBase *arg1 = (Primitive2DBase *) 0 ;
+  SketchPlanePointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Primitive2DBase,0))){
+    SWIG_fail_ptr("Primitive2DBase_GetSketchPlane",1,SWIGTYPE_p_Primitive2DBase);
+  }
+  
+  result = (arg1)->GetSketchPlane();
+  SWIG_arg=0;
+  {
+    SketchPlanePointer * resultptr = new SketchPlanePointer((SketchPlanePointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTSketchPlane_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_delete_Primitive2DBase(lua_State* L) {
+  int SWIG_arg = -1;
+  Primitive2DBase *arg1 = (Primitive2DBase *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Primitive2DBase,0))){
+    SWIG_fail_ptr("delete_Primitive2DBase",1,SWIGTYPE_p_Primitive2DBase);
+  }
+  
+  delete arg1;
+  
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_Primitive2DBase(void *obj) {
+Primitive2DBase *arg1 = (Primitive2DBase *) obj;
+delete arg1;
+}
+static swig_lua_method swig_Primitive2DBase_methods[] = {
+    {"GetSketchPlane", _wrap_Primitive2DBase_GetSketchPlane}, 
+    {0,0}
+};
+static swig_lua_attribute swig_Primitive2DBase_attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_Primitive2DBase_bases[] = {&_wrap_class_PrimitiveBase,0};
+swig_lua_class _wrap_class_Primitive2DBase = { "Primitive2DBase", &SWIGTYPE_p_Primitive2DBase,_wrap_new_Primitive2DBase, swig_delete_Primitive2DBase, swig_Primitive2DBase_methods, swig_Primitive2DBase_attributes, swig_Primitive2DBase_bases };
+
+static int _wrap_new_Point2D__SWIG_0(lua_State* L) {
+  int SWIG_arg = -1;
+  double arg1 ;
+  double arg2 ;
+  SketchPlanePointer arg3 ;
+  bool arg4 ;
+  bool arg5 ;
+  Point2D *result = 0 ;
+  SketchPlanePointer *argp3 ;
+  
+  if(!lua_isnumber(L,1)) SWIG_fail_arg(1);
+  if(!lua_isnumber(L,2)) SWIG_fail_arg(2);
+  if(!lua_isuserdata(L,3)) SWIG_fail_arg(3);
+  if(!lua_isboolean(L,4)) SWIG_fail_arg(4);
+  if(!lua_isboolean(L,5)) SWIG_fail_arg(5);
+  arg1 = (double)lua_tonumber(L, 1);
+  arg2 = (double)lua_tonumber(L, 2);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,3,(void**)&argp3,SWIGTYPE_p_boost__shared_ptrTSketchPlane_t,0))){
+    SWIG_fail_ptr("new_Point2D",3,SWIGTYPE_boost__shared_ptrTSketchPlane_t);
+  }
+  arg3 = *argp3;
+  
+  arg4 = (bool)lua_toboolean(L, 4);
+  arg5 = (bool)lua_toboolean(L, 5);
+  result = (Point2D *)new Point2D(arg1,arg2,arg3,arg4,arg5);
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_Point2D,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_Point2D__SWIG_1(lua_State* L) {
+  int SWIG_arg = -1;
+  double arg1 ;
+  double arg2 ;
+  SketchPlanePointer arg3 ;
+  bool arg4 ;
+  Point2D *result = 0 ;
+  SketchPlanePointer *argp3 ;
+  
+  if(!lua_isnumber(L,1)) SWIG_fail_arg(1);
+  if(!lua_isnumber(L,2)) SWIG_fail_arg(2);
+  if(!lua_isuserdata(L,3)) SWIG_fail_arg(3);
+  if(!lua_isboolean(L,4)) SWIG_fail_arg(4);
+  arg1 = (double)lua_tonumber(L, 1);
+  arg2 = (double)lua_tonumber(L, 2);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,3,(void**)&argp3,SWIGTYPE_p_boost__shared_ptrTSketchPlane_t,0))){
+    SWIG_fail_ptr("new_Point2D",3,SWIGTYPE_boost__shared_ptrTSketchPlane_t);
+  }
+  arg3 = *argp3;
+  
+  arg4 = (bool)lua_toboolean(L, 4);
+  result = (Point2D *)new Point2D(arg1,arg2,arg3,arg4);
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_Point2D,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_Point2D__SWIG_2(lua_State* L) {
+  int SWIG_arg = -1;
+  double arg1 ;
+  double arg2 ;
+  SketchPlanePointer arg3 ;
+  Point2D *result = 0 ;
+  SketchPlanePointer *argp3 ;
+  
+  if(!lua_isnumber(L,1)) SWIG_fail_arg(1);
+  if(!lua_isnumber(L,2)) SWIG_fail_arg(2);
+  if(!lua_isuserdata(L,3)) SWIG_fail_arg(3);
+  arg1 = (double)lua_tonumber(L, 1);
+  arg2 = (double)lua_tonumber(L, 2);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,3,(void**)&argp3,SWIGTYPE_p_boost__shared_ptrTSketchPlane_t,0))){
+    SWIG_fail_ptr("new_Point2D",3,SWIGTYPE_boost__shared_ptrTSketchPlane_t);
+  }
+  arg3 = *argp3;
+  
+  result = (Point2D *)new Point2D(arg1,arg2,arg3);
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_Point2D,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_Point2D__SWIG_3(lua_State* L) {
+  int SWIG_arg = -1;
+  DOFPointer arg1 ;
+  DOFPointer arg2 ;
+  SketchPlanePointer arg3 ;
+  Point2D *result = 0 ;
+  DOFPointer *argp1 ;
+  DOFPointer *argp2 ;
+  SketchPlanePointer *argp3 ;
+  
+  if(!lua_isuserdata(L,1)) SWIG_fail_arg(1);
+  if(!lua_isuserdata(L,2)) SWIG_fail_arg(2);
+  if(!lua_isuserdata(L,3)) SWIG_fail_arg(3);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&argp1,SWIGTYPE_p_boost__shared_ptrTDOF_t,0))){
+    SWIG_fail_ptr("new_Point2D",1,SWIGTYPE_boost__shared_ptrTDOF_t);
+  }
+  arg1 = *argp1;
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&argp2,SWIGTYPE_p_boost__shared_ptrTDOF_t,0))){
+    SWIG_fail_ptr("new_Point2D",2,SWIGTYPE_boost__shared_ptrTDOF_t);
+  }
+  arg2 = *argp2;
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,3,(void**)&argp3,SWIGTYPE_p_boost__shared_ptrTSketchPlane_t,0))){
+    SWIG_fail_ptr("new_Point2D",3,SWIGTYPE_boost__shared_ptrTSketchPlane_t);
+  }
+  arg3 = *argp3;
+  
+  result = (Point2D *)new Point2D(arg1,arg2,arg3);
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_Point2D,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_Point2D(lua_State* L) {
+  int argc;
+  int argv[6]={
+    1,2,3,4,5,6
+  };
+  
+  argc = lua_gettop(L);
+  if (argc == 3) {
+    int _v;
+    {
+      void *ptr;
+      if (lua_isuserdata(L,argv[0])==0 || SWIG_ConvertPtr(L,argv[0], (void **) &ptr, SWIGTYPE_boost__shared_ptrTDOF_t, 0)) {
+        _v = 0;
+      } else {
+        _v = 1;
+      }
+    }
+    if (_v) {
+      {
+        void *ptr;
+        if (lua_isuserdata(L,argv[1])==0 || SWIG_ConvertPtr(L,argv[1], (void **) &ptr, SWIGTYPE_boost__shared_ptrTDOF_t, 0)) {
+          _v = 0;
+        } else {
+          _v = 1;
+        }
+      }
+      if (_v) {
+        {
+          void *ptr;
+          if (lua_isuserdata(L,argv[2])==0 || SWIG_ConvertPtr(L,argv[2], (void **) &ptr, SWIGTYPE_boost__shared_ptrTSketchPlane_t, 0)) {
+            _v = 0;
+          } else {
+            _v = 1;
+          }
+        }
+        if (_v) {
+          return _wrap_new_Point2D__SWIG_3(L);
+        }
+      }
+    }
+  }
+  if (argc == 3) {
+    int _v;
+    {
+      _v = lua_isnumber(L,argv[0]);
+    }
+    if (_v) {
+      {
+        _v = lua_isnumber(L,argv[1]);
+      }
+      if (_v) {
+        {
+          void *ptr;
+          if (lua_isuserdata(L,argv[2])==0 || SWIG_ConvertPtr(L,argv[2], (void **) &ptr, SWIGTYPE_boost__shared_ptrTSketchPlane_t, 0)) {
+            _v = 0;
+          } else {
+            _v = 1;
+          }
+        }
+        if (_v) {
+          return _wrap_new_Point2D__SWIG_2(L);
+        }
+      }
+    }
+  }
+  if (argc == 4) {
+    int _v;
+    {
+      _v = lua_isnumber(L,argv[0]);
+    }
+    if (_v) {
+      {
+        _v = lua_isnumber(L,argv[1]);
+      }
+      if (_v) {
+        {
+          void *ptr;
+          if (lua_isuserdata(L,argv[2])==0 || SWIG_ConvertPtr(L,argv[2], (void **) &ptr, SWIGTYPE_boost__shared_ptrTSketchPlane_t, 0)) {
+            _v = 0;
+          } else {
+            _v = 1;
+          }
+        }
+        if (_v) {
+          {
+            _v = lua_isboolean(L,argv[3]);
+          }
+          if (_v) {
+            return _wrap_new_Point2D__SWIG_1(L);
+          }
+        }
+      }
+    }
+  }
+  if (argc == 5) {
+    int _v;
+    {
+      _v = lua_isnumber(L,argv[0]);
+    }
+    if (_v) {
+      {
+        _v = lua_isnumber(L,argv[1]);
+      }
+      if (_v) {
+        {
+          void *ptr;
+          if (lua_isuserdata(L,argv[2])==0 || SWIG_ConvertPtr(L,argv[2], (void **) &ptr, SWIGTYPE_boost__shared_ptrTSketchPlane_t, 0)) {
+            _v = 0;
+          } else {
+            _v = 1;
+          }
+        }
+        if (_v) {
+          {
+            _v = lua_isboolean(L,argv[3]);
+          }
+          if (_v) {
+            {
+              _v = lua_isboolean(L,argv[4]);
+            }
+            if (_v) {
+              return _wrap_new_Point2D__SWIG_0(L);
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  lua_pushstring(L,"No matching function for overloaded 'new_Point2D'");
+  lua_error(L);return 0;
+}
+
+
+static int _wrap_Point2D_GetSDOF(lua_State* L) {
+  int SWIG_arg = -1;
+  Point2D *arg1 = (Point2D *) 0 ;
+  DOFPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Point2D,0))){
+    SWIG_fail_ptr("Point2D_GetSDOF",1,SWIGTYPE_p_Point2D);
+  }
+  
+  result = ((Point2D const *)arg1)->GetSDOF();
+  SWIG_arg=0;
+  {
+    DOFPointer * resultptr = new DOFPointer((DOFPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTDOF_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Point2D_GetTDOF(lua_State* L) {
+  int SWIG_arg = -1;
+  Point2D *arg1 = (Point2D *) 0 ;
+  DOFPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Point2D,0))){
+    SWIG_fail_ptr("Point2D_GetTDOF",1,SWIGTYPE_p_Point2D);
+  }
+  
+  result = ((Point2D const *)arg1)->GetTDOF();
+  SWIG_arg=0;
+  {
+    DOFPointer * resultptr = new DOFPointer((DOFPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTDOF_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Point2D_Get3DLocation(lua_State* L) {
+  int SWIG_arg = -1;
+  Point2D *arg1 = (Point2D *) 0 ;
+  double *arg2 = 0 ;
+  double *arg3 = 0 ;
+  double *arg4 = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  if(!lua_isuserdata(L,2)) SWIG_fail_arg(2);
+  if(!lua_isuserdata(L,3)) SWIG_fail_arg(3);
+  if(!lua_isuserdata(L,4)) SWIG_fail_arg(4);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Point2D,0))){
+    SWIG_fail_ptr("Point2D_Get3DLocation",1,SWIGTYPE_p_Point2D);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&arg2,SWIGTYPE_p_double,0))){
+    SWIG_fail_ptr("Point2D_Get3DLocation",2,SWIGTYPE_p_double);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,3,(void**)&arg3,SWIGTYPE_p_double,0))){
+    SWIG_fail_ptr("Point2D_Get3DLocation",3,SWIGTYPE_p_double);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,4,(void**)&arg4,SWIGTYPE_p_double,0))){
+    SWIG_fail_ptr("Point2D_Get3DLocation",4,SWIGTYPE_p_double);
+  }
+  
+  ((Point2D const *)arg1)->Get3DLocation(*arg2,*arg3,*arg4);
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_delete_Point2D(lua_State* L) {
+  int SWIG_arg = -1;
+  Point2D *arg1 = (Point2D *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Point2D,0))){
+    SWIG_fail_ptr("delete_Point2D",1,SWIGTYPE_p_Point2D);
+  }
+  
+  delete arg1;
+  
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_Point2D(void *obj) {
+Point2D *arg1 = (Point2D *) obj;
+delete arg1;
+}
+static swig_lua_method swig_Point2D_methods[] = {
+    {"GetSDOF", _wrap_Point2D_GetSDOF}, 
+    {"GetTDOF", _wrap_Point2D_GetTDOF}, 
+    {"Get3DLocation", _wrap_Point2D_Get3DLocation}, 
+    {0,0}
+};
+static swig_lua_attribute swig_Point2D_attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_Point2D_bases[] = {&_wrap_class_Primitive2DBase,0};
+swig_lua_class _wrap_class_Point2D = { "Point2D", &SWIGTYPE_p_Point2D,_wrap_new_Point2D, swig_delete_Point2D, swig_Point2D_methods, swig_Point2D_attributes, swig_Point2D_bases };
+
+static int _wrap_delete_Edge2DBase(lua_State* L) {
+  int SWIG_arg = -1;
+  Edge2DBase *arg1 = (Edge2DBase *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Edge2DBase,0))){
+    SWIG_fail_ptr("delete_Edge2DBase",1,SWIGTYPE_p_Edge2DBase);
+  }
+  
+  delete arg1;
+  
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Edge2DBase_GetPoint1(lua_State* L) {
+  int SWIG_arg = -1;
+  Edge2DBase *arg1 = (Edge2DBase *) 0 ;
+  Point2DPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Edge2DBase,0))){
+    SWIG_fail_ptr("Edge2DBase_GetPoint1",1,SWIGTYPE_p_Edge2DBase);
+  }
+  
+  result = (arg1)->GetPoint1();
+  SWIG_arg=0;
+  {
+    Point2DPointer * resultptr = new Point2DPointer((Point2DPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTPoint2D_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Edge2DBase_GetPoint2(lua_State* L) {
+  int SWIG_arg = -1;
+  Edge2DBase *arg1 = (Edge2DBase *) 0 ;
+  Point2DPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Edge2DBase,0))){
+    SWIG_fail_ptr("Edge2DBase_GetPoint2",1,SWIGTYPE_p_Edge2DBase);
+  }
+  
+  result = (arg1)->GetPoint2();
+  SWIG_arg=0;
+  {
+    Point2DPointer * resultptr = new Point2DPointer((Point2DPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTPoint2D_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Edge2DBase_GetTangent1(lua_State* L) {
+  int SWIG_arg = -1;
+  Edge2DBase *arg1 = (Edge2DBase *) 0 ;
+  GiNaC::ex *arg2 = 0 ;
+  GiNaC::ex *arg3 = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  if(!lua_isuserdata(L,2)) SWIG_fail_arg(2);
+  if(!lua_isuserdata(L,3)) SWIG_fail_arg(3);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Edge2DBase,0))){
+    SWIG_fail_ptr("Edge2DBase_GetTangent1",1,SWIGTYPE_p_Edge2DBase);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&arg2,SWIGTYPE_p_GiNaC__ex,0))){
+    SWIG_fail_ptr("Edge2DBase_GetTangent1",2,SWIGTYPE_p_GiNaC__ex);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,3,(void**)&arg3,SWIGTYPE_p_GiNaC__ex,0))){
+    SWIG_fail_ptr("Edge2DBase_GetTangent1",3,SWIGTYPE_p_GiNaC__ex);
+  }
+  
+  (arg1)->GetTangent1(*arg2,*arg3);
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Edge2DBase_GetTangent2(lua_State* L) {
+  int SWIG_arg = -1;
+  Edge2DBase *arg1 = (Edge2DBase *) 0 ;
+  GiNaC::ex *arg2 = 0 ;
+  GiNaC::ex *arg3 = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  if(!lua_isuserdata(L,2)) SWIG_fail_arg(2);
+  if(!lua_isuserdata(L,3)) SWIG_fail_arg(3);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Edge2DBase,0))){
+    SWIG_fail_ptr("Edge2DBase_GetTangent2",1,SWIGTYPE_p_Edge2DBase);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&arg2,SWIGTYPE_p_GiNaC__ex,0))){
+    SWIG_fail_ptr("Edge2DBase_GetTangent2",2,SWIGTYPE_p_GiNaC__ex);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,3,(void**)&arg3,SWIGTYPE_p_GiNaC__ex,0))){
+    SWIG_fail_ptr("Edge2DBase_GetTangent2",3,SWIGTYPE_p_GiNaC__ex);
+  }
+  
+  (arg1)->GetTangent2(*arg2,*arg3);
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Edge2DBase_IsPointCoincident(lua_State* L) {
+  int SWIG_arg = -1;
+  Edge2DBase *arg1 = (Edge2DBase *) 0 ;
+  EdgePointNumber arg2 ;
+  boost::shared_ptr<Edge2DBase > arg3 ;
+  EdgePointNumber arg4 ;
+  bool result;
+  boost::shared_ptr<Edge2DBase > *argp3 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  if(!lua_isnumber(L,2)) SWIG_fail_arg(2);
+  if(!lua_isuserdata(L,3)) SWIG_fail_arg(3);
+  if(!lua_isnumber(L,4)) SWIG_fail_arg(4);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Edge2DBase,0))){
+    SWIG_fail_ptr("Edge2DBase_IsPointCoincident",1,SWIGTYPE_p_Edge2DBase);
+  }
+  
+  arg2 = (EdgePointNumber)(int)lua_tonumber(L, 2);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,3,(void**)&argp3,SWIGTYPE_p_boost__shared_ptrTEdge2DBase_t,0))){
+    SWIG_fail_ptr("Edge2DBase_IsPointCoincident",3,SWIGTYPE_boost__shared_ptrTEdge2DBase_t);
+  }
+  arg3 = *argp3;
+  
+  arg4 = (EdgePointNumber)(int)lua_tonumber(L, 4);
+  result = (bool)(arg1)->IsPointCoincident(arg2,arg3,arg4);
+  SWIG_arg=0;
+  lua_pushboolean(L,(int)result); SWIG_arg++;
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_Edge2DBase(void *obj) {
+Edge2DBase *arg1 = (Edge2DBase *) obj;
+delete arg1;
+}
+static swig_lua_method swig_Edge2DBase_methods[] = {
+    {"GetPoint1", _wrap_Edge2DBase_GetPoint1}, 
+    {"GetPoint2", _wrap_Edge2DBase_GetPoint2}, 
+    {"GetTangent1", _wrap_Edge2DBase_GetTangent1}, 
+    {"GetTangent2", _wrap_Edge2DBase_GetTangent2}, 
+    {"IsPointCoincident", _wrap_Edge2DBase_IsPointCoincident}, 
+    {0,0}
+};
+static swig_lua_attribute swig_Edge2DBase_attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_Edge2DBase_bases[] = {&_wrap_class_Primitive2DBase,0};
+swig_lua_class _wrap_class_Edge2DBase = { "Edge2DBase", &SWIGTYPE_p_Edge2DBase,0, swig_delete_Edge2DBase, swig_Edge2DBase_methods, swig_Edge2DBase_attributes, swig_Edge2DBase_bases };
+
+static int _wrap_new_Line(lua_State* L) {
+  int SWIG_arg = -1;
+  PointPointer arg1 ;
+  PointPointer arg2 ;
+  Line *result = 0 ;
+  PointPointer *argp1 ;
+  PointPointer *argp2 ;
+  
+  if(!lua_isuserdata(L,1)) SWIG_fail_arg(1);
+  if(!lua_isuserdata(L,2)) SWIG_fail_arg(2);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&argp1,SWIGTYPE_p_boost__shared_ptrTPoint_t,0))){
+    SWIG_fail_ptr("new_Line",1,SWIGTYPE_boost__shared_ptrTPoint_t);
+  }
+  arg1 = *argp1;
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&argp2,SWIGTYPE_p_boost__shared_ptrTPoint_t,0))){
+    SWIG_fail_ptr("new_Line",2,SWIGTYPE_boost__shared_ptrTPoint_t);
+  }
+  arg2 = *argp2;
+  
+  result = (Line *)new Line(arg1,arg2);
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_Line,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Line_GetX1(lua_State* L) {
+  int SWIG_arg = -1;
+  Line *arg1 = (Line *) 0 ;
+  DOFPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Line,0))){
+    SWIG_fail_ptr("Line_GetX1",1,SWIGTYPE_p_Line);
+  }
+  
+  result = ((Line const *)arg1)->GetX1();
+  SWIG_arg=0;
+  {
+    DOFPointer * resultptr = new DOFPointer((DOFPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTDOF_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Line_GetY1(lua_State* L) {
+  int SWIG_arg = -1;
+  Line *arg1 = (Line *) 0 ;
+  DOFPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Line,0))){
+    SWIG_fail_ptr("Line_GetY1",1,SWIGTYPE_p_Line);
+  }
+  
+  result = ((Line const *)arg1)->GetY1();
+  SWIG_arg=0;
+  {
+    DOFPointer * resultptr = new DOFPointer((DOFPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTDOF_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Line_GetZ1(lua_State* L) {
+  int SWIG_arg = -1;
+  Line *arg1 = (Line *) 0 ;
+  DOFPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Line,0))){
+    SWIG_fail_ptr("Line_GetZ1",1,SWIGTYPE_p_Line);
+  }
+  
+  result = ((Line const *)arg1)->GetZ1();
+  SWIG_arg=0;
+  {
+    DOFPointer * resultptr = new DOFPointer((DOFPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTDOF_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Line_GetX2(lua_State* L) {
+  int SWIG_arg = -1;
+  Line *arg1 = (Line *) 0 ;
+  DOFPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Line,0))){
+    SWIG_fail_ptr("Line_GetX2",1,SWIGTYPE_p_Line);
+  }
+  
+  result = ((Line const *)arg1)->GetX2();
+  SWIG_arg=0;
+  {
+    DOFPointer * resultptr = new DOFPointer((DOFPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTDOF_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Line_GetY2(lua_State* L) {
+  int SWIG_arg = -1;
+  Line *arg1 = (Line *) 0 ;
+  DOFPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Line,0))){
+    SWIG_fail_ptr("Line_GetY2",1,SWIGTYPE_p_Line);
+  }
+  
+  result = ((Line const *)arg1)->GetY2();
+  SWIG_arg=0;
+  {
+    DOFPointer * resultptr = new DOFPointer((DOFPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTDOF_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Line_GetZ2(lua_State* L) {
+  int SWIG_arg = -1;
+  Line *arg1 = (Line *) 0 ;
+  DOFPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Line,0))){
+    SWIG_fail_ptr("Line_GetZ2",1,SWIGTYPE_p_Line);
+  }
+  
+  result = ((Line const *)arg1)->GetZ2();
+  SWIG_arg=0;
+  {
+    DOFPointer * resultptr = new DOFPointer((DOFPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTDOF_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_delete_Line(lua_State* L) {
+  int SWIG_arg = -1;
+  Line *arg1 = (Line *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Line,0))){
+    SWIG_fail_ptr("delete_Line",1,SWIGTYPE_p_Line);
+  }
+  
+  delete arg1;
+  
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_Line(void *obj) {
+Line *arg1 = (Line *) obj;
+delete arg1;
+}
+static swig_lua_method swig_Line_methods[] = {
+    {"GetX1", _wrap_Line_GetX1}, 
+    {"GetY1", _wrap_Line_GetY1}, 
+    {"GetZ1", _wrap_Line_GetZ1}, 
+    {"GetX2", _wrap_Line_GetX2}, 
+    {"GetY2", _wrap_Line_GetY2}, 
+    {"GetZ2", _wrap_Line_GetZ2}, 
+    {0,0}
+};
+static swig_lua_attribute swig_Line_attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_Line_bases[] = {&_wrap_class_PrimitiveBase,0};
+swig_lua_class _wrap_class_Line = { "Line", &SWIGTYPE_p_Line,_wrap_new_Line, swig_delete_Line, swig_Line_methods, swig_Line_attributes, swig_Line_bases };
+
+static int _wrap_new_Line2D(lua_State* L) {
+  int SWIG_arg = -1;
+  Point2DPointer arg1 ;
+  Point2DPointer arg2 ;
+  SketchPlanePointer arg3 ;
+  Line2D *result = 0 ;
+  Point2DPointer *argp1 ;
+  Point2DPointer *argp2 ;
+  SketchPlanePointer *argp3 ;
+  
+  if(!lua_isuserdata(L,1)) SWIG_fail_arg(1);
+  if(!lua_isuserdata(L,2)) SWIG_fail_arg(2);
+  if(!lua_isuserdata(L,3)) SWIG_fail_arg(3);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&argp1,SWIGTYPE_p_boost__shared_ptrTPoint2D_t,0))){
+    SWIG_fail_ptr("new_Line2D",1,SWIGTYPE_boost__shared_ptrTPoint2D_t);
+  }
+  arg1 = *argp1;
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&argp2,SWIGTYPE_p_boost__shared_ptrTPoint2D_t,0))){
+    SWIG_fail_ptr("new_Line2D",2,SWIGTYPE_boost__shared_ptrTPoint2D_t);
+  }
+  arg2 = *argp2;
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,3,(void**)&argp3,SWIGTYPE_p_boost__shared_ptrTSketchPlane_t,0))){
+    SWIG_fail_ptr("new_Line2D",3,SWIGTYPE_boost__shared_ptrTSketchPlane_t);
+  }
+  arg3 = *argp3;
+  
+  result = (Line2D *)new Line2D(arg1,arg2,arg3);
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_Line2D,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Line2D_GetS1(lua_State* L) {
+  int SWIG_arg = -1;
+  Line2D *arg1 = (Line2D *) 0 ;
+  DOFPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Line2D,0))){
+    SWIG_fail_ptr("Line2D_GetS1",1,SWIGTYPE_p_Line2D);
+  }
+  
+  result = ((Line2D const *)arg1)->GetS1();
+  SWIG_arg=0;
+  {
+    DOFPointer * resultptr = new DOFPointer((DOFPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTDOF_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Line2D_GetT1(lua_State* L) {
+  int SWIG_arg = -1;
+  Line2D *arg1 = (Line2D *) 0 ;
+  DOFPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Line2D,0))){
+    SWIG_fail_ptr("Line2D_GetT1",1,SWIGTYPE_p_Line2D);
+  }
+  
+  result = ((Line2D const *)arg1)->GetT1();
+  SWIG_arg=0;
+  {
+    DOFPointer * resultptr = new DOFPointer((DOFPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTDOF_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Line2D_GetS2(lua_State* L) {
+  int SWIG_arg = -1;
+  Line2D *arg1 = (Line2D *) 0 ;
+  DOFPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Line2D,0))){
+    SWIG_fail_ptr("Line2D_GetS2",1,SWIGTYPE_p_Line2D);
+  }
+  
+  result = ((Line2D const *)arg1)->GetS2();
+  SWIG_arg=0;
+  {
+    DOFPointer * resultptr = new DOFPointer((DOFPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTDOF_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Line2D_GetT2(lua_State* L) {
+  int SWIG_arg = -1;
+  Line2D *arg1 = (Line2D *) 0 ;
+  DOFPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Line2D,0))){
+    SWIG_fail_ptr("Line2D_GetT2",1,SWIGTYPE_p_Line2D);
+  }
+  
+  result = ((Line2D const *)arg1)->GetT2();
+  SWIG_arg=0;
+  {
+    DOFPointer * resultptr = new DOFPointer((DOFPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTDOF_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Line2D_Get3DLocations(lua_State* L) {
+  int SWIG_arg = -1;
+  Line2D *arg1 = (Line2D *) 0 ;
+  double *arg2 = 0 ;
+  double *arg3 = 0 ;
+  double *arg4 = 0 ;
+  double *arg5 = 0 ;
+  double *arg6 = 0 ;
+  double *arg7 = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  if(!lua_isuserdata(L,2)) SWIG_fail_arg(2);
+  if(!lua_isuserdata(L,3)) SWIG_fail_arg(3);
+  if(!lua_isuserdata(L,4)) SWIG_fail_arg(4);
+  if(!lua_isuserdata(L,5)) SWIG_fail_arg(5);
+  if(!lua_isuserdata(L,6)) SWIG_fail_arg(6);
+  if(!lua_isuserdata(L,7)) SWIG_fail_arg(7);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Line2D,0))){
+    SWIG_fail_ptr("Line2D_Get3DLocations",1,SWIGTYPE_p_Line2D);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&arg2,SWIGTYPE_p_double,0))){
+    SWIG_fail_ptr("Line2D_Get3DLocations",2,SWIGTYPE_p_double);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,3,(void**)&arg3,SWIGTYPE_p_double,0))){
+    SWIG_fail_ptr("Line2D_Get3DLocations",3,SWIGTYPE_p_double);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,4,(void**)&arg4,SWIGTYPE_p_double,0))){
+    SWIG_fail_ptr("Line2D_Get3DLocations",4,SWIGTYPE_p_double);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,5,(void**)&arg5,SWIGTYPE_p_double,0))){
+    SWIG_fail_ptr("Line2D_Get3DLocations",5,SWIGTYPE_p_double);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,6,(void**)&arg6,SWIGTYPE_p_double,0))){
+    SWIG_fail_ptr("Line2D_Get3DLocations",6,SWIGTYPE_p_double);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,7,(void**)&arg7,SWIGTYPE_p_double,0))){
+    SWIG_fail_ptr("Line2D_Get3DLocations",7,SWIGTYPE_p_double);
+  }
+  
+  (arg1)->Get3DLocations(*arg2,*arg3,*arg4,*arg5,*arg6,*arg7);
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Line2D_GetPoint1(lua_State* L) {
+  int SWIG_arg = -1;
+  Line2D *arg1 = (Line2D *) 0 ;
+  Point2DPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Line2D,0))){
+    SWIG_fail_ptr("Line2D_GetPoint1",1,SWIGTYPE_p_Line2D);
+  }
+  
+  result = (arg1)->GetPoint1();
+  SWIG_arg=0;
+  {
+    Point2DPointer * resultptr = new Point2DPointer((Point2DPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTPoint2D_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Line2D_GetPoint2(lua_State* L) {
+  int SWIG_arg = -1;
+  Line2D *arg1 = (Line2D *) 0 ;
+  Point2DPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Line2D,0))){
+    SWIG_fail_ptr("Line2D_GetPoint2",1,SWIGTYPE_p_Line2D);
+  }
+  
+  result = (arg1)->GetPoint2();
+  SWIG_arg=0;
+  {
+    Point2DPointer * resultptr = new Point2DPointer((Point2DPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTPoint2D_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Line2D_GetTangent1(lua_State* L) {
+  int SWIG_arg = -1;
+  Line2D *arg1 = (Line2D *) 0 ;
+  GiNaC::ex *arg2 = 0 ;
+  GiNaC::ex *arg3 = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  if(!lua_isuserdata(L,2)) SWIG_fail_arg(2);
+  if(!lua_isuserdata(L,3)) SWIG_fail_arg(3);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Line2D,0))){
+    SWIG_fail_ptr("Line2D_GetTangent1",1,SWIGTYPE_p_Line2D);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&arg2,SWIGTYPE_p_GiNaC__ex,0))){
+    SWIG_fail_ptr("Line2D_GetTangent1",2,SWIGTYPE_p_GiNaC__ex);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,3,(void**)&arg3,SWIGTYPE_p_GiNaC__ex,0))){
+    SWIG_fail_ptr("Line2D_GetTangent1",3,SWIGTYPE_p_GiNaC__ex);
+  }
+  
+  (arg1)->GetTangent1(*arg2,*arg3);
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Line2D_GetTangent2(lua_State* L) {
+  int SWIG_arg = -1;
+  Line2D *arg1 = (Line2D *) 0 ;
+  GiNaC::ex *arg2 = 0 ;
+  GiNaC::ex *arg3 = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  if(!lua_isuserdata(L,2)) SWIG_fail_arg(2);
+  if(!lua_isuserdata(L,3)) SWIG_fail_arg(3);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Line2D,0))){
+    SWIG_fail_ptr("Line2D_GetTangent2",1,SWIGTYPE_p_Line2D);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&arg2,SWIGTYPE_p_GiNaC__ex,0))){
+    SWIG_fail_ptr("Line2D_GetTangent2",2,SWIGTYPE_p_GiNaC__ex);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,3,(void**)&arg3,SWIGTYPE_p_GiNaC__ex,0))){
+    SWIG_fail_ptr("Line2D_GetTangent2",3,SWIGTYPE_p_GiNaC__ex);
+  }
+  
+  (arg1)->GetTangent2(*arg2,*arg3);
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_delete_Line2D(lua_State* L) {
+  int SWIG_arg = -1;
+  Line2D *arg1 = (Line2D *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Line2D,0))){
+    SWIG_fail_ptr("delete_Line2D",1,SWIGTYPE_p_Line2D);
+  }
+  
+  delete arg1;
+  
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_Line2D(void *obj) {
+Line2D *arg1 = (Line2D *) obj;
+delete arg1;
+}
+static swig_lua_method swig_Line2D_methods[] = {
+    {"GetS1", _wrap_Line2D_GetS1}, 
+    {"GetT1", _wrap_Line2D_GetT1}, 
+    {"GetS2", _wrap_Line2D_GetS2}, 
+    {"GetT2", _wrap_Line2D_GetT2}, 
+    {"Get3DLocations", _wrap_Line2D_Get3DLocations}, 
+    {"GetPoint1", _wrap_Line2D_GetPoint1}, 
+    {"GetPoint2", _wrap_Line2D_GetPoint2}, 
+    {"GetTangent1", _wrap_Line2D_GetTangent1}, 
+    {"GetTangent2", _wrap_Line2D_GetTangent2}, 
+    {0,0}
+};
+static swig_lua_attribute swig_Line2D_attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_Line2D_bases[] = {&_wrap_class_Edge2DBase,0};
+swig_lua_class _wrap_class_Line2D = { "Line2D", &SWIGTYPE_p_Line2D,_wrap_new_Line2D, swig_delete_Line2D, swig_Line2D_methods, swig_Line2D_attributes, swig_Line2D_bases };
+
+static int _wrap_delete_ConstraintEquationBase(lua_State* L) {
+  int SWIG_arg = -1;
+  ConstraintEquationBase *arg1 = (ConstraintEquationBase *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ConstraintEquationBase,0))){
+    SWIG_fail_ptr("delete_ConstraintEquationBase",1,SWIGTYPE_p_ConstraintEquationBase);
+  }
+  
+  delete arg1;
+  
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ConstraintEquationBase_GetDOFList(lua_State* L) {
+  int SWIG_arg = -1;
+  ConstraintEquationBase *arg1 = (ConstraintEquationBase *) 0 ;
+  std::vector<DOFPointer > *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ConstraintEquationBase,0))){
+    SWIG_fail_ptr("ConstraintEquationBase_GetDOFList",1,SWIGTYPE_p_ConstraintEquationBase);
+  }
+  
+  {
+    std::vector<DOFPointer > const &_result_ref = (arg1)->GetDOFList();
+    result = (std::vector<DOFPointer > *) &_result_ref;
+  }
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_std__vectorTboost__shared_ptrTDOF_t_t,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ConstraintEquationBase_GetConstraintList(lua_State* L) {
+  int SWIG_arg = -1;
+  ConstraintEquationBase *arg1 = (ConstraintEquationBase *) 0 ;
+  std::vector<boost::shared_ptr<GiNaC::ex > > *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ConstraintEquationBase,0))){
+    SWIG_fail_ptr("ConstraintEquationBase_GetConstraintList",1,SWIGTYPE_p_ConstraintEquationBase);
+  }
+  
+  {
+    std::vector<boost::shared_ptr<GiNaC::ex > > const &_result_ref = (arg1)->GetConstraintList();
+    result = (std::vector<boost::shared_ptr<GiNaC::ex > > *) &_result_ref;
+  }
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_std__vectorTboost__shared_ptrTGiNaC__ex_t_t,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ConstraintEquationBase_GetWeightList(lua_State* L) {
+  int SWIG_arg = -1;
+  ConstraintEquationBase *arg1 = (ConstraintEquationBase *) 0 ;
+  std::vector<double > *result = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ConstraintEquationBase,0))){
+    SWIG_fail_ptr("ConstraintEquationBase_GetWeightList",1,SWIGTYPE_p_ConstraintEquationBase);
+  }
+  
+  {
+    std::vector<double > const &_result_ref = (arg1)->GetWeightList();
+    result = (std::vector<double > *) &_result_ref;
+  }
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_std__vectorTdouble_t,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ConstraintEquationBase_Display(lua_State* L) {
+  int SWIG_arg = -1;
+  ConstraintEquationBase *arg1 = (ConstraintEquationBase *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ConstraintEquationBase,0))){
+    SWIG_fail_ptr("ConstraintEquationBase_Display",1,SWIGTYPE_p_ConstraintEquationBase);
+  }
+  
+  (arg1)->Display();
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ConstraintEquationBase_UpdateDisplay(lua_State* L) {
+  int SWIG_arg = -1;
+  ConstraintEquationBase *arg1 = (ConstraintEquationBase *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ConstraintEquationBase,0))){
+    SWIG_fail_ptr("ConstraintEquationBase_UpdateDisplay",1,SWIGTYPE_p_ConstraintEquationBase);
+  }
+  
+  (arg1)->UpdateDisplay();
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_ConstraintEquationBase(lua_State* L) {
+  int SWIG_arg = -1;
+  ConstraintEquationBase *result = 0 ;
+  
+  result = (ConstraintEquationBase *)new ConstraintEquationBase();
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_ConstraintEquationBase,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_ConstraintEquationBase(void *obj) {
+ConstraintEquationBase *arg1 = (ConstraintEquationBase *) obj;
+delete arg1;
+}
+static swig_lua_method swig_ConstraintEquationBase_methods[] = {
+    {"GetDOFList", _wrap_ConstraintEquationBase_GetDOFList}, 
+    {"GetConstraintList", _wrap_ConstraintEquationBase_GetConstraintList}, 
+    {"GetWeightList", _wrap_ConstraintEquationBase_GetWeightList}, 
+    {"Display", _wrap_ConstraintEquationBase_Display}, 
+    {"UpdateDisplay", _wrap_ConstraintEquationBase_UpdateDisplay}, 
+    {0,0}
+};
+static swig_lua_attribute swig_ConstraintEquationBase_attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_ConstraintEquationBase_bases[] = {0};
+swig_lua_class _wrap_class_ConstraintEquationBase = { "ConstraintEquationBase", &SWIGTYPE_p_ConstraintEquationBase,_wrap_new_ConstraintEquationBase, swig_delete_ConstraintEquationBase, swig_ConstraintEquationBase_methods, swig_ConstraintEquationBase_attributes, swig_ConstraintEquationBase_bases };
+
+static int _wrap_new_DistancePoint2D(lua_State* L) {
+  int SWIG_arg = -1;
+  Point2DPointer arg1 ;
+  Point2DPointer arg2 ;
+  double arg3 ;
+  DistancePoint2D *result = 0 ;
+  Point2DPointer *argp1 ;
+  Point2DPointer *argp2 ;
+  
+  if(!lua_isuserdata(L,1)) SWIG_fail_arg(1);
+  if(!lua_isuserdata(L,2)) SWIG_fail_arg(2);
+  if(!lua_isnumber(L,3)) SWIG_fail_arg(3);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&argp1,SWIGTYPE_p_boost__shared_ptrTPoint2D_t,0))){
+    SWIG_fail_ptr("new_DistancePoint2D",1,SWIGTYPE_boost__shared_ptrTPoint2D_t);
+  }
+  arg1 = *argp1;
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&argp2,SWIGTYPE_p_boost__shared_ptrTPoint2D_t,0))){
+    SWIG_fail_ptr("new_DistancePoint2D",2,SWIGTYPE_boost__shared_ptrTPoint2D_t);
+  }
+  arg2 = *argp2;
+  
+  arg3 = (double)lua_tonumber(L, 3);
+  result = (DistancePoint2D *)new DistancePoint2D(arg1,arg2,arg3);
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_DistancePoint2D,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_delete_DistancePoint2D(lua_State* L) {
+  int SWIG_arg = -1;
+  DistancePoint2D *arg1 = (DistancePoint2D *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_DistancePoint2D,0))){
+    SWIG_fail_ptr("delete_DistancePoint2D",1,SWIGTYPE_p_DistancePoint2D);
+  }
+  
+  delete arg1;
+  
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_DistancePoint2D(void *obj) {
+DistancePoint2D *arg1 = (DistancePoint2D *) obj;
+delete arg1;
+}
+static swig_lua_method swig_DistancePoint2D_methods[] = {
+    {0,0}
+};
+static swig_lua_attribute swig_DistancePoint2D_attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_DistancePoint2D_bases[] = {&_wrap_class_ConstraintEquationBase,0};
+swig_lua_class _wrap_class_DistancePoint2D = { "DistancePoint2D", &SWIGTYPE_p_DistancePoint2D,_wrap_new_DistancePoint2D, swig_delete_DistancePoint2D, swig_DistancePoint2D_methods, swig_DistancePoint2D_attributes, swig_DistancePoint2D_bases };
+
+static int _wrap_new_DistancePoint(lua_State* L) {
+  int SWIG_arg = -1;
+  PointPointer arg1 ;
+  PointPointer arg2 ;
+  double arg3 ;
+  DistancePoint *result = 0 ;
+  PointPointer *argp1 ;
+  PointPointer *argp2 ;
+  
+  if(!lua_isuserdata(L,1)) SWIG_fail_arg(1);
+  if(!lua_isuserdata(L,2)) SWIG_fail_arg(2);
+  if(!lua_isnumber(L,3)) SWIG_fail_arg(3);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&argp1,SWIGTYPE_p_boost__shared_ptrTPoint_t,0))){
+    SWIG_fail_ptr("new_DistancePoint",1,SWIGTYPE_boost__shared_ptrTPoint_t);
+  }
+  arg1 = *argp1;
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&argp2,SWIGTYPE_p_boost__shared_ptrTPoint_t,0))){
+    SWIG_fail_ptr("new_DistancePoint",2,SWIGTYPE_boost__shared_ptrTPoint_t);
+  }
+  arg2 = *argp2;
+  
+  arg3 = (double)lua_tonumber(L, 3);
+  result = (DistancePoint *)new DistancePoint(arg1,arg2,arg3);
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_DistancePoint,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_delete_DistancePoint(lua_State* L) {
+  int SWIG_arg = -1;
+  DistancePoint *arg1 = (DistancePoint *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_DistancePoint,0))){
+    SWIG_fail_ptr("delete_DistancePoint",1,SWIGTYPE_p_DistancePoint);
+  }
+  
+  delete arg1;
+  
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_DistancePoint(void *obj) {
+DistancePoint *arg1 = (DistancePoint *) obj;
+delete arg1;
+}
+static swig_lua_method swig_DistancePoint_methods[] = {
+    {0,0}
+};
+static swig_lua_attribute swig_DistancePoint_attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_DistancePoint_bases[] = {&_wrap_class_ConstraintEquationBase,0};
+swig_lua_class _wrap_class_DistancePoint = { "DistancePoint", &SWIGTYPE_p_DistancePoint,_wrap_new_DistancePoint, swig_delete_DistancePoint, swig_DistancePoint_methods, swig_DistancePoint_attributes, swig_DistancePoint_bases };
+
+static int _wrap_new_ParallelLine(lua_State* L) {
+  int SWIG_arg = -1;
+  LinePointer arg1 ;
+  LinePointer arg2 ;
+  ParallelLine *result = 0 ;
+  LinePointer *argp1 ;
+  LinePointer *argp2 ;
+  
+  if(!lua_isuserdata(L,1)) SWIG_fail_arg(1);
+  if(!lua_isuserdata(L,2)) SWIG_fail_arg(2);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&argp1,SWIGTYPE_p_boost__shared_ptrTLine_t,0))){
+    SWIG_fail_ptr("new_ParallelLine",1,SWIGTYPE_boost__shared_ptrTLine_t);
+  }
+  arg1 = *argp1;
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&argp2,SWIGTYPE_p_boost__shared_ptrTLine_t,0))){
+    SWIG_fail_ptr("new_ParallelLine",2,SWIGTYPE_boost__shared_ptrTLine_t);
+  }
+  arg2 = *argp2;
+  
+  result = (ParallelLine *)new ParallelLine(arg1,arg2);
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_ParallelLine,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_delete_ParallelLine(lua_State* L) {
+  int SWIG_arg = -1;
+  ParallelLine *arg1 = (ParallelLine *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ParallelLine,0))){
+    SWIG_fail_ptr("delete_ParallelLine",1,SWIGTYPE_p_ParallelLine);
+  }
+  
+  delete arg1;
+  
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_ParallelLine(void *obj) {
+ParallelLine *arg1 = (ParallelLine *) obj;
+delete arg1;
+}
+static swig_lua_method swig_ParallelLine_methods[] = {
+    {0,0}
+};
+static swig_lua_attribute swig_ParallelLine_attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_ParallelLine_bases[] = {&_wrap_class_ConstraintEquationBase,0};
+swig_lua_class _wrap_class_ParallelLine = { "ParallelLine", &SWIGTYPE_p_ParallelLine,_wrap_new_ParallelLine, swig_delete_ParallelLine, swig_ParallelLine_methods, swig_ParallelLine_attributes, swig_ParallelLine_bases };
+
+static int _wrap_new_ParallelLine2D(lua_State* L) {
+  int SWIG_arg = -1;
+  Line2DPointer arg1 ;
+  Line2DPointer arg2 ;
+  ParallelLine2D *result = 0 ;
+  Line2DPointer *argp1 ;
+  Line2DPointer *argp2 ;
+  
+  if(!lua_isuserdata(L,1)) SWIG_fail_arg(1);
+  if(!lua_isuserdata(L,2)) SWIG_fail_arg(2);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&argp1,SWIGTYPE_p_boost__shared_ptrTLine2D_t,0))){
+    SWIG_fail_ptr("new_ParallelLine2D",1,SWIGTYPE_boost__shared_ptrTLine2D_t);
+  }
+  arg1 = *argp1;
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&argp2,SWIGTYPE_p_boost__shared_ptrTLine2D_t,0))){
+    SWIG_fail_ptr("new_ParallelLine2D",2,SWIGTYPE_boost__shared_ptrTLine2D_t);
+  }
+  arg2 = *argp2;
+  
+  result = (ParallelLine2D *)new ParallelLine2D(arg1,arg2);
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_ParallelLine2D,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_delete_ParallelLine2D(lua_State* L) {
+  int SWIG_arg = -1;
+  ParallelLine2D *arg1 = (ParallelLine2D *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ParallelLine2D,0))){
+    SWIG_fail_ptr("delete_ParallelLine2D",1,SWIGTYPE_p_ParallelLine2D);
+  }
+  
+  delete arg1;
+  
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_ParallelLine2D(void *obj) {
+ParallelLine2D *arg1 = (ParallelLine2D *) obj;
+delete arg1;
+}
+static swig_lua_method swig_ParallelLine2D_methods[] = {
+    {0,0}
+};
+static swig_lua_attribute swig_ParallelLine2D_attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_ParallelLine2D_bases[] = {&_wrap_class_ConstraintEquationBase,0};
+swig_lua_class _wrap_class_ParallelLine2D = { "ParallelLine2D", &SWIGTYPE_p_ParallelLine2D,_wrap_new_ParallelLine2D, swig_delete_ParallelLine2D, swig_ParallelLine2D_methods, swig_ParallelLine2D_attributes, swig_ParallelLine2D_bases };
+
+static int _wrap_new_TangentEdge2D(lua_State* L) {
+  int SWIG_arg = -1;
+  Edge2DBasePointer arg1 ;
+  EdgePointNumber arg2 ;
+  Edge2DBasePointer arg3 ;
+  EdgePointNumber arg4 ;
+  TangentEdge2D *result = 0 ;
+  Edge2DBasePointer *argp1 ;
+  Edge2DBasePointer *argp3 ;
+  
+  if(!lua_isuserdata(L,1)) SWIG_fail_arg(1);
+  if(!lua_isnumber(L,2)) SWIG_fail_arg(2);
+  if(!lua_isuserdata(L,3)) SWIG_fail_arg(3);
+  if(!lua_isnumber(L,4)) SWIG_fail_arg(4);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&argp1,SWIGTYPE_p_boost__shared_ptrTEdge2DBase_t,0))){
+    SWIG_fail_ptr("new_TangentEdge2D",1,SWIGTYPE_boost__shared_ptrTEdge2DBase_t);
+  }
+  arg1 = *argp1;
+  
+  arg2 = (EdgePointNumber)(int)lua_tonumber(L, 2);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,3,(void**)&argp3,SWIGTYPE_p_boost__shared_ptrTEdge2DBase_t,0))){
+    SWIG_fail_ptr("new_TangentEdge2D",3,SWIGTYPE_boost__shared_ptrTEdge2DBase_t);
+  }
+  arg3 = *argp3;
+  
+  arg4 = (EdgePointNumber)(int)lua_tonumber(L, 4);
+  result = (TangentEdge2D *)new TangentEdge2D(arg1,arg2,arg3,arg4);
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_TangentEdge2D,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_delete_TangentEdge2D(lua_State* L) {
+  int SWIG_arg = -1;
+  TangentEdge2D *arg1 = (TangentEdge2D *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_TangentEdge2D,0))){
+    SWIG_fail_ptr("delete_TangentEdge2D",1,SWIGTYPE_p_TangentEdge2D);
+  }
+  
+  delete arg1;
+  
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_TangentEdge2D(void *obj) {
+TangentEdge2D *arg1 = (TangentEdge2D *) obj;
+delete arg1;
+}
+static swig_lua_method swig_TangentEdge2D_methods[] = {
+    {0,0}
+};
+static swig_lua_attribute swig_TangentEdge2D_attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_TangentEdge2D_bases[] = {&_wrap_class_ConstraintEquationBase,0};
+swig_lua_class _wrap_class_TangentEdge2D = { "TangentEdge2D", &SWIGTYPE_p_TangentEdge2D,_wrap_new_TangentEdge2D, swig_delete_TangentEdge2D, swig_TangentEdge2D_methods, swig_TangentEdge2D_attributes, swig_TangentEdge2D_bases };
+
+static int _wrap_new_AngleLine2D(lua_State* L) {
+  int SWIG_arg = -1;
+  Line2DPointer arg1 ;
+  Line2DPointer arg2 ;
+  double arg3 ;
+  AngleLine2D *result = 0 ;
+  Line2DPointer *argp1 ;
+  Line2DPointer *argp2 ;
+  
+  if(!lua_isuserdata(L,1)) SWIG_fail_arg(1);
+  if(!lua_isuserdata(L,2)) SWIG_fail_arg(2);
+  if(!lua_isnumber(L,3)) SWIG_fail_arg(3);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&argp1,SWIGTYPE_p_boost__shared_ptrTLine2D_t,0))){
+    SWIG_fail_ptr("new_AngleLine2D",1,SWIGTYPE_boost__shared_ptrTLine2D_t);
+  }
+  arg1 = *argp1;
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&argp2,SWIGTYPE_p_boost__shared_ptrTLine2D_t,0))){
+    SWIG_fail_ptr("new_AngleLine2D",2,SWIGTYPE_boost__shared_ptrTLine2D_t);
+  }
+  arg2 = *argp2;
+  
+  arg3 = (double)lua_tonumber(L, 3);
+  result = (AngleLine2D *)new AngleLine2D(arg1,arg2,arg3);
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_AngleLine2D,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_delete_AngleLine2D(lua_State* L) {
+  int SWIG_arg = -1;
+  AngleLine2D *arg1 = (AngleLine2D *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_AngleLine2D,0))){
+    SWIG_fail_ptr("delete_AngleLine2D",1,SWIGTYPE_p_AngleLine2D);
+  }
+  
+  delete arg1;
+  
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_AngleLine2D(void *obj) {
+AngleLine2D *arg1 = (AngleLine2D *) obj;
+delete arg1;
+}
+static swig_lua_method swig_AngleLine2D_methods[] = {
+    {0,0}
+};
+static swig_lua_attribute swig_AngleLine2D_attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_AngleLine2D_bases[] = {&_wrap_class_ConstraintEquationBase,0};
+swig_lua_class _wrap_class_AngleLine2D = { "AngleLine2D", &SWIGTYPE_p_AngleLine2D,_wrap_new_AngleLine2D, swig_delete_AngleLine2D, swig_AngleLine2D_methods, swig_AngleLine2D_attributes, swig_AngleLine2D_bases };
+
+static int _wrap_new_Arc2D__SWIG_0(lua_State* L) {
+  int SWIG_arg = -1;
+  double arg1 ;
+  double arg2 ;
+  double arg3 ;
+  double arg4 ;
+  double arg5 ;
+  SketchPlanePointer arg6 ;
+  bool arg7 ;
+  bool arg8 ;
+  bool arg9 ;
+  bool arg10 ;
+  bool arg11 ;
+  Arc2D *result = 0 ;
+  SketchPlanePointer *argp6 ;
+  
+  if(!lua_isnumber(L,1)) SWIG_fail_arg(1);
+  if(!lua_isnumber(L,2)) SWIG_fail_arg(2);
+  if(!lua_isnumber(L,3)) SWIG_fail_arg(3);
+  if(!lua_isnumber(L,4)) SWIG_fail_arg(4);
+  if(!lua_isnumber(L,5)) SWIG_fail_arg(5);
+  if(!lua_isuserdata(L,6)) SWIG_fail_arg(6);
+  if(!lua_isboolean(L,7)) SWIG_fail_arg(7);
+  if(!lua_isboolean(L,8)) SWIG_fail_arg(8);
+  if(!lua_isboolean(L,9)) SWIG_fail_arg(9);
+  if(!lua_isboolean(L,10)) SWIG_fail_arg(10);
+  if(!lua_isboolean(L,11)) SWIG_fail_arg(11);
+  arg1 = (double)lua_tonumber(L, 1);
+  arg2 = (double)lua_tonumber(L, 2);
+  arg3 = (double)lua_tonumber(L, 3);
+  arg4 = (double)lua_tonumber(L, 4);
+  arg5 = (double)lua_tonumber(L, 5);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,6,(void**)&argp6,SWIGTYPE_p_boost__shared_ptrTSketchPlane_t,0))){
+    SWIG_fail_ptr("new_Arc2D",6,SWIGTYPE_boost__shared_ptrTSketchPlane_t);
+  }
+  arg6 = *argp6;
+  
+  arg7 = (bool)lua_toboolean(L, 7);
+  arg8 = (bool)lua_toboolean(L, 8);
+  arg9 = (bool)lua_toboolean(L, 9);
+  arg10 = (bool)lua_toboolean(L, 10);
+  arg11 = (bool)lua_toboolean(L, 11);
+  result = (Arc2D *)new Arc2D(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11);
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_Arc2D,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_Arc2D__SWIG_1(lua_State* L) {
+  int SWIG_arg = -1;
+  double arg1 ;
+  double arg2 ;
+  double arg3 ;
+  double arg4 ;
+  double arg5 ;
+  SketchPlanePointer arg6 ;
+  bool arg7 ;
+  bool arg8 ;
+  bool arg9 ;
+  bool arg10 ;
+  Arc2D *result = 0 ;
+  SketchPlanePointer *argp6 ;
+  
+  if(!lua_isnumber(L,1)) SWIG_fail_arg(1);
+  if(!lua_isnumber(L,2)) SWIG_fail_arg(2);
+  if(!lua_isnumber(L,3)) SWIG_fail_arg(3);
+  if(!lua_isnumber(L,4)) SWIG_fail_arg(4);
+  if(!lua_isnumber(L,5)) SWIG_fail_arg(5);
+  if(!lua_isuserdata(L,6)) SWIG_fail_arg(6);
+  if(!lua_isboolean(L,7)) SWIG_fail_arg(7);
+  if(!lua_isboolean(L,8)) SWIG_fail_arg(8);
+  if(!lua_isboolean(L,9)) SWIG_fail_arg(9);
+  if(!lua_isboolean(L,10)) SWIG_fail_arg(10);
+  arg1 = (double)lua_tonumber(L, 1);
+  arg2 = (double)lua_tonumber(L, 2);
+  arg3 = (double)lua_tonumber(L, 3);
+  arg4 = (double)lua_tonumber(L, 4);
+  arg5 = (double)lua_tonumber(L, 5);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,6,(void**)&argp6,SWIGTYPE_p_boost__shared_ptrTSketchPlane_t,0))){
+    SWIG_fail_ptr("new_Arc2D",6,SWIGTYPE_boost__shared_ptrTSketchPlane_t);
+  }
+  arg6 = *argp6;
+  
+  arg7 = (bool)lua_toboolean(L, 7);
+  arg8 = (bool)lua_toboolean(L, 8);
+  arg9 = (bool)lua_toboolean(L, 9);
+  arg10 = (bool)lua_toboolean(L, 10);
+  result = (Arc2D *)new Arc2D(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10);
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_Arc2D,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_Arc2D__SWIG_2(lua_State* L) {
+  int SWIG_arg = -1;
+  double arg1 ;
+  double arg2 ;
+  double arg3 ;
+  double arg4 ;
+  double arg5 ;
+  SketchPlanePointer arg6 ;
+  bool arg7 ;
+  bool arg8 ;
+  bool arg9 ;
+  Arc2D *result = 0 ;
+  SketchPlanePointer *argp6 ;
+  
+  if(!lua_isnumber(L,1)) SWIG_fail_arg(1);
+  if(!lua_isnumber(L,2)) SWIG_fail_arg(2);
+  if(!lua_isnumber(L,3)) SWIG_fail_arg(3);
+  if(!lua_isnumber(L,4)) SWIG_fail_arg(4);
+  if(!lua_isnumber(L,5)) SWIG_fail_arg(5);
+  if(!lua_isuserdata(L,6)) SWIG_fail_arg(6);
+  if(!lua_isboolean(L,7)) SWIG_fail_arg(7);
+  if(!lua_isboolean(L,8)) SWIG_fail_arg(8);
+  if(!lua_isboolean(L,9)) SWIG_fail_arg(9);
+  arg1 = (double)lua_tonumber(L, 1);
+  arg2 = (double)lua_tonumber(L, 2);
+  arg3 = (double)lua_tonumber(L, 3);
+  arg4 = (double)lua_tonumber(L, 4);
+  arg5 = (double)lua_tonumber(L, 5);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,6,(void**)&argp6,SWIGTYPE_p_boost__shared_ptrTSketchPlane_t,0))){
+    SWIG_fail_ptr("new_Arc2D",6,SWIGTYPE_boost__shared_ptrTSketchPlane_t);
+  }
+  arg6 = *argp6;
+  
+  arg7 = (bool)lua_toboolean(L, 7);
+  arg8 = (bool)lua_toboolean(L, 8);
+  arg9 = (bool)lua_toboolean(L, 9);
+  result = (Arc2D *)new Arc2D(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9);
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_Arc2D,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_Arc2D__SWIG_3(lua_State* L) {
+  int SWIG_arg = -1;
+  double arg1 ;
+  double arg2 ;
+  double arg3 ;
+  double arg4 ;
+  double arg5 ;
+  SketchPlanePointer arg6 ;
+  bool arg7 ;
+  bool arg8 ;
+  Arc2D *result = 0 ;
+  SketchPlanePointer *argp6 ;
+  
+  if(!lua_isnumber(L,1)) SWIG_fail_arg(1);
+  if(!lua_isnumber(L,2)) SWIG_fail_arg(2);
+  if(!lua_isnumber(L,3)) SWIG_fail_arg(3);
+  if(!lua_isnumber(L,4)) SWIG_fail_arg(4);
+  if(!lua_isnumber(L,5)) SWIG_fail_arg(5);
+  if(!lua_isuserdata(L,6)) SWIG_fail_arg(6);
+  if(!lua_isboolean(L,7)) SWIG_fail_arg(7);
+  if(!lua_isboolean(L,8)) SWIG_fail_arg(8);
+  arg1 = (double)lua_tonumber(L, 1);
+  arg2 = (double)lua_tonumber(L, 2);
+  arg3 = (double)lua_tonumber(L, 3);
+  arg4 = (double)lua_tonumber(L, 4);
+  arg5 = (double)lua_tonumber(L, 5);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,6,(void**)&argp6,SWIGTYPE_p_boost__shared_ptrTSketchPlane_t,0))){
+    SWIG_fail_ptr("new_Arc2D",6,SWIGTYPE_boost__shared_ptrTSketchPlane_t);
+  }
+  arg6 = *argp6;
+  
+  arg7 = (bool)lua_toboolean(L, 7);
+  arg8 = (bool)lua_toboolean(L, 8);
+  result = (Arc2D *)new Arc2D(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8);
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_Arc2D,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_Arc2D__SWIG_4(lua_State* L) {
+  int SWIG_arg = -1;
+  double arg1 ;
+  double arg2 ;
+  double arg3 ;
+  double arg4 ;
+  double arg5 ;
+  SketchPlanePointer arg6 ;
+  bool arg7 ;
+  Arc2D *result = 0 ;
+  SketchPlanePointer *argp6 ;
+  
+  if(!lua_isnumber(L,1)) SWIG_fail_arg(1);
+  if(!lua_isnumber(L,2)) SWIG_fail_arg(2);
+  if(!lua_isnumber(L,3)) SWIG_fail_arg(3);
+  if(!lua_isnumber(L,4)) SWIG_fail_arg(4);
+  if(!lua_isnumber(L,5)) SWIG_fail_arg(5);
+  if(!lua_isuserdata(L,6)) SWIG_fail_arg(6);
+  if(!lua_isboolean(L,7)) SWIG_fail_arg(7);
+  arg1 = (double)lua_tonumber(L, 1);
+  arg2 = (double)lua_tonumber(L, 2);
+  arg3 = (double)lua_tonumber(L, 3);
+  arg4 = (double)lua_tonumber(L, 4);
+  arg5 = (double)lua_tonumber(L, 5);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,6,(void**)&argp6,SWIGTYPE_p_boost__shared_ptrTSketchPlane_t,0))){
+    SWIG_fail_ptr("new_Arc2D",6,SWIGTYPE_boost__shared_ptrTSketchPlane_t);
+  }
+  arg6 = *argp6;
+  
+  arg7 = (bool)lua_toboolean(L, 7);
+  result = (Arc2D *)new Arc2D(arg1,arg2,arg3,arg4,arg5,arg6,arg7);
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_Arc2D,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_Arc2D__SWIG_5(lua_State* L) {
+  int SWIG_arg = -1;
+  double arg1 ;
+  double arg2 ;
+  double arg3 ;
+  double arg4 ;
+  double arg5 ;
+  SketchPlanePointer arg6 ;
+  Arc2D *result = 0 ;
+  SketchPlanePointer *argp6 ;
+  
+  if(!lua_isnumber(L,1)) SWIG_fail_arg(1);
+  if(!lua_isnumber(L,2)) SWIG_fail_arg(2);
+  if(!lua_isnumber(L,3)) SWIG_fail_arg(3);
+  if(!lua_isnumber(L,4)) SWIG_fail_arg(4);
+  if(!lua_isnumber(L,5)) SWIG_fail_arg(5);
+  if(!lua_isuserdata(L,6)) SWIG_fail_arg(6);
+  arg1 = (double)lua_tonumber(L, 1);
+  arg2 = (double)lua_tonumber(L, 2);
+  arg3 = (double)lua_tonumber(L, 3);
+  arg4 = (double)lua_tonumber(L, 4);
+  arg5 = (double)lua_tonumber(L, 5);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,6,(void**)&argp6,SWIGTYPE_p_boost__shared_ptrTSketchPlane_t,0))){
+    SWIG_fail_ptr("new_Arc2D",6,SWIGTYPE_boost__shared_ptrTSketchPlane_t);
+  }
+  arg6 = *argp6;
+  
+  result = (Arc2D *)new Arc2D(arg1,arg2,arg3,arg4,arg5,arg6);
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_Arc2D,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_Arc2D(lua_State* L) {
+  int argc;
+  int argv[12]={
+    1,2,3,4,5,6,7,8,9,10,11,12
+  };
+  
+  argc = lua_gettop(L);
+  if (argc == 6) {
+    int _v;
+    {
+      _v = lua_isnumber(L,argv[0]);
+    }
+    if (_v) {
+      {
+        _v = lua_isnumber(L,argv[1]);
+      }
+      if (_v) {
+        {
+          _v = lua_isnumber(L,argv[2]);
+        }
+        if (_v) {
+          {
+            _v = lua_isnumber(L,argv[3]);
+          }
+          if (_v) {
+            {
+              _v = lua_isnumber(L,argv[4]);
+            }
+            if (_v) {
+              {
+                void *ptr;
+                if (lua_isuserdata(L,argv[5])==0 || SWIG_ConvertPtr(L,argv[5], (void **) &ptr, SWIGTYPE_boost__shared_ptrTSketchPlane_t, 0)) {
+                  _v = 0;
+                } else {
+                  _v = 1;
+                }
+              }
+              if (_v) {
+                return _wrap_new_Arc2D__SWIG_5(L);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  if (argc == 7) {
+    int _v;
+    {
+      _v = lua_isnumber(L,argv[0]);
+    }
+    if (_v) {
+      {
+        _v = lua_isnumber(L,argv[1]);
+      }
+      if (_v) {
+        {
+          _v = lua_isnumber(L,argv[2]);
+        }
+        if (_v) {
+          {
+            _v = lua_isnumber(L,argv[3]);
+          }
+          if (_v) {
+            {
+              _v = lua_isnumber(L,argv[4]);
+            }
+            if (_v) {
+              {
+                void *ptr;
+                if (lua_isuserdata(L,argv[5])==0 || SWIG_ConvertPtr(L,argv[5], (void **) &ptr, SWIGTYPE_boost__shared_ptrTSketchPlane_t, 0)) {
+                  _v = 0;
+                } else {
+                  _v = 1;
+                }
+              }
+              if (_v) {
+                {
+                  _v = lua_isboolean(L,argv[6]);
+                }
+                if (_v) {
+                  return _wrap_new_Arc2D__SWIG_4(L);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  if (argc == 8) {
+    int _v;
+    {
+      _v = lua_isnumber(L,argv[0]);
+    }
+    if (_v) {
+      {
+        _v = lua_isnumber(L,argv[1]);
+      }
+      if (_v) {
+        {
+          _v = lua_isnumber(L,argv[2]);
+        }
+        if (_v) {
+          {
+            _v = lua_isnumber(L,argv[3]);
+          }
+          if (_v) {
+            {
+              _v = lua_isnumber(L,argv[4]);
+            }
+            if (_v) {
+              {
+                void *ptr;
+                if (lua_isuserdata(L,argv[5])==0 || SWIG_ConvertPtr(L,argv[5], (void **) &ptr, SWIGTYPE_boost__shared_ptrTSketchPlane_t, 0)) {
+                  _v = 0;
+                } else {
+                  _v = 1;
+                }
+              }
+              if (_v) {
+                {
+                  _v = lua_isboolean(L,argv[6]);
+                }
+                if (_v) {
+                  {
+                    _v = lua_isboolean(L,argv[7]);
+                  }
+                  if (_v) {
+                    return _wrap_new_Arc2D__SWIG_3(L);
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  if (argc == 9) {
+    int _v;
+    {
+      _v = lua_isnumber(L,argv[0]);
+    }
+    if (_v) {
+      {
+        _v = lua_isnumber(L,argv[1]);
+      }
+      if (_v) {
+        {
+          _v = lua_isnumber(L,argv[2]);
+        }
+        if (_v) {
+          {
+            _v = lua_isnumber(L,argv[3]);
+          }
+          if (_v) {
+            {
+              _v = lua_isnumber(L,argv[4]);
+            }
+            if (_v) {
+              {
+                void *ptr;
+                if (lua_isuserdata(L,argv[5])==0 || SWIG_ConvertPtr(L,argv[5], (void **) &ptr, SWIGTYPE_boost__shared_ptrTSketchPlane_t, 0)) {
+                  _v = 0;
+                } else {
+                  _v = 1;
+                }
+              }
+              if (_v) {
+                {
+                  _v = lua_isboolean(L,argv[6]);
+                }
+                if (_v) {
+                  {
+                    _v = lua_isboolean(L,argv[7]);
+                  }
+                  if (_v) {
+                    {
+                      _v = lua_isboolean(L,argv[8]);
+                    }
+                    if (_v) {
+                      return _wrap_new_Arc2D__SWIG_2(L);
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  if (argc == 10) {
+    int _v;
+    {
+      _v = lua_isnumber(L,argv[0]);
+    }
+    if (_v) {
+      {
+        _v = lua_isnumber(L,argv[1]);
+      }
+      if (_v) {
+        {
+          _v = lua_isnumber(L,argv[2]);
+        }
+        if (_v) {
+          {
+            _v = lua_isnumber(L,argv[3]);
+          }
+          if (_v) {
+            {
+              _v = lua_isnumber(L,argv[4]);
+            }
+            if (_v) {
+              {
+                void *ptr;
+                if (lua_isuserdata(L,argv[5])==0 || SWIG_ConvertPtr(L,argv[5], (void **) &ptr, SWIGTYPE_boost__shared_ptrTSketchPlane_t, 0)) {
+                  _v = 0;
+                } else {
+                  _v = 1;
+                }
+              }
+              if (_v) {
+                {
+                  _v = lua_isboolean(L,argv[6]);
+                }
+                if (_v) {
+                  {
+                    _v = lua_isboolean(L,argv[7]);
+                  }
+                  if (_v) {
+                    {
+                      _v = lua_isboolean(L,argv[8]);
+                    }
+                    if (_v) {
+                      {
+                        _v = lua_isboolean(L,argv[9]);
+                      }
+                      if (_v) {
+                        return _wrap_new_Arc2D__SWIG_1(L);
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  if (argc == 11) {
+    int _v;
+    {
+      _v = lua_isnumber(L,argv[0]);
+    }
+    if (_v) {
+      {
+        _v = lua_isnumber(L,argv[1]);
+      }
+      if (_v) {
+        {
+          _v = lua_isnumber(L,argv[2]);
+        }
+        if (_v) {
+          {
+            _v = lua_isnumber(L,argv[3]);
+          }
+          if (_v) {
+            {
+              _v = lua_isnumber(L,argv[4]);
+            }
+            if (_v) {
+              {
+                void *ptr;
+                if (lua_isuserdata(L,argv[5])==0 || SWIG_ConvertPtr(L,argv[5], (void **) &ptr, SWIGTYPE_boost__shared_ptrTSketchPlane_t, 0)) {
+                  _v = 0;
+                } else {
+                  _v = 1;
+                }
+              }
+              if (_v) {
+                {
+                  _v = lua_isboolean(L,argv[6]);
+                }
+                if (_v) {
+                  {
+                    _v = lua_isboolean(L,argv[7]);
+                  }
+                  if (_v) {
+                    {
+                      _v = lua_isboolean(L,argv[8]);
+                    }
+                    if (_v) {
+                      {
+                        _v = lua_isboolean(L,argv[9]);
+                      }
+                      if (_v) {
+                        {
+                          _v = lua_isboolean(L,argv[10]);
+                        }
+                        if (_v) {
+                          return _wrap_new_Arc2D__SWIG_0(L);
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  lua_pushstring(L,"No matching function for overloaded 'new_Arc2D'");
+  lua_error(L);return 0;
+}
+
+
+static int _wrap_Arc2D_GetSCenter(lua_State* L) {
+  int SWIG_arg = -1;
+  Arc2D *arg1 = (Arc2D *) 0 ;
+  DOFPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Arc2D,0))){
+    SWIG_fail_ptr("Arc2D_GetSCenter",1,SWIGTYPE_p_Arc2D);
+  }
+  
+  result = ((Arc2D const *)arg1)->GetSCenter();
+  SWIG_arg=0;
+  {
+    DOFPointer * resultptr = new DOFPointer((DOFPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTDOF_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Arc2D_GetTCenter(lua_State* L) {
+  int SWIG_arg = -1;
+  Arc2D *arg1 = (Arc2D *) 0 ;
+  DOFPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Arc2D,0))){
+    SWIG_fail_ptr("Arc2D_GetTCenter",1,SWIGTYPE_p_Arc2D);
+  }
+  
+  result = ((Arc2D const *)arg1)->GetTCenter();
+  SWIG_arg=0;
+  {
+    DOFPointer * resultptr = new DOFPointer((DOFPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTDOF_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Arc2D_GetTheta1(lua_State* L) {
+  int SWIG_arg = -1;
+  Arc2D *arg1 = (Arc2D *) 0 ;
+  DOFPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Arc2D,0))){
+    SWIG_fail_ptr("Arc2D_GetTheta1",1,SWIGTYPE_p_Arc2D);
+  }
+  
+  result = ((Arc2D const *)arg1)->GetTheta1();
+  SWIG_arg=0;
+  {
+    DOFPointer * resultptr = new DOFPointer((DOFPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTDOF_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Arc2D_GetTheta2(lua_State* L) {
+  int SWIG_arg = -1;
+  Arc2D *arg1 = (Arc2D *) 0 ;
+  DOFPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Arc2D,0))){
+    SWIG_fail_ptr("Arc2D_GetTheta2",1,SWIGTYPE_p_Arc2D);
+  }
+  
+  result = ((Arc2D const *)arg1)->GetTheta2();
+  SWIG_arg=0;
+  {
+    DOFPointer * resultptr = new DOFPointer((DOFPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTDOF_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Arc2D_GetRadius(lua_State* L) {
+  int SWIG_arg = -1;
+  Arc2D *arg1 = (Arc2D *) 0 ;
+  DOFPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Arc2D,0))){
+    SWIG_fail_ptr("Arc2D_GetRadius",1,SWIGTYPE_p_Arc2D);
+  }
+  
+  result = ((Arc2D const *)arg1)->GetRadius();
+  SWIG_arg=0;
+  {
+    DOFPointer * resultptr = new DOFPointer((DOFPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTDOF_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Arc2D_Get3DLocations(lua_State* L) {
+  int SWIG_arg = -1;
+  Arc2D *arg1 = (Arc2D *) 0 ;
+  double *arg2 = 0 ;
+  double *arg3 = 0 ;
+  double *arg4 = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  if(!lua_isuserdata(L,2)) SWIG_fail_arg(2);
+  if(!lua_isuserdata(L,3)) SWIG_fail_arg(3);
+  if(!lua_isuserdata(L,4)) SWIG_fail_arg(4);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Arc2D,0))){
+    SWIG_fail_ptr("Arc2D_Get3DLocations",1,SWIGTYPE_p_Arc2D);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&arg2,SWIGTYPE_p_double,0))){
+    SWIG_fail_ptr("Arc2D_Get3DLocations",2,SWIGTYPE_p_double);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,3,(void**)&arg3,SWIGTYPE_p_double,0))){
+    SWIG_fail_ptr("Arc2D_Get3DLocations",3,SWIGTYPE_p_double);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,4,(void**)&arg4,SWIGTYPE_p_double,0))){
+    SWIG_fail_ptr("Arc2D_Get3DLocations",4,SWIGTYPE_p_double);
+  }
+  
+  (arg1)->Get3DLocations(*arg2,*arg3,*arg4);
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Arc2D_GetPoint1(lua_State* L) {
+  int SWIG_arg = -1;
+  Arc2D *arg1 = (Arc2D *) 0 ;
+  Point2DPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Arc2D,0))){
+    SWIG_fail_ptr("Arc2D_GetPoint1",1,SWIGTYPE_p_Arc2D);
+  }
+  
+  result = (arg1)->GetPoint1();
+  SWIG_arg=0;
+  {
+    Point2DPointer * resultptr = new Point2DPointer((Point2DPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTPoint2D_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Arc2D_GetPoint2(lua_State* L) {
+  int SWIG_arg = -1;
+  Arc2D *arg1 = (Arc2D *) 0 ;
+  Point2DPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Arc2D,0))){
+    SWIG_fail_ptr("Arc2D_GetPoint2",1,SWIGTYPE_p_Arc2D);
+  }
+  
+  result = (arg1)->GetPoint2();
+  SWIG_arg=0;
+  {
+    Point2DPointer * resultptr = new Point2DPointer((Point2DPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTPoint2D_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Arc2D_GeneratePoint1(lua_State* L) {
+  int SWIG_arg = -1;
+  Arc2D *arg1 = (Arc2D *) 0 ;
+  Point2DPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Arc2D,0))){
+    SWIG_fail_ptr("Arc2D_GeneratePoint1",1,SWIGTYPE_p_Arc2D);
+  }
+  
+  result = (arg1)->GeneratePoint1();
+  SWIG_arg=0;
+  {
+    Point2DPointer * resultptr = new Point2DPointer((Point2DPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTPoint2D_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Arc2D_GeneratePoint2(lua_State* L) {
+  int SWIG_arg = -1;
+  Arc2D *arg1 = (Arc2D *) 0 ;
+  Point2DPointer result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Arc2D,0))){
+    SWIG_fail_ptr("Arc2D_GeneratePoint2",1,SWIGTYPE_p_Arc2D);
+  }
+  
+  result = (arg1)->GeneratePoint2();
+  SWIG_arg=0;
+  {
+    Point2DPointer * resultptr = new Point2DPointer((Point2DPointer &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_boost__shared_ptrTPoint2D_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Arc2D_GetTangent1(lua_State* L) {
+  int SWIG_arg = -1;
+  Arc2D *arg1 = (Arc2D *) 0 ;
+  GiNaC::ex *arg2 = 0 ;
+  GiNaC::ex *arg3 = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  if(!lua_isuserdata(L,2)) SWIG_fail_arg(2);
+  if(!lua_isuserdata(L,3)) SWIG_fail_arg(3);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Arc2D,0))){
+    SWIG_fail_ptr("Arc2D_GetTangent1",1,SWIGTYPE_p_Arc2D);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&arg2,SWIGTYPE_p_GiNaC__ex,0))){
+    SWIG_fail_ptr("Arc2D_GetTangent1",2,SWIGTYPE_p_GiNaC__ex);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,3,(void**)&arg3,SWIGTYPE_p_GiNaC__ex,0))){
+    SWIG_fail_ptr("Arc2D_GetTangent1",3,SWIGTYPE_p_GiNaC__ex);
+  }
+  
+  (arg1)->GetTangent1(*arg2,*arg3);
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Arc2D_GetTangent2(lua_State* L) {
+  int SWIG_arg = -1;
+  Arc2D *arg1 = (Arc2D *) 0 ;
+  GiNaC::ex *arg2 = 0 ;
+  GiNaC::ex *arg3 = 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  if(!lua_isuserdata(L,2)) SWIG_fail_arg(2);
+  if(!lua_isuserdata(L,3)) SWIG_fail_arg(3);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Arc2D,0))){
+    SWIG_fail_ptr("Arc2D_GetTangent2",1,SWIGTYPE_p_Arc2D);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&arg2,SWIGTYPE_p_GiNaC__ex,0))){
+    SWIG_fail_ptr("Arc2D_GetTangent2",2,SWIGTYPE_p_GiNaC__ex);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,3,(void**)&arg3,SWIGTYPE_p_GiNaC__ex,0))){
+    SWIG_fail_ptr("Arc2D_GetTangent2",3,SWIGTYPE_p_GiNaC__ex);
+  }
+  
+  (arg1)->GetTangent2(*arg2,*arg3);
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_delete_Arc2D(lua_State* L) {
+  int SWIG_arg = -1;
+  Arc2D *arg1 = (Arc2D *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Arc2D,0))){
+    SWIG_fail_ptr("delete_Arc2D",1,SWIGTYPE_p_Arc2D);
+  }
+  
+  delete arg1;
+  
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_Arc2D(void *obj) {
+Arc2D *arg1 = (Arc2D *) obj;
+delete arg1;
+}
+static swig_lua_method swig_Arc2D_methods[] = {
+    {"GetSCenter", _wrap_Arc2D_GetSCenter}, 
+    {"GetTCenter", _wrap_Arc2D_GetTCenter}, 
+    {"GetTheta1", _wrap_Arc2D_GetTheta1}, 
+    {"GetTheta2", _wrap_Arc2D_GetTheta2}, 
+    {"GetRadius", _wrap_Arc2D_GetRadius}, 
+    {"Get3DLocations", _wrap_Arc2D_Get3DLocations}, 
+    {"GetPoint1", _wrap_Arc2D_GetPoint1}, 
+    {"GetPoint2", _wrap_Arc2D_GetPoint2}, 
+    {"GeneratePoint1", _wrap_Arc2D_GeneratePoint1}, 
+    {"GeneratePoint2", _wrap_Arc2D_GeneratePoint2}, 
+    {"GetTangent1", _wrap_Arc2D_GetTangent1}, 
+    {"GetTangent2", _wrap_Arc2D_GetTangent2}, 
+    {0,0}
+};
+static swig_lua_attribute swig_Arc2D_attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_Arc2D_bases[] = {&_wrap_class_Edge2DBase,0};
+swig_lua_class _wrap_class_Arc2D = { "Arc2D", &SWIGTYPE_p_Arc2D,_wrap_new_Arc2D, swig_delete_Arc2D, swig_Arc2D_methods, swig_Arc2D_attributes, swig_Arc2D_bases };
+
+static int _wrap_new_EdgeLoop2D__SWIG_0(lua_State* L) {
+  int SWIG_arg = -1;
+  EdgeLoop2D *result = 0 ;
+  
+  result = (EdgeLoop2D *)new EdgeLoop2D();
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_EdgeLoop2D,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_EdgeLoop2D__SWIG_1(lua_State* L) {
+  int SWIG_arg = -1;
+  SwigValueWrapper<std::vector<boost::shared_ptr<Edge2DBase > > > arg1 ;
+  EdgeLoop2D *result = 0 ;
+  std::vector<Edge2DBasePointer > *argp1 ;
+  
+  if(!lua_isuserdata(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&argp1,SWIGTYPE_p_std__vectorTboost__shared_ptrTEdge2DBase_t_t,0))){
+    SWIG_fail_ptr("new_EdgeLoop2D",1,SWIGTYPE_std__vectorTboost__shared_ptrTEdge2DBase_t_t);
+  }
+  arg1 = *argp1;
+  
+  result = (EdgeLoop2D *)new EdgeLoop2D(arg1);
+  SWIG_arg=0;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_EdgeLoop2D,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_EdgeLoop2D(lua_State* L) {
+  int argc;
+  int argv[2]={
+    1,2
+  };
+  
+  argc = lua_gettop(L);
+  if (argc == 0) {
+    return _wrap_new_EdgeLoop2D__SWIG_0(L);
+  }
+  if (argc == 1) {
+    int _v;
+    {
+      void *ptr;
+      if (lua_isuserdata(L,argv[0])==0 || SWIG_ConvertPtr(L,argv[0], (void **) &ptr, SWIGTYPE_std__vectorTboost__shared_ptrTEdge2DBase_t_t, 0)) {
+        _v = 0;
+      } else {
+        _v = 1;
+      }
+    }
+    if (_v) {
+      return _wrap_new_EdgeLoop2D__SWIG_1(L);
+    }
+  }
+  
+  lua_pushstring(L,"No matching function for overloaded 'new_EdgeLoop2D'");
+  lua_error(L);return 0;
+}
+
+
+static int _wrap_delete_EdgeLoop2D(lua_State* L) {
+  int SWIG_arg = -1;
+  EdgeLoop2D *arg1 = (EdgeLoop2D *) 0 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_EdgeLoop2D,0))){
+    SWIG_fail_ptr("delete_EdgeLoop2D",1,SWIGTYPE_p_EdgeLoop2D);
+  }
+  
+  delete arg1;
+  
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_EdgeLoop2D_AddEdge(lua_State* L) {
+  int SWIG_arg = -1;
+  EdgeLoop2D *arg1 = (EdgeLoop2D *) 0 ;
+  Edge2DBasePointer arg2 ;
+  Edge2DBasePointer *argp2 ;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  if(!lua_isuserdata(L,2)) SWIG_fail_arg(2);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_EdgeLoop2D,0))){
+    SWIG_fail_ptr("EdgeLoop2D_AddEdge",1,SWIGTYPE_p_EdgeLoop2D);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&argp2,SWIGTYPE_p_boost__shared_ptrTEdge2DBase_t,0))){
+    SWIG_fail_ptr("EdgeLoop2D_AddEdge",2,SWIGTYPE_boost__shared_ptrTEdge2DBase_t);
+  }
+  arg2 = *argp2;
+  
+  (arg1)->AddEdge(arg2);
+  SWIG_arg=0;
+  
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_EdgeLoop2D_IsLoopValid(lua_State* L) {
+  int SWIG_arg = -1;
+  EdgeLoop2D *arg1 = (EdgeLoop2D *) 0 ;
+  bool result;
+  
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg(1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_EdgeLoop2D,0))){
+    SWIG_fail_ptr("EdgeLoop2D_IsLoopValid",1,SWIGTYPE_p_EdgeLoop2D);
+  }
+  
+  result = (bool)(arg1)->IsLoopValid();
+  SWIG_arg=0;
+  lua_pushboolean(L,(int)result); SWIG_arg++;
+  return SWIG_arg;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_EdgeLoop2D(void *obj) {
+EdgeLoop2D *arg1 = (EdgeLoop2D *) obj;
+delete arg1;
+}
+static swig_lua_method swig_EdgeLoop2D_methods[] = {
+    {"AddEdge", _wrap_EdgeLoop2D_AddEdge}, 
+    {"IsLoopValid", _wrap_EdgeLoop2D_IsLoopValid}, 
+    {0,0}
+};
+static swig_lua_attribute swig_EdgeLoop2D_attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_EdgeLoop2D_bases[] = {0};
+swig_lua_class _wrap_class_EdgeLoop2D = { "EdgeLoop2D", &SWIGTYPE_p_EdgeLoop2D,_wrap_new_EdgeLoop2D, swig_delete_EdgeLoop2D, swig_EdgeLoop2D_methods, swig_EdgeLoop2D_attributes, swig_EdgeLoop2D_bases };
 
 static int _wrap_CreatePoint2D(lua_State* L) {
   int SWIG_arg = -1;
@@ -7708,6 +12478,113 @@ swig_lua_class _wrap_class_boost_shared_ptr_Sl_EdgeLoop2D_Sg_ = { "EdgeLoop2DPoi
 static const struct luaL_reg swig_commands[] = {
     { "new_PrimitiveException", _wrap_new_PrimitiveException},
     { "delete_PrimitiveException", _wrap_delete_PrimitiveException},
+    { "delete_DOF", _wrap_delete_DOF},
+    { "DOF_SetValue", _wrap_DOF_SetValue},
+    { "DOF_GetValue", _wrap_DOF_GetValue},
+    { "DOF_GetExpression", _wrap_DOF_GetExpression},
+    { "DOF_GetVariable", _wrap_DOF_GetVariable},
+    { "DOF_IsFree", _wrap_DOF_IsFree},
+    { "DOF_IsDependent", _wrap_DOF_IsDependent},
+    { "new_IndependentDOF",_wrap_new_IndependentDOF},
+    { "IndependentDOF_SetValue", _wrap_IndependentDOF_SetValue},
+    { "IndependentDOF_GetValue", _wrap_IndependentDOF_GetValue},
+    { "delete_IndependentDOF", _wrap_delete_IndependentDOF},
+    { "new_DependentDOF",_wrap_new_DependentDOF},
+    { "delete_DependentDOF", _wrap_delete_DependentDOF},
+    { "DependentDOF_SetValue", _wrap_DependentDOF_SetValue},
+    { "DependentDOF_GetValue", _wrap_DependentDOF_GetValue},
+    { "DependentDOF_GetExpression", _wrap_DependentDOF_GetExpression},
+    { "delete_PrimitiveBase", _wrap_delete_PrimitiveBase},
+    { "PrimitiveBase_GetDOFList", _wrap_PrimitiveBase_GetDOFList},
+    { "PrimitiveBase_Display", _wrap_PrimitiveBase_Display},
+    { "PrimitiveBase_UpdateDisplay", _wrap_PrimitiveBase_UpdateDisplay},
+    { "new_PrimitiveBase", _wrap_new_PrimitiveBase},
+    { "new_Point",_wrap_new_Point},
+    { "Point_GetXDOF", _wrap_Point_GetXDOF},
+    { "Point_GetYDOF", _wrap_Point_GetYDOF},
+    { "Point_GetZDOF", _wrap_Point_GetZDOF},
+    { "Point_GetmmcMatrix", _wrap_Point_GetmmcMatrix},
+    { "delete_Point", _wrap_delete_Point},
+    { "new_Vector",_wrap_new_Vector},
+    { "Vector_GetmmcMatrix", _wrap_Vector_GetmmcMatrix},
+    { "delete_Vector", _wrap_delete_Vector},
+    { "new_SketchPlane", _wrap_new_SketchPlane},
+    { "SketchPlane_Get3DLocation", _wrap_SketchPlane_Get3DLocation},
+    { "SketchPlane_GetABCD", _wrap_SketchPlane_GetABCD},
+    { "SketchPlane_GetNormal", _wrap_SketchPlane_GetNormal},
+    { "SketchPlane_GetUp", _wrap_SketchPlane_GetUp},
+    { "SketchPlane_GetBase", _wrap_SketchPlane_GetBase},
+    { "delete_SketchPlane", _wrap_delete_SketchPlane},
+    { "new_Primitive2DBase", _wrap_new_Primitive2DBase},
+    { "Primitive2DBase_GetSketchPlane", _wrap_Primitive2DBase_GetSketchPlane},
+    { "delete_Primitive2DBase", _wrap_delete_Primitive2DBase},
+    { "new_Point2D",_wrap_new_Point2D},
+    { "Point2D_GetSDOF", _wrap_Point2D_GetSDOF},
+    { "Point2D_GetTDOF", _wrap_Point2D_GetTDOF},
+    { "Point2D_Get3DLocation", _wrap_Point2D_Get3DLocation},
+    { "delete_Point2D", _wrap_delete_Point2D},
+    { "delete_Edge2DBase", _wrap_delete_Edge2DBase},
+    { "Edge2DBase_GetPoint1", _wrap_Edge2DBase_GetPoint1},
+    { "Edge2DBase_GetPoint2", _wrap_Edge2DBase_GetPoint2},
+    { "Edge2DBase_GetTangent1", _wrap_Edge2DBase_GetTangent1},
+    { "Edge2DBase_GetTangent2", _wrap_Edge2DBase_GetTangent2},
+    { "Edge2DBase_IsPointCoincident", _wrap_Edge2DBase_IsPointCoincident},
+    { "new_Line", _wrap_new_Line},
+    { "Line_GetX1", _wrap_Line_GetX1},
+    { "Line_GetY1", _wrap_Line_GetY1},
+    { "Line_GetZ1", _wrap_Line_GetZ1},
+    { "Line_GetX2", _wrap_Line_GetX2},
+    { "Line_GetY2", _wrap_Line_GetY2},
+    { "Line_GetZ2", _wrap_Line_GetZ2},
+    { "delete_Line", _wrap_delete_Line},
+    { "new_Line2D", _wrap_new_Line2D},
+    { "Line2D_GetS1", _wrap_Line2D_GetS1},
+    { "Line2D_GetT1", _wrap_Line2D_GetT1},
+    { "Line2D_GetS2", _wrap_Line2D_GetS2},
+    { "Line2D_GetT2", _wrap_Line2D_GetT2},
+    { "Line2D_Get3DLocations", _wrap_Line2D_Get3DLocations},
+    { "Line2D_GetPoint1", _wrap_Line2D_GetPoint1},
+    { "Line2D_GetPoint2", _wrap_Line2D_GetPoint2},
+    { "Line2D_GetTangent1", _wrap_Line2D_GetTangent1},
+    { "Line2D_GetTangent2", _wrap_Line2D_GetTangent2},
+    { "delete_Line2D", _wrap_delete_Line2D},
+    { "delete_ConstraintEquationBase", _wrap_delete_ConstraintEquationBase},
+    { "ConstraintEquationBase_GetDOFList", _wrap_ConstraintEquationBase_GetDOFList},
+    { "ConstraintEquationBase_GetConstraintList", _wrap_ConstraintEquationBase_GetConstraintList},
+    { "ConstraintEquationBase_GetWeightList", _wrap_ConstraintEquationBase_GetWeightList},
+    { "ConstraintEquationBase_Display", _wrap_ConstraintEquationBase_Display},
+    { "ConstraintEquationBase_UpdateDisplay", _wrap_ConstraintEquationBase_UpdateDisplay},
+    { "new_ConstraintEquationBase", _wrap_new_ConstraintEquationBase},
+    { "new_DistancePoint2D", _wrap_new_DistancePoint2D},
+    { "delete_DistancePoint2D", _wrap_delete_DistancePoint2D},
+    { "new_DistancePoint", _wrap_new_DistancePoint},
+    { "delete_DistancePoint", _wrap_delete_DistancePoint},
+    { "new_ParallelLine", _wrap_new_ParallelLine},
+    { "delete_ParallelLine", _wrap_delete_ParallelLine},
+    { "new_ParallelLine2D", _wrap_new_ParallelLine2D},
+    { "delete_ParallelLine2D", _wrap_delete_ParallelLine2D},
+    { "new_TangentEdge2D", _wrap_new_TangentEdge2D},
+    { "delete_TangentEdge2D", _wrap_delete_TangentEdge2D},
+    { "new_AngleLine2D", _wrap_new_AngleLine2D},
+    { "delete_AngleLine2D", _wrap_delete_AngleLine2D},
+    { "new_Arc2D",_wrap_new_Arc2D},
+    { "Arc2D_GetSCenter", _wrap_Arc2D_GetSCenter},
+    { "Arc2D_GetTCenter", _wrap_Arc2D_GetTCenter},
+    { "Arc2D_GetTheta1", _wrap_Arc2D_GetTheta1},
+    { "Arc2D_GetTheta2", _wrap_Arc2D_GetTheta2},
+    { "Arc2D_GetRadius", _wrap_Arc2D_GetRadius},
+    { "Arc2D_Get3DLocations", _wrap_Arc2D_Get3DLocations},
+    { "Arc2D_GetPoint1", _wrap_Arc2D_GetPoint1},
+    { "Arc2D_GetPoint2", _wrap_Arc2D_GetPoint2},
+    { "Arc2D_GeneratePoint1", _wrap_Arc2D_GeneratePoint1},
+    { "Arc2D_GeneratePoint2", _wrap_Arc2D_GeneratePoint2},
+    { "Arc2D_GetTangent1", _wrap_Arc2D_GetTangent1},
+    { "Arc2D_GetTangent2", _wrap_Arc2D_GetTangent2},
+    { "delete_Arc2D", _wrap_delete_Arc2D},
+    { "new_EdgeLoop2D",_wrap_new_EdgeLoop2D},
+    { "delete_EdgeLoop2D", _wrap_delete_EdgeLoop2D},
+    { "EdgeLoop2D_AddEdge", _wrap_EdgeLoop2D_AddEdge},
+    { "EdgeLoop2D_IsLoopValid", _wrap_EdgeLoop2D_IsLoopValid},
     { "CreatePoint2D", _wrap_CreatePoint2D},
     { "CreatePoint",_wrap_CreatePoint},
     { "CreateVector",_wrap_CreateVector},
@@ -7941,6 +12818,36 @@ static swig_lua_const_info swig_constants[] = {
 
 /* -------- TYPE CONVERSION AND EQUIVALENCE RULES (BEGIN) -------- */
 
+static void *_p_IndependentDOFTo_p_DOF(void *x) {
+    return (void *)((DOF *)  ((IndependentDOF *) x));
+}
+static void *_p_DependentDOFTo_p_DOF(void *x) {
+    return (void *)((DOF *)  ((DependentDOF *) x));
+}
+static void *_p_ParallelLine2DTo_p_ConstraintEquationBase(void *x) {
+    return (void *)((ConstraintEquationBase *)  ((ParallelLine2D *) x));
+}
+static void *_p_DistancePointTo_p_ConstraintEquationBase(void *x) {
+    return (void *)((ConstraintEquationBase *)  ((DistancePoint *) x));
+}
+static void *_p_ParallelLineTo_p_ConstraintEquationBase(void *x) {
+    return (void *)((ConstraintEquationBase *)  ((ParallelLine *) x));
+}
+static void *_p_TangentEdge2DTo_p_ConstraintEquationBase(void *x) {
+    return (void *)((ConstraintEquationBase *)  ((TangentEdge2D *) x));
+}
+static void *_p_AngleLine2DTo_p_ConstraintEquationBase(void *x) {
+    return (void *)((ConstraintEquationBase *)  ((AngleLine2D *) x));
+}
+static void *_p_DistancePoint2DTo_p_ConstraintEquationBase(void *x) {
+    return (void *)((ConstraintEquationBase *)  ((DistancePoint2D *) x));
+}
+static void *_p_Arc2DTo_p_Edge2DBase(void *x) {
+    return (void *)((Edge2DBase *)  ((Arc2D *) x));
+}
+static void *_p_Line2DTo_p_Edge2DBase(void *x) {
+    return (void *)((Edge2DBase *)  ((Line2D *) x));
+}
 static void *_p_Arc2DTo_p_Primitive2DBase(void *x) {
     return (void *)((Primitive2DBase *) (Edge2DBase *) ((Arc2D *) x));
 }
@@ -7952,18 +12859,6 @@ static void *_p_Line2DTo_p_Primitive2DBase(void *x) {
 }
 static void *_p_Point2DTo_p_Primitive2DBase(void *x) {
     return (void *)((Primitive2DBase *)  ((Point2D *) x));
-}
-static void *_p_Arc2DTo_p_Edge2DBase(void *x) {
-    return (void *)((Edge2DBase *)  ((Arc2D *) x));
-}
-static void *_p_Line2DTo_p_Edge2DBase(void *x) {
-    return (void *)((Edge2DBase *)  ((Line2D *) x));
-}
-static void *_p_IndependentDOFTo_p_DOF(void *x) {
-    return (void *)((DOF *)  ((IndependentDOF *) x));
-}
-static void *_p_DependentDOFTo_p_DOF(void *x) {
-    return (void *)((DOF *)  ((DependentDOF *) x));
 }
 static void *_p_PointTo_p_PrimitiveBase(void *x) {
     return (void *)((PrimitiveBase *)  ((Point *) x));
@@ -7992,55 +12887,40 @@ static void *_p_SketchPlaneTo_p_PrimitiveBase(void *x) {
 static void *_p_Point2DTo_p_PrimitiveBase(void *x) {
     return (void *)((PrimitiveBase *) (Primitive2DBase *) ((Point2D *) x));
 }
-static void *_p_ParallelLine2DTo_p_ConstraintEquationBase(void *x) {
-    return (void *)((ConstraintEquationBase *)  ((ParallelLine2D *) x));
-}
-static void *_p_DistancePointTo_p_ConstraintEquationBase(void *x) {
-    return (void *)((ConstraintEquationBase *)  ((DistancePoint *) x));
-}
-static void *_p_ParallelLineTo_p_ConstraintEquationBase(void *x) {
-    return (void *)((ConstraintEquationBase *)  ((ParallelLine *) x));
-}
-static void *_p_TangentEdge2DTo_p_ConstraintEquationBase(void *x) {
-    return (void *)((ConstraintEquationBase *)  ((TangentEdge2D *) x));
-}
-static void *_p_AngleLine2DTo_p_ConstraintEquationBase(void *x) {
-    return (void *)((ConstraintEquationBase *)  ((AngleLine2D *) x));
-}
-static void *_p_DistancePoint2DTo_p_ConstraintEquationBase(void *x) {
-    return (void *)((ConstraintEquationBase *)  ((DistancePoint2D *) x));
-}
+static swig_type_info _swigt__GiNaC__ex = {"_GiNaC__ex", "GiNaC::ex", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__boost__shared_ptrTDOF_t = {"_boost__shared_ptrTDOF_t", "boost::shared_ptr<DOF >|DOFPointer", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__boost__shared_ptrTEdge2DBase_t = {"_boost__shared_ptrTEdge2DBase_t", "boost::shared_ptr<Edge2DBase >|Edge2DBasePointer", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__boost__shared_ptrTLine2D_t = {"_boost__shared_ptrTLine2D_t", "boost::shared_ptr<Line2D >|Line2DPointer", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__boost__shared_ptrTLine_t = {"_boost__shared_ptrTLine_t", "boost::shared_ptr<Line >|LinePointer", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__boost__shared_ptrTPoint2D_t = {"_boost__shared_ptrTPoint2D_t", "boost::shared_ptr<Point2D >|Point2DPointer", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__boost__shared_ptrTPoint_t = {"_boost__shared_ptrTPoint_t", "boost::shared_ptr<Point >|PointPointer", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__boost__shared_ptrTSketchPlane_t = {"_boost__shared_ptrTSketchPlane_t", "boost::shared_ptr<SketchPlane >|SketchPlanePointer", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__boost__shared_ptrTVector_t = {"_boost__shared_ptrTVector_t", "boost::shared_ptr<Vector >|VectorPointer", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_AngleLine2D = {"_p_AngleLine2D", "AngleLine2D *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_Arc2D = {"_p_Arc2D", "Arc2D *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_AngleLine2D = {"_p_AngleLine2D", "AngleLine2D *", 0, 0, (void*)&_wrap_class_AngleLine2D, 0};
+static swig_type_info _swigt__p_Arc2D = {"_p_Arc2D", "Arc2D *", 0, 0, (void*)&_wrap_class_Arc2D, 0};
 static swig_type_info _swigt__p_Ark3DModel = {"_p_Ark3DModel", "Ark3DModel *", 0, 0, (void*)&_wrap_class_Ark3DModel, 0};
-static swig_type_info _swigt__p_ConstraintEquationBase = {"_p_ConstraintEquationBase", "ConstraintEquationBase *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_DOF = {"_p_DOF", "DOF *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_DependentDOF = {"_p_DependentDOF", "DependentDOF *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_DistancePoint = {"_p_DistancePoint", "DistancePoint *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_DistancePoint2D = {"_p_DistancePoint2D", "DistancePoint2D *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_Edge2DBase = {"_p_Edge2DBase", "Edge2DBase *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_EdgeLoop2D = {"_p_EdgeLoop2D", "EdgeLoop2D *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_ConstraintEquationBase = {"_p_ConstraintEquationBase", "ConstraintEquationBase *", 0, 0, (void*)&_wrap_class_ConstraintEquationBase, 0};
+static swig_type_info _swigt__p_DOF = {"_p_DOF", "DOF *", 0, 0, (void*)&_wrap_class_DOF, 0};
+static swig_type_info _swigt__p_DependentDOF = {"_p_DependentDOF", "DependentDOF *", 0, 0, (void*)&_wrap_class_DependentDOF, 0};
+static swig_type_info _swigt__p_DistancePoint = {"_p_DistancePoint", "DistancePoint *", 0, 0, (void*)&_wrap_class_DistancePoint, 0};
+static swig_type_info _swigt__p_DistancePoint2D = {"_p_DistancePoint2D", "DistancePoint2D *", 0, 0, (void*)&_wrap_class_DistancePoint2D, 0};
+static swig_type_info _swigt__p_Edge2DBase = {"_p_Edge2DBase", "Edge2DBase *", 0, 0, (void*)&_wrap_class_Edge2DBase, 0};
+static swig_type_info _swigt__p_EdgeLoop2D = {"_p_EdgeLoop2D", "EdgeLoop2D *", 0, 0, (void*)&_wrap_class_EdgeLoop2D, 0};
 static swig_type_info _swigt__p_GiNaC__ex = {"_p_GiNaC__ex", "GiNaC::ex *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_GiNaC__symbol = {"_p_GiNaC__symbol", "GiNaC::symbol *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_IndependentDOF = {"_p_IndependentDOF", "IndependentDOF *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_Line = {"_p_Line", "Line *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_Line2D = {"_p_Line2D", "Line2D *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_ParallelLine = {"_p_ParallelLine", "ParallelLine *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_ParallelLine2D = {"_p_ParallelLine2D", "ParallelLine2D *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_Point = {"_p_Point", "Point *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_Point2D = {"_p_Point2D", "Point2D *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_Primitive2DBase = {"_p_Primitive2DBase", "Primitive2DBase *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_PrimitiveBase = {"_p_PrimitiveBase", "PrimitiveBase *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_IndependentDOF = {"_p_IndependentDOF", "IndependentDOF *", 0, 0, (void*)&_wrap_class_IndependentDOF, 0};
+static swig_type_info _swigt__p_Line = {"_p_Line", "Line *", 0, 0, (void*)&_wrap_class_Line, 0};
+static swig_type_info _swigt__p_Line2D = {"_p_Line2D", "Line2D *", 0, 0, (void*)&_wrap_class_Line2D, 0};
+static swig_type_info _swigt__p_ParallelLine = {"_p_ParallelLine", "ParallelLine *", 0, 0, (void*)&_wrap_class_ParallelLine, 0};
+static swig_type_info _swigt__p_ParallelLine2D = {"_p_ParallelLine2D", "ParallelLine2D *", 0, 0, (void*)&_wrap_class_ParallelLine2D, 0};
+static swig_type_info _swigt__p_Point = {"_p_Point", "Point *", 0, 0, (void*)&_wrap_class_Point, 0};
+static swig_type_info _swigt__p_Point2D = {"_p_Point2D", "Point2D *", 0, 0, (void*)&_wrap_class_Point2D, 0};
+static swig_type_info _swigt__p_Primitive2DBase = {"_p_Primitive2DBase", "Primitive2DBase *", 0, 0, (void*)&_wrap_class_Primitive2DBase, 0};
+static swig_type_info _swigt__p_PrimitiveBase = {"_p_PrimitiveBase", "PrimitiveBase *", 0, 0, (void*)&_wrap_class_PrimitiveBase, 0};
 static swig_type_info _swigt__p_PrimitiveException = {"_p_PrimitiveException", "PrimitiveException *", 0, 0, (void*)&_wrap_class_PrimitiveException, 0};
-static swig_type_info _swigt__p_SketchPlane = {"_p_SketchPlane", "SketchPlane *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_TangentEdge2D = {"_p_TangentEdge2D", "TangentEdge2D *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_Vector = {"_p_Vector", "Vector *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_SketchPlane = {"_p_SketchPlane", "SketchPlane *", 0, 0, (void*)&_wrap_class_SketchPlane, 0};
+static swig_type_info _swigt__p_TangentEdge2D = {"_p_TangentEdge2D", "TangentEdge2D *", 0, 0, (void*)&_wrap_class_TangentEdge2D, 0};
+static swig_type_info _swigt__p_Vector = {"_p_Vector", "Vector *", 0, 0, (void*)&_wrap_class_Vector, 0};
 static swig_type_info _swigt__p_boost__shared_ptrTAngleLine2D_t = {"_p_boost__shared_ptrTAngleLine2D_t", "boost::shared_ptr<AngleLine2D > *", 0, 0, (void*)&_wrap_class_boost_shared_ptr_Sl_AngleLine2D_Sg_, 0};
 static swig_type_info _swigt__p_boost__shared_ptrTArc2D_t = {"_p_boost__shared_ptrTArc2D_t", "boost::shared_ptr<Arc2D > *", 0, 0, (void*)&_wrap_class_boost_shared_ptr_Sl_Arc2D_Sg_, 0};
 static swig_type_info _swigt__p_boost__shared_ptrTConstraintEquationBase_t = {"_p_boost__shared_ptrTConstraintEquationBase_t", "boost::shared_ptr<ConstraintEquationBase > *", 0, 0, (void*)&_wrap_class_boost_shared_ptr_Sl_ConstraintEquationBase_Sg_, 0};
@@ -8066,13 +12946,19 @@ static swig_type_info _swigt__p_double = {"_p_double", "double *", 0, 0, (void*)
 static swig_type_info _swigt__p_mmcMatrix = {"_p_mmcMatrix", "mmcMatrix *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__vectorTboost__shared_ptrTConstraintEquationBase_t_t = {"_p_std__vectorTboost__shared_ptrTConstraintEquationBase_t_t", "std::vector<boost::shared_ptr<ConstraintEquationBase > > *|std::vector<ConstraintEquationBasePointer > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__vectorTboost__shared_ptrTDOF_t_t = {"_p_std__vectorTboost__shared_ptrTDOF_t_t", "std::vector<boost::shared_ptr<DOF > > *|std::vector<DOFPointer > *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_std__vectorTboost__shared_ptrTEdge2DBase_t_t = {"_p_std__vectorTboost__shared_ptrTEdge2DBase_t_t", "std::vector<boost::shared_ptr<Edge2DBase > > *|std::vector<Edge2DBasePointer > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__vectorTboost__shared_ptrTGiNaC__ex_t_t = {"_p_std__vectorTboost__shared_ptrTGiNaC__ex_t_t", "std::vector<boost::shared_ptr<GiNaC::ex > > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__vectorTboost__shared_ptrTPrimitiveBase_t_t = {"_p_std__vectorTboost__shared_ptrTPrimitiveBase_t_t", "std::vector<boost::shared_ptr<PrimitiveBase > > *|std::vector<PrimitiveBasePointer > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__vectorTdouble_t = {"_p_std__vectorTdouble_t", "std::vector<double > *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__std__vectorTboost__shared_ptrTDOF_t_t = {"_std__vectorTboost__shared_ptrTDOF_t_t", "std::vector<boost::shared_ptr<DOF > >|std::vector<DOFPointer >", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__std__vectorTboost__shared_ptrTEdge2DBase_t_t = {"_std__vectorTboost__shared_ptrTEdge2DBase_t_t", "std::vector<boost::shared_ptr<Edge2DBase > >|std::vector<Edge2DBasePointer >", 0, 0, (void*)0, 0};
 
 static swig_type_info *swig_type_initial[] = {
+  &_swigt__GiNaC__ex,
+  &_swigt__boost__shared_ptrTDOF_t,
   &_swigt__boost__shared_ptrTEdge2DBase_t,
   &_swigt__boost__shared_ptrTLine2D_t,
+  &_swigt__boost__shared_ptrTLine_t,
   &_swigt__boost__shared_ptrTPoint2D_t,
   &_swigt__boost__shared_ptrTPoint_t,
   &_swigt__boost__shared_ptrTSketchPlane_t,
@@ -8127,13 +13013,19 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_mmcMatrix,
   &_swigt__p_std__vectorTboost__shared_ptrTConstraintEquationBase_t_t,
   &_swigt__p_std__vectorTboost__shared_ptrTDOF_t_t,
+  &_swigt__p_std__vectorTboost__shared_ptrTEdge2DBase_t_t,
   &_swigt__p_std__vectorTboost__shared_ptrTGiNaC__ex_t_t,
   &_swigt__p_std__vectorTboost__shared_ptrTPrimitiveBase_t_t,
   &_swigt__p_std__vectorTdouble_t,
+  &_swigt__std__vectorTboost__shared_ptrTDOF_t_t,
+  &_swigt__std__vectorTboost__shared_ptrTEdge2DBase_t_t,
 };
 
+static swig_cast_info _swigc__GiNaC__ex[] = {  {&_swigt__GiNaC__ex, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__boost__shared_ptrTDOF_t[] = {  {&_swigt__boost__shared_ptrTDOF_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__boost__shared_ptrTEdge2DBase_t[] = {  {&_swigt__boost__shared_ptrTEdge2DBase_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__boost__shared_ptrTLine2D_t[] = {  {&_swigt__boost__shared_ptrTLine2D_t, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__boost__shared_ptrTLine_t[] = {  {&_swigt__boost__shared_ptrTLine_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__boost__shared_ptrTPoint2D_t[] = {  {&_swigt__boost__shared_ptrTPoint2D_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__boost__shared_ptrTPoint_t[] = {  {&_swigt__boost__shared_ptrTPoint_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__boost__shared_ptrTSketchPlane_t[] = {  {&_swigt__boost__shared_ptrTSketchPlane_t, 0, 0, 0},{0, 0, 0, 0}};
@@ -8188,13 +13080,19 @@ static swig_cast_info _swigc__p_double[] = {  {&_swigt__p_double, 0, 0, 0},{0, 0
 static swig_cast_info _swigc__p_mmcMatrix[] = {  {&_swigt__p_mmcMatrix, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__vectorTboost__shared_ptrTConstraintEquationBase_t_t[] = {  {&_swigt__p_std__vectorTboost__shared_ptrTConstraintEquationBase_t_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__vectorTboost__shared_ptrTDOF_t_t[] = {  {&_swigt__p_std__vectorTboost__shared_ptrTDOF_t_t, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_std__vectorTboost__shared_ptrTEdge2DBase_t_t[] = {  {&_swigt__p_std__vectorTboost__shared_ptrTEdge2DBase_t_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__vectorTboost__shared_ptrTGiNaC__ex_t_t[] = {  {&_swigt__p_std__vectorTboost__shared_ptrTGiNaC__ex_t_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__vectorTboost__shared_ptrTPrimitiveBase_t_t[] = {  {&_swigt__p_std__vectorTboost__shared_ptrTPrimitiveBase_t_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__vectorTdouble_t[] = {  {&_swigt__p_std__vectorTdouble_t, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__std__vectorTboost__shared_ptrTDOF_t_t[] = {  {&_swigt__std__vectorTboost__shared_ptrTDOF_t_t, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__std__vectorTboost__shared_ptrTEdge2DBase_t_t[] = {  {&_swigt__std__vectorTboost__shared_ptrTEdge2DBase_t_t, 0, 0, 0},{0, 0, 0, 0}};
 
 static swig_cast_info *swig_cast_initial[] = {
+  _swigc__GiNaC__ex,
+  _swigc__boost__shared_ptrTDOF_t,
   _swigc__boost__shared_ptrTEdge2DBase_t,
   _swigc__boost__shared_ptrTLine2D_t,
+  _swigc__boost__shared_ptrTLine_t,
   _swigc__boost__shared_ptrTPoint2D_t,
   _swigc__boost__shared_ptrTPoint_t,
   _swigc__boost__shared_ptrTSketchPlane_t,
@@ -8249,9 +13147,12 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_mmcMatrix,
   _swigc__p_std__vectorTboost__shared_ptrTConstraintEquationBase_t_t,
   _swigc__p_std__vectorTboost__shared_ptrTDOF_t_t,
+  _swigc__p_std__vectorTboost__shared_ptrTEdge2DBase_t_t,
   _swigc__p_std__vectorTboost__shared_ptrTGiNaC__ex_t_t,
   _swigc__p_std__vectorTboost__shared_ptrTPrimitiveBase_t_t,
   _swigc__p_std__vectorTdouble_t,
+  _swigc__std__vectorTboost__shared_ptrTDOF_t_t,
+  _swigc__std__vectorTboost__shared_ptrTEdge2DBase_t_t,
 };
 
 
