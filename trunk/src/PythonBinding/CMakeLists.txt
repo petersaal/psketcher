@@ -1,0 +1,4 @@
+FIND_PACKAGE(PythonLibs)
+INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_PATH})
+
+ADD_LIBRARY (ark3d_module STATIC python_bindings.cpp)
