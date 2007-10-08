@@ -19,8 +19,13 @@ GdkGLConfig *glconfig = 0;
 
 int main (int argc, char *argv[])
 {
+<<<<<<< .mine
+  theViewer = new OccGtkGLView();
+
+=======
 theViewer = new OccGtkGLView();
 
+>>>>>>> .r105
   GladeXML *MainWindowXML;
   GtkWidget *MainWindow;
 

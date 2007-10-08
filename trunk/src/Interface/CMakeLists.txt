@@ -9,7 +9,9 @@ LINK_DIRECTORIES ("../mmcMatrix")
 LINK_DIRECTORIES ("../NumOptimization")
 LINK_DIRECTORIES ("../ConstraintSolver")
 LINK_DIRECTORIES ("../OpenCascadeBinding")
-LINK_DIRECTORIES ("../LuaBinding")
+LINK_DIRECTORIES ("../PythonBinding")
+
+LINK_LIBRARIES(boost_python)
 
 # Add include paths and libraries for ark3d's dependencies
 #OpenGL
@@ -54,10 +56,9 @@ pkg_check_modules(GINAC ginac)
 LINK_DIRECTORIES (${GINAC_LIBRARY_DIRS})
 INCLUDE_DIRECTORIES (${GINAC_INCLUDE_DIRS})
 
-#lualib
-pkg_check_modules(LUALIB lua5.1)
-LINK_DIRECTORIES (${LUALIB_LIBRARY_DIRS})
-INCLUDE_DIRECTORIES (${LUALIB_INCLUDE_DIRS})
+#Python
+FIND_PACKAGE(PythonLibs)
+INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_PATH})
 
 ADD_EXECUTABLE (ark3d Callbacks.cpp Interface.cpp OccGtkGLView.cpp Support.cpp Translate.cpp MakeBottle.cpp main.cpp ../OpenCascadeBinding/test.cpp)
 TARGET_LINK_LIBRARIES (ark3d ${OPENGL_LIBRARIES})
@@ -73,6 +74,7 @@ TARGET_LINK_LIBRARIES (ark3d ${GSL_LIBRARIES})
 TARGET_LINK_LIBRARIES (ark3d ${GINAC_LIBRARIES})
 TARGET_LINK_LIBRARIES (ark3d bfgs)
 TARGET_LINK_LIBRARIES (ark3d ${LUALIB_LIBRARIES})
-TARGET_LINK_LIBRARIES (ark3d Ark3dLuaModule)
+TARGET_LINK_LIBRARIES (ark3d ark3d_module)
+TARGET_LINK_LIBRARIES (ark3d ${PYTHON_LIBRARIES})
 
 

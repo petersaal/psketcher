@@ -50,9 +50,7 @@ email                : |sharjith@gmail.com|
 #include <Handle_AIS_Trihedron.hxx>
 
 extern "C" {
-#include <lua.h>
-#include <lauxlib.h>
-#include <lualib.h>
+#include <Python.h>
 }
 
 #include "../ConstraintSolver/Ark3DModel.h"
@@ -238,7 +236,6 @@ private:
     Handle(AIS_InteractiveContext) myContext;
 
 		Ark3DModel ark3d_model_;
-		lua_State *lua_state_;
 
     bool opencascade_inited;
 
