@@ -75,7 +75,7 @@ on_solve_toolbutton_clicked    (GtkButton *button,
                                             gpointer user_data);
 
 void
-on_run_lua_toolbutton_clicked   (GtkButton *button,
+on_run_python_toolbutton_clicked   (GtkButton *button,
                                             gpointer user_data);
 
 void

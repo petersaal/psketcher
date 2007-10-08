@@ -1087,14 +1087,14 @@
 	      <property name="is_important">False</property>
 
 	      <child>
-		<widget class="GtkButton" id="run_lua_toolbutton">
+		<widget class="GtkButton" id="run_python_toolbutton">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">Run Lua Script</property>
+		  <property name="label" translatable="yes">Run Python Script</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		  <property name="focus_on_click">True</property>
-		  <signal name="clicked" handler="on_run_lua_toolbutton_clicked" last_modification_time="Sun, 30 Sep 2007 20:21:10 GMT"/>
+		  <signal name="clicked" handler="on_run_python_toolbutton_clicked" last_modification_time="Mon, 08 Oct 2007 02:15:47 GMT"/>
 		</widget>
 	      </child>
 	    </widget>

@@ -201,7 +201,7 @@ public:
 
 		void GenerateTestSketch();
 
-		void ExecuteLuaScript();
+		void ExecutePythonScript();
 
 public:
     bool isInitialized(void)

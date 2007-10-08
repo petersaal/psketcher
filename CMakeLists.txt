@@ -22,5 +22,5 @@ add_subdirectory (src/NumOptimization)
 add_subdirectory (src/mmcMatrix)
 add_subdirectory (src/ConstraintSolver)
 add_subdirectory (src/OpenCascadeBinding)
-add_subdirectory (src/LuaBinding)
+add_subdirectory (src/PythonBinding)
 
