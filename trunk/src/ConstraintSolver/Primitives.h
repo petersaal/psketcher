@@ -325,7 +325,7 @@ typedef boost::shared_ptr<ParallelLine2D> ParallelLine2DPointer;
 class TangentEdge2D : public ConstraintEquationBase
 {
 	public:
-		TangentEdge2D(const Edge2DBasePointer edge1, EdgePointNumber point_num_1, const Edge2DBasePointer edge2, EdgePointNumber point_num_2);
+		TangentEdge2D(Edge2DBasePointer edge1, EdgePointNumber point_num_1, Edge2DBasePointer edge2, EdgePointNumber point_num_2);
 
 	protected:
 		Edge2DBasePointer edge1_;
@@ -419,5 +419,5 @@ Line2DPointer CreateLine2D (const Point2DPointer point1, const Point2DPointer po
 DistancePoint2DPointer CreateDistancePoint2D(const Point2DPointer point1, const Point2DPointer point2, double distance);
 ParallelLine2DPointer CreateParallelLine2D(const Line2DPointer line1, const Line2DPointer line2);
 AngleLine2DPointer CreateAngleLine2D(const Line2DPointer line1, const Line2DPointer line2, double angle);
-TangentEdge2DPointer CreateTangentEdge2D(const Edge2DBasePointer edge1, EdgePointNumber point_num_1, const Edge2DBasePointer edge2, EdgePointNumber point_num_2);
+TangentEdge2DPointer CreateTangentEdge2D(Edge2DBasePointer edge1, EdgePointNumber point_num_1, Edge2DBasePointer edge2, EdgePointNumber point_num_2);
 #endif //PrimitivesH

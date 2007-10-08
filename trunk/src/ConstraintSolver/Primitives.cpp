@@ -269,7 +269,7 @@ line2_(line2)
 	weight_list_.push_back(1.0);
 }
 
-TangentEdge2D::TangentEdge2D(const Edge2DBasePointer edge1, EdgePointNumber point_num_1, const Edge2DBasePointer edge2, EdgePointNumber point_num_2):
+TangentEdge2D::TangentEdge2D(Edge2DBasePointer edge1, EdgePointNumber point_num_1, Edge2DBasePointer edge2, EdgePointNumber point_num_2):
 edge1_(edge1),
 edge2_(edge2)
 {
@@ -672,7 +672,7 @@ AngleLine2DPointer CreateAngleLine2D(const Line2DPointer line1, const Line2DPoin
 	return result;
 }
 
-TangentEdge2DPointer CreateTangentEdge2D(const Edge2DBasePointer edge1, EdgePointNumber point_num_1, const Edge2DBasePointer edge2, EdgePointNumber point_num_2)
+TangentEdge2DPointer CreateTangentEdge2D(Edge2DBasePointer edge1, EdgePointNumber point_num_1, Edge2DBasePointer edge2, EdgePointNumber point_num_2)
 {
 	TangentEdge2DPointer result(new TangentEdge2D(edge1, point_num_1, edge2, point_num_2));
 	return result;
