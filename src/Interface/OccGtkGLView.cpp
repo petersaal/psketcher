@@ -44,9 +44,12 @@ email                : |sharjith_ssn@hotmail.com|
 
 // define lua ark3d binding
 extern "C" {
-extern int Ark3d_Init(lua_State* L);  // Declare the wrapped module
+extern void initark3d_module(void);  // Declare the wrapped module
 }
-#define LUA_EXTRALIBS {"ark3d",Ark3d_Init}
+
+
+#include <boost/python.hpp>
+using namespace boost::python;
 
 double foo = 1;
 
@@ -80,18 +83,29 @@ OccGtkGLView::OccGtkGLView()
     myCurrentMode = CurAction3d_Nothing;
     myDegenerateModeIsOn = Standard_True;
 
+	cout << "got here 1" << endl;
+
 	// create the lua instance
-	lua_state_ = lua_open();
-	luaL_openlibs(lua_state_);  // open the lua built in libraries
-	Ark3d_Init(lua_state_);	    // load the Swig wrappered module
+PyImport_AppendInittab( "ark3d_module", &initark3d_module );
+Py_Initialize();
+//init_ark3d_module();
+PyRun_SimpleString("import ark3d_module \n");
+PyRun_SimpleString("import sys \n");
+PyRun_SimpleString("sys.path.append('./src/PythonBinding/') \n");
+PyRun_SimpleString("import ark3d_module \n");
+
+PyRun_SimpleString("point1 =  ark3d_module.CreatePoint(0.0,1.0,2.0) \n");
+PyRun_SimpleString("print point1.GetYDOF().GetValue() \n");
+
+	cout << "got here 2" << endl;
 	
 	cout << "got here 1" << endl;
 }
 
 OccGtkGLView::~OccGtkGLView()
 {
-	// close down lua
-	lua_close(lua_state_);
+	// close down Python
+	Py_Finalize();
 
     g_free(zoom_cursor);
     g_free(pan_cursor);
@@ -927,9 +941,14 @@ void OccGtkGLView::SolveConstraints()
 
 void OccGtkGLView::ExecuteLuaScript()
 {
+    FILE *fp = fopen ("./src/LuaScripts/test_sketch.lua", "r+");
+    PyRun_SimpleFile (fp, "./src/LuaScripts/test_sketch.lua");
+		fclose(fp);
 	// Run a lua script and display erros to stdout if there are any
+	/*
 	if(luaL_loadfile(lua_state_, "./src/LuaScripts/test_sketch.lua") || lua_pcall(lua_state_, 0, 0, 0))
 	{
 		cout << (lua_tostring(lua_state_, -1)) << endl;
 	}
+	*/
 }
