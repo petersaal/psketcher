@@ -8,121 +8,6 @@
 
 namespace bp = boost::python;
 
-struct ConstraintEquationBase_wrapper : ConstraintEquationBase, bp::wrapper< ConstraintEquationBase > {
-
-    ConstraintEquationBase_wrapper(ConstraintEquationBase const & arg )
-    : ConstraintEquationBase( arg )
-      , bp::wrapper< ConstraintEquationBase >(){
-        // copy constructor
-        
-    }
-
-    ConstraintEquationBase_wrapper()
-    : ConstraintEquationBase()
-      , bp::wrapper< ConstraintEquationBase >(){
-        // null constructor
-        
-    }
-
-    virtual void Display(  ) {
-        if( bp::override func_Display = this->get_override( "Display" ) )
-            func_Display(  );
-        else
-            this->ConstraintEquationBase::Display(  );
-    }
-    
-    
-    void default_Display(  ) {
-        ConstraintEquationBase::Display( );
-    }
-
-    virtual void UpdateDisplay(  ) {
-        if( bp::override func_UpdateDisplay = this->get_override( "UpdateDisplay" ) )
-            func_UpdateDisplay(  );
-        else
-            this->ConstraintEquationBase::UpdateDisplay(  );
-    }
-    
-    
-    void default_UpdateDisplay(  ) {
-        ConstraintEquationBase::UpdateDisplay( );
-    }
-
-};
-
-struct PrimitiveBase_wrapper : PrimitiveBase, bp::wrapper< PrimitiveBase > {
-
-    PrimitiveBase_wrapper(PrimitiveBase const & arg )
-    : PrimitiveBase( arg )
-      , bp::wrapper< PrimitiveBase >(){
-        // copy constructor
-        
-    }
-
-    PrimitiveBase_wrapper()
-    : PrimitiveBase()
-      , bp::wrapper< PrimitiveBase >(){
-        // null constructor
-        
-    }
-
-    virtual void Display(  ) {
-        if( bp::override func_Display = this->get_override( "Display" ) )
-            func_Display(  );
-        else
-            this->PrimitiveBase::Display(  );
-    }
-    
-    
-    void default_Display(  ) {
-        PrimitiveBase::Display( );
-    }
-
-    virtual void UpdateDisplay(  ) {
-        if( bp::override func_UpdateDisplay = this->get_override( "UpdateDisplay" ) )
-            func_UpdateDisplay(  );
-        else
-            this->PrimitiveBase::UpdateDisplay(  );
-    }
-    
-    
-    void default_UpdateDisplay(  ) {
-        PrimitiveBase::UpdateDisplay( );
-    }
-
-};
-
-struct Edge2DBase_wrapper : Edge2DBase, bp::wrapper< Edge2DBase > {
-
-    Edge2DBase_wrapper(::SketchPlanePointer sketch_plane )
-    : Edge2DBase( sketch_plane )
-      , bp::wrapper< Edge2DBase >(){
-        // constructor
-    
-    }
-
-    virtual ::Point2DPointer GetPoint1(  ){
-        bp::override func_GetPoint1 = this->get_override( "GetPoint1" );
-        return func_GetPoint1(  );
-    }
-
-    virtual ::Point2DPointer GetPoint2(  ){
-        bp::override func_GetPoint2 = this->get_override( "GetPoint2" );
-        return func_GetPoint2(  );
-    }
-
-    virtual void GetTangent1( ::GiNaC::ex & s_component, ::GiNaC::ex & t_component ){
-        bp::override func_GetTangent1 = this->get_override( "GetTangent1" );
-        func_GetTangent1( boost::ref(s_component), boost::ref(t_component) );
-    }
-
-    virtual void GetTangent2( ::GiNaC::ex & s_component, ::GiNaC::ex & t_component ){
-        bp::override func_GetTangent2 = this->get_override( "GetTangent2" );
-        func_GetTangent2( boost::ref(s_component), boost::ref(t_component) );
-    }
-
-};
-
 struct Arc2D_wrapper : Arc2D, bp::wrapper< Arc2D > {
 
     Arc2D_wrapper(Arc2D const & arg )
@@ -163,72 +48,6 @@ struct Arc2D_wrapper : Arc2D, bp::wrapper< Arc2D > {
         return Arc2D::GetPoint2( );
     }
 
-    virtual void GetTangent1( ::GiNaC::ex & s_component, ::GiNaC::ex & t_component ) {
-        if( bp::override func_GetTangent1 = this->get_override( "GetTangent1" ) )
-            func_GetTangent1( boost::ref(s_component), boost::ref(t_component) );
-        else
-            this->Arc2D::GetTangent1( boost::ref(s_component), boost::ref(t_component) );
-    }
-    
-    
-    void default_GetTangent1( ::GiNaC::ex & s_component, ::GiNaC::ex & t_component ) {
-        Arc2D::GetTangent1( boost::ref(s_component), boost::ref(t_component) );
-    }
-
-    virtual void GetTangent2( ::GiNaC::ex & s_component, ::GiNaC::ex & t_component ) {
-        if( bp::override func_GetTangent2 = this->get_override( "GetTangent2" ) )
-            func_GetTangent2( boost::ref(s_component), boost::ref(t_component) );
-        else
-            this->Arc2D::GetTangent2( boost::ref(s_component), boost::ref(t_component) );
-    }
-    
-    
-    void default_GetTangent2( ::GiNaC::ex & s_component, ::GiNaC::ex & t_component ) {
-        Arc2D::GetTangent2( boost::ref(s_component), boost::ref(t_component) );
-    }
-
-};
-
-struct ConstraintSolver_wrapper : ConstraintSolver, bp::wrapper< ConstraintSolver > {
-
-    ConstraintSolver_wrapper(ConstraintSolver const & arg )
-    : ConstraintSolver( arg )
-      , bp::wrapper< ConstraintSolver >(){
-        // copy constructor
-        
-    }
-
-    ConstraintSolver_wrapper(::std::vector<GiNaC::ex, std::allocator<GiNaC::ex> > const & constraints_, ::std::vector<double, std::allocator<double> > const & weights_, ::std::vector<GiNaC::symbol, std::allocator<GiNaC::symbol> > const & free_parameters_, ::std::vector<GiNaC::symbol, std::allocator<GiNaC::symbol> > const & fixed_parameters_, ::std::vector<double, std::allocator<double> > const & fixed_values_ )
-    : ConstraintSolver( boost::ref(constraints_), boost::ref(weights_), boost::ref(free_parameters_), boost::ref(fixed_parameters_), boost::ref(fixed_values_) )
-      , bp::wrapper< ConstraintSolver >(){
-        // constructor
-    
-    }
-
-    virtual ::mmcMatrix GetMeritGradient( ::mmcMatrix const & x ) {
-        if( bp::override func_GetMeritGradient = this->get_override( "GetMeritGradient" ) )
-            return func_GetMeritGradient( boost::ref(x) );
-        else
-            return this->ConstraintSolver::GetMeritGradient( boost::ref(x) );
-    }
-    
-    
-    ::mmcMatrix default_GetMeritGradient( ::mmcMatrix const & x ) {
-        return ConstraintSolver::GetMeritGradient( boost::ref(x) );
-    }
-
-    virtual double GetMeritValue( ::mmcMatrix const & x ) {
-        if( bp::override func_GetMeritValue = this->get_override( "GetMeritValue" ) )
-            return func_GetMeritValue( boost::ref(x) );
-        else
-            return this->ConstraintSolver::GetMeritValue( boost::ref(x) );
-    }
-    
-    
-    double default_GetMeritValue( ::mmcMatrix const & x ) {
-        return ConstraintSolver::GetMeritValue( boost::ref(x) );
-    }
-
 };
 
 struct DOF_wrapper : DOF, bp::wrapper< DOF > {
@@ -247,18 +66,6 @@ struct DOF_wrapper : DOF, bp::wrapper< DOF > {
     
     }
 
-    virtual ::GiNaC::ex GetExpression(  ) const  {
-        if( bp::override func_GetExpression = this->get_override( "GetExpression" ) )
-            return func_GetExpression(  );
-        else
-            return this->DOF::GetExpression(  );
-    }
-    
-    
-    ::GiNaC::ex default_GetExpression(  ) const  {
-        return DOF::GetExpression( );
-    }
-
     virtual double GetValue(  ) const {
         bp::override func_GetValue = this->get_override( "GetValue" );
         return func_GetValue(  );
@@ -267,116 +74,6 @@ struct DOF_wrapper : DOF, bp::wrapper< DOF > {
     virtual void SetValue( double value ){
         bp::override func_SetValue = this->get_override( "SetValue" );
         func_SetValue( value );
-    }
-
-};
-
-struct DependentDOF_wrapper : DependentDOF, bp::wrapper< DependentDOF > {
-
-    DependentDOF_wrapper(DependentDOF const & arg )
-    : DependentDOF( arg )
-      , bp::wrapper< DependentDOF >(){
-        // copy constructor
-        
-    }
-
-    DependentDOF_wrapper(::GiNaC::ex expression, ::std::vector<boost::shared_ptr<DOF>, std::allocator<boost::shared_ptr<DOF> > > source_dof_list )
-    : DependentDOF( expression, source_dof_list )
-      , bp::wrapper< DependentDOF >(){
-        // constructor
-    
-    }
-
-    DependentDOF_wrapper(char const * name, ::GiNaC::ex expression, ::std::vector<boost::shared_ptr<DOF>, std::allocator<boost::shared_ptr<DOF> > > source_dof_list )
-    : DependentDOF( name, expression, source_dof_list )
-      , bp::wrapper< DependentDOF >(){
-        // constructor
-    
-    }
-
-    virtual ::GiNaC::ex GetExpression(  ) const  {
-        if( bp::override func_GetExpression = this->get_override( "GetExpression" ) )
-            return func_GetExpression(  );
-        else
-            return this->DependentDOF::GetExpression(  );
-    }
-    
-    
-    ::GiNaC::ex default_GetExpression(  ) const  {
-        return DependentDOF::GetExpression( );
-    }
-
-    virtual double GetValue(  ) const  {
-        if( bp::override func_GetValue = this->get_override( "GetValue" ) )
-            return func_GetValue(  );
-        else
-            return this->DependentDOF::GetValue(  );
-    }
-    
-    
-    double default_GetValue(  ) const  {
-        return DependentDOF::GetValue( );
-    }
-
-    virtual void SetValue( double value ) {
-        if( bp::override func_SetValue = this->get_override( "SetValue" ) )
-            func_SetValue( value );
-        else
-            this->DependentDOF::SetValue( value );
-    }
-    
-    
-    void default_SetValue( double value ) {
-        DependentDOF::SetValue( value );
-    }
-
-};
-
-struct IndependentDOF_wrapper : IndependentDOF, bp::wrapper< IndependentDOF > {
-
-    IndependentDOF_wrapper(IndependentDOF const & arg )
-    : IndependentDOF( arg )
-      , bp::wrapper< IndependentDOF >(){
-        // copy constructor
-        
-    }
-
-    IndependentDOF_wrapper(double value=0.0, bool free=false )
-    : IndependentDOF( value, free )
-      , bp::wrapper< IndependentDOF >(){
-        // constructor
-    
-    }
-
-    IndependentDOF_wrapper(char const * name, double value=0.0, bool free=false )
-    : IndependentDOF( name, value, free )
-      , bp::wrapper< IndependentDOF >(){
-        // constructor
-    
-    }
-
-    virtual double GetValue(  ) const  {
-        if( bp::override func_GetValue = this->get_override( "GetValue" ) )
-            return func_GetValue(  );
-        else
-            return this->IndependentDOF::GetValue(  );
-    }
-    
-    
-    double default_GetValue(  ) const  {
-        return IndependentDOF::GetValue( );
-    }
-
-    virtual void SetValue( double value ) {
-        if( bp::override func_SetValue = this->get_override( "SetValue" ) )
-            func_SetValue( value );
-        else
-            this->IndependentDOF::SetValue( value );
-    }
-    
-    
-    void default_SetValue( double value ) {
-        IndependentDOF::SetValue( value );
     }
 
 };
@@ -421,54 +118,15 @@ struct Line2D_wrapper : Line2D, bp::wrapper< Line2D > {
         return Line2D::GetPoint2( );
     }
 
-    virtual void GetTangent1( ::GiNaC::ex & s_component, ::GiNaC::ex & t_component ) {
-        if( bp::override func_GetTangent1 = this->get_override( "GetTangent1" ) )
-            func_GetTangent1( boost::ref(s_component), boost::ref(t_component) );
-        else
-            this->Line2D::GetTangent1( boost::ref(s_component), boost::ref(t_component) );
-    }
-    
-    
-    void default_GetTangent1( ::GiNaC::ex & s_component, ::GiNaC::ex & t_component ) {
-        Line2D::GetTangent1( boost::ref(s_component), boost::ref(t_component) );
-    }
-
-    virtual void GetTangent2( ::GiNaC::ex & s_component, ::GiNaC::ex & t_component ) {
-        if( bp::override func_GetTangent2 = this->get_override( "GetTangent2" ) )
-            func_GetTangent2( boost::ref(s_component), boost::ref(t_component) );
-        else
-            this->Line2D::GetTangent2( boost::ref(s_component), boost::ref(t_component) );
-    }
-    
-    
-    void default_GetTangent2( ::GiNaC::ex & s_component, ::GiNaC::ex & t_component ) {
-        Line2D::GetTangent2( boost::ref(s_component), boost::ref(t_component) );
-    }
-
 };
 
 BOOST_PYTHON_MODULE(ark3d_module){
-    { //::std::vector<double, std::allocator<double> >
-        typedef bp::class_< std::vector<double, std::allocator<double> > > vector_less_double_comma__std_scope_allocator_less_double_grate___grate__exposer_t;
-        vector_less_double_comma__std_scope_allocator_less_double_grate___grate__exposer_t vector_less_double_comma__std_scope_allocator_less_double_grate___grate__exposer = vector_less_double_comma__std_scope_allocator_less_double_grate___grate__exposer_t( "vector_less_double_comma__std_scope_allocator_less_double_grate___grate_" );
-        bp::scope vector_less_double_comma__std_scope_allocator_less_double_grate___grate__scope( vector_less_double_comma__std_scope_allocator_less_double_grate___grate__exposer );
-        vector_less_double_comma__std_scope_allocator_less_double_grate___grate__exposer.def( bp::vector_indexing_suite< ::std::vector<double, std::allocator<double> >, true >() );
-    }
-
     { //::std::vector<boost::shared_ptr<PrimitiveBase>, std::allocator<boost::shared_ptr<PrimitiveBase> > >
         typedef bp::class_< std::vector<boost::shared_ptr<PrimitiveBase>, std::allocator<boost::shared_ptr<PrimitiveBase> > > > vector_less_boost_scope_shared_ptr_less_PrimitiveBase_grate__comma__std_scope_allocator_less_boost_scope_shared_ptr_less_PrimitiveBase_grate___grate___grate__exposer_t;
         vector_less_boost_scope_shared_ptr_less_PrimitiveBase_grate__comma__std_scope_allocator_less_boost_scope_shared_ptr_less_PrimitiveBase_grate___grate___grate__exposer_t vector_less_boost_scope_shared_ptr_less_PrimitiveBase_grate__comma__std_scope_allocator_less_boost_scope_shared_ptr_less_PrimitiveBase_grate___grate___grate__exposer = vector_less_boost_scope_shared_ptr_less_PrimitiveBase_grate__comma__std_scope_allocator_less_boost_scope_shared_ptr_less_PrimitiveBase_grate___grate___grate__exposer_t( "vector_less_boost_scope_shared_ptr_less_PrimitiveBase_grate__comma__std_scope_allocator_less_boost_scope_shared_ptr_less_PrimitiveBase_grate___grate___grate_" );
         bp::scope vector_less_boost_scope_shared_ptr_less_PrimitiveBase_grate__comma__std_scope_allocator_less_boost_scope_shared_ptr_less_PrimitiveBase_grate___grate___grate__scope( vector_less_boost_scope_shared_ptr_less_PrimitiveBase_grate__comma__std_scope_allocator_less_boost_scope_shared_ptr_less_PrimitiveBase_grate___grate___grate__exposer );
         //WARNING: the next line of code will not compile, because "::boost::shared_ptr<PrimitiveBase>" does not have operator== !
         vector_less_boost_scope_shared_ptr_less_PrimitiveBase_grate__comma__std_scope_allocator_less_boost_scope_shared_ptr_less_PrimitiveBase_grate___grate___grate__exposer.def( bp::vector_indexing_suite< ::std::vector<boost::shared_ptr<PrimitiveBase>, std::allocator<boost::shared_ptr<PrimitiveBase> > >, true >() );
-    }
-
-    { //::std::vector<boost::shared_ptr<GiNaC::ex>, std::allocator<boost::shared_ptr<GiNaC::ex> > >
-        typedef bp::class_< std::vector<boost::shared_ptr<GiNaC::ex>, std::allocator<boost::shared_ptr<GiNaC::ex> > > > vector_less_boost_scope_shared_ptr_less_GiNaC_scope_ex_grate__comma__std_scope_allocator_less_boost_scope_shared_ptr_less_GiNaC_scope_ex_grate___grate___grate__exposer_t;
-        vector_less_boost_scope_shared_ptr_less_GiNaC_scope_ex_grate__comma__std_scope_allocator_less_boost_scope_shared_ptr_less_GiNaC_scope_ex_grate___grate___grate__exposer_t vector_less_boost_scope_shared_ptr_less_GiNaC_scope_ex_grate__comma__std_scope_allocator_less_boost_scope_shared_ptr_less_GiNaC_scope_ex_grate___grate___grate__exposer = vector_less_boost_scope_shared_ptr_less_GiNaC_scope_ex_grate__comma__std_scope_allocator_less_boost_scope_shared_ptr_less_GiNaC_scope_ex_grate___grate___grate__exposer_t( "vector_less_boost_scope_shared_ptr_less_GiNaC_scope_ex_grate__comma__std_scope_allocator_less_boost_scope_shared_ptr_less_GiNaC_scope_ex_grate___grate___grate_" );
-        bp::scope vector_less_boost_scope_shared_ptr_less_GiNaC_scope_ex_grate__comma__std_scope_allocator_less_boost_scope_shared_ptr_less_GiNaC_scope_ex_grate___grate___grate__scope( vector_less_boost_scope_shared_ptr_less_GiNaC_scope_ex_grate__comma__std_scope_allocator_less_boost_scope_shared_ptr_less_GiNaC_scope_ex_grate___grate___grate__exposer );
-        //WARNING: the next line of code will not compile, because "::boost::shared_ptr<GiNaC::ex>" does not have operator== !
-        vector_less_boost_scope_shared_ptr_less_GiNaC_scope_ex_grate__comma__std_scope_allocator_less_boost_scope_shared_ptr_less_GiNaC_scope_ex_grate___grate___grate__exposer.def( bp::vector_indexing_suite< ::std::vector<boost::shared_ptr<GiNaC::ex>, std::allocator<boost::shared_ptr<GiNaC::ex> > >, true >() );
     }
 
     { //::std::vector<boost::shared_ptr<Edge2DBase>, std::allocator<boost::shared_ptr<Edge2DBase> > >
@@ -479,14 +137,6 @@ BOOST_PYTHON_MODULE(ark3d_module){
         vector_less_boost_scope_shared_ptr_less_Edge2DBase_grate__comma__std_scope_allocator_less_boost_scope_shared_ptr_less_Edge2DBase_grate___grate___grate__exposer.def( bp::vector_indexing_suite< ::std::vector<boost::shared_ptr<Edge2DBase>, std::allocator<boost::shared_ptr<Edge2DBase> > >, true >() );
     }
 
-    { //::std::vector<boost::shared_ptr<DOF>, std::allocator<boost::shared_ptr<DOF> > >
-        typedef bp::class_< std::vector<boost::shared_ptr<DOF>, std::allocator<boost::shared_ptr<DOF> > > > vector_less_boost_scope_shared_ptr_less_DOF_grate__comma__std_scope_allocator_less_boost_scope_shared_ptr_less_DOF_grate___grate___grate__exposer_t;
-        vector_less_boost_scope_shared_ptr_less_DOF_grate__comma__std_scope_allocator_less_boost_scope_shared_ptr_less_DOF_grate___grate___grate__exposer_t vector_less_boost_scope_shared_ptr_less_DOF_grate__comma__std_scope_allocator_less_boost_scope_shared_ptr_less_DOF_grate___grate___grate__exposer = vector_less_boost_scope_shared_ptr_less_DOF_grate__comma__std_scope_allocator_less_boost_scope_shared_ptr_less_DOF_grate___grate___grate__exposer_t( "vector_less_boost_scope_shared_ptr_less_DOF_grate__comma__std_scope_allocator_less_boost_scope_shared_ptr_less_DOF_grate___grate___grate_" );
-        bp::scope vector_less_boost_scope_shared_ptr_less_DOF_grate__comma__std_scope_allocator_less_boost_scope_shared_ptr_less_DOF_grate___grate___grate__scope( vector_less_boost_scope_shared_ptr_less_DOF_grate__comma__std_scope_allocator_less_boost_scope_shared_ptr_less_DOF_grate___grate___grate__exposer );
-        //WARNING: the next line of code will not compile, because "::boost::shared_ptr<DOF>" does not have operator== !
-        vector_less_boost_scope_shared_ptr_less_DOF_grate__comma__std_scope_allocator_less_boost_scope_shared_ptr_less_DOF_grate___grate___grate__exposer.def( bp::vector_indexing_suite< ::std::vector<boost::shared_ptr<DOF>, std::allocator<boost::shared_ptr<DOF> > >, true >() );
-    }
-
     { //::std::vector<boost::shared_ptr<ConstraintEquationBase>, std::allocator<boost::shared_ptr<ConstraintEquationBase> > >
         typedef bp::class_< std::vector<boost::shared_ptr<ConstraintEquationBase>, std::allocator<boost::shared_ptr<ConstraintEquationBase> > > > vector_less_boost_scope_shared_ptr_less_ConstraintEquationBase_grate__comma__std_scope_allocator_less_boost_scope_shared_ptr_less_ConstraintEquationBase_grate___grate___grate__exposer_t;
         vector_less_boost_scope_shared_ptr_less_ConstraintEquationBase_grate__comma__std_scope_allocator_less_boost_scope_shared_ptr_less_ConstraintEquationBase_grate___grate___grate__exposer_t vector_less_boost_scope_shared_ptr_less_ConstraintEquationBase_grate__comma__std_scope_allocator_less_boost_scope_shared_ptr_less_ConstraintEquationBase_grate___grate___grate__exposer = vector_less_boost_scope_shared_ptr_less_ConstraintEquationBase_grate__comma__std_scope_allocator_less_boost_scope_shared_ptr_less_ConstraintEquationBase_grate___grate___grate__exposer_t( "vector_less_boost_scope_shared_ptr_less_ConstraintEquationBase_grate__comma__std_scope_allocator_less_boost_scope_shared_ptr_less_ConstraintEquationBase_grate___grate___grate_" );
@@ -495,201 +145,22 @@ BOOST_PYTHON_MODULE(ark3d_module){
         vector_less_boost_scope_shared_ptr_less_ConstraintEquationBase_grate__comma__std_scope_allocator_less_boost_scope_shared_ptr_less_ConstraintEquationBase_grate___grate___grate__exposer.def( bp::vector_indexing_suite< ::std::vector<boost::shared_ptr<ConstraintEquationBase>, std::allocator<boost::shared_ptr<ConstraintEquationBase> > >, true >() );
     }
 
-    { //::std::vector<GiNaC::symbol, std::allocator<GiNaC::symbol> >
-        typedef bp::class_< std::vector<GiNaC::symbol, std::allocator<GiNaC::symbol> > > vector_less_GiNaC_scope_symbol_comma__std_scope_allocator_less_GiNaC_scope_symbol_grate___grate__exposer_t;
-        vector_less_GiNaC_scope_symbol_comma__std_scope_allocator_less_GiNaC_scope_symbol_grate___grate__exposer_t vector_less_GiNaC_scope_symbol_comma__std_scope_allocator_less_GiNaC_scope_symbol_grate___grate__exposer = vector_less_GiNaC_scope_symbol_comma__std_scope_allocator_less_GiNaC_scope_symbol_grate___grate__exposer_t( "vector_less_GiNaC_scope_symbol_comma__std_scope_allocator_less_GiNaC_scope_symbol_grate___grate_" );
-        bp::scope vector_less_GiNaC_scope_symbol_comma__std_scope_allocator_less_GiNaC_scope_symbol_grate___grate__scope( vector_less_GiNaC_scope_symbol_comma__std_scope_allocator_less_GiNaC_scope_symbol_grate___grate__exposer );
-        //WARNING: the next line of code will not compile, because "::GiNaC::symbol" does not have operator== !
-        vector_less_GiNaC_scope_symbol_comma__std_scope_allocator_less_GiNaC_scope_symbol_grate___grate__exposer.def( bp::vector_indexing_suite< ::std::vector<GiNaC::symbol, std::allocator<GiNaC::symbol> > >() );
-    }
-
-    { //::std::vector<GiNaC::ex, std::allocator<GiNaC::ex> >
-        typedef bp::class_< std::vector<GiNaC::ex, std::allocator<GiNaC::ex> > > vector_less_GiNaC_scope_ex_comma__std_scope_allocator_less_GiNaC_scope_ex_grate___grate__exposer_t;
-        vector_less_GiNaC_scope_ex_comma__std_scope_allocator_less_GiNaC_scope_ex_grate___grate__exposer_t vector_less_GiNaC_scope_ex_comma__std_scope_allocator_less_GiNaC_scope_ex_grate___grate__exposer = vector_less_GiNaC_scope_ex_comma__std_scope_allocator_less_GiNaC_scope_ex_grate___grate__exposer_t( "vector_less_GiNaC_scope_ex_comma__std_scope_allocator_less_GiNaC_scope_ex_grate___grate_" );
-        bp::scope vector_less_GiNaC_scope_ex_comma__std_scope_allocator_less_GiNaC_scope_ex_grate___grate__scope( vector_less_GiNaC_scope_ex_comma__std_scope_allocator_less_GiNaC_scope_ex_grate___grate__exposer );
-        vector_less_GiNaC_scope_ex_comma__std_scope_allocator_less_GiNaC_scope_ex_grate___grate__exposer.def( bp::vector_indexing_suite< ::std::vector<GiNaC::ex, std::allocator<GiNaC::ex> > >() );
-    }
-
     bp::enum_< EdgePointNumber>("EdgePointNumber")
         .value("Point1", Point1)
         .value("Point2", Point2)
         .export_values()
         ;
 
-    { //::ConstraintEquationBase
-        typedef bp::class_< ConstraintEquationBase_wrapper > ConstraintEquationBase_exposer_t;
-        ConstraintEquationBase_exposer_t ConstraintEquationBase_exposer = ConstraintEquationBase_exposer_t( "ConstraintEquationBase" );
-        bp::scope ConstraintEquationBase_scope( ConstraintEquationBase_exposer );
-        { //::ConstraintEquationBase::Display
-        
-            typedef void ( ::ConstraintEquationBase::*Display_function_type )(  ) ;
-            typedef void ( ConstraintEquationBase_wrapper::*default_Display_function_type )(  ) ;
-            
-            ConstraintEquationBase_exposer.def( 
-                "Display"
-                , Display_function_type(&::ConstraintEquationBase::Display)
-                , default_Display_function_type(&ConstraintEquationBase_wrapper::default_Display) );
-        
-        }
-        { //::ConstraintEquationBase::GetConstraintList
-        
-            typedef ::std::vector<boost::shared_ptr<GiNaC::ex>, std::allocator<boost::shared_ptr<GiNaC::ex> > > const & ( ::ConstraintEquationBase::*GetConstraintList_function_type )(  ) ;
-            
-            ConstraintEquationBase_exposer.def( 
-                "GetConstraintList"
-                , GetConstraintList_function_type( &::ConstraintEquationBase::GetConstraintList )
-                , bp::return_value_policy< bp::copy_const_reference >() );
-        
-        }
-        { //::ConstraintEquationBase::GetDOFList
-        
-            typedef ::std::vector<boost::shared_ptr<DOF>, std::allocator<boost::shared_ptr<DOF> > > const & ( ::ConstraintEquationBase::*GetDOFList_function_type )(  ) ;
-            
-            ConstraintEquationBase_exposer.def( 
-                "GetDOFList"
-                , GetDOFList_function_type( &::ConstraintEquationBase::GetDOFList )
-                , bp::return_value_policy< bp::copy_const_reference >() );
-        
-        }
-        { //::ConstraintEquationBase::GetWeightList
-        
-            typedef ::std::vector<double, std::allocator<double> > const & ( ::ConstraintEquationBase::*GetWeightList_function_type )(  ) ;
-            
-            ConstraintEquationBase_exposer.def( 
-                "GetWeightList"
-                , GetWeightList_function_type( &::ConstraintEquationBase::GetWeightList )
-                , bp::return_value_policy< bp::copy_const_reference >() );
-        
-        }
-        { //::ConstraintEquationBase::UpdateDisplay
-        
-            typedef void ( ::ConstraintEquationBase::*UpdateDisplay_function_type )(  ) ;
-            typedef void ( ConstraintEquationBase_wrapper::*default_UpdateDisplay_function_type )(  ) ;
-            
-            ConstraintEquationBase_exposer.def( 
-                "UpdateDisplay"
-                , UpdateDisplay_function_type(&::ConstraintEquationBase::UpdateDisplay)
-                , default_UpdateDisplay_function_type(&ConstraintEquationBase_wrapper::default_UpdateDisplay) );
-        
-        }
-        bp::register_ptr_to_python< boost::shared_ptr< ConstraintEquationBase > >();
-    }
-
     { //::AngleLine2D
-        typedef bp::class_< AngleLine2D, bp::bases< ConstraintEquationBase > > AngleLine2D_exposer_t;
+        typedef bp::class_< AngleLine2D > AngleLine2D_exposer_t;
         AngleLine2D_exposer_t AngleLine2D_exposer = AngleLine2D_exposer_t( "AngleLine2D", bp::init< boost::shared_ptr<Line2D>, boost::shared_ptr<Line2D>, double >(( bp::arg("line1"), bp::arg("line2"), bp::arg("angle") )) );
         bp::scope AngleLine2D_scope( AngleLine2D_exposer );
         bp::register_ptr_to_python< boost::shared_ptr< AngleLine2D > >();
         bp::implicitly_convertible< boost::shared_ptr< AngleLine2D >, boost::shared_ptr< ConstraintEquationBase > >();
     }
 
-    { //::PrimitiveBase
-        typedef bp::class_< PrimitiveBase_wrapper > PrimitiveBase_exposer_t;
-        PrimitiveBase_exposer_t PrimitiveBase_exposer = PrimitiveBase_exposer_t( "PrimitiveBase" );
-        bp::scope PrimitiveBase_scope( PrimitiveBase_exposer );
-        { //::PrimitiveBase::Display
-        
-            typedef void ( ::PrimitiveBase::*Display_function_type )(  ) ;
-            typedef void ( PrimitiveBase_wrapper::*default_Display_function_type )(  ) ;
-            
-            PrimitiveBase_exposer.def( 
-                "Display"
-                , Display_function_type(&::PrimitiveBase::Display)
-                , default_Display_function_type(&PrimitiveBase_wrapper::default_Display) );
-        
-        }
-        { //::PrimitiveBase::GetDOFList
-        
-            typedef ::std::vector<boost::shared_ptr<DOF>, std::allocator<boost::shared_ptr<DOF> > > const & ( ::PrimitiveBase::*GetDOFList_function_type )(  ) ;
-            
-            PrimitiveBase_exposer.def( 
-                "GetDOFList"
-                , GetDOFList_function_type( &::PrimitiveBase::GetDOFList )
-                , bp::return_value_policy< bp::copy_const_reference >() );
-        
-        }
-        { //::PrimitiveBase::UpdateDisplay
-        
-            typedef void ( ::PrimitiveBase::*UpdateDisplay_function_type )(  ) ;
-            typedef void ( PrimitiveBase_wrapper::*default_UpdateDisplay_function_type )(  ) ;
-            
-            PrimitiveBase_exposer.def( 
-                "UpdateDisplay"
-                , UpdateDisplay_function_type(&::PrimitiveBase::UpdateDisplay)
-                , default_UpdateDisplay_function_type(&PrimitiveBase_wrapper::default_UpdateDisplay) );
-        
-        }
-        bp::register_ptr_to_python< boost::shared_ptr< PrimitiveBase > >();
-    }
-
-    bp::class_< Primitive2DBase, bp::bases< PrimitiveBase > >( "Primitive2DBase", bp::init< SketchPlanePointer >(( bp::arg("sketch_plane") )) )    
-        .def( 
-            "GetSketchPlane"
-            , &::Primitive2DBase::GetSketchPlane );
-
-    bp::implicitly_convertible< SketchPlanePointer, Primitive2DBase >();
-
-    { //::Edge2DBase
-        typedef bp::class_< Edge2DBase_wrapper, bp::bases< Primitive2DBase >, boost::noncopyable > Edge2DBase_exposer_t;
-        Edge2DBase_exposer_t Edge2DBase_exposer = Edge2DBase_exposer_t( "Edge2DBase", bp::init< SketchPlanePointer >(( bp::arg("sketch_plane") )) );
-        bp::scope Edge2DBase_scope( Edge2DBase_exposer );
-        { //::Edge2DBase::GetPoint1
-        
-            typedef ::Point2DPointer ( ::Edge2DBase::*GetPoint1_function_type )(  ) ;
-            
-            Edge2DBase_exposer.def( 
-                "GetPoint1"
-                , bp::pure_virtual( GetPoint1_function_type(&::Edge2DBase::GetPoint1) ) );
-        
-        }
-        { //::Edge2DBase::GetPoint2
-        
-            typedef ::Point2DPointer ( ::Edge2DBase::*GetPoint2_function_type )(  ) ;
-            
-            Edge2DBase_exposer.def( 
-                "GetPoint2"
-                , bp::pure_virtual( GetPoint2_function_type(&::Edge2DBase::GetPoint2) ) );
-        
-        }
-        { //::Edge2DBase::GetTangent1
-        
-            typedef void ( ::Edge2DBase::*GetTangent1_function_type )( ::GiNaC::ex &,::GiNaC::ex & ) ;
-            
-            Edge2DBase_exposer.def( 
-                "GetTangent1"
-                , bp::pure_virtual( GetTangent1_function_type(&::Edge2DBase::GetTangent1) )
-                , ( bp::arg("s_component"), bp::arg("t_component") ) );
-        
-        }
-        { //::Edge2DBase::GetTangent2
-        
-            typedef void ( ::Edge2DBase::*GetTangent2_function_type )( ::GiNaC::ex &,::GiNaC::ex & ) ;
-            
-            Edge2DBase_exposer.def( 
-                "GetTangent2"
-                , bp::pure_virtual( GetTangent2_function_type(&::Edge2DBase::GetTangent2) )
-                , ( bp::arg("s_component"), bp::arg("t_component") ) );
-        
-        }
-        { //::Edge2DBase::IsPointCoincident
-        
-            typedef bool ( ::Edge2DBase::*IsPointCoincident_function_type )( ::EdgePointNumber,::boost::shared_ptr<Edge2DBase>,::EdgePointNumber ) ;
-            
-            Edge2DBase_exposer.def( 
-                "IsPointCoincident"
-                , IsPointCoincident_function_type( &::Edge2DBase::IsPointCoincident )
-                , ( bp::arg("my_point_number"), bp::arg("other_edge"), bp::arg("other_point_number") ) );
-        
-        }
-        bp::register_ptr_to_python< boost::shared_ptr< Edge2DBase > >();
-        bp::implicitly_convertible< boost::shared_ptr< Edge2DBase >, boost::shared_ptr< Primitive2DBase > >();
-        bp::implicitly_convertible< boost::shared_ptr< Edge2DBase >, boost::shared_ptr< PrimitiveBase > >();
-        bp::implicitly_convertible< boost::shared_ptr< Line2D >, boost::shared_ptr< Edge2DBase > >();
-        bp::implicitly_convertible< boost::shared_ptr< Arc2D >, boost::shared_ptr< Edge2DBase > >();
-    }
-
     { //::Arc2D
-        typedef bp::class_< Arc2D_wrapper, bp::bases< Edge2DBase > > Arc2D_exposer_t;
+        typedef bp::class_< Arc2D_wrapper > Arc2D_exposer_t;
         Arc2D_exposer_t Arc2D_exposer = Arc2D_exposer_t( "Arc2D", bp::init< double, double, double, double, double, SketchPlanePointer, bp::optional< bool, bool, bool, bool, bool > >(( bp::arg("s_center"), bp::arg("t_center"), bp::arg("theta_1"), bp::arg("theta_2"), bp::arg("radius"), bp::arg("sketch_plane"), bp::arg("s_center_free")=(bool)(false), bp::arg("t_center_free")=(bool)(false), bp::arg("theta_1_free")=(bool)(false), bp::arg("theta_2_free")=(bool)(false), bp::arg("radius_free")=(bool)(false) )) );
         bp::scope Arc2D_scope( Arc2D_exposer );
         { //::Arc2D::GeneratePoint1
@@ -769,30 +240,6 @@ BOOST_PYTHON_MODULE(ark3d_module){
                 , GetTCenter_function_type( &::Arc2D::GetTCenter ) );
         
         }
-        { //::Arc2D::GetTangent1
-        
-            typedef void ( ::Arc2D::*GetTangent1_function_type )( ::GiNaC::ex &,::GiNaC::ex & ) ;
-            typedef void ( Arc2D_wrapper::*default_GetTangent1_function_type )( ::GiNaC::ex &,::GiNaC::ex & ) ;
-            
-            Arc2D_exposer.def( 
-                "GetTangent1"
-                , GetTangent1_function_type(&::Arc2D::GetTangent1)
-                , default_GetTangent1_function_type(&Arc2D_wrapper::default_GetTangent1)
-                , ( bp::arg("s_component"), bp::arg("t_component") ) );
-        
-        }
-        { //::Arc2D::GetTangent2
-        
-            typedef void ( ::Arc2D::*GetTangent2_function_type )( ::GiNaC::ex &,::GiNaC::ex & ) ;
-            typedef void ( Arc2D_wrapper::*default_GetTangent2_function_type )( ::GiNaC::ex &,::GiNaC::ex & ) ;
-            
-            Arc2D_exposer.def( 
-                "GetTangent2"
-                , GetTangent2_function_type(&::Arc2D::GetTangent2)
-                , default_GetTangent2_function_type(&Arc2D_wrapper::default_GetTangent2)
-                , ( bp::arg("s_component"), bp::arg("t_component") ) );
-        
-        }
         { //::Arc2D::GetTheta1
         
             typedef ::DOFPointer ( ::Arc2D::*GetTheta1_function_type )(  ) const;
@@ -812,6 +259,7 @@ BOOST_PYTHON_MODULE(ark3d_module){
         
         }
         bp::register_ptr_to_python< boost::shared_ptr< Arc2D > >();
+        bp::implicitly_convertible< boost::shared_ptr< Arc2D >, boost::shared_ptr< Edge2DBase > >();
         bp::implicitly_convertible< boost::shared_ptr< Arc2D >, boost::shared_ptr< Primitive2DBase > >();
         bp::implicitly_convertible< boost::shared_ptr< Arc2D >, boost::shared_ptr< PrimitiveBase > >();
     }
@@ -840,34 +288,11 @@ BOOST_PYTHON_MODULE(ark3d_module){
             "UpdateDisplay"
             , &::Ark3DModel::UpdateDisplay );
 
-    bp::class_< ConstraintSolver_wrapper >( "ConstraintSolver", bp::init< std::vector<GiNaC::ex, std::allocator<GiNaC::ex> > const &, std::vector<double, std::allocator<double> > const &, std::vector<GiNaC::symbol, std::allocator<GiNaC::symbol> > const &, std::vector<GiNaC::symbol, std::allocator<GiNaC::symbol> > const &, std::vector<double, std::allocator<double> > const & >(( bp::arg("constraints_"), bp::arg("weights_"), bp::arg("free_parameters_"), bp::arg("fixed_parameters_"), bp::arg("fixed_values_") )) )    
-        .def( 
-            "GetMeritGradient"
-            , &::ConstraintSolver::GetMeritGradient
-            , &ConstraintSolver_wrapper::default_GetMeritGradient
-            , ( bp::arg("x") ) )    
-        .def( 
-            "GetMeritValue"
-            , &::ConstraintSolver::GetMeritValue
-            , &ConstraintSolver_wrapper::default_GetMeritValue
-            , ( bp::arg("x") ) );
-
     { //::DOF
         typedef bp::class_< DOF_wrapper, boost::noncopyable > DOF_exposer_t;
         DOF_exposer_t DOF_exposer = DOF_exposer_t( "DOF", bp::init< bool, bool >(( bp::arg("free"), bp::arg("dependent") )) );
         bp::scope DOF_scope( DOF_exposer );
         DOF_exposer.def( bp::init< char const *, bool, bool >(( bp::arg("name"), bp::arg("free"), bp::arg("dependent") )) );
-        { //::DOF::GetExpression
-        
-            typedef ::GiNaC::ex ( ::DOF::*GetExpression_function_type )(  ) const;
-            typedef ::GiNaC::ex ( DOF_wrapper::*default_GetExpression_function_type )(  ) const;
-            
-            DOF_exposer.def( 
-                "GetExpression"
-                , GetExpression_function_type(&::DOF::GetExpression)
-                , default_GetExpression_function_type(&DOF_wrapper::default_GetExpression) );
-        
-        }
         { //::DOF::GetValue
         
             typedef double ( ::DOF::*GetValue_function_type )(  ) const;
@@ -918,26 +343,10 @@ BOOST_PYTHON_MODULE(ark3d_module){
         bp::register_ptr_to_python< boost::shared_ptr< DOF > >();
     }
 
-    bp::class_< DependentDOF_wrapper, bp::bases< DOF > >( "DependentDOF", bp::init< GiNaC::ex, std::vector<boost::shared_ptr<DOF>, std::allocator<boost::shared_ptr<DOF> > > >(( bp::arg("expression"), bp::arg("source_dof_list") )) )    
-        .def( bp::init< char const *, GiNaC::ex, std::vector<boost::shared_ptr<DOF>, std::allocator<boost::shared_ptr<DOF> > > >(( bp::arg("name"), bp::arg("expression"), bp::arg("source_dof_list") )) )    
-        .def( 
-            "GetExpression"
-            , &::DependentDOF::GetExpression
-            , &DependentDOF_wrapper::default_GetExpression )    
-        .def( 
-            "GetValue"
-            , &::DependentDOF::GetValue
-            , &DependentDOF_wrapper::default_GetValue )    
-        .def( 
-            "SetValue"
-            , &::DependentDOF::SetValue
-            , &DependentDOF_wrapper::default_SetValue
-            , ( bp::arg("value") ) );
-
-    bp::class_< DistancePoint, bp::bases< ConstraintEquationBase > >( "DistancePoint", bp::init< boost::shared_ptr<Point>, boost::shared_ptr<Point>, double >(( bp::arg("point1"), bp::arg("point2"), bp::arg("distance") )) );
+    bp::class_< DistancePoint >( "DistancePoint", bp::init< boost::shared_ptr<Point>, boost::shared_ptr<Point>, double >(( bp::arg("point1"), bp::arg("point2"), bp::arg("distance") )) );
 
     { //::DistancePoint2D
-        typedef bp::class_< DistancePoint2D, bp::bases< ConstraintEquationBase > > DistancePoint2D_exposer_t;
+        typedef bp::class_< DistancePoint2D > DistancePoint2D_exposer_t;
         DistancePoint2D_exposer_t DistancePoint2D_exposer = DistancePoint2D_exposer_t( "DistancePoint2D", bp::init< boost::shared_ptr<Point2D>, boost::shared_ptr<Point2D>, double >(( bp::arg("point1"), bp::arg("point2"), bp::arg("distance") )) );
         bp::scope DistancePoint2D_scope( DistancePoint2D_exposer );
         bp::register_ptr_to_python< boost::shared_ptr< DistancePoint2D > >();
@@ -957,20 +366,8 @@ BOOST_PYTHON_MODULE(ark3d_module){
 
     bp::implicitly_convertible< std::vector<boost::shared_ptr<Edge2DBase>, std::allocator<boost::shared_ptr<Edge2DBase> > >, EdgeLoop2D >();
 
-    bp::class_< IndependentDOF_wrapper, bp::bases< DOF > >( "IndependentDOF", bp::init< bp::optional< double, bool > >(( bp::arg("value")=0.0, bp::arg("free")=(bool)(false) )) )    
-        .def( bp::init< char const *, bp::optional< double, bool > >(( bp::arg("name"), bp::arg("value")=0.0, bp::arg("free")=(bool)(false) )) )    
-        .def( 
-            "GetValue"
-            , &::IndependentDOF::GetValue
-            , &IndependentDOF_wrapper::default_GetValue )    
-        .def( 
-            "SetValue"
-            , &::IndependentDOF::SetValue
-            , &IndependentDOF_wrapper::default_SetValue
-            , ( bp::arg("value") ) );
-
     { //::Line
-        typedef bp::class_< Line, bp::bases< PrimitiveBase > > Line_exposer_t;
+        typedef bp::class_< Line > Line_exposer_t;
         Line_exposer_t Line_exposer = Line_exposer_t( "Line", bp::init< boost::shared_ptr<Point>, boost::shared_ptr<Point> >(( bp::arg("point1"), bp::arg("point2") )) );
         bp::scope Line_scope( Line_exposer );
         { //::Line::GetX1
@@ -1032,7 +429,7 @@ BOOST_PYTHON_MODULE(ark3d_module){
     }
 
     { //::Line2D
-        typedef bp::class_< Line2D_wrapper, bp::bases< Edge2DBase > > Line2D_exposer_t;
+        typedef bp::class_< Line2D_wrapper > Line2D_exposer_t;
         Line2D_exposer_t Line2D_exposer = Line2D_exposer_t( "Line2D", bp::init< boost::shared_ptr<Point2D>, boost::shared_ptr<Point2D>, SketchPlanePointer >(( bp::arg("point1"), bp::arg("point2"), bp::arg("sketch_plane") )) );
         bp::scope Line2D_scope( Line2D_exposer );
         { //::Line2D::Get3DLocations
@@ -1103,39 +500,16 @@ BOOST_PYTHON_MODULE(ark3d_module){
                 , GetT2_function_type( &::Line2D::GetT2 ) );
         
         }
-        { //::Line2D::GetTangent1
-        
-            typedef void ( ::Line2D::*GetTangent1_function_type )( ::GiNaC::ex &,::GiNaC::ex & ) ;
-            typedef void ( Line2D_wrapper::*default_GetTangent1_function_type )( ::GiNaC::ex &,::GiNaC::ex & ) ;
-            
-            Line2D_exposer.def( 
-                "GetTangent1"
-                , GetTangent1_function_type(&::Line2D::GetTangent1)
-                , default_GetTangent1_function_type(&Line2D_wrapper::default_GetTangent1)
-                , ( bp::arg("s_component"), bp::arg("t_component") ) );
-        
-        }
-        { //::Line2D::GetTangent2
-        
-            typedef void ( ::Line2D::*GetTangent2_function_type )( ::GiNaC::ex &,::GiNaC::ex & ) ;
-            typedef void ( Line2D_wrapper::*default_GetTangent2_function_type )( ::GiNaC::ex &,::GiNaC::ex & ) ;
-            
-            Line2D_exposer.def( 
-                "GetTangent2"
-                , GetTangent2_function_type(&::Line2D::GetTangent2)
-                , default_GetTangent2_function_type(&Line2D_wrapper::default_GetTangent2)
-                , ( bp::arg("s_component"), bp::arg("t_component") ) );
-        
-        }
         bp::register_ptr_to_python< boost::shared_ptr< Line2D > >();
+        bp::implicitly_convertible< boost::shared_ptr< Line2D >, boost::shared_ptr< Edge2DBase > >();
         bp::implicitly_convertible< boost::shared_ptr< Line2D >, boost::shared_ptr< Primitive2DBase > >();
         bp::implicitly_convertible< boost::shared_ptr< Line2D >, boost::shared_ptr< PrimitiveBase > >();
     }
 
-    bp::class_< ParallelLine, bp::bases< ConstraintEquationBase > >( "ParallelLine", bp::init< boost::shared_ptr<Line>, boost::shared_ptr<Line> >(( bp::arg("line1"), bp::arg("line2") )) );
+    bp::class_< ParallelLine >( "ParallelLine", bp::init< boost::shared_ptr<Line>, boost::shared_ptr<Line> >(( bp::arg("line1"), bp::arg("line2") )) );
 
     { //::ParallelLine2D
-        typedef bp::class_< ParallelLine2D, bp::bases< ConstraintEquationBase > > ParallelLine2D_exposer_t;
+        typedef bp::class_< ParallelLine2D > ParallelLine2D_exposer_t;
         ParallelLine2D_exposer_t ParallelLine2D_exposer = ParallelLine2D_exposer_t( "ParallelLine2D", bp::init< boost::shared_ptr<Line2D>, boost::shared_ptr<Line2D> >(( bp::arg("line1"), bp::arg("line2") )) );
         bp::scope ParallelLine2D_scope( ParallelLine2D_exposer );
         bp::register_ptr_to_python< boost::shared_ptr< ParallelLine2D > >();
@@ -1143,7 +517,7 @@ BOOST_PYTHON_MODULE(ark3d_module){
     }
 
     { //::Point
-        typedef bp::class_< Point, bp::bases< PrimitiveBase > > Point_exposer_t;
+        typedef bp::class_< Point > Point_exposer_t;
         Point_exposer_t Point_exposer = Point_exposer_t( "Point", bp::init< double, double, double, bp::optional< bool, bool, bool > >(( bp::arg("x"), bp::arg("y"), bp::arg("z"), bp::arg("x_free")=(bool)(false), bp::arg("y_free")=(bool)(false), bp::arg("z_free")=(bool)(false) )) );
         bp::scope Point_scope( Point_exposer );
         { //::Point::GetXDOF
@@ -1187,7 +561,7 @@ BOOST_PYTHON_MODULE(ark3d_module){
     }
 
     { //::Point2D
-        typedef bp::class_< Point2D, bp::bases< Primitive2DBase > > Point2D_exposer_t;
+        typedef bp::class_< Point2D > Point2D_exposer_t;
         Point2D_exposer_t Point2D_exposer = Point2D_exposer_t( "Point2D", bp::init< double, double, SketchPlanePointer, bp::optional< bool, bool > >(( bp::arg("s"), bp::arg("t"), bp::arg("sketch_plane"), bp::arg("s_free")=(bool)(false), bp::arg("t_free")=(bool)(false) )) );
         bp::scope Point2D_scope( Point2D_exposer );
         Point2D_exposer.def( bp::init< DOFPointer, DOFPointer, SketchPlanePointer >(( bp::arg("s"), bp::arg("t"), bp::arg("sketch_plane") )) );
@@ -1227,7 +601,7 @@ BOOST_PYTHON_MODULE(ark3d_module){
     bp::class_< PrimitiveException >( "PrimitiveException" );
 
     { //::SketchPlane
-        typedef bp::class_< SketchPlane, bp::bases< PrimitiveBase > > SketchPlane_exposer_t;
+        typedef bp::class_< SketchPlane > SketchPlane_exposer_t;
         SketchPlane_exposer_t SketchPlane_exposer = SketchPlane_exposer_t( "SketchPlane", bp::init< VectorPointer, VectorPointer, PointPointer >(( bp::arg("normal"), bp::arg("up"), bp::arg("base") )) );
         bp::scope SketchPlane_scope( SketchPlane_exposer );
         { //::SketchPlane::Get3DLocation
@@ -1282,7 +656,7 @@ BOOST_PYTHON_MODULE(ark3d_module){
     }
 
     { //::TangentEdge2D
-        typedef bp::class_< TangentEdge2D, bp::bases< ConstraintEquationBase > > TangentEdge2D_exposer_t;
+        typedef bp::class_< TangentEdge2D > TangentEdge2D_exposer_t;
         TangentEdge2D_exposer_t TangentEdge2D_exposer = TangentEdge2D_exposer_t( "TangentEdge2D", bp::init< Edge2DBasePointer, EdgePointNumber, Edge2DBasePointer, EdgePointNumber >(( bp::arg("edge1"), bp::arg("point_num_1"), bp::arg("edge2"), bp::arg("point_num_2") )) );
         bp::scope TangentEdge2D_scope( TangentEdge2D_exposer );
         bp::register_ptr_to_python< boost::shared_ptr< TangentEdge2D > >();
@@ -1290,7 +664,7 @@ BOOST_PYTHON_MODULE(ark3d_module){
     }
 
     { //::Vector
-        typedef bp::class_< Vector, bp::bases< PrimitiveBase > > Vector_exposer_t;
+        typedef bp::class_< Vector > Vector_exposer_t;
         Vector_exposer_t Vector_exposer = Vector_exposer_t( "Vector", bp::init< double, double, double, bp::optional< bool, bool, bool > >(( bp::arg("x"), bp::arg("y"), bp::arg("z"), bp::arg("x_free")=(bool)(false), bp::arg("y_free")=(bool)(false), bp::arg("z_free")=(bool)(false) )) );
         bp::scope Vector_scope( Vector_exposer );
         { //::Vector::GetmmcMatrix
