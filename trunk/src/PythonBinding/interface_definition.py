@@ -2,10 +2,10 @@ import os
 from pyplusplus import module_builder
 
 #Creating an instance of class that will help you to expose your declarations
-mb = module_builder.module_builder_t( [r"/home/grem/ark3d/src/ConstraintSolver/Ark3DModel.h"]
+mb = module_builder.module_builder_t( [os.path.abspath('../ConstraintSolver/Ark3DModel.h')]
                                       , gccxml_path=r"" 
-                                      , working_directory=r"/home/grem/ark3d/src/ConstraintSolver"
-                                      , include_paths=['/home/grem/ark3d/src/ConstraintSolver', '/home/grem/ark3d/src/ConstraintSolver']
+                                      , working_directory=os.path.abspath('./')
+                                      , include_paths=[os.path.abspath('../ConstraintSolver')]
                                       , define_symbols=[] )
 
 #exclude ConstraintSolver class
