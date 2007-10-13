@@ -1,5 +1,11 @@
 import os
-from pyplusplus import module_builder
+
+try:
+  from pyplusplus import module_builder
+except ImportError:
+  print ("Warning: py++ not present so the Python bindings for Ark3D cannot be rebuilt if the header files change. Will use the python_bindings.cpp from the SVN repository")
+  exit(0)
+
 
 #Creating an instance of class that will help you to expose your declarations
 mb = module_builder.module_builder_t( [os.path.abspath('../ConstraintSolver/Ark3DModel.h')]
