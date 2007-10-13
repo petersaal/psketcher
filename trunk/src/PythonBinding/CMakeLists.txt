@@ -1,3 +1,16 @@
+
+
+ADD_CUSTOM_TARGET (PythonBindings ALL echo)
+ADD_CUSTOM_COMMAND(
+    SOURCE    interface_definition.py
+    COMMAND   python
+    ARGS      interface_definition.py
+    TARGET    PythonBindings
+    DEPENDS   ../ConstraintSolver/Ark3DModel.h ../ConstraintSolver/ConstraintSolver.h ../ConstraintSolver/Primitives.h
+    OUTPUTS   python_bindings.cpp
+)
+
+
 FIND_PACKAGE(PythonLibs)
 INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_PATH})
 
