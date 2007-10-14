@@ -32,7 +32,7 @@ mb.member_functions( return_type='::GiNaC::ex' ).exclude()
 	 
 
 #Well, don't you want to see what is going on?
-mb.print_declarations()
+#mb.print_declarations()
 
 #Creating code creator. After this step you should not modify/customize declarations.
 mb.build_code_creator( module_name='ark3d_module' )

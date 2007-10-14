@@ -899,8 +899,8 @@ void OccGtkGLView::GenerateTestSketch()
 	ConstraintEquationBasePointer constraint4(new OccParallelLine2D(myContext,line2,line4));
 	ConstraintEquationBasePointer constraint5(new OccAngleLine2D(myContext,line1,line2,mmcPI/2.0));
 
-	ConstraintEquationBasePointer constraint6(new TangentEdge2D(line3,Point2,arc1,Point1));
-	ConstraintEquationBasePointer constraint7(new TangentEdge2D(line4,Point1,arc1,Point2));
+	ConstraintEquationBasePointer constraint6(new OccTangentEdge2D(myContext,line3,Point2,arc1,Point1));
+	ConstraintEquationBasePointer constraint7(new OccTangentEdge2D(myContext,line4,Point1,arc1,Point2));
 	
 	// create an edge loop
 	EdgeLoop2DPointer edge_loop1(new EdgeLoop2D());

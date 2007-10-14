@@ -24,6 +24,13 @@ struct Arc2D_wrapper : Arc2D, bp::wrapper< Arc2D > {
     
     }
 
+    Arc2D_wrapper(::DOFPointer s_center, ::DOFPointer t_center, ::DOFPointer theta_1, ::DOFPointer theta_2, ::DOFPointer radius, ::SketchPlanePointer sketch_plane )
+    : Arc2D( s_center, t_center, theta_1, theta_2, radius, sketch_plane )
+      , bp::wrapper< Arc2D >(){
+        // constructor
+    
+    }
+
     virtual ::Point2DPointer GetPoint1(  ) {
         if( bp::override func_GetPoint1 = this->get_override( "GetPoint1" ) )
             return func_GetPoint1(  );
@@ -163,6 +170,7 @@ BOOST_PYTHON_MODULE(ark3d_module){
         typedef bp::class_< Arc2D_wrapper > Arc2D_exposer_t;
         Arc2D_exposer_t Arc2D_exposer = Arc2D_exposer_t( "Arc2D", bp::init< double, double, double, double, double, SketchPlanePointer, bp::optional< bool, bool, bool, bool, bool > >(( bp::arg("s_center"), bp::arg("t_center"), bp::arg("theta_1"), bp::arg("theta_2"), bp::arg("radius"), bp::arg("sketch_plane"), bp::arg("s_center_free")=(bool)(false), bp::arg("t_center_free")=(bool)(false), bp::arg("theta_1_free")=(bool)(false), bp::arg("theta_2_free")=(bool)(false), bp::arg("radius_free")=(bool)(false) )) );
         bp::scope Arc2D_scope( Arc2D_exposer );
+        Arc2D_exposer.def( bp::init< DOFPointer, DOFPointer, DOFPointer, DOFPointer, DOFPointer, SketchPlanePointer >(( bp::arg("s_center"), bp::arg("t_center"), bp::arg("theta_1"), bp::arg("theta_2"), bp::arg("radius"), bp::arg("sketch_plane") )) );
         { //::Arc2D::GeneratePoint1
         
             typedef ::Point2DPointer ( ::Arc2D::*GeneratePoint1_function_type )(  ) ;
