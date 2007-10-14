@@ -1,6 +1,6 @@
 
 
-ADD_CUSTOM_TARGET (PythonBindings ALL echo)
+# ADD_CUSTOM_TARGET (PythonBindings ALL echo)
 ADD_CUSTOM_COMMAND(
     SOURCE    interface_definition.py
     COMMAND   python

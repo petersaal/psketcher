@@ -10,6 +10,7 @@
 #include <AIS_Circle.hxx>
 #include <AIS_Relation.hxx>
 #include <AIS_ParallelRelation.hxx>
+#include <AIS_TangentRelation.hxx>
 #include <AIS_LengthDimension.hxx>
 #include <AIS_AngleDimension.hxx>
 #include <AIS_MultipleConnectedInteractive.hxx>
@@ -42,6 +43,9 @@ class OccPrimitiveBase
 
 		// update coordinates of primitive
 		virtual void UpdateDisplay();
+
+		// return a TopoDS shape object of primitive if appropriate (if not overridden, it will return a Null TopoDS_Shape)
+		virtual TopoDS_Shape GetTopoDS_Shape() {TopoDS_Shape null_shape; return null_shape;}
 
 	protected:
 		Handle(AIS_InteractiveContext) ais_context_;
@@ -105,6 +109,8 @@ class OccLine2D : public OccPrimitiveBase, public Line2D
 
 		void UpdateDisplay();
 
+		TopoDS_Shape GetTopoDS_Shape();
+
 	private:
 		Handle(Geom_CartesianPoint) oc_point1_;
 		Handle(Geom_CartesianPoint) oc_point2_;
@@ -118,6 +124,7 @@ class OccArc2D : public OccPrimitiveBase, public Arc2D
 		OccArc2D (Handle(AIS_InteractiveContext) ais_context, double s_center, double t_center, double theta_1, double theta_2, double radius, 
 			      SketchPlanePointer sketch_plane, bool s_center_free = false, bool t_center_free = false, bool theta_1_free = false, bool theta_2_free = false, 
 			      bool radius_free = false);
+		OccArc2D (Handle(AIS_InteractiveContext) ais_context,DOFPointer s_center, DOFPointer t_center, DOFPointer theta_1, DOFPointer theta_2, DOFPointer radius, SketchPlanePointer sketch_plane);
 
 		void Display() {return OccPrimitiveBase::Display();}
 
@@ -125,10 +132,12 @@ class OccArc2D : public OccPrimitiveBase, public Arc2D
 
 		void GenerateAISObject();
 
+		TopoDS_Shape GetTopoDS_Shape();
+
 	private:
 
 };
-typedef boost::shared_ptr<OccLine2D> OccLine2DPointer;
+typedef boost::shared_ptr<OccArc2D> OccArc2DPointer;
 
 class OccParallelLine2D : public OccPrimitiveBase, public ParallelLine2D
 {
@@ -207,6 +216,27 @@ class OccAngleLine2D : public OccPrimitiveBase, public AngleLine2D
 };
 typedef boost::shared_ptr<OccAngleLine2D> OccAngleLine2DPointer;
 
+
+class OccTangentEdge2D : public OccPrimitiveBase, public TangentEdge2D
+{
+	public:
+		OccTangentEdge2D (Handle(AIS_InteractiveContext) ais_context,
+                       Edge2DBasePointer edge1, EdgePointNumber point_num_1, 
+                       Edge2DBasePointer edge2, EdgePointNumber point_num_2);
+
+		void Display() {return OccPrimitiveBase::Display();}
+
+		void UpdateDisplay();
+
+		void GenerateAISObject();
+
+	private:
+		TopoDS_Shape oc_shape1_;
+		TopoDS_Shape oc_shape2_;
+
+ 		Handle(Geom_Plane) oc_plane_;
+};
+typedef boost::shared_ptr<OccTangentEdge2D> OccTangentEdge2DPointer;
 
 
 #endif //OccPrimitivesH

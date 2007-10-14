@@ -52,6 +52,30 @@ Line2D(point1, point2, sketch_plane)
 	Display();
 }
 
+
+TopoDS_Shape OccLine2D::GetTopoDS_Shape()
+{
+	// create an instance of a TopoDS_Shape using the current geometry
+	double x1, y1, z1, x2, y2, z2;	
+	Get3DLocations(x1, y1, z1, x2, y2, z2);
+	
+	gp_Pnt oc_point1;
+	gp_Pnt oc_point2;
+
+	oc_point1.SetX(x1);
+	oc_point1.SetY(y1);
+	oc_point1.SetZ(z1);
+
+	oc_point2.SetX(x2);
+	oc_point2.SetY(y2);
+	oc_point2.SetZ(z2);
+
+	// create the line segment 
+	TopoDS_Shape line_shape = BRepBuilderAPI_MakeEdge(oc_point1,oc_point2);
+
+	return line_shape;
+}
+
 void OccLine2D::UpdateDisplay()
 {
 	double x1, y1, z1, x2, y2, z2;	
@@ -334,6 +358,16 @@ Arc2D(s_center,t_center,theta_1,theta_2,radius,sketch_plane, s_center_free, t_ce
 	Display();
 }
 
+OccArc2D::OccArc2D (Handle(AIS_InteractiveContext) ais_context,DOFPointer s_center, DOFPointer t_center, DOFPointer theta_1, DOFPointer theta_2, DOFPointer radius, SketchPlanePointer sketch_plane):
+OccPrimitiveBase(ais_context),
+Arc2D(s_center,t_center,theta_1,theta_2,radius,sketch_plane)
+{
+	GenerateAISObject();
+
+	// Display the newly create ais_object
+	Display();
+}
+
 void OccArc2D::GenerateAISObject()
 {
 	// get the axis that define the plane of the circle (i_vector (x-axis), j_vector (y-axis), and normal_vector (z-axis))
@@ -389,6 +423,28 @@ void OccArc2D::GenerateAISObject()
 	ais_object_list_.push_back(new AIS_Point(oc_point_center));
 }
 
+TopoDS_Shape OccArc2D::GetTopoDS_Shape()
+{
+	// get the axis that define the plane of the circle (i_vector (x-axis), j_vector (y-axis), and normal_vector (z-axis))
+	mmcMatrix j_vector = sketch_plane_->GetUp()->GetmmcMatrix();  // t axis direction vector in sketch plane
+	mmcMatrix normal_vector = sketch_plane_->GetNormal()->GetmmcMatrix();
+	mmcMatrix i_vector = j_vector.CrossProduct(normal_vector); // s axis direction vector in sketch plane
+
+	// get the center coordinates for the circle
+	double x_center,y_center,z_center;
+	Get3DLocations(x_center, y_center, z_center);
+
+	gp_Dir Zaxis(normal_vector(0,0),normal_vector(1,0),normal_vector(2,0));
+	gp_Dir XvAxis(i_vector(0,0),i_vector(1,0),i_vector(2,0));
+	gp_Pnt Origin(x_center,y_center,z_center);
+	gp_Ax2 Csys(Origin,Zaxis,XvAxis);
+	Handle(Geom_Circle) Circ = new Geom_Circle(Csys,GetRadius()->GetValue());
+
+	// create the arc TopoDS_Shape
+	TopoDS_Shape arc_shape = BRepBuilderAPI_MakeEdge(Circ,GetTheta1()->GetValue(),GetTheta2()->GetValue());
+	return arc_shape;
+}
+
 void OccArc2D::UpdateDisplay()
 {
 	// first, erase the pervious AIS_ParallelRelation from the display because we'll have to recreate it
@@ -399,6 +455,83 @@ void OccArc2D::UpdateDisplay()
 	Display();
 
 	OccPrimitiveBase::UpdateDisplay();
+}
+
+
+OccTangentEdge2D::OccTangentEdge2D (Handle(AIS_InteractiveContext) ais_context,
+                       Edge2DBasePointer edge1, EdgePointNumber point_num_1, 
+                       Edge2DBasePointer edge2, EdgePointNumber point_num_2):
+OccPrimitiveBase(ais_context),
+TangentEdge2D(edge1,point_num_1,edge2,point_num_2)
+{
+	GenerateAISObject();
+
+	// Display the newly create ais_object
+	Display();
+}
+
+
+void OccTangentEdge2D::UpdateDisplay()
+{
+	// first, erase the pervious AIS_ParallelRelation from the display because we'll have to recreate it
+	Erase();
+	
+	GenerateAISObject();
+
+	Display();
+
+	OccPrimitiveBase::UpdateDisplay();
+}
+
+void OccTangentEdge2D::GenerateAISObject()
+{
+	// First, create opencascade versions of each of the two edges
+	// the edges can be either a line or an arc
+	// this will need to be updated as more edge types are introduced
+	
+	Edge2DBasePointer current_edge = edge1_;
+	bool done = false;
+	TopoDS_Shape current_shape;
+	int loop_count = 0;
+	while(!done)
+	{
+		if(dynamic_cast<Line2D*>(current_edge.get()) != 0){
+			Line2D *current_line = dynamic_cast<Line2D*>(current_edge.get());
+			OccLine2DPointer occ_line(new OccLine2D(ais_context_,current_line->GetPoint1(),current_line->GetPoint2(),current_line->GetSketchPlane()));
+			current_shape = occ_line->GetTopoDS_Shape();
+		}else if(dynamic_cast<Arc2D*>(current_edge.get()) != 0){
+			Arc2D *current_arc = dynamic_cast<Arc2D*>(current_edge.get());
+
+			OccArc2DPointer occ_arc(new OccArc2D(ais_context_,current_arc->GetSCenter(),current_arc->GetTCenter(),current_arc->GetTheta1(),current_arc->GetTheta2(),current_arc->GetRadius(),current_arc->GetSketchPlane()));
+
+			current_shape = occ_arc->GetTopoDS_Shape();
+		}else {
+			throw PrimitiveException();
+		}
+			
+		loop_count++;
+	
+		if(loop_count == 2)
+		{
+			done = true;
+			oc_shape2_ = current_shape;
+		} else {
+			oc_shape1_ = current_shape;
+			current_edge = edge2_;
+		}
+	}
+
+
+	if(oc_shape1_.IsNull() || oc_shape2_.IsNull())
+		throw PrimitiveException();
+
+	// define the plane that is needed by the AIS_parallelRelation object
+	double coef_a, coef_b, coef_c, coef_d;
+	edge1_->GetSketchPlane()->GetABCD(coef_a,coef_b,coef_c,coef_d);
+	oc_plane_ = new Geom_Plane(coef_a, coef_b, coef_c, coef_d);
+
+	// create the interactive ais_object, this is what will actually be displayed
+	ais_object_list_.push_back(new AIS_TangentRelation(oc_shape1_,oc_shape2_,oc_plane_));
 }
 
 

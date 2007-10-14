@@ -458,6 +458,24 @@ Edge2DBase(sketch_plane)
 	point2_ = GeneratePoint2();
 }
 
+Arc2D::Arc2D (DOFPointer s_center, DOFPointer t_center, DOFPointer theta_1, DOFPointer theta_2, DOFPointer radius, SketchPlanePointer sketch_plane):
+s_center_(s_center),
+t_center_(t_center),
+theta_1_(theta_1),
+theta_2_(theta_2),
+radius_(radius),
+Edge2DBase(sketch_plane)
+{
+	dof_list_.push_back(s_center_);
+	dof_list_.push_back(t_center_);
+	dof_list_.push_back(theta_1_);
+	dof_list_.push_back(theta_2_);
+	dof_list_.push_back(radius_);
+
+	point1_ = GeneratePoint1();
+	point2_ = GeneratePoint2();
+}
+
 void Arc2D::Get3DLocations(double & x_center, double & y_center, double & z_center)
 {
 	sketch_plane_->Get3DLocation(s_center_->GetValue(), t_center_->GetValue(), x_center, y_center, z_center);
