@@ -140,3 +140,5 @@ void Ark3DModel::UpdateDisplay()
 	for(unsigned int current_primitive = 0; current_primitive < primitive_list_.size(); current_primitive++)
 		primitive_list_[current_primitive]->UpdateDisplay();
 }
+
+

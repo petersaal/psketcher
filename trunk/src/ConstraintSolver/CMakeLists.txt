@@ -2,7 +2,7 @@ LINK_DIRECTORIES ("../mmcMatrix")
 LINK_DIRECTORIES ("../NumOptimization")
 
 # create the ark3d library
-ADD_LIBRARY (Ark3d STATIC ConstraintSolver.cpp Ark3DModel.cpp Primitives.cpp)
+ADD_LIBRARY (Ark3d STATIC ConstraintSolver.cpp Ark3DModel.cpp Primitives.cpp Sketch.cpp)
 
 # The following module is included so that the pkg_check_modules macro can be used below
 find_package(PkgConfig)

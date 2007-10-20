@@ -4,7 +4,7 @@
 
 #include "boost/python/suite/indexing/vector_indexing_suite.hpp"
 
-#include "../ConstraintSolver/Ark3DModel.h"
+#include "/home/grem/ark3d/src/ConstraintSolver/Sketch.h"
 
 namespace bp = boost::python;
 
@@ -607,6 +607,36 @@ BOOST_PYTHON_MODULE(ark3d_module){
     }
 
     bp::class_< PrimitiveException >( "PrimitiveException" );
+
+    bp::class_< Sketch, bp::bases< Ark3DModel > >( "Sketch", bp::init< VectorPointer, VectorPointer, PointPointer >(( bp::arg("normal"), bp::arg("up"), bp::arg("base") )) )    
+        .def( 
+            "AddAngleLine2D"
+            , &::Sketch::AddAngleLine2D
+            , ( bp::arg("line1"), bp::arg("line2"), bp::arg("angle") ) )    
+        .def( 
+            "AddArc2D"
+            , &::Sketch::AddArc2D
+            , ( bp::arg("s_center"), bp::arg("t_center"), bp::arg("theta_1"), bp::arg("theta_2"), bp::arg("radius"), bp::arg("s_center_free"), bp::arg("t_center_free"), bp::arg("theta_1_free"), bp::arg("theta_2_free"), bp::arg("radius_free") ) )    
+        .def( 
+            "AddDistancePoint2D"
+            , &::Sketch::AddDistancePoint2D
+            , ( bp::arg("point1"), bp::arg("point2"), bp::arg("distance") ) )    
+        .def( 
+            "AddLine2D"
+            , &::Sketch::AddLine2D
+            , ( bp::arg("point1"), bp::arg("point2") ) )    
+        .def( 
+            "AddParallelLine2D"
+            , &::Sketch::AddParallelLine2D
+            , ( bp::arg("line1"), bp::arg("line2") ) )    
+        .def( 
+            "AddPoint2D"
+            , &::Sketch::AddPoint2D
+            , ( bp::arg("s"), bp::arg("t"), bp::arg("s_free"), bp::arg("t_free") ) )    
+        .def( 
+            "AddTangentEdge2D"
+            , &::Sketch::AddTangentEdge2D
+            , ( bp::arg("edge1"), bp::arg("point_num_1"), bp::arg("edge2"), bp::arg("point_num_2") ) );
 
     { //::SketchPlane
         typedef bp::class_< SketchPlane > SketchPlane_exposer_t;

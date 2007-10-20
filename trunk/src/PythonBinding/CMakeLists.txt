@@ -6,7 +6,7 @@ ADD_CUSTOM_COMMAND(
     COMMAND   python
     ARGS      interface_definition.py
     TARGET    PythonBindings
-    DEPENDS   ../ConstraintSolver/Ark3DModel.h ../ConstraintSolver/ConstraintSolver.h ../ConstraintSolver/Primitives.h
+    DEPENDS   ../ConstraintSolver/Sketch.h ../ConstraintSolver/Ark3DModel.h ../ConstraintSolver/ConstraintSolver.h ../ConstraintSolver/Primitives.h
     OUTPUTS   python_bindings.cpp
 )
 
