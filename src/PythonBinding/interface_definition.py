@@ -8,7 +8,7 @@ except ImportError:
 
 
 #Creating an instance of class that will help you to expose your declarations
-mb = module_builder.module_builder_t( [os.path.abspath('../ConstraintSolver/Ark3DModel.h')]
+mb = module_builder.module_builder_t( [os.path.abspath('../ConstraintSolver/Sketch.h')]
                                       , gccxml_path=r"" 
                                       , working_directory=os.path.abspath('./')
                                       , include_paths=[os.path.abspath('../ConstraintSolver')]

@@ -30,4 +30,5 @@ private:
 	std::vector<PrimitiveBasePointer> primitive_list_;
 };
 
+
 #endif //Ark3DModelH
