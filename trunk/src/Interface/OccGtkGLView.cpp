@@ -914,8 +914,12 @@ void OccGtkGLView::GenerateTestSketch()
 
 void OccGtkGLView::SolveConstraints() 
 {
-	current_sketch_->SolveConstraints();
-	current_sketch_->UpdateDisplay();
+	
+	if(current_sketch_ != 0)
+	{
+		current_sketch_->SolveConstraints();
+		current_sketch_->UpdateDisplay();
+	}
 }
 
 void OccGtkGLView::ExecutePythonScript()
