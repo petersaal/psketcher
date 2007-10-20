@@ -53,7 +53,7 @@ extern "C" {
 #include <Python.h>
 }
 
-#include "../ConstraintSolver/Ark3DModel.h"
+#include "../OpenCascadeBinding/OccSketch.h"
 
 /**
  *@author Sharjith
@@ -235,7 +235,7 @@ private:
     Handle(V3d_Viewer) myViewer;
     Handle(AIS_InteractiveContext) myContext;
 
-		Ark3DModel ark3d_model_;
+		OccSketchPointer current_sketch_;
 
     bool opencascade_inited;
 
