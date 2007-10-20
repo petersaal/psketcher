@@ -636,7 +636,10 @@ BOOST_PYTHON_MODULE(ark3d_module){
         .def( 
             "AddTangentEdge2D"
             , &::Sketch::AddTangentEdge2D
-            , ( bp::arg("edge1"), bp::arg("point_num_1"), bp::arg("edge2"), bp::arg("point_num_2") ) );
+            , ( bp::arg("edge1"), bp::arg("point_num_1"), bp::arg("edge2"), bp::arg("point_num_2") ) )    
+        .def( 
+            "GetSketchPlane"
+            , &::Sketch::GetSketchPlane );
 
     { //::SketchPlane
         typedef bp::class_< SketchPlane > SketchPlane_exposer_t;

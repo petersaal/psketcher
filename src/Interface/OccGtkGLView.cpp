@@ -85,17 +85,17 @@ OccGtkGLView::OccGtkGLView()
 
 	cout << "got here 1" << endl;
 
-	// create the lua instance
-PyImport_AppendInittab( "ark3d_module", &initark3d_module );
-Py_Initialize();
-//init_ark3d_module();
-PyRun_SimpleString("import ark3d_module \n");
-PyRun_SimpleString("import sys \n");
-PyRun_SimpleString("sys.path.append('./src/PythonBinding/') \n");
-PyRun_SimpleString("import ark3d_module \n");
-
-PyRun_SimpleString("point1 =  ark3d_module.CreatePoint(0.0,1.0,2.0) \n");
-PyRun_SimpleString("print point1.GetYDOF().GetValue() \n");
+	// create the python interpretor instance
+	PyImport_AppendInittab( "ark3d_module", &initark3d_module );
+	Py_Initialize();
+	//init_ark3d_module();
+	PyRun_SimpleString("import ark3d_module \n");
+	PyRun_SimpleString("import sys \n");
+	PyRun_SimpleString("sys.path.append('./src/PythonBinding/') \n");
+	PyRun_SimpleString("import ark3d_module \n");
+	
+	PyRun_SimpleString("point1 =  ark3d_module.CreatePoint(0.0,1.0,2.0) \n");
+	PyRun_SimpleString("print point1.GetYDOF().GetValue() \n");
 
 	cout << "got here 2" << endl;
 }
@@ -875,32 +875,32 @@ void OccGtkGLView::SelectionChanged()
 
 void OccGtkGLView::GenerateTestSketch()
 {
+	// create the current sketch
 	VectorPointer normal( new Vector(0.0,0.0,1.0));
 	VectorPointer up( new Vector(0.0,1.0,0.0));
 	PointPointer base( new Point(0.0,0.0,0.0));
+	current_sketch_ = OccSketchPointer(new OccSketch(myContext,normal, up, base));
 
-	SketchPlanePointer my_sketch_plane(new SketchPlane(normal, up, base) );
+	Point2DPointer point1 = current_sketch_->AddPoint2D(0.0,0.0,false,false);  // none of the dof's can vary
+	Point2DPointer point2 = current_sketch_->AddPoint2D(10.0,0.0,true,false);  // only x dof can vary
+	Point2DPointer point3 = current_sketch_->AddPoint2D(10.0,10.0,true,true);  // x and y dof's can vary
 
-	Point2DPointer point1(new OccPoint2D(myContext,0.0,0.0,my_sketch_plane,false,false));  // none of the dof's can vary
-	Point2DPointer point2(new OccPoint2D(myContext,10.0,0.0,my_sketch_plane,true,false));  // only x dof can vary
-	Point2DPointer point3(new OccPoint2D(myContext,10.0,10.0,my_sketch_plane,true,true));  // x and y dof's can vary
+	Arc2DPointer arc1 = current_sketch_->AddArc2D(1.5,6.0,(mmcPI/2.0)*.8,(mmcPI)*1.2,2.0,true,true,true,true,false);
 
-	Arc2DPointer arc1(new OccArc2D(myContext,1.5,6.0,(mmcPI/2.0)*.8,(mmcPI)*1.2,2.0,my_sketch_plane,true,true,true,true,false));
-
-	Line2DPointer line1(new OccLine2D(myContext,point1,point2,my_sketch_plane));
-	Line2DPointer line2(new OccLine2D(myContext,point2,point3,my_sketch_plane));
-	Line2DPointer line3(new OccLine2D(myContext,point3,arc1->GetPoint1(),my_sketch_plane));
-	Line2DPointer line4(new OccLine2D(myContext,arc1->GetPoint2(),point1,my_sketch_plane));
+	Line2DPointer line1 = current_sketch_->AddLine2D(point1,point2);
+	Line2DPointer line2 = current_sketch_->AddLine2D(point2,point3);
+	Line2DPointer line3 = current_sketch_->AddLine2D(point3,arc1->GetPoint1());
+	Line2DPointer line4 = current_sketch_->AddLine2D(arc1->GetPoint2(),point1);
 
 	// These 5 constraints will fully constrain the four free DOF's defined about
-	ConstraintEquationBasePointer constraint1(new OccDistancePoint2D(myContext,point1,point2,6.0));
-	ConstraintEquationBasePointer constraint2(new OccDistancePoint2D(myContext,point2,point3,12.0));
-	ConstraintEquationBasePointer constraint3(new OccParallelLine2D(myContext,line1,line3));
-	ConstraintEquationBasePointer constraint4(new OccParallelLine2D(myContext,line2,line4));
-	ConstraintEquationBasePointer constraint5(new OccAngleLine2D(myContext,line1,line2,mmcPI/2.0));
+	ConstraintEquationBasePointer constraint1 = current_sketch_->AddDistancePoint2D(point1,point2,6.0);
+	ConstraintEquationBasePointer constraint2 = current_sketch_->AddDistancePoint2D(point2,point3,12.0);
+	ConstraintEquationBasePointer constraint3 = current_sketch_->AddParallelLine2D(line1,line3);
+	ConstraintEquationBasePointer constraint4 = current_sketch_->AddParallelLine2D(line2,line4);
+	ConstraintEquationBasePointer constraint5 = current_sketch_->AddAngleLine2D(line1,line2,mmcPI/2.0);
 
-	ConstraintEquationBasePointer constraint6(new OccTangentEdge2D(myContext,line3,Point2,arc1,Point1));
-	ConstraintEquationBasePointer constraint7(new OccTangentEdge2D(myContext,line4,Point1,arc1,Point2));
+	ConstraintEquationBasePointer constraint6 = current_sketch_->AddTangentEdge2D(line3,Point2,arc1,Point1);
+	ConstraintEquationBasePointer constraint7 = current_sketch_->AddTangentEdge2D(line4,Point1,arc1,Point2);
 	
 	// create an edge loop
 	EdgeLoop2DPointer edge_loop1(new EdgeLoop2D());
@@ -910,31 +910,12 @@ void OccGtkGLView::GenerateTestSketch()
 	edge_loop1->AddEdge(arc1);
 	edge_loop1->AddEdge(line4);
 	cout << "Is loop valid: " << edge_loop1->IsLoopValid() << endl;
-
-	// Add the primitives to the 3d model object
-	ark3d_model_.AddPrimitive(point1);
-	ark3d_model_.AddPrimitive(point2);
-	ark3d_model_.AddPrimitive(point3);
-	ark3d_model_.AddPrimitive(line1);
-	ark3d_model_.AddPrimitive(line2);
-	ark3d_model_.AddPrimitive(line3);
-	ark3d_model_.AddPrimitive(line4);
-	ark3d_model_.AddPrimitive(arc1);
-
-	// Add the constraints to the 3d model object
-	ark3d_model_.AddConstraintEquation(constraint1);
-	ark3d_model_.AddConstraintEquation(constraint2);
-	ark3d_model_.AddConstraintEquation(constraint3);
-	ark3d_model_.AddConstraintEquation(constraint4);
-	ark3d_model_.AddConstraintEquation(constraint5);
-	ark3d_model_.AddConstraintEquation(constraint6);
-	ark3d_model_.AddConstraintEquation(constraint7);
 }
 
 void OccGtkGLView::SolveConstraints() 
 {
-	ark3d_model_.SolveConstraints();
-	ark3d_model_.UpdateDisplay();
+	current_sketch_->SolveConstraints();
+	current_sketch_->UpdateDisplay();
 }
 
 void OccGtkGLView::ExecutePythonScript()
