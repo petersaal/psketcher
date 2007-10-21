@@ -10,6 +10,9 @@ class OccSketch : public Sketch
 		// constructor
 		OccSketch(Handle(AIS_InteractiveContext) ais_context, VectorPointer normal, VectorPointer up, PointPointer base);
 	
+		// method to generate a gp_Ax3 object for the current SketchPlane
+		gp_Ax3 Get_gp_Ax3();
+
 		// methods for adding primitives to the sketch
 		OccPoint2DPointer AddPoint2D ( double s, double t, bool s_free, bool t_free);
 		OccArc2DPointer AddArc2D (double s_center, double t_center, double theta_1, double theta_2, double radius, bool s_center_free, bool t_center_free, bool theta_1_free, bool theta_2_free, bool radius_free);

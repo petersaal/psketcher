@@ -198,10 +198,9 @@ public:
 
 		// methods that 
 		void SolveConstraints();
-
 		void GenerateTestSketch();
-
 		void ExecutePythonScript();
+		void GenerateDefaultSketch();
 
 public:
     bool isInitialized(void)

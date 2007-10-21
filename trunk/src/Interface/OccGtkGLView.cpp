@@ -117,19 +117,19 @@ OccGtkGLView::~OccGtkGLView()
 
 void OccGtkGLView::InitOCC(GtkDrawingArea* widget)
 {    
-    theWidget = widget;
-    PangoFontDescription *font_desc;
-    PangoFont *font;
-    PangoFontMetrics *font_metrics;
-
-    InitCursors();
-
-    opencascade_realize();
-    if(! myView.IsNull() )
-    {
-	myView->MustBeResized(); 
-	myView->Redraw();
-    }
+	theWidget = widget;
+	PangoFontDescription *font_desc;
+	PangoFont *font;
+	PangoFontMetrics *font_metrics;
+	
+	InitCursors();
+	
+	opencascade_realize();
+	if(! myView.IsNull() )
+	{
+		myView->MustBeResized(); 
+		myView->Redraw();
+	}
 }
 
 void OccGtkGLView::ReSize()
@@ -875,12 +875,6 @@ void OccGtkGLView::SelectionChanged()
 
 void OccGtkGLView::GenerateTestSketch()
 {
-	// create the current sketch
-	VectorPointer normal( new Vector(0.0,0.0,1.0));
-	VectorPointer up( new Vector(0.0,1.0,0.0));
-	PointPointer base( new Point(0.0,0.0,0.0));
-	current_sketch_ = OccSketchPointer(new OccSketch(myContext,normal, up, base));
-
 	Point2DPointer point1 = current_sketch_->AddPoint2D(0.0,0.0,false,false);  // none of the dof's can vary
 	Point2DPointer point2 = current_sketch_->AddPoint2D(10.0,0.0,true,false);  // only x dof can vary
 	Point2DPointer point3 = current_sketch_->AddPoint2D(10.0,10.0,true,true);  // x and y dof's can vary
@@ -927,4 +921,23 @@ void OccGtkGLView::ExecutePythonScript()
     FILE *fp = fopen ("./src/PythonScripts/test_sketch.py", "r+");
     PyRun_SimpleFile (fp, "./src/PythonScripts/test_sketch.py");
 		fclose(fp);
+}
+
+void OccGtkGLView::GenerateDefaultSketch()
+{
+	// create the current Ark3D sketch
+	VectorPointer normal( new Vector(0.0,0.0,1.0));
+	VectorPointer up( new Vector(0.0,1.0,0.0));
+	PointPointer base( new Point(0.0,0.0,0.0));
+	current_sketch_ = OccSketchPointer(new OccSketch(myContext,normal, up, base));
+
+	// set the Privileged Plane to be the current sketch plane
+	myViewer->SetPrivilegedPlane(current_sketch_->Get_gp_Ax3());
+
+	// set the grid size 
+	myViewer->SetRectangularGridValues (0.0 /* x origin */, 0.0 /* y origin */, 1.0 /* XStep */, 1.0 /* YStep */, 0.0 /* RotationAngle */);
+	myViewer->SetRectangularGridGraphicValues (50.0 /* XSize */, 50.0 /* YSize */, 0.0 /* OffSet */);
+
+	// turn on the display of the grid (grid coincides with the privileged plane)
+	myViewer->ActivateGrid(Aspect_GT_Rectangular,Aspect_GDM_Lines);
 }

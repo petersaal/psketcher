@@ -58,3 +58,20 @@ OccTangentEdge2DPointer OccSketch::AddTangentEdge2D(Edge2DBasePointer edge1, Edg
 	AddConstraintEquation(new_constraint);
 	return new_constraint;
 }
+
+// returns the open cascade gp_Ax3 object for the current sketch plane
+gp_Ax3 OccSketch::Get_gp_Ax3()
+{
+	// get the axis that define the plane of the circle (i_vector (x-axis), j_vector (y-axis), and normal_vector (z-axis))
+	mmcMatrix j_vector = sketch_plane_->GetUp()->GetmmcMatrix();  // t axis direction vector in sketch plane
+	mmcMatrix normal_vector = sketch_plane_->GetNormal()->GetmmcMatrix();
+	mmcMatrix i_vector = j_vector.CrossProduct(normal_vector); // s axis direction vector in sketch plane
+	mmcMatrix base = sketch_plane_->GetBase()->GetmmcMatrix();
+
+	gp_Dir Zaxis(normal_vector(0,0),normal_vector(1,0),normal_vector(2,0));
+	gp_Dir XvAxis(i_vector(0,0),i_vector(1,0),i_vector(2,0));
+	gp_Pnt Origin(base(0,0),base(1,0),base(2,0));
+	gp_Ax2 Csys(Origin,Zaxis,XvAxis);
+
+	return Csys;
+}
