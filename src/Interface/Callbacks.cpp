@@ -761,6 +761,7 @@ on_drawingarea1_configure_event        (GtkWidget       *widget,
 		if(firstTime)
 		{
 		theViewer->InitOCC(GTK_DRAWING_AREA(widget));
+		theViewer->GenerateDefaultSketch();
 		firstTime = false;
 		}    
 		theViewer->ReSize();
