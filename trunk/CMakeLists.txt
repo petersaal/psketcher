@@ -23,4 +23,5 @@ add_subdirectory (src/mmcMatrix)
 add_subdirectory (src/ConstraintSolver)
 add_subdirectory (src/OpenCascadeBinding)
 add_subdirectory (src/PythonBinding)
+add_subdirectory (src/InteractiveConstructors)
 
