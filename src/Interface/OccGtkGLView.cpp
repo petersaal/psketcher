@@ -38,6 +38,7 @@ email                : |sharjith_ssn@hotmail.com|
 #endif
 
 #include "../OpenCascadeBinding/OccPrimitives.h"
+#include "../InteractiveConstructors/GtkEventProperties.h"
 
 // for elastic bean selection
 #define ValZWMin 1
@@ -83,6 +84,8 @@ OccGtkGLView::OccGtkGLView()
     myCurrentMode = CurAction3d_Nothing;
     myDegenerateModeIsOn = Standard_True;
 
+		interactive_primitive_ = 0;
+
 	cout << "got here 1" << endl;
 
 	// create the python interpretor instance
@@ -105,18 +108,20 @@ OccGtkGLView::~OccGtkGLView()
 	// close down Python
 	Py_Finalize();
 
-    g_free(zoom_cursor);
-    g_free(pan_cursor);
-    g_free(glob_pan_cursor);
-    g_free(rotate_cursor);
-    g_free(pick_cursor);
-    g_free(cross_cursor);
-    g_free(rect_cursor);
+	g_free(zoom_cursor);
+	g_free(pan_cursor);
+	g_free(glob_pan_cursor);
+	g_free(rotate_cursor);
+	g_free(pick_cursor);
+	g_free(cross_cursor);
+	g_free(rect_cursor);
 
+	if(interactive_primitive_ != 0)
+		delete interactive_primitive_;
 }
 
 void OccGtkGLView::InitOCC(GtkDrawingArea* widget)
-{    
+{
 	theWidget = widget;
 	PangoFontDescription *font_desc;
 	PangoFont *font;
@@ -328,45 +333,58 @@ void OccGtkGLView::MoveTo(const int& x, const int& y)
 
 void OccGtkGLView::LButtonDown( GdkEventButton  *event )
 {
-    //  save the current mouse coordinate in min
-    myXmin = (Standard_Integer)event->x;
-    myYmin = (Standard_Integer)event->y;
-    myXmax = (Standard_Integer)event->x;
-    myYmax = (Standard_Integer)event->y;
-
-    if ( event->state & GDK_CONTROL_MASK )
-    {
-	myCurrentMode = CurAction3d_DynamicZooming;
-    }
-    else
-    {
-	switch ( myCurrentMode )
+	if(interactive_primitive_ != 0)
 	{
-	    case CurAction3d_Nothing:
-		if ( event->state & GDK_SHIFT_MASK )
-		    MultiDragEvent( myXmax, myYmax, -1 );
-		else
-		    DragEvent( myXmax, myYmax, -1 );
-		break;
-	    case CurAction3d_DynamicZooming:
-		break;
-	    case CurAction3d_WindowZooming:
-		break;
-	    case CurAction3d_DynamicPanning:
-		break;
-	    case CurAction3d_GlobalPanning:
-		break;
-	    case CurAction3d_DynamicRotation:
-		if ( !myDegenerateModeIsOn )
-		    myView->SetDegenerateModeOn();
-		myView->StartRotation( (Standard_Integer)event->x, (Standard_Integer)event->y );
-		break;
-	    default:
-		Standard_Failure::Raise( "incompatible Current Mode" );
-		break;
+		MouseEventPropertiesPointer event_props(new GtkMouseEventProperties((MouseButtonEventType)ButtonPress,event));
+		if(interactive_primitive_->LeftButtonDown(event_props))
+		{
+			interactive_primitive_->CreateObject();
+			delete interactive_primitive_;
+			interactive_primitive_ = 0;
+		}
+
+	} else {
+
+			//  save the current mouse coordinate in min
+			myXmin = (Standard_Integer)event->x;
+			myYmin = (Standard_Integer)event->y;
+			myXmax = (Standard_Integer)event->x;
+			myYmax = (Standard_Integer)event->y;
+	
+			if ( event->state & GDK_CONTROL_MASK )
+			{
+		myCurrentMode = CurAction3d_DynamicZooming;
+			}
+			else
+			{
+		switch ( myCurrentMode )
+		{
+				case CurAction3d_Nothing:
+			if ( event->state & GDK_SHIFT_MASK )
+					MultiDragEvent( myXmax, myYmax, -1 );
+			else
+					DragEvent( myXmax, myYmax, -1 );
+			break;
+				case CurAction3d_DynamicZooming:
+			break;
+				case CurAction3d_WindowZooming:
+			break;
+				case CurAction3d_DynamicPanning:
+			break;
+				case CurAction3d_GlobalPanning:
+			break;
+				case CurAction3d_DynamicRotation:
+			if ( !myDegenerateModeIsOn )
+					myView->SetDegenerateModeOn();
+			myView->StartRotation( (Standard_Integer)event->x, (Standard_Integer)event->y );
+			break;
+				default:
+			Standard_Failure::Raise( "incompatible Current Mode" );
+			break;
+		}
+			}
+			ActivateCursor( myCurrentMode );
 	}
-    }
-    ActivateCursor( myCurrentMode );
 }
 
 void OccGtkGLView::MButtonDown( GdkEventButton  *event )
