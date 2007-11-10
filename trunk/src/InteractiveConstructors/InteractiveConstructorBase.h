@@ -72,9 +72,6 @@ class MotionEventProperties
 };
 typedef boost::shared_ptr<MotionEventProperties> MotionEventPropertiesPointer;
 
-
-
-
 class InteractiveConstructorBase
 {
 	public:

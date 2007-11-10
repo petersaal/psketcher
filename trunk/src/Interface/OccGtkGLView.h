@@ -54,6 +54,7 @@ extern "C" {
 }
 
 #include "../OpenCascadeBinding/OccSketch.h"
+#include "../InteractiveConstructors/InteractiveConstructorBase.h"
 
 /**
  *@author Sharjith
@@ -234,7 +235,9 @@ private:
     Handle(V3d_Viewer) myViewer;
     Handle(AIS_InteractiveContext) myContext;
 
+		// Ark3D specific members
 		OccSketchPointer current_sketch_;
+		InteractiveConstructorBase *interactive_primitive_;
 
     bool opencascade_inited;
 

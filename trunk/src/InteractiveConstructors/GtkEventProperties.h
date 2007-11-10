@@ -10,8 +10,11 @@
 // Get binding for the mouse event properties (only the constructor needs to be defined) 
 class GtkMouseEventProperties : public MouseEventProperties
 {
-	// Constructor
-	GtkMouseEventProperties(MouseButtonEventType event_type, GdkEventButton  *event);
+	public:
+		// Constructor
+		GtkMouseEventProperties(MouseButtonEventType event_type, GdkEventButton *event);
+
+	private:
 };
 typedef boost::shared_ptr<GtkMouseEventProperties> GtkMouseEventPropertiesPointer;
 
@@ -20,8 +23,11 @@ typedef boost::shared_ptr<GtkMouseEventProperties> GtkMouseEventPropertiesPointe
 // Get binding for the mouse event properties (only the constructor needs to be defined) 
 class GtkMotionEventProperties : public MotionEventProperties
 {
-	// Constructor
-	GtkMotionEventProperties(GdkEventMotion  *event);
+	public:
+		// Constructor
+		GtkMotionEventProperties(GdkEventMotion  *event);
+
+	private:
 };
 typedef boost::shared_ptr<GtkMotionEventProperties> GtkMotionEventPropertiesPointer;
 
