@@ -16,7 +16,7 @@ class GtkMouseEventProperties : public MouseEventProperties
 
 	private:
 };
-typedef boost::shared_ptr<GtkMouseEventProperties> GtkMouseEventPropertiesPointer;
+typedef std::auto_ptr<GtkMouseEventProperties> GtkMouseEventPropertiesPointer;
 
 
 
@@ -29,6 +29,6 @@ class GtkMotionEventProperties : public MotionEventProperties
 
 	private:
 };
-typedef boost::shared_ptr<GtkMotionEventProperties> GtkMotionEventPropertiesPointer;
+typedef std::auto_ptr<GtkMotionEventProperties> GtkMotionEventPropertiesPointer;
 
 #endif //GtkEventPropertiesH

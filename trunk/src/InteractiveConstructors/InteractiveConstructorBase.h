@@ -35,7 +35,7 @@ class MouseEventProperties
 		MouseButton mouse_button_;
 		MouseButtonEventType mouse_event_type_;
 };
-typedef boost::shared_ptr<MouseEventProperties> MouseEventPropertiesPointer;
+typedef std::auto_ptr<MouseEventProperties> MouseEventPropertiesPointer;
 
 
 
@@ -70,7 +70,7 @@ class MotionEventProperties
 		bool button_4_;
 		bool button_5_;
 };
-typedef boost::shared_ptr<MotionEventProperties> MotionEventPropertiesPointer;
+typedef std::auto_ptr<MotionEventProperties> MotionEventPropertiesPointer;
 
 class InteractiveConstructorBase
 {
