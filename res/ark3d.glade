@@ -1,1826 +1,1336 @@
-<?xml version="1.0" standalone="no"?> <!--*- mode: xml -*-->
-<!DOCTYPE glade-interface SYSTEM "http://glade.gnome.org/glade-2.0.dtd">
-
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
+<!--*- mode: xml -*-->
 <glade-interface>
-
-<widget class="GtkWindow" id="MainWindow">
-  <property name="title" translatable="yes">OpenCASCADE Viewer</property>
-  <property name="type">GTK_WINDOW_TOPLEVEL</property>
-  <property name="window_position">GTK_WIN_POS_NONE</property>
-  <property name="modal">False</property>
-  <property name="default_width">1024</property>
-  <property name="default_height">768</property>
-  <property name="resizable">True</property>
-  <property name="destroy_with_parent">False</property>
-  <property name="icon">lamp.gif</property>
-  <property name="decorated">True</property>
-  <property name="skip_taskbar_hint">False</property>
-  <property name="skip_pager_hint">False</property>
-  <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
-  <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
-  <property name="focus_on_map">True</property>
-  <property name="urgency_hint">False</property>
-  <signal name="configure_event" handler="on_MainWindow_configure_event" after="yes" last_modification_time="Mon, 24 Jul 2006 17:14:24 GMT"/>
-  <signal name="realize" handler="on_MainWindow_realize" after="yes" last_modification_time="Mon, 24 Jul 2006 17:14:51 GMT"/>
-  <signal name="destroy_event" handler="on_MainWindow_destroy_event" last_modification_time="Mon, 24 Jul 2006 17:15:16 GMT"/>
-  <signal name="delete_event" handler="on_MainWindow_delete_event" last_modification_time="Mon, 24 Jul 2006 17:15:21 GMT"/>
-
-  <child>
-    <widget class="GtkVBox" id="vbox1">
-      <property name="visible">True</property>
-      <property name="homogeneous">False</property>
-      <property name="spacing">0</property>
-
-      <child>
-	<widget class="GtkMenuBar" id="menubar1">
-	  <property name="visible">True</property>
-	  <property name="pack_direction">GTK_PACK_DIRECTION_LTR</property>
-	  <property name="child_pack_direction">GTK_PACK_DIRECTION_LTR</property>
-
-	  <child>
-	    <widget class="GtkMenuItem" id="menuitem1">
-	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">_File</property>
-	      <property name="use_underline">True</property>
-
-	      <child>
-		<widget class="GtkMenu" id="menuitem1_menu">
-
-		  <child>
-		    <widget class="GtkImageMenuItem" id="import1">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Import</property>
-		      <property name="use_underline">True</property>
-
-		      <child internal-child="image">
-			<widget class="GtkImage" id="image304">
-			  <property name="visible">True</property>
-			  <property name="stock">gtk-go-down</property>
-			  <property name="icon_size">1</property>
-			  <property name="xalign">0.5</property>
-			  <property name="yalign">0.5</property>
-			  <property name="xpad">0</property>
-			  <property name="ypad">0</property>
-			</widget>
-		      </child>
-
-		      <child>
-			<widget class="GtkMenu" id="import1_menu">
-
-			  <child>
-			    <widget class="GtkImageMenuItem" id="import_iges1">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">IGES</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_import_iges1_activate" last_modification_time="Mon, 24 Jul 2006 16:51:35 GMT"/>
-
-			      <child internal-child="image">
-				<widget class="GtkImage" id="image305">
-				  <property name="visible">True</property>
-				  <property name="pixbuf">import-iges.gif</property>
-				  <property name="xalign">0.5</property>
-				  <property name="yalign">0.5</property>
-				  <property name="xpad">0</property>
-				  <property name="ypad">0</property>
-				</widget>
-			      </child>
-			    </widget>
-			  </child>
-
-			  <child>
-			    <widget class="GtkImageMenuItem" id="import_step1">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">STEP</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_import_step1_activate" last_modification_time="Mon, 24 Jul 2006 16:51:35 GMT"/>
-
-			      <child internal-child="image">
-				<widget class="GtkImage" id="image306">
-				  <property name="visible">True</property>
-				  <property name="pixbuf">import-step.gif</property>
-				  <property name="xalign">0.5</property>
-				  <property name="yalign">0.5</property>
-				  <property name="xpad">0</property>
-				  <property name="ypad">0</property>
-				</widget>
-			      </child>
-			    </widget>
-			  </child>
-
-			  <child>
-			    <widget class="GtkImageMenuItem" id="import_brep1">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">BREP</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_import_brep1_activate" last_modification_time="Mon, 24 Jul 2006 16:51:35 GMT"/>
-
-			      <child internal-child="image">
-				<widget class="GtkImage" id="image307">
-				  <property name="visible">True</property>
-				  <property name="pixbuf">import-brep.gif</property>
-				  <property name="xalign">0.5</property>
-				  <property name="yalign">0.5</property>
-				  <property name="xpad">0</property>
-				  <property name="ypad">0</property>
-				</widget>
-			      </child>
-			    </widget>
-			  </child>
-
-			  <child>
-			    <widget class="GtkImageMenuItem" id="import_csfdb1">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">CSFDB</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_import_csfdb1_activate" last_modification_time="Mon, 24 Jul 2006 16:51:35 GMT"/>
-
-			      <child internal-child="image">
-				<widget class="GtkImage" id="image308">
-				  <property name="visible">True</property>
-				  <property name="pixbuf">import-csfdb.gif</property>
-				  <property name="xalign">0.5</property>
-				  <property name="yalign">0.5</property>
-				  <property name="xpad">0</property>
-				  <property name="ypad">0</property>
-				</widget>
-			      </child>
-			    </widget>
-			  </child>
-			</widget>
-		      </child>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkImageMenuItem" id="export1">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Export</property>
-		      <property name="use_underline">True</property>
-
-		      <child internal-child="image">
-			<widget class="GtkImage" id="image309">
-			  <property name="visible">True</property>
-			  <property name="stock">gtk-go-up</property>
-			  <property name="icon_size">1</property>
-			  <property name="xalign">0.5</property>
-			  <property name="yalign">0.5</property>
-			  <property name="xpad">0</property>
-			  <property name="ypad">0</property>
-			</widget>
-		      </child>
-
-		      <child>
-			<widget class="GtkMenu" id="export1_menu">
-
-			  <child>
-			    <widget class="GtkImageMenuItem" id="export_iges2">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">IGES</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_export_iges2_activate" last_modification_time="Mon, 24 Jul 2006 16:51:35 GMT"/>
-
-			      <child internal-child="image">
-				<widget class="GtkImage" id="image310">
-				  <property name="visible">True</property>
-				  <property name="pixbuf">export-iges.gif</property>
-				  <property name="xalign">0.5</property>
-				  <property name="yalign">0.5</property>
-				  <property name="xpad">0</property>
-				  <property name="ypad">0</property>
-				</widget>
-			      </child>
-			    </widget>
-			  </child>
-
-			  <child>
-			    <widget class="GtkImageMenuItem" id="export_step2">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">STEP</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_export_step2_activate" last_modification_time="Mon, 24 Jul 2006 16:51:35 GMT"/>
-
-			      <child internal-child="image">
-				<widget class="GtkImage" id="image311">
-				  <property name="visible">True</property>
-				  <property name="pixbuf">export-step.gif</property>
-				  <property name="xalign">0.5</property>
-				  <property name="yalign">0.5</property>
-				  <property name="xpad">0</property>
-				  <property name="ypad">0</property>
-				</widget>
-			      </child>
-			    </widget>
-			  </child>
-
-			  <child>
-			    <widget class="GtkImageMenuItem" id="export_brep2">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">BREP</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_export_brep2_activate" last_modification_time="Mon, 24 Jul 2006 16:51:35 GMT"/>
-
-			      <child internal-child="image">
-				<widget class="GtkImage" id="image312">
-				  <property name="visible">True</property>
-				  <property name="pixbuf">export-brep.gif</property>
-				  <property name="xalign">0.5</property>
-				  <property name="yalign">0.5</property>
-				  <property name="xpad">0</property>
-				  <property name="ypad">0</property>
-				</widget>
-			      </child>
-			    </widget>
-			  </child>
-
-			  <child>
-			    <widget class="GtkImageMenuItem" id="export_csfdb2">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">CSFDB</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_export_csfdb2_activate" last_modification_time="Mon, 24 Jul 2006 16:51:35 GMT"/>
-
-			      <child internal-child="image">
-				<widget class="GtkImage" id="image313">
-				  <property name="visible">True</property>
-				  <property name="pixbuf">export-csfdb.gif</property>
-				  <property name="xalign">0.5</property>
-				  <property name="yalign">0.5</property>
-				  <property name="xpad">0</property>
-				  <property name="ypad">0</property>
-				</widget>
-			      </child>
-			    </widget>
-			  </child>
-
-			  <child>
-			    <widget class="GtkSeparatorMenuItem" id="separator4">
-			      <property name="visible">True</property>
-			    </widget>
-			  </child>
-
-			  <child>
-			    <widget class="GtkImageMenuItem" id="export_vrml2">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">VRML</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_export_vrml2_activate" last_modification_time="Mon, 31 Jul 2006 14:06:39 GMT"/>
-
-			      <child internal-child="image">
-				<widget class="GtkImage" id="image314">
-				  <property name="visible">True</property>
-				  <property name="pixbuf">export-vrml.gif</property>
-				  <property name="xalign">0.5</property>
-				  <property name="yalign">0.5</property>
-				  <property name="xpad">0</property>
-				  <property name="ypad">0</property>
-				</widget>
-			      </child>
-			    </widget>
-			  </child>
-
-			  <child>
-			    <widget class="GtkImageMenuItem" id="export_stl1">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">StL</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_export_stl1_activate" last_modification_time="Mon, 24 Jul 2006 16:51:35 GMT"/>
-
-			      <child internal-child="image">
-				<widget class="GtkImage" id="image315">
-				  <property name="visible">True</property>
-				  <property name="pixbuf">export-stl.gif</property>
-				  <property name="xalign">0.5</property>
-				  <property name="yalign">0.5</property>
-				  <property name="xpad">0</property>
-				  <property name="ypad">0</property>
-				</widget>
-			      </child>
-			    </widget>
-			  </child>
-
-			  <child>
-			    <widget class="GtkSeparatorMenuItem" id="separator6">
-			      <property name="visible">True</property>
-			    </widget>
-			  </child>
-
-			  <child>
-			    <widget class="GtkImageMenuItem" id="export_image2">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">Image</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_export_image2_activate" last_modification_time="Mon, 31 Jul 2006 14:07:31 GMT"/>
-
-			      <child internal-child="image">
-				<widget class="GtkImage" id="image316">
-				  <property name="visible">True</property>
-				  <property name="pixbuf">export-image.gif</property>
-				  <property name="xalign">0.5</property>
-				  <property name="yalign">0.5</property>
-				  <property name="xpad">0</property>
-				  <property name="ypad">0</property>
-				</widget>
-			      </child>
-			    </widget>
-			  </child>
-			</widget>
-		      </child>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkSeparatorMenuItem" id="separatormenuitem1">
-		      <property name="visible">True</property>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkMenuItem" id="make_bottle">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Make Bottle</property>
-		      <property name="use_underline">True</property>
-		      <signal name="activate" handler="on_make_bottle_activate" last_modification_time="Sat, 17 Feb 2007 04:21:13 GMT"/>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkSeparatorMenuItem" id="separator7">
-		      <property name="visible">True</property>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkImageMenuItem" id="quit1">
-		      <property name="visible">True</property>
-		      <property name="label">gtk-quit</property>
-		      <property name="use_stock">True</property>
-		      <signal name="activate" handler="on_quit1_activate" last_modification_time="Mon, 24 Jul 2006 16:38:05 GMT"/>
-		    </widget>
-		  </child>
-		</widget>
-	      </child>
-	    </widget>
-	  </child>
-
-	  <child>
-	    <widget class="GtkMenuItem" id="menuitem3">
-	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">_View</property>
-	      <property name="use_underline">True</property>
-
-	      <child>
-		<widget class="GtkMenu" id="menuitem3_menu">
-
-		  <child>
-		    <widget class="GtkImageMenuItem" id="top_view1">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Top View</property>
-		      <property name="use_underline">True</property>
-		      <signal name="activate" handler="on_top_view1_activate" last_modification_time="Mon, 24 Jul 2006 16:46:49 GMT"/>
-		      <accelerator key="T" modifiers="GDK_CONTROL_MASK" signal="activate"/>
-
-		      <child internal-child="image">
-			<widget class="GtkImage" id="image317">
-			  <property name="visible">True</property>
-			  <property name="pixbuf">top.gif</property>
-			  <property name="xalign">0.5</property>
-			  <property name="yalign">0.5</property>
-			  <property name="xpad">0</property>
-			  <property name="ypad">0</property>
-			</widget>
-		      </child>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkImageMenuItem" id="bottom_view1">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Bottom View</property>
-		      <property name="use_underline">True</property>
-		      <signal name="activate" handler="on_bottom_view1_activate" last_modification_time="Mon, 24 Jul 2006 16:46:49 GMT"/>
-		      <accelerator key="B" modifiers="GDK_CONTROL_MASK" signal="activate"/>
-
-		      <child internal-child="image">
-			<widget class="GtkImage" id="image318">
-			  <property name="visible">True</property>
-			  <property name="pixbuf">bottom.gif</property>
-			  <property name="xalign">0.5</property>
-			  <property name="yalign">0.5</property>
-			  <property name="xpad">0</property>
-			  <property name="ypad">0</property>
-			</widget>
-		      </child>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkImageMenuItem" id="front_view1">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Front View</property>
-		      <property name="use_underline">True</property>
-		      <signal name="activate" handler="on_front_view1_activate" last_modification_time="Mon, 24 Jul 2006 16:46:49 GMT"/>
-		      <accelerator key="F" modifiers="GDK_CONTROL_MASK" signal="activate"/>
-
-		      <child internal-child="image">
-			<widget class="GtkImage" id="image319">
-			  <property name="visible">True</property>
-			  <property name="pixbuf">front.gif</property>
-			  <property name="xalign">0.5</property>
-			  <property name="yalign">0.5</property>
-			  <property name="xpad">0</property>
-			  <property name="ypad">0</property>
-			</widget>
-		      </child>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkImageMenuItem" id="back_view1">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Back View</property>
-		      <property name="use_underline">True</property>
-		      <signal name="activate" handler="on_back_view1_activate" last_modification_time="Tue, 25 Jul 2006 12:49:12 GMT"/>
-		      <accelerator key="K" modifiers="GDK_CONTROL_MASK" signal="activate"/>
-
-		      <child internal-child="image">
-			<widget class="GtkImage" id="image320">
-			  <property name="visible">True</property>
-			  <property name="pixbuf">back.gif</property>
-			  <property name="xalign">0.5</property>
-			  <property name="yalign">0.5</property>
-			  <property name="xpad">0</property>
-			  <property name="ypad">0</property>
-			</widget>
-		      </child>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkImageMenuItem" id="left_view1">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Left View</property>
-		      <property name="use_underline">True</property>
-		      <signal name="activate" handler="on_left_view1_activate" last_modification_time="Mon, 24 Jul 2006 16:46:49 GMT"/>
-		      <accelerator key="L" modifiers="GDK_CONTROL_MASK" signal="activate"/>
-
-		      <child internal-child="image">
-			<widget class="GtkImage" id="image321">
-			  <property name="visible">True</property>
-			  <property name="pixbuf">left.gif</property>
-			  <property name="xalign">0.5</property>
-			  <property name="yalign">0.5</property>
-			  <property name="xpad">0</property>
-			  <property name="ypad">0</property>
-			</widget>
-		      </child>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkImageMenuItem" id="right_view1">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Right View</property>
-		      <property name="use_underline">True</property>
-		      <signal name="activate" handler="on_right_view1_activate" last_modification_time="Mon, 24 Jul 2006 16:46:49 GMT"/>
-		      <accelerator key="R" modifiers="GDK_CONTROL_MASK" signal="activate"/>
-
-		      <child internal-child="image">
-			<widget class="GtkImage" id="image322">
-			  <property name="visible">True</property>
-			  <property name="pixbuf">right.gif</property>
-			  <property name="xalign">0.5</property>
-			  <property name="yalign">0.5</property>
-			  <property name="xpad">0</property>
-			  <property name="ypad">0</property>
-			</widget>
-		      </child>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkImageMenuItem" id="axonometric_view1">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Axonometric View</property>
-		      <property name="use_underline">True</property>
-		      <signal name="activate" handler="on_axonometric_view1_activate" last_modification_time="Mon, 24 Jul 2006 16:46:49 GMT"/>
-		      <accelerator key="A" modifiers="GDK_CONTROL_MASK" signal="activate"/>
-
-		      <child internal-child="image">
-			<widget class="GtkImage" id="image323">
-			  <property name="visible">True</property>
-			  <property name="pixbuf">axo.gif</property>
-			  <property name="xalign">0.5</property>
-			  <property name="yalign">0.5</property>
-			  <property name="xpad">0</property>
-			  <property name="ypad">0</property>
-			</widget>
-		      </child>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkSeparatorMenuItem" id="separator2">
-		      <property name="visible">True</property>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkImageMenuItem" id="reset_view1">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Reset View</property>
-		      <property name="use_underline">True</property>
-		      <signal name="activate" handler="on_reset_view1_activate" last_modification_time="Mon, 24 Jul 2006 16:46:49 GMT"/>
-
-		      <child internal-child="image">
-			<widget class="GtkImage" id="image324">
-			  <property name="visible">True</property>
-			  <property name="pixbuf">resetview.gif</property>
-			  <property name="xalign">0.5</property>
-			  <property name="yalign">0.5</property>
-			  <property name="xpad">0</property>
-			  <property name="ypad">0</property>
-			</widget>
-		      </child>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkSeparatorMenuItem" id="separator1">
-		      <property name="visible">True</property>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkImageMenuItem" id="zoom_view1">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Zoom View</property>
-		      <property name="use_underline">True</property>
-		      <signal name="activate" handler="on_zoom_view1_activate" last_modification_time="Mon, 24 Jul 2006 16:46:49 GMT"/>
-
-		      <child internal-child="image">
-			<widget class="GtkImage" id="image325">
-			  <property name="visible">True</property>
-			  <property name="pixbuf">dynzoom.gif</property>
-			  <property name="xalign">0.5</property>
-			  <property name="yalign">0.5</property>
-			  <property name="xpad">0</property>
-			  <property name="ypad">0</property>
-			</widget>
-		      </child>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkImageMenuItem" id="pan_view1">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Pan View</property>
-		      <property name="use_underline">True</property>
-		      <signal name="activate" handler="on_pan_view1_activate" last_modification_time="Mon, 24 Jul 2006 16:46:49 GMT"/>
-
-		      <child internal-child="image">
-			<widget class="GtkImage" id="image326">
-			  <property name="visible">True</property>
-			  <property name="pixbuf">dynpan.gif</property>
-			  <property name="xalign">0.5</property>
-			  <property name="yalign">0.5</property>
-			  <property name="xpad">0</property>
-			  <property name="ypad">0</property>
-			</widget>
-		      </child>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkImageMenuItem" id="rotate_view1">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Rotate View</property>
-		      <property name="use_underline">True</property>
-		      <signal name="activate" handler="on_rotate_view1_activate" last_modification_time="Mon, 24 Jul 2006 16:46:49 GMT"/>
-
-		      <child internal-child="image">
-			<widget class="GtkImage" id="image327">
-			  <property name="visible">True</property>
-			  <property name="pixbuf">dynrotate.gif</property>
-			  <property name="xalign">0.5</property>
-			  <property name="yalign">0.5</property>
-			  <property name="xpad">0</property>
-			  <property name="ypad">0</property>
-			</widget>
-		      </child>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkSeparatorMenuItem" id="separator3">
-		      <property name="visible">True</property>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkImageMenuItem" id="zoom_window1">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Zoom Window</property>
-		      <property name="use_underline">True</property>
-		      <signal name="activate" handler="on_zoom_window1_activate" last_modification_time="Mon, 24 Jul 2006 16:46:49 GMT"/>
-
-		      <child internal-child="image">
-			<widget class="GtkImage" id="image328">
-			  <property name="visible">True</property>
-			  <property name="pixbuf">zoom.gif</property>
-			  <property name="xalign">0.5</property>
-			  <property name="yalign">0.5</property>
-			  <property name="xpad">0</property>
-			  <property name="ypad">0</property>
-			</widget>
-		      </child>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkSeparatorMenuItem" id="separator5">
-		      <property name="visible">True</property>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkImageMenuItem" id="fit_all1">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Fit All</property>
-		      <property name="use_underline">True</property>
-		      <signal name="activate" handler="on_fit_all1_activate" last_modification_time="Tue, 25 Jul 2006 12:46:50 GMT"/>
-		      <accelerator key="F4" modifiers="0" signal="activate"/>
-
-		      <child internal-child="image">
-			<widget class="GtkImage" id="image329">
-			  <property name="visible">True</property>
-			  <property name="pixbuf">fitall.gif</property>
-			  <property name="xalign">0.5</property>
-			  <property name="yalign">0.5</property>
-			  <property name="xpad">0</property>
-			  <property name="ypad">0</property>
-			</widget>
-		      </child>
-		    </widget>
-		  </child>
-		</widget>
-	      </child>
-	    </widget>
-	  </child>
-
-	  <child>
-	    <widget class="GtkMenuItem" id="menuitem4">
-	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">_Help</property>
-	      <property name="use_underline">True</property>
-
-	      <child>
-		<widget class="GtkMenu" id="menuitem4_menu">
-
-		  <child>
-		    <widget class="GtkImageMenuItem" id="about1">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">_About</property>
-		      <property name="use_underline">True</property>
-		      <signal name="activate" handler="on_about1_activate" last_modification_time="Mon, 24 Jul 2006 16:38:05 GMT"/>
-
-		      <child internal-child="image">
-			<widget class="GtkImage" id="image330">
-			  <property name="visible">True</property>
-			  <property name="stock">gtk-about</property>
-			  <property name="icon_size">1</property>
-			  <property name="xalign">0.5</property>
-			  <property name="yalign">0.5</property>
-			  <property name="xpad">0</property>
-			  <property name="ypad">0</property>
-			</widget>
-		      </child>
-		    </widget>
-		  </child>
-		</widget>
-	      </child>
-	    </widget>
-	  </child>
-	</widget>
-	<packing>
-	  <property name="padding">0</property>
-	  <property name="expand">False</property>
-	  <property name="fill">False</property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToolbar" id="main_toolbar">
-	  <property name="visible">True</property>
-	  <property name="orientation">GTK_ORIENTATION_HORIZONTAL</property>
-	  <property name="toolbar_style">GTK_TOOLBAR_ICONS</property>
-	  <property name="tooltips">True</property>
-	  <property name="show_arrow">True</property>
-
-	  <child>
-	    <widget class="GtkToolButton" id="import_iges_toolbutton">
-	      <property name="visible">True</property>
-	      <property name="tooltip" translatable="yes">Import IGES File</property>
-	      <property name="label" translatable="yes"></property>
-	      <property name="use_underline">True</property>
-	      <property name="icon">import-iges.gif</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-	      <signal name="clicked" handler="on_import_iges_toolbutton_clicked" last_modification_time="Tue, 25 Jul 2006 13:09:23 GMT"/>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">True</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkToolButton" id="import_step_toolbutton">
-	      <property name="visible">True</property>
-	      <property name="tooltip" translatable="yes">Import STEP File</property>
-	      <property name="label" translatable="yes"></property>
-	      <property name="use_underline">True</property>
-	      <property name="icon">import-step.gif</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-	      <signal name="clicked" handler="on_import_step_toolbutton_clicked" last_modification_time="Tue, 25 Jul 2006 13:09:29 GMT"/>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">True</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkToolButton" id="import_brep_toolbutton">
-	      <property name="visible">True</property>
-	      <property name="tooltip" translatable="yes">Import BREP File</property>
-	      <property name="label" translatable="yes"></property>
-	      <property name="use_underline">True</property>
-	      <property name="icon">import-brep.gif</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-	      <signal name="clicked" handler="on_import_brep_toolbutton_clicked" last_modification_time="Tue, 25 Jul 2006 13:09:39 GMT"/>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">True</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkToolButton" id="import_csfdb_toolbutton">
-	      <property name="visible">True</property>
-	      <property name="tooltip" translatable="yes">Import CSFDB File</property>
-	      <property name="label" translatable="yes"></property>
-	      <property name="use_underline">True</property>
-	      <property name="icon">import-csfdb.gif</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-	      <signal name="clicked" handler="on_import_csfdb_toolbutton_clicked" last_modification_time="Tue, 25 Jul 2006 13:09:44 GMT"/>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">True</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkToolItem" id="toolitem2">
-	      <property name="visible">True</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-
-	      <child>
-		<widget class="GtkVSeparator" id="vseparator2">
-		  <property name="visible">True</property>
-		</widget>
-	      </child>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">False</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkToolButton" id="export_iges_toolbutton">
-	      <property name="visible">True</property>
-	      <property name="sensitive">False</property>
-	      <property name="tooltip" translatable="yes">Export IGES File</property>
-	      <property name="label" translatable="yes"></property>
-	      <property name="use_underline">True</property>
-	      <property name="icon">export-iges.gif</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-	      <signal name="clicked" handler="on_export_iges_toolbutton_clicked" last_modification_time="Tue, 25 Jul 2006 13:09:49 GMT"/>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">True</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkToolButton" id="export_step_toolbutton">
-	      <property name="visible">True</property>
-	      <property name="sensitive">False</property>
-	      <property name="tooltip" translatable="yes">Export STEP File</property>
-	      <property name="label" translatable="yes"></property>
-	      <property name="use_underline">True</property>
-	      <property name="icon">export-step.gif</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-	      <signal name="clicked" handler="on_export_step_toolbutton_clicked" last_modification_time="Tue, 25 Jul 2006 13:09:54 GMT"/>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">True</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkToolButton" id="export_brep_toolbutton">
-	      <property name="visible">True</property>
-	      <property name="sensitive">False</property>
-	      <property name="tooltip" translatable="yes">Export BREP File</property>
-	      <property name="label" translatable="yes"></property>
-	      <property name="use_underline">True</property>
-	      <property name="icon">export-brep.gif</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-	      <signal name="clicked" handler="on_export_brep_toolbutton_clicked" last_modification_time="Tue, 25 Jul 2006 13:09:58 GMT"/>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">True</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkToolButton" id="export_csfdb_toolbutton">
-	      <property name="visible">True</property>
-	      <property name="sensitive">False</property>
-	      <property name="tooltip" translatable="yes">Export CSFDB File</property>
-	      <property name="label" translatable="yes"></property>
-	      <property name="use_underline">True</property>
-	      <property name="icon">export-csfdb.gif</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-	      <signal name="clicked" handler="on_export_csfdb_toolbutton_clicked" last_modification_time="Tue, 25 Jul 2006 13:10:03 GMT"/>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">True</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkToolItem" id="toolitem10">
-	      <property name="visible">True</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-
-	      <child>
-		<widget class="GtkVSeparator" id="vseparator10">
-		  <property name="visible">True</property>
-		</widget>
-	      </child>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">False</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkToolButton" id="export_stl_toolbutton">
-	      <property name="visible">True</property>
-	      <property name="sensitive">False</property>
-	      <property name="tooltip" translatable="yes">Export StL File</property>
-	      <property name="label" translatable="yes"></property>
-	      <property name="use_underline">True</property>
-	      <property name="icon">export-stl.gif</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-	      <signal name="clicked" handler="on_export_stl_toolbutton_clicked" last_modification_time="Tue, 25 Jul 2006 13:10:08 GMT"/>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">True</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkToolButton" id="export_vrml_toolbutton">
-	      <property name="visible">True</property>
-	      <property name="sensitive">False</property>
-	      <property name="label" translatable="yes"></property>
-	      <property name="use_underline">True</property>
-	      <property name="icon">export-vrml.gif</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-	      <signal name="clicked" handler="on_export_vrml_toolbutton_clicked" last_modification_time="Mon, 31 Jul 2006 14:11:25 GMT"/>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">True</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkToolItem" id="toolitem11">
-	      <property name="visible">True</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-
-	      <child>
-		<widget class="GtkVSeparator" id="vseparator11">
-		  <property name="visible">True</property>
-		</widget>
-	      </child>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">False</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkToolButton" id="export_image_toolbutton">
-	      <property name="visible">True</property>
-	      <property name="label" translatable="yes"></property>
-	      <property name="use_underline">True</property>
-	      <property name="icon">export-image.gif</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-	      <signal name="clicked" handler="on_export_image_toolbutton_clicked" last_modification_time="Mon, 31 Jul 2006 14:11:30 GMT"/>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">True</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkToolItem" id="toolitem1">
-	      <property name="visible">True</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-
-	      <child>
-		<widget class="GtkVSeparator" id="vseparator1">
-		  <property name="visible">True</property>
-		</widget>
-	      </child>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">False</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkToolButton" id="about_toolbutton">
-	      <property name="visible">True</property>
-	      <property name="tooltip" translatable="yes">About OccViewer</property>
-	      <property name="stock_id">gtk-about</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-	      <signal name="clicked" handler="on_about_toolbutton_clicked" last_modification_time="Tue, 25 Jul 2006 13:10:15 GMT"/>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">True</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkToolItem" id="toolitem12">
-	      <property name="visible">True</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-
-	      <child>
-		<widget class="GtkVSeparator" id="vseparator12">
-		  <property name="visible">True</property>
-		</widget>
-	      </child>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">False</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkToolItem" id="toolitem13">
-	      <property name="visible">True</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-
-	      <child>
-		<widget class="GtkButton" id="gen_sketch_toolbutton">
-		  <property name="visible">True</property>
-		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">Generate Test Sketch</property>
-		  <property name="use_underline">True</property>
-		  <property name="relief">GTK_RELIEF_NORMAL</property>
-		  <property name="focus_on_click">True</property>
-		  <signal name="clicked" handler="on_gen_sketch_toolbutton_clicked" after="yes" last_modification_time="Thu, 26 Jul 2007 03:09:40 GMT"/>
-		</widget>
-	      </child>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">False</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkToolItem" id="toolitem14">
-	      <property name="visible">True</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-
-	      <child>
-		<widget class="GtkButton" id="solve_toolbutton">
-		  <property name="visible">True</property>
-		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">Solve Constraints</property>
-		  <property name="use_underline">True</property>
-		  <property name="relief">GTK_RELIEF_NORMAL</property>
-		  <property name="focus_on_click">True</property>
-		  <signal name="clicked" handler="on_solve_toolbutton_clicked" last_modification_time="Thu, 26 Jul 2007 03:09:50 GMT"/>
-		</widget>
-	      </child>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">False</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkToolItem" id="toolitem15">
-	      <property name="visible">True</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-
-	      <child>
-		<widget class="GtkButton" id="run_python_toolbutton">
-		  <property name="visible">True</property>
-		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">Run Python Script</property>
-		  <property name="use_underline">True</property>
-		  <property name="relief">GTK_RELIEF_NORMAL</property>
-		  <property name="focus_on_click">True</property>
-		  <signal name="clicked" handler="on_run_python_toolbutton_clicked" last_modification_time="Mon, 08 Oct 2007 02:15:47 GMT"/>
-		</widget>
-	      </child>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">False</property>
-	    </packing>
-	  </child>
-	</widget>
-	<packing>
-	  <property name="padding">0</property>
-	  <property name="expand">False</property>
-	  <property name="fill">False</property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToolbar" id="view_toolbar">
-	  <property name="visible">True</property>
-	  <property name="orientation">GTK_ORIENTATION_HORIZONTAL</property>
-	  <property name="toolbar_style">GTK_TOOLBAR_ICONS</property>
-	  <property name="tooltips">True</property>
-	  <property name="show_arrow">True</property>
-
-	  <child>
-	    <widget class="GtkToolButton" id="top_view_toolbutton">
-	      <property name="visible">True</property>
-	      <property name="tooltip" translatable="yes">Top View</property>
-	      <property name="label" translatable="yes"></property>
-	      <property name="use_underline">True</property>
-	      <property name="icon">top.gif</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-	      <signal name="clicked" handler="on_top_view_toolbutton_clicked" last_modification_time="Tue, 25 Jul 2006 13:10:29 GMT"/>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">True</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkToolButton" id="bottom_view_toolbutton">
-	      <property name="visible">True</property>
-	      <property name="tooltip" translatable="yes">Bottom View</property>
-	      <property name="label" translatable="yes"></property>
-	      <property name="use_underline">True</property>
-	      <property name="icon">bottom.gif</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-	      <signal name="clicked" handler="on_bottom_view_toolbutton_clicked" last_modification_time="Tue, 25 Jul 2006 13:10:38 GMT"/>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">True</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkToolButton" id="front_view_toolbutton">
-	      <property name="visible">True</property>
-	      <property name="tooltip" translatable="yes">Front View</property>
-	      <property name="label" translatable="yes"></property>
-	      <property name="use_underline">True</property>
-	      <property name="icon">front.gif</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-	      <signal name="clicked" handler="on_front_view_toolbutton_clicked" last_modification_time="Tue, 25 Jul 2006 13:10:44 GMT"/>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">True</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkToolButton" id="back_view_toolbutton">
-	      <property name="visible">True</property>
-	      <property name="tooltip" translatable="yes">Back View</property>
-	      <property name="label" translatable="yes"></property>
-	      <property name="use_underline">True</property>
-	      <property name="icon">back.gif</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-	      <signal name="clicked" handler="on_back_view_toolbutton_clicked" last_modification_time="Tue, 25 Jul 2006 13:10:53 GMT"/>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">True</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkToolButton" id="left_view_toolbutton">
-	      <property name="visible">True</property>
-	      <property name="tooltip" translatable="yes">Left View</property>
-	      <property name="label" translatable="yes"></property>
-	      <property name="use_underline">True</property>
-	      <property name="icon">left.gif</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-	      <signal name="clicked" handler="on_left_view_toolbutton_clicked" last_modification_time="Tue, 25 Jul 2006 13:10:59 GMT"/>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">True</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkToolButton" id="right_view_toolbutton">
-	      <property name="visible">True</property>
-	      <property name="tooltip" translatable="yes">Right View</property>
-	      <property name="label" translatable="yes"></property>
-	      <property name="use_underline">True</property>
-	      <property name="icon">right.gif</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-	      <signal name="clicked" handler="on_right_view_toolbutton_clicked" last_modification_time="Tue, 25 Jul 2006 13:11:05 GMT"/>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">True</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkToolItem" id="toolitem3">
-	      <property name="visible">True</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-
-	      <child>
-		<widget class="GtkVSeparator" id="vseparator3">
-		  <property name="visible">True</property>
-		</widget>
-	      </child>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">False</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkToolButton" id="axo_view_toolbutton">
-	      <property name="visible">True</property>
-	      <property name="tooltip" translatable="yes">Axonometric View</property>
-	      <property name="label" translatable="yes"></property>
-	      <property name="use_underline">True</property>
-	      <property name="icon">axo.gif</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-	      <signal name="clicked" handler="on_axo_view_toolbutton_clicked" last_modification_time="Tue, 25 Jul 2006 13:11:10 GMT"/>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">True</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkToolItem" id="toolitem4">
-	      <property name="visible">True</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-
-	      <child>
-		<widget class="GtkVSeparator" id="vseparator4">
-		  <property name="visible">True</property>
-		</widget>
-	      </child>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">False</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkToolButton" id="reset_view_toolbutton">
-	      <property name="visible">True</property>
-	      <property name="tooltip" translatable="yes">Reset View</property>
-	      <property name="label" translatable="yes"></property>
-	      <property name="use_underline">True</property>
-	      <property name="icon">resetview.gif</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-	      <signal name="clicked" handler="on_reset_view_toolbutton_clicked" last_modification_time="Tue, 25 Jul 2006 13:11:15 GMT"/>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">True</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkToolItem" id="toolitem5">
-	      <property name="visible">True</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-
-	      <child>
-		<widget class="GtkVSeparator" id="vseparator5">
-		  <property name="visible">True</property>
-		</widget>
-	      </child>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">False</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkToggleToolButton" id="dyn_zoom_toolbutton">
-	      <property name="visible">True</property>
-	      <property name="tooltip" translatable="yes">Dynamic Zooming</property>
-	      <property name="label" translatable="yes"></property>
-	      <property name="use_underline">True</property>
-	      <property name="icon">dynzoom.gif</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-	      <property name="active">False</property>
-	      <signal name="toggled" handler="on_dyn_zoom_toolbutton_toggled" last_modification_time="Tue, 01 Aug 2006 14:54:36 GMT"/>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">True</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkToggleToolButton" id="dyn_pan_toolbutton">
-	      <property name="visible">True</property>
-	      <property name="tooltip" translatable="yes">Dynamic Panning</property>
-	      <property name="label" translatable="yes"></property>
-	      <property name="use_underline">True</property>
-	      <property name="icon">dynpan.gif</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-	      <property name="active">False</property>
-	      <signal name="toggled" handler="on_dyn_pan_toolbutton_toggled" last_modification_time="Tue, 01 Aug 2006 14:54:44 GMT"/>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">True</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkToggleToolButton" id="dyn_rotate_toolbutton">
-	      <property name="visible">True</property>
-	      <property name="tooltip" translatable="yes">Dynamic Rotation</property>
-	      <property name="label" translatable="yes"></property>
-	      <property name="use_underline">True</property>
-	      <property name="icon">dynrotate.gif</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-	      <property name="active">False</property>
-	      <signal name="toggled" handler="on_dyn_rotate_toolbutton_toggled" last_modification_time="Tue, 01 Aug 2006 14:54:57 GMT"/>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">True</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkToolItem" id="toolitem6">
-	      <property name="visible">True</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-
-	      <child>
-		<widget class="GtkVSeparator" id="vseparator6">
-		  <property name="visible">True</property>
-		</widget>
-	      </child>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">False</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkToggleToolButton" id="glob_pan_toolbutton">
-	      <property name="visible">True</property>
-	      <property name="tooltip" translatable="yes">Global Panning</property>
-	      <property name="label" translatable="yes"></property>
-	      <property name="use_underline">True</property>
-	      <property name="icon">globpan.gif</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-	      <property name="active">False</property>
-	      <signal name="toggled" handler="on_glob_pan_toolbutton_toggled" last_modification_time="Tue, 01 Aug 2006 14:55:06 GMT"/>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">True</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkToolButton" id="fit_all_toolbutton">
-	      <property name="visible">True</property>
-	      <property name="tooltip" translatable="yes">Fit All</property>
-	      <property name="label" translatable="yes"></property>
-	      <property name="use_underline">True</property>
-	      <property name="icon">fitall.gif</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-	      <signal name="clicked" handler="on_fit_all_toolbutton_clicked" last_modification_time="Tue, 25 Jul 2006 13:11:46 GMT"/>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">True</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkToggleToolButton" id="zoom_win_toolbutton">
-	      <property name="visible">True</property>
-	      <property name="tooltip" translatable="yes">Zoom Window</property>
-	      <property name="label" translatable="yes"></property>
-	      <property name="use_underline">True</property>
-	      <property name="icon">zoom.gif</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-	      <property name="active">False</property>
-	      <signal name="toggled" handler="on_zoom_win_toolbutton_toggled" last_modification_time="Tue, 01 Aug 2006 14:55:11 GMT"/>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">True</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkToolItem" id="toolitem7">
-	      <property name="visible">True</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-
-	      <child>
-		<widget class="GtkVSeparator" id="vseparator7">
-		  <property name="visible">True</property>
-		</widget>
-	      </child>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">False</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkToggleToolButton" id="display_mode_toolbutton">
-	      <property name="visible">True</property>
-	      <property name="tooltip" translatable="yes">Toggle Shading/Wireframe</property>
-	      <property name="label" translatable="yes"></property>
-	      <property name="use_underline">True</property>
-	      <property name="icon">shading-model.gif</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-	      <property name="active">True</property>
-	      <signal name="toggled" handler="on_display_mode_toolbutton_toggled" last_modification_time="Sat, 29 Jul 2006 13:37:45 GMT"/>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">True</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkToggleToolButton" id="hlr_toolbutton">
-	      <property name="visible">True</property>
-	      <property name="tooltip" translatable="yes">Hidden Line Removal</property>
-	      <property name="label" translatable="yes"></property>
-	      <property name="use_underline">True</property>
-	      <property name="icon">hiddenon.gif</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-	      <property name="active">False</property>
-	      <signal name="toggled" handler="on_hlr_toolbutton_toggled" last_modification_time="Sat, 29 Jul 2006 13:23:14 GMT"/>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">True</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkToggleToolButton" id="antialiasing_toolbutton">
-	      <property name="visible">True</property>
-	      <property name="tooltip" translatable="yes">Toggle Antialiasing</property>
-	      <property name="label" translatable="yes"></property>
-	      <property name="use_underline">True</property>
-	      <property name="icon">antialiasing.gif</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-	      <property name="active">False</property>
-	      <signal name="toggled" handler="on_antialiasing_toolbutton_toggled" last_modification_time="Sat, 29 Jul 2006 13:40:04 GMT"/>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">True</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkToolItem" id="toolitem8">
-	      <property name="visible">True</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-
-	      <child>
-		<widget class="GtkVSeparator" id="vseparator8">
-		  <property name="visible">True</property>
-		</widget>
-	      </child>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">False</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkToolButton" id="color_toolbutton">
-	      <property name="visible">True</property>
-	      <property name="tooltip" translatable="yes">Change Color</property>
-	      <property name="label" translatable="yes"></property>
-	      <property name="use_underline">True</property>
-	      <property name="icon">color.gif</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-	      <signal name="clicked" handler="on_color_toolbutton_clicked" last_modification_time="Tue, 25 Jul 2006 13:12:10 GMT"/>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">True</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkToolButton" id="material_toolbutton">
-	      <property name="visible">True</property>
-	      <property name="tooltip" translatable="yes">Change Material</property>
-	      <property name="label" translatable="yes"></property>
-	      <property name="use_underline">True</property>
-	      <property name="icon">material.gif</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-	      <signal name="clicked" handler="on_material_toolbutton_clicked" last_modification_time="Tue, 25 Jul 2006 13:12:15 GMT"/>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">True</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkToolButton" id="transparency_toolbutton">
-	      <property name="visible">True</property>
-	      <property name="tooltip" translatable="yes">Change Transparency</property>
-	      <property name="label" translatable="yes"></property>
-	      <property name="use_underline">True</property>
-	      <property name="icon">transparency.gif</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-	      <signal name="clicked" handler="on_transparency_toolbutton_clicked" last_modification_time="Mon, 31 Jul 2006 17:16:47 GMT"/>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">True</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkToolItem" id="toolitem9">
-	      <property name="visible">True</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-
-	      <child>
-		<widget class="GtkVSeparator" id="vseparator9">
-		  <property name="visible">True</property>
-		</widget>
-	      </child>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">False</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkToolButton" id="snapshot_toolbutton">
-	      <property name="visible">True</property>
-	      <property name="tooltip" translatable="yes">Create Snapshot</property>
-	      <property name="label" translatable="yes"></property>
-	      <property name="use_underline">True</property>
-	      <property name="icon">vw-camera-dump_20.gif</property>
-	      <property name="visible_horizontal">True</property>
-	      <property name="visible_vertical">True</property>
-	      <property name="is_important">False</property>
-	      <signal name="clicked" handler="on_snapshot_toolbutton_clicked" last_modification_time="Sun, 30 Jul 2006 16:15:00 GMT"/>
-	    </widget>
-	    <packing>
-	      <property name="expand">False</property>
-	      <property name="homogeneous">True</property>
-	    </packing>
-	  </child>
-	</widget>
-	<packing>
-	  <property name="padding">0</property>
-	  <property name="expand">False</property>
-	  <property name="fill">False</property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkFrame" id="frame1">
-	  <property name="visible">True</property>
-	  <property name="label_xalign">0</property>
-	  <property name="label_yalign">0.5</property>
-	  <property name="shadow_type">GTK_SHADOW_ETCHED_IN</property>
-
-	  <child>
-	    <widget class="GtkDrawingArea" id="drawingarea1">
-	      <property name="visible">True</property>
-	      <property name="events">GDK_EXPOSURE_MASK | GDK_POINTER_MOTION_MASK | GDK_BUTTON_MOTION_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK | GDK_ENTER_NOTIFY_MASK | GDK_LEAVE_NOTIFY_MASK</property>
-	      <signal name="configure_event" handler="on_drawingarea1_configure_event" after="yes" last_modification_time="Mon, 24 Jul 2006 17:00:32 GMT"/>
-	      <signal name="realize" handler="on_drawingarea1_realize" after="yes" last_modification_time="Mon, 24 Jul 2006 17:00:46 GMT"/>
-	      <signal name="expose_event" handler="on_drawingarea1_expose_event" after="yes" last_modification_time="Mon, 24 Jul 2006 17:01:09 GMT"/>
-	      <signal name="button_press_event" handler="on_drawingarea1_button_press_event" last_modification_time="Mon, 24 Jul 2006 17:01:33 GMT"/>
-	      <signal name="button_release_event" handler="on_drawingarea1_button_release_event" last_modification_time="Mon, 24 Jul 2006 17:01:38 GMT"/>
-	      <signal name="motion_notify_event" handler="on_drawingarea1_motion_notify_event" last_modification_time="Mon, 24 Jul 2006 17:01:45 GMT"/>
-	      <signal name="key_press_event" handler="on_drawingarea1_key_press_event" last_modification_time="Mon, 24 Jul 2006 17:01:57 GMT"/>
-	      <signal name="key_release_event" handler="on_drawingarea1_key_release_event" last_modification_time="Mon, 24 Jul 2006 17:02:01 GMT"/>
-	      <signal name="enter_notify_event" handler="on_drawingarea1_enter_notify_event" last_modification_time="Mon, 24 Jul 2006 17:02:29 GMT"/>
-	      <signal name="leave_notify_event" handler="on_drawingarea1_leave_notify_event" last_modification_time="Mon, 24 Jul 2006 17:02:37 GMT"/>
-	      <signal name="destroy_event" handler="on_drawingarea1_destroy_event" last_modification_time="Mon, 24 Jul 2006 17:02:59 GMT"/>
-	      <signal name="map_event" handler="on_drawingarea1_map_event" after="yes" last_modification_time="Tue, 25 Jul 2006 17:58:57 GMT"/>
-	      <signal name="scroll_event" handler="on_drawingarea1_scroll_event" last_modification_time="Wed, 02 Aug 2006 16:42:46 GMT"/>
-	    </widget>
-	  </child>
-	</widget>
-	<packing>
-	  <property name="padding">0</property>
-	  <property name="expand">True</property>
-	  <property name="fill">True</property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkStatusbar" id="statusbar1">
-	  <property name="visible">True</property>
-	  <property name="has_resize_grip">True</property>
-	</widget>
-	<packing>
-	  <property name="padding">0</property>
-	  <property name="expand">False</property>
-	  <property name="fill">False</property>
-	</packing>
-      </child>
-    </widget>
-  </child>
-</widget>
-
-<widget class="GtkMenu" id="popup_bg">
-</widget>
-
-<widget class="GtkMenu" id="popup_object">
-</widget>
-
-<widget class="GtkDialog" id="Transparency">
-  <property name="visible">True</property>
-  <property name="title" translatable="yes"></property>
-  <property name="type">GTK_WINDOW_TOPLEVEL</property>
-  <property name="window_position">GTK_WIN_POS_NONE</property>
-  <property name="modal">False</property>
-  <property name="resizable">True</property>
-  <property name="destroy_with_parent">False</property>
-  <property name="decorated">True</property>
-  <property name="skip_taskbar_hint">False</property>
-  <property name="skip_pager_hint">False</property>
-  <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
-  <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
-  <property name="focus_on_map">True</property>
-  <property name="urgency_hint">False</property>
-  <property name="has_separator">True</property>
-
-  <child internal-child="vbox">
-    <widget class="GtkVBox" id="vbox2">
-      <property name="visible">True</property>
-      <property name="homogeneous">False</property>
-      <property name="spacing">0</property>
-
-      <child internal-child="action_area">
-	<widget class="GtkHButtonBox" id="hbuttonbox1">
-	  <property name="visible">True</property>
-	  <property name="layout_style">GTK_BUTTONBOX_END</property>
-	</widget>
-	<packing>
-	  <property name="padding">0</property>
-	  <property name="expand">False</property>
-	  <property name="fill">True</property>
-	  <property name="pack_type">GTK_PACK_END</property>
-	</packing>
-      </child>
-    </widget>
-  </child>
-</widget>
-
-<widget class="GtkDialog" id="MatlDlg">
-  <property name="width_request">98</property>
-  <property name="height_request">265</property>
-  <property name="visible">True</property>
-  <property name="title" translatable="yes"></property>
-  <property name="type">GTK_WINDOW_TOPLEVEL</property>
-  <property name="window_position">GTK_WIN_POS_NONE</property>
-  <property name="modal">False</property>
-  <property name="resizable">True</property>
-  <property name="destroy_with_parent">False</property>
-  <property name="decorated">True</property>
-  <property name="skip_taskbar_hint">False</property>
-  <property name="skip_pager_hint">False</property>
-  <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
-  <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
-  <property name="focus_on_map">True</property>
-  <property name="urgency_hint">False</property>
-  <property name="has_separator">True</property>
-
-  <child internal-child="vbox">
-    <widget class="GtkVBox" id="vbox3">
-      <property name="visible">True</property>
-      <property name="homogeneous">False</property>
-      <property name="spacing">0</property>
-
-      <child internal-child="action_area">
-	<widget class="GtkHButtonBox" id="hbuttonbox2">
-	  <property name="visible">True</property>
-	  <property name="layout_style">GTK_BUTTONBOX_END</property>
-	</widget>
-	<packing>
-	  <property name="padding">0</property>
-	  <property name="expand">False</property>
-	  <property name="fill">True</property>
-	  <property name="pack_type">GTK_PACK_END</property>
-	</packing>
-      </child>
-    </widget>
-  </child>
-</widget>
-
-<widget class="GtkFileChooserDialog" id="TransDlg">
-  <property name="border_width">5</property>
-  <property name="visible">True</property>
-  <property name="action">GTK_FILE_CHOOSER_ACTION_OPEN</property>
-  <property name="local_only">True</property>
-  <property name="select_multiple">False</property>
-  <property name="show_hidden">False</property>
-  <property name="do_overwrite_confirmation">False</property>
-  <property name="type">GTK_WINDOW_TOPLEVEL</property>
-  <property name="window_position">GTK_WIN_POS_NONE</property>
-  <property name="modal">False</property>
-  <property name="resizable">True</property>
-  <property name="destroy_with_parent">False</property>
-  <property name="decorated">True</property>
-  <property name="skip_taskbar_hint">False</property>
-  <property name="skip_pager_hint">False</property>
-  <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
-  <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
-  <property name="focus_on_map">True</property>
-  <property name="urgency_hint">False</property>
-
-  <child internal-child="vbox">
-    <widget class="GtkVBox" id="vbox4">
-      <property name="visible">True</property>
-      <property name="homogeneous">False</property>
-      <property name="spacing">24</property>
-
-      <child internal-child="action_area">
-	<widget class="GtkHButtonBox" id="hbuttonbox3">
-	  <property name="visible">True</property>
-	  <property name="layout_style">GTK_BUTTONBOX_END</property>
-	</widget>
-	<packing>
-	  <property name="padding">0</property>
-	  <property name="expand">False</property>
-	  <property name="fill">True</property>
-	  <property name="pack_type">GTK_PACK_END</property>
-	</packing>
-      </child>
-    </widget>
-  </child>
-</widget>
-
+  <widget class="GtkWindow" id="MainWindow">
+    <property name="title" translatable="yes">OpenCASCADE Viewer</property>
+    <property name="default_width">1024</property>
+    <property name="default_height">768</property>
+    <property name="icon">lamp.gif</property>
+    <signal name="configure_event" handler="on_MainWindow_configure_event" after="yes"/>
+    <signal name="realize" handler="on_MainWindow_realize" after="yes"/>
+    <signal name="destroy_event" handler="on_MainWindow_destroy_event"/>
+    <signal name="delete_event" handler="on_MainWindow_delete_event"/>
+    <child>
+      <widget class="GtkVBox" id="vbox1">
+        <property name="visible">True</property>
+        <child>
+          <widget class="GtkMenuBar" id="menubar1">
+            <property name="visible">True</property>
+            <child>
+              <widget class="GtkMenuItem" id="menuitem1">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">_File</property>
+                <property name="use_underline">True</property>
+                <child>
+                  <widget class="GtkMenu" id="menuitem1_menu">
+                    <child>
+                      <widget class="GtkImageMenuItem" id="import1">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">Import</property>
+                        <property name="use_underline">True</property>
+                        <child>
+                          <widget class="GtkMenu" id="import1_menu">
+                            <child>
+                              <widget class="GtkImageMenuItem" id="import_iges1">
+                                <property name="visible">True</property>
+                                <property name="label" translatable="yes">IGES</property>
+                                <property name="use_underline">True</property>
+                                <signal name="activate" handler="on_import_iges1_activate"/>
+                                <child internal-child="image">
+                                  <widget class="GtkImage" id="image305">
+                                    <property name="visible">True</property>
+                                    <property name="pixbuf">import-iges.gif</property>
+                                  </widget>
+                                </child>
+                              </widget>
+                            </child>
+                            <child>
+                              <widget class="GtkImageMenuItem" id="import_step1">
+                                <property name="visible">True</property>
+                                <property name="label" translatable="yes">STEP</property>
+                                <property name="use_underline">True</property>
+                                <signal name="activate" handler="on_import_step1_activate"/>
+                                <child internal-child="image">
+                                  <widget class="GtkImage" id="image306">
+                                    <property name="visible">True</property>
+                                    <property name="pixbuf">import-step.gif</property>
+                                  </widget>
+                                </child>
+                              </widget>
+                            </child>
+                            <child>
+                              <widget class="GtkImageMenuItem" id="import_brep1">
+                                <property name="visible">True</property>
+                                <property name="label" translatable="yes">BREP</property>
+                                <property name="use_underline">True</property>
+                                <signal name="activate" handler="on_import_brep1_activate"/>
+                                <child internal-child="image">
+                                  <widget class="GtkImage" id="image307">
+                                    <property name="visible">True</property>
+                                    <property name="pixbuf">import-brep.gif</property>
+                                  </widget>
+                                </child>
+                              </widget>
+                            </child>
+                            <child>
+                              <widget class="GtkImageMenuItem" id="import_csfdb1">
+                                <property name="visible">True</property>
+                                <property name="label" translatable="yes">CSFDB</property>
+                                <property name="use_underline">True</property>
+                                <signal name="activate" handler="on_import_csfdb1_activate"/>
+                                <child internal-child="image">
+                                  <widget class="GtkImage" id="image308">
+                                    <property name="visible">True</property>
+                                    <property name="pixbuf">import-csfdb.gif</property>
+                                  </widget>
+                                </child>
+                              </widget>
+                            </child>
+                          </widget>
+                        </child>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image304">
+                            <property name="visible">True</property>
+                            <property name="stock">gtk-go-down</property>
+                            <property name="icon_size">1</property>
+                          </widget>
+                        </child>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="GtkImageMenuItem" id="export1">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">Export</property>
+                        <property name="use_underline">True</property>
+                        <child>
+                          <widget class="GtkMenu" id="export1_menu">
+                            <child>
+                              <widget class="GtkImageMenuItem" id="export_iges2">
+                                <property name="visible">True</property>
+                                <property name="label" translatable="yes">IGES</property>
+                                <property name="use_underline">True</property>
+                                <signal name="activate" handler="on_export_iges2_activate"/>
+                                <child internal-child="image">
+                                  <widget class="GtkImage" id="image310">
+                                    <property name="visible">True</property>
+                                    <property name="pixbuf">export-iges.gif</property>
+                                  </widget>
+                                </child>
+                              </widget>
+                            </child>
+                            <child>
+                              <widget class="GtkImageMenuItem" id="export_step2">
+                                <property name="visible">True</property>
+                                <property name="label" translatable="yes">STEP</property>
+                                <property name="use_underline">True</property>
+                                <signal name="activate" handler="on_export_step2_activate"/>
+                                <child internal-child="image">
+                                  <widget class="GtkImage" id="image311">
+                                    <property name="visible">True</property>
+                                    <property name="pixbuf">export-step.gif</property>
+                                  </widget>
+                                </child>
+                              </widget>
+                            </child>
+                            <child>
+                              <widget class="GtkImageMenuItem" id="export_brep2">
+                                <property name="visible">True</property>
+                                <property name="label" translatable="yes">BREP</property>
+                                <property name="use_underline">True</property>
+                                <signal name="activate" handler="on_export_brep2_activate"/>
+                                <child internal-child="image">
+                                  <widget class="GtkImage" id="image312">
+                                    <property name="visible">True</property>
+                                    <property name="pixbuf">export-brep.gif</property>
+                                  </widget>
+                                </child>
+                              </widget>
+                            </child>
+                            <child>
+                              <widget class="GtkImageMenuItem" id="export_csfdb2">
+                                <property name="visible">True</property>
+                                <property name="label" translatable="yes">CSFDB</property>
+                                <property name="use_underline">True</property>
+                                <signal name="activate" handler="on_export_csfdb2_activate"/>
+                                <child internal-child="image">
+                                  <widget class="GtkImage" id="image313">
+                                    <property name="visible">True</property>
+                                    <property name="pixbuf">export-csfdb.gif</property>
+                                  </widget>
+                                </child>
+                              </widget>
+                            </child>
+                            <child>
+                              <widget class="GtkSeparatorMenuItem" id="separator4">
+                                <property name="visible">True</property>
+                              </widget>
+                            </child>
+                            <child>
+                              <widget class="GtkImageMenuItem" id="export_vrml2">
+                                <property name="visible">True</property>
+                                <property name="label" translatable="yes">VRML</property>
+                                <property name="use_underline">True</property>
+                                <signal name="activate" handler="on_export_vrml2_activate"/>
+                                <child internal-child="image">
+                                  <widget class="GtkImage" id="image314">
+                                    <property name="visible">True</property>
+                                    <property name="pixbuf">export-vrml.gif</property>
+                                  </widget>
+                                </child>
+                              </widget>
+                            </child>
+                            <child>
+                              <widget class="GtkImageMenuItem" id="export_stl1">
+                                <property name="visible">True</property>
+                                <property name="label" translatable="yes">StL</property>
+                                <property name="use_underline">True</property>
+                                <signal name="activate" handler="on_export_stl1_activate"/>
+                                <child internal-child="image">
+                                  <widget class="GtkImage" id="image315">
+                                    <property name="visible">True</property>
+                                    <property name="pixbuf">export-stl.gif</property>
+                                  </widget>
+                                </child>
+                              </widget>
+                            </child>
+                            <child>
+                              <widget class="GtkSeparatorMenuItem" id="separator6">
+                                <property name="visible">True</property>
+                              </widget>
+                            </child>
+                            <child>
+                              <widget class="GtkImageMenuItem" id="export_image2">
+                                <property name="visible">True</property>
+                                <property name="label" translatable="yes">Image</property>
+                                <property name="use_underline">True</property>
+                                <signal name="activate" handler="on_export_image2_activate"/>
+                                <child internal-child="image">
+                                  <widget class="GtkImage" id="image316">
+                                    <property name="visible">True</property>
+                                    <property name="pixbuf">export-image.gif</property>
+                                  </widget>
+                                </child>
+                              </widget>
+                            </child>
+                          </widget>
+                        </child>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image309">
+                            <property name="visible">True</property>
+                            <property name="stock">gtk-go-up</property>
+                            <property name="icon_size">1</property>
+                          </widget>
+                        </child>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="GtkSeparatorMenuItem" id="separatormenuitem1">
+                        <property name="visible">True</property>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="GtkMenuItem" id="make_bottle">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">Make Bottle</property>
+                        <property name="use_underline">True</property>
+                        <signal name="activate" handler="on_make_bottle_activate"/>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="GtkSeparatorMenuItem" id="separator7">
+                        <property name="visible">True</property>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="GtkImageMenuItem" id="quit1">
+                        <property name="visible">True</property>
+                        <property name="label">gtk-quit</property>
+                        <property name="use_underline">True</property>
+                        <property name="use_stock">True</property>
+                        <signal name="activate" handler="on_quit1_activate"/>
+                      </widget>
+                    </child>
+                  </widget>
+                </child>
+              </widget>
+            </child>
+            <child>
+              <widget class="GtkMenuItem" id="menuitem3">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">_View</property>
+                <property name="use_underline">True</property>
+                <child>
+                  <widget class="GtkMenu" id="menuitem3_menu">
+                    <child>
+                      <widget class="GtkImageMenuItem" id="top_view1">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">Top View</property>
+                        <property name="use_underline">True</property>
+                        <signal name="activate" handler="on_top_view1_activate"/>
+                        <accelerator key="T" modifiers="GDK_CONTROL_MASK" signal="activate"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image317">
+                            <property name="visible">True</property>
+                            <property name="pixbuf">top.gif</property>
+                          </widget>
+                        </child>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="GtkImageMenuItem" id="bottom_view1">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">Bottom View</property>
+                        <property name="use_underline">True</property>
+                        <signal name="activate" handler="on_bottom_view1_activate"/>
+                        <accelerator key="B" modifiers="GDK_CONTROL_MASK" signal="activate"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image318">
+                            <property name="visible">True</property>
+                            <property name="pixbuf">bottom.gif</property>
+                          </widget>
+                        </child>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="GtkImageMenuItem" id="front_view1">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">Front View</property>
+                        <property name="use_underline">True</property>
+                        <signal name="activate" handler="on_front_view1_activate"/>
+                        <accelerator key="F" modifiers="GDK_CONTROL_MASK" signal="activate"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image319">
+                            <property name="visible">True</property>
+                            <property name="pixbuf">front.gif</property>
+                          </widget>
+                        </child>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="GtkImageMenuItem" id="back_view1">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">Back View</property>
+                        <property name="use_underline">True</property>
+                        <signal name="activate" handler="on_back_view1_activate"/>
+                        <accelerator key="K" modifiers="GDK_CONTROL_MASK" signal="activate"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image320">
+                            <property name="visible">True</property>
+                            <property name="pixbuf">back.gif</property>
+                          </widget>
+                        </child>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="GtkImageMenuItem" id="left_view1">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">Left View</property>
+                        <property name="use_underline">True</property>
+                        <signal name="activate" handler="on_left_view1_activate"/>
+                        <accelerator key="L" modifiers="GDK_CONTROL_MASK" signal="activate"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image321">
+                            <property name="visible">True</property>
+                            <property name="pixbuf">left.gif</property>
+                          </widget>
+                        </child>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="GtkImageMenuItem" id="right_view1">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">Right View</property>
+                        <property name="use_underline">True</property>
+                        <signal name="activate" handler="on_right_view1_activate"/>
+                        <accelerator key="R" modifiers="GDK_CONTROL_MASK" signal="activate"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image322">
+                            <property name="visible">True</property>
+                            <property name="pixbuf">right.gif</property>
+                          </widget>
+                        </child>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="GtkImageMenuItem" id="axonometric_view1">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">Axonometric View</property>
+                        <property name="use_underline">True</property>
+                        <signal name="activate" handler="on_axonometric_view1_activate"/>
+                        <accelerator key="A" modifiers="GDK_CONTROL_MASK" signal="activate"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image323">
+                            <property name="visible">True</property>
+                            <property name="pixbuf">axo.gif</property>
+                          </widget>
+                        </child>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="GtkSeparatorMenuItem" id="separator2">
+                        <property name="visible">True</property>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="GtkImageMenuItem" id="reset_view1">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">Reset View</property>
+                        <property name="use_underline">True</property>
+                        <signal name="activate" handler="on_reset_view1_activate"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image324">
+                            <property name="visible">True</property>
+                            <property name="pixbuf">resetview.gif</property>
+                          </widget>
+                        </child>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="GtkSeparatorMenuItem" id="separator1">
+                        <property name="visible">True</property>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="GtkImageMenuItem" id="zoom_view1">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">Zoom View</property>
+                        <property name="use_underline">True</property>
+                        <signal name="activate" handler="on_zoom_view1_activate"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image325">
+                            <property name="visible">True</property>
+                            <property name="pixbuf">dynzoom.gif</property>
+                          </widget>
+                        </child>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="GtkImageMenuItem" id="pan_view1">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">Pan View</property>
+                        <property name="use_underline">True</property>
+                        <signal name="activate" handler="on_pan_view1_activate"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image326">
+                            <property name="visible">True</property>
+                            <property name="pixbuf">dynpan.gif</property>
+                          </widget>
+                        </child>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="GtkImageMenuItem" id="rotate_view1">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">Rotate View</property>
+                        <property name="use_underline">True</property>
+                        <signal name="activate" handler="on_rotate_view1_activate"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image327">
+                            <property name="visible">True</property>
+                            <property name="pixbuf">dynrotate.gif</property>
+                          </widget>
+                        </child>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="GtkSeparatorMenuItem" id="separator3">
+                        <property name="visible">True</property>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="GtkImageMenuItem" id="zoom_window1">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">Zoom Window</property>
+                        <property name="use_underline">True</property>
+                        <signal name="activate" handler="on_zoom_window1_activate"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image328">
+                            <property name="visible">True</property>
+                            <property name="pixbuf">zoom.gif</property>
+                          </widget>
+                        </child>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="GtkSeparatorMenuItem" id="separator5">
+                        <property name="visible">True</property>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="GtkImageMenuItem" id="fit_all1">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">Fit All</property>
+                        <property name="use_underline">True</property>
+                        <signal name="activate" handler="on_fit_all1_activate"/>
+                        <accelerator key="F4" modifiers="" signal="activate"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image329">
+                            <property name="visible">True</property>
+                            <property name="pixbuf">fitall.gif</property>
+                          </widget>
+                        </child>
+                      </widget>
+                    </child>
+                  </widget>
+                </child>
+              </widget>
+            </child>
+            <child>
+              <widget class="GtkMenuItem" id="menuitem4">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">_Help</property>
+                <property name="use_underline">True</property>
+                <child>
+                  <widget class="GtkMenu" id="menuitem4_menu">
+                    <child>
+                      <widget class="GtkImageMenuItem" id="about1">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">_About</property>
+                        <property name="use_underline">True</property>
+                        <signal name="activate" handler="on_about1_activate"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image330">
+                            <property name="visible">True</property>
+                            <property name="stock">gtk-about</property>
+                            <property name="icon_size">1</property>
+                          </widget>
+                        </child>
+                      </widget>
+                    </child>
+                  </widget>
+                </child>
+              </widget>
+            </child>
+          </widget>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="GtkToolbar" id="main_toolbar">
+            <property name="visible">True</property>
+            <property name="toolbar_style">GTK_TOOLBAR_ICONS</property>
+            <child>
+              <widget class="GtkToolButton" id="import_iges_toolbutton">
+                <property name="visible">True</property>
+                <property name="tooltip" translatable="yes">Import IGES File</property>
+                <property name="use_underline">True</property>
+                <property name="icon">import-iges.gif</property>
+                <signal name="clicked" handler="on_import_iges_toolbutton_clicked"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolButton" id="import_step_toolbutton">
+                <property name="visible">True</property>
+                <property name="tooltip" translatable="yes">Import STEP File</property>
+                <property name="use_underline">True</property>
+                <property name="icon">import-step.gif</property>
+                <signal name="clicked" handler="on_import_step_toolbutton_clicked"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolButton" id="import_brep_toolbutton">
+                <property name="visible">True</property>
+                <property name="tooltip" translatable="yes">Import BREP File</property>
+                <property name="use_underline">True</property>
+                <property name="icon">import-brep.gif</property>
+                <signal name="clicked" handler="on_import_brep_toolbutton_clicked"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolButton" id="import_csfdb_toolbutton">
+                <property name="visible">True</property>
+                <property name="tooltip" translatable="yes">Import CSFDB File</property>
+                <property name="use_underline">True</property>
+                <property name="icon">import-csfdb.gif</property>
+                <signal name="clicked" handler="on_import_csfdb_toolbutton_clicked"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolItem" id="toolitem2">
+                <property name="visible">True</property>
+                <child>
+                  <widget class="GtkVSeparator" id="vseparator2">
+                    <property name="visible">True</property>
+                  </widget>
+                </child>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolButton" id="export_iges_toolbutton">
+                <property name="visible">True</property>
+                <property name="sensitive">False</property>
+                <property name="tooltip" translatable="yes">Export IGES File</property>
+                <property name="use_underline">True</property>
+                <property name="icon">export-iges.gif</property>
+                <signal name="clicked" handler="on_export_iges_toolbutton_clicked"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolButton" id="export_step_toolbutton">
+                <property name="visible">True</property>
+                <property name="sensitive">False</property>
+                <property name="tooltip" translatable="yes">Export STEP File</property>
+                <property name="use_underline">True</property>
+                <property name="icon">export-step.gif</property>
+                <signal name="clicked" handler="on_export_step_toolbutton_clicked"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolButton" id="export_brep_toolbutton">
+                <property name="visible">True</property>
+                <property name="sensitive">False</property>
+                <property name="tooltip" translatable="yes">Export BREP File</property>
+                <property name="use_underline">True</property>
+                <property name="icon">export-brep.gif</property>
+                <signal name="clicked" handler="on_export_brep_toolbutton_clicked"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolButton" id="export_csfdb_toolbutton">
+                <property name="visible">True</property>
+                <property name="sensitive">False</property>
+                <property name="tooltip" translatable="yes">Export CSFDB File</property>
+                <property name="use_underline">True</property>
+                <property name="icon">export-csfdb.gif</property>
+                <signal name="clicked" handler="on_export_csfdb_toolbutton_clicked"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolItem" id="toolitem10">
+                <property name="visible">True</property>
+                <child>
+                  <widget class="GtkVSeparator" id="vseparator10">
+                    <property name="visible">True</property>
+                  </widget>
+                </child>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolButton" id="export_stl_toolbutton">
+                <property name="visible">True</property>
+                <property name="sensitive">False</property>
+                <property name="tooltip" translatable="yes">Export StL File</property>
+                <property name="use_underline">True</property>
+                <property name="icon">export-stl.gif</property>
+                <signal name="clicked" handler="on_export_stl_toolbutton_clicked"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolButton" id="export_vrml_toolbutton">
+                <property name="visible">True</property>
+                <property name="sensitive">False</property>
+                <property name="use_underline">True</property>
+                <property name="icon">export-vrml.gif</property>
+                <signal name="clicked" handler="on_export_vrml_toolbutton_clicked"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolItem" id="toolitem11">
+                <property name="visible">True</property>
+                <child>
+                  <widget class="GtkVSeparator" id="vseparator11">
+                    <property name="visible">True</property>
+                  </widget>
+                </child>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolButton" id="export_image_toolbutton">
+                <property name="visible">True</property>
+                <property name="use_underline">True</property>
+                <property name="icon">export-image.gif</property>
+                <signal name="clicked" handler="on_export_image_toolbutton_clicked"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolItem" id="toolitem1">
+                <property name="visible">True</property>
+                <child>
+                  <widget class="GtkVSeparator" id="vseparator1">
+                    <property name="visible">True</property>
+                  </widget>
+                </child>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolButton" id="about_toolbutton">
+                <property name="visible">True</property>
+                <property name="tooltip" translatable="yes">About OccViewer</property>
+                <property name="stock_id">gtk-about</property>
+                <signal name="clicked" handler="on_about_toolbutton_clicked"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolItem" id="toolitem12">
+                <property name="visible">True</property>
+                <child>
+                  <widget class="GtkVSeparator" id="vseparator12">
+                    <property name="visible">True</property>
+                  </widget>
+                </child>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolItem" id="toolitem13">
+                <property name="visible">True</property>
+                <child>
+                  <widget class="GtkButton" id="gen_sketch_toolbutton">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="label" translatable="yes">Generate Test Sketch</property>
+                    <property name="use_underline">True</property>
+                    <property name="response_id">0</property>
+                    <signal name="clicked" handler="on_gen_sketch_toolbutton_clicked" after="yes"/>
+                  </widget>
+                </child>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolItem" id="toolitem14">
+                <property name="visible">True</property>
+                <child>
+                  <widget class="GtkButton" id="solve_toolbutton">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="label" translatable="yes">Solve Constraints</property>
+                    <property name="use_underline">True</property>
+                    <property name="response_id">0</property>
+                    <signal name="clicked" handler="on_solve_toolbutton_clicked"/>
+                  </widget>
+                </child>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolItem" id="toolitem15">
+                <property name="visible">True</property>
+                <child>
+                  <widget class="GtkButton" id="run_python_toolbutton">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="label" translatable="yes">Run Python Script</property>
+                    <property name="use_underline">True</property>
+                    <property name="response_id">0</property>
+                    <signal name="clicked" handler="on_run_python_toolbutton_clicked"/>
+                  </widget>
+                </child>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">False</property>
+              </packing>
+            </child>
+          </widget>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="GtkToolbar" id="view_toolbar">
+            <property name="visible">True</property>
+            <property name="toolbar_style">GTK_TOOLBAR_ICONS</property>
+            <child>
+              <widget class="GtkToolButton" id="top_view_toolbutton">
+                <property name="visible">True</property>
+                <property name="tooltip" translatable="yes">Top View</property>
+                <property name="use_underline">True</property>
+                <property name="icon">top.gif</property>
+                <signal name="clicked" handler="on_top_view_toolbutton_clicked"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolButton" id="bottom_view_toolbutton">
+                <property name="visible">True</property>
+                <property name="tooltip" translatable="yes">Bottom View</property>
+                <property name="use_underline">True</property>
+                <property name="icon">bottom.gif</property>
+                <signal name="clicked" handler="on_bottom_view_toolbutton_clicked"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolButton" id="front_view_toolbutton">
+                <property name="visible">True</property>
+                <property name="tooltip" translatable="yes">Front View</property>
+                <property name="use_underline">True</property>
+                <property name="icon">front.gif</property>
+                <signal name="clicked" handler="on_front_view_toolbutton_clicked"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolButton" id="back_view_toolbutton">
+                <property name="visible">True</property>
+                <property name="tooltip" translatable="yes">Back View</property>
+                <property name="use_underline">True</property>
+                <property name="icon">back.gif</property>
+                <signal name="clicked" handler="on_back_view_toolbutton_clicked"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolButton" id="left_view_toolbutton">
+                <property name="visible">True</property>
+                <property name="tooltip" translatable="yes">Left View</property>
+                <property name="use_underline">True</property>
+                <property name="icon">left.gif</property>
+                <signal name="clicked" handler="on_left_view_toolbutton_clicked"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolButton" id="right_view_toolbutton">
+                <property name="visible">True</property>
+                <property name="tooltip" translatable="yes">Right View</property>
+                <property name="use_underline">True</property>
+                <property name="icon">right.gif</property>
+                <signal name="clicked" handler="on_right_view_toolbutton_clicked"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkSeparatorToolItem" id="toolitem3">
+                <property name="visible">True</property>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolButton" id="axo_view_toolbutton">
+                <property name="visible">True</property>
+                <property name="tooltip" translatable="yes">Axonometric View</property>
+                <property name="use_underline">True</property>
+                <property name="icon">axo.gif</property>
+                <signal name="clicked" handler="on_axo_view_toolbutton_clicked"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkSeparatorToolItem" id="toolitem4">
+                <property name="visible">True</property>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolButton" id="reset_view_toolbutton">
+                <property name="visible">True</property>
+                <property name="tooltip" translatable="yes">Reset View</property>
+                <property name="use_underline">True</property>
+                <property name="icon">resetview.gif</property>
+                <signal name="clicked" handler="on_reset_view_toolbutton_clicked"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkSeparatorToolItem" id="toolitem5">
+                <property name="visible">True</property>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleToolButton" id="dyn_zoom_toolbutton">
+                <property name="visible">True</property>
+                <property name="tooltip" translatable="yes">Dynamic Zooming</property>
+                <property name="use_underline">True</property>
+                <property name="icon">dynzoom.gif</property>
+                <signal name="toggled" handler="on_dyn_zoom_toolbutton_toggled"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleToolButton" id="dyn_pan_toolbutton">
+                <property name="visible">True</property>
+                <property name="tooltip" translatable="yes">Dynamic Panning</property>
+                <property name="use_underline">True</property>
+                <property name="icon">dynpan.gif</property>
+                <signal name="toggled" handler="on_dyn_pan_toolbutton_toggled"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleToolButton" id="dyn_rotate_toolbutton">
+                <property name="visible">True</property>
+                <property name="tooltip" translatable="yes">Dynamic Rotation</property>
+                <property name="use_underline">True</property>
+                <property name="icon">dynrotate.gif</property>
+                <signal name="toggled" handler="on_dyn_rotate_toolbutton_toggled"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkSeparatorToolItem" id="toolitem6">
+                <property name="visible">True</property>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleToolButton" id="glob_pan_toolbutton">
+                <property name="visible">True</property>
+                <property name="tooltip" translatable="yes">Global Panning</property>
+                <property name="use_underline">True</property>
+                <property name="icon">globpan.gif</property>
+                <signal name="toggled" handler="on_glob_pan_toolbutton_toggled"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolButton" id="fit_all_toolbutton">
+                <property name="visible">True</property>
+                <property name="tooltip" translatable="yes">Fit All</property>
+                <property name="use_underline">True</property>
+                <property name="icon">fitall.gif</property>
+                <signal name="clicked" handler="on_fit_all_toolbutton_clicked"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleToolButton" id="zoom_win_toolbutton">
+                <property name="visible">True</property>
+                <property name="tooltip" translatable="yes">Zoom Window</property>
+                <property name="use_underline">True</property>
+                <property name="icon">zoom.gif</property>
+                <signal name="toggled" handler="on_zoom_win_toolbutton_toggled"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkSeparatorToolItem" id="toolitem7">
+                <property name="visible">True</property>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleToolButton" id="display_mode_toolbutton">
+                <property name="visible">True</property>
+                <property name="tooltip" translatable="yes">Toggle Shading/Wireframe</property>
+                <property name="use_underline">True</property>
+                <property name="icon">shading-model.gif</property>
+                <property name="active">True</property>
+                <signal name="toggled" handler="on_display_mode_toolbutton_toggled"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleToolButton" id="hlr_toolbutton">
+                <property name="visible">True</property>
+                <property name="tooltip" translatable="yes">Hidden Line Removal</property>
+                <property name="use_underline">True</property>
+                <property name="icon">hiddenon.gif</property>
+                <signal name="toggled" handler="on_hlr_toolbutton_toggled"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleToolButton" id="antialiasing_toolbutton">
+                <property name="visible">True</property>
+                <property name="tooltip" translatable="yes">Toggle Antialiasing</property>
+                <property name="use_underline">True</property>
+                <property name="icon">antialiasing.gif</property>
+                <signal name="toggled" handler="on_antialiasing_toolbutton_toggled"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkSeparatorToolItem" id="toolitem8">
+                <property name="visible">True</property>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolButton" id="color_toolbutton">
+                <property name="visible">True</property>
+                <property name="tooltip" translatable="yes">Change Color</property>
+                <property name="use_underline">True</property>
+                <property name="icon">color.gif</property>
+                <signal name="clicked" handler="on_color_toolbutton_clicked"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolButton" id="material_toolbutton">
+                <property name="visible">True</property>
+                <property name="tooltip" translatable="yes">Change Material</property>
+                <property name="use_underline">True</property>
+                <property name="icon">material.gif</property>
+                <signal name="clicked" handler="on_material_toolbutton_clicked"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolButton" id="transparency_toolbutton">
+                <property name="visible">True</property>
+                <property name="tooltip" translatable="yes">Change Transparency</property>
+                <property name="use_underline">True</property>
+                <property name="icon">transparency.gif</property>
+                <signal name="clicked" handler="on_transparency_toolbutton_clicked"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkSeparatorToolItem" id="toolitem9">
+                <property name="visible">True</property>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolButton" id="snapshot_toolbutton">
+                <property name="visible">True</property>
+                <property name="tooltip" translatable="yes">Create Snapshot</property>
+                <property name="use_underline">True</property>
+                <property name="icon">vw-camera-dump_20.gif</property>
+                <signal name="clicked" handler="on_snapshot_toolbutton_clicked"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkSeparatorToolItem" id="toolbutton1">
+                <property name="visible">True</property>
+                <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolButton" id="make_point_toolbutton">
+                <property name="visible">True</property>
+                <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                <property name="has_tooltip">True</property>
+                <property name="tooltip_text">Create Point</property>
+                <property name="label" translatable="yes">Create Point</property>
+                <property name="icon">test1.gif</property>
+                <signal name="clicked" handler="on_make_point_toolbutton_clicked"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolButton" id="make_line_toolbutton">
+                <property name="visible">True</property>
+                <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                <property name="has_tooltip">True</property>
+                <property name="tooltip_text">Create Line</property>
+                <property name="label" translatable="yes">Create Line</property>
+                <property name="icon">test28.gif</property>
+                <signal name="clicked" handler="on_make_line_toolbutton_clicked"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolButton" id="make_polyline_toolbutton">
+                <property name="visible">True</property>
+                <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                <property name="has_tooltip">True</property>
+                <property name="tooltip_text">Create Polyline</property>
+                <property name="label" translatable="yes">Create Polyline</property>
+                <property name="icon">test25.gif</property>
+                <signal name="clicked" handler="on_make_polyline_toolbutton_clicked"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolButton" id="make_arc_toolbutton">
+                <property name="visible">True</property>
+                <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                <property name="has_tooltip">True</property>
+                <property name="tooltip_text">Create Arc</property>
+                <property name="label" translatable="yes">Create Arc</property>
+                <property name="icon">test22.gif</property>
+                <signal name="clicked" handler="on_make_arc_toolbutton_clicked"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolButton" id="make_distance_constraint_toolbutton">
+                <property name="visible">True</property>
+                <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                <property name="has_tooltip">True</property>
+                <property name="tooltip_text">Create Distance Constraint</property>
+                <property name="label" translatable="yes">Create Distance Constraint</property>
+                <property name="icon">test15.gif</property>
+                <signal name="clicked" handler="on_make_distance_constraint_toolbutton_clicked"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolButton" id="make_angle_constraint_toolbutton">
+                <property name="visible">True</property>
+                <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                <property name="has_tooltip">True</property>
+                <property name="tooltip_text">Create Angle Constraint</property>
+                <property name="label" translatable="yes">Create Angle Constraint</property>
+                <property name="icon">test17.gif</property>
+                <signal name="clicked" handler="on_make_angle_constraint_toolbutton_clicked"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolButton" id="make_tangent_constraint_toolbutton">
+                <property name="visible">True</property>
+                <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                <property name="has_tooltip">True</property>
+                <property name="tooltip_text">Create Tangent Constraint</property>
+                <property name="label" translatable="yes">Create Tangent Constraint</property>
+                <property name="icon">test30.gif</property>
+                <signal name="clicked" handler="on_make_tangent_constraint_toolbutton_clicked"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
+          </widget>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="GtkFrame" id="frame1">
+            <property name="visible">True</property>
+            <property name="label_xalign">0</property>
+            <child>
+              <widget class="GtkDrawingArea" id="drawingarea1">
+                <property name="visible">True</property>
+                <property name="events">GDK_EXPOSURE_MASK | GDK_POINTER_MOTION_MASK | GDK_BUTTON_MOTION_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK | GDK_ENTER_NOTIFY_MASK | GDK_LEAVE_NOTIFY_MASK</property>
+                <signal name="leave_notify_event" handler="on_drawingarea1_leave_notify_event"/>
+                <signal name="map_event" handler="on_drawingarea1_map_event" after="yes"/>
+                <signal name="configure_event" handler="on_drawingarea1_configure_event" after="yes"/>
+                <signal name="expose_event" handler="on_drawingarea1_expose_event" after="yes"/>
+                <signal name="button_press_event" handler="on_drawingarea1_button_press_event"/>
+                <signal name="motion_notify_event" handler="on_drawingarea1_motion_notify_event"/>
+                <signal name="realize" handler="on_drawingarea1_realize" after="yes"/>
+                <signal name="key_press_event" handler="on_drawingarea1_key_press_event"/>
+                <signal name="button_release_event" handler="on_drawingarea1_button_release_event"/>
+                <signal name="enter_notify_event" handler="on_drawingarea1_enter_notify_event"/>
+                <signal name="key_release_event" handler="on_drawingarea1_key_release_event"/>
+                <signal name="destroy_event" handler="on_drawingarea1_destroy_event"/>
+                <signal name="scroll_event" handler="on_drawingarea1_scroll_event"/>
+              </widget>
+            </child>
+          </widget>
+          <packing>
+            <property name="position">3</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="GtkStatusbar" id="statusbar1">
+            <property name="visible">True</property>
+          </widget>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">4</property>
+          </packing>
+        </child>
+      </widget>
+    </child>
+  </widget>
+  <widget class="GtkMenu" id="popup_bg">
+  </widget>
+  <widget class="GtkMenu" id="popup_object">
+  </widget>
+  <widget class="GtkDialog" id="Transparency">
+    <property name="visible">True</property>
+    <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
+    <child internal-child="vbox">
+      <widget class="GtkVBox" id="vbox2">
+        <property name="visible">True</property>
+        <child internal-child="action_area">
+          <widget class="GtkHButtonBox" id="hbuttonbox1">
+            <property name="visible">True</property>
+            <property name="layout_style">GTK_BUTTONBOX_END</property>
+          </widget>
+          <packing>
+            <property name="expand">False</property>
+            <property name="pack_type">GTK_PACK_END</property>
+          </packing>
+        </child>
+      </widget>
+    </child>
+  </widget>
+  <widget class="GtkDialog" id="MatlDlg">
+    <property name="width_request">98</property>
+    <property name="height_request">265</property>
+    <property name="visible">True</property>
+    <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
+    <child internal-child="vbox">
+      <widget class="GtkVBox" id="vbox3">
+        <property name="visible">True</property>
+        <child internal-child="action_area">
+          <widget class="GtkHButtonBox" id="hbuttonbox2">
+            <property name="visible">True</property>
+            <property name="layout_style">GTK_BUTTONBOX_END</property>
+          </widget>
+          <packing>
+            <property name="expand">False</property>
+            <property name="pack_type">GTK_PACK_END</property>
+          </packing>
+        </child>
+      </widget>
+    </child>
+  </widget>
+  <widget class="GtkFileChooserDialog" id="TransDlg">
+    <property name="visible">True</property>
+    <property name="border_width">5</property>
+    <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
+    <child internal-child="vbox">
+      <widget class="GtkVBox" id="vbox4">
+        <property name="visible">True</property>
+        <property name="spacing">24</property>
+        <child internal-child="action_area">
+          <widget class="GtkHButtonBox" id="hbuttonbox3">
+            <property name="visible">True</property>
+            <property name="layout_style">GTK_BUTTONBOX_END</property>
+          </widget>
+          <packing>
+            <property name="expand">False</property>
+            <property name="pack_type">GTK_PACK_END</property>
+          </packing>
+        </child>
+      </widget>
+    </child>
+  </widget>
 </glade-interface>
