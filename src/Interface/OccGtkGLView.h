@@ -197,11 +197,20 @@ public:
     void opencascade_init    (void);
 
 
-		// methods that 
+		// methods for Ark3D 
 		void SolveConstraints();
 		void GenerateTestSketch();
 		void ExecutePythonScript();
 		void GenerateDefaultSketch();
+
+		// Interactive constructor callbacks
+		void MakeLine() {;}
+		void MakePolyLine() {;}
+		void MakeArc() {;}
+		void MakePoint() {;}
+		void MakeDistanceConstraint() {;}
+		void MakeAngleConstraint() {;}
+		void MakeTangentConstraint() {;}
 
 public:
     bool isInitialized(void)

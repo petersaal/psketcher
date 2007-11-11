@@ -338,11 +338,11 @@ void OccGtkGLView::LButtonDown( GdkEventButton  *event )
 		MouseEventPropertiesPointer event_props(new GtkMouseEventProperties((MouseButtonEventType)ButtonPress,event));
 		if(interactive_primitive_->LeftButtonDown(event_props))
 		{
+			// The interactive primitive is finished, so allow it to create its object and then clean it up
 			interactive_primitive_->CreateObject();
 			delete interactive_primitive_;
 			interactive_primitive_ = 0;
 		}
-
 	} else {
 
 			//  save the current mouse coordinate in min
@@ -389,172 +389,243 @@ void OccGtkGLView::LButtonDown( GdkEventButton  *event )
 
 void OccGtkGLView::MButtonDown( GdkEventButton  *event )
 {
-    if ( event->state & GDK_CONTROL_MASK )
-	myCurrentMode = CurAction3d_DynamicPanning;
-    ActivateCursor( myCurrentMode );
-
+	if(interactive_primitive_ != 0)
+	{
+		MouseEventPropertiesPointer event_props(new GtkMouseEventProperties((MouseButtonEventType)ButtonPress,event));
+		if(interactive_primitive_->MiddleButtonDown(event_props))
+		{
+			// The interactive primitive is finished, so allow it to create its object and then clean it up
+			interactive_primitive_->CreateObject();
+			delete interactive_primitive_;
+			interactive_primitive_ = 0;
+		}
+	} else {
+			if ( event->state & GDK_CONTROL_MASK )
+		myCurrentMode = CurAction3d_DynamicPanning;
+			ActivateCursor( myCurrentMode );
+	}
 }
 
 void OccGtkGLView::RButtonDown( GdkEventButton  *event )
 {
-    if ( event->state & GDK_CONTROL_MASK )
-    {
-	if ( !myDegenerateModeIsOn )
-	    myView->SetDegenerateModeOn();
-	myCurrentMode = CurAction3d_DynamicRotation;
-	myView->StartRotation( (Standard_Integer)event->x, (Standard_Integer)event->y );
-    }
-    else
-    {
-	Popup( event );
-    }
-    ActivateCursor( myCurrentMode );
+	if(interactive_primitive_ != 0)
+	{
+		MouseEventPropertiesPointer event_props(new GtkMouseEventProperties((MouseButtonEventType)ButtonPress,event));
+		if(interactive_primitive_->RightButtonDown(event_props))
+		{
+			// The interactive primitive is finished, so allow it to create its object and then clean it up
+			interactive_primitive_->CreateObject();
+			delete interactive_primitive_;
+			interactive_primitive_ = 0;
+		}
+	} else {
+			if ( event->state & GDK_CONTROL_MASK )
+			{
+		if ( !myDegenerateModeIsOn )
+				myView->SetDegenerateModeOn();
+		myCurrentMode = CurAction3d_DynamicRotation;
+		myView->StartRotation( (Standard_Integer)event->x, (Standard_Integer)event->y );
+			}
+			else
+			{
+		Popup( event );
+			}
+			ActivateCursor( myCurrentMode );
+	}
 }
 
 void OccGtkGLView::LButtonUp( GdkEventButton  *event )
 {
-    switch( myCurrentMode )
-    {
-	case CurAction3d_Nothing:
-	    if ( event->x == myXmin && event->y == myYmin )
-	    {
-		// no offset between down and up --> selectEvent
-		myXmax = (Standard_Integer)event->x;
-		myYmax = (Standard_Integer)event->y;
-		if ( event->state & GDK_SHIFT_MASK )
-		    MultiInputEvent( (Standard_Integer)event->x, (Standard_Integer)event->y );
-		else
-		    InputEvent( (Standard_Integer)event->x, (Standard_Integer)event->y );
-	    }
-	    else
-	    {
-		DrawRectangle( myXmin, myYmin, myXmax, myYmax, Standard_False );
-		myXmax = (Standard_Integer)event->x;
-		myYmax = (Standard_Integer)event->y;
-		if ( event->state & GDK_SHIFT_MASK )
-		    MultiDragEvent( (Standard_Integer)event->x, (Standard_Integer)event->y, 1 );
-		else
-		    DragEvent( (Standard_Integer)event->x, (Standard_Integer)event->y, 1 );
-	    }
-	    break;
-	case CurAction3d_DynamicZooming:
-	    myCurrentMode = CurAction3d_Nothing;
-	    NoActiveActions();
-	    break;
-	case CurAction3d_WindowZooming:
-	    DrawRectangle( myXmin, myYmin, myXmax, myYmax, Standard_False );
-	    DrawRectangle( myXmin, myYmin, myXmax, myYmax, Standard_True );//,LongDash);
-	    myXmax = (Standard_Integer)event->x;
-	    myYmax = (Standard_Integer)event->y;
-	    if ( (abs( myXmin - myXmax ) > ValZWMin ) ||
-		    (abs( myYmin - myYmax ) > ValZWMin ) )
-		myView->WindowFitAll( myXmin, myYmin, myXmax, myYmax );
-	    myCurrentMode = CurAction3d_Nothing;
-	    NoActiveActions();
-	    break;
-	case CurAction3d_DynamicPanning:
-	    myCurrentMode = CurAction3d_Nothing;
-	    NoActiveActions();
-	    break;
-	case CurAction3d_GlobalPanning :
-	    myView->Place( (Standard_Integer)event->x, (Standard_Integer)event->y, myCurZoom );
-	    myCurrentMode = CurAction3d_Nothing;
-	    NoActiveActions();
-	    break;
-	case CurAction3d_DynamicRotation:
-	    myCurrentMode = CurAction3d_Nothing;
-	    NoActiveActions();
-	    break;
-	default:
-	    Standard_Failure::Raise(" incompatible Current Mode ");
-	    break;
-    }
-    ActivateCursor( myCurrentMode );
+	if(interactive_primitive_ != 0)
+	{
+		MouseEventPropertiesPointer event_props(new GtkMouseEventProperties((MouseButtonEventType)ButtonRelease,event));
+		if(interactive_primitive_->LeftButtonUp(event_props))
+		{
+			// The interactive primitive is finished, so allow it to create its object and then clean it up
+			interactive_primitive_->CreateObject();
+			delete interactive_primitive_;
+			interactive_primitive_ = 0;
+		}
+	} else {
+			switch( myCurrentMode )
+			{
+		case CurAction3d_Nothing:
+				if ( event->x == myXmin && event->y == myYmin )
+				{
+			// no offset between down and up --> selectEvent
+			myXmax = (Standard_Integer)event->x;
+			myYmax = (Standard_Integer)event->y;
+			if ( event->state & GDK_SHIFT_MASK )
+					MultiInputEvent( (Standard_Integer)event->x, (Standard_Integer)event->y );
+			else
+					InputEvent( (Standard_Integer)event->x, (Standard_Integer)event->y );
+				}
+				else
+				{
+			DrawRectangle( myXmin, myYmin, myXmax, myYmax, Standard_False );
+			myXmax = (Standard_Integer)event->x;
+			myYmax = (Standard_Integer)event->y;
+			if ( event->state & GDK_SHIFT_MASK )
+					MultiDragEvent( (Standard_Integer)event->x, (Standard_Integer)event->y, 1 );
+			else
+					DragEvent( (Standard_Integer)event->x, (Standard_Integer)event->y, 1 );
+				}
+				break;
+		case CurAction3d_DynamicZooming:
+				myCurrentMode = CurAction3d_Nothing;
+				NoActiveActions();
+				break;
+		case CurAction3d_WindowZooming:
+				DrawRectangle( myXmin, myYmin, myXmax, myYmax, Standard_False );
+				DrawRectangle( myXmin, myYmin, myXmax, myYmax, Standard_True );//,LongDash);
+				myXmax = (Standard_Integer)event->x;
+				myYmax = (Standard_Integer)event->y;
+				if ( (abs( myXmin - myXmax ) > ValZWMin ) ||
+					(abs( myYmin - myYmax ) > ValZWMin ) )
+			myView->WindowFitAll( myXmin, myYmin, myXmax, myYmax );
+				myCurrentMode = CurAction3d_Nothing;
+				NoActiveActions();
+				break;
+		case CurAction3d_DynamicPanning:
+				myCurrentMode = CurAction3d_Nothing;
+				NoActiveActions();
+				break;
+		case CurAction3d_GlobalPanning :
+				myView->Place( (Standard_Integer)event->x, (Standard_Integer)event->y, myCurZoom );
+				myCurrentMode = CurAction3d_Nothing;
+				NoActiveActions();
+				break;
+		case CurAction3d_DynamicRotation:
+				myCurrentMode = CurAction3d_Nothing;
+				NoActiveActions();
+				break;
+		default:
+				Standard_Failure::Raise(" incompatible Current Mode ");
+				break;
+			}
+			ActivateCursor( myCurrentMode );
+	}
 }
 
 void OccGtkGLView::MButtonUp( GdkEventButton  *event )
 {
+	if(interactive_primitive_ != 0)
+	{
+		MouseEventPropertiesPointer event_props(new GtkMouseEventProperties((MouseButtonEventType)ButtonRelease,event));
+		if(interactive_primitive_->MiddleButtonUp(event_props))
+		{
+			// The interactive primitive is finished, so allow it to create its object and then clean it up
+			interactive_primitive_->CreateObject();
+			delete interactive_primitive_;
+			interactive_primitive_ = 0;
+		}
+	} else {
     myCurrentMode = CurAction3d_Nothing;
     ActivateCursor( myCurrentMode );
+	}
 }
 
 void OccGtkGLView::RButtonUp( GdkEventButton  *event )
 {
-    if ( myCurrentMode == CurAction3d_Nothing )
-	Popup( event );
-    else
-    {
-	ShowWaitCursor(true);
-	// reset tyhe good Degenerated mode according to the strored one
-	//   --> dynamic rotation may have change it
-	if ( !myDegenerateModeIsOn )
+	if(interactive_primitive_ != 0)
 	{
-	    myView->SetDegenerateModeOff();
-	    myDegenerateModeIsOn = Standard_False;
+		MouseEventPropertiesPointer event_props(new GtkMouseEventProperties((MouseButtonEventType)ButtonRelease,event));
+		if(interactive_primitive_->RightButtonUp(event_props))
+		{
+			// The interactive primitive is finished, so allow it to create its object and then clean it up
+			interactive_primitive_->CreateObject();
+			delete interactive_primitive_;
+			interactive_primitive_ = 0;
+		}
+		} else {
+			if ( myCurrentMode == CurAction3d_Nothing )
+		Popup( event );
+			else
+			{
+		ShowWaitCursor(true);
+		// reset tyhe good Degenerated mode according to the strored one
+		//   --> dynamic rotation may have change it
+		if ( !myDegenerateModeIsOn )
+		{
+				myView->SetDegenerateModeOff();
+				myDegenerateModeIsOn = Standard_False;
+		}
+		else
+		{
+				myView->SetDegenerateModeOn();
+				myDegenerateModeIsOn = Standard_True;
+		}
+		ShowWaitCursor(false);
+		myCurrentMode = CurAction3d_Nothing;
+			}
+			ActivateCursor( myCurrentMode );
 	}
-	else
-	{
-	    myView->SetDegenerateModeOn();
-	    myDegenerateModeIsOn = Standard_True;
-	}
-	ShowWaitCursor(false);
-	myCurrentMode = CurAction3d_Nothing;
-    }
-    ActivateCursor( myCurrentMode );
 }
 
 void OccGtkGLView::MouseMove( GdkEventMotion  *event )
 {
-    if ( event->state & GDK_BUTTON1_MASK || event->state & GDK_BUTTON2_MASK || event->state & GDK_BUTTON3_MASK )
-    {
-	switch ( myCurrentMode )
+	if(interactive_primitive_ != 0)
 	{
-	    case CurAction3d_Nothing:
+		MotionEventPropertiesPointer event_props(new GtkMotionEventProperties(event));
+		if(interactive_primitive_->MouseMove(event_props))
+		{
+			// The interactive primitive is finished, so allow it to create its object and then clean it up
+			interactive_primitive_->CreateObject();
+			delete interactive_primitive_;
+			interactive_primitive_ = 0;
+		}
+	} else {
+			if ( event->state & GDK_BUTTON1_MASK || event->state & GDK_BUTTON2_MASK || event->state & GDK_BUTTON3_MASK )
+			{
+		switch ( myCurrentMode )
+		{
+				case CurAction3d_Nothing:
+			myXmax = (Standard_Integer)event->x;
+			myYmax = (Standard_Integer)event->y;
+			DrawRectangle( myXmin, myYmin, myXmax, myYmax, Standard_False );
+			if ( event->state & GDK_SHIFT_MASK )
+					MultiDragEvent( myXmax, myYmax, 0 );
+			else
+					DragEvent( myXmax, myYmax, 0 );
+			DrawRectangle( myXmin, myYmin, myXmax, myYmax, Standard_True );
+			break;
+				case CurAction3d_DynamicZooming:
+			myView->Zoom( myXmax, myYmax, (Standard_Integer)event->x, (Standard_Integer)event->y );
+			myXmax = (Standard_Integer)event->x;
+			myYmax = (Standard_Integer)event->y;
+			break;
+				case CurAction3d_WindowZooming:
+			myXmax = (Standard_Integer)event->x;
+			myYmax = (Standard_Integer)event->y;
+			DrawRectangle( myXmin, myYmin, myXmax, myYmax, Standard_False );
+			DrawRectangle( myXmin, myYmin, myXmax, myYmax, Standard_True );
+			break;
+				case CurAction3d_DynamicPanning:
+			myView->Pan( (Standard_Integer)event->x - myXmax, myYmax - (Standard_Integer)event->y );
+			myXmax = (Standard_Integer)event->x;
+			myYmax = (Standard_Integer)event->y;
+			break;
+				case CurAction3d_GlobalPanning:
+			break;
+				case CurAction3d_DynamicRotation:
+			myView->Rotation( (Standard_Integer)event->x, (Standard_Integer)event->y );
+			myView->Redraw();
+			break;
+				default:
+			Standard_Failure::Raise( "incompatible Current Mode" );
+			break;
+		}
+			}
+			else
+			{
 		myXmax = (Standard_Integer)event->x;
 		myYmax = (Standard_Integer)event->y;
-		DrawRectangle( myXmin, myYmin, myXmax, myYmax, Standard_False );
 		if ( event->state & GDK_SHIFT_MASK )
-		    MultiDragEvent( myXmax, myYmax, 0 );
+				MultiMoveEvent( (Standard_Integer)event->x, (Standard_Integer)event->y );
 		else
-		    DragEvent( myXmax, myYmax, 0 );
-		DrawRectangle( myXmin, myYmin, myXmax, myYmax, Standard_True );
-		break;
-	    case CurAction3d_DynamicZooming:
-		myView->Zoom( myXmax, myYmax, (Standard_Integer)event->x, (Standard_Integer)event->y );
-		myXmax = (Standard_Integer)event->x;
-		myYmax = (Standard_Integer)event->y;
-		break;
-	    case CurAction3d_WindowZooming:
-		myXmax = (Standard_Integer)event->x;
-		myYmax = (Standard_Integer)event->y;
-		DrawRectangle( myXmin, myYmin, myXmax, myYmax, Standard_False );
-		DrawRectangle( myXmin, myYmin, myXmax, myYmax, Standard_True );
-		break;
-	    case CurAction3d_DynamicPanning:
-		myView->Pan( (Standard_Integer)event->x - myXmax, myYmax - (Standard_Integer)event->y );
-		myXmax = (Standard_Integer)event->x;
-		myYmax = (Standard_Integer)event->y;
-		break;
-	    case CurAction3d_GlobalPanning:
-		break;
-	    case CurAction3d_DynamicRotation:
-		myView->Rotation( (Standard_Integer)event->x, (Standard_Integer)event->y );
-		myView->Redraw();
-		break;
-	    default:
-		Standard_Failure::Raise( "incompatible Current Mode" );
-		break;
+				MoveEvent( (Standard_Integer)event->x, (Standard_Integer)event->y );
+			}
 	}
-    }
-    else
-    {
-	myXmax = (Standard_Integer)event->x;
-	myYmax = (Standard_Integer)event->y;
-	if ( event->state & GDK_SHIFT_MASK )
-	    MultiMoveEvent( (Standard_Integer)event->x, (Standard_Integer)event->y );
-	else
-	    MoveEvent( (Standard_Integer)event->x, (Standard_Integer)event->y );
-    }
 }
 
 void OccGtkGLView::DragEvent( const int x, const int y, const int TheState )
