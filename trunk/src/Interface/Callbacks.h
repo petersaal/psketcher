@@ -388,6 +388,34 @@ void
 on_snapshot_toolbutton_clicked         (GtkToolButton   *toolbutton,
                                         gpointer         user_data);
 
+void
+on_make_line_toolbutton_clicked         (GtkToolButton   *toolbutton,
+                                        gpointer         user_data);
+
+void
+on_make_polyline_toolbutton_clicked         (GtkToolButton   *toolbutton,
+                                        gpointer         user_data);
+
+void
+on_make_arc_toolbutton_clicked         (GtkToolButton   *toolbutton,
+                                        gpointer         user_data);
+
+void
+on_make_point_toolbutton_clicked         (GtkToolButton   *toolbutton,
+                                        gpointer         user_data);
+
+void
+on_make_distance_constraint_toolbutton_clicked         (GtkToolButton   *toolbutton,
+                                        gpointer         user_data);
+
+void
+on_make_angle_constraint_toolbutton_clicked         (GtkToolButton   *toolbutton,
+                                        gpointer         user_data);
+
+void
+on_make_tangent_constraint_toolbutton_clicked         (GtkToolButton   *toolbutton,
+                                        gpointer         user_data);
+
 void 
 set_material                           (int theMaterial);
 

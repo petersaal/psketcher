@@ -1460,3 +1460,53 @@ on_silver_radiobutton_toggled          (GtkToggleButton *togglebutton,
 }
 
 
+void
+on_make_line_toolbutton_clicked         (GtkToolButton   *toolbutton,
+                                        gpointer         user_data)
+{
+	theViewer->MakeLine();
+}
+
+void
+on_make_polyline_toolbutton_clicked         (GtkToolButton   *toolbutton,
+                                        gpointer         user_data)
+{
+	theViewer->MakePolyLine();
+}
+
+void
+on_make_arc_toolbutton_clicked         (GtkToolButton   *toolbutton,
+                                        gpointer         user_data)
+{
+	theViewer->MakeArc();
+}
+
+void
+on_make_point_toolbutton_clicked         (GtkToolButton   *toolbutton,
+                                        gpointer         user_data)
+{
+	theViewer->MakePoint();
+}
+
+void
+on_make_distance_constraint_toolbutton_clicked         (GtkToolButton   *toolbutton,
+                                        gpointer         user_data)
+{
+	theViewer->MakeDistanceConstraint();
+}
+
+void
+on_make_angle_constraint_toolbutton_clicked         (GtkToolButton   *toolbutton,
+                                        gpointer         user_data)
+{
+	theViewer->MakeAngleConstraint();
+}
+
+void
+on_make_tangent_constraint_toolbutton_clicked         (GtkToolButton   *toolbutton,
+                                        gpointer         user_data)
+{
+	theViewer->MakeTangentConstraint();
+}
+
+
