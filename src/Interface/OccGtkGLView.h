@@ -55,6 +55,7 @@ extern "C" {
 
 #include "../OpenCascadeBinding/OccSketch.h"
 #include "../InteractiveConstructors/InteractiveConstructorBase.h"
+#include "../InteractiveConstructors/Point2DConstructor.h"
 
 /**
  *@author Sharjith
@@ -207,10 +208,14 @@ public:
 		void MakeLine() {;}
 		void MakePolyLine() {;}
 		void MakeArc() {;}
-		void MakePoint() {;}
+		void MakePoint() {
+											if(interactive_primitive_ == 0) 
+												interactive_primitive_ = new Point2DConstructor(current_sketch_, myView, myViewer);}
 		void MakeDistanceConstraint() {;}
 		void MakeAngleConstraint() {;}
 		void MakeTangentConstraint() {;}
+
+		bool convertToPlane(int x_screen, int y_screen,double& x,double& y,double& z);
 
 public:
     bool isInitialized(void)

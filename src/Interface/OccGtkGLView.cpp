@@ -37,6 +37,10 @@ email                : |sharjith_ssn@hotmail.com|
 #include <gdk/gdkx.h>
 #endif
 
+// Opencascade specific includes
+#include <IntAna_IntConicQuad.hxx>
+
+// Ark3d specific includes
 #include "../OpenCascadeBinding/OccPrimitives.h"
 #include "../InteractiveConstructors/GtkEventProperties.h"
 
@@ -1029,4 +1033,39 @@ void OccGtkGLView::GenerateDefaultSketch()
 
 	// turn on the display of the grid (grid coincides with the privileged plane)
 	myViewer->ActivateGrid(Aspect_GT_Rectangular,Aspect_GDM_Lines);
+}
+
+bool OccGtkGLView::convertToPlane(int x_screen, int y_screen,double& x,double& y,double& z)
+{
+	double Xv, Yv, Zv;
+	double Vx, Vy, Vz;
+	gp_Pln aPlane(myView->Viewer()->PrivilegedPlane());
+
+#ifdef OCC_PATCHED
+	myView->Convert( x_screen, y_screen, Xv, Yv, Zv );
+#else
+	// The + 1 overcomes a fault in OCC, in "OpenGl_togl_unproject_raster.c",
+	// which transforms the Y axis ordinate. The function uses the height of the
+	// window, not the Y maximum which is (height - 1).
+	myView->Convert( x_screen, y_screen + 1, Xv, Yv, Zv );
+#endif
+
+	myView->Proj( Vx, Vy, Vz );
+	gp_Lin aLine(gp_Pnt(Xv, Yv, Zv), gp_Dir(Vx, Vy, Vz));
+	IntAna_IntConicQuad theIntersection( aLine, aPlane, Precision::Angular() );
+	if (theIntersection.IsDone())
+	{
+		if (!theIntersection.IsParallel())
+		{
+			if (theIntersection.NbPoints() > 0)
+			{
+				gp_Pnt theSolution(theIntersection.Point(1));
+				x = theSolution.X();
+				y = theSolution.Y();
+				z = theSolution.Z();
+				return Standard_True;
+			}
+		}
+	}
+	return Standard_False;
 }
