@@ -133,6 +133,7 @@ class SketchPlane : public PrimitiveBase
 	public:
 		SketchPlane ( VectorPointer normal, VectorPointer up, PointPointer base);
 		void Get3DLocation ( double s, double t, double & x, double & y, double & z);
+		double GetSTLocation( double x, double y, double z, double &s, double &t);
 		void GetABCD ( double & coef_a, double & coef_b, double & coef_c, double & coef_d);
 		
 		VectorPointer GetNormal() {return normal_;}

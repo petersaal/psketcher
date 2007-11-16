@@ -3,6 +3,7 @@
 
 #include <boost/shared_ptr.hpp>
 
+#include <V3d_View.hxx>
 #include <V3d_Viewer.hxx>
 
 #include "../OpenCascadeBinding/OccSketch.h"
@@ -76,7 +77,7 @@ class InteractiveConstructorBase
 {
 	public:
 		// Constructors and destructor
-		InteractiveConstructorBase(OccSketchPointer parent_sketch, Handle(V3d_Viewer) current_viewer);
+		InteractiveConstructorBase(OccSketchPointer parent_sketch, Handle(V3d_View) current_view, Handle(V3d_Viewer) current_viewer);
 		virtual ~InteractiveConstructorBase() {;}
 		
 		// all derived classes must implement this method
@@ -94,9 +95,10 @@ class InteractiveConstructorBase
 
 		virtual bool MouseMove(MotionEventPropertiesPointer event_props) {return false;}
 
-	private:
+	protected:
 		OccSketchPointer parent_sketch_;
 		Handle(V3d_Viewer) current_viewer_;
+		Handle(V3d_View) current_view_;
 };
 
 

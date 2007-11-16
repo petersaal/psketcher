@@ -683,6 +683,16 @@ BOOST_PYTHON_MODULE(ark3d_module){
                 , GetNormal_function_type( &::SketchPlane::GetNormal ) );
         
         }
+        { //::SketchPlane::GetSTLocation
+        
+            typedef double ( ::SketchPlane::*GetSTLocation_function_type )( double,double,double,double &,double & ) ;
+            
+            SketchPlane_exposer.def( 
+                "GetSTLocation"
+                , GetSTLocation_function_type( &::SketchPlane::GetSTLocation )
+                , ( bp::arg("x"), bp::arg("y"), bp::arg("z"), bp::arg("s"), bp::arg("t") ) );
+        
+        }
         { //::SketchPlane::GetUp
         
             typedef ::VectorPointer ( ::SketchPlane::*GetUp_function_type )(  ) ;
