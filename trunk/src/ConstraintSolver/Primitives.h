@@ -10,6 +10,9 @@
 //Exception class
 class PrimitiveException{};
 
+// Selection masks
+enum SelectionMask {None, All, Points, Edges};
+
 // Abstract DOF base class
 class DOF
 {
@@ -77,18 +80,27 @@ typedef boost::shared_ptr<DependentDOF> DependentDOFPointer;
 class PrimitiveBase
 {
 	public:
+		PrimitiveBase();
 		virtual ~PrimitiveBase() {dof_list_.clear();}
 		
 		// Accessor methods
 		const std::vector<DOFPointer> & GetDOFList() {return dof_list_;}
+		
+		// selection methods
+		virtual bool IsSelected() { return selected_;}
+		virtual void SetSelectable(bool selectable_);
+		virtual void ApplySelectionMask(SelectionMask mask);
 
+		// display methods
 		virtual void Display() {;}
 		virtual void UpdateDisplay() {;}
 
 	protected:
 		std::vector<DOFPointer> dof_list_;
-};
 
+		bool selected_;
+		bool selectable_;
+};
 typedef boost::shared_ptr<PrimitiveBase> PrimitiveBasePointer;
 
 
@@ -251,18 +263,14 @@ typedef boost::shared_ptr<Line2D> Line2DPointer;
 
 
 // constraint equation class
-class ConstraintEquationBase
+class ConstraintEquationBase : public PrimitiveBase
 {
 	public:
-		virtual ~ConstraintEquationBase() {constraints_.clear(); dof_list_.clear();}
+		virtual ~ConstraintEquationBase() {constraints_.clear();}
 	
 		// Accessor methods
-		const std::vector<DOFPointer> & GetDOFList() {return dof_list_;}
 		const std::vector< boost::shared_ptr<GiNaC::ex> > & GetConstraintList() {return constraints_;}
 		const std::vector<double> & GetWeightList() {return weight_list_;}
-
-		virtual void Display() {;}
-		virtual void UpdateDisplay() {;}
 
 	protected:
 		// constraints and weight_list_ are parallel vectors
@@ -271,8 +279,6 @@ class ConstraintEquationBase
 
 		// this vector stores the weights for the constraints
 		std::vector< double > weight_list_;
-
-		std::vector<DOFPointer> dof_list_;
 };
 typedef boost::shared_ptr<ConstraintEquationBase> ConstraintEquationBasePointer;
 

@@ -3,6 +3,31 @@
 using namespace std;
 using namespace GiNaC;
 
+PrimitiveBase::PrimitiveBase():
+selected_(false),
+selectable_(true)
+{
+
+}
+
+void PrimitiveBase::SetSelectable(bool selectable)
+{
+	selectable_ = selectable;
+	
+	// if not selectable, need to make sure selected flag is false
+	if(!selectable_)
+		selected_ = false;
+}
+
+// Default selection mask implementation, each derived class should override this method
+void PrimitiveBase::ApplySelectionMask(SelectionMask mask)
+{
+	if(mask == All)
+		SetSelectable(true);
+	else
+		SetSelectable(false);
+}
+
 IndependentDOF ::IndependentDOF ( double value, bool free):
 DOF(free,false /*dependent*/)
 {
