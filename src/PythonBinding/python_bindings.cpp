@@ -158,12 +158,21 @@ BOOST_PYTHON_MODULE(ark3d_module){
         .export_values()
         ;
 
+    bp::enum_< SelectionMask>("SelectionMask")
+        .value("None", None)
+        .value("All", All)
+        .value("Points", Points)
+        .value("Edges", Edges)
+        .export_values()
+        ;
+
     { //::AngleLine2D
         typedef bp::class_< AngleLine2D > AngleLine2D_exposer_t;
         AngleLine2D_exposer_t AngleLine2D_exposer = AngleLine2D_exposer_t( "AngleLine2D", bp::init< boost::shared_ptr<Line2D>, boost::shared_ptr<Line2D>, double >(( bp::arg("line1"), bp::arg("line2"), bp::arg("angle") )) );
         bp::scope AngleLine2D_scope( AngleLine2D_exposer );
         bp::register_ptr_to_python< boost::shared_ptr< AngleLine2D > >();
         bp::implicitly_convertible< boost::shared_ptr< AngleLine2D >, boost::shared_ptr< ConstraintEquationBase > >();
+        bp::implicitly_convertible< boost::shared_ptr< AngleLine2D >, boost::shared_ptr< PrimitiveBase > >();
     }
 
     { //::Arc2D
@@ -359,6 +368,7 @@ BOOST_PYTHON_MODULE(ark3d_module){
         bp::scope DistancePoint2D_scope( DistancePoint2D_exposer );
         bp::register_ptr_to_python< boost::shared_ptr< DistancePoint2D > >();
         bp::implicitly_convertible< boost::shared_ptr< DistancePoint2D >, boost::shared_ptr< ConstraintEquationBase > >();
+        bp::implicitly_convertible< boost::shared_ptr< DistancePoint2D >, boost::shared_ptr< PrimitiveBase > >();
     }
 
     bp::class_< EdgeLoop2D >( "EdgeLoop2D" )    
@@ -522,6 +532,7 @@ BOOST_PYTHON_MODULE(ark3d_module){
         bp::scope ParallelLine2D_scope( ParallelLine2D_exposer );
         bp::register_ptr_to_python< boost::shared_ptr< ParallelLine2D > >();
         bp::implicitly_convertible< boost::shared_ptr< ParallelLine2D >, boost::shared_ptr< ConstraintEquationBase > >();
+        bp::implicitly_convertible< boost::shared_ptr< ParallelLine2D >, boost::shared_ptr< PrimitiveBase > >();
     }
 
     { //::Point
@@ -712,6 +723,7 @@ BOOST_PYTHON_MODULE(ark3d_module){
         bp::scope TangentEdge2D_scope( TangentEdge2D_exposer );
         bp::register_ptr_to_python< boost::shared_ptr< TangentEdge2D > >();
         bp::implicitly_convertible< boost::shared_ptr< TangentEdge2D >, boost::shared_ptr< ConstraintEquationBase > >();
+        bp::implicitly_convertible< boost::shared_ptr< TangentEdge2D >, boost::shared_ptr< PrimitiveBase > >();
     }
 
     { //::Vector
