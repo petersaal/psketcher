@@ -95,6 +95,9 @@ class InteractiveConstructorBase
 
 		virtual bool MouseMove(MotionEventPropertiesPointer event_props) {return false;}
 
+		// utility methods
+		bool GetGlobalLocation(int screen_x, int screen_y, double &x, double &y, double &z, bool grid_snap = false);
+
 	protected:
 		OccSketchPointer parent_sketch_;
 		Handle(V3d_Viewer) current_viewer_;
