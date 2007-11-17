@@ -346,6 +346,7 @@ void OccGtkGLView::LButtonDown( GdkEventButton  *event )
 			interactive_primitive_->CreateObject();
 			delete interactive_primitive_;
 			interactive_primitive_ = 0;
+			Refresh();
 		}
 	} else {
 
@@ -402,6 +403,7 @@ void OccGtkGLView::MButtonDown( GdkEventButton  *event )
 			interactive_primitive_->CreateObject();
 			delete interactive_primitive_;
 			interactive_primitive_ = 0;
+			Refresh();
 		}
 	} else {
 			if ( event->state & GDK_CONTROL_MASK )
@@ -421,6 +423,7 @@ void OccGtkGLView::RButtonDown( GdkEventButton  *event )
 			interactive_primitive_->CreateObject();
 			delete interactive_primitive_;
 			interactive_primitive_ = 0;
+			Refresh();
 		}
 	} else {
 			if ( event->state & GDK_CONTROL_MASK )
@@ -449,6 +452,7 @@ void OccGtkGLView::LButtonUp( GdkEventButton  *event )
 			interactive_primitive_->CreateObject();
 			delete interactive_primitive_;
 			interactive_primitive_ = 0;
+			Refresh();
 		}
 	} else {
 			switch( myCurrentMode )
@@ -522,6 +526,7 @@ void OccGtkGLView::MButtonUp( GdkEventButton  *event )
 			interactive_primitive_->CreateObject();
 			delete interactive_primitive_;
 			interactive_primitive_ = 0;
+			Refresh();
 		}
 	} else {
     myCurrentMode = CurAction3d_Nothing;
@@ -540,6 +545,7 @@ void OccGtkGLView::RButtonUp( GdkEventButton  *event )
 			interactive_primitive_->CreateObject();
 			delete interactive_primitive_;
 			interactive_primitive_ = 0;
+			Refresh();
 		}
 		} else {
 			if ( myCurrentMode == CurAction3d_Nothing )
@@ -577,6 +583,7 @@ void OccGtkGLView::MouseMove( GdkEventMotion  *event )
 			interactive_primitive_->CreateObject();
 			delete interactive_primitive_;
 			interactive_primitive_ = 0;
+			Refresh();
 		}
 	} else {
 			if ( event->state & GDK_BUTTON1_MASK || event->state & GDK_BUTTON2_MASK || event->state & GDK_BUTTON3_MASK )

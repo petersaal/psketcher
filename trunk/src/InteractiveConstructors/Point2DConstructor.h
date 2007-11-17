@@ -15,3 +15,4 @@ class Point2DConstructor : public InteractiveConstructorBase
 		double current_s_;
 		double current_t_;
 };
+

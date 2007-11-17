@@ -8,10 +8,14 @@ class OccSketch : public Sketch
 {
 	public:
 		// constructor
-		OccSketch(Handle(AIS_InteractiveContext) ais_context, VectorPointer normal, VectorPointer up, PointPointer base);
+		OccSketch(Handle(AIS_InteractiveContext) ais_context, VectorPointer normal, VectorPointer up, PointPointer base, bool grid_snap = false);
 	
 		// method to generate a gp_Ax3 object for the current SketchPlane
 		gp_Ax3 Get_gp_Ax3();
+
+		// accessor methods
+		bool GetGridSnap() {return grid_snap_;}
+		void SetGridSnap(bool grid_snap) {grid_snap_ = grid_snap;}
 
 		// methods for adding primitives to the sketch
 		OccPoint2DPointer AddPoint2D ( double s, double t, bool s_free, bool t_free);
@@ -24,6 +28,7 @@ class OccSketch : public Sketch
 
 	private:
 		Handle(AIS_InteractiveContext) ais_context_;
+		bool grid_snap_;
 };
 typedef boost::shared_ptr<OccSketch> OccSketchPointer;
 

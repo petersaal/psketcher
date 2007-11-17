@@ -1,8 +1,9 @@
 #include "OccSketch.h"
 
-OccSketch::OccSketch(Handle(AIS_InteractiveContext) ais_context, VectorPointer normal, VectorPointer up, PointPointer base):
+OccSketch::OccSketch(Handle(AIS_InteractiveContext) ais_context, VectorPointer normal, VectorPointer up, PointPointer base, bool grid_snap):
 Sketch(normal,up,base),
-ais_context_(ais_context)
+ais_context_(ais_context),
+grid_snap_(grid_snap)
 {
 
 }
