@@ -22,8 +22,13 @@ bool Point2DConstructor::LeftButtonUp(MouseEventPropertiesPointer event_props)
 
 	double x,y,z;
 	
-	bool success = GetGlobalLocation(x_screen, y_screen, x, y, z, parent_sketch_->GetGridSnap());
-	
+	// if control button is pressed, force grid snapping. Otherwise used the parent_sketch's grid snapping preference
+	bool success;
+	if(event_props->ControlPressed())
+		success = GetGlobalLocation(x_screen, y_screen, x, y, z, true);
+	else
+		success = GetGlobalLocation(x_screen, y_screen, x, y, z, parent_sketch_->GetGridSnap());
+		
 	if(success)
 	{
 		parent_sketch_->GetSketchPlane()->GetSTLocation(x,y,z,current_s_,current_t_);
