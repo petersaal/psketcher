@@ -28,6 +28,14 @@ void PrimitiveBase::ApplySelectionMask(SelectionMask mask)
 		SetSelectable(false);
 }
 
+void ConstraintEquationBase::ApplySelectionMask(SelectionMask mask)
+{
+	if(mask == All || mask == Constraints)
+		SetSelectable(true);
+	else
+		SetSelectable(false);
+}
+
 IndependentDOF ::IndependentDOF ( double value, bool free):
 DOF(free,false /*dependent*/)
 {
@@ -108,6 +116,14 @@ z_(new IndependentDOF(z,z_free))
 	dof_list_.push_back(z_);
 }
 
+void Point::ApplySelectionMask(SelectionMask mask)
+{
+	if(mask == All || mask == Points)
+		SetSelectable(true);
+	else
+		SetSelectable(false);
+}
+
 Point2D :: Point2D ( double s, double t, SketchPlanePointer sketch_plane, bool s_free, bool t_free):
 s_(new IndependentDOF(s,s_free)),
 t_(new IndependentDOF(t,t_free)),
@@ -124,6 +140,14 @@ Primitive2DBase(sketch_plane)
 {
 	dof_list_.push_back(s_);
 	dof_list_.push_back(t_);
+}
+
+void Point2D::ApplySelectionMask(SelectionMask mask)
+{
+	if(mask == All || mask == Points)
+		SetSelectable(true);
+	else
+		SetSelectable(false);
 }
 
 Line :: Line(const PointPointer point1, const PointPointer point2)
@@ -143,6 +167,14 @@ Line :: Line(const PointPointer point1, const PointPointer point2)
 	dof_list_.push_back(x2_);
 	dof_list_.push_back(y2_);
 	dof_list_.push_back(z2_);
+}
+
+void Line::ApplySelectionMask(SelectionMask mask)
+{
+	if(mask == All || mask == Edges)
+		SetSelectable(true);
+	else
+		SetSelectable(false);
 }
 
 Line2D :: Line2D(const Point2DPointer point1, const Point2DPointer point2, SketchPlanePointer sketch_plane):
@@ -411,6 +443,14 @@ double SketchPlane::GetSTLocation( double x, double y, double z, double &s, doub
 	return result(2,0);
 }
 
+void SketchPlane::ApplySelectionMask(SelectionMask mask)
+{
+	if(mask == All)
+		SetSelectable(true);
+	else
+		SetSelectable(false);
+}
+
 // Return the global coordinates for a Point2D object
 void Point2D::Get3DLocation(double & x_location,double & y_location, double & z_location)const
 {
@@ -453,6 +493,14 @@ z_(new IndependentDOF(z,z_free))
 	dof_list_.push_back(z_);
 }
 
+
+void Vector::ApplySelectionMask(SelectionMask mask)
+{
+	if(mask == All)
+		SetSelectable(true);
+	else
+		SetSelectable(false);
+}
 
 
 // Create an angle constraint between two lines
@@ -602,6 +650,14 @@ void Arc2D::GetTangent2(GiNaC::ex & s_component, GiNaC::ex & t_component)
 Edge2DBase::Edge2DBase(SketchPlanePointer sketch_plane):
 Primitive2DBase(sketch_plane)
 {
+}
+
+void Edge2DBase::ApplySelectionMask(SelectionMask mask)
+{
+	if(mask == All || mask == Edges)
+		SetSelectable(true);
+	else
+		SetSelectable(false);
 }
 
 bool Edge2DBase::IsPointCoincident(EdgePointNumber my_point_number, boost::shared_ptr<Edge2DBase> other_edge, EdgePointNumber other_point_number)
