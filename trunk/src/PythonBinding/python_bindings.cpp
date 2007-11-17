@@ -85,6 +85,36 @@ struct DOF_wrapper : DOF, bp::wrapper< DOF > {
 
 };
 
+struct Line_wrapper : Line, bp::wrapper< Line > {
+
+    Line_wrapper(Line const & arg )
+    : Line( arg )
+      , bp::wrapper< Line >(){
+        // copy constructor
+        
+    }
+
+    Line_wrapper(::PointPointer const point1, ::PointPointer const point2 )
+    : Line( point1, point2 )
+      , bp::wrapper< Line >(){
+        // constructor
+    
+    }
+
+    virtual void ApplySelectionMask( ::SelectionMask mask ) {
+        if( bp::override func_ApplySelectionMask = this->get_override( "ApplySelectionMask" ) )
+            func_ApplySelectionMask( mask );
+        else
+            this->Line::ApplySelectionMask( mask );
+    }
+    
+    
+    void default_ApplySelectionMask( ::SelectionMask mask ) {
+        Line::ApplySelectionMask( mask );
+    }
+
+};
+
 struct Line2D_wrapper : Line2D, bp::wrapper< Line2D > {
 
     Line2D_wrapper(Line2D const & arg )
@@ -127,6 +157,133 @@ struct Line2D_wrapper : Line2D, bp::wrapper< Line2D > {
 
 };
 
+struct Point_wrapper : Point, bp::wrapper< Point > {
+
+    Point_wrapper(Point const & arg )
+    : Point( arg )
+      , bp::wrapper< Point >(){
+        // copy constructor
+        
+    }
+
+    Point_wrapper(double x, double y, double z, bool x_free=false, bool y_free=false, bool z_free=false )
+    : Point( x, y, z, x_free, y_free, z_free )
+      , bp::wrapper< Point >(){
+        // constructor
+    
+    }
+
+    virtual void ApplySelectionMask( ::SelectionMask mask ) {
+        if( bp::override func_ApplySelectionMask = this->get_override( "ApplySelectionMask" ) )
+            func_ApplySelectionMask( mask );
+        else
+            this->Point::ApplySelectionMask( mask );
+    }
+    
+    
+    void default_ApplySelectionMask( ::SelectionMask mask ) {
+        Point::ApplySelectionMask( mask );
+    }
+
+};
+
+struct Point2D_wrapper : Point2D, bp::wrapper< Point2D > {
+
+    Point2D_wrapper(Point2D const & arg )
+    : Point2D( arg )
+      , bp::wrapper< Point2D >(){
+        // copy constructor
+        
+    }
+
+    Point2D_wrapper(double s, double t, ::SketchPlanePointer sketch_plane, bool s_free=false, bool t_free=false )
+    : Point2D( s, t, sketch_plane, s_free, t_free )
+      , bp::wrapper< Point2D >(){
+        // constructor
+    
+    }
+
+    Point2D_wrapper(::DOFPointer s, ::DOFPointer t, ::SketchPlanePointer sketch_plane )
+    : Point2D( s, t, sketch_plane )
+      , bp::wrapper< Point2D >(){
+        // constructor
+    
+    }
+
+    virtual void ApplySelectionMask( ::SelectionMask mask ) {
+        if( bp::override func_ApplySelectionMask = this->get_override( "ApplySelectionMask" ) )
+            func_ApplySelectionMask( mask );
+        else
+            this->Point2D::ApplySelectionMask( mask );
+    }
+    
+    
+    void default_ApplySelectionMask( ::SelectionMask mask ) {
+        Point2D::ApplySelectionMask( mask );
+    }
+
+};
+
+struct SketchPlane_wrapper : SketchPlane, bp::wrapper< SketchPlane > {
+
+    SketchPlane_wrapper(SketchPlane const & arg )
+    : SketchPlane( arg )
+      , bp::wrapper< SketchPlane >(){
+        // copy constructor
+        
+    }
+
+    SketchPlane_wrapper(::VectorPointer normal, ::VectorPointer up, ::PointPointer base )
+    : SketchPlane( normal, up, base )
+      , bp::wrapper< SketchPlane >(){
+        // constructor
+    
+    }
+
+    virtual void ApplySelectionMask( ::SelectionMask mask ) {
+        if( bp::override func_ApplySelectionMask = this->get_override( "ApplySelectionMask" ) )
+            func_ApplySelectionMask( mask );
+        else
+            this->SketchPlane::ApplySelectionMask( mask );
+    }
+    
+    
+    void default_ApplySelectionMask( ::SelectionMask mask ) {
+        SketchPlane::ApplySelectionMask( mask );
+    }
+
+};
+
+struct Vector_wrapper : Vector, bp::wrapper< Vector > {
+
+    Vector_wrapper(Vector const & arg )
+    : Vector( arg )
+      , bp::wrapper< Vector >(){
+        // copy constructor
+        
+    }
+
+    Vector_wrapper(double x, double y, double z, bool x_free=false, bool y_free=false, bool z_free=false )
+    : Vector( x, y, z, x_free, y_free, z_free )
+      , bp::wrapper< Vector >(){
+        // constructor
+    
+    }
+
+    virtual void ApplySelectionMask( ::SelectionMask mask ) {
+        if( bp::override func_ApplySelectionMask = this->get_override( "ApplySelectionMask" ) )
+            func_ApplySelectionMask( mask );
+        else
+            this->Vector::ApplySelectionMask( mask );
+    }
+    
+    
+    void default_ApplySelectionMask( ::SelectionMask mask ) {
+        Vector::ApplySelectionMask( mask );
+    }
+
+};
+
 BOOST_PYTHON_MODULE(ark3d_module){
     { //::std::vector<boost::shared_ptr<PrimitiveBase>, std::allocator<boost::shared_ptr<PrimitiveBase> > >
         typedef bp::class_< std::vector<boost::shared_ptr<PrimitiveBase>, std::allocator<boost::shared_ptr<PrimitiveBase> > > > vector_less_boost_scope_shared_ptr_less_PrimitiveBase_grate__comma__std_scope_allocator_less_boost_scope_shared_ptr_less_PrimitiveBase_grate___grate___grate__exposer_t;
@@ -163,6 +320,7 @@ BOOST_PYTHON_MODULE(ark3d_module){
         .value("All", All)
         .value("Points", Points)
         .value("Edges", Edges)
+        .value("Constraints", Constraints)
         .export_values()
         ;
 
@@ -385,9 +543,21 @@ BOOST_PYTHON_MODULE(ark3d_module){
     bp::implicitly_convertible< std::vector<boost::shared_ptr<Edge2DBase>, std::allocator<boost::shared_ptr<Edge2DBase> > >, EdgeLoop2D >();
 
     { //::Line
-        typedef bp::class_< Line > Line_exposer_t;
+        typedef bp::class_< Line_wrapper > Line_exposer_t;
         Line_exposer_t Line_exposer = Line_exposer_t( "Line", bp::init< boost::shared_ptr<Point>, boost::shared_ptr<Point> >(( bp::arg("point1"), bp::arg("point2") )) );
         bp::scope Line_scope( Line_exposer );
+        { //::Line::ApplySelectionMask
+        
+            typedef void ( ::Line::*ApplySelectionMask_function_type )( ::SelectionMask ) ;
+            typedef void ( Line_wrapper::*default_ApplySelectionMask_function_type )( ::SelectionMask ) ;
+            
+            Line_exposer.def( 
+                "ApplySelectionMask"
+                , ApplySelectionMask_function_type(&::Line::ApplySelectionMask)
+                , default_ApplySelectionMask_function_type(&Line_wrapper::default_ApplySelectionMask)
+                , ( bp::arg("mask") ) );
+        
+        }
         { //::Line::GetX1
         
             typedef ::DOFPointer ( ::Line::*GetX1_function_type )(  ) const;
@@ -536,9 +706,21 @@ BOOST_PYTHON_MODULE(ark3d_module){
     }
 
     { //::Point
-        typedef bp::class_< Point > Point_exposer_t;
+        typedef bp::class_< Point_wrapper > Point_exposer_t;
         Point_exposer_t Point_exposer = Point_exposer_t( "Point", bp::init< double, double, double, bp::optional< bool, bool, bool > >(( bp::arg("x"), bp::arg("y"), bp::arg("z"), bp::arg("x_free")=(bool)(false), bp::arg("y_free")=(bool)(false), bp::arg("z_free")=(bool)(false) )) );
         bp::scope Point_scope( Point_exposer );
+        { //::Point::ApplySelectionMask
+        
+            typedef void ( ::Point::*ApplySelectionMask_function_type )( ::SelectionMask ) ;
+            typedef void ( Point_wrapper::*default_ApplySelectionMask_function_type )( ::SelectionMask ) ;
+            
+            Point_exposer.def( 
+                "ApplySelectionMask"
+                , ApplySelectionMask_function_type(&::Point::ApplySelectionMask)
+                , default_ApplySelectionMask_function_type(&Point_wrapper::default_ApplySelectionMask)
+                , ( bp::arg("mask") ) );
+        
+        }
         { //::Point::GetXDOF
         
             typedef ::DOFPointer ( ::Point::*GetXDOF_function_type )(  ) const;
@@ -580,10 +762,22 @@ BOOST_PYTHON_MODULE(ark3d_module){
     }
 
     { //::Point2D
-        typedef bp::class_< Point2D > Point2D_exposer_t;
+        typedef bp::class_< Point2D_wrapper > Point2D_exposer_t;
         Point2D_exposer_t Point2D_exposer = Point2D_exposer_t( "Point2D", bp::init< double, double, SketchPlanePointer, bp::optional< bool, bool > >(( bp::arg("s"), bp::arg("t"), bp::arg("sketch_plane"), bp::arg("s_free")=(bool)(false), bp::arg("t_free")=(bool)(false) )) );
         bp::scope Point2D_scope( Point2D_exposer );
         Point2D_exposer.def( bp::init< DOFPointer, DOFPointer, SketchPlanePointer >(( bp::arg("s"), bp::arg("t"), bp::arg("sketch_plane") )) );
+        { //::Point2D::ApplySelectionMask
+        
+            typedef void ( ::Point2D::*ApplySelectionMask_function_type )( ::SelectionMask ) ;
+            typedef void ( Point2D_wrapper::*default_ApplySelectionMask_function_type )( ::SelectionMask ) ;
+            
+            Point2D_exposer.def( 
+                "ApplySelectionMask"
+                , ApplySelectionMask_function_type(&::Point2D::ApplySelectionMask)
+                , default_ApplySelectionMask_function_type(&Point2D_wrapper::default_ApplySelectionMask)
+                , ( bp::arg("mask") ) );
+        
+        }
         { //::Point2D::Get3DLocation
         
             typedef void ( ::Point2D::*Get3DLocation_function_type )( double &,double &,double & ) const;
@@ -653,9 +847,21 @@ BOOST_PYTHON_MODULE(ark3d_module){
             , &::Sketch::GetSketchPlane );
 
     { //::SketchPlane
-        typedef bp::class_< SketchPlane > SketchPlane_exposer_t;
+        typedef bp::class_< SketchPlane_wrapper > SketchPlane_exposer_t;
         SketchPlane_exposer_t SketchPlane_exposer = SketchPlane_exposer_t( "SketchPlane", bp::init< VectorPointer, VectorPointer, PointPointer >(( bp::arg("normal"), bp::arg("up"), bp::arg("base") )) );
         bp::scope SketchPlane_scope( SketchPlane_exposer );
+        { //::SketchPlane::ApplySelectionMask
+        
+            typedef void ( ::SketchPlane::*ApplySelectionMask_function_type )( ::SelectionMask ) ;
+            typedef void ( SketchPlane_wrapper::*default_ApplySelectionMask_function_type )( ::SelectionMask ) ;
+            
+            SketchPlane_exposer.def( 
+                "ApplySelectionMask"
+                , ApplySelectionMask_function_type(&::SketchPlane::ApplySelectionMask)
+                , default_ApplySelectionMask_function_type(&SketchPlane_wrapper::default_ApplySelectionMask)
+                , ( bp::arg("mask") ) );
+        
+        }
         { //::SketchPlane::Get3DLocation
         
             typedef void ( ::SketchPlane::*Get3DLocation_function_type )( double,double,double &,double &,double & ) ;
@@ -727,9 +933,21 @@ BOOST_PYTHON_MODULE(ark3d_module){
     }
 
     { //::Vector
-        typedef bp::class_< Vector > Vector_exposer_t;
+        typedef bp::class_< Vector_wrapper > Vector_exposer_t;
         Vector_exposer_t Vector_exposer = Vector_exposer_t( "Vector", bp::init< double, double, double, bp::optional< bool, bool, bool > >(( bp::arg("x"), bp::arg("y"), bp::arg("z"), bp::arg("x_free")=(bool)(false), bp::arg("y_free")=(bool)(false), bp::arg("z_free")=(bool)(false) )) );
         bp::scope Vector_scope( Vector_exposer );
+        { //::Vector::ApplySelectionMask
+        
+            typedef void ( ::Vector::*ApplySelectionMask_function_type )( ::SelectionMask ) ;
+            typedef void ( Vector_wrapper::*default_ApplySelectionMask_function_type )( ::SelectionMask ) ;
+            
+            Vector_exposer.def( 
+                "ApplySelectionMask"
+                , ApplySelectionMask_function_type(&::Vector::ApplySelectionMask)
+                , default_ApplySelectionMask_function_type(&Vector_wrapper::default_ApplySelectionMask)
+                , ( bp::arg("mask") ) );
+        
+        }
         { //::Vector::GetmmcMatrix
         
             typedef ::mmcMatrix ( ::Vector::*GetmmcMatrix_function_type )(  ) ;

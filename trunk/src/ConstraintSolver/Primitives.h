@@ -11,7 +11,7 @@
 class PrimitiveException{};
 
 // Selection masks
-enum SelectionMask {None, All, Points, Edges};
+enum SelectionMask {None, All, Points, Edges, Constraints};
 
 // Abstract DOF base class
 class DOF
@@ -111,6 +111,8 @@ class Point : public PrimitiveBase
 		Point ( double x, double y, double z, bool x_free = false, bool y_free = false, bool z_free = false);
 		//Point ( DOFPointer x, DOFPointer y, DOFPointer z );
 
+		void ApplySelectionMask(SelectionMask mask);
+
 		DOFPointer GetXDOF()const {return x_;}
 		DOFPointer GetYDOF()const {return y_;}
 		DOFPointer GetZDOF()const {return z_;}
@@ -132,6 +134,8 @@ class Vector : public PrimitiveBase
 		//Vector ( DOFPointer x, DOFPointer y, DOFPointer z );
 		mmcMatrix GetmmcMatrix();  // returns mmcMatrix vector containing current location 
 
+		void ApplySelectionMask(SelectionMask mask);
+
 	private:
 		DOFPointer x_;
 		DOFPointer y_;
@@ -148,6 +152,8 @@ class SketchPlane : public PrimitiveBase
 		double GetSTLocation( double x, double y, double z, double &s, double &t);
 		void GetABCD ( double & coef_a, double & coef_b, double & coef_c, double & coef_d);
 		
+		void ApplySelectionMask(SelectionMask mask);
+
 		VectorPointer GetNormal() {return normal_;}
 		VectorPointer GetUp() {return up_;}
 		PointPointer GetBase() {return base_;}
@@ -174,6 +180,8 @@ typedef boost::shared_ptr<Primitive2DBase> Primitive2DBasePointer;
 class Point2D : public Primitive2DBase
 {
 	public:
+		void ApplySelectionMask(SelectionMask mask);
+
 		Point2D ( double s, double t, SketchPlanePointer sketch_plane, bool s_free = false, bool t_free = false);
 		Point2D ( DOFPointer s, DOFPointer t, SketchPlanePointer sketch_plane);
 
@@ -196,6 +204,8 @@ class Edge2DBase : public Primitive2DBase
 		Edge2DBase(SketchPlanePointer sketch_plane);
 		virtual ~Edge2DBase() {;}
 		
+		virtual void ApplySelectionMask(SelectionMask mask);
+
 		// virtual methods that must be implemented by child classes
 		virtual Point2DPointer GetPoint1() = 0;		// returns end point of edge (these may include dependentDOF's as is the case of the arc primitive)
 		virtual Point2DPointer GetPoint2() = 0;
@@ -220,6 +230,8 @@ class Line : public PrimitiveBase
 		DOFPointer GetX2()const {return x2_;}
 		DOFPointer GetY2()const {return y2_;}
 		DOFPointer GetZ2()const {return z2_;}
+
+		virtual void ApplySelectionMask(SelectionMask mask);
 
 	private:
 		DOFPointer x1_;
@@ -272,6 +284,8 @@ class ConstraintEquationBase : public PrimitiveBase
 		const std::vector< boost::shared_ptr<GiNaC::ex> > & GetConstraintList() {return constraints_;}
 		const std::vector<double> & GetWeightList() {return weight_list_;}
 
+		virtual void ApplySelectionMask(SelectionMask mask);
+
 	protected:
 		// constraints and weight_list_ are parallel vectors
 		// stores constraints
@@ -281,10 +295,6 @@ class ConstraintEquationBase : public PrimitiveBase
 		std::vector< double > weight_list_;
 };
 typedef boost::shared_ptr<ConstraintEquationBase> ConstraintEquationBasePointer;
-
-
-
-
 
 class DistancePoint2D : public ConstraintEquationBase
 {
