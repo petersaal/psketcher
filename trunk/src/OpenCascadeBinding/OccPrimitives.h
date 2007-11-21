@@ -47,6 +47,8 @@ class OccPrimitiveBase
 		// return a TopoDS shape object of primitive if appropriate (if not overridden, it will return a Null TopoDS_Shape)
 		virtual TopoDS_Shape GetTopoDS_Shape() {TopoDS_Shape null_shape; return null_shape;}
 
+		virtual bool IsSelected();
+
 	protected:
 		Handle(AIS_InteractiveContext) ais_context_;
 		std::vector<Handle(AIS_InteractiveObject)> ais_object_list_;
@@ -59,6 +61,7 @@ class OccPoint : public OccPrimitiveBase, public Point
 		OccPoint (Handle(AIS_InteractiveContext) ais_context, double x, double y, double z, bool x_free = false, bool y_free = false, bool z_free = false);
 
 		void Display() {return OccPrimitiveBase::Display();}
+		bool IsSelected() {return OccPrimitiveBase::IsSelected();}
 
 		void UpdateDisplay();
 	private:
@@ -74,7 +77,7 @@ class OccPoint2D : public OccPrimitiveBase, public Point2D
 		OccPoint2D (Handle(AIS_InteractiveContext) ais_context,double s, double t, SketchPlanePointer sketch_plane, bool s_free = false, bool t_free = false);
 
 		void Display() {return OccPrimitiveBase::Display();}
-
+		bool IsSelected() {return OccPrimitiveBase::IsSelected();}
 		void UpdateDisplay();
 
 	private:
@@ -90,6 +93,7 @@ class OccLine : public OccPrimitiveBase, public Line
 		OccLine (Handle(AIS_InteractiveContext) ais_context, const PointPointer point1, const PointPointer point2);
 
 		void Display() {return OccPrimitiveBase::Display();}
+		bool IsSelected() {return OccPrimitiveBase::IsSelected();}
 
 		void UpdateDisplay();
 
@@ -106,6 +110,7 @@ class OccLine2D : public OccPrimitiveBase, public Line2D
 		OccLine2D (Handle(AIS_InteractiveContext) ais_context, const Point2DPointer point1, const Point2DPointer point2, SketchPlanePointer sketch_plane);
 
 		void Display() {return OccPrimitiveBase::Display();}
+		bool IsSelected() {return OccPrimitiveBase::IsSelected();}
 
 		void UpdateDisplay();
 
@@ -127,6 +132,7 @@ class OccArc2D : public OccPrimitiveBase, public Arc2D
 		OccArc2D (Handle(AIS_InteractiveContext) ais_context,DOFPointer s_center, DOFPointer t_center, DOFPointer theta_1, DOFPointer theta_2, DOFPointer radius, SketchPlanePointer sketch_plane);
 
 		void Display() {return OccPrimitiveBase::Display();}
+		bool IsSelected() {return OccPrimitiveBase::IsSelected();}
 
 		void UpdateDisplay();
 
@@ -146,6 +152,7 @@ class OccParallelLine2D : public OccPrimitiveBase, public ParallelLine2D
 																			 const Line2DPointer line1, const Line2DPointer line2);
 
 		void Display() {return OccPrimitiveBase::Display();}
+		bool IsSelected() {return OccPrimitiveBase::IsSelected();}
 
 		void UpdateDisplay();
 
@@ -172,6 +179,7 @@ class OccDistancePoint2D : public OccPrimitiveBase, public DistancePoint2D
 																				 double distance);
 
 		void Display() {return OccPrimitiveBase::Display();}
+		bool IsSelected() {return OccPrimitiveBase::IsSelected();}
 
 		void UpdateDisplay();
 
@@ -198,6 +206,7 @@ class OccAngleLine2D : public OccPrimitiveBase, public AngleLine2D
 																			 const Line2DPointer line1, const Line2DPointer line2, double angle);
 
 		void Display() {return OccPrimitiveBase::Display();}
+		bool IsSelected() {return OccPrimitiveBase::IsSelected();}
 
 		void UpdateDisplay();
 
@@ -225,6 +234,7 @@ class OccTangentEdge2D : public OccPrimitiveBase, public TangentEdge2D
                        Edge2DBasePointer edge2, EdgePointNumber point_num_2);
 
 		void Display() {return OccPrimitiveBase::Display();}
+		bool IsSelected() {return OccPrimitiveBase::IsSelected();}
 
 		void UpdateDisplay();
 

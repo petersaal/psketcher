@@ -157,6 +157,19 @@ void OccPrimitiveBase::UpdateDisplay()
 	}
 }
 
+bool OccPrimitiveBase::IsSelected()
+{
+	bool selected = false;
+
+	for(unsigned int current_index = 0; current_index < ais_object_list_.size(); current_index++)
+	{
+		if(ais_context_->IsCurrent(ais_object_list_[current_index]))
+			selected = true;
+	}
+
+	return selected;
+}
+
 // Erase current ais_object from the ais_context
 void OccPrimitiveBase::Erase()
 {

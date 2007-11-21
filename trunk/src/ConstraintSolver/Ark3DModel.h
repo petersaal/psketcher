@@ -24,6 +24,15 @@ public:
 
 	void UpdateDisplay();
 
+	// apply a selection mask to all primitives and constraint equations
+	void ApplySelectionMask(SelectionMask mask);
+
+	// return vector of selected primitives
+	std::vector<PrimitiveBasePointer> GetSelectedPrimitives();
+
+	// return vector of selected constraint equations
+	std::vector<ConstraintEquationBasePointer> GetConstraintEquations();
+
 private:
 	std::vector<DOFPointer> dof_list_;
 	std::vector<ConstraintEquationBasePointer> constraint_equation_list_;

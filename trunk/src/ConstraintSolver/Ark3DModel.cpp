@@ -141,4 +141,42 @@ void Ark3DModel::UpdateDisplay()
 		primitive_list_[current_primitive]->UpdateDisplay();
 }
 
+void Ark3DModel::ApplySelectionMask(SelectionMask mask)
+{
+	// Apply mask to all of the constraint equations
+	for(unsigned int current_equation = 0; current_equation < constraint_equation_list_.size(); current_equation++)
+		constraint_equation_list_[current_equation]->ApplySelectionMask(mask);
+
+	// Apply mask to  all of the primitives
+	for(unsigned int current_primitive = 0; current_primitive < primitive_list_.size(); current_primitive++)
+		primitive_list_[current_primitive]->ApplySelectionMask(mask);
+
+}
+
+std::vector<PrimitiveBasePointer> Ark3DModel::GetSelectedPrimitives()
+{
+	std::vector<PrimitiveBasePointer> selected_primitives;
+
+	for(unsigned int current_primitive = 0; current_primitive < primitive_list_.size(); current_primitive++)
+	{
+		if(primitive_list_[current_primitive]->IsSelected())
+			selected_primitives.push_back(primitive_list_[current_primitive]);
+	}
+
+	return selected_primitives;
+}
+
+std::vector<ConstraintEquationBasePointer> Ark3DModel::GetConstraintEquations()
+{
+	std::vector<ConstraintEquationBasePointer> selected_constraint_equations;
+
+	for(unsigned int current_equation = 0; current_equation < constraint_equation_list_.size(); current_equation++)
+	{
+		if(constraint_equation_list_[current_equation]->IsSelected())
+			selected_constraint_equations.push_back(constraint_equation_list_[current_equation]);
+	}
+
+	return selected_constraint_equations;
+}
+
 
