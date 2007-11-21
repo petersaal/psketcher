@@ -205,7 +205,8 @@ public:
 		void GenerateDefaultSketch();
 
 		// Interactive constructor callbacks
-		void MakeLine() {;}
+		void MakeLine() {std::vector<PrimitiveBasePointer> primitive_list = current_sketch_->GetSelectedPrimitives();
+											cout << "number of selected primitives: " << primitive_list.size() << endl;}
 		void MakePolyLine() {;}
 		void MakeArc() {;}
 		void MakePoint() {

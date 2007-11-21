@@ -457,6 +457,16 @@ BOOST_PYTHON_MODULE(ark3d_module){
             , &::Ark3DModel::AddPrimitives
             , ( bp::arg("new_primitives") ) )    
         .def( 
+            "ApplySelectionMask"
+            , &::Ark3DModel::ApplySelectionMask
+            , ( bp::arg("mask") ) )    
+        .def( 
+            "GetConstraintEquations"
+            , &::Ark3DModel::GetConstraintEquations )    
+        .def( 
+            "GetSelectedPrimitives"
+            , &::Ark3DModel::GetSelectedPrimitives )    
+        .def( 
             "SolveConstraints"
             , &::Ark3DModel::SolveConstraints )    
         .def( 
