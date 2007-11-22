@@ -163,7 +163,7 @@ bool OccPrimitiveBase::IsSelected()
 
 	for(unsigned int current_index = 0; current_index < ais_object_list_.size(); current_index++)
 	{
-		if(ais_context_->IsSelected(ais_object_list_[current_index]))
+		if(ais_context_->IsCurrent(ais_object_list_[current_index]))
 			selected = true;
 	}
 
@@ -176,13 +176,16 @@ void OccPrimitiveBase::SetSelectable(bool selectable)
 	{
 		if(!selectable)
 		{
-			ais_context_->Remove(ais_object_list_[current_index]);
-			ais_context_->Display(ais_object_list_[current_index],0, -1, true);
-			ais_context_->Redisplay(ais_object_list_[current_index]);
+			ais_context_->Deactivate(ais_object_list_[current_index]);
+			//ais_context_->Remove(ais_object_list_[current_index]);
+			//ais_context_->Display(ais_object_list_[current_index],0, -1);
+			//ais_context_->Redisplay(ais_object_list_[current_index]);
 		} else {
-			ais_context_->Remove(ais_object_list_[current_index]);
-			ais_context_->Display(ais_object_list_[current_index],0, 0, true);
-			ais_context_->Redisplay(ais_object_list_[current_index]);
+			ais_context_->Activate(ais_object_list_[current_index]);
+			//ais_context_->Deactivate(ais_object_list_[current_index]);
+			//ais_context_->Remove(ais_object_list_[current_index]);
+			//ais_context_->Display(ais_object_list_[current_index],0, 0);
+			//ais_context_->Redisplay(ais_object_list_[current_index]);
 		}
 	}
 }
