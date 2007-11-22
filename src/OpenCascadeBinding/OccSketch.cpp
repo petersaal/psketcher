@@ -5,7 +5,7 @@ Sketch(normal,up,base),
 ais_context_(ais_context),
 grid_snap_(grid_snap)
 {
-	ais_context->OpenLocalContext(true);
+	//ais_context_->OpenLocalContext();
 
 }
 
