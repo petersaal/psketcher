@@ -88,7 +88,7 @@ class PrimitiveBase
 		
 		// selection methods
 		virtual bool IsSelected() { return selected_;}
-		virtual void SetSelectable(bool selectable_);
+		virtual void SetSelectable(bool selectable);
 		virtual void ApplySelectionMask(SelectionMask mask);
 
 		// display methods

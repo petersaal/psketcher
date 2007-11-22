@@ -48,6 +48,7 @@ class OccPrimitiveBase
 		virtual TopoDS_Shape GetTopoDS_Shape() {TopoDS_Shape null_shape; return null_shape;}
 
 		virtual bool IsSelected();
+		virtual void SetSelectable(bool selectable_);
 
 	protected:
 		Handle(AIS_InteractiveContext) ais_context_;
@@ -62,6 +63,7 @@ class OccPoint : public OccPrimitiveBase, public Point
 
 		void Display() {return OccPrimitiveBase::Display();}
 		bool IsSelected() {return OccPrimitiveBase::IsSelected();}
+		void SetSelectable(bool input_selectable) {PrimitiveBase::SetSelectable(input_selectable); OccPrimitiveBase::SetSelectable(selectable_);}
 
 		void UpdateDisplay();
 	private:
@@ -78,6 +80,7 @@ class OccPoint2D : public OccPrimitiveBase, public Point2D
 
 		void Display() {return OccPrimitiveBase::Display();}
 		bool IsSelected() {return OccPrimitiveBase::IsSelected();}
+		void SetSelectable(bool input_selectable) {PrimitiveBase::SetSelectable(input_selectable); OccPrimitiveBase::SetSelectable(selectable_);}
 		void UpdateDisplay();
 
 	private:
@@ -94,6 +97,7 @@ class OccLine : public OccPrimitiveBase, public Line
 
 		void Display() {return OccPrimitiveBase::Display();}
 		bool IsSelected() {return OccPrimitiveBase::IsSelected();}
+		void SetSelectable(bool input_selectable) {PrimitiveBase::SetSelectable(input_selectable); OccPrimitiveBase::SetSelectable(selectable_);}
 
 		void UpdateDisplay();
 
@@ -111,6 +115,7 @@ class OccLine2D : public OccPrimitiveBase, public Line2D
 
 		void Display() {return OccPrimitiveBase::Display();}
 		bool IsSelected() {return OccPrimitiveBase::IsSelected();}
+		void SetSelectable(bool input_selectable) {PrimitiveBase::SetSelectable(input_selectable); OccPrimitiveBase::SetSelectable(selectable_);}
 
 		void UpdateDisplay();
 
@@ -133,6 +138,7 @@ class OccArc2D : public OccPrimitiveBase, public Arc2D
 
 		void Display() {return OccPrimitiveBase::Display();}
 		bool IsSelected() {return OccPrimitiveBase::IsSelected();}
+		void SetSelectable(bool input_selectable) {PrimitiveBase::SetSelectable(input_selectable); OccPrimitiveBase::SetSelectable(selectable_);}
 
 		void UpdateDisplay();
 
@@ -153,6 +159,7 @@ class OccParallelLine2D : public OccPrimitiveBase, public ParallelLine2D
 
 		void Display() {return OccPrimitiveBase::Display();}
 		bool IsSelected() {return OccPrimitiveBase::IsSelected();}
+		void SetSelectable(bool input_selectable) {PrimitiveBase::SetSelectable(input_selectable); OccPrimitiveBase::SetSelectable(selectable_);}
 
 		void UpdateDisplay();
 
@@ -180,6 +187,7 @@ class OccDistancePoint2D : public OccPrimitiveBase, public DistancePoint2D
 
 		void Display() {return OccPrimitiveBase::Display();}
 		bool IsSelected() {return OccPrimitiveBase::IsSelected();}
+		void SetSelectable(bool input_selectable) {PrimitiveBase::SetSelectable(input_selectable); OccPrimitiveBase::SetSelectable(selectable_);}
 
 		void UpdateDisplay();
 
@@ -207,6 +215,7 @@ class OccAngleLine2D : public OccPrimitiveBase, public AngleLine2D
 
 		void Display() {return OccPrimitiveBase::Display();}
 		bool IsSelected() {return OccPrimitiveBase::IsSelected();}
+		void SetSelectable(bool input_selectable) {PrimitiveBase::SetSelectable(input_selectable); OccPrimitiveBase::SetSelectable(selectable_);}
 
 		void UpdateDisplay();
 
@@ -235,6 +244,7 @@ class OccTangentEdge2D : public OccPrimitiveBase, public TangentEdge2D
 
 		void Display() {return OccPrimitiveBase::Display();}
 		bool IsSelected() {return OccPrimitiveBase::IsSelected();}
+		void SetSelectable(bool input_selectable) {PrimitiveBase::SetSelectable(input_selectable); OccPrimitiveBase::SetSelectable(selectable_);}
 
 		void UpdateDisplay();
 
