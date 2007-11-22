@@ -153,7 +153,7 @@ void OccPrimitiveBase::UpdateDisplay()
 {
 	for(unsigned int current_index = 0; current_index < ais_object_list_.size(); current_index++)
 	{
-		ais_object_list_[current_index]->Redisplay();
+		ais_context_->Redisplay(ais_object_list_[current_index]);
 	}
 }
 
@@ -163,11 +163,28 @@ bool OccPrimitiveBase::IsSelected()
 
 	for(unsigned int current_index = 0; current_index < ais_object_list_.size(); current_index++)
 	{
-		if(ais_context_->IsCurrent(ais_object_list_[current_index]))
+		if(ais_context_->IsSelected(ais_object_list_[current_index]))
 			selected = true;
 	}
 
 	return selected;
+}
+
+void OccPrimitiveBase::SetSelectable(bool selectable)
+{
+	for(unsigned int current_index = 0; current_index < ais_object_list_.size(); current_index++)
+	{
+		if(!selectable)
+		{
+			ais_context_->Remove(ais_object_list_[current_index]);
+			ais_context_->Display(ais_object_list_[current_index],0, -1, true);
+			ais_context_->Redisplay(ais_object_list_[current_index]);
+		} else {
+			ais_context_->Remove(ais_object_list_[current_index]);
+			ais_context_->Display(ais_object_list_[current_index],0, 0, true);
+			ais_context_->Redisplay(ais_object_list_[current_index]);
+		}
+	}
 }
 
 // Erase current ais_object from the ais_context

@@ -1004,6 +1004,8 @@ void OccGtkGLView::GenerateTestSketch()
 	edge_loop1->AddEdge(arc1);
 	edge_loop1->AddEdge(line4);
 	cout << "Is loop valid: " << edge_loop1->IsLoopValid() << endl;
+
+	current_sketch_->ApplySelectionMask(Points);
 }
 
 void OccGtkGLView::SolveConstraints() 
