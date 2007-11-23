@@ -57,6 +57,7 @@ extern "C" {
 #include "../InteractiveConstructors/InteractiveConstructorBase.h"
 #include "../InteractiveConstructors/Point2DConstructor.h"
 #include "../InteractiveConstructors/Line2DConstructor.h"
+#include "../InteractiveConstructors/DistancePoint2DConstructor.h"
 
 /**
  *@author Sharjith
@@ -206,12 +207,11 @@ public:
 		void GenerateDefaultSketch();
 
 		// Interactive constructor callbacks
-		void MakeLine() {if(interactive_primitive_ == 0) 
-											interactive_primitive_ = new Line2DConstructor(current_sketch_, myView, myViewer);}
+		void MakeLine() {if(interactive_primitive_ == 0) interactive_primitive_ = new Line2DConstructor(current_sketch_, myView, myViewer);}
 		void MakePolyLine() {;}
 		void MakeArc() {;}
 		void MakePoint() {if(interactive_primitive_ == 0) interactive_primitive_ = new Point2DConstructor(current_sketch_, myView, myViewer);}
-		void MakeDistanceConstraint() {;}
+		void MakeDistanceConstraint() {if(interactive_primitive_ == 0) interactive_primitive_ = new DistancePoint2DConstructor(current_sketch_, myView, myViewer);}
 		void MakeAngleConstraint() {;}
 		void MakeTangentConstraint() {;}
 

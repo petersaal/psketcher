@@ -42,8 +42,8 @@ bool DistancePoint2DConstructor::LeftButtonUp(MouseEventPropertiesPointer event_
 	if(primitive_list.size() < 1 )
 		return false; 							// no primitive selected
 
-	if(dynamic_cast<Point2D*>(primitive_list[0].get()) != 0){
-		Point2DPointer new_point = boost::dynamic_pointer_cast<Point2D>(primitive_list[0]);
+	if(dynamic_cast<OccPoint2D*>(primitive_list[0].get()) != 0){
+		OccPoint2DPointer new_point = boost::dynamic_pointer_cast<OccPoint2D>(primitive_list[0]);
 
 		if(point1_defined_)
 		{

@@ -546,11 +546,11 @@ void OccTangentEdge2D::GenerateAISObject()
 	while(!done)
 	{
 		if(dynamic_cast<Line2D*>(current_edge.get()) != 0){
-			Line2D *current_line = dynamic_cast<Line2D*>(current_edge.get());
+			Line2DPointer current_line = boost::dynamic_pointer_cast<Line2D>(current_edge);
 			OccLine2DPointer occ_line(new OccLine2D(ais_context_,current_line->GetPoint1(),current_line->GetPoint2(),current_line->GetSketchPlane()));
 			current_shape = occ_line->GetTopoDS_Shape();
 		}else if(dynamic_cast<Arc2D*>(current_edge.get()) != 0){
-			Arc2D *current_arc = dynamic_cast<Arc2D*>(current_edge.get());
+			Arc2DPointer current_arc = boost::dynamic_pointer_cast<Arc2D>(current_edge);
 
 			OccArc2DPointer occ_arc(new OccArc2D(ais_context_,current_arc->GetSCenter(),current_arc->GetTCenter(),current_arc->GetTheta1(),current_arc->GetTheta2(),current_arc->GetRadius(),current_arc->GetSketchPlane()));
 
