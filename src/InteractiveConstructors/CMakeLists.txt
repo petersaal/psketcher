@@ -10,6 +10,6 @@ INCLUDE_DIRECTORIES (${CASROOT}/inc)
 INCLUDE_DIRECTORIES (${CASROOT}/src/WOKTclLib)
 
 # create the ark3d library
-ADD_LIBRARY (InteractiveConstructors STATIC GtkEventProperties.cpp  InteractiveConstructorBase.cpp  Line2DConstructor.cpp  Point2DConstructor.cpp)
+ADD_LIBRARY (InteractiveConstructors STATIC GtkEventProperties.cpp  InteractiveConstructorBase.cpp  Line2DConstructor.cpp  Point2DConstructor.cpp DistancePoint2DConstructor.cpp)
 
 

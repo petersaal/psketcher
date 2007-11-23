@@ -1,6 +1,6 @@
-#include "Line2DConstructor.h"
+#include "DistancePoint2DConstructor.h"
 
-Line2DConstructor::Line2DConstructor(OccSketchPointer parent_sketch, Handle(V3d_View) current_view, Handle(V3d_Viewer) current_viewer):
+DistancePoint2DConstructor::DistancePoint2DConstructor(OccSketchPointer parent_sketch, Handle(V3d_View) current_view, Handle(V3d_Viewer) current_viewer):
 InteractiveConstructorBase(parent_sketch, current_view, current_viewer),
 primitive_finished_(false),
 point1_defined_(false)
@@ -9,22 +9,29 @@ point1_defined_(false)
 	parent_sketch_->GetAISContext()->ClearSelected();
 }
 
-void Line2DConstructor::CreateObject()
+void DistancePoint2DConstructor::CreateObject()
 {
 	if(primitive_finished_)
 	{
-		parent_sketch_->AddLine2D(point1_, point2_);
+		// calculate the distance between point1_ and point2_
+		double term1 = (point1_->GetSDOF()->GetValue() - point2_->GetSDOF()->GetValue());
+		term1 = term1*term1;
+		double term2 = (point1_->GetTDOF()->GetValue() - point2_->GetTDOF()->GetValue());
+		term2 = term2*term2;
+		double distance = sqrt(term1+term2);
+		
+		parent_sketch_->AddDistancePoint2D(point1_, point2_,distance);
 	}
 }
 
-bool Line2DConstructor::MouseMove(MotionEventPropertiesPointer event_props)
+bool DistancePoint2DConstructor::MouseMove(MotionEventPropertiesPointer event_props)
 {
 	parent_sketch_->GetAISContext()->MoveTo((int)event_props->GetXPosition(), (int)event_props->GetYPosition(), current_view_);
 
 	return false;
 }
 
-bool Line2DConstructor::LeftButtonUp(MouseEventPropertiesPointer event_props)
+bool DistancePoint2DConstructor::LeftButtonUp(MouseEventPropertiesPointer event_props)
 {
 	// perform selection operation
 	parent_sketch_->GetAISContext()->Select();
