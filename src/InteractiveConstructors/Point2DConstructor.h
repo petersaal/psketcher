@@ -1,3 +1,6 @@
+#ifndef Point2DConstructorH
+#define Point2DConstructorH
+
 #include "InteractiveConstructorBase.h"
 
 class Point2DConstructor : public InteractiveConstructorBase
@@ -16,3 +19,4 @@ class Point2DConstructor : public InteractiveConstructorBase
 		double current_t_;
 };
 
+#endif //Point2DConstructorH

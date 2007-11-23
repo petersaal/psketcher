@@ -56,6 +56,7 @@ extern "C" {
 #include "../OpenCascadeBinding/OccSketch.h"
 #include "../InteractiveConstructors/InteractiveConstructorBase.h"
 #include "../InteractiveConstructors/Point2DConstructor.h"
+#include "../InteractiveConstructors/Line2DConstructor.h"
 
 /**
  *@author Sharjith
@@ -205,13 +206,11 @@ public:
 		void GenerateDefaultSketch();
 
 		// Interactive constructor callbacks
-		void MakeLine() {std::vector<PrimitiveBasePointer> primitive_list = current_sketch_->GetSelectedPrimitives();
-											cout << "number of selected primitives: " << primitive_list.size() << endl;}
+		void MakeLine() {if(interactive_primitive_ == 0) 
+											interactive_primitive_ = new Line2DConstructor(current_sketch_, myView, myViewer);}
 		void MakePolyLine() {;}
 		void MakeArc() {;}
-		void MakePoint() {
-											if(interactive_primitive_ == 0) 
-												interactive_primitive_ = new Point2DConstructor(current_sketch_, myView, myViewer);}
+		void MakePoint() {if(interactive_primitive_ == 0) interactive_primitive_ = new Point2DConstructor(current_sketch_, myView, myViewer);}
 		void MakeDistanceConstraint() {;}
 		void MakeAngleConstraint() {;}
 		void MakeTangentConstraint() {;}
