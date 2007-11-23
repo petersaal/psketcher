@@ -16,6 +16,7 @@ class OccSketch : public Sketch
 		// accessor methods
 		bool GetGridSnap() {return grid_snap_;}
 		void SetGridSnap(bool grid_snap) {grid_snap_ = grid_snap;}
+		Handle(AIS_InteractiveContext) GetAISContext() {return ais_context_;}
 
 		// methods for adding primitives to the sketch
 		OccPoint2DPointer AddPoint2D ( double s, double t, bool s_free, bool t_free);
