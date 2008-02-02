@@ -171,7 +171,7 @@ Line :: Line(const PointPointer point1, const PointPointer point2)
 
 void Line::ApplySelectionMask(SelectionMask mask)
 {
-	if(mask == All || mask == Edges)
+	if(mask == All || mask == Edges || mask == Lines)
 		SetSelectable(true);
 	else
 		SetSelectable(false);
@@ -231,6 +231,13 @@ void Line2D :: Get3DLocations(double & x1, double & y1, double & z1,
 	sketch_plane_->Get3DLocation(s2_->GetValue(), t2_->GetValue(), x2, y2, z2);
 }
 
+void Line2D::ApplySelectionMask(SelectionMask mask)
+{
+	if(mask == All || mask == Edges || mask == Lines)
+		SetSelectable(true);
+	else
+		SetSelectable(false);
+}
 
 // Create a constraint that defines the distance between two points
 DistancePoint::DistancePoint(const PointPointer point1, const PointPointer point2, double distance)
@@ -269,6 +276,8 @@ distance_(distance)
 	*new_constraint = sqrt( pow(point1->GetSDOF()->GetVariable() - point2->GetSDOF()->GetVariable(),2) +
 													pow(point1->GetTDOF()->GetVariable() - point2->GetTDOF()->GetVariable(),2))
 										- new_dof->GetVariable();
+
+	cout << *new_constraint << endl;
 
 	constraints_.push_back(new_constraint);
 	weight_list_.push_back(1.0);
@@ -578,6 +587,16 @@ void Arc2D::Get3DLocations(double & x_center, double & y_center, double & z_cent
 {
 	sketch_plane_->Get3DLocation(s_center_->GetValue(), t_center_->GetValue(), x_center, y_center, z_center);
 }
+
+
+void Arc2D::ApplySelectionMask(SelectionMask mask)
+{
+	if(mask == All || mask == Edges || mask == Arcs)
+		SetSelectable(true);
+	else
+		SetSelectable(false);
+}
+
 
 // Return a point that will follow the first endpoint of the arc
 // This point will use dependent DOF's to define its location

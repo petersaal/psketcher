@@ -58,6 +58,7 @@ extern "C" {
 #include "../InteractiveConstructors/Point2DConstructor.h"
 #include "../InteractiveConstructors/Line2DConstructor.h"
 #include "../InteractiveConstructors/DistancePoint2DConstructor.h"
+#include "../InteractiveConstructors/AngleLine2DConstructor.h"
 
 /**
  *@author Sharjith
@@ -212,7 +213,7 @@ public:
 		void MakeArc() {;}
 		void MakePoint() {if(interactive_primitive_ == 0) interactive_primitive_ = new Point2DConstructor(current_sketch_, myView, myViewer);}
 		void MakeDistanceConstraint() {if(interactive_primitive_ == 0) interactive_primitive_ = new DistancePoint2DConstructor(current_sketch_, myView, myViewer);}
-		void MakeAngleConstraint() {;}
+		void MakeAngleConstraint() {if(interactive_primitive_ == 0) interactive_primitive_ = new AngleLine2DConstructor(current_sketch_, myView, myViewer);}
 		void MakeTangentConstraint() {;}
 
 		bool convertToPlane(int x_screen, int y_screen,double& x,double& y,double& z);
