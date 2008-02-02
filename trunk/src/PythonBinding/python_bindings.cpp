@@ -31,6 +31,18 @@ struct Arc2D_wrapper : Arc2D, bp::wrapper< Arc2D > {
     
     }
 
+    virtual void ApplySelectionMask( ::SelectionMask mask ) {
+        if( bp::override func_ApplySelectionMask = this->get_override( "ApplySelectionMask" ) )
+            func_ApplySelectionMask( mask );
+        else
+            this->Arc2D::ApplySelectionMask( mask );
+    }
+    
+    
+    void default_ApplySelectionMask( ::SelectionMask mask ) {
+        Arc2D::ApplySelectionMask( mask );
+    }
+
     virtual ::Point2DPointer GetPoint1(  ) {
         if( bp::override func_GetPoint1 = this->get_override( "GetPoint1" ) )
             return func_GetPoint1(  );
@@ -129,6 +141,18 @@ struct Line2D_wrapper : Line2D, bp::wrapper< Line2D > {
       , bp::wrapper< Line2D >(){
         // constructor
     
+    }
+
+    virtual void ApplySelectionMask( ::SelectionMask mask ) {
+        if( bp::override func_ApplySelectionMask = this->get_override( "ApplySelectionMask" ) )
+            func_ApplySelectionMask( mask );
+        else
+            this->Line2D::ApplySelectionMask( mask );
+    }
+    
+    
+    void default_ApplySelectionMask( ::SelectionMask mask ) {
+        Line2D::ApplySelectionMask( mask );
     }
 
     virtual ::Point2DPointer GetPoint1(  ) {
@@ -321,6 +345,8 @@ BOOST_PYTHON_MODULE(ark3d_module){
         .value("Points", Points)
         .value("Edges", Edges)
         .value("Constraints", Constraints)
+        .value("Lines", Lines)
+        .value("Arcs", Arcs)
         .export_values()
         ;
 
@@ -338,6 +364,18 @@ BOOST_PYTHON_MODULE(ark3d_module){
         Arc2D_exposer_t Arc2D_exposer = Arc2D_exposer_t( "Arc2D", bp::init< double, double, double, double, double, SketchPlanePointer, bp::optional< bool, bool, bool, bool, bool > >(( bp::arg("s_center"), bp::arg("t_center"), bp::arg("theta_1"), bp::arg("theta_2"), bp::arg("radius"), bp::arg("sketch_plane"), bp::arg("s_center_free")=(bool)(false), bp::arg("t_center_free")=(bool)(false), bp::arg("theta_1_free")=(bool)(false), bp::arg("theta_2_free")=(bool)(false), bp::arg("radius_free")=(bool)(false) )) );
         bp::scope Arc2D_scope( Arc2D_exposer );
         Arc2D_exposer.def( bp::init< DOFPointer, DOFPointer, DOFPointer, DOFPointer, DOFPointer, SketchPlanePointer >(( bp::arg("s_center"), bp::arg("t_center"), bp::arg("theta_1"), bp::arg("theta_2"), bp::arg("radius"), bp::arg("sketch_plane") )) );
+        { //::Arc2D::ApplySelectionMask
+        
+            typedef void ( ::Arc2D::*ApplySelectionMask_function_type )( ::SelectionMask ) ;
+            typedef void ( Arc2D_wrapper::*default_ApplySelectionMask_function_type )( ::SelectionMask ) ;
+            
+            Arc2D_exposer.def( 
+                "ApplySelectionMask"
+                , ApplySelectionMask_function_type(&::Arc2D::ApplySelectionMask)
+                , default_ApplySelectionMask_function_type(&Arc2D_wrapper::default_ApplySelectionMask)
+                , ( bp::arg("mask") ) );
+        
+        }
         { //::Arc2D::GeneratePoint1
         
             typedef ::Point2DPointer ( ::Arc2D::*GeneratePoint1_function_type )(  ) ;
@@ -630,6 +668,18 @@ BOOST_PYTHON_MODULE(ark3d_module){
         typedef bp::class_< Line2D_wrapper > Line2D_exposer_t;
         Line2D_exposer_t Line2D_exposer = Line2D_exposer_t( "Line2D", bp::init< boost::shared_ptr<Point2D>, boost::shared_ptr<Point2D>, SketchPlanePointer >(( bp::arg("point1"), bp::arg("point2"), bp::arg("sketch_plane") )) );
         bp::scope Line2D_scope( Line2D_exposer );
+        { //::Line2D::ApplySelectionMask
+        
+            typedef void ( ::Line2D::*ApplySelectionMask_function_type )( ::SelectionMask ) ;
+            typedef void ( Line2D_wrapper::*default_ApplySelectionMask_function_type )( ::SelectionMask ) ;
+            
+            Line2D_exposer.def( 
+                "ApplySelectionMask"
+                , ApplySelectionMask_function_type(&::Line2D::ApplySelectionMask)
+                , default_ApplySelectionMask_function_type(&Line2D_wrapper::default_ApplySelectionMask)
+                , ( bp::arg("mask") ) );
+        
+        }
         { //::Line2D::Get3DLocations
         
             typedef void ( ::Line2D::*Get3DLocations_function_type )( double &,double &,double &,double &,double &,double & ) ;

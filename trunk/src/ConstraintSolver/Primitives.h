@@ -11,7 +11,7 @@
 class PrimitiveException{};
 
 // Selection masks
-enum SelectionMask {None, All, Points, Edges, Constraints};
+enum SelectionMask {None, All, Points, Edges, Constraints, Lines, Arcs};
 
 // Abstract DOF base class
 class DOF
@@ -264,6 +264,8 @@ class Line2D : public Edge2DBase
 		void GetTangent1(GiNaC::ex & s_component, GiNaC::ex & t_component);  // returns expression that defines tangent vector for each endpoint of the edge
 		void GetTangent2(GiNaC::ex & s_component, GiNaC::ex & t_component);
 
+		void ApplySelectionMask(SelectionMask mask);
+
 	private:
 		DOFPointer s1_;
 		DOFPointer t1_;
@@ -389,6 +391,8 @@ class Arc2D : public Edge2DBase
 
 		void GetTangent1(GiNaC::ex & s_component, GiNaC::ex & t_component);  // returns expression that defines tangent vector for each endpoint of the edge
 		void GetTangent2(GiNaC::ex & s_component, GiNaC::ex & t_component);
+
+		void ApplySelectionMask(SelectionMask mask);
 	
 	protected:
 		// parameters that define the arc
