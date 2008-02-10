@@ -90,8 +90,7 @@ OccGtkGLView::OccGtkGLView()
 
 		interactive_primitive_ = 0;
 
-	cout << "got here 1" << endl;
-
+/*
 	// create the python interpretor instance
 	PyImport_AppendInittab( "ark3d_module", &initark3d_module );
 	Py_Initialize();
@@ -103,8 +102,7 @@ OccGtkGLView::OccGtkGLView()
 	
 	PyRun_SimpleString("point1 =  ark3d_module.CreatePoint(0.0,1.0,2.0) \n");
 	PyRun_SimpleString("print point1.GetYDOF().GetValue() \n");
-
-	cout << "got here 2" << endl;
+*/
 }
 
 OccGtkGLView::~OccGtkGLView()
@@ -1021,9 +1019,11 @@ void OccGtkGLView::SolveConstraints()
 
 void OccGtkGLView::ExecutePythonScript()
 {
+/*
     FILE *fp = fopen ("./src/PythonScripts/test_sketch.py", "r+");
     PyRun_SimpleFile (fp, "./src/PythonScripts/test_sketch.py");
 		fclose(fp);
+*/
 }
 
 void OccGtkGLView::GenerateDefaultSketch()

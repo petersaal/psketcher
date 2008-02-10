@@ -1,6 +1,7 @@
 #ifndef PrimitivesH
 #define PrimitivesH
 
+#include <math.h>
 #include <vector>
 #include <boost/shared_ptr.hpp>
 #include <ginac/ginac.h>
@@ -302,11 +303,13 @@ class DistancePoint2D : public ConstraintEquationBase
 {
 	public:
 		DistancePoint2D(const Point2DPointer point1, const Point2DPointer point2, double distance);
+		double GetActualDistance();
+		void SetValue(double value) {distance_->SetValue(value);}
 
 	protected:
 		Point2DPointer point1_;
 		Point2DPointer point2_;
-		double distance_;
+		DOFPointer distance_;
 };
 typedef boost::shared_ptr<DistancePoint2D> DistancePoint2DPointer;
 
@@ -361,7 +364,7 @@ class AngleLine2D : public ConstraintEquationBase
 		Line2DPointer line1_;
 		Line2DPointer line2_;
 
-		double angle_;
+		DOFPointer angle_;
 };
 typedef boost::shared_ptr<AngleLine2D> AngleLine2DPointer;
 
