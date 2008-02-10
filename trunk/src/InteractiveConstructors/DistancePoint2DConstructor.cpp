@@ -13,14 +13,7 @@ void DistancePoint2DConstructor::CreateObject()
 {
 	if(primitive_finished_)
 	{
-		// calculate the distance between point1_ and point2_
-		double term1 = (point1_->GetSDOF()->GetValue() - point2_->GetSDOF()->GetValue());
-		term1 = term1*term1;
-		double term2 = (point1_->GetTDOF()->GetValue() - point2_->GetTDOF()->GetValue());
-		term2 = term2*term2;
-		double distance = sqrt(term1+term2);
-		
-		parent_sketch_->AddDistancePoint2D(point1_, point2_,distance);
+		parent_sketch_->AddDistancePoint2D(point1_, point2_);
 	}
 }
 

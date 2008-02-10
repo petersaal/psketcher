@@ -330,7 +330,7 @@ void OccDistancePoint2D::GenerateAISObject()
 	oc_plane_ = new Geom_Plane(coef_a, coef_b, coef_c, coef_d);
 
 	// create the interactive ais_object, this is what will actually be displayed
-	ais_object_list_.push_back(new AIS_LengthDimension(oc_shape1_,oc_shape2_,oc_plane_,distance_,distance_));
+	ais_object_list_.push_back(new AIS_LengthDimension(oc_shape1_,oc_shape2_,oc_plane_,distance_->GetValue(),distance_->GetValue()));
 }
 
 
@@ -392,7 +392,7 @@ void OccAngleLine2D::GenerateAISObject()
 	oc_plane_ = new Geom_Plane(coef_a, coef_b, coef_c, coef_d);
 
 	// create the interactive ais_object, this is what will actually be displayed
-	ais_object_list_.push_back(new AIS_AngleDimension(oc_shape1_,oc_shape2_,oc_plane_,-angle_*(180.0/mmcPI),angle_*(180.0/mmcPI)));
+	ais_object_list_.push_back(new AIS_AngleDimension(oc_shape1_,oc_shape2_,oc_plane_,-angle_->GetValue()*(180.0/mmcPI),angle_->GetValue()*(180.0/mmcPI)));
 }
 
 

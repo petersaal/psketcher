@@ -40,6 +40,15 @@ OccDistancePoint2DPointer OccSketch::AddDistancePoint2D(const Point2DPointer poi
 	return new_constraint;
 }
 
+// Add a distance constraint using the current distance
+OccDistancePoint2DPointer OccSketch::AddDistancePoint2D(const Point2DPointer point1, const Point2DPointer point2)
+{
+	OccDistancePoint2DPointer new_constraint(new OccDistancePoint2D(ais_context_,point1,point2,1.0));
+	new_constraint->SetValue(new_constraint->GetActualDistance());
+	AddConstraintEquation(new_constraint);
+	return new_constraint;
+}
+
 OccParallelLine2DPointer OccSketch::AddParallelLine2D(const Line2DPointer line1, const Line2DPointer line2)
 {
 	OccParallelLine2DPointer new_constraint (new OccParallelLine2D(ais_context_,line1, line2));
