@@ -1,19 +1,5 @@
-PROJECT (qtocc)
-
-# Some of the opencascade headers require the following compiler defines
-ADD_DEFINITIONS (-DHAVE_IOSTREAM -DHAVE_LIMITS_H -DHAVE_FSTREAM -DCSFDB -DHAVE_GETTEXT -DENABLE_NLS)
-
-# Define variables specific to the local OpenCascade Installation
-SET (CASROOT $ENV{CASROOT})
-SET (OPENCASCADE_LINK_DIR "/opt/OpenCASCADE-6.2/lib")
-
-# List the Opencascade libraries that need to be linked to ark3d
-SET (OPENCASCADE_LIBS "-lTKernel -lTKMath -lTKG2d -lTKG3d -lTKGeomBase -lTKBRep -lTKGeomAlgo -lTKTopAlgo -lTKPrim -lTKBool -lTKFeat -lTKFillet -lTKOffset -lTKHLR -lTKService -lTKV2d -lTKV3d -lTKMesh -lTKPCAF -lTKLCAF -lTKPLCAF -lTKCDF -lTKCAF -lPTKernel -lTKIGES -lTKSTEP -lTKSTEPBase -lTKSTEPAttr -lTKSTEP209 -lTKSTL -lTKVRML -lTKShHealing -lTKXSBase -lTKPShape -lTKShapeSchema -lTKOpenGl")
-
-# Evering before this line can be removed once merged with Ark3D
 # The fllowing forces cmake to show the compiler command line arguements, usefull for debugging
 SET (CMAKE_VERBOSE_MAKEFILE TRUE)
-
 
 find_package(Qt4 REQUIRED)
 include(${QT_USE_FILE})
