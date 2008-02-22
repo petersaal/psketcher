@@ -45,6 +45,7 @@ OccDistancePoint2DPointer OccSketch::AddDistancePoint2D(const Point2DPointer poi
 {
 	OccDistancePoint2DPointer new_constraint(new OccDistancePoint2D(ais_context_,point1,point2,1.0));
 	new_constraint->SetValue(new_constraint->GetActualDistance());
+	new_constraint->UpdateDisplay();
 	AddConstraintEquation(new_constraint);
 	return new_constraint;
 }
