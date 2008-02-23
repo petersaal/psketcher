@@ -60,6 +60,7 @@ private slots:
 private:
     void createActions();
     void createMenus();
+	void createToolBars();
 
     QMenu *fileMenu;
     QMenu *editMenu;
@@ -69,6 +70,8 @@ private:
     QMenu *formatMenu;
     QMenu *helpMenu;
 	QMenu *gridMenu;
+
+	QToolBar *viewToolBar;
 
     QAction *newAction;
     QAction *openAction;
