@@ -1161,3 +1161,44 @@ Standard_Real QoccViewWidget::viewPrecision( bool resized )
 	}
 	return myViewPrecision;
 }
+
+void QoccViewWidget::viewShaded()
+{
+	myViewMode = Shaded;
+	updateViewMode();
+}
+
+void QoccViewWidget::viewWireFrame()
+{
+	myViewMode = WireFrame;
+	updateViewMode();
+}
+
+void QoccViewWidget::viewNoHiddenLine()
+{
+	myViewMode = NoHiddenLine;
+	updateViewMode();
+}
+
+void QoccViewWidget::updateViewMode()
+{
+	myView->SetComputedMode(false);
+	
+    AIS_ListOfInteractive aListOfIO;
+    AIS_ListIteratorOfListOfInteractive li;
+    myContext->DisplayedObjects (aListOfIO);
+    for( li.Initialize(aListOfIO); li.More(); li.Next() )
+	{
+		if(myViewMode == Shaded)
+			myContext->SetDisplayMode( li.Value(), AIS_Shaded, false );
+		else if(myViewMode == WireFrame)
+			myContext->SetDisplayMode( li.Value(), AIS_WireFrame, false );
+		else if(myViewMode == NoHiddenLine)
+		{
+			myContext->SetDisplayMode( li.Value(), AIS_QuickHLR, false );
+			myView->SetComputedMode(true);
+		}
+	}
+
+    myContext->UpdateCurrentViewer();
+}
