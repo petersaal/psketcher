@@ -18,6 +18,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QActionGroup>
 
 #include "qoccviewercontext.h"
 #include "qoccviewwidget.h"
@@ -109,6 +110,12 @@ private:
 	QAction *viewAxoAction;
 	QAction *viewResetAction;
 	QAction *viewGridAction; /** Action for grid view */
+
+	QAction *viewShadedAction;
+	QAction *viewWireframeAction;
+	QAction *viewNoHiddenLineAction;
+
+	QActionGroup *viewModeActionGroup;
 
 	QAction *backgroundAction;
 

@@ -188,7 +188,7 @@
   <sodipodi:namedview
      stroke="#3465a4"
      inkscape:window-y="0"
-     inkscape:window-x="123"
+     inkscape:window-x="0"
      inkscape:window-height="978"
      inkscape:window-width="1074"
      inkscape:showpageshadow="false"
@@ -301,31 +301,36 @@
          id="path4462" />
     </g>
     <g
-       id="g3628">
+       id="g5156">
       <path
-         style="fill:#00004a;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;marker-end:url(#TriangleOutM);stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         d="M 19.386922,44.156646 L 10.268664,53.274907"
-         id="path3622"
-         sodipodi:nodetypes="cc" />
+         style="fill:#00004a;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:2.99699998;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="M 19.3125,42.5625 L 10.1875,51.6875 L 12.3125,53.8125 L 21.40625,44.6875 L 19.3125,42.5625 z "
+         id="path3622" />
       <path
-         style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         d="M 21.046881,60.089843 L 3.515631,60.089843 L 3.515631,42.707032"
-         id="path3624"
-         sodipodi:nodetypes="ccc" />
+         style="fill-rule:evenodd;stroke:#00004a;stroke-width:0.39999998pt;marker-start:none;stroke-opacity:1;fill:#00004a;fill-opacity:1"
+         d="M 6.3502099,57.630858 L 9.4442423,46.060031 L 17.921037,54.536829 L 6.3502099,57.630858 z "
+         id="path5162" />
     </g>
+    <path
+       sodipodi:nodetypes="ccc"
+       id="path3624"
+       d="M 19.484385,61.945307 L 1.9531309,61.945307 L 1.9531309,44.562496"
+       style="fill:none;fill-rule:evenodd;stroke:#00004a;stroke-width:2.62237501;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     <g
-       id="g3632"
-       transform="matrix(-1,0,0,-1,64.015638,62.660156)">
+       id="g6133">
       <path
-         sodipodi:nodetypes="cc"
-         id="path3634"
-         d="M 19.386922,44.156646 L 10.268664,53.274907"
-         style="fill:#00004a;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;marker-end:url(#TriangleOutM);stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+         style="fill:#00004a;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:2.99699998;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="M 52.0625,9.75 L 42.9375,18.84375 L 45.0625,20.96875 L 54.1875,11.84375 L 52.0625,9.75 z "
+         id="path3634" />
       <path
-         sodipodi:nodetypes="ccc"
-         id="path3636"
-         d="M 21.046881,60.089843 L 3.515631,60.089843 L 3.515631,42.707032"
-         style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+         style="fill-rule:evenodd;stroke:#00004a;stroke-width:0.5;marker-start:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;fill:#00004a;fill-opacity:1"
+         d="M 58.005268,5.9081983 L 54.911241,17.479026 L 46.434442,9.0022321 L 58.005268,5.9081983 z "
+         id="path6139" />
     </g>
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#00004a;stroke-width:2.62237501;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 44.968757,1.5468755 L 62.500007,1.5468755 L 62.500007,18.929684"
+       id="path3636"
+       sodipodi:nodetypes="ccc" />
   </g>
 </svg>

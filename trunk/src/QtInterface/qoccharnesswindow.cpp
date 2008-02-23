@@ -315,6 +315,29 @@ void QoccHarnessWindow::createActions()
 	//gridOffAction->setShortcut(tr("Ctrl+Z"));
     connect(gridCircAction, SIGNAL(triggered()), myVC, SLOT(gridCirc()));
 
+	// Shading and wireframe actions
+    viewModeActionGroup = new QActionGroup(this);
+
+	viewShadedAction = new QAction(tr("Shaded"), viewModeActionGroup);
+	viewShadedAction->setCheckable(true);
+	viewShadedAction->setIcon(QIcon(":/icons/shaded.svg"));
+    viewShadedAction->setStatusTip(tr("Shade solids"));
+    connect(viewShadedAction, SIGNAL(triggered()), myOCC, SLOT(viewShaded()));
+
+	viewWireframeAction = new QAction(tr("Wire frame"), viewModeActionGroup);
+	viewWireframeAction->setCheckable(true);
+	viewWireframeAction->setIcon(QIcon(":/icons/wire_frame.svg"));
+    viewWireframeAction->setStatusTip(tr("View solids in wire frame"));
+    connect(viewWireframeAction, SIGNAL(triggered()), myOCC, SLOT(viewWireFrame()));
+
+	viewNoHiddenLineAction = new QAction(tr("No hidden lines"), viewModeActionGroup);
+	viewNoHiddenLineAction->setCheckable(true);
+	viewNoHiddenLineAction->setIcon(QIcon(":/icons/wire_frame_no_hidden.svg"));
+    viewNoHiddenLineAction->setStatusTip(tr("View solids in wire frame with no hidden lines"));
+    connect(viewNoHiddenLineAction, SIGNAL(triggered()), myOCC, SLOT(viewNoHiddenLine()));
+
+    viewShadedAction->setChecked(true);
+
 	// Standard View
 	viewFrontAction = new QAction(tr("Front"), this);
 	viewFrontAction->setIcon(QIcon(":/icons/front_view.svg"));
@@ -424,6 +447,8 @@ void QoccHarnessWindow::createMenus()
 			viewDisplayMenu->addAction( viewResetAction );
 			viewDisplayMenu->addSeparator();
 			viewDisplayMenu->addAction( backgroundAction );
+			viewDisplayMenu->addSeparator();
+			viewDisplayMenu->addActions(viewModeActionGroup->actions());
 
 		viewActionsMenu = viewMenu->addMenu( tr("&Actions") );
 			viewActionsMenu->addAction( fitAction );
@@ -457,7 +482,9 @@ void QoccHarnessWindow::createToolBars()
 	viewToolBar->addAction(viewBottomAction);
 	viewToolBar->addAction(viewLeftAction);
 	viewToolBar->addAction(viewRightAction);
+	viewToolBar->addSeparator();
 	viewToolBar->addAction(fitAction);
 	viewToolBar->addAction(zoomAction);
-
+	viewToolBar->addSeparator();
+	viewToolBar->addActions(viewModeActionGroup->actions());
 }

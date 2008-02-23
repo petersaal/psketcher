@@ -51,6 +51,10 @@ public:
 							CurAction3d_DynamicPanning,
 							CurAction3d_GlobalPanning, 
 							CurAction3d_DynamicRotation };
+
+	enum ViewMode {	Shaded,
+					WireFrame,
+					NoHiddenLine};
 /*
 	enum ViewAction {	ViewFitAllId, 
 						ViewFitAreaId, 
@@ -125,6 +129,10 @@ public slots:
 	void setReset();
 	void select();
 
+	void viewShaded();
+	void viewWireFrame();
+	void viewNoHiddenLine();
+
 protected: // methods
 
     virtual void paintEvent        ( QPaintEvent* e );
@@ -151,6 +159,7 @@ private: // members
 	Standard_Boolean				myViewResized;
 	Standard_Boolean				myViewInitialized;
     CurrentAction3d                 myMode;
+	ViewMode						myViewMode;
     Quantity_Factor                 myCurZoom;
     Standard_Boolean				myGridSnap;
 	AIS_StatusOfDetection			myDetection;
@@ -174,6 +183,8 @@ private: // members
 //	Snaps							mySnaps;
 
 private: // methods
+
+	void updateViewMode();
 
 	void onLeftButtonDown  ( Qt::KeyboardModifiers nFlags, const QPoint point );
     void onMiddleButtonDown( Qt::KeyboardModifiers nFlags, const QPoint point );
