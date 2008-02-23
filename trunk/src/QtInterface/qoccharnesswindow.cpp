@@ -47,6 +47,7 @@ QoccHarnessWindow::QoccHarnessWindow()
 
     createActions();
     createMenus();
+	createToolBars();
 
     statusBar()->showMessage(tr("A context menu is available by right-clicking"));
 
@@ -250,16 +251,19 @@ void QoccHarnessWindow::createActions()
 	// Now for the QtOCCViewWidget slots.
 
 	fitAction = new QAction(tr("&Fit Window"), this);
+	fitAction->setIcon(QIcon(":/icons/zoom_fit.svg"));
 	fitAction->setShortcut(tr("Ctrl+F"));
     fitAction->setStatusTip(tr("Fit to window"));
     connect(fitAction, SIGNAL(triggered()), myOCC, SLOT(fitExtents()));
 
 	fitAllAction = new QAction(tr("Fit &All"), this);
+	fitAllAction->setIcon(QIcon(":/icons/zoom_fit.svg"));
 	fitAllAction->setShortcut(tr("Ctrl+A"));
     fitAllAction->setStatusTip(tr("Fit contents to viewport"));
     connect(fitAllAction, SIGNAL(triggered()), myOCC, SLOT(fitAll()));
 
 	zoomAction = new QAction(tr("&Zoom"), this);
+	zoomAction->setIcon(QIcon(":/icons/zoom_box.svg"));
 	zoomAction->setStatusTip(tr("Zoom in window"));
     connect(zoomAction, SIGNAL(triggered()), myOCC, SLOT(fitArea()));
 
@@ -312,28 +316,33 @@ void QoccHarnessWindow::createActions()
     connect(gridCircAction, SIGNAL(triggered()), myVC, SLOT(gridCirc()));
 
 	// Standard View
-
 	viewFrontAction = new QAction(tr("Front"), this);
+	viewFrontAction->setIcon(QIcon(":/icons/front_view.svg"));
 	viewFrontAction->setStatusTip(tr("View From Front"));
     connect(viewFrontAction, SIGNAL(triggered()), myOCC, SLOT(viewFront()));
 
 	viewBackAction = new QAction(tr("Back"), this);
+	viewBackAction->setIcon(QIcon(":/icons/back_view.svg"));
 	viewBackAction->setStatusTip(tr("View From Back"));
     connect(viewBackAction, SIGNAL(triggered()), myOCC, SLOT(viewBack()));
 
 	viewTopAction = new QAction(tr("Top"), this);
+	viewTopAction->setIcon(QIcon(":/icons/top_view.svg"));
 	viewTopAction->setStatusTip(tr("View From Top"));
     connect(viewTopAction, SIGNAL(triggered()), myOCC, SLOT(viewTop()));
 
 	viewBottomAction = new QAction(tr("Bottom"), this);
+	viewBottomAction->setIcon(QIcon(":/icons/bottom_view.svg"));
 	viewBottomAction->setStatusTip(tr("View From Bottom"));
     connect(viewBottomAction, SIGNAL(triggered()), myOCC, SLOT(viewBottom()));
 
 	viewLeftAction = new QAction(tr("Left"), this);
+	viewLeftAction->setIcon(QIcon(":/icons/left_view.svg"));
 	viewLeftAction->setStatusTip(tr("View From Left"));
     connect(viewLeftAction, SIGNAL(triggered()), myOCC, SLOT(viewLeft()));
 
 	viewRightAction = new QAction(tr("Right"), this);
+	viewRightAction->setIcon(QIcon(":/icons/right_view.svg"));
 	viewRightAction->setStatusTip(tr("View From Right"));
     connect(viewRightAction, SIGNAL(triggered()), myOCC, SLOT(viewRight()));
 
@@ -439,3 +448,16 @@ void QoccHarnessWindow::createMenus()
     helpMenu->addAction(aboutQtAction);
 }
 
+void QoccHarnessWindow::createToolBars()
+{
+	viewToolBar = addToolBar(tr("&View"));
+	viewToolBar->addAction(viewFrontAction);
+	viewToolBar->addAction(viewBackAction);
+	viewToolBar->addAction(viewTopAction);
+	viewToolBar->addAction(viewBottomAction);
+	viewToolBar->addAction(viewLeftAction);
+	viewToolBar->addAction(viewRightAction);
+	viewToolBar->addAction(fitAction);
+	viewToolBar->addAction(zoomAction);
+
+}

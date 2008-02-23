@@ -22,7 +22,11 @@ set(qtocc_MOC_SRCS
     ./qoccinputoutput.h
     ./qoccviewercontext.h
 )
+set(qtocc_RCCS
+    qocc.qrc
+)
 qt4_wrap_cpp(qtocc_MOCS ${qtocc_MOC_SRCS})
+qt4_add_resources(qtocc_RCC_SRCS ${qtocc_RCCS})
 add_definitions(-DQT_NO_DEBUG)
 
 #OpenGL
@@ -39,7 +43,8 @@ INCLUDE_DIRECTORIES (${CASROOT}/src/WOKTclLib)
 
 add_executable(qtocc
     ${qtocc_SRCS}
-    ${qtocc_MOCS})
+    ${qtocc_MOCS}
+    ${qtocc_RCC_SRCS})
 
 TARGET_LINK_LIBRARIES(qtocc ${OPENGL_LIBRARIES})
 TARGET_LINK_LIBRARIES(qtocc ${GLUT_Xmu_LIBRARY})
