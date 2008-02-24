@@ -1,0 +1,20 @@
+LINK_DIRECTORIES ("../mmcMatrix")
+LINK_DIRECTORIES ("../NumOptimization")
+
+# create the ark3d library
+ADD_LIBRARY (Ark3d STATIC ConstraintSolver.cpp Ark3DModel.cpp Primitives.cpp Sketch.cpp)
+
+# The following module is included so that the pkg_check_modules macro can be used below
+find_package(PkgConfig)
+
+#gsl
+pkg_check_modules(GSL gsl)
+LINK_DIRECTORIES (${GSL_LIBRARY_DIRS})
+INCLUDE_DIRECTORIES (${GSL_INCLUDE_DIRS})
+
+#ginac
+pkg_check_modules(GINAC ginac)
+LINK_DIRECTORIES (${GINAC_LIBRARY_DIRS})
+INCLUDE_DIRECTORIES (${GINAC_INCLUDE_DIRS})
+
+

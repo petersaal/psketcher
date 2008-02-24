@@ -1,0 +1,16 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+    <file>icons/back_view.svg</file>
+    <file>icons/bottom_view.svg</file>
+    <file>icons/front_view.svg</file>
+    <file>icons/left_view.svg</file>
+    <file>icons/right_view.svg</file>
+    <file>icons/shaded.svg</file>
+    <file>icons/top_view.svg</file>
+    <file>icons/wire_frame_no_hidden.svg</file>
+    <file>icons/wire_frame.svg</file>
+    <file>icons/zoom_box.svg</file>
+    <file>icons/zoom_fit.svg</file>
+</qresource>
+</RCC>
+
