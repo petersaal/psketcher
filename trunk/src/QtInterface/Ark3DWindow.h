@@ -12,6 +12,8 @@
 **
 ** Copyright (C) Peter Dolbey 2006. All rights reserved.
 **
+** Adapted for use as part of Ark3D by Michael Greminger on 3-1-08
+**
 ****************************************************************************/
 
 #ifndef MAINWINDOW_H
@@ -28,13 +30,13 @@ class QAction;
 class QLabel;
 class QMenu;
 
-class QoccHarnessWindow : public QMainWindow
+class Ark3DWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
 
-    QoccHarnessWindow();
+    Ark3DWindow();
 	Handle_AIS_InteractiveContext& getContext() { return myVC->getContext(); };
 
 private slots:
@@ -49,7 +51,6 @@ private slots:
     void paste();
     void about();
 	void bottle();
-    void aboutQt();
 	void xyzPosition (V3d_Coordinate X,
 					  V3d_Coordinate Y,
 					  V3d_Coordinate Z);
@@ -118,8 +119,6 @@ private:
 	QActionGroup *viewModeActionGroup;
 
 	QAction *backgroundAction;
-
-    QAction *aboutQtAction;
 
 	//Sample Action
 	QAction *bottleAction;

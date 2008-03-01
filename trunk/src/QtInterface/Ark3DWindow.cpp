@@ -12,6 +12,8 @@
 **
 ** Copyright (C) Peter Dolbey 2006. All rights reserved.
 **
+** Adapted for use as part of Ark3D by Michael Greminger on 3-1-08
+**
 ****************************************************************************/
 
 #include <QtGui/QtGui>
@@ -23,13 +25,13 @@
 #include <Aspect_RectangularGrid.hxx>
 #include <V3d_View.hxx>
 
-#include "qoccharnesswindow.h"
+#include "Ark3DWindow.h"
 
 void LoadBottle ( Handle_AIS_InteractiveContext theContext );
 void ShowOrigin ( Handle_AIS_InteractiveContext theContext );
 void AddVertex  ( double x, double y, double z, Handle_AIS_InteractiveContext theContext );
 
-QoccHarnessWindow::QoccHarnessWindow()
+Ark3DWindow::Ark3DWindow()
 : myLastFolder(tr(""))
 {
     myVC  = new QoccViewerContext();
@@ -51,19 +53,19 @@ QoccHarnessWindow::QoccHarnessWindow()
 
     statusBar()->showMessage(tr("A context menu is available by right-clicking"));
 
-    setWindowTitle(tr("Qt OpenCASCADE"));
+    setWindowTitle(tr("Ark3D"));
     setMinimumSize(160, 160);
 	showMaximized();
 }
 
-void QoccHarnessWindow::newFile()
+void Ark3DWindow::newFile()
 {
     statusBar()->showMessage(tr("Invoked File|New"));
 	//myOCC->getView()->ColorScaleErase();
 	myVC->deleteAllObjects();
 }
 
-void QoccHarnessWindow::open()
+void Ark3DWindow::open()
 {
 	QString		fileName;
 	QString		fileType;
@@ -105,54 +107,49 @@ void QoccHarnessWindow::open()
 
 }
 
-void QoccHarnessWindow::save()
+void Ark3DWindow::save()
 {
     statusBar()->showMessage(tr("Invoked File|Save"));
 }
 
-void QoccHarnessWindow::print()
+void Ark3DWindow::print()
 {
     statusBar()->showMessage(tr("Invoked File|Print"));
 }
 
-void QoccHarnessWindow::undo()
+void Ark3DWindow::undo()
 {
     statusBar()->showMessage(tr("Invoked Edit|Undo"));
 }
 
-void QoccHarnessWindow::redo()
+void Ark3DWindow::redo()
 {
     statusBar()->showMessage(tr("Invoked Edit|Redo"));
 }
 
-void QoccHarnessWindow::cut()
+void Ark3DWindow::cut()
 {
     statusBar()->showMessage(tr("Invoked Edit|Cut"));
 }
 
-void QoccHarnessWindow::copy()
+void Ark3DWindow::copy()
 {
     statusBar()->showMessage(tr("Invoked Edit|Copy"));
 }
 
-void QoccHarnessWindow::paste()
+void Ark3DWindow::paste()
 {
     statusBar()->showMessage(tr("Invoked Edit|Paste"));
 }
 
-void QoccHarnessWindow::about()
+void Ark3DWindow::about()
 {
     statusBar()->showMessage(tr("Invoked Help|About"));
     QMessageBox::about(this, tr("About Menu"),
-            tr("The <b>Qt OpenCASCADE</b> example shows how to create a simple Qt4 Viewer."));
+            tr("<h2>Ark3D</h2> <p><A HREF=\"http://sourceforge.net/projects/ark3d/\">http://sourceforge.net/projects/ark3d/</A>"));
 }
 
-void QoccHarnessWindow::aboutQt()
-{
-    statusBar()->showMessage(tr("Invoked Help|About Qt"));
-}
-
-void QoccHarnessWindow::bottle()
+void Ark3DWindow::bottle()
 {
     statusBar()->showMessage(tr("Invoked File|Load Bottle"));
 	QApplication::setOverrideCursor( Qt::WaitCursor );
@@ -164,7 +161,7 @@ void QoccHarnessWindow::bottle()
 	QApplication::restoreOverrideCursor();
 }
 
-void QoccHarnessWindow::xyzPosition (V3d_Coordinate X,
+void Ark3DWindow::xyzPosition (V3d_Coordinate X,
 							  V3d_Coordinate Y,
 							  V3d_Coordinate Z)
 {
@@ -174,20 +171,20 @@ void QoccHarnessWindow::xyzPosition (V3d_Coordinate X,
 	statusBar()->showMessage(aString);
 }
 
-void QoccHarnessWindow::addPoint (V3d_Coordinate X,
+void Ark3DWindow::addPoint (V3d_Coordinate X,
 						   V3d_Coordinate Y,
 						   V3d_Coordinate Z)
 {
 	AddVertex ( X, Y, Z, myVC->getContext() );
 }
 
-void QoccHarnessWindow::statusMessage (const QString aMessage)
+void Ark3DWindow::statusMessage (const QString aMessage)
 {
 	statusBar()->showMessage(aMessage);
 }
 
 
-void QoccHarnessWindow::createActions()
+void Ark3DWindow::createActions()
 {
     newAction = new QAction(tr("&New"), this);
     newAction->setShortcut(tr("Ctrl+N"));
@@ -242,11 +239,6 @@ void QoccHarnessWindow::createActions()
     aboutAction = new QAction(tr("&About"), this);
     aboutAction->setStatusTip(tr("Show the application's About box"));
     connect(aboutAction, SIGNAL(triggered()), this, SLOT(about()));
-
-    aboutQtAction = new QAction(tr("About &Qt"), this);
-    aboutQtAction->setStatusTip(tr("Show the Qt library's About box"));
-    connect(aboutQtAction, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
-    connect(aboutQtAction, SIGNAL(triggered()), this, SLOT(aboutQt()));
 
 	// Now for the QtOCCViewWidget slots.
 
@@ -405,7 +397,7 @@ void QoccHarnessWindow::createActions()
 
 }
 
-void QoccHarnessWindow::createMenus()
+void Ark3DWindow::createMenus()
 {
     fileMenu = menuBar()->addMenu( tr("&File") );
 		fileMenu->addAction( newAction );
@@ -470,10 +462,9 @@ void QoccHarnessWindow::createMenus()
 			
    helpMenu = menuBar()->addMenu(tr("&Help"));
     helpMenu->addAction(aboutAction);
-    helpMenu->addAction(aboutQtAction);
 }
 
-void QoccHarnessWindow::createToolBars()
+void Ark3DWindow::createToolBars()
 {
 	viewToolBar = addToolBar(tr("&View"));
 	viewToolBar->addAction(viewFrontAction);
