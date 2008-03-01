@@ -25,13 +25,13 @@ using namespace std;
 #include <QtGui/QPlastiqueStyle>
 
 #include "qoccapplication.h"
-#include "qoccharnesswindow.h"
+#include "Ark3DWindow.h"
 
 int main(int argc, char *argv[])
 {
 
 	QoccApplication app( argc, argv );
-	QoccHarnessWindow *window = new QoccHarnessWindow();
+	Ark3DWindow *window = new Ark3DWindow();
 
     window->show();
 
