@@ -11,6 +11,10 @@
     <file>icons/wire_frame.svg</file>
     <file>icons/zoom_box.svg</file>
     <file>icons/zoom_fit.svg</file>
+    <file>icons/line.svg</file>
+    <file>icons/point.svg</file>
+    <file>icons/distance.svg</file>
+    <file>icons/angle.svg</file>  
 </qresource>
 </RCC>
 

@@ -405,20 +405,25 @@ void Ark3DWindow::createActions()
 	solveConstraintsAction->setStatusTip(tr("Solve Constraints"));
     connect(solveConstraintsAction, SIGNAL(triggered()), myOCC, SLOT(SolveConstraints()));
 
-	// Sketch actions
+
+	// Create Sketch actions
 	makeLineAction = new QAction(tr("Line"), this);
+	makeLineAction->setIcon(QIcon(":/icons/line.svg"));
 	makeLineAction->setStatusTip(tr("Create Line"));
     connect(makeLineAction, SIGNAL(triggered()), myOCC, SLOT(MakeLine()));
 
 	makePointAction = new QAction(tr("Point"), this);
+	makePointAction->setIcon(QIcon(":/icons/point.svg"));
 	makePointAction->setStatusTip(tr("Create Point"));
     connect(makePointAction, SIGNAL(triggered()), myOCC, SLOT(MakePoint()));
 
 	makeDistanceConstraintAction = new QAction(tr("Distance Constraint"), this);
+	makeDistanceConstraintAction->setIcon(QIcon(":/icons/distance.svg"));
 	makeDistanceConstraintAction->setStatusTip(tr("Create Distance Constraint"));
     connect(makeDistanceConstraintAction, SIGNAL(triggered()), myOCC, SLOT(MakeDistanceConstraint()));
 
 	makeAngleConstraintAction = new QAction(tr("Angle Constraint"), this);
+	makeAngleConstraintAction->setIcon(QIcon(":/icons/angle.svg"));
 	makeAngleConstraintAction->setStatusTip(tr("Create Angle Constraint"));
     connect(makeAngleConstraintAction, SIGNAL(triggered()), myOCC, SLOT(MakeAngleConstraint()));
 }
