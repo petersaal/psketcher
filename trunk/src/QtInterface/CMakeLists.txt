@@ -1,6 +1,14 @@
 # The fllowing forces cmake to show the compiler command line arguements, usefull for debugging
 SET (CMAKE_VERBOSE_MAKEFILE TRUE)
 
+# Add local link paths
+LINK_DIRECTORIES ("../mmcMatrix")
+LINK_DIRECTORIES ("../NumOptimization")
+LINK_DIRECTORIES ("../ConstraintSolver")
+LINK_DIRECTORIES ("../OpenCascadeBinding")
+LINK_DIRECTORIES ("../PythonBinding")
+LINK_DIRECTORIES ("../InteractiveConstructors")
+
 find_package(Qt4 REQUIRED)
 include(${QT_USE_FILE})
 set(ark3d_SRCS
@@ -13,12 +21,14 @@ set(ark3d_SRCS
     qoccmakebottle.cpp
     qoccviewercontext.cpp
     qoccviewwidget.cpp
+    Ark3DWidget.cpp
 )
 set(ark3d_MOC_SRCS
     ./qoccapplication.h
     ./qoccdocument.h
     ./Ark3DWindow.h
     ./qoccviewwidget.h
+    ./Ark3DWidget.h
     ./qoccinputoutput.h
     ./qoccviewercontext.h
 )
@@ -28,6 +38,8 @@ set(ark3d_RCCS
 qt4_wrap_cpp(ark3d_MOCS ${ark3d_MOC_SRCS})
 qt4_add_resources(ark3d_RCC_SRCS ${ark3d_RCCS})
 add_definitions(-DQT_NO_DEBUG)
+
+LINK_LIBRARIES(boost_python)
 
 #OpenGL
 FIND_PACKAGE (OpenGL REQUIRED)
@@ -41,6 +53,23 @@ LINK_DIRECTORIES (${OPENCASCADE_LINK_DIR})
 INCLUDE_DIRECTORIES (${CASROOT}/inc)
 INCLUDE_DIRECTORIES (${CASROOT}/src/WOKTclLib)
 
+# The following module is included so that the pkg_check_modules macro can be used below
+find_package(PkgConfig)
+
+#gsl
+pkg_check_modules(GSL gsl)
+LINK_DIRECTORIES (${GSL_LIBRARY_DIRS})
+INCLUDE_DIRECTORIES (${GSL_INCLUDE_DIRS})
+
+#ginac
+pkg_check_modules(GINAC ginac)
+LINK_DIRECTORIES (${GINAC_LIBRARY_DIRS})
+INCLUDE_DIRECTORIES (${GINAC_INCLUDE_DIRS})
+
+#Python
+FIND_PACKAGE(PythonLibs)
+INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_PATH})
+
 add_executable(ark3d
     ${ark3d_SRCS}
     ${ark3d_MOCS}
@@ -50,3 +79,14 @@ TARGET_LINK_LIBRARIES(ark3d ${OPENGL_LIBRARIES})
 TARGET_LINK_LIBRARIES(ark3d ${GLUT_Xmu_LIBRARY})
 target_link_libraries(ark3d ${QT_LIBRARIES})
 TARGET_LINK_LIBRARIES(ark3d ${OPENCASCADE_LIBS}) 
+#TARGET_LINK_LIBRARIES (ark3d ark3d_module)
+TARGET_LINK_LIBRARIES (ark3d Ark3dOpenCascadeBinding)
+TARGET_LINK_LIBRARIES (ark3d Ark3d)
+TARGET_LINK_LIBRARIES (ark3d mmcMatrix)
+TARGET_LINK_LIBRARIES (ark3d InteractiveConstructors)
+TARGET_LINK_LIBRARIES (ark3d ${GSL_LIBRARIES})
+TARGET_LINK_LIBRARIES (ark3d ${GINAC_LIBRARIES})
+TARGET_LINK_LIBRARIES (ark3d bfgs)
+TARGET_LINK_LIBRARIES (ark3d ${PYTHON_LIBRARIES})
+
+
