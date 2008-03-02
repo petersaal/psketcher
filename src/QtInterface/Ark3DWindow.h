@@ -125,6 +125,13 @@ private:
 	QAction *solveConstraintsAction;
 	QToolBar *debugToolBar;
 
+	// Sketching actions
+	QAction *makeLineAction;
+	QAction *makePointAction;
+	QAction *makeDistanceConstraintAction;
+	QAction *makeAngleConstraintAction;
+	QToolBar *sketchToolBar;
+
 	//Sample Action
 	QAction *bottleAction;
 

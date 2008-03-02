@@ -1,6 +1,8 @@
-#include "Ark3DWidget.h"
+#include <QMouseEvent>
 
+#include "Ark3DWidget.h"
 #include "../OpenCascadeBinding/OccPrimitives.h"
+#include "../InteractiveConstructors/QtEventProperties.h"
 
 Ark3DWidget::Ark3DWidget( const Handle_AIS_InteractiveContext& aContext,
 						  QWidget *parent,
@@ -46,16 +48,73 @@ void Ark3DWidget::resizeEvent       ( QResizeEvent* e )
 
 void Ark3DWidget::mousePressEvent   ( QMouseEvent* e )
 {
+	if(interactive_primitive_ != 0)
+	{
+		MouseEventPropertiesPointer event_props(new QtMouseEventProperties((MouseButtonEventType)ButtonPress,e));
+		bool finished = false;
+
+		switch (e->button()) {
+			case Qt::LeftButton:  finished = interactive_primitive_->LeftButtonDown(event_props); break;
+			case Qt::MidButton:   finished = interactive_primitive_->MiddleButtonDown(event_props); break;
+			case Qt::RightButton: finished = interactive_primitive_->RightButtonDown(event_props); break;
+			default:              finished = false; 
+		}
+
+		if(finished)
+		{
+			// The interactive primitive is finished, so allow it to create its object and then clean it up
+			interactive_primitive_->CreateObject();
+			delete interactive_primitive_;
+			interactive_primitive_ = 0;
+			redraw();
+		}
+	}
+
 	QoccViewWidget::mousePressEvent(e);
 }
 
 void Ark3DWidget::mouseReleaseEvent ( QMouseEvent* e )
 {
+	if(interactive_primitive_ != 0)
+	{
+		MouseEventPropertiesPointer event_props(new QtMouseEventProperties((MouseButtonEventType)ButtonRelease,e));
+		bool finished = false;
+
+		switch (e->button()) {
+			case Qt::LeftButton:  finished = interactive_primitive_->LeftButtonUp(event_props); break;
+			case Qt::MidButton:   finished = interactive_primitive_->MiddleButtonUp(event_props); break;
+			case Qt::RightButton: finished = interactive_primitive_->RightButtonUp(event_props); break;
+			default:              finished = false;
+		}
+
+		if(finished)
+		{
+			// The interactive primitive is finished, so allow it to create its object and then clean it up
+			interactive_primitive_->CreateObject();
+			delete interactive_primitive_;
+			interactive_primitive_ = 0;
+			redraw();
+		}
+	}
+
 	QoccViewWidget::mouseReleaseEvent(e);
 }
 
 void Ark3DWidget::mouseMoveEvent    ( QMouseEvent* e )
 {
+	if(interactive_primitive_ != 0)
+	{
+		MotionEventPropertiesPointer event_props(new QtMotionEventProperties(e));
+		if(interactive_primitive_->MouseMove(event_props))
+		{
+			// The interactive primitive is finished, so allow it to create its object and then clean it up
+			interactive_primitive_->CreateObject();
+			delete interactive_primitive_;
+			interactive_primitive_ = 0;
+			redraw();
+		}
+	}
+
 	QoccViewWidget::mouseMoveEvent(e);
 }
 void Ark3DWidget::wheelEvent        ( QWheelEvent* e )
@@ -140,3 +199,35 @@ void Ark3DWidget::ExecutePythonScript()
 		fclose(fp);
 */
 }
+
+void Ark3DWidget::MakeLine() 
+{
+	if(interactive_primitive_ == 0)
+		interactive_primitive_ = new Line2DConstructor(current_sketch_, GetView(), GetViewer());
+}
+
+void Ark3DWidget::MakePolyLine() {;}
+
+void Ark3DWidget::MakeArc() {;}
+
+void Ark3DWidget::MakePoint() 
+{
+	if(interactive_primitive_ == 0)
+	{
+		interactive_primitive_ = new Point2DConstructor(current_sketch_, GetView(), GetViewer());
+	}
+}
+
+void Ark3DWidget::MakeDistanceConstraint() 
+{
+	if(interactive_primitive_ == 0)
+		interactive_primitive_ = new DistancePoint2DConstructor(current_sketch_, GetView(), GetViewer());
+}
+
+void Ark3DWidget::MakeAngleConstraint() 
+{
+	if(interactive_primitive_ == 0)
+		interactive_primitive_ = new AngleLine2DConstructor(current_sketch_, GetView(), GetViewer());
+}
+
+void Ark3DWidget::MakeTangentConstraint() {;}

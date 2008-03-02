@@ -404,6 +404,23 @@ void Ark3DWindow::createActions()
 	solveConstraintsAction = new QAction(tr("Solve Constraints"), this);
 	solveConstraintsAction->setStatusTip(tr("Solve Constraints"));
     connect(solveConstraintsAction, SIGNAL(triggered()), myOCC, SLOT(SolveConstraints()));
+
+	// Sketch actions
+	makeLineAction = new QAction(tr("Line"), this);
+	makeLineAction->setStatusTip(tr("Create Line"));
+    connect(makeLineAction, SIGNAL(triggered()), myOCC, SLOT(MakeLine()));
+
+	makePointAction = new QAction(tr("Point"), this);
+	makePointAction->setStatusTip(tr("Create Point"));
+    connect(makePointAction, SIGNAL(triggered()), myOCC, SLOT(MakePoint()));
+
+	makeDistanceConstraintAction = new QAction(tr("Distance Constraint"), this);
+	makeDistanceConstraintAction->setStatusTip(tr("Create Distance Constraint"));
+    connect(makeDistanceConstraintAction, SIGNAL(triggered()), myOCC, SLOT(MakeDistanceConstraint()));
+
+	makeAngleConstraintAction = new QAction(tr("Angle Constraint"), this);
+	makeAngleConstraintAction->setStatusTip(tr("Create Angle Constraint"));
+    connect(makeAngleConstraintAction, SIGNAL(triggered()), myOCC, SLOT(MakeAngleConstraint()));
 }
 
 void Ark3DWindow::createMenus()
@@ -492,4 +509,11 @@ void Ark3DWindow::createToolBars()
 	debugToolBar = addToolBar(tr("Debug"));
 	debugToolBar->addAction(generateSketchAction);
 	debugToolBar->addAction(solveConstraintsAction);
+
+	// create the sketch tool bar
+	sketchToolBar = addToolBar(tr("Sketch"));
+	sketchToolBar->addAction(makeLineAction);
+	sketchToolBar->addAction(makePointAction);
+	sketchToolBar->addAction(makeDistanceConstraintAction);
+	sketchToolBar->addAction(makeAngleConstraintAction);
 }
