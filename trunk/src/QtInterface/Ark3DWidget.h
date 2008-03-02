@@ -32,6 +32,15 @@ class Ark3DWidget : public QoccViewWidget
 		void GenerateTestSketch();
 		void ExecutePythonScript();
 		void SolveConstraints();
+
+		// Interactive constructor slots
+		void MakeLine();
+		void MakePolyLine();
+		void MakeArc();
+		void MakePoint();
+		void MakeDistanceConstraint();
+		void MakeAngleConstraint();
+		void MakeTangentConstraint();
 	
 	protected: // methods
 		virtual void paintEvent        ( QPaintEvent* e );

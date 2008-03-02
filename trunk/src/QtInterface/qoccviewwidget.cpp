@@ -170,6 +170,10 @@ void QoccViewWidget::initializeOCC(const Handle_AIS_InteractiveContext& aContext
 		setMode( CurAction3d_Nothing );
 		// This is to signal any connected slots that the view is ready.
 		myViewInitialized = Standard_True;
+
+		// turn on anti-aliasing
+		//myView->SetAntialiasingOn();
+
 		emit initialized();
 	}
 }

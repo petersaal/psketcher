@@ -12,11 +12,11 @@ GtkMouseEventProperties::GtkMouseEventProperties(MouseButtonEventType event_type
 	alt_ = event->state &GDK_MOD1_MASK;
 	
 	switch (event->button) {
-		case 1: mouse_button_ = LeftButton;
-		case 2: mouse_button_ = MiddleButton;
-		case 3: mouse_button_ = RightButton;
-		case 4: mouse_button_ = Button4;
-		case 5: mouse_button_ = Button5;
+		case 1: mouse_button_ = LeftButton; break;
+		case 2: mouse_button_ = MiddleButton; break;
+		case 3: mouse_button_ = RightButton; break;
+		case 4: mouse_button_ = Button4; break;
+		case 5: mouse_button_ = Button5; break;
 		default: mouse_button_ = OtherButton;
 	}
 
