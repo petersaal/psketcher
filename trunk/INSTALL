@@ -4,15 +4,12 @@ Installation Instructions
 What you need installed
 ***********************
 
+qt4-dev
 python-2.5
 boost::python
 cmake-2.4 (this is the build system used)
 libginac-1.3.7
 gsl-1.9
-gtk+-2
-libglade-2
-gmodule-2
-gtkglext-1.0
 OpenCascade6.2
 boost C++ libraries (only use shared_ptr.hpp)
 
