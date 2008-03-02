@@ -17,8 +17,7 @@ SET (OPENCASCADE_LINK_DIR "/opt/OpenCASCADE-6.2/lib")
 # List the Opencascade libraries that need to be linked to ark3d
 SET (OPENCASCADE_LIBS "-lTKernel -lTKMath -lTKG2d -lTKG3d -lTKGeomBase -lTKBRep -lTKGeomAlgo -lTKTopAlgo -lTKPrim -lTKBool -lTKFeat -lTKFillet -lTKOffset -lTKHLR -lTKService -lTKV2d -lTKV3d -lTKMesh -lTKPCAF -lTKLCAF -lTKPLCAF -lTKCDF -lTKCAF -lPTKernel -lTKIGES -lTKSTEP -lTKSTEPBase -lTKSTEPAttr -lTKSTEP209 -lTKSTL -lTKVRML -lTKShHealing -lTKXSBase -lTKPShape -lTKShapeSchema -lTKOpenGl")
 
-#add_subdirectory (src/Interface)
-add_subdirectory (src/QtInterface)
+add_subdirectory (src/Interface)
 add_subdirectory (src/NumOptimization)
 add_subdirectory (src/mmcMatrix)
 add_subdirectory (src/ConstraintSolver)
