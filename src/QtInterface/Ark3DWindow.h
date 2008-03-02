@@ -23,7 +23,7 @@
 #include <QActionGroup>
 
 #include "qoccviewercontext.h"
-#include "qoccviewwidget.h"
+#include "Ark3DWidget.h"
 #include "qoccinputoutput.h"
 
 class QAction;
@@ -120,11 +120,16 @@ private:
 
 	QAction *backgroundAction;
 
+	// Debugging actions
+	QAction *generateSketchAction;
+	QAction *solveConstraintsAction;
+	QToolBar *debugToolBar;
+
 	//Sample Action
 	QAction *bottleAction;
 
 	// The OpenCASCADE Qt widget and context;
-	QoccViewWidget*     myOCC;
+	Ark3DWidget*     myOCC;
 	QoccViewerContext*  myVC;
 
 	QString myLastFolder;

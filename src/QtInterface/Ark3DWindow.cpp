@@ -35,7 +35,7 @@ Ark3DWindow::Ark3DWindow()
 : myLastFolder(tr(""))
 {
     myVC  = new QoccViewerContext();
-	myOCC = new QoccViewWidget(myVC->getContext(), this); //Note this has changed!
+	myOCC = new Ark3DWidget(myVC->getContext(), this); //Note this has changed!
 	this->setCentralWidget(myOCC);
 /*
 	ShowOrigin ( myVC->getContext() );
@@ -389,12 +389,21 @@ void Ark3DWindow::createActions()
 		     this,  SLOT  (statusMessage(const QString)) );
 
 	// And the bottle example
-
 	bottleAction = new QAction(tr("Load &Bottle"), this);
 	bottleAction->setShortcut(tr("Ctrl+B"));
     bottleAction->setStatusTip(tr("Bottle sample."));
     connect(bottleAction, SIGNAL(triggered()), this, SLOT(bottle()));
 
+	// actions for testing
+	// generate test sketch
+	generateSketchAction = new QAction(tr("Generate Test Sketch"), this);
+	generateSketchAction->setStatusTip(tr("Generate Test Sketch"));
+    connect(generateSketchAction, SIGNAL(triggered()), myOCC, SLOT(GenerateTestSketch()));
+
+	// Solve Constraints
+	solveConstraintsAction = new QAction(tr("Solve Constraints"), this);
+	solveConstraintsAction->setStatusTip(tr("Solve Constraints"));
+    connect(solveConstraintsAction, SIGNAL(triggered()), myOCC, SLOT(SolveConstraints()));
 }
 
 void Ark3DWindow::createMenus()
@@ -478,4 +487,9 @@ void Ark3DWindow::createToolBars()
 	viewToolBar->addAction(zoomAction);
 	viewToolBar->addSeparator();
 	viewToolBar->addActions(viewModeActionGroup->actions());
+
+	// create the tool bar containing debugging actions
+	debugToolBar = addToolBar(tr("Debug"));
+	debugToolBar->addAction(generateSketchAction);
+	debugToolBar->addAction(solveConstraintsAction);
 }

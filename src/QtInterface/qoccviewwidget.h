@@ -92,6 +92,11 @@ public:
 
 	void redraw( bool isPainting = false );
 
+	Handle_V3d_View GetView() {return myView;}
+	Handle_V3d_Viewer GetViewer() {return myViewer;}
+	Handle_AIS_InteractiveContext GetContext() {return myContext;}
+	bool GetViewInitialized() {return myViewInitialized;}
+
 signals:
 
 	void initialized();
