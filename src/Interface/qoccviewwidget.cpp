@@ -746,6 +746,7 @@ void QoccViewWidget::onLeftButtonUp(  Qt::KeyboardModifiers nFlags, const QPoint
 										  myCurrentPoint.y() );
 				}
 				viewPrecision( true );
+				idle();  // finished with window zooming operation
 				break;
 
 			case CurAction3d_DynamicPanning:
@@ -965,6 +966,7 @@ void QoccViewWidget::setMode( const CurrentAction3d mode )
 				break;
 		}
 		myMode = mode;
+		emit modeChanged();
 	}
 }
 

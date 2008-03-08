@@ -59,6 +59,7 @@ private slots:
 				   V3d_Coordinate Z);
 	void statusMessage (const QString aMessage);
 	void triggerSketchActionGroup();
+	void viewerModeChanged();
 
 private:
     void createActions();

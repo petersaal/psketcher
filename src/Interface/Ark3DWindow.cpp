@@ -38,7 +38,9 @@ Ark3DWindow::Ark3DWindow()
 	myOCC = new Ark3DWidget(myVC->getContext(), this); //Note this has changed!
 	this->setCentralWidget(myOCC);
 	connect(myOCC, SIGNAL(sketchActionFinished()), this, SLOT(triggerSketchActionGroup()));  // after sketch action is triggered, retrigger the currently selected action
+	connect(myOCC, SIGNAL(modeChanged()), this, SLOT(viewerModeChanged()));  // if viewer mode is change, may need to reset selection mode
 /*
+
 	ShowOrigin ( myVC->getContext() );
 
 	AddVertex(   0.0, 100.0,   0.0, myVC->getContext());
@@ -530,9 +532,23 @@ void Ark3DWindow::createToolBars()
 	sketchToolBar->addActions(sketchActionGroup->actions());
 }
 
+// retrigger current active button in the sketch action group
 void Ark3DWindow::triggerSketchActionGroup()
 {
 	QAction *current_action = sketchActionGroup->checkedAction();
 	current_action->toggle();
 	current_action->trigger();
+}
+
+// if qoccviewwidget mode is CurAction3d_Nothing and selection action button is active, set qoccviewwidget mode to CurAction3d_Picking
+void Ark3DWindow::viewerModeChanged()
+{
+	
+	if(myOCC->getMode() == CurAction3d_Nothing)
+		if(selectAction->isChecked())
+			{
+				cout << "got here 3" << endl;
+				myOCC->select();
+			}
+	
 }

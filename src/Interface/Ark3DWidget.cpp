@@ -32,6 +32,14 @@ Ark3DWidget::~Ark3DWidget()
 		delete interactive_primitive_;
 }
 
+void Ark3DWidget::select()
+{
+	if(current_sketch_.get() != 0)
+		current_sketch_->ApplySelectionMask(All);
+	
+	QoccViewWidget::select();
+}
+
 void Ark3DWidget::paintEvent        ( QPaintEvent* e )
 {
 	QoccViewWidget::paintEvent(e);  // the first time this method is run, it will intialize myView 
@@ -48,7 +56,7 @@ void Ark3DWidget::resizeEvent       ( QResizeEvent* e )
 
 void Ark3DWidget::mousePressEvent   ( QMouseEvent* e )
 {
-	if(interactive_primitive_ != 0)
+	if(interactive_primitive_ != 0 && getMode() == CurAction3d_Nothing)
 	{
 		MouseEventPropertiesPointer event_props(new QtMouseEventProperties((MouseButtonEventType)ButtonPress,e));
 		bool finished = false;
@@ -76,7 +84,7 @@ void Ark3DWidget::mousePressEvent   ( QMouseEvent* e )
 
 void Ark3DWidget::mouseReleaseEvent ( QMouseEvent* e )
 {
-	if(interactive_primitive_ != 0)
+	if(interactive_primitive_ != 0  && getMode() == CurAction3d_Nothing)
 	{
 		MouseEventPropertiesPointer event_props(new QtMouseEventProperties((MouseButtonEventType)ButtonRelease,e));
 		bool finished = false;
@@ -104,7 +112,7 @@ void Ark3DWidget::mouseReleaseEvent ( QMouseEvent* e )
 
 void Ark3DWidget::mouseMoveEvent    ( QMouseEvent* e )
 {
-	if(interactive_primitive_ != 0)
+	if(interactive_primitive_ != 0  && getMode() == CurAction3d_Nothing)
 	{
 		MotionEventPropertiesPointer event_props(new QtMotionEventProperties(e));
 		if(interactive_primitive_->MouseMove(event_props))
@@ -187,7 +195,7 @@ void Ark3DWidget::GenerateTestSketch()
 
 void Ark3DWidget::SolveConstraints() 
 {
-	if(current_sketch_ != 0)
+	if(current_sketch_.get() != 0)
 	{
 		current_sketch_->SolveConstraints();
 		current_sketch_->UpdateDisplay();
@@ -207,6 +215,7 @@ void Ark3DWidget::MakeLine()
 {
 	if(interactive_primitive_ != 0) delete interactive_primitive_;
 	interactive_primitive_ = new Line2DConstructor(current_sketch_, GetView(), GetViewer());
+	idle(); // cancel any pending qocc viewer actions
 }
 
 void Ark3DWidget::MakePolyLine() {;}
@@ -217,19 +226,21 @@ void Ark3DWidget::MakePoint()
 {
 	if(interactive_primitive_ != 0) delete interactive_primitive_;
 	interactive_primitive_ = new Point2DConstructor(current_sketch_, GetView(), GetViewer());
-	
+	idle(); // cancel any pending qocc viewer actions
 }
 
 void Ark3DWidget::MakeDistanceConstraint() 
 {
 	if(interactive_primitive_ != 0) delete interactive_primitive_;
 	interactive_primitive_ = new DistancePoint2DConstructor(current_sketch_, GetView(), GetViewer());
+	idle(); // cancel any pending qocc viewer actions
 }
 
 void Ark3DWidget::MakeAngleConstraint() 
 {
 	if(interactive_primitive_ != 0) delete interactive_primitive_;
 	interactive_primitive_ = new AngleLine2DConstructor(current_sketch_, GetView(), GetViewer());
+	idle(); // cancel any pending qocc viewer actions
 }
 
 void Ark3DWidget::MakeTangentConstraint() {;}
