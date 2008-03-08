@@ -27,6 +27,7 @@ class Ark3DWidget : public QoccViewWidget
 		void GenerateDefaultSketch();
 	
 	signals:
+		void sketchActionFinished();
 	
 	public slots:
 		void GenerateTestSketch();
