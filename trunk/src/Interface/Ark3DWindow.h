@@ -58,6 +58,7 @@ private slots:
 				   V3d_Coordinate Y,
 				   V3d_Coordinate Z);
 	void statusMessage (const QString aMessage);
+	void triggerSketchActionGroup();
 
 private:
     void createActions();
@@ -80,7 +81,6 @@ private:
     QAction *saveAction;
     QAction *printAction;
     QAction *exitAction;
-    QAction *selectAction;
     QAction *undoAction;
     QAction *redoAction;
     QAction *cutAction;
@@ -125,7 +125,9 @@ private:
 	QAction *solveConstraintsAction;
 	QToolBar *debugToolBar;
 
-	// Sketching actions
+	// Sketching action
+	QActionGroup *sketchActionGroup;
+    QAction *selectAction;
 	QAction *makeLineAction;
 	QAction *makePointAction;
 	QAction *makeDistanceConstraintAction;

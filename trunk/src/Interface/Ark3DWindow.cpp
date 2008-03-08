@@ -37,6 +37,7 @@ Ark3DWindow::Ark3DWindow()
     myVC  = new QoccViewerContext();
 	myOCC = new Ark3DWidget(myVC->getContext(), this); //Note this has changed!
 	this->setCentralWidget(myOCC);
+	connect(myOCC, SIGNAL(sketchActionFinished()), this, SLOT(triggerSketchActionGroup()));  // after sketch action is triggered, retrigger the currently selected action
 /*
 	ShowOrigin ( myVC->getContext() );
 
@@ -259,10 +260,6 @@ void Ark3DWindow::createActions()
 	zoomAction->setStatusTip(tr("Zoom in window"));
     connect(zoomAction, SIGNAL(triggered()), myOCC, SLOT(fitArea()));
 
-	selectAction = new QAction(tr("&Select"), this);
-	zoomAction->setStatusTip(tr("Select"));
-    connect(selectAction, SIGNAL(triggered()), myOCC, SLOT(select()));
-
 	panAction = new QAction(tr("&Pan"), this);
     panAction->setStatusTip(tr("Window panning"));
     connect(panAction, SIGNAL(triggered()), myOCC, SLOT(pan()));
@@ -407,25 +404,39 @@ void Ark3DWindow::createActions()
 
 
 	// Create Sketch actions
-	makeLineAction = new QAction(tr("Line"), this);
+	sketchActionGroup = new QActionGroup(this);
+	
+	selectAction = new QAction(tr("&Select"), sketchActionGroup);
+	selectAction->setCheckable(true);
+	selectAction->setIcon(QIcon(":/icons/select_pointer.svg"));
+	selectAction->setStatusTip(tr("Select"));
+    connect(selectAction, SIGNAL(triggered()), myOCC, SLOT(select()));
+
+	makeLineAction = new QAction(tr("Line"), sketchActionGroup);
+	makeLineAction->setCheckable(true);
 	makeLineAction->setIcon(QIcon(":/icons/line.svg"));
 	makeLineAction->setStatusTip(tr("Create Line"));
     connect(makeLineAction, SIGNAL(triggered()), myOCC, SLOT(MakeLine()));
 
-	makePointAction = new QAction(tr("Point"), this);
+	makePointAction = new QAction(tr("Point"), sketchActionGroup);
+	makePointAction->setCheckable(true);
 	makePointAction->setIcon(QIcon(":/icons/point.svg"));
 	makePointAction->setStatusTip(tr("Create Point"));
     connect(makePointAction, SIGNAL(triggered()), myOCC, SLOT(MakePoint()));
 
-	makeDistanceConstraintAction = new QAction(tr("Distance Constraint"), this);
+	makeDistanceConstraintAction = new QAction(tr("Distance Constraint"), sketchActionGroup);
+	makeDistanceConstraintAction->setCheckable(true);
 	makeDistanceConstraintAction->setIcon(QIcon(":/icons/distance.svg"));
 	makeDistanceConstraintAction->setStatusTip(tr("Create Distance Constraint"));
     connect(makeDistanceConstraintAction, SIGNAL(triggered()), myOCC, SLOT(MakeDistanceConstraint()));
 
-	makeAngleConstraintAction = new QAction(tr("Angle Constraint"), this);
+	makeAngleConstraintAction = new QAction(tr("Angle Constraint"), sketchActionGroup);
+	makeAngleConstraintAction->setCheckable(true);
 	makeAngleConstraintAction->setIcon(QIcon(":/icons/angle.svg"));
 	makeAngleConstraintAction->setStatusTip(tr("Create Angle Constraint"));
     connect(makeAngleConstraintAction, SIGNAL(triggered()), myOCC, SLOT(MakeAngleConstraint()));
+
+	selectAction->setChecked(true);
 }
 
 void Ark3DWindow::createMenus()
@@ -447,7 +458,6 @@ void Ark3DWindow::createMenus()
 		fileMenu->addAction( exitAction );
 
     editMenu = menuBar()->addMenu( tr("&Edit") );
-		editMenu->addAction( selectAction );
 		editMenu->addAction( undoAction );
 		editMenu->addAction( redoAction );
 		editMenu->addSeparator();
@@ -517,8 +527,12 @@ void Ark3DWindow::createToolBars()
 
 	// create the sketch tool bar
 	sketchToolBar = addToolBar(tr("Sketch"));
-	sketchToolBar->addAction(makeLineAction);
-	sketchToolBar->addAction(makePointAction);
-	sketchToolBar->addAction(makeDistanceConstraintAction);
-	sketchToolBar->addAction(makeAngleConstraintAction);
+	sketchToolBar->addActions(sketchActionGroup->actions());
+}
+
+void Ark3DWindow::triggerSketchActionGroup()
+{
+	QAction *current_action = sketchActionGroup->checkedAction();
+	current_action->toggle();
+	current_action->trigger();
 }

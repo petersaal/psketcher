@@ -67,6 +67,7 @@ void Ark3DWidget::mousePressEvent   ( QMouseEvent* e )
 			delete interactive_primitive_;
 			interactive_primitive_ = 0;
 			redraw();
+			emit sketchActionFinished();
 		}
 	}
 
@@ -94,6 +95,7 @@ void Ark3DWidget::mouseReleaseEvent ( QMouseEvent* e )
 			delete interactive_primitive_;
 			interactive_primitive_ = 0;
 			redraw();
+			emit sketchActionFinished();
 		}
 	}
 
@@ -112,6 +114,7 @@ void Ark3DWidget::mouseMoveEvent    ( QMouseEvent* e )
 			delete interactive_primitive_;
 			interactive_primitive_ = 0;
 			redraw();
+			emit sketchActionFinished();
 		}
 	}
 
@@ -202,8 +205,8 @@ void Ark3DWidget::ExecutePythonScript()
 
 void Ark3DWidget::MakeLine() 
 {
-	if(interactive_primitive_ == 0)
-		interactive_primitive_ = new Line2DConstructor(current_sketch_, GetView(), GetViewer());
+	if(interactive_primitive_ != 0) delete interactive_primitive_;
+	interactive_primitive_ = new Line2DConstructor(current_sketch_, GetView(), GetViewer());
 }
 
 void Ark3DWidget::MakePolyLine() {;}
@@ -212,22 +215,21 @@ void Ark3DWidget::MakeArc() {;}
 
 void Ark3DWidget::MakePoint() 
 {
-	if(interactive_primitive_ == 0)
-	{
-		interactive_primitive_ = new Point2DConstructor(current_sketch_, GetView(), GetViewer());
-	}
+	if(interactive_primitive_ != 0) delete interactive_primitive_;
+	interactive_primitive_ = new Point2DConstructor(current_sketch_, GetView(), GetViewer());
+	
 }
 
 void Ark3DWidget::MakeDistanceConstraint() 
 {
-	if(interactive_primitive_ == 0)
-		interactive_primitive_ = new DistancePoint2DConstructor(current_sketch_, GetView(), GetViewer());
+	if(interactive_primitive_ != 0) delete interactive_primitive_;
+	interactive_primitive_ = new DistancePoint2DConstructor(current_sketch_, GetView(), GetViewer());
 }
 
 void Ark3DWidget::MakeAngleConstraint() 
 {
-	if(interactive_primitive_ == 0)
-		interactive_primitive_ = new AngleLine2DConstructor(current_sketch_, GetView(), GetViewer());
+	if(interactive_primitive_ != 0) delete interactive_primitive_;
+	interactive_primitive_ = new AngleLine2DConstructor(current_sketch_, GetView(), GetViewer());
 }
 
 void Ark3DWidget::MakeTangentConstraint() {;}
