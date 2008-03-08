@@ -36,21 +36,23 @@ using std::map;
 class Handle_AIS_InteractiveContext;
 class Handle_V3d_View;
 
+
+enum CurrentAction3d {	CurAction3d_Undefined,
+						CurAction3d_Nothing, 
+						CurAction3d_Picking,
+						CurAction3d_DynamicZooming,
+						CurAction3d_WindowZooming, 
+						CurAction3d_DynamicPanning,
+						CurAction3d_GlobalPanning, 
+						CurAction3d_DynamicRotation };
+
+
 class QOCC_DECLSPEC QoccViewWidget : 
 public QWidget 
 {
 	Q_OBJECT
 
 public:
-
-	enum CurrentAction3d {	CurAction3d_Undefined,
-							CurAction3d_Nothing, 
-							CurAction3d_Picking,
-							CurAction3d_DynamicZooming,
-							CurAction3d_WindowZooming, 
-							CurAction3d_DynamicPanning,
-							CurAction3d_GlobalPanning, 
-							CurAction3d_DynamicRotation };
 
 	enum ViewMode {	Shaded,
 					WireFrame,
@@ -107,6 +109,7 @@ signals:
 	//! Just a placeholder for now
 	void popupMenu ( const QoccViewWidget* aView, const QPoint aPoint ); 
 	void error ( int errorCode, QString& errorDescription );
+	void modeChanged();
 
 public slots:
 
@@ -228,6 +231,7 @@ private: // methods
 public:
 
 	bool dump(Standard_CString theFile);
+	CurrentAction3d getMode() const {return myMode;}
 
 };
 

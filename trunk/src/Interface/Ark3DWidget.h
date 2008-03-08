@@ -34,6 +34,8 @@ class Ark3DWidget : public QoccViewWidget
 		void ExecutePythonScript();
 		void SolveConstraints();
 
+		void select(); // overides the select solot for QoccViewWidget
+
 		// Interactive constructor slots
 		void MakeLine();
 		void MakePolyLine();
