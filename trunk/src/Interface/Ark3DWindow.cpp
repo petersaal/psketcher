@@ -510,6 +510,7 @@ void Ark3DWindow::createMenus()
 void Ark3DWindow::createToolBars()
 {
 	viewToolBar = addToolBar(tr("&View"));
+	//viewToolBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 	viewToolBar->addAction(viewFrontAction);
 	viewToolBar->addAction(viewBackAction);
 	viewToolBar->addAction(viewTopAction);
@@ -547,7 +548,6 @@ void Ark3DWindow::viewerModeChanged()
 	if(myOCC->getMode() == CurAction3d_Nothing)
 		if(selectAction->isChecked())
 			{
-				cout << "got here 3" << endl;
 				myOCC->select();
 			}
 	

@@ -31,6 +31,7 @@ class DOF
 
 		const GiNaC::symbol & GetVariable()const {return variable_ ;}
 		bool IsFree()const {return free_;}
+		virtual void SetFree(bool free) {free_ = free;}
 
 		bool IsDependent()const {return dependent_;}
 
@@ -68,6 +69,7 @@ class DependentDOF : public DOF
 		
 		//Accessor methods
 		void SetValue ( double value ) { /* @fixme warn user about an attempt to modify a dependent DOF */;}
+		void SetFree(bool free) { /* @fixme warn user about an attempt to modify a dependent DOF */;}
 		double GetValue()const;
 		GiNaC::ex GetExpression()const;
 
@@ -188,6 +190,15 @@ class Point2D : public Primitive2DBase
 
 		DOFPointer GetSDOF()const {return s_;}
 		DOFPointer GetTDOF()const {return t_;}
+		double GetSValue()const {return s_->GetValue();}
+		double GetTValue()const {return t_->GetValue();}
+		bool SIsFree() const {return s_->IsFree();}
+		bool TIsFree() const {return t_->IsFree();}
+
+		void SetSValue(double value){s_->SetValue(value);}
+		void SetTValue(double value) {t_->SetValue(value);}
+		void SetSFree(bool free) {s_->SetFree(free);}
+		void SetTFree(bool free) {t_->SetFree(free);}
 
 		void Get3DLocation(double & x_location, double & y_location, double & z_location)const;
 
