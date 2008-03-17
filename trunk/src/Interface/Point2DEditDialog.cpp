@@ -14,14 +14,14 @@ point_(point), QDialog(parent)
 	sLabel_ = new QLabel(tr("&s value:"));
 	sLineEdit_ = new QLineEdit;
 	sLineEdit_->setValidator(new QDoubleValidator(this));
-	connect(sLineEdit_, SIGNAL(textChanged(const QString &)), this, SLOT(sTextChanged()));
+	connect(sLineEdit_, SIGNAL(textChanged(const QString &)), this, SLOT(textChanged()));
 	sLabel_->setBuddy(sLineEdit_);
 	sFixedCheckBox_ = new QCheckBox(tr("Fixed Parameter"));
 
 	tLabel_ = new QLabel(tr("&t value:"));
 	tLineEdit_ = new QLineEdit;
 	tLineEdit_->setValidator(new QDoubleValidator(this));
-	connect(sLineEdit_, SIGNAL(textChanged(const QString &)), this, SLOT(sTextChanged()));
+	connect(sLineEdit_, SIGNAL(textChanged(const QString &)), this, SLOT(textChanged()));
 	tLabel_->setBuddy(tLineEdit_);
 	tFixedCheckBox_ = new QCheckBox(tr("Fixed Parameter"));
 
@@ -30,12 +30,33 @@ point_(point), QDialog(parent)
                                     | QDialogButtonBox::Apply
                                     | QDialogButtonBox::Reset);
 
+	okButton_ = buttonBox_->button(QDialogButtonBox::Ok);
+	applyButton_ = buttonBox_->button(QDialogButtonBox::Apply);
+	resetButton_ = buttonBox_->button(QDialogButtonBox::Reset);
+
 	connect(buttonBox_, SIGNAL(accepted()), this, SLOT(accept()));
 	connect(buttonBox_, SIGNAL(rejected()), this, SLOT(reject()));
 	connect(buttonBox_, SIGNAL(clicked(QAbstractButton *)), this, SLOT(buttonClicked(QAbstractButton*)));
 
+	connect(applyButton_, SIGNAL(clicked()), this, SLOT(applyChanges()));
+	connect(resetButton_, SIGNAL(clicked()), this, SLOT(resetDialog()));
+
+
 	// package widgets
+	QGridLayout *grid = new QGridLayout;
+	grid->addWidget(sLabel_,0,0);
+	grid->addWidget(sLineEdit_,0,1);
+	grid->addWidget(sFixedCheckBox_,0,2);
+	grid->addWidget(tLabel_,1,0);
+	grid->addWidget(tLineEdit_,1,1);
+	grid->addWidget(tFixedCheckBox_,1,2);
+
+	QVBoxLayout *hbox = new QVBoxLayout();
+	hbox->addLayout(grid);
+	hbox->addWidget(buttonBox_);
 	
+	setWindowTitle(tr("Edit Point"));
+
 	// initialize dialog
 	resetDialog();	// initialize the displayed dialog values
 }
@@ -50,27 +71,30 @@ void Point2DEditDialog::accept()
 // initialize dialog to the initial values
 void Point2DEditDialog::resetDialog()
 {
-
+	sLineEdit_->setText(QString("%1").arg(starting_s_));
+	tLineEdit_->setText(QString("%1").arg(starting_t_));
+	sFixedCheckBox_->setChecked( ! starting_s_free_);
+	tFixedCheckBox_->setChecked( ! starting_t_free_);
 }
 
 // apply the changes if valid values have been entered
 void Point2DEditDialog::applyChanges()
 {
+	point_->SetSValue(sLineEdit_->text().toDouble());
+	point_->SetTValue(tLineEdit_->text().toDouble());
+	point_->SetSFree( ! sFixedCheckBox_->isChecked());
+	point_->SetTFree( ! tFixedCheckBox_->isChecked());
 
+	emit modelChanged();
 }
 
-// handle cases where user selects apply or reset buttons (Ok and Cancel are handled seperately)
-void Point2DEditDialog::buttonClicked(QAbstractButton *button)
+
+void Point2DEditDialog::textChanged()
 {
+	bool acceptable_input;
 
-}
+	acceptable_input = sLineEdit_->hasAcceptableInput() && tLineEdit_->hasAcceptableInput();
 
-void Point2DEditDialog::sTextChanged()
-{
-
-}
-
-void Point2DEditDialog::tTextChanged()
-{
-
+	okButton_->setEnabled(acceptable_input);
+	applyButton_->setEnabled(acceptable_input);
 }
