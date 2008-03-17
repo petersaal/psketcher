@@ -18,17 +18,16 @@ class Point2DEditDialog : public QDialog
 		Point2DEditDialog(Point2DPointer point, QWidget *parent = 0);
 
 	signals:
+		void modelChanged();  // emitted when changes are applied
 
 	private slots:
-		void buttonClicked(QAbstractButton *button);
 		void accept();
-		void sTextChanged();
-		void tTextChanged();
+		void textChanged();
+		void applyChanges();
+		void resetDialog();
 
 	private:
 		// methods
-		void applyChanges();
-		void resetDialog();
 
 		// Parameters
 		Point2DPointer point_; // point that is being editted by this dialog box
@@ -46,6 +45,11 @@ class Point2DEditDialog : public QDialog
 		QLabel *tLabel_;
 		QCheckBox *tFixedCheckBox_;
 		QLineEdit *tLineEdit_;
+
+		// pointers to standard buttons created by QDialogButtonBox, stored for convenience
+		QPushButton *okButton_;
+		QPushButton *applyButton_;
+		QPushButton *resetButton_;
 };
 
 
