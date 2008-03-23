@@ -18,8 +18,8 @@ enum SelectionMask {None, All, Points, Edges, Constraints, Lines, Arcs};
 class DOF
 {
 	public:
-		DOF (bool free, bool dependent){free_ = free; dependent_ = dependent;}
-		DOF ( const char *name, bool free, bool dependent){free_ = free; dependent_ = dependent; variable_.set_name(name);}
+		DOF (bool free, bool dependent);
+		DOF ( const char *name, bool free, bool dependent);
 
 		virtual ~DOF() {;}
 
@@ -28,6 +28,7 @@ class DOF
 		virtual double GetValue()const = 0;
 		virtual GiNaC::ex GetExpression()const {return variable_;}
 
+		unsigned GetID()const {return id_number_;}
 
 		const GiNaC::symbol & GetVariable()const {return variable_ ;}
 		bool IsFree()const {return free_;}
@@ -39,6 +40,12 @@ class DOF
 		GiNaC::symbol variable_;
 		bool free_;
 		bool dependent_;
+		
+		// each instance of this class has a unique ID number
+		unsigned id_number_;
+
+		// static variable used to provide a unique ID number to each instance of this class
+		static unsigned next_id_number_;
 };
 typedef boost::shared_ptr<DOF> DOFPointer;
 
@@ -89,6 +96,8 @@ class PrimitiveBase
 		// Accessor methods
 		const std::vector<DOFPointer> & GetDOFList() {return dof_list_;}
 		
+		unsigned GetID()const {return id_number_;}
+
 		// selection methods
 		virtual bool IsSelected() { return selected_;}
 		virtual void SetSelectable(bool selectable);
@@ -103,6 +112,13 @@ class PrimitiveBase
 
 		bool selected_;
 		bool selectable_;
+
+	private:
+		// each instance of this class has a unique ID number
+		unsigned id_number_;
+
+		// static variable used to provide a unique ID number to each instance of this class
+		static unsigned next_id_number_;
 };
 typedef boost::shared_ptr<PrimitiveBase> PrimitiveBasePointer;
 
