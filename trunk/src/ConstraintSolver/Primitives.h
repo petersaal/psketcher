@@ -446,14 +446,4 @@ class EdgeLoop2D
 };
 typedef boost::shared_ptr<EdgeLoop2D> EdgeLoop2DPointer;
 
-Point2DPointer CreatePoint2D ( double s, double t, SketchPlanePointer sketch_plane, bool s_free, bool t_free);
-PointPointer CreatePoint ( double x, double y, double z, bool x_free = false, bool y_free = false, bool z_free = false);
-VectorPointer CreateVector ( double x, double y, double z, bool x_free = false, bool y_free = false, bool z_free = false);
-SketchPlanePointer CreateSketchPlane ( VectorPointer normal, VectorPointer up, PointPointer base);
-Arc2DPointer CreateArc2D (double s_center, double t_center, double theta_1, double theta_2, double radius, SketchPlanePointer sketch_plane, bool s_center_free, bool t_center_free, bool theta_1_free, bool theta_2_free, bool radius_free);
-Line2DPointer CreateLine2D (const Point2DPointer point1, const Point2DPointer point2, SketchPlanePointer sketch_plane);
-DistancePoint2DPointer CreateDistancePoint2D(const Point2DPointer point1, const Point2DPointer point2, double distance);
-ParallelLine2DPointer CreateParallelLine2D(const Line2DPointer line1, const Line2DPointer line2);
-AngleLine2DPointer CreateAngleLine2D(const Line2DPointer line1, const Line2DPointer line2, double angle);
-TangentEdge2DPointer CreateTangentEdge2D(Edge2DBasePointer edge1, EdgePointNumber point_num_1, Edge2DBasePointer edge2, EdgePointNumber point_num_2);
 #endif //PrimitivesH
