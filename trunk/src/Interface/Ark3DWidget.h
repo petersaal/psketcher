@@ -3,9 +3,11 @@
 
 #include "qoccviewwidget.h"
 
+/*
 extern "C" {
 #include <Python.h>
 }
+*/
 
 #include "../OpenCascadeBinding/OccSketch.h"
 #include "../InteractiveConstructors/InteractiveConstructorBase.h"

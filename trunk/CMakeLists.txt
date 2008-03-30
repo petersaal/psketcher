@@ -12,7 +12,8 @@ set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake_scripts)
 
 # Define variables specific to the local OpenCascade Installation
 SET (CASROOT $ENV{CASROOT})
-SET (OPENCASCADE_LINK_DIR "/opt/OpenCASCADE-6.2/lib")
+#SET (OPENCASCADE_LINK_DIR "/opt/OpenCASCADE-6.2/lib")
+SET (OPENCASCADE_LINK_DIR $ENV{OPENCASCADE_LINK_DIR})
 
 # List the Opencascade libraries that need to be linked to ark3d
 SET (OPENCASCADE_LIBS "-lTKernel -lTKMath -lTKG2d -lTKG3d -lTKGeomBase -lTKBRep -lTKGeomAlgo -lTKTopAlgo -lTKPrim -lTKBool -lTKFeat -lTKFillet -lTKOffset -lTKHLR -lTKService -lTKV2d -lTKV3d -lTKMesh -lTKPCAF -lTKLCAF -lTKPLCAF -lTKCDF -lTKCAF -lPTKernel -lTKIGES -lTKSTEP -lTKSTEPBase -lTKSTEPAttr -lTKSTEP209 -lTKSTL -lTKVRML -lTKShHealing -lTKXSBase -lTKPShape -lTKShapeSchema -lTKOpenGl")
