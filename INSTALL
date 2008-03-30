@@ -1,12 +1,12 @@
 Installation Instructions
-*************************
+-------------------------
 
-What you need installed
-***********************
+
+Dependencies
+-----------------------
 
 qt4-dev
-python-2.5
-boost::python
+libsqlite3-dev
 cmake-2.4 (this is the build system used)
 libginac-1.3.7
 gsl-1.9
@@ -14,23 +14,24 @@ OpenCascade6.2
 boost C++ libraries (only use shared_ptr.hpp)
 
 
-Compile and run instructions
-****************************
+Build and run instructions
+----------------------------
 
-1. set CASROOT environment variable
+1. set CASROOT and OPENCASCADE_LINK_DIR environment variables
 2. run cmake
 3. run make
 4. execute ark3d
 
 
-Here's an example of the build and run process on my machine
-**********************************************
+Example build and run process
+------------------------------------
 
 export CASROOT=~/download/opencascade/Linux/ros
-export LD_LIBRARY_PATH=/opt/OpenCASCADE-6.2/lib
-export CSF_GraphicShr=/opt/OpenCASCADE-6.2/lib/libTKOpenGl.so
+export OPENCASCADE_LINK_DIR=/opt/OpenCASCADE-6.2/lib
 cmake .
 make
+export LD_LIBRARY_PATH=/opt/OpenCASCADE-6.2/lib
+export CSF_GraphicShr=/opt/OpenCASCADE-6.2/lib/libTKOpenGl.so
 ./src/Interface/ark3d
 
 

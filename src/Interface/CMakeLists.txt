@@ -6,7 +6,7 @@ LINK_DIRECTORIES ("../mmcMatrix")
 LINK_DIRECTORIES ("../NumOptimization")
 LINK_DIRECTORIES ("../ConstraintSolver")
 LINK_DIRECTORIES ("../OpenCascadeBinding")
-LINK_DIRECTORIES ("../PythonBinding")
+# LINK_DIRECTORIES ("../PythonBinding")
 LINK_DIRECTORIES ("../InteractiveConstructors")
 
 find_package(Qt4 REQUIRED)
@@ -41,7 +41,7 @@ qt4_wrap_cpp(ark3d_MOCS ${ark3d_MOC_SRCS})
 qt4_add_resources(ark3d_RCC_SRCS ${ark3d_RCCS})
 add_definitions(-DQT_NO_DEBUG)
 
-LINK_LIBRARIES(boost_python)
+# LINK_LIBRARIES(boost_python)
 
 #OpenGL
 FIND_PACKAGE (OpenGL REQUIRED)
@@ -58,6 +58,9 @@ INCLUDE_DIRECTORIES (${CASROOT}/src/WOKTclLib)
 # The following module is included so that the pkg_check_modules macro can be used below
 find_package(PkgConfig)
 
+#SQLite3
+pkg_check_modules(sqlite3 sqlite3)
+
 #gsl
 pkg_check_modules(GSL gsl)
 LINK_DIRECTORIES (${GSL_LIBRARY_DIRS})
@@ -69,8 +72,8 @@ LINK_DIRECTORIES (${GINAC_LIBRARY_DIRS})
 INCLUDE_DIRECTORIES (${GINAC_INCLUDE_DIRS})
 
 #Python
-FIND_PACKAGE(PythonLibs)
-INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_PATH})
+# FIND_PACKAGE(PythonLibs)
+# INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_PATH})
 
 add_executable(ark3d
     ${ark3d_SRCS}
@@ -89,6 +92,7 @@ TARGET_LINK_LIBRARIES (ark3d InteractiveConstructors)
 TARGET_LINK_LIBRARIES (ark3d ${GSL_LIBRARIES})
 TARGET_LINK_LIBRARIES (ark3d ${GINAC_LIBRARIES})
 TARGET_LINK_LIBRARIES (ark3d bfgs)
-TARGET_LINK_LIBRARIES (ark3d ${PYTHON_LIBRARIES})
+#TARGET_LINK_LIBRARIES (ark3d ${PYTHON_LIBRARIES})
+TARGET_LINK_LIBRARIES (ark3d ${SQLITE3_LIBRARIES})
 
 
