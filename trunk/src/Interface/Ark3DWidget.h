@@ -46,6 +46,8 @@ class Ark3DWidget : public QoccViewWidget
 		void MakeDistanceConstraint();
 		void MakeAngleConstraint();
 		void MakeTangentConstraint();
+
+		void modelChanged();
 	
 	protected: // methods
 		virtual void paintEvent        ( QPaintEvent* e );
@@ -55,6 +57,7 @@ class Ark3DWidget : public QoccViewWidget
 		virtual void mouseMoveEvent    ( QMouseEvent* e );
 		virtual void wheelEvent        ( QWheelEvent* e );
 		virtual void leaveEvent		   ( QEvent * e);
+		virtual void mouseDoubleClickEvent ( QMouseEvent * event );
 	
 	private: // members
 		OccSketchPointer current_sketch_;

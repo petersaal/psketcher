@@ -3,6 +3,7 @@
 #include "Ark3DWidget.h"
 #include "../OpenCascadeBinding/OccPrimitives.h"
 #include "../InteractiveConstructors/QtEventProperties.h"
+#include "Point2DEditDialog.h"
 
 Ark3DWidget::Ark3DWidget( const Handle_AIS_InteractiveContext& aContext,
 						  QWidget *parent,
@@ -36,6 +37,10 @@ void Ark3DWidget::select()
 {
 	if(current_sketch_.get() != 0)
 		current_sketch_->ApplySelectionMask(All);
+
+	// delete any interactive primitives that were in the process of being constructed
+	delete interactive_primitive_;
+	interactive_primitive_ = 0;
 	
 	QoccViewWidget::select();
 }
@@ -244,3 +249,36 @@ void Ark3DWidget::MakeAngleConstraint()
 }
 
 void Ark3DWidget::MakeTangentConstraint() {;}
+
+// double clicking causes the currently selected item to span its edit dialog
+void Ark3DWidget::mouseDoubleClickEvent ( QMouseEvent * event )
+{
+	if(interactive_primitive_ == 0 && getMode() == CurAction3d_Picking && !(event->modifiers() & MULTISELECTIONKEY))
+	{
+		// edit the selected item (only edit if not in multi-select mode
+
+		// first, make sure that a primitive is selected
+		std::vector<PrimitiveBasePointer> primitive_list = current_sketch_->GetSelectedPrimitives();
+		if(primitive_list.size() >= 1 )
+		{
+			if(dynamic_cast<OccPoint2D*>(primitive_list[0].get()) != 0)
+			{
+				OccPoint2DPointer selected_point = boost::dynamic_pointer_cast<OccPoint2D>(primitive_list[0]);
+			
+				// create the point edit dialog
+				Point2DEditDialog *point_edit_dialog = new Point2DEditDialog(selected_point, this);
+				connect(point_edit_dialog, SIGNAL(modelChanged()), this, SLOT(modelChanged()));
+				point_edit_dialog->show();
+			} 
+		}
+
+	}
+}
+
+// This slot is called whenever the model changes
+// This slot will handle updating the display and the undo history
+void Ark3DWidget::modelChanged()
+{
+	current_sketch_->UpdateDisplay();
+}
+
