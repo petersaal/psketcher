@@ -21,7 +21,7 @@ point_(point), QDialog(parent)
 	tLabel_ = new QLabel(tr("&t value:"));
 	tLineEdit_ = new QLineEdit;
 	tLineEdit_->setValidator(new QDoubleValidator(this));
-	connect(sLineEdit_, SIGNAL(textChanged(const QString &)), this, SLOT(textChanged()));
+	connect(tLineEdit_, SIGNAL(textChanged(const QString &)), this, SLOT(textChanged()));
 	tLabel_->setBuddy(tLineEdit_);
 	tFixedCheckBox_ = new QCheckBox(tr("Fixed Parameter"));
 
@@ -54,7 +54,9 @@ point_(point), QDialog(parent)
 	QVBoxLayout *hbox = new QVBoxLayout();
 	hbox->addLayout(grid);
 	hbox->addWidget(buttonBox_);
-	
+
+	setLayout(hbox);
+
 	setWindowTitle(tr("Edit Point"));
 
 	// initialize dialog
