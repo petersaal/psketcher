@@ -39,8 +39,11 @@ void OccArc2D::GenerateAISObject()
 	gp_Ax2 Csys(Origin,Zaxis,XvAxis);
 	Handle(Geom_Circle) Circ = new Geom_Circle(Csys,GetRadius()->GetValue());
 
-	// create the arc AIS object
-	ais_object_list_.push_back(new AIS_Circle(Circ,GetTheta1()->GetValue(),GetTheta2()->GetValue(),Standard_True));
+	// create the arc AIS object (for OCC, Theta1 must be less than Theta2)
+	if(GetTheta1()->GetValue() <= GetTheta2()->GetValue())
+		ais_object_list_.push_back(new AIS_Circle(Circ,GetTheta1()->GetValue(),GetTheta2()->GetValue(),Standard_True));
+	else
+		ais_object_list_.push_back(new AIS_Circle(Circ,GetTheta2()->GetValue(),GetTheta1()->GetValue(),Standard_True));
 
 	// create the radius dimension
 	// Only display the radius if it is not a free parameter
@@ -94,13 +97,26 @@ TopoDS_Shape OccArc2D::GetTopoDS_Shape()
 	gp_Ax2 Csys(Origin,Zaxis,XvAxis);
 	Handle(Geom_Circle) Circ = new Geom_Circle(Csys,GetRadius()->GetValue());
 
-	// create the arc TopoDS_Shape
-	TopoDS_Shape arc_shape = BRepBuilderAPI_MakeEdge(Circ,GetTheta1()->GetValue(),GetTheta2()->GetValue());
+	// create the arc TopoDS_Shape (for OCC, Theta1 must be less than Theta2)
+	TopoDS_Shape arc_shape;
+	if(GetTheta1()->GetValue() <= GetTheta2()->GetValue())
+		arc_shape = BRepBuilderAPI_MakeEdge(Circ,GetTheta1()->GetValue(),GetTheta2()->GetValue());
+	else
+		arc_shape = BRepBuilderAPI_MakeEdge(Circ,GetTheta2()->GetValue(),GetTheta1()->GetValue());
+
 	return arc_shape;
 }
 
 void OccArc2D::UpdateDisplay()
 {
+	/*
+	std::cout << "s center = " << GetSCenter()->GetValue() << std::endl;
+	std::cout << "t center = " << GetTCenter()->GetValue() << std::endl;
+	std::cout << "theta 1 = " << GetTheta1()->GetValue() << std::endl;
+	std::cout << "theta 2 = " << GetTheta2()->GetValue() << std::endl;
+	std::cout << "radius = " << GetRadius()->GetValue() << std::endl;
+	*/
+
 	// first, erase the pervious AIS_ParallelRelation from the display because we'll have to recreate it
 	Erase();
 	
