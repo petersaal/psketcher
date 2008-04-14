@@ -40,9 +40,9 @@ void OccArc2D::GenerateAISObject()
 	Handle(Geom_Circle) Circ = new Geom_Circle(Csys,GetRadius()->GetValue());
 
 	// create the arc AIS object (for OCC, Theta1 must be less than Theta2)
-	if(GetTheta1()->GetValue() <= GetTheta2()->GetValue())
+	if(GetTheta1()->GetValue() < GetTheta2()->GetValue())
 		ais_object_list_.push_back(new AIS_Circle(Circ,GetTheta1()->GetValue(),GetTheta2()->GetValue(),Standard_True));
-	else
+	else if(GetTheta1()->GetValue() > GetTheta2()->GetValue())
 		ais_object_list_.push_back(new AIS_Circle(Circ,GetTheta2()->GetValue(),GetTheta1()->GetValue(),Standard_True));
 
 	// create the radius dimension
@@ -97,7 +97,7 @@ TopoDS_Shape OccArc2D::GetTopoDS_Shape()
 	gp_Ax2 Csys(Origin,Zaxis,XvAxis);
 	Handle(Geom_Circle) Circ = new Geom_Circle(Csys,GetRadius()->GetValue());
 
-	// create the arc TopoDS_Shape (for OCC, Theta1 must be less than Theta2)
+	// create the arc TopoDS_Shape (for OCC, Theta1 must be less than or equal to Theta2)
 	TopoDS_Shape arc_shape;
 	if(GetTheta1()->GetValue() <= GetTheta2()->GetValue())
 		arc_shape = BRepBuilderAPI_MakeEdge(Circ,GetTheta1()->GetValue(),GetTheta2()->GetValue());
