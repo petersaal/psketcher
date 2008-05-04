@@ -6,7 +6,7 @@
 class Point2DConstructor : public InteractiveConstructorBase
 {
 	public:
-		Point2DConstructor(OccSketchPointer parent_sketch, Handle(V3d_View) current_view, Handle(V3d_Viewer) current_viewer);
+		Point2DConstructor(QtSketchPointer parent_sketch, Handle(V3d_View) current_view, Handle(V3d_Viewer) current_viewer);
 
 		void CreateObject();
 

@@ -9,7 +9,7 @@ extern "C" {
 }
 */
 
-#include "../OpenCascadeBinding/OccSketch.h"
+#include "../OpenCascadeBinding/QtSketch.h"
 #include "../InteractiveConstructors/InteractiveConstructorBase.h"
 #include "../InteractiveConstructors/Point2DConstructor.h"
 #include "../InteractiveConstructors/Line2DConstructor.h"
@@ -60,7 +60,7 @@ class Ark3DWidget : public QoccViewWidget
 		virtual void mouseDoubleClickEvent ( QMouseEvent * event );
 	
 	private: // members
-		OccSketchPointer current_sketch_;
+		QtSketchPointer current_sketch_;
 		InteractiveConstructorBase *interactive_primitive_;
 	
 	

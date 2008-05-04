@@ -6,7 +6,7 @@
 #include <V3d_View.hxx>
 #include <V3d_Viewer.hxx>
 
-#include "../OpenCascadeBinding/OccSketch.h"
+#include "../OpenCascadeBinding/QtSketch.h"
 
 enum MouseButton {LeftButton, MiddleButton, RightButton, Button4, Button5, OtherButton};
 enum MouseButtonEventType {ButtonPress, ButtonRelease};
@@ -77,7 +77,7 @@ class InteractiveConstructorBase
 {
 	public:
 		// Constructors and destructor
-		InteractiveConstructorBase(OccSketchPointer parent_sketch, Handle(V3d_View) current_view, Handle(V3d_Viewer) current_viewer);
+		InteractiveConstructorBase(QtSketchPointer parent_sketch, Handle(V3d_View) current_view, Handle(V3d_Viewer) current_viewer);
 		virtual ~InteractiveConstructorBase() {;}
 		
 		// all derived classes must implement this method
@@ -99,7 +99,7 @@ class InteractiveConstructorBase
 		bool GetGlobalLocation(int screen_x, int screen_y, double &x, double &y, double &z, bool grid_snap = false);
 
 	protected:
-		OccSketchPointer parent_sketch_;
+		QtSketchPointer parent_sketch_;
 		Handle(V3d_Viewer) current_viewer_;
 		Handle(V3d_View) current_view_;
 };

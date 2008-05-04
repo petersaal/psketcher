@@ -1,6 +1,6 @@
 #include "AngleLine2DConstructor.h"
 
-AngleLine2DConstructor::AngleLine2DConstructor(OccSketchPointer parent_sketch, Handle(V3d_View) current_view, Handle(V3d_Viewer) current_viewer):
+AngleLine2DConstructor::AngleLine2DConstructor(QtSketchPointer parent_sketch, Handle(V3d_View) current_view, Handle(V3d_Viewer) current_viewer):
 InteractiveConstructorBase(parent_sketch, current_view, current_viewer),
 primitive_finished_(false),
 line1_defined_(false)
@@ -38,8 +38,8 @@ bool AngleLine2DConstructor::LeftButtonUp(MouseEventPropertiesPointer event_prop
 	if(primitive_list.size() < 1 )
 		return false; 							// no primitive selected
 
-	if(dynamic_cast<OccLine2D*>(primitive_list[0].get()) != 0){
-		OccLine2DPointer new_line = boost::dynamic_pointer_cast<OccLine2D>(primitive_list[0]);
+	if(dynamic_cast<QtLine2D*>(primitive_list[0].get()) != 0){
+		QtLine2DPointer new_line = boost::dynamic_pointer_cast<QtLine2D>(primitive_list[0]);
 
 		if(line1_defined_)
 		{
