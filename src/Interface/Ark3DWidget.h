@@ -9,7 +9,7 @@ extern "C" {
 }
 */
 
-#include "../OpenCascadeBinding/QtSketch.h"
+#include "../QtBinding/QtSketch.h"
 #include "../InteractiveConstructors/InteractiveConstructorBase.h"
 #include "../InteractiveConstructors/Point2DConstructor.h"
 #include "../InteractiveConstructors/Line2DConstructor.h"

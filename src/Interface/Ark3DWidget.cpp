@@ -1,7 +1,7 @@
 #include <QMouseEvent>
 
 #include "Ark3DWidget.h"
-#include "../OpenCascadeBinding/QtPrimitives.h"
+#include "../QtBinding/QtPrimitives.h"
 #include "../InteractiveConstructors/QtEventProperties.h"
 #include "Point2DEditDialog.h"
 
