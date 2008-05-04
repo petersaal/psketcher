@@ -18,7 +18,7 @@ set(ark3d_SRCS
     Ark3DWindow.cpp
 #    qoccinputoutput.cpp
     qoccinternal.h.cpp
-    qoccmakebottle.cpp
+#    qoccmakebottle.cpp
     qoccviewercontext.cpp
     qoccviewwidget.cpp
     Ark3DWidget.cpp

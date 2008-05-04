@@ -49,7 +49,6 @@ private slots:
     void copy();
     void paste();
     void about();
-	void bottle();
 	void xyzPosition (V3d_Coordinate X,
 					  V3d_Coordinate Y,
 					  V3d_Coordinate Z);
@@ -134,8 +133,6 @@ private:
 	QAction *makeAngleConstraintAction;
 	QToolBar *sketchToolBar;
 
-	//Sample Action
-	QAction *bottleAction;
 
 	// The OpenCASCADE Qt widget and context;
 	Ark3DWidget*     myOCC;

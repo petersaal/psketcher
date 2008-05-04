@@ -27,9 +27,6 @@
 
 #include "Ark3DWindow.h"
 
-void LoadBottle ( Handle_AIS_InteractiveContext theContext );
-void ShowOrigin ( Handle_AIS_InteractiveContext theContext );
-void AddVertex  ( double x, double y, double z, Handle_AIS_InteractiveContext theContext );
 
 Ark3DWindow::Ark3DWindow()
 : myLastFolder(tr(""))
@@ -39,16 +36,8 @@ Ark3DWindow::Ark3DWindow()
 	this->setCentralWidget(myOCC);
 	connect(myOCC, SIGNAL(sketchActionFinished()), this, SLOT(triggerSketchActionGroup()));  // after sketch action is triggered, retrigger the currently selected action
 	connect(myOCC, SIGNAL(modeChanged()), this, SLOT(viewerModeChanged()));  // if viewer mode is change, may need to reset selection mode
-/*
 
-	ShowOrigin ( myVC->getContext() );
 
-	AddVertex(   0.0, 100.0,   0.0, myVC->getContext());
-	AddVertex( 100.0, 100.0,   0.0, myVC->getContext());
-	AddVertex( 100.0,   0.0,   0.0, myVC->getContext());
-*/
-
-	//LoadBottle( myVC->getContext() );
 
     createActions();
     createMenus();
@@ -115,17 +104,6 @@ void Ark3DWindow::about()
             tr("<h2>Ark3D</h2> <p><A HREF=\"http://sourceforge.net/projects/ark3d/\">http://sourceforge.net/projects/ark3d/</A>"));
 }
 
-void Ark3DWindow::bottle()
-{
-    statusBar()->showMessage(tr("Invoked File|Load Bottle"));
-	QApplication::setOverrideCursor( Qt::WaitCursor );
-	myVC->deleteAllObjects ();
-	// Call the "bottle factory" to load and display the shape
-	LoadBottle (myVC->getContext());
-	// Force redraw
-	myOCC->getView()->Redraw();
-	QApplication::restoreOverrideCursor();
-}
 
 void Ark3DWindow::xyzPosition (V3d_Coordinate X,
 							  V3d_Coordinate Y,
@@ -141,7 +119,7 @@ void Ark3DWindow::addPoint (V3d_Coordinate X,
 						   V3d_Coordinate Y,
 						   V3d_Coordinate Z)
 {
-	AddVertex ( X, Y, Z, myVC->getContext() );
+
 }
 
 void Ark3DWindow::statusMessage (const QString aMessage)
@@ -350,12 +328,6 @@ void Ark3DWindow::createActions()
 	connect( myOCC, SIGNAL(sendStatus(const QString)),
 		     this,  SLOT  (statusMessage(const QString)) );
 
-	// And the bottle example
-	bottleAction = new QAction(tr("Load &Bottle"), this);
-	bottleAction->setShortcut(tr("Ctrl+B"));
-    bottleAction->setStatusTip(tr("Bottle sample."));
-    connect(bottleAction, SIGNAL(triggered()), this, SLOT(bottle()));
-
 	// actions for testing
 	// generate test sketch
 	generateSketchAction = new QAction(tr("Generate Test Sketch"), this);
@@ -411,13 +383,7 @@ void Ark3DWindow::createMenus()
 		fileMenu->addAction( openAction );
 		fileMenu->addAction( saveAction );
 		fileMenu->addAction( printAction );
-/*
-		Comment out the 2 lines below to hide the
-		Load Bottle menu option - still left in for
-		now as a demo feature.
-*/
-		fileMenu->addSeparator();
-		fileMenu->addAction( bottleAction );
+
 
 		fileMenu->addSeparator();
 		fileMenu->addAction( exitAction );
