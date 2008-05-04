@@ -1,25 +1,25 @@
-#ifndef OccPoint2DH
-#define OccPoint2DH
+#ifndef QtPoint2DH
+#define QtPoint2DH
 
-#include "OccPrimitiveBase.h"
+#include "QtPrimitiveBase.h"
 
 // point class
-class OccPoint2D : public OccPrimitiveBase, public Point2D
+class QtPoint2D : public QtPrimitiveBase, public Point2D
 {
 	public:
-		OccPoint2D (Handle(AIS_InteractiveContext) ais_context,double s, double t, SketchPlanePointer sketch_plane, bool s_free = false, bool t_free = false);
-		OccPoint2D (Handle(AIS_InteractiveContext) ais_context, DOFPointer s, DOFPointer t, SketchPlanePointer sketch_plane);
+		QtPoint2D (Handle(AIS_InteractiveContext) ais_context,double s, double t, SketchPlanePointer sketch_plane, bool s_free = false, bool t_free = false);
+		QtPoint2D (Handle(AIS_InteractiveContext) ais_context, DOFPointer s, DOFPointer t, SketchPlanePointer sketch_plane);
 
-		void Display() {return OccPrimitiveBase::Display();}
-		bool IsSelected() {return OccPrimitiveBase::IsSelected();}
-		void SetSelectable(bool input_selectable) {PrimitiveBase::SetSelectable(input_selectable); OccPrimitiveBase::SetSelectable(selectable_);}
+		void Display() {return QtPrimitiveBase::Display();}
+		bool IsSelected() {return QtPrimitiveBase::IsSelected();}
+		void SetSelectable(bool input_selectable) {PrimitiveBase::SetSelectable(input_selectable); QtPrimitiveBase::SetSelectable(selectable_);}
 		void UpdateDisplay();
 
 	private:
 		Handle(Geom_CartesianPoint) oc_point_;
 
 };
-typedef boost::shared_ptr<OccPoint2D> OccPoint2DPointer;
+typedef boost::shared_ptr<QtPoint2D> QtPoint2DPointer;
 
 
-#endif //OccPoint2DH
+#endif //QtPoint2DH

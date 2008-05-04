@@ -1,18 +1,18 @@
-#ifndef OccPrimitiveBaseH
-#define OccPrimitiveBaseH
+#ifndef QtPrimitiveBaseH
+#define QtPrimitiveBaseH
 
-#include "OccCommon.h"
+#include "QtCommon.h"
 #include "../ConstraintSolver/Primitives.h"
 
 
-// OccPrimitiveBase class
-class OccPrimitiveBase
+// QtPrimitiveBase class
+class QtPrimitiveBase
 {
 	public:
-		OccPrimitiveBase(Handle(AIS_InteractiveContext) ais_context) {ais_context_ = ais_context;}
+		QtPrimitiveBase(Handle(AIS_InteractiveContext) ais_context) {ais_context_ = ais_context;}
 		
 		// erase from the AIS_InteractiveContext and clear vector container
-		virtual ~OccPrimitiveBase() { Erase();}
+		virtual ~QtPrimitiveBase() { Erase();}
 
 		virtual void Display();
 
@@ -33,4 +33,4 @@ class OccPrimitiveBase
 };
 
 
-#endif //OccPrimitiveBaseH
+#endif //QtPrimitiveBaseH

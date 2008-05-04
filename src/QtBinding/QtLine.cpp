@@ -1,7 +1,7 @@
-#include "OccLine.h"
+#include "QtLine.h"
 
-OccLine::OccLine (Handle(AIS_InteractiveContext) ais_context, const PointPointer point1, const PointPointer point2) :
-OccPrimitiveBase(ais_context),
+QtLine::QtLine (Handle(AIS_InteractiveContext) ais_context, const PointPointer point1, const PointPointer point2) :
+QtPrimitiveBase(ais_context),
 Line(point1,point2)
 {
 	// create the ais interactive object that will represent the line
@@ -19,7 +19,7 @@ Line(point1,point2)
 	Display();
 }
 
-void OccLine::UpdateDisplay()
+void QtLine::UpdateDisplay()
 {
 	oc_point1_->SetCoord(GetX1()->GetValue(),
 											 GetY1()->GetValue(),
@@ -29,5 +29,5 @@ void OccLine::UpdateDisplay()
 											 GetY2()->GetValue(),
 											 GetZ2()->GetValue());
 
-	OccPrimitiveBase::UpdateDisplay();
+	QtPrimitiveBase::UpdateDisplay();
 }

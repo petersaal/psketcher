@@ -1,18 +1,18 @@
-#ifndef OccDistancePoint2DH
-#define OccDistancePoint2DH
+#ifndef QtDistancePoint2DH
+#define QtDistancePoint2DH
 
-#include "OccPrimitiveBase.h"
+#include "QtPrimitiveBase.h"
 
-class OccDistancePoint2D : public OccPrimitiveBase, public DistancePoint2D
+class QtDistancePoint2D : public QtPrimitiveBase, public DistancePoint2D
 {
 	public:
-		OccDistancePoint2D (Handle(AIS_InteractiveContext) ais_context,
+		QtDistancePoint2D (Handle(AIS_InteractiveContext) ais_context,
 																			   const Point2DPointer point1, const Point2DPointer point2, 
 																				 double distance);
 
-		void Display() {return OccPrimitiveBase::Display();}
-		bool IsSelected() {return OccPrimitiveBase::IsSelected();}
-		void SetSelectable(bool input_selectable) {PrimitiveBase::SetSelectable(input_selectable); OccPrimitiveBase::SetSelectable(selectable_);}
+		void Display() {return QtPrimitiveBase::Display();}
+		bool IsSelected() {return QtPrimitiveBase::IsSelected();}
+		void SetSelectable(bool input_selectable) {PrimitiveBase::SetSelectable(input_selectable); QtPrimitiveBase::SetSelectable(selectable_);}
 
 		void UpdateDisplay();
 
@@ -27,8 +27,8 @@ class OccDistancePoint2D : public OccPrimitiveBase, public DistancePoint2D
 
  		Handle(Geom_Plane) oc_plane_;
 };
-typedef boost::shared_ptr<OccDistancePoint2D> OccDistancePoint2DPointer;
+typedef boost::shared_ptr<QtDistancePoint2D> QtDistancePoint2DPointer;
 
 
 
-#endif //OccDistancePoint2DH
+#endif //QtDistancePoint2DH

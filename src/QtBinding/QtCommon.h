@@ -1,5 +1,5 @@
-#ifndef OccCommonH
-#define OccCommonH
+#ifndef QtCommonH
+#define QtCommonH
 
 #include <AIS_InteractiveContext.hxx>
 #include <AIS_InteractiveObject.hxx>
@@ -27,7 +27,7 @@
 #include <BRepBuilderAPI_MakeVertex.hxx>
 
 
-#endif //OccCommonH
+#endif //QtCommonH
 
 
 

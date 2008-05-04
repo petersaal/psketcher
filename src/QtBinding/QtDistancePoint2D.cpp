@@ -1,7 +1,7 @@
-#include "OccDistancePoint2D.h"
+#include "QtDistancePoint2D.h"
 
-OccDistancePoint2D::OccDistancePoint2D(Handle(AIS_InteractiveContext) ais_context,const Point2DPointer point1, const Point2DPointer point2,double distance):
-OccPrimitiveBase(ais_context),
+QtDistancePoint2D::QtDistancePoint2D(Handle(AIS_InteractiveContext) ais_context,const Point2DPointer point1, const Point2DPointer point2,double distance):
+QtPrimitiveBase(ais_context),
 DistancePoint2D(point1,point2,distance)
 {
 	GenerateAISObject();
@@ -11,7 +11,7 @@ DistancePoint2D(point1,point2,distance)
 }
 
 
-void OccDistancePoint2D::UpdateDisplay()
+void QtDistancePoint2D::UpdateDisplay()
 {
 	// first, erase the pervious AIS_ParallelRelation from the display because we'll have to recreate it
 	Erase();
@@ -20,10 +20,10 @@ void OccDistancePoint2D::UpdateDisplay()
 
 	Display();
 
-	OccPrimitiveBase::UpdateDisplay();
+	QtPrimitiveBase::UpdateDisplay();
 }
 
-void OccDistancePoint2D::GenerateAISObject()
+void QtDistancePoint2D::GenerateAISObject()
 {
 	// create the points needed to create the line segment
 	double x1, y1, z1, x2, y2, z2;	

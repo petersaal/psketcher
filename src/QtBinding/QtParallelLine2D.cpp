@@ -1,7 +1,7 @@
-#include "OccParallelLine2D.h"
+#include "QtParallelLine2D.h"
 
-OccParallelLine2D::OccParallelLine2D(Handle(AIS_InteractiveContext) ais_context, const Line2DPointer line1, const Line2DPointer line2):
-OccPrimitiveBase(ais_context),
+QtParallelLine2D::QtParallelLine2D(Handle(AIS_InteractiveContext) ais_context, const Line2DPointer line1, const Line2DPointer line2):
+QtPrimitiveBase(ais_context),
 ParallelLine2D(line1,line2)
 {
 	GenerateAISObject();
@@ -11,7 +11,7 @@ ParallelLine2D(line1,line2)
 }
 
 
-void OccParallelLine2D::UpdateDisplay()
+void QtParallelLine2D::UpdateDisplay()
 {
 	// first, erase the pervious AIS_ParallelRelation from the display because we'll have to recreate it
 	Erase();
@@ -20,10 +20,10 @@ void OccParallelLine2D::UpdateDisplay()
 
 	Display();
 
-	OccPrimitiveBase::UpdateDisplay();
+	QtPrimitiveBase::UpdateDisplay();
 }
 
-void OccParallelLine2D::GenerateAISObject()
+void QtParallelLine2D::GenerateAISObject()
 {
 	// create the points needed to create the line segment
 	double x1, y1, z1, x2, y2, z2;	
