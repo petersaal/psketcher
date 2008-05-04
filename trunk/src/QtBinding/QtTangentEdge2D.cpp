@@ -1,12 +1,12 @@
-#include "OccTangentEdge2D.h"
+#include "QtTangentEdge2D.h"
 
-#include "OccLine2D.h"
-#include "OccArc2D.h"
+#include "QtLine2D.h"
+#include "QtArc2D.h"
 
-OccTangentEdge2D::OccTangentEdge2D (Handle(AIS_InteractiveContext) ais_context,
+QtTangentEdge2D::QtTangentEdge2D (Handle(AIS_InteractiveContext) ais_context,
                        Edge2DBasePointer edge1, EdgePointNumber point_num_1, 
                        Edge2DBasePointer edge2, EdgePointNumber point_num_2):
-OccPrimitiveBase(ais_context),
+QtPrimitiveBase(ais_context),
 TangentEdge2D(edge1,point_num_1,edge2,point_num_2)
 {
 	GenerateAISObject();
@@ -16,7 +16,7 @@ TangentEdge2D(edge1,point_num_1,edge2,point_num_2)
 }
 
 
-void OccTangentEdge2D::UpdateDisplay()
+void QtTangentEdge2D::UpdateDisplay()
 {
 	// first, erase the pervious AIS_ParallelRelation from the display because we'll have to recreate it
 	Erase();
@@ -25,10 +25,10 @@ void OccTangentEdge2D::UpdateDisplay()
 
 	Display();
 
-	OccPrimitiveBase::UpdateDisplay();
+	QtPrimitiveBase::UpdateDisplay();
 }
 
-void OccTangentEdge2D::GenerateAISObject()
+void QtTangentEdge2D::GenerateAISObject()
 {
 	// First, create opencascade versions of each of the two edges
 	// the edges can be either a line or an arc
@@ -42,12 +42,12 @@ void OccTangentEdge2D::GenerateAISObject()
 	{
 		if(dynamic_cast<Line2D*>(current_edge.get()) != 0){
 			Line2DPointer current_line = boost::dynamic_pointer_cast<Line2D>(current_edge);
-			OccLine2DPointer occ_line(new OccLine2D(ais_context_,current_line->GetPoint1(),current_line->GetPoint2(),current_line->GetSketchPlane()));
+			QtLine2DPointer occ_line(new QtLine2D(ais_context_,current_line->GetPoint1(),current_line->GetPoint2(),current_line->GetSketchPlane()));
 			current_shape = occ_line->GetTopoDS_Shape();
 		}else if(dynamic_cast<Arc2D*>(current_edge.get()) != 0){
 			Arc2DPointer current_arc = boost::dynamic_pointer_cast<Arc2D>(current_edge);
 
-			OccArc2DPointer occ_arc(new OccArc2D(ais_context_,current_arc->GetSCenter(),current_arc->GetTCenter(),current_arc->GetTheta1(),current_arc->GetTheta2(),current_arc->GetRadius(),current_arc->GetSketchPlane()));
+			QtArc2DPointer occ_arc(new QtArc2D(ais_context_,current_arc->GetSCenter(),current_arc->GetTCenter(),current_arc->GetTheta1(),current_arc->GetTheta2(),current_arc->GetRadius(),current_arc->GetSketchPlane()));
 
 			current_shape = occ_arc->GetTopoDS_Shape();
 		}else {

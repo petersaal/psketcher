@@ -1,9 +1,9 @@
-#include "OccArc2D.h"
+#include "QtArc2D.h"
 
-OccArc2D::OccArc2D (Handle(AIS_InteractiveContext) ais_context, double s_center, double t_center, double theta_1, double theta_2, double radius, 
+QtArc2D::QtArc2D (Handle(AIS_InteractiveContext) ais_context, double s_center, double t_center, double theta_1, double theta_2, double radius, 
 					SketchPlanePointer sketch_plane, bool s_center_free, bool t_center_free, bool theta_1_free, bool theta_2_free, 
 					bool radius_free):
-OccPrimitiveBase(ais_context),
+QtPrimitiveBase(ais_context),
 Arc2D(s_center,t_center,theta_1,theta_2,radius,sketch_plane, s_center_free, t_center_free, theta_1_free, theta_2_free,radius_free)
 {
 	GenerateAISObject();
@@ -12,8 +12,8 @@ Arc2D(s_center,t_center,theta_1,theta_2,radius,sketch_plane, s_center_free, t_ce
 	Display();
 }
 
-OccArc2D::OccArc2D (Handle(AIS_InteractiveContext) ais_context,DOFPointer s_center, DOFPointer t_center, DOFPointer theta_1, DOFPointer theta_2, DOFPointer radius, SketchPlanePointer sketch_plane):
-OccPrimitiveBase(ais_context),
+QtArc2D::QtArc2D (Handle(AIS_InteractiveContext) ais_context,DOFPointer s_center, DOFPointer t_center, DOFPointer theta_1, DOFPointer theta_2, DOFPointer radius, SketchPlanePointer sketch_plane):
+QtPrimitiveBase(ais_context),
 Arc2D(s_center,t_center,theta_1,theta_2,radius,sketch_plane)
 {
 	GenerateAISObject();
@@ -22,7 +22,7 @@ Arc2D(s_center,t_center,theta_1,theta_2,radius,sketch_plane)
 	Display();
 }
 
-void OccArc2D::GenerateAISObject()
+void QtArc2D::GenerateAISObject()
 {
 	// get the axis that define the plane of the circle (i_vector (x-axis), j_vector (y-axis), and normal_vector (z-axis))
 	mmcMatrix j_vector = sketch_plane_->GetUp()->GetmmcMatrix();  // t axis direction vector in sketch plane
@@ -80,7 +80,7 @@ void OccArc2D::GenerateAISObject()
 	ais_object_list_.push_back(new AIS_Point(oc_point_center));
 }
 
-TopoDS_Shape OccArc2D::GetTopoDS_Shape()
+TopoDS_Shape QtArc2D::GetTopoDS_Shape()
 {
 	// get the axis that define the plane of the circle (i_vector (x-axis), j_vector (y-axis), and normal_vector (z-axis))
 	mmcMatrix j_vector = sketch_plane_->GetUp()->GetmmcMatrix();  // t axis direction vector in sketch plane
@@ -107,7 +107,7 @@ TopoDS_Shape OccArc2D::GetTopoDS_Shape()
 	return arc_shape;
 }
 
-void OccArc2D::UpdateDisplay()
+void QtArc2D::UpdateDisplay()
 {
 	/*
 	std::cout << "s center = " << GetSCenter()->GetValue() << std::endl;
@@ -124,5 +124,5 @@ void OccArc2D::UpdateDisplay()
 
 	Display();
 
-	OccPrimitiveBase::UpdateDisplay();
+	QtPrimitiveBase::UpdateDisplay();
 }

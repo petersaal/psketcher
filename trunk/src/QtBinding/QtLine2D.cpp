@@ -1,8 +1,8 @@
-#include "OccLine2D.h"
+#include "QtLine2D.h"
 
 
-OccLine2D::OccLine2D (Handle(AIS_InteractiveContext) ais_context, const Point2DPointer point1, const Point2DPointer point2, SketchPlanePointer sketch_plane) :
-OccPrimitiveBase(ais_context),
+QtLine2D::QtLine2D (Handle(AIS_InteractiveContext) ais_context, const Point2DPointer point1, const Point2DPointer point2, SketchPlanePointer sketch_plane) :
+QtPrimitiveBase(ais_context),
 Line2D(point1, point2, sketch_plane)
 {
 	double x1, y1, z1, x2, y2, z2;	
@@ -21,7 +21,7 @@ Line2D(point1, point2, sketch_plane)
 }
 
 
-TopoDS_Shape OccLine2D::GetTopoDS_Shape()
+TopoDS_Shape QtLine2D::GetTopoDS_Shape()
 {
 	// create an instance of a TopoDS_Shape using the current geometry
 	double x1, y1, z1, x2, y2, z2;	
@@ -44,7 +44,7 @@ TopoDS_Shape OccLine2D::GetTopoDS_Shape()
 	return line_shape;
 }
 
-void OccLine2D::UpdateDisplay()
+void QtLine2D::UpdateDisplay()
 {
 	double x1, y1, z1, x2, y2, z2;	
 
@@ -54,5 +54,5 @@ void OccLine2D::UpdateDisplay()
 
 	oc_point2_->SetCoord(x2, y2, z2);
 
-	OccPrimitiveBase::UpdateDisplay();
+	QtPrimitiveBase::UpdateDisplay();
 }

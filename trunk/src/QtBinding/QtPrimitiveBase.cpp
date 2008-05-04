@@ -1,6 +1,6 @@
-#include "OccPrimitiveBase.h"
+#include "QtPrimitiveBase.h"
 
-void OccPrimitiveBase::Display()
+void QtPrimitiveBase::Display()
 {
 	for(unsigned int current_index = 0; current_index < ais_object_list_.size(); current_index++)
 	{
@@ -8,7 +8,7 @@ void OccPrimitiveBase::Display()
 	}
 }
 
-void OccPrimitiveBase::UpdateDisplay()
+void QtPrimitiveBase::UpdateDisplay()
 {
 	for(unsigned int current_index = 0; current_index < ais_object_list_.size(); current_index++)
 	{
@@ -16,7 +16,7 @@ void OccPrimitiveBase::UpdateDisplay()
 	}
 }
 
-bool OccPrimitiveBase::IsSelected()
+bool QtPrimitiveBase::IsSelected()
 {
 	bool selected = false;
 
@@ -29,7 +29,7 @@ bool OccPrimitiveBase::IsSelected()
 	return selected;
 }
 
-void OccPrimitiveBase::SetSelectable(bool selectable)
+void QtPrimitiveBase::SetSelectable(bool selectable)
 {
 	for(unsigned int current_index = 0; current_index < ais_object_list_.size(); current_index++)
 	{
@@ -50,7 +50,7 @@ void OccPrimitiveBase::SetSelectable(bool selectable)
 }
 
 // Erase current ais_object from the ais_context
-void OccPrimitiveBase::Erase()
+void QtPrimitiveBase::Erase()
 {
 	for(unsigned int current_index = 0; current_index < ais_object_list_.size(); current_index++)
 	{

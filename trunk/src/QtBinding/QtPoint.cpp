@@ -1,8 +1,8 @@
-#include "OccPoint.h"
+#include "QtPoint.h"
 
 
-OccPoint::OccPoint (Handle(AIS_InteractiveContext) ais_context, double x, double y, double z, bool x_free, bool y_free, bool z_free) :
-OccPrimitiveBase(ais_context),
+QtPoint::QtPoint (Handle(AIS_InteractiveContext) ais_context, double x, double y, double z, bool x_free, bool y_free, bool z_free) :
+QtPrimitiveBase(ais_context),
 Point(x,y,z,x_free,y_free,z_free)
 {
 	// create the ais interactive object that will represent the point
@@ -16,13 +16,13 @@ Point(x,y,z,x_free,y_free,z_free)
 	Display();
 }
 
-void OccPoint::UpdateDisplay()
+void QtPoint::UpdateDisplay()
 {
 	oc_point_->SetCoord(GetXDOF()->GetValue(),
 											GetYDOF()->GetValue(),
 											GetZDOF()->GetValue());
 
-	OccPrimitiveBase::UpdateDisplay();
+	QtPrimitiveBase::UpdateDisplay();
 }
 
 

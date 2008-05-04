@@ -1,8 +1,8 @@
-#include "OccAngleLine2D.h"
+#include "QtAngleLine2D.h"
 
 
-OccAngleLine2D::OccAngleLine2D(Handle(AIS_InteractiveContext) ais_context, const Line2DPointer line1, const Line2DPointer line2, double angle):
-OccPrimitiveBase(ais_context),
+QtAngleLine2D::QtAngleLine2D(Handle(AIS_InteractiveContext) ais_context, const Line2DPointer line1, const Line2DPointer line2, double angle):
+QtPrimitiveBase(ais_context),
 AngleLine2D(line1,line2,angle)
 {
 	GenerateAISObject();
@@ -12,7 +12,7 @@ AngleLine2D(line1,line2,angle)
 }
 
 
-void OccAngleLine2D::UpdateDisplay()
+void QtAngleLine2D::UpdateDisplay()
 {
 	// first, erase the pervious AIS_ParallelRelation from the display because we'll have to recreate it
 	Erase();
@@ -21,10 +21,10 @@ void OccAngleLine2D::UpdateDisplay()
 
 	Display();
 
-	OccPrimitiveBase::UpdateDisplay();
+	QtPrimitiveBase::UpdateDisplay();
 }
 
-void OccAngleLine2D::GenerateAISObject()
+void QtAngleLine2D::GenerateAISObject()
 {
 	// create the points needed to create the line segment
 	double x1, y1, z1, x2, y2, z2;	

@@ -1,17 +1,17 @@
-#ifndef OccAngleLine2DH
-#define OccAngleLine2DH
+#ifndef QtAngleLine2DH
+#define QtAngleLine2DH
 
-#include "OccPrimitiveBase.h"
+#include "QtPrimitiveBase.h"
 
-class OccAngleLine2D : public OccPrimitiveBase, public AngleLine2D
+class QtAngleLine2D : public QtPrimitiveBase, public AngleLine2D
 {
 	public:
-		OccAngleLine2D (Handle(AIS_InteractiveContext) ais_context,
+		QtAngleLine2D (Handle(AIS_InteractiveContext) ais_context,
 																			 const Line2DPointer line1, const Line2DPointer line2, double angle);
 
-		void Display() {return OccPrimitiveBase::Display();}
-		bool IsSelected() {return OccPrimitiveBase::IsSelected();}
-		void SetSelectable(bool input_selectable) {PrimitiveBase::SetSelectable(input_selectable); OccPrimitiveBase::SetSelectable(selectable_);}
+		void Display() {return QtPrimitiveBase::Display();}
+		bool IsSelected() {return QtPrimitiveBase::IsSelected();}
+		void SetSelectable(bool input_selectable) {PrimitiveBase::SetSelectable(input_selectable); QtPrimitiveBase::SetSelectable(selectable_);}
 
 		void UpdateDisplay();
 
@@ -28,8 +28,8 @@ class OccAngleLine2D : public OccPrimitiveBase, public AngleLine2D
 
  		Handle(Geom_Plane) oc_plane_;
 };
-typedef boost::shared_ptr<OccAngleLine2D> OccAngleLine2DPointer;
+typedef boost::shared_ptr<QtAngleLine2D> QtAngleLine2DPointer;
 
 
 
-#endif //OccAngleLine2DH
+#endif //QtAngleLine2DH

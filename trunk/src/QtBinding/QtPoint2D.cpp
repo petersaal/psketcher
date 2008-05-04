@@ -1,7 +1,7 @@
-#include "OccPoint2D.h"
+#include "QtPoint2D.h"
 
-OccPoint2D::OccPoint2D (Handle(AIS_InteractiveContext) ais_context,double s, double t, SketchPlanePointer sketch_plane, bool s_free, bool t_free) :
-OccPrimitiveBase(ais_context),
+QtPoint2D::QtPoint2D (Handle(AIS_InteractiveContext) ais_context,double s, double t, SketchPlanePointer sketch_plane, bool s_free, bool t_free) :
+QtPrimitiveBase(ais_context),
 Point2D(s,t,sketch_plane,s_free,t_free)
 {
 	double x_position, y_position, z_position;
@@ -17,8 +17,8 @@ Point2D(s,t,sketch_plane,s_free,t_free)
 	Display();
 }
 
-OccPoint2D::OccPoint2D (Handle(AIS_InteractiveContext) ais_context, DOFPointer s, DOFPointer t, SketchPlanePointer sketch_plane) :
-OccPrimitiveBase(ais_context),
+QtPoint2D::QtPoint2D (Handle(AIS_InteractiveContext) ais_context, DOFPointer s, DOFPointer t, SketchPlanePointer sketch_plane) :
+QtPrimitiveBase(ais_context),
 Point2D(s,t,sketch_plane)
 {
 	double x_position, y_position, z_position;
@@ -34,7 +34,7 @@ Point2D(s,t,sketch_plane)
 	Display();
 }
 
-void OccPoint2D::UpdateDisplay()
+void QtPoint2D::UpdateDisplay()
 {
 	double x_position, y_position, z_position;
 
@@ -42,5 +42,5 @@ void OccPoint2D::UpdateDisplay()
 
 	oc_point_->SetCoord(x_position, y_position, z_position);
 
-	OccPrimitiveBase::UpdateDisplay();
+	QtPrimitiveBase::UpdateDisplay();
 }

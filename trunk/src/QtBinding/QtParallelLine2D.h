@@ -1,17 +1,17 @@
-#ifndef OccParallelLine2DH
-#define OccParallelLine2DH
+#ifndef QtParallelLine2DH
+#define QtParallelLine2DH
 
-#include "OccPrimitiveBase.h"
+#include "QtPrimitiveBase.h"
 
-class OccParallelLine2D : public OccPrimitiveBase, public ParallelLine2D
+class QtParallelLine2D : public QtPrimitiveBase, public ParallelLine2D
 {
 	public:
-		OccParallelLine2D (Handle(AIS_InteractiveContext) ais_context,
+		QtParallelLine2D (Handle(AIS_InteractiveContext) ais_context,
 																			 const Line2DPointer line1, const Line2DPointer line2);
 
-		void Display() {return OccPrimitiveBase::Display();}
-		bool IsSelected() {return OccPrimitiveBase::IsSelected();}
-		void SetSelectable(bool input_selectable) {PrimitiveBase::SetSelectable(input_selectable); OccPrimitiveBase::SetSelectable(selectable_);}
+		void Display() {return QtPrimitiveBase::Display();}
+		bool IsSelected() {return QtPrimitiveBase::IsSelected();}
+		void SetSelectable(bool input_selectable) {PrimitiveBase::SetSelectable(input_selectable); QtPrimitiveBase::SetSelectable(selectable_);}
 
 		void UpdateDisplay();
 
@@ -28,7 +28,7 @@ class OccParallelLine2D : public OccPrimitiveBase, public ParallelLine2D
 
  		Handle(Geom_Plane) oc_plane_;
 };
-typedef boost::shared_ptr<OccParallelLine2D> OccParallelLine2DPointer;
+typedef boost::shared_ptr<QtParallelLine2D> QtParallelLine2DPointer;
 
 
-#endif //OccParallelLine2DH
+#endif //QtParallelLine2DH
