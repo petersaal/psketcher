@@ -35,7 +35,7 @@ set(ark3d_MOC_SRCS
 	./Point2DEditDialog.h
 )
 set(ark3d_RCCS
-    qocc.qrc
+    Ark3D.qrc
 )
 qt4_wrap_cpp(ark3d_MOCS ${ark3d_MOC_SRCS})
 qt4_add_resources(ark3d_RCC_SRCS ${ark3d_RCCS})
