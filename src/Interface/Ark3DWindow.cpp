@@ -70,43 +70,6 @@ void Ark3DWindow::newFile()
 
 void Ark3DWindow::open()
 {
-	QString		fileName;
-	QString		fileType;
-	QFileInfo	fileInfo;
-
-	QoccInputOutput::FileFormat format;
-	QoccInputOutput reader;
-
-    statusBar()->showMessage(tr("Invoked File|Open"));
-
-	fileName = QFileDialog::getOpenFileName (	this,
-				  								tr("Open File"),
-												myLastFolder,
-												tr( "All drawing types (*.brep *.rle *.igs *iges *.stp *.step);;"
-													"BREP (*.brep *.rle);;"
-													"STEP (*.step *.stp);;"
-													"IGES (*.iges *.igs)" ) );
-	if (!fileName.isEmpty())
-	{
-		fileInfo.setFile(fileName);
-		fileType = fileInfo.suffix();
-		if (fileType.toLower() == tr("brep") || fileType.toLower() == tr("rle"))
-		{
-			format = QoccInputOutput::FormatBREP;
-		}
-		if (fileType.toLower() == tr("step") || fileType.toLower() == tr("stp"))
-		{
-			format = QoccInputOutput::FormatSTEP;
-		}
-		if (fileType.toLower() == tr("iges") || fileType.toLower() == tr("igs"))
-		{
-			format = QoccInputOutput::FormatIGES;
-		}
-		myLastFolder = fileInfo.absolutePath();
-		reader.importModel ( fileInfo.absoluteFilePath(), format, myOCC->getContext() );
-	}
-
-	myOCC->fitAll();
 
 }
 
