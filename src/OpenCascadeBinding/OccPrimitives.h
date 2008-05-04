@@ -1,15 +1,15 @@
-#ifndef OccPrimitivesH
-#define OccPrimitivesH
+#ifndef QtPrimitivesH
+#define QtPrimitivesH
 
-#include "OccPrimitiveBase.h"
-#include "OccPoint.h"
-#include "OccPoint2D.h"
-#include "OccLine.h"
-#include "OccLine2D.h"
-#include "OccArc2D.h"
-#include "OccParallelLine2D.h"
-#include "OccDistancePoint2D.h"
-#include "OccAngleLine2D.h"
-#include "OccTangentEdge2D.h"
+#include "QtPrimitiveBase.h"
+#include "QtPoint.h"
+#include "QtPoint2D.h"
+#include "QtLine.h"
+#include "QtLine2D.h"
+#include "QtArc2D.h"
+#include "QtParallelLine2D.h"
+#include "QtDistancePoint2D.h"
+#include "QtAngleLine2D.h"
+#include "QtTangentEdge2D.h"
 
-#endif //OccPrimitivesH
+#endif //QtPrimitivesH
