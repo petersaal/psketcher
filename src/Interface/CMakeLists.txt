@@ -13,7 +13,7 @@ find_package(Qt4 REQUIRED)
 include(${QT_USE_FILE})
 set(ark3d_SRCS
     main.cpp
-    qoccapplication.cpp
+#    qoccapplication.cpp
     qoccdocument.cpp
     Ark3DWindow.cpp
     qoccinputoutput.cpp
@@ -25,7 +25,7 @@ set(ark3d_SRCS
     Point2DEditDialog.cpp
 )
 set(ark3d_MOC_SRCS
-    ./qoccapplication.h
+#    ./qoccapplication.h
     ./qoccdocument.h
     ./Ark3DWindow.h
     ./qoccviewwidget.h
