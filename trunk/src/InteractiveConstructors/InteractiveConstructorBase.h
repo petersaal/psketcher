@@ -6,7 +6,7 @@
 #include <V3d_View.hxx>
 #include <V3d_Viewer.hxx>
 
-#include "../OpenCascadeBinding/QtSketch.h"
+#include "../QtBinding/QtSketch.h"
 
 enum MouseButton {LeftButton, MiddleButton, RightButton, Button4, Button5, OtherButton};
 enum MouseButtonEventType {ButtonPress, ButtonRelease};
