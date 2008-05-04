@@ -1,6 +1,6 @@
 #include "Point2DConstructor.h"
 
-Point2DConstructor::Point2DConstructor(OccSketchPointer parent_sketch, Handle(V3d_View) current_view, Handle(V3d_Viewer) current_viewer):
+Point2DConstructor::Point2DConstructor(QtSketchPointer parent_sketch, Handle(V3d_View) current_view, Handle(V3d_Viewer) current_viewer):
 InteractiveConstructorBase(parent_sketch, current_view, current_viewer),
 primitive_finished_(false)
 {

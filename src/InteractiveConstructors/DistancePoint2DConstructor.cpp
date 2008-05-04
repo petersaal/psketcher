@@ -1,6 +1,6 @@
 #include "DistancePoint2DConstructor.h"
 
-DistancePoint2DConstructor::DistancePoint2DConstructor(OccSketchPointer parent_sketch, Handle(V3d_View) current_view, Handle(V3d_Viewer) current_viewer):
+DistancePoint2DConstructor::DistancePoint2DConstructor(QtSketchPointer parent_sketch, Handle(V3d_View) current_view, Handle(V3d_Viewer) current_viewer):
 InteractiveConstructorBase(parent_sketch, current_view, current_viewer),
 primitive_finished_(false),
 point1_defined_(false)
@@ -35,8 +35,8 @@ bool DistancePoint2DConstructor::LeftButtonUp(MouseEventPropertiesPointer event_
 	if(primitive_list.size() < 1 )
 		return false; 							// no primitive selected
 
-	if(dynamic_cast<OccPoint2D*>(primitive_list[0].get()) != 0){
-		OccPoint2DPointer new_point = boost::dynamic_pointer_cast<OccPoint2D>(primitive_list[0]);
+	if(dynamic_cast<QtPoint2D*>(primitive_list[0].get()) != 0){
+		QtPoint2DPointer new_point = boost::dynamic_pointer_cast<QtPoint2D>(primitive_list[0]);
 
 		if(point1_defined_)
 		{

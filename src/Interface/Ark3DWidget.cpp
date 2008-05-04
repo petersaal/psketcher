@@ -1,7 +1,7 @@
 #include <QMouseEvent>
 
 #include "Ark3DWidget.h"
-#include "../OpenCascadeBinding/OccPrimitives.h"
+#include "../OpenCascadeBinding/QtPrimitives.h"
 #include "../InteractiveConstructors/QtEventProperties.h"
 #include "Point2DEditDialog.h"
 
@@ -149,7 +149,7 @@ void Ark3DWidget::GenerateDefaultSketch()
 	VectorPointer normal( new Vector(0.0,0.0,1.0));
 	VectorPointer up( new Vector(0.0,1.0,0.0));
 	PointPointer base( new Point(0.0,0.0,0.0));
-	current_sketch_ = OccSketchPointer(new OccSketch(GetContext(),normal, up, base));
+	current_sketch_ = QtSketchPointer(new QtSketch(GetContext(),normal, up, base));
 
 	// set the Privileged Plane to be the current sketch plane
 	GetViewer()->SetPrivilegedPlane(current_sketch_->Get_gp_Ax3());
@@ -261,9 +261,9 @@ void Ark3DWidget::mouseDoubleClickEvent ( QMouseEvent * event )
 		std::vector<PrimitiveBasePointer> primitive_list = current_sketch_->GetSelectedPrimitives();
 		if(primitive_list.size() >= 1 )
 		{
-			if(dynamic_cast<OccPoint2D*>(primitive_list[0].get()) != 0)
+			if(dynamic_cast<QtPoint2D*>(primitive_list[0].get()) != 0)
 			{
-				OccPoint2DPointer selected_point = boost::dynamic_pointer_cast<OccPoint2D>(primitive_list[0]);
+				QtPoint2DPointer selected_point = boost::dynamic_pointer_cast<QtPoint2D>(primitive_list[0]);
 			
 				// create the point edit dialog
 				Point2DEditDialog *point_edit_dialog = new Point2DEditDialog(selected_point, this);

@@ -6,7 +6,7 @@
 class Line2DConstructor : public InteractiveConstructorBase
 {
 	public:
-		Line2DConstructor(OccSketchPointer parent_sketch, Handle(V3d_View) current_view, Handle(V3d_Viewer) current_viewer);
+		Line2DConstructor(QtSketchPointer parent_sketch, Handle(V3d_View) current_view, Handle(V3d_Viewer) current_viewer);
 		~Line2DConstructor() {parent_sketch_->ApplySelectionMask(All); parent_sketch_->GetAISContext()->ClearSelected();}  // turn off selection mask
 
 		void CreateObject();
