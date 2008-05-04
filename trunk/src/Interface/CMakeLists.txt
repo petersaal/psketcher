@@ -14,7 +14,7 @@ include(${QT_USE_FILE})
 set(ark3d_SRCS
     main.cpp
 #    qoccapplication.cpp
-    qoccdocument.cpp
+#    qoccdocument.cpp
     Ark3DWindow.cpp
     qoccinputoutput.cpp
     qoccinternal.h.cpp
@@ -26,7 +26,7 @@ set(ark3d_SRCS
 )
 set(ark3d_MOC_SRCS
 #    ./qoccapplication.h
-    ./qoccdocument.h
+#    ./qoccdocument.h
     ./Ark3DWindow.h
     ./qoccviewwidget.h
     ./Ark3DWidget.h
