@@ -16,7 +16,7 @@ set(ark3d_SRCS
 #    qoccapplication.cpp
 #    qoccdocument.cpp
     Ark3DWindow.cpp
-    qoccinputoutput.cpp
+#    qoccinputoutput.cpp
     qoccinternal.h.cpp
     qoccmakebottle.cpp
     qoccviewercontext.cpp
@@ -30,7 +30,7 @@ set(ark3d_MOC_SRCS
     ./Ark3DWindow.h
     ./qoccviewwidget.h
     ./Ark3DWidget.h
-    ./qoccinputoutput.h
+#    ./qoccinputoutput.h
     ./qoccviewercontext.h
 	./Point2DEditDialog.h
 )
