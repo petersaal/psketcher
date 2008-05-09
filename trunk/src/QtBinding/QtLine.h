@@ -7,7 +7,7 @@
 class QtLine : public QtPrimitiveBase, public Line
 {
 	public:
-		QtLine (Handle(AIS_InteractiveContext) ais_context, const PointPointer point1, const PointPointer point2);
+		QtLine (QGraphicsItem * parent, const PointPointer point1, const PointPointer point2);
 
 		void Display() {return QtPrimitiveBase::Display();}
 		bool IsSelected() {return QtPrimitiveBase::IsSelected();}
@@ -16,8 +16,7 @@ class QtLine : public QtPrimitiveBase, public Line
 		void UpdateDisplay();
 
 	private:
-		Handle(Geom_CartesianPoint) oc_point1_;
-		Handle(Geom_CartesianPoint) oc_point2_;
+
 };
 typedef boost::shared_ptr<QtLine> QtLinePointer;
 

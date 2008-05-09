@@ -7,7 +7,7 @@
 class QtPoint : public QtPrimitiveBase, public Point
 {
 	public:
-		QtPoint (Handle(AIS_InteractiveContext) ais_context, double x, double y, double z, bool x_free = false, bool y_free = false, bool z_free = false);
+		QtPoint (QGraphicsItem * parent, double x, double y, double z, bool x_free = false, bool y_free = false, bool z_free = false);
 
 		void Display() {return QtPrimitiveBase::Display();}
 		bool IsSelected() {return QtPrimitiveBase::IsSelected();}
@@ -16,7 +16,6 @@ class QtPoint : public QtPrimitiveBase, public Point
 		void UpdateDisplay();
 	private:
 
-		Handle(Geom_CartesianPoint) oc_point_;
 };
 typedef boost::shared_ptr<QtPoint> QtPointPointer;
 

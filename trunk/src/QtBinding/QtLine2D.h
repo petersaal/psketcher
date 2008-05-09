@@ -7,7 +7,7 @@
 class QtLine2D : public QtPrimitiveBase, public Line2D
 {
 	public:
-		QtLine2D (Handle(AIS_InteractiveContext) ais_context, const Point2DPointer point1, const Point2DPointer point2, SketchPlanePointer sketch_plane);
+		QtLine2D (QGraphicsItem * parent, const Point2DPointer point1, const Point2DPointer point2, SketchPlanePointer sketch_plane);
 
 		void Display() {return QtPrimitiveBase::Display();}
 		bool IsSelected() {return QtPrimitiveBase::IsSelected();}
@@ -15,11 +15,8 @@ class QtLine2D : public QtPrimitiveBase, public Line2D
 
 		void UpdateDisplay();
 
-		TopoDS_Shape GetTopoDS_Shape();
-
 	private:
-		Handle(Geom_CartesianPoint) oc_point1_;
-		Handle(Geom_CartesianPoint) oc_point2_;
+
 };
 typedef boost::shared_ptr<QtLine2D> QtLine2DPointer;
 

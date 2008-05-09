@@ -26,6 +26,7 @@ public:
 
 	// apply a selection mask to all primitives and constraint equations
 	void ApplySelectionMask(SelectionMask mask);
+	void ClearSelected();
 
 	// return vector of selected primitives
 	std::vector<PrimitiveBasePointer> GetSelectedPrimitives();

@@ -9,7 +9,7 @@
 using namespace std;
 
 // test the constraint solver with the 2D point and line primitives
-void constraint_solver_test_2(Handle(AIS_InteractiveContext) ais_context)
+void constraint_solver_test_2(QGraphicsItem * parent)
 {
 	VectorPointer normal( new Vector(0.0,0.0,1.0));
 	VectorPointer up( new Vector(0.0,1.0,0.0));

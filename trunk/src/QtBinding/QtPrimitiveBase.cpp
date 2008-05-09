@@ -1,61 +1,33 @@
 #include "QtPrimitiveBase.h"
 
+QtPrimitiveBase::QtPrimitiveBase(QGraphicsItem * parent ) : 
+QGraphicsItem(parent)
+{
+
+}
+
 void QtPrimitiveBase::Display()
 {
-	for(unsigned int current_index = 0; current_index < ais_object_list_.size(); current_index++)
-	{
-		ais_context_->Display(ais_object_list_[current_index], Standard_False);
-	}
+
 }
 
 void QtPrimitiveBase::UpdateDisplay()
 {
-	for(unsigned int current_index = 0; current_index < ais_object_list_.size(); current_index++)
-	{
-		ais_context_->Redisplay(ais_object_list_[current_index]);
-	}
+
 }
 
 bool QtPrimitiveBase::IsSelected()
 {
-	bool selected = false;
-
-	for(unsigned int current_index = 0; current_index < ais_object_list_.size(); current_index++)
-	{
-		if(ais_context_->IsCurrent(ais_object_list_[current_index]))
-			selected = true;
-	}
-
-	return selected;
+	return isSelected();
 }
 
 void QtPrimitiveBase::SetSelectable(bool selectable)
 {
-	for(unsigned int current_index = 0; current_index < ais_object_list_.size(); current_index++)
-	{
-		if(!selectable)
-		{
-			ais_context_->Deactivate(ais_object_list_[current_index]);
-			//ais_context_->Remove(ais_object_list_[current_index]);
-			//ais_context_->Display(ais_object_list_[current_index],0, -1);
-			//ais_context_->Redisplay(ais_object_list_[current_index]);
-		} else {
-			ais_context_->Activate(ais_object_list_[current_index]);
-			//ais_context_->Deactivate(ais_object_list_[current_index]);
-			//ais_context_->Remove(ais_object_list_[current_index]);
-			//ais_context_->Display(ais_object_list_[current_index],0, 0);
-			//ais_context_->Redisplay(ais_object_list_[current_index]);
-		}
-	}
+	return setFlag(QGraphicsItem::ItemIsSelectable, selectable);
 }
 
 // Erase current ais_object from the ais_context
 void QtPrimitiveBase::Erase()
 {
-	for(unsigned int current_index = 0; current_index < ais_object_list_.size(); current_index++)
-	{
-		ais_context_->Erase(ais_object_list_[current_index]);
-	}
 
-	ais_object_list_.clear();
 }

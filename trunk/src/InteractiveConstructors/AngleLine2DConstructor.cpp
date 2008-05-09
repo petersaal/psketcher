@@ -6,7 +6,7 @@ primitive_finished_(false),
 line1_defined_(false)
 {
 	parent_sketch_->ApplySelectionMask(Lines);
-	parent_sketch_->GetAISContext()->ClearSelected();
+	parent_sketch_->ClearSelected();
 }
 
 void AngleLine2DConstructor::CreateObject()
@@ -22,7 +22,7 @@ void AngleLine2DConstructor::CreateObject()
 
 bool AngleLine2DConstructor::MouseMove(MotionEventPropertiesPointer event_props)
 {
-	parent_sketch_->GetAISContext()->MoveTo((int)event_props->GetXPosition(), (int)event_props->GetYPosition(), current_view_);
+	// parent_sketch_->GetAISContext()->MoveTo((int)event_props->GetXPosition(), (int)event_props->GetYPosition(), current_view_);
 
 	return false;
 }
@@ -30,7 +30,7 @@ bool AngleLine2DConstructor::MouseMove(MotionEventPropertiesPointer event_props)
 bool AngleLine2DConstructor::LeftButtonUp(MouseEventPropertiesPointer event_props)
 {
 	// perform selection operation
-	parent_sketch_->GetAISContext()->Select();
+	//parent_sketch_->GetAISContext()->Select();
 
 	// first, make sure a point is selected
 	std::vector<PrimitiveBasePointer> primitive_list = parent_sketch_->GetSelectedPrimitives();

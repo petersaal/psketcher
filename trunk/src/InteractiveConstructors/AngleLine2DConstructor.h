@@ -7,7 +7,7 @@ class AngleLine2DConstructor : public InteractiveConstructorBase
 {
 	public:
 		AngleLine2DConstructor(QtSketchPointer parent_sketch, Handle(V3d_View) current_view, Handle(V3d_Viewer) current_viewer);
-		~AngleLine2DConstructor() {parent_sketch_->ApplySelectionMask(All); parent_sketch_->GetAISContext()->ClearSelected();}  // turn off selection mask
+		~AngleLine2DConstructor() {parent_sketch_->ApplySelectionMask(All); parent_sketch_->ClearSelected();}  // turn off selection mask
 
 		void CreateObject();
 
