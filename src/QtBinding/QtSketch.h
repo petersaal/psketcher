@@ -8,15 +8,14 @@ class QtSketch : public Sketch
 {
 	public:
 		// constructor
-		QtSketch(Handle(AIS_InteractiveContext) ais_context, VectorPointer normal, VectorPointer up, PointPointer base, bool grid_snap = false);
-	
-		// method to generate a gp_Ax3 object for the current SketchPlane
-		gp_Ax3 Get_gp_Ax3();
+		QtSketch(VectorPointer normal, VectorPointer up, PointPointer base, bool grid_snap = false);
 
 		// accessor methods
 		bool GetGridSnap() {return grid_snap_;}
 		void SetGridSnap(bool grid_snap) {grid_snap_ = grid_snap;}
-		Handle(AIS_InteractiveContext) GetAISContext() {return ais_context_;}
+
+		// @fixme implement ClearSelected() method
+		void ClearSelected() {;}
 
 		// methods for adding primitives to the sketch
 		QtPoint2DPointer AddPoint2D ( double s, double t, bool s_free, bool t_free);
@@ -29,7 +28,6 @@ class QtSketch : public Sketch
 		QtTangentEdge2DPointer AddTangentEdge2D(Edge2DBasePointer edge1, EdgePointNumber point_num_1, Edge2DBasePointer edge2, EdgePointNumber point_num_2);
 
 	private:
-		Handle(AIS_InteractiveContext) ais_context_;
 		bool grid_snap_;
 };
 typedef boost::shared_ptr<QtSketch> QtSketchPointer;

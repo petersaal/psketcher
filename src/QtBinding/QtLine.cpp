@@ -1,19 +1,9 @@
 #include "QtLine.h"
 
-QtLine::QtLine (Handle(AIS_InteractiveContext) ais_context, const PointPointer point1, const PointPointer point2) :
-QtPrimitiveBase(ais_context),
+QtLine::QtLine (QGraphicsItem * parent, const PointPointer point1, const PointPointer point2) :
+QtPrimitiveBase(parent),
 Line(point1,point2)
 {
-	// create the ais interactive object that will represent the line
-	oc_point1_ = new Geom_CartesianPoint(GetX1()->GetValue(),
-																			 GetY1()->GetValue(),
-																			 GetZ1()->GetValue());
-
-	oc_point2_ = new Geom_CartesianPoint(GetX2()->GetValue(),
-																			 GetY2()->GetValue(),
-																			 GetZ2()->GetValue());
-
-	ais_object_list_.push_back(new AIS_Line(oc_point1_, oc_point2_));
 
 	// Display the newly create ais_object
 	Display();
@@ -21,13 +11,5 @@ Line(point1,point2)
 
 void QtLine::UpdateDisplay()
 {
-	oc_point1_->SetCoord(GetX1()->GetValue(),
-											 GetY1()->GetValue(),
-											 GetZ1()->GetValue());
-
-	oc_point2_->SetCoord(GetX2()->GetValue(),
-											 GetY2()->GetValue(),
-											 GetZ2()->GetValue());
-
 	QtPrimitiveBase::UpdateDisplay();
 }

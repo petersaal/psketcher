@@ -1,5 +1,15 @@
-#OpenCascade
-INCLUDE_DIRECTORIES (${CASROOT}/inc)
-INCLUDE_DIRECTORIES (${CASROOT}/src/WOKTclLib)
+find_package(Qt4 REQUIRED)
+include(${QT_USE_FILE})
+set(qtbinding_SRCS
+QtPrimitiveBase.cpp QtPoint.cpp QtPoint2D.cpp QtLine.cpp QtLine2D.cpp QtArc2D.cpp QtParallelLine2D.cpp QtDistancePoint2D.cpp QtAngleLine2D.cpp QtTangentEdge2D.cpp QtSketch.cpp
+)
+set(qtbinding_MOC_SRCS
+QtPrimitiveBase.h QtPoint.h QtPoint2D.h QtLine.h QtLine2D.h QtArc2D.h QtParallelLine2D.h QtDistancePoint2D.h QtAngleLine2D.h QtTangentEdge2D.h QtSketch.h
+)
 
-ADD_LIBRARY (Ark3dQtBinding STATIC QtPrimitiveBase.cpp QtPoint.cpp QtPoint2D.cpp QtLine.cpp QtLine2D.cpp QtArc2D.cpp QtParallelLine2D.cpp QtDistancePoint2D.cpp QtAngleLine2D.cpp QtTangentEdge2D.cpp QtSketch.cpp)
+qt4_wrap_cpp(qtbinding_MOCS ${qtbinding_MOC_SRCS})
+add_definitions(-DQT_NO_DEBUG)
+
+add_library(Ark3dQtBinding STATIC
+    ${qtbinding_SRCS}
+    ${qtbinding_MOCS})

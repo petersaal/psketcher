@@ -7,8 +7,8 @@
 class QtPoint2D : public QtPrimitiveBase, public Point2D
 {
 	public:
-		QtPoint2D (Handle(AIS_InteractiveContext) ais_context,double s, double t, SketchPlanePointer sketch_plane, bool s_free = false, bool t_free = false);
-		QtPoint2D (Handle(AIS_InteractiveContext) ais_context, DOFPointer s, DOFPointer t, SketchPlanePointer sketch_plane);
+		QtPoint2D (QGraphicsItem * parent,double s, double t, SketchPlanePointer sketch_plane, bool s_free = false, bool t_free = false);
+		QtPoint2D (QGraphicsItem * parent, DOFPointer s, DOFPointer t, SketchPlanePointer sketch_plane);
 
 		void Display() {return QtPrimitiveBase::Display();}
 		bool IsSelected() {return QtPrimitiveBase::IsSelected();}
@@ -16,7 +16,6 @@ class QtPoint2D : public QtPrimitiveBase, public Point2D
 		void UpdateDisplay();
 
 	private:
-		Handle(Geom_CartesianPoint) oc_point_;
 
 };
 typedef boost::shared_ptr<QtPoint2D> QtPoint2DPointer;

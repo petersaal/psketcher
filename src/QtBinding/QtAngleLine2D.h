@@ -6,8 +6,7 @@
 class QtAngleLine2D : public QtPrimitiveBase, public AngleLine2D
 {
 	public:
-		QtAngleLine2D (Handle(AIS_InteractiveContext) ais_context,
-																			 const Line2DPointer line1, const Line2DPointer line2, double angle);
+		QtAngleLine2D (QGraphicsItem * parent, const Line2DPointer line1, const Line2DPointer line2, double angle);
 
 		void Display() {return QtPrimitiveBase::Display();}
 		bool IsSelected() {return QtPrimitiveBase::IsSelected();}
@@ -15,18 +14,9 @@ class QtAngleLine2D : public QtPrimitiveBase, public AngleLine2D
 
 		void UpdateDisplay();
 
-		void GenerateAISObject();
 
 	private:
-		gp_Pnt oc_point1_;
-		gp_Pnt oc_point2_;
-		gp_Pnt oc_point3_;
-		gp_Pnt oc_point4_;
 
-		TopoDS_Edge oc_shape1_;
-		TopoDS_Edge oc_shape2_;
-
- 		Handle(Geom_Plane) oc_plane_;
 };
 typedef boost::shared_ptr<QtAngleLine2D> QtAngleLine2DPointer;
 

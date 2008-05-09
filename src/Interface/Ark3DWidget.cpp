@@ -149,17 +149,7 @@ void Ark3DWidget::GenerateDefaultSketch()
 	VectorPointer normal( new Vector(0.0,0.0,1.0));
 	VectorPointer up( new Vector(0.0,1.0,0.0));
 	PointPointer base( new Point(0.0,0.0,0.0));
-	current_sketch_ = QtSketchPointer(new QtSketch(GetContext(),normal, up, base));
-
-	// set the Privileged Plane to be the current sketch plane
-	GetViewer()->SetPrivilegedPlane(current_sketch_->Get_gp_Ax3());
-
-	// set the grid size 
-	GetViewer()->SetRectangularGridValues (0.0 /* x origin */, 0.0 /* y origin */, 1.0 /* XStep */, 1.0 /* YStep */, 0.0 /* RotationAngle */);
-	GetViewer()->SetRectangularGridGraphicValues (50.0 /* XSize */, 50.0 /* YSize */, 0.0 /* OffSet */);
-
-	// turn on the display of the grid (grid coincides with the privileged plane)
-	GetViewer()->ActivateGrid(Aspect_GT_Rectangular,Aspect_GDM_Lines);
+	current_sketch_ = QtSketchPointer(new QtSketch(normal, up, base));
 }
 
 void Ark3DWidget::GenerateTestSketch()
