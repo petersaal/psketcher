@@ -6,7 +6,7 @@
 class DistancePoint2DConstructor : public InteractiveConstructorBase
 {
 	public:
-		DistancePoint2DConstructor(QtSketchPointer parent_sketch, Handle(V3d_View) current_view, Handle(V3d_Viewer) current_viewer);
+		DistancePoint2DConstructor(QtSketchPointer parent_sketch);
 		~DistancePoint2DConstructor() {parent_sketch_->ApplySelectionMask(All); parent_sketch_->ClearSelected();}  // turn off selection mask
 
 		void CreateObject();
