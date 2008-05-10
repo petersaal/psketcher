@@ -22,7 +22,6 @@
 #include <QMainWindow>
 #include <QActionGroup>
 
-#include "qoccviewercontext.h"
 #include "Ark3DWidget.h"
 
 class QAction;
@@ -36,7 +35,6 @@ class Ark3DWindow : public QMainWindow
 public:
 
     Ark3DWindow();
-	Handle_AIS_InteractiveContext& getContext() { return myVC->getContext(); };
 
 private slots:
     void newFile();
@@ -49,15 +47,8 @@ private slots:
     void copy();
     void paste();
     void about();
-	void xyzPosition (V3d_Coordinate X,
-					  V3d_Coordinate Y,
-					  V3d_Coordinate Z);
-	void addPoint (V3d_Coordinate X,
-				   V3d_Coordinate Y,
-				   V3d_Coordinate Z);
 	void statusMessage (const QString aMessage);
 	void triggerSketchActionGroup();
-	void viewerModeChanged();
 
 private:
     void createActions();
@@ -93,14 +84,6 @@ private:
 	QAction *panAction;
 	QAction *rotAction;
 
-	QAction *gridXYAction;
-	QAction *gridXZAction;
-	QAction *gridYZAction;
-	QAction *gridOnAction;
-	QAction *gridOffAction;
-	QAction *gridRectAction;
-	QAction *gridCircAction;
-
     QAction *viewFrontAction;
 	QAction *viewBackAction;
 	QAction *viewTopAction;
@@ -134,9 +117,9 @@ private:
 	QToolBar *sketchToolBar;
 
 
-	// The OpenCASCADE Qt widget and context;
-	Ark3DWidget*     myOCC;
-	QoccViewerContext*  myVC;
+	// The OpenCASCADE Qt widget and the QGraphicsScene;
+	Ark3DWidget		*view;
+	QGraphicsScene 	*scene;
 
 	QString myLastFolder;
 

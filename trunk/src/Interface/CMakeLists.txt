@@ -13,25 +13,13 @@ find_package(Qt4 REQUIRED)
 include(${QT_USE_FILE})
 set(ark3d_SRCS
     main.cpp
-#    qoccapplication.cpp
-#    qoccdocument.cpp
     Ark3DWindow.cpp
-#    qoccinputoutput.cpp
-    qoccinternal.h.cpp
-#    qoccmakebottle.cpp
-    qoccviewercontext.cpp
-    qoccviewwidget.cpp
     Ark3DWidget.cpp
     Point2DEditDialog.cpp
 )
 set(ark3d_MOC_SRCS
-#    ./qoccapplication.h
-#    ./qoccdocument.h
     ./Ark3DWindow.h
-    ./qoccviewwidget.h
     ./Ark3DWidget.h
-#    ./qoccinputoutput.h
-    ./qoccviewercontext.h
 	./Point2DEditDialog.h
 )
 set(ark3d_RCCS
@@ -49,11 +37,6 @@ INCLUDE_DIRECTORIES(${OPENGL_INCLUDE_DIR})
 
 #Glut
 FIND_PACKAGE (GLUT REQUIRED)
-
-#OpenCascade
-LINK_DIRECTORIES (${OPENCASCADE_LINK_DIR})
-INCLUDE_DIRECTORIES (${CASROOT}/inc)
-INCLUDE_DIRECTORIES (${CASROOT}/src/WOKTclLib)
 
 # The following module is included so that the pkg_check_modules macro can be used below
 find_package(PkgConfig)
@@ -83,7 +66,6 @@ add_executable(ark3d
 TARGET_LINK_LIBRARIES(ark3d ${OPENGL_LIBRARIES})
 TARGET_LINK_LIBRARIES(ark3d ${GLUT_Xmu_LIBRARY})
 target_link_libraries(ark3d ${QT_LIBRARIES})
-TARGET_LINK_LIBRARIES(ark3d ${OPENCASCADE_LIBS}) 
 #TARGET_LINK_LIBRARIES (ark3d ark3d_module)
 TARGET_LINK_LIBRARIES (ark3d Ark3dQtBinding)
 TARGET_LINK_LIBRARIES (ark3d Ark3d)

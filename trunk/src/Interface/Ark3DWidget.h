@@ -1,13 +1,13 @@
 #ifndef ARK3DWIDGET_H
 #define ARK3DWIDGET_H
 
-#include "qoccviewwidget.h"
-
 /*
 extern "C" {
 #include <Python.h>
 }
 */
+
+#include <QGraphicsView>
 
 #include "../QtBinding/QtSketch.h"
 #include "../InteractiveConstructors/InteractiveConstructorBase.h"
@@ -16,14 +16,12 @@ extern "C" {
 #include "../InteractiveConstructors/DistancePoint2DConstructor.h"
 #include "../InteractiveConstructors/AngleLine2DConstructor.h"
 
-class Ark3DWidget : public QoccViewWidget 
+class Ark3DWidget : public QGraphicsView
 {
 	Q_OBJECT
 
 	public:
-		Ark3DWidget( const Handle_AIS_InteractiveContext& aContext = NULL, 
-						QWidget *parent = NULL, 
-						Qt::WindowFlags wflags = 0 );
+		Ark3DWidget(QWidget *parent = NULL);
 		~Ark3DWidget();
 	
 		void GenerateDefaultSketch();

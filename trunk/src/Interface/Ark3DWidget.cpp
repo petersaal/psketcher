@@ -1,16 +1,19 @@
 #include <QMouseEvent>
 
+#include <QtGui>
+
 #include "Ark3DWidget.h"
 #include "../QtBinding/QtPrimitives.h"
 #include "../InteractiveConstructors/QtEventProperties.h"
 #include "Point2DEditDialog.h"
 
-Ark3DWidget::Ark3DWidget( const Handle_AIS_InteractiveContext& aContext,
-						  QWidget *parent,
-						  Qt::WindowFlags wflags) :
-QoccViewWidget(aContext, parent, wflags)
+Ark3DWidget::Ark3DWidget(QWidget *parent) :
+QGraphicsView(parent)
 {
 	interactive_primitive_ = 0;
+
+
+	GenerateDefaultSketch();
 
 /*
 	// create the python interpretor instance
@@ -41,27 +44,21 @@ void Ark3DWidget::select()
 	// delete any interactive primitives that were in the process of being constructed
 	delete interactive_primitive_;
 	interactive_primitive_ = 0;
-	
-	QoccViewWidget::select();
 }
 
 void Ark3DWidget::paintEvent        ( QPaintEvent* e )
 {
-	QoccViewWidget::paintEvent(e);  // the first time this method is run, it will intialize myView 
 
-	// Check to see if myView has been initialized and, if so, generate the current sketch if it doesn't already exist
-	if(current_sketch_.get() == 0 && GetViewInitialized())
-		GenerateDefaultSketch();
 }
 
 void Ark3DWidget::resizeEvent       ( QResizeEvent* e )
 {
-	QoccViewWidget::resizeEvent(e);
+
 }
 
 void Ark3DWidget::mousePressEvent   ( QMouseEvent* e )
 {
-	if(interactive_primitive_ != 0 && getMode() == CurAction3d_Nothing)
+	if(interactive_primitive_ != 0)
 	{
 		MouseEventPropertiesPointer event_props(new QtMouseEventProperties((MouseButtonEventType)ButtonPress,e));
 		bool finished = false;
@@ -79,17 +76,16 @@ void Ark3DWidget::mousePressEvent   ( QMouseEvent* e )
 			interactive_primitive_->CreateObject();
 			delete interactive_primitive_;
 			interactive_primitive_ = 0;
-			redraw();
+			// @fixme redraw();
 			emit sketchActionFinished();
 		}
 	}
 
-	QoccViewWidget::mousePressEvent(e);
 }
 
 void Ark3DWidget::mouseReleaseEvent ( QMouseEvent* e )
 {
-	if(interactive_primitive_ != 0  && getMode() == CurAction3d_Nothing)
+	if(interactive_primitive_ != 0)
 	{
 		MouseEventPropertiesPointer event_props(new QtMouseEventProperties((MouseButtonEventType)ButtonRelease,e));
 		bool finished = false;
@@ -107,17 +103,16 @@ void Ark3DWidget::mouseReleaseEvent ( QMouseEvent* e )
 			interactive_primitive_->CreateObject();
 			delete interactive_primitive_;
 			interactive_primitive_ = 0;
-			redraw();
+			// @fixme redraw();
 			emit sketchActionFinished();
 		}
 	}
 
-	QoccViewWidget::mouseReleaseEvent(e);
 }
 
 void Ark3DWidget::mouseMoveEvent    ( QMouseEvent* e )
 {
-	if(interactive_primitive_ != 0  && getMode() == CurAction3d_Nothing)
+	if(interactive_primitive_ != 0)
 	{
 		MotionEventPropertiesPointer event_props(new QtMotionEventProperties(e));
 		if(interactive_primitive_->MouseMove(event_props))
@@ -126,21 +121,20 @@ void Ark3DWidget::mouseMoveEvent    ( QMouseEvent* e )
 			interactive_primitive_->CreateObject();
 			delete interactive_primitive_;
 			interactive_primitive_ = 0;
-			redraw();
+			// @fixme redraw();
 			emit sketchActionFinished();
 		}
 	}
 
-	QoccViewWidget::mouseMoveEvent(e);
 }
 void Ark3DWidget::wheelEvent        ( QWheelEvent* e )
 {
-	QoccViewWidget::wheelEvent(e);
+
 }
 
 void Ark3DWidget::leaveEvent		   ( QEvent * e)
 {
-	QoccViewWidget::leaveEvent(e);
+
 }
 
 void Ark3DWidget::GenerateDefaultSketch()
@@ -182,7 +176,7 @@ void Ark3DWidget::GenerateTestSketch()
 	edge_loop1->AddEdge(line3);
 	edge_loop1->AddEdge(arc1);
 	edge_loop1->AddEdge(line4);
-	cout << "Is loop valid: " << edge_loop1->IsLoopValid() << endl;
+	std::cout << "Is loop valid: " << edge_loop1->IsLoopValid() << endl;
 
 	current_sketch_->ApplySelectionMask(Points);
 	current_sketch_->ApplySelectionMask(Edges);
@@ -209,8 +203,7 @@ void Ark3DWidget::ExecutePythonScript()
 void Ark3DWidget::MakeLine() 
 {
 	if(interactive_primitive_ != 0) delete interactive_primitive_;
-	interactive_primitive_ = new Line2DConstructor(current_sketch_, GetView(), GetViewer());
-	idle(); // cancel any pending qocc viewer actions
+	interactive_primitive_ = new Line2DConstructor(current_sketch_);
 }
 
 void Ark3DWidget::MakePolyLine() {;}
@@ -220,22 +213,19 @@ void Ark3DWidget::MakeArc() {;}
 void Ark3DWidget::MakePoint() 
 {
 	if(interactive_primitive_ != 0) delete interactive_primitive_;
-	interactive_primitive_ = new Point2DConstructor(current_sketch_, GetView(), GetViewer());
-	idle(); // cancel any pending qocc viewer actions
+	interactive_primitive_ = new Point2DConstructor(current_sketch_);
 }
 
 void Ark3DWidget::MakeDistanceConstraint() 
 {
 	if(interactive_primitive_ != 0) delete interactive_primitive_;
-	interactive_primitive_ = new DistancePoint2DConstructor(current_sketch_, GetView(), GetViewer());
-	idle(); // cancel any pending qocc viewer actions
+	interactive_primitive_ = new DistancePoint2DConstructor(current_sketch_);
 }
 
 void Ark3DWidget::MakeAngleConstraint() 
 {
 	if(interactive_primitive_ != 0) delete interactive_primitive_;
-	interactive_primitive_ = new AngleLine2DConstructor(current_sketch_, GetView(), GetViewer());
-	idle(); // cancel any pending qocc viewer actions
+	interactive_primitive_ = new AngleLine2DConstructor(current_sketch_);
 }
 
 void Ark3DWidget::MakeTangentConstraint() {;}
@@ -243,7 +233,7 @@ void Ark3DWidget::MakeTangentConstraint() {;}
 // double clicking causes the currently selected item to span its edit dialog
 void Ark3DWidget::mouseDoubleClickEvent ( QMouseEvent * event )
 {
-	if(interactive_primitive_ == 0 && getMode() == CurAction3d_Picking && !(event->modifiers() & MULTISELECTIONKEY))
+	if(interactive_primitive_ == 0 && !(event->modifiers() & Qt::ShiftModifier))
 	{
 		// edit the selected item (only edit if not in multi-select mode
 
