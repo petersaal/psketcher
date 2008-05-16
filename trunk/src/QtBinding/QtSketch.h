@@ -1,10 +1,12 @@
 #ifndef QtSketchH
 #define QtSketchH
 
+#include <QGraphicsScene>
+
 #include "../ConstraintSolver/Sketch.h"
 #include "QtPrimitives.h"
 
-class QGraphicsScene;
+//class QGraphicsScene;
 
 class QtSketch : public Sketch
 {
@@ -16,8 +18,8 @@ class QtSketch : public Sketch
 		bool GetGridSnap() {return grid_snap_;}
 		void SetGridSnap(bool grid_snap) {grid_snap_ = grid_snap;}
 
-		// @fixme implement ClearSelected() method
-		void ClearSelected() {;}
+		// override some of the Ark3DModel methods
+		void ClearSelected() {scene_->clearSelection(); Ark3DModel::ClearSelected();}
 
 		// methods for adding primitives to the sketch
 		QtPoint2DPointer AddPoint2D ( double s, double t, bool s_free, bool t_free);
