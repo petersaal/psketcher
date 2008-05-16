@@ -1,8 +1,9 @@
 #include "QtSketch.h"
 
-QtSketch::QtSketch(VectorPointer normal, VectorPointer up, PointPointer base, bool grid_snap):
+QtSketch::QtSketch(QGraphicsScene *scene, VectorPointer normal, VectorPointer up, PointPointer base, bool grid_snap):
 Sketch(normal,up,base),
-grid_snap_(grid_snap)
+grid_snap_(grid_snap),
+scene_(scene)
 {
 
 }

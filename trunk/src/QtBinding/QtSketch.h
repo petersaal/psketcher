@@ -4,11 +4,13 @@
 #include "../ConstraintSolver/Sketch.h"
 #include "QtPrimitives.h"
 
+class QGraphicsScene;
+
 class QtSketch : public Sketch
 {
 	public:
 		// constructor
-		QtSketch(VectorPointer normal, VectorPointer up, PointPointer base, bool grid_snap = false);
+		QtSketch(QGraphicsScene *scene, VectorPointer normal, VectorPointer up, PointPointer base, bool grid_snap = false);
 
 		// accessor methods
 		bool GetGridSnap() {return grid_snap_;}
@@ -28,6 +30,7 @@ class QtSketch : public Sketch
 		QtTangentEdge2DPointer AddTangentEdge2D(Edge2DBasePointer edge1, EdgePointNumber point_num_1, Edge2DBasePointer edge2, EdgePointNumber point_num_2);
 
 	private:
+		QGraphicsScene *scene_;
 		bool grid_snap_;
 };
 typedef boost::shared_ptr<QtSketch> QtSketchPointer;

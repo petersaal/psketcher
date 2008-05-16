@@ -7,8 +7,8 @@
 #include "../InteractiveConstructors/QtEventProperties.h"
 #include "Point2DEditDialog.h"
 
-Ark3DWidget::Ark3DWidget(QWidget *parent) :
-QGraphicsView(parent)
+Ark3DWidget::Ark3DWidget(QGraphicsScene * scene, QWidget * parent) :
+QGraphicsView(scene, parent)
 {
 	interactive_primitive_ = 0;
 
@@ -143,7 +143,7 @@ void Ark3DWidget::GenerateDefaultSketch()
 	VectorPointer normal( new Vector(0.0,0.0,1.0));
 	VectorPointer up( new Vector(0.0,1.0,0.0));
 	PointPointer base( new Point(0.0,0.0,0.0));
-	current_sketch_ = QtSketchPointer(new QtSketch(normal, up, base));
+	current_sketch_ = QtSketchPointer(new QtSketch(scene(),normal, up, base));
 }
 
 void Ark3DWidget::GenerateTestSketch()
@@ -176,7 +176,7 @@ void Ark3DWidget::GenerateTestSketch()
 	edge_loop1->AddEdge(line3);
 	edge_loop1->AddEdge(arc1);
 	edge_loop1->AddEdge(line4);
-	std::cout << "Is loop valid: " << edge_loop1->IsLoopValid() << endl;
+	std::cout << "Is loop valid: " << edge_loop1->IsLoopValid() << std::endl;
 
 	current_sketch_->ApplySelectionMask(Points);
 	current_sketch_->ApplySelectionMask(Edges);

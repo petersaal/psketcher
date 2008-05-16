@@ -16,12 +16,14 @@ extern "C" {
 #include "../InteractiveConstructors/DistancePoint2DConstructor.h"
 #include "../InteractiveConstructors/AngleLine2DConstructor.h"
 
+class QGraphicsScene;
+
 class Ark3DWidget : public QGraphicsView
 {
 	Q_OBJECT
 
 	public:
-		Ark3DWidget(QWidget *parent = NULL);
+		Ark3DWidget(QGraphicsScene * scene, QWidget * parent = 0);
 		~Ark3DWidget();
 	
 		void GenerateDefaultSketch();
