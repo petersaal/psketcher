@@ -1,5 +1,6 @@
 #include <QMouseEvent>
 
+#include <cmath>
 #include <QtGui>
 
 #include "Ark3DWidget.h"
@@ -12,8 +13,12 @@ QGraphicsView(scene, parent)
 {
 	interactive_primitive_ = 0;
 
-
 	GenerateDefaultSketch();
+
+	setInteractive(true);  // allow selections and other mouse interactions
+	setDragMode(ScrollHandDrag);	// mouse drag events cause panning
+	setViewportUpdateMode(QGraphicsView::FullViewportUpdate); // update whole scene at a time
+	setRenderHints(QPainter::Antialiasing); // enable antialiasing
 
 /*
 	// create the python interpretor instance
@@ -48,12 +53,12 @@ void Ark3DWidget::select()
 
 void Ark3DWidget::paintEvent        ( QPaintEvent* e )
 {
-
+	QGraphicsView::paintEvent(e);
 }
 
 void Ark3DWidget::resizeEvent       ( QResizeEvent* e )
 {
-
+	QGraphicsView::resizeEvent(e);
 }
 
 void Ark3DWidget::mousePressEvent   ( QMouseEvent* e )
@@ -79,8 +84,9 @@ void Ark3DWidget::mousePressEvent   ( QMouseEvent* e )
 			// @fixme redraw();
 			emit sketchActionFinished();
 		}
+	} else {
+		QGraphicsView::mousePressEvent(e);
 	}
-
 }
 
 void Ark3DWidget::mouseReleaseEvent ( QMouseEvent* e )
@@ -106,6 +112,8 @@ void Ark3DWidget::mouseReleaseEvent ( QMouseEvent* e )
 			// @fixme redraw();
 			emit sketchActionFinished();
 		}
+	} else {
+		QGraphicsView::mouseReleaseEvent(e);
 	}
 
 }
@@ -124,17 +132,23 @@ void Ark3DWidget::mouseMoveEvent    ( QMouseEvent* e )
 			// @fixme redraw();
 			emit sketchActionFinished();
 		}
+	} else {
+		QGraphicsView::mouseMoveEvent(e);
 	}
-
 }
+
+// Wheel event causes the scene to zoon in or out
 void Ark3DWidget::wheelEvent        ( QWheelEvent* e )
 {
-
+	double numDegrees = -e->delta()/8.0;
+	double numSteps = numDegrees / 15.0;
+	double factor = std::pow(1.125, numSteps);
+	scale(factor, factor);
 }
 
 void Ark3DWidget::leaveEvent		   ( QEvent * e)
 {
-
+	QGraphicsView::leaveEvent(e);
 }
 
 void Ark3DWidget::GenerateDefaultSketch()
@@ -252,6 +266,8 @@ void Ark3DWidget::mouseDoubleClickEvent ( QMouseEvent * event )
 			} 
 		}
 
+	} else {
+		QGraphicsView::mouseDoubleClickEvent(event);
 	}
 }
 
@@ -262,3 +278,9 @@ void Ark3DWidget::modelChanged()
 	current_sketch_->UpdateDisplay();
 }
 
+void Ark3DWidget::fitExtents()
+{
+	QRectF rect = scene()->itemsBoundingRect();
+	std::cout << "bounding rect " << rect.x() << ", " << rect.y() << ", " << rect.width() << ", " << rect.height() << std::endl;
+	fitInView(rect,Qt::KeepAspectRatio);
+}

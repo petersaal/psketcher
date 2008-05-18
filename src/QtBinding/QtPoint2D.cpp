@@ -41,5 +41,5 @@ QRectF QtPoint2D::boundingRect() const
 
 void QtPoint2D::paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*) 
 {
-	;
+
 }

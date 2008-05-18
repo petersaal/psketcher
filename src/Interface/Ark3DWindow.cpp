@@ -31,7 +31,6 @@ Ark3DWindow::Ark3DWindow()
 	scene = new QGraphicsScene();
 
 	view = new Ark3DWidget(scene,this); //Note this has changed!
-	
 	this->setCentralWidget(view);
 
 

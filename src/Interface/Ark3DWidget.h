@@ -48,6 +48,8 @@ class Ark3DWidget : public QGraphicsView
 		void MakeTangentConstraint();
 
 		void modelChanged();
+
+		void fitExtents();
 	
 	protected: // methods
 		virtual void paintEvent        ( QPaintEvent* e );
