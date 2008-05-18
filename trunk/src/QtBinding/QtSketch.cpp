@@ -79,7 +79,10 @@ void QtSketch::AddConstraintEquation(const ConstraintEquationBasePointer &new_co
 	QGraphicsItem *temp_graphics_item = dynamic_cast<QGraphicsItem*>(new_constraint_equation.get());
 
 	if(temp_graphics_item != 0)
+	{
 		scene_->addItem(temp_graphics_item);
+		//std::cout << "adding constraint equation to the scene" << std::endl;
+	}
 
 	// now call the base class version of this method
 	Ark3DModel::AddConstraintEquation(new_constraint_equation);
@@ -94,7 +97,10 @@ void QtSketch::AddPrimitive(const PrimitiveBasePointer &new_primitive)
 	QGraphicsItem *temp_graphics_item = dynamic_cast<QGraphicsItem*>(new_primitive.get());
 
 	if(temp_graphics_item != 0)
+	{
 		scene_->addItem(temp_graphics_item);
+		//std::cout << "adding primitive to the scene" << std::endl;
+	}
 
 	// now call the base class version of this method
 	Ark3DModel::AddPrimitive(new_primitive);

@@ -1,3 +1,5 @@
+#include <QtGui>
+
 #include "QtArc2D.h"
 
 QtArc2D::QtArc2D (QGraphicsItem * parent, double s_center, double t_center, double theta_1, double theta_2, double radius, 
@@ -31,11 +33,17 @@ void QtArc2D::UpdateDisplay()
 }
 
 QRectF QtArc2D::boundingRect() const
-{ 
+{
 	return QRectF(1,1,1,1);
+	//return QRectF(GetS1()->GetValue(),GetT1()->GetValue(),GetS2()->GetValue(),GetT2()->GetValue());
 }
 
-void QtArc2D::paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*) 
+void QtArc2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget * /* widget */) 
 {
-	;
+	
+	painter->setPen(QPen(Qt::black, 1.0/option->levelOfDetail));
+
+	//QLineF line(GetS1()->GetValue(),GetT1()->GetValue(),GetS2()->GetValue(),GetT2()->GetValue());
+	//painter->drawLine(line);
+	
 }
