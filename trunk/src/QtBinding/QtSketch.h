@@ -20,6 +20,8 @@ class QtSketch : public Sketch
 
 		// override some of the Ark3DModel methods
 		void ClearSelected() {scene_->clearSelection(); Ark3DModel::ClearSelected();}
+		void AddConstraintEquation(const ConstraintEquationBasePointer &new_constraint_equation);
+		void AddPrimitive(const PrimitiveBasePointer &new_primitive);
 
 		// methods for adding primitives to the sketch
 		QtPoint2DPointer AddPoint2D ( double s, double t, bool s_free, bool t_free);

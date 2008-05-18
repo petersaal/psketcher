@@ -70,3 +70,37 @@ QtTangentEdge2DPointer QtSketch::AddTangentEdge2D(Edge2DBasePointer edge1, EdgeP
 	return new_constraint;
 }
 
+void QtSketch::AddConstraintEquation(const ConstraintEquationBasePointer &new_constraint_equation)
+{
+	// if this constraint equation is derived from QtPrimitiveBase add it to the scene
+	
+	// Normally this type of cast is dangerous since it does the increment share_ptr's reference count
+	// It is safe to pass this pointer to QGraphicsScene since QGraphicsItem's destructor removes itself from the QGraphicsScene it is a member of before deleting itself. Becuase of this, scene_ will not contain a nonexistant temp_graphics_item
+	QGraphicsItem *temp_graphics_item = dynamic_cast<QGraphicsItem*>(new_constraint_equation.get());
+
+	if(temp_graphics_item != 0)
+		scene_->addItem(temp_graphics_item);
+
+	// now call the base class version of this method
+	Ark3DModel::AddConstraintEquation(new_constraint_equation);
+}
+
+void QtSketch::AddPrimitive(const PrimitiveBasePointer &new_primitive)
+{
+	// if this primitive is derived from QtPrimitiveBase add it to the scene
+	
+	// Normally this type of cast is dangerous since it does the increment share_ptr's reference count
+	// It is safe to pass this pointer to QGraphicsScene since QGraphicsItem's destructor removes itself from the QGraphicsScene it is a member of before deleting itself. Becuase of this, scene_ will not contain a nonexistant temp_graphics_item
+	QGraphicsItem *temp_graphics_item = dynamic_cast<QGraphicsItem*>(new_primitive.get());
+
+	if(temp_graphics_item != 0)
+		scene_->addItem(temp_graphics_item);
+
+	// now call the base class version of this method
+	Ark3DModel::AddPrimitive(new_primitive);
+
+}
+
+
+
+

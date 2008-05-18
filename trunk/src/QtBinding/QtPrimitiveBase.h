@@ -21,14 +21,8 @@ class QtPrimitiveBase : public QGraphicsItem
 		// update coordinates of primitive
 		virtual void UpdateDisplay();
 
-
 		virtual bool IsSelected();
 		virtual void SetSelectable(bool selectable_);
-
-		// @fixme delete the following functions
-		virtual QRectF boundingRect() const { return QRectF(1,1,1,1);}
-		virtual void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*) {;}
-
 
 	protected:
 

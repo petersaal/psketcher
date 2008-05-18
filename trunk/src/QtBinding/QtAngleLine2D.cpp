@@ -20,3 +20,13 @@ void QtAngleLine2D::UpdateDisplay()
 	QtPrimitiveBase::UpdateDisplay();
 }
 
+QRectF QtAngleLine2D::boundingRect() const
+{ 
+	return QRectF(1,1,1,1);
+}
+
+void QtAngleLine2D::paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*) 
+{
+	;
+}
+

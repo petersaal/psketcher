@@ -13,3 +13,14 @@ void QtLine::UpdateDisplay()
 {
 	QtPrimitiveBase::UpdateDisplay();
 }
+
+QRectF QtLine::boundingRect() const
+{ 
+	return QRectF(1,1,1,1);
+}
+
+void QtLine::paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*) 
+{
+	;
+}
+

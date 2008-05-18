@@ -15,6 +15,9 @@ class QtLine : public QtPrimitiveBase, public Line
 
 		void UpdateDisplay();
 
+		virtual QRectF boundingRect() const;
+		virtual void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*);
+
 	private:
 
 };

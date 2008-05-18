@@ -33,3 +33,13 @@ void QtPoint2D::UpdateDisplay()
 
 	QtPrimitiveBase::UpdateDisplay();
 }
+
+QRectF QtPoint2D::boundingRect() const
+{ 
+	return QRectF(1,1,1,1);
+}
+
+void QtPoint2D::paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*) 
+{
+	;
+}

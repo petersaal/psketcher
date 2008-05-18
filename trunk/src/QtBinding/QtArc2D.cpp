@@ -29,3 +29,13 @@ void QtArc2D::UpdateDisplay()
 
 	QtPrimitiveBase::UpdateDisplay();
 }
+
+QRectF QtArc2D::boundingRect() const
+{ 
+	return QRectF(1,1,1,1);
+}
+
+void QtArc2D::paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*) 
+{
+	;
+}

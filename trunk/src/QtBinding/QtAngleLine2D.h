@@ -14,6 +14,9 @@ class QtAngleLine2D : public QtPrimitiveBase, public AngleLine2D
 
 		void UpdateDisplay();
 
+		// Implement some of QGraphicsItem's methods
+		virtual QRectF boundingRect() const;
+		virtual void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*);
 
 	private:
 

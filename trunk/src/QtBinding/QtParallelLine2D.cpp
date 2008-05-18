@@ -19,3 +19,13 @@ void QtParallelLine2D::UpdateDisplay()
 	QtPrimitiveBase::UpdateDisplay();
 }
 
+
+QRectF QtParallelLine2D::boundingRect() const
+{ 
+	return QRectF(1,1,1,1);
+}
+
+void QtParallelLine2D::paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*) 
+{
+	;
+}
