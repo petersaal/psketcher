@@ -15,6 +15,9 @@ class QtPoint2D : public QtPrimitiveBase, public Point2D
 		void SetSelectable(bool input_selectable) {PrimitiveBase::SetSelectable(input_selectable); QtPrimitiveBase::SetSelectable(selectable_);}
 		void UpdateDisplay();
 
+		virtual QRectF boundingRect() const;
+		virtual void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*);
+
 	private:
 
 };

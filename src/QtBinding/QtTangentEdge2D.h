@@ -16,6 +16,9 @@ class QtTangentEdge2D : public QtPrimitiveBase, public TangentEdge2D
 
 		void UpdateDisplay();
 
+		virtual QRectF boundingRect() const;
+		virtual void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*);
+
 	private:
 
 };

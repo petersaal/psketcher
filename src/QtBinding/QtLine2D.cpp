@@ -22,3 +22,13 @@ void QtLine2D::UpdateDisplay()
 
 	QtPrimitiveBase::UpdateDisplay();
 }
+
+QRectF QtLine2D::boundingRect() const
+{ 
+	return QRectF(1,1,1,1);
+}
+
+void QtLine2D::paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*) 
+{
+	;
+}

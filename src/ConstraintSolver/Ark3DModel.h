@@ -12,12 +12,12 @@ public:
 	
 	// Constraint equation management
 	void AddConstraintEquation(const ConstraintEquationBasePointer &new_constraint_equation);
-	void AddConstraintEquations(const std::vector<ConstraintEquationBasePointer> &new_constraint_equations);
+	//void AddConstraintEquations(const std::vector<ConstraintEquationBasePointer> &new_constraint_equations);
 	//void DeleteConstraintEquation(ConstraintEquationBasePointer constraint_to_delete);
 	
 	// Primitive management
 	void AddPrimitive(const PrimitiveBasePointer &new_primitive);
-	void AddPrimitives(const std::vector<PrimitiveBasePointer> &new_primitives);
+	//void AddPrimitives(const std::vector<PrimitiveBasePointer> &new_primitives);
 	//void DeletePrimitive(PrimitiveBasePointer primitive_to_delete);
 
 	void SolveConstraints();

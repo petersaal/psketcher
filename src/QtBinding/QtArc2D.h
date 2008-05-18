@@ -18,6 +18,9 @@ class QtArc2D : public QtPrimitiveBase, public Arc2D
 
 		void UpdateDisplay();
 
+		virtual QRectF boundingRect() const;
+		virtual void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*);
+
 	private:
 
 };

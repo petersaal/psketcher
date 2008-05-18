@@ -15,6 +15,9 @@ class QtParallelLine2D : public QtPrimitiveBase, public ParallelLine2D
 
 		void UpdateDisplay();
 
+		virtual QRectF boundingRect() const;
+		virtual void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*);
+
 	private:
 
 };

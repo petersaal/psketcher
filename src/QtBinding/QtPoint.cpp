@@ -16,4 +16,14 @@ void QtPoint::UpdateDisplay()
 	QtPrimitiveBase::UpdateDisplay();
 }
 
+QRectF QtPoint::boundingRect() const
+{ 
+	return QRectF(1,1,1,1);
+}
+
+void QtPoint::paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*) 
+{
+	;
+}
+
 

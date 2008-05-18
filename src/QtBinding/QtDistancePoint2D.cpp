@@ -19,3 +19,13 @@ void QtDistancePoint2D::UpdateDisplay()
 	QtPrimitiveBase::UpdateDisplay();
 }
 
+QRectF QtDistancePoint2D::boundingRect() const
+{ 
+	return QRectF(1,1,1,1);
+}
+
+void QtDistancePoint2D::paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*) 
+{
+	;
+}
+

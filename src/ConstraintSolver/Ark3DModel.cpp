@@ -20,11 +20,13 @@ void Ark3DModel::AddConstraintEquation(const ConstraintEquationBasePointer &new_
 	
 }
 
+/*
 void Ark3DModel::AddConstraintEquations(const std::vector<ConstraintEquationBasePointer> &new_constraint_equations)
 {
 	for(unsigned int current_equation = 0; current_equation < new_constraint_equations.size(); current_equation++)
 		AddConstraintEquation(new_constraint_equations[current_equation]);
 }
+*/
 
 void Ark3DModel::AddPrimitive(const PrimitiveBasePointer &new_primitive)
 {
@@ -45,11 +47,13 @@ void Ark3DModel::AddPrimitive(const PrimitiveBasePointer &new_primitive)
   dof_list_.erase( unique( dof_list_.begin(), dof_list_.end()), dof_list_.end());
 }
 
+/*
 void Ark3DModel::AddPrimitives(const std::vector<PrimitiveBasePointer> &new_primitives)
 {
 	for(unsigned int current_primitive = 0; current_primitive < new_primitives.size(); current_primitive++)
 		AddPrimitive(new_primitives[current_primitive]);
 }
+*/
 
 // This method solves the system of constraint equations for this model
 void Ark3DModel::SolveConstraints()

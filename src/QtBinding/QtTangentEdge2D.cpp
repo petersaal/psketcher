@@ -23,3 +23,13 @@ void QtTangentEdge2D::UpdateDisplay()
 
 	QtPrimitiveBase::UpdateDisplay();
 }
+
+QRectF QtTangentEdge2D::boundingRect() const
+{ 
+	return QRectF(1,1,1,1);
+}
+
+void QtTangentEdge2D::paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*) 
+{
+	;
+}
