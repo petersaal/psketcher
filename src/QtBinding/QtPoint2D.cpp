@@ -1,3 +1,5 @@
+#include <QtGui>
+
 #include "QtPoint2D.h"
 
 QtPoint2D::QtPoint2D (QGraphicsItem * parent,double s, double t, SketchPlanePointer sketch_plane, bool s_free, bool t_free) :
@@ -35,11 +37,23 @@ void QtPoint2D::UpdateDisplay()
 }
 
 QRectF QtPoint2D::boundingRect() const
-{ 
-	return QRectF(1,1,1,1);
-}
-
-void QtPoint2D::paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*) 
 {
-
+	QRectF rect(QPointF(GetSValue(),-GetTValue()),
+ 				QPointF(GetSValue(),-GetTValue()));
+	return rect;
 }
+
+void QtPoint2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget * /* widget */) 
+{
+	
+	painter->setPen(QPen(Qt::black, 1.0/option->levelOfDetail));
+	painter->setBrush(QBrush(Qt::lightGray,Qt::SolidPattern));
+
+	double radius = 3.0/option->levelOfDetail;
+	QRectF rect(QPointF(GetSValue()-radius,-GetTValue()-radius),
+ 				QPointF(GetSValue()+radius,-GetTValue()+radius));
+
+	painter->drawEllipse(rect);
+	
+}
+
