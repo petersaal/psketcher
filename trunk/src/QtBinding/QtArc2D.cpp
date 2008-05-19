@@ -34,8 +34,10 @@ void QtArc2D::UpdateDisplay()
 
 QRectF QtArc2D::boundingRect() const
 {
-	return QRectF(1,1,1,1);
-	//return QRectF(GetS1()->GetValue(),GetT1()->GetValue(),GetS2()->GetValue(),GetT2()->GetValue());
+	double radius = GetRadius()->GetValue();
+	QRectF rect(QPointF(GetSCenter()->GetValue()-radius,-GetTCenter()->GetValue()-radius),
+ 				QPointF(GetSCenter()->GetValue()+radius,-GetTCenter()->GetValue()+radius));
+	return rect;
 }
 
 void QtArc2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget * /* widget */) 
@@ -43,7 +45,13 @@ void QtArc2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 	
 	painter->setPen(QPen(Qt::black, 1.0/option->levelOfDetail));
 
-	//QLineF line(GetS1()->GetValue(),GetT1()->GetValue(),GetS2()->GetValue(),GetT2()->GetValue());
-	//painter->drawLine(line);
+	double radius = GetRadius()->GetValue();
+	QRectF rect(QPointF(GetSCenter()->GetValue()-radius,-GetTCenter()->GetValue()-radius),
+ 				QPointF(GetSCenter()->GetValue()+radius,-GetTCenter()->GetValue()+radius));
+
+	double angle1 = GetTheta1()->GetValue()*((180.0)/(mmcPI));
+	double angle2 = GetTheta2()->GetValue()*((180.0)/(mmcPI));
+
+	painter->drawArc(rect,angle1*16.0,(angle2-angle1)*16.0);
 	
 }

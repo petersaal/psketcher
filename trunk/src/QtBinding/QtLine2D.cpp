@@ -27,13 +27,13 @@ void QtLine2D::UpdateDisplay()
 
 QRectF QtLine2D::boundingRect() const
 {
-	return QRectF(QPointF(GetS1()->GetValue(),GetT1()->GetValue()),QPointF(GetS2()->GetValue(),GetT2()->GetValue()));
+	return QRectF(QPointF(GetS1()->GetValue(),-GetT1()->GetValue()),QPointF(GetS2()->GetValue(),-GetT2()->GetValue()));
 }
 
 void QtLine2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget * /* widget */) 
 {
 	painter->setPen(QPen(Qt::black, 1.0/option->levelOfDetail));
 
-	QLineF line(QPointF(GetS1()->GetValue(),GetT1()->GetValue()),QPointF(GetS2()->GetValue(),GetT2()->GetValue()));
+	QLineF line(QPointF(GetS1()->GetValue(),-GetT1()->GetValue()),QPointF(GetS2()->GetValue(),-GetT2()->GetValue()));
 	painter->drawLine(line);
 }
