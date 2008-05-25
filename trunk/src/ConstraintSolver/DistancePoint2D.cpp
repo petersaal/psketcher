@@ -27,6 +27,9 @@ point2_(point2)
 
 	constraints_.push_back(new_constraint);
 	weight_list_.push_back(1.0);
+
+	// text location was not specified so provide a reasonable default
+	SetDefaultTextLocation();
 }
 
 // Calculate the current actual distance between the two points
@@ -40,4 +43,20 @@ double DistancePoint2D::GetActualDistance()
 		term2 = term2*term2;
 
 		return sqrt(term1+term2);
+}
+
+
+void DistancePoint2D::SetDefaultTextLocation()
+{
+	mmcMatrix point1 = point1_->GetmmcMatrix();
+	mmcMatrix point2 = point2_->GetmmcMatrix();
+	mmcMatrix tangent = (point2-point1).GetNormalized();
+	mmcMatrix normal(2,1);
+	normal(0,0) = -tangent(1,0);
+	normal(1,0) = tangent(0,0);
+
+	mmcMatrix text_location = point1 + 0.5*GetActualDistance()*tangent + 0.25*GetActualDistance()*normal; 
+
+	text_s_ = text_location(0,0);
+	text_t_ = text_location(1,0);
 }
