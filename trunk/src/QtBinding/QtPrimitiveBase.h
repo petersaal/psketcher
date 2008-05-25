@@ -24,6 +24,10 @@ class QtPrimitiveBase : public QGraphicsItem
 		virtual bool IsSelected();
 		virtual void SetSelectable(bool selectable_);
 
+		// some utility methods used to paint primitives
+		void PaintPoint(QPainter *painter, const QStyleOptionGraphicsItem *option, double x, double y);
+		QPolygonF GetArrowPolygon(double x1, double y1, double x2, double y2, double arrow_head_length, double arrow_head_width, bool double_arrow = false) const;
+
 	protected:
 
 };
