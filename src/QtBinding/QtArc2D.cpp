@@ -42,7 +42,7 @@ QRectF QtArc2D::boundingRect() const
 
 void QtArc2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget * /* widget */) 
 {
-	
+	// paint the actual arc
 	painter->setPen(QPen(Qt::black, 1.0/option->levelOfDetail));
 
 	double radius = GetRadius()->GetValue();
@@ -53,5 +53,31 @@ void QtArc2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 	double angle2 = GetTheta2()->GetValue()*((180.0)/(mmcPI));
 
 	painter->drawArc(rect,angle1*16.0,(angle2-angle1)*16.0);
-	
+
+	// now paint the end points and the center point
+	painter->setPen(QPen(Qt::black, 1.0/option->levelOfDetail));
+	painter->setBrush(QBrush(Qt::lightGray,Qt::SolidPattern));
+
+	// end 2
+	PaintPoint(painter, option,s_center_->GetValue()+radius_->GetValue()*cos(theta_1_->GetValue()),
+							   -(t_center_->GetValue()+radius_->GetValue()*sin(theta_1_->GetValue())));
+	// end 1
+	PaintPoint(painter, option,s_center_->GetValue()+radius_->GetValue()*cos(theta_2_->GetValue()),
+							   -( t_center_->GetValue()+radius_->GetValue()*sin(theta_2_->GetValue())));
+
+	// center point
+	PaintPoint(painter, option,s_center_->GetValue(),-t_center_->GetValue());
+
+	// create the radius dimension if necessary
+	// Only display the radius if it is not a free parameter
+	// If it is a free parameter, it is not really a constraint and should not be displayed as such
+	if( ! radius_->IsFree())
+	{
+		painter->setPen(QPen(Qt::black, 1.0/option->levelOfDetail));
+		painter->setBrush(QBrush(Qt::black,Qt::SolidPattern));
+
+		QPolygonF radius_arrow = GetArrowPolygon(s_center_->GetValue(),-t_center_->GetValue(),s_center_->GetValue()+radius_->GetValue()*cos(0.5*(theta_1_->GetValue()+theta_2_->GetValue())),
+							   -(t_center_->GetValue()+radius_->GetValue()*sin(0.5*(theta_1_->GetValue()+theta_2_->GetValue()))), 15.0/option->levelOfDetail,12.0/option->levelOfDetail);
+		painter->drawPolygon(radius_arrow);
+	}
 }

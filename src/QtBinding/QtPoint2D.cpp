@@ -49,11 +49,6 @@ void QtPoint2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 	painter->setPen(QPen(Qt::black, 1.0/option->levelOfDetail));
 	painter->setBrush(QBrush(Qt::lightGray,Qt::SolidPattern));
 
-	double radius = 3.0/option->levelOfDetail;
-	QRectF rect(QPointF(GetSValue()-radius,-GetTValue()-radius),
- 				QPointF(GetSValue()+radius,-GetTValue()+radius));
-
-	painter->drawEllipse(rect);
-	
+	PaintPoint(painter, option, GetSValue(), -GetTValue());
 }
 
