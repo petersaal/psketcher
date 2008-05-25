@@ -26,6 +26,8 @@ class Point2D : public Primitive2DBase
 
 		void Get3DLocation(double & x_location, double & y_location, double & z_location)const;
 
+		mmcMatrix GetmmcMatrix()const;
+
 	private:
 		DOFPointer s_;
 		DOFPointer t_;

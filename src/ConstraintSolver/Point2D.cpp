@@ -38,3 +38,12 @@ void Point2D::ApplySelectionMask(SelectionMask mask)
 	else
 		SetSelectable(false);
 }
+
+mmcMatrix Point2D::GetmmcMatrix()const
+{
+	mmcMatrix result(2,1);
+	result(0,0) = s_->GetValue();
+	result(1,0) = t_->GetValue();
+
+	return result;
+}	
