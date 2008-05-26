@@ -88,13 +88,9 @@ void QtDistancePoint2D::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 		distance_widget_ = new QtDistancePoint2DWidget(shared_from_this(),dynamic_cast<QGraphicsItem*>(const_cast<QtDistancePoint2D*>(this)));
 	}
 
-	QTransform transform;
-	transform.translate(text_s_,-text_t_);
-	transform.scale(1.0/option->levelOfDetail, 1.0/option->levelOfDetail);
-
-	distance_widget_->setTransform(transform);
-	
+	distance_widget_->UpdateGeometry(option->levelOfDetail);
 }
+
 
 
 QtDistancePoint2DWidget::QtDistancePoint2DWidget(QtDistancePoint2DPointer distance_constraint, QGraphicsItem *parent) :
@@ -105,7 +101,10 @@ distance_constraint_(distance_constraint), QGraphicsProxyWidget(parent)
 	// create widget
 	distance_line_edit_ = new QLineEdit;
 	distance_line_edit_->setValidator(new QDoubleValidator(this));
+	distance_line_edit_->setAlignment(Qt::AlignCenter);
 	distance_line_edit_->setText(QString("%1").arg(distance_constraint_->GetValue()));
+	//distance_line_edit_->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Fixed);
+	distance_line_edit_->resize(distance_line_edit_->minimumSizeHint());
 	connect(distance_line_edit_, SIGNAL(textChanged(const QString &)), this, SLOT(textChanged()));
 	connect(distance_line_edit_, SIGNAL(returnPressed()), this, SLOT(applyChanges()));
 
@@ -121,6 +120,7 @@ void QtDistancePoint2DWidget::applyChanges()
 	if(distance_line_edit_->hasAcceptableInput())
 	{
 		distance_constraint_->SetValue(distance_line_edit_->text().toDouble());
+		clearFocus();
 		emit modelChanged();
 	}
 }
@@ -131,14 +131,35 @@ void QtDistancePoint2DWidget::textChanged()
 	bool acceptable_input;
 
 	acceptable_input = distance_line_edit_->hasAcceptableInput();
+
+	// resize the dialog to automaticall fit all of the text displayed
+	QFontMetrics fm(font());
+	distance_line_edit_->setFixedWidth(fm.width(distance_line_edit_->text() + "  "));
 }
 
+bool QtDistancePoint2DWidget::event(QEvent *event)
+{
+	if(event->type() == QEvent::FocusOut)
+	{
+		distance_line_edit_->setText(QString("%1").arg(distance_constraint_->GetValue()));
+	}
+	
+	return QGraphicsProxyWidget::event(event);
+}
 
 void QtDistancePoint2DWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget * widget)
 {
 
-
-
-
 	QGraphicsProxyWidget::paint(painter, option,widget);	
+}
+
+void QtDistancePoint2DWidget::UpdateGeometry(double scale)
+{
+	QTransform transform;
+	transform.translate(distance_constraint_->GetTextS(),-distance_constraint_->GetTextT());
+	transform.scale(1.0/scale, 1.0/scale);
+	
+	transform.translate(-distance_line_edit_->width()*0.5,-distance_line_edit_->height()*0.5);
+
+	setTransform(transform);
 }
