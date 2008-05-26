@@ -28,7 +28,8 @@
 Ark3DWindow::Ark3DWindow()
 : myLastFolder(tr(""))
 {
-	scene = new QGraphicsScene();
+	// @fixme will need a way to automate setting the size of the graphics scene as primitives are added and removed
+	scene = new QGraphicsScene(-20, -20, 40, 40);
 
 	view = new Ark3DWidget(scene,this); //Note this has changed!
 	this->setCentralWidget(view);
