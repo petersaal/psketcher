@@ -15,7 +15,7 @@ void QtPrimitiveBase::Display()
 
 void QtPrimitiveBase::UpdateDisplay()
 {
-
+	update();
 }
 
 bool QtPrimitiveBase::IsSelected()

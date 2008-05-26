@@ -194,6 +194,8 @@ void Ark3DWidget::GenerateTestSketch()
 
 	current_sketch_->ApplySelectionMask(Points);
 	current_sketch_->ApplySelectionMask(Edges);
+
+	fitExtents();
 }
 
 void Ark3DWidget::SolveConstraints() 

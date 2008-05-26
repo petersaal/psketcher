@@ -6,6 +6,8 @@ QtDistancePoint2D::QtDistancePoint2D(QGraphicsItem * parent,const Point2DPointer
 QtPrimitiveBase(parent),
 DistancePoint2D(point1,point2,distance)
 {
+	distance_widget_ = 0;
+
 	// Display the newly create ais_object
 	Display();
 }
@@ -68,11 +70,75 @@ void QtDistancePoint2D::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 	mmcMatrix leader_end_1 = point1 + (offset+offset_sign*leader_extension)*normal;
 	mmcMatrix leader_end_2 = point2 + (offset+offset_sign*leader_extension)*normal;
 
+	// draw leader lines
 	painter->drawLine(QPointF(leader_start_1(0,0),-leader_start_1(1,0)),QPointF(leader_end_1(0,0),-leader_end_1(1,0)));
 	painter->drawLine(QPointF(leader_start_2(0,0),-leader_start_2(1,0)),QPointF(leader_end_2(0,0),-leader_end_2(1,0)));
+
+	// draw line from arrow to text
+	painter->drawLine(QPointF(arrow_end_1(0,0),-arrow_end_1(1,0)),QPointF(text_location(0,0),-text_location(1,0)));
 
 	QPolygonF arrow = GetArrowPolygon(arrow_end_1(0,0),-arrow_end_1(1,0),arrow_end_2(0,0),-arrow_end_2(1,0),arrow_head_length,arrow_head_width,true);
 
 	painter->drawPolygon(arrow);
+
+	// create the line edit widget graphics item
+	if(distance_widget_ == 0)
+	{
+		// @fixme need to make sure the following dyname_cast won't create a pointer that is need used even if this shared_ptr class is freed from memory
+		distance_widget_ = new QtDistancePoint2DWidget(shared_from_this(),dynamic_cast<QGraphicsItem*>(const_cast<QtDistancePoint2D*>(this)));
+	}
+
+	QTransform transform;
+	transform.translate(text_s_,-text_t_);
+	transform.scale(1.0/option->levelOfDetail, 1.0/option->levelOfDetail);
+
+	distance_widget_->setTransform(transform);
+	
 }
 
+
+QtDistancePoint2DWidget::QtDistancePoint2DWidget(QtDistancePoint2DPointer distance_constraint, QGraphicsItem *parent) :
+distance_constraint_(distance_constraint), QGraphicsProxyWidget(parent)
+{
+	//setFlags(ItemIgnoresTransformations);
+
+	// create widget
+	distance_line_edit_ = new QLineEdit;
+	distance_line_edit_->setValidator(new QDoubleValidator(this));
+	distance_line_edit_->setText(QString("%1").arg(distance_constraint_->GetValue()));
+	connect(distance_line_edit_, SIGNAL(textChanged(const QString &)), this, SLOT(textChanged()));
+	connect(distance_line_edit_, SIGNAL(returnPressed()), this, SLOT(applyChanges()));
+
+	// package widget
+	setWidget(distance_line_edit_);
+}
+
+
+
+// apply the changes if valid values have been entered
+void QtDistancePoint2DWidget::applyChanges()
+{
+	if(distance_line_edit_->hasAcceptableInput())
+	{
+		distance_constraint_->SetValue(distance_line_edit_->text().toDouble());
+		emit modelChanged();
+	}
+}
+
+
+void QtDistancePoint2DWidget::textChanged()
+{
+	bool acceptable_input;
+
+	acceptable_input = distance_line_edit_->hasAcceptableInput();
+}
+
+
+void QtDistancePoint2DWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget * widget)
+{
+
+
+
+
+	QGraphicsProxyWidget::paint(painter, option,widget);	
+}
