@@ -39,6 +39,9 @@ class QtDistancePoint2DWidget : public QGraphicsProxyWidget
 	public:
 		QtDistancePoint2DWidget(QtDistancePoint2DPointer distance_constraint, QGraphicsItem *parent = 0);
 		virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget * widget);
+		virtual bool event(QEvent *event);
+
+		void UpdateGeometry(double scale);
 
 
 	signals:
