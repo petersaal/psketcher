@@ -18,6 +18,8 @@ class Arc2D : public Edge2DBase
 		DOFPointer GetTheta2()const {return theta_2_;}
 
 		DOFPointer GetRadius()const {return radius_;}
+		double GetRadiusValue()const {return radius_->GetValue();}
+		void SetRadiusValue(double radius) {radius_->SetValue(radius);}
 
 		void Get3DLocations(double & x_center, double & y_center, double & z_center);
 
@@ -31,6 +33,11 @@ class Arc2D : public Edge2DBase
 		void GetTangent2(GiNaC::ex & s_component, GiNaC::ex & t_component);
 
 		void ApplySelectionMask(SelectionMask mask);
+
+		void SetTextLocation(double text_s, double text_t) {text_s_ = text_s; text_t_ = text_t;}
+		void SetDefaultTextLocation();
+		double GetTextS() {return text_s_;}	
+		double GetTextT() {return text_t_;}
 	
 	protected:
 		// parameters that define the arc
@@ -47,6 +54,9 @@ class Arc2D : public Edge2DBase
 		// If these points are generated for each call to GetPoint1() then, for every call to GetPoint*(), the pointers to the S and T DOF's will be unique
 		Point2DPointer point1_;
 		Point2DPointer point2_;
+
+		double text_s_;
+		double text_t_;
 };
 typedef boost::shared_ptr<Arc2D> Arc2DPointer;
 

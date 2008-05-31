@@ -9,7 +9,7 @@
 class QLineEdit;
 class QtDistancePoint2DWidget;
 
-class QtDistancePoint2D : public boost::enable_shared_from_this<QtDistancePoint2D>, public QtPrimitiveBase, public DistancePoint2D
+class QtDistancePoint2D : public QtPrimitiveBase, public DistancePoint2D, public boost::enable_shared_from_this<QtDistancePoint2D>
 {
 	public:
 		QtDistancePoint2D (QGraphicsItem * parent, const Point2DPointer point1, const Point2DPointer point2, 

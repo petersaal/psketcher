@@ -24,6 +24,8 @@ Edge2DBase(sketch_plane)
 
 	point1_ = GeneratePoint1();
 	point2_ = GeneratePoint2();
+
+	SetDefaultTextLocation();
 }
 
 Arc2D::Arc2D (DOFPointer s_center, DOFPointer t_center, DOFPointer theta_1, DOFPointer theta_2, DOFPointer radius, SketchPlanePointer sketch_plane):
@@ -42,6 +44,8 @@ Edge2DBase(sketch_plane)
 
 	point1_ = GeneratePoint1();
 	point2_ = GeneratePoint2();
+
+	SetDefaultTextLocation();
 }
 
 void Arc2D::Get3DLocations(double & x_center, double & y_center, double & z_center)
@@ -125,4 +129,12 @@ void Arc2D::GetTangent2(GiNaC::ex & s_component, GiNaC::ex & t_component)
 {
 	s_component = -sin(GetTheta2()->GetVariable());
 	t_component = cos(GetTheta2()->GetVariable());
+}
+
+void Arc2D::SetDefaultTextLocation()
+{
+	double angle = (theta_1_->GetValue() + theta_2_->GetValue())*0.5;
+
+	text_s_ = 0.5*radius_->GetValue()*cos(angle) + GetSCenter()->GetValue();
+	text_t_ = 0.5*radius_->GetValue()*sin(angle) + GetTCenter()->GetValue();
 }
