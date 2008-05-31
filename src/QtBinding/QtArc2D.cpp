@@ -44,6 +44,9 @@ QRectF QtArc2D::boundingRect() const
 
 void QtArc2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget * /* widget */) 
 {
+	double leader_extension_angle = ((15.0/GetRadius()->GetValue())*(180.0/mmcPI))/option->levelOfDetail;
+	double leader_gap_angle = ((10.0/GetRadius()->GetValue())*(180.0/mmcPI))/option->levelOfDetail;
+
 	// paint the actual arc
 	painter->setPen(QPen(Qt::black, 1.0/option->levelOfDetail));
 
@@ -53,6 +56,38 @@ void QtArc2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 
 	double angle1 = GetTheta1()->GetValue()*((180.0)/(mmcPI));
 	double angle2 = GetTheta2()->GetValue()*((180.0)/(mmcPI));
+	double text_angle = GetTextAngle()*((180.0)/(mmcPI));
+
+	// create the radius dimension if necessary
+	// Only display the radius if it is not a free parameter
+	// If it is a free parameter, it is not really a constraint and should not be displayed as such
+	if( ! radius_->IsFree())
+	{
+		painter->setPen(QPen(Qt::black, 1.0/option->levelOfDetail));
+		painter->setBrush(QBrush(Qt::black,Qt::SolidPattern));
+
+		QPolygonF radius_arrow = GetArrowPolygon(s_center_->GetValue(),-t_center_->GetValue(),s_center_->GetValue()+radius_->GetValue()*cos(GetTextAngle()),
+							   -(t_center_->GetValue()+radius_->GetValue()*sin(GetTextAngle())), 15.0/option->levelOfDetail,12.0/option->levelOfDetail);
+		painter->drawPolygon(radius_arrow);
+
+		// extend arc to radius arrow if radius arrow is outside the arc
+		if(text_angle < angle1)
+		{
+			painter->drawArc(rect,(text_angle-leader_extension_angle)*16.0, ((angle1-leader_gap_angle)-(text_angle-leader_extension_angle))*16.0);
+		} else if(text_angle > angle2) {
+			painter->drawArc(rect,(angle2+leader_gap_angle)*16.0,((text_angle+leader_extension_angle)-(angle2+leader_gap_angle))*16.0);
+		}
+
+		// create the line edit widget graphics item
+		if(radius_widget_ == 0)
+		{
+			// @fixme need to make sure the following dyname_cast won't create a pointer that is need used even if this shared_ptr class is freed from memory
+			radius_widget_ = new QtArc2DWidget(shared_from_this(),dynamic_cast<QGraphicsItem*>(const_cast<QtArc2D*>(this)));
+		}
+
+		radius_widget_->UpdateGeometry(option->levelOfDetail);
+	}
+
 
 	painter->drawArc(rect,angle1*16.0,(angle2-angle1)*16.0);
 
@@ -69,29 +104,6 @@ void QtArc2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 
 	// center point
 	PaintPoint(painter, option,s_center_->GetValue(),-t_center_->GetValue());
-
-	// create the radius dimension if necessary
-	// Only display the radius if it is not a free parameter
-	// If it is a free parameter, it is not really a constraint and should not be displayed as such
-	if( ! radius_->IsFree())
-	{
-		painter->setPen(QPen(Qt::black, 1.0/option->levelOfDetail));
-		painter->setBrush(QBrush(Qt::black,Qt::SolidPattern));
-
-		QPolygonF radius_arrow = GetArrowPolygon(s_center_->GetValue(),-t_center_->GetValue(),s_center_->GetValue()+radius_->GetValue()*cos(0.5*(theta_1_->GetValue()+theta_2_->GetValue())),
-							   -(t_center_->GetValue()+radius_->GetValue()*sin(0.5*(theta_1_->GetValue()+theta_2_->GetValue()))), 15.0/option->levelOfDetail,12.0/option->levelOfDetail);
-		painter->drawPolygon(radius_arrow);
-
-
-		// create the line edit widget graphics item
-		if(radius_widget_ == 0)
-		{
-			// @fixme need to make sure the following dyname_cast won't create a pointer that is need used even if this shared_ptr class is freed from memory
-			radius_widget_ = new QtArc2DWidget(shared_from_this(),dynamic_cast<QGraphicsItem*>(const_cast<QtArc2D*>(this)));
-		}
-
-		radius_widget_->UpdateGeometry(option->levelOfDetail);
-	}
 }
 
 
@@ -162,8 +174,14 @@ void QtArc2DWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 
 void QtArc2DWidget::UpdateGeometry(double scale)
 {
+	double text_s;
+	double text_t;
+
+	text_s = arc_primitive_->GetSCenterValue() + arc_primitive_->GetTextRadius()*cos(arc_primitive_->GetTextAngle());
+	text_t = arc_primitive_->GetTCenterValue() + arc_primitive_->GetTextRadius()*sin(arc_primitive_->GetTextAngle());
+
 	QTransform transform;
-	transform.translate(arc_primitive_->GetTextS(),-arc_primitive_->GetTextT());
+	transform.translate(text_s,-text_t);
 	transform.scale(1.0/scale, 1.0/scale);
 	
 	transform.translate(-radius_line_edit_->width()*0.5,-radius_line_edit_->height()*0.5);

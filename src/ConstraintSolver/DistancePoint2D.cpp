@@ -48,15 +48,6 @@ double DistancePoint2D::GetActualDistance()
 
 void DistancePoint2D::SetDefaultTextLocation()
 {
-	mmcMatrix point1 = point1_->GetmmcMatrix();
-	mmcMatrix point2 = point2_->GetmmcMatrix();
-	mmcMatrix tangent = (point2-point1).GetNormalized();
-	mmcMatrix normal(2,1);
-	normal(0,0) = -tangent(1,0);
-	normal(1,0) = tangent(0,0);
-
-	mmcMatrix text_location = point1 + 0.5*GetActualDistance()*tangent + 0.25*GetActualDistance()*normal; 
-
-	text_s_ = text_location(0,0);
-	text_t_ = text_location(1,0);
+	text_position_ = 0.5*GetActualDistance();
+	text_offset_   = 0.25*GetActualDistance();
 }

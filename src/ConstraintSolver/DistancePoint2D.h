@@ -11,10 +11,10 @@ class DistancePoint2D : public ConstraintEquationBase
 		double GetActualDistance();
 		double GetValue()const {return distance_->GetValue();}
 		void SetValue(double value) {distance_->SetValue(value);}
-		void SetTextLocation(double text_s, double text_t) {text_s_ = text_s; text_t_ = text_t;}
+		void SetTextLocation(double text_position, double text_offset) {text_position_ = text_position; text_offset_ = text_offset;}
 		void SetDefaultTextLocation();
-		double GetTextS() {return text_s_;}	
-		double GetTextT() {return text_t_;}
+		double GetTextPosition() {return text_position_;}	
+		double GetTextOffset() {return text_offset_;}
 
 		Point2DPointer GetPoint1() const {return point1_;}
 		Point2DPointer GetPoint2() const {return point2_;}
@@ -23,8 +23,8 @@ class DistancePoint2D : public ConstraintEquationBase
 		Point2DPointer point2_;
 		DOFPointer distance_;
 
-		double text_s_;
-		double text_t_;
+		double text_position_;
+		double text_offset_;
 };
 typedef boost::shared_ptr<DistancePoint2D> DistancePoint2DPointer;
 
