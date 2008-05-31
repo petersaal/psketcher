@@ -14,8 +14,14 @@ class Arc2D : public Edge2DBase
 		DOFPointer GetSCenter()const {return s_center_;}
 		DOFPointer GetTCenter()const {return t_center_;}
 
+		double GetSCenterValue()const {return s_center_->GetValue();}
+		double GetTCenterValue()const {return t_center_->GetValue();}
+
 		DOFPointer GetTheta1()const {return theta_1_;}
 		DOFPointer GetTheta2()const {return theta_2_;}
+
+		double GetTheta1Value()const {return theta_1_->GetValue();}
+		double GetTheta2Value()const {return theta_2_->GetValue();}
 
 		DOFPointer GetRadius()const {return radius_;}
 		double GetRadiusValue()const {return radius_->GetValue();}
@@ -34,10 +40,10 @@ class Arc2D : public Edge2DBase
 
 		void ApplySelectionMask(SelectionMask mask);
 
-		void SetTextLocation(double text_s, double text_t) {text_s_ = text_s; text_t_ = text_t;}
+		void SetTextLocation(double text_radius, double text_angle) {text_radius_ = text_radius; text_angle_ = text_angle;}
 		void SetDefaultTextLocation();
-		double GetTextS() {return text_s_;}	
-		double GetTextT() {return text_t_;}
+		double GetTextRadius() {return text_radius_;}	
+		double GetTextAngle() {return text_angle_;}
 	
 	protected:
 		// parameters that define the arc
@@ -55,8 +61,8 @@ class Arc2D : public Edge2DBase
 		Point2DPointer point1_;
 		Point2DPointer point2_;
 
-		double text_s_;
-		double text_t_;
+		double text_radius_;
+		double text_angle_;
 };
 typedef boost::shared_ptr<Arc2D> Arc2DPointer;
 

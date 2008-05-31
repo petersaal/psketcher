@@ -50,9 +50,7 @@ void QtDistancePoint2D::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 	normal(0,0) = -tangent(1,0);
 	normal(1,0) = tangent(0,0);
 	
-	mmcMatrix text_location(2,1);
-	text_location(0,0) = text_s_;
-	text_location(1,0) = text_t_;
+	mmcMatrix text_location = point1 + tangent*text_position_ + normal*text_offset_;
 	
 	double offset = (text_location - point1).DotProduct(normal);
 	double offset_sign;
@@ -155,8 +153,18 @@ void QtDistancePoint2DWidget::paint(QPainter *painter, const QStyleOptionGraphic
 
 void QtDistancePoint2DWidget::UpdateGeometry(double scale)
 {
+	mmcMatrix point1 = distance_constraint_->GetPoint1()->GetmmcMatrix();
+	mmcMatrix point2 = distance_constraint_->GetPoint2()->GetmmcMatrix();
+	mmcMatrix tangent = (point2-point1).GetNormalized();
+
+	mmcMatrix normal(2,1);
+	normal(0,0) = -tangent(1,0);
+	normal(1,0) = tangent(0,0);
+
+	mmcMatrix text_position = point1 + tangent*distance_constraint_->GetTextPosition() + normal*distance_constraint_->GetTextOffset();
+
 	QTransform transform;
-	transform.translate(distance_constraint_->GetTextS(),-distance_constraint_->GetTextT());
+	transform.translate(text_position(0,0),-text_position(1,0));
 	transform.scale(1.0/scale, 1.0/scale);
 	
 	transform.translate(-distance_line_edit_->width()*0.5,-distance_line_edit_->height()*0.5);

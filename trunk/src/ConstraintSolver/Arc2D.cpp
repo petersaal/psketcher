@@ -133,8 +133,7 @@ void Arc2D::GetTangent2(GiNaC::ex & s_component, GiNaC::ex & t_component)
 
 void Arc2D::SetDefaultTextLocation()
 {
-	double angle = (theta_1_->GetValue() + theta_2_->GetValue())*0.5;
+	text_angle_ = (theta_1_->GetValue() + theta_2_->GetValue())*0.5;
 
-	text_s_ = 0.5*radius_->GetValue()*cos(angle) + GetSCenter()->GetValue();
-	text_t_ = 0.5*radius_->GetValue()*sin(angle) + GetTCenter()->GetValue();
+	text_radius_ = 0.5*radius_->GetValue();
 }
