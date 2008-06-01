@@ -78,13 +78,16 @@ void QtArc2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 			painter->drawArc(rect,(angle2+leader_gap_angle)*16.0,((text_angle+leader_extension_angle)-(angle2+leader_gap_angle))*16.0);
 		}
 
+		// draw a line from the arc center point to the text location in case the text is outside of the arc
+		painter->drawLine(QPointF(s_center_->GetValue(),-t_center_->GetValue()),
+					      QPointF(s_center_->GetValue()+GetTextRadius()*cos(GetTextAngle()),-(t_center_->GetValue()+GetTextRadius()*sin(GetTextAngle()))));
+
 		// create the line edit widget graphics item
 		if(radius_widget_ == 0)
 		{
 			// @fixme need to make sure the following dyname_cast won't create a pointer that is need used even if this shared_ptr class is freed from memory
 			radius_widget_ = new QtArc2DWidget(shared_from_this(),dynamic_cast<QGraphicsItem*>(const_cast<QtArc2D*>(this)));
 		}
-
 		radius_widget_->UpdateGeometry(option->levelOfDetail);
 	}
 
