@@ -19,12 +19,12 @@ line2_(line2)
 	// create the expression that defines the parallel constraint and add it the the constraint list
 	boost::shared_ptr<ex> new_constraint(new ex);
 	
-	ex line1_ds = line1->GetS1()->GetVariable() - line1->GetS2()->GetVariable();
-	ex line1_dt = line1->GetT1()->GetVariable() - line1->GetT2()->GetVariable();
+	ex line1_ds = line1->GetS2()->GetVariable() - line1->GetS1()->GetVariable();
+	ex line1_dt = line1->GetT2()->GetVariable() - line1->GetT1()->GetVariable();
 	ex line1_length = sqrt(pow(line1_ds,2)+pow(line1_dt,2));
 
-	ex line2_ds = line2->GetS1()->GetVariable() - line2->GetS2()->GetVariable();
-	ex line2_dt = line2->GetT1()->GetVariable() - line2->GetT2()->GetVariable();
+	ex line2_ds = line2->GetS2()->GetVariable() - line2->GetS1()->GetVariable();
+	ex line2_dt = line2->GetT2()->GetVariable() - line2->GetT1()->GetVariable();
 	ex line2_length = sqrt(pow(line2_ds,2)+pow(line2_dt,2));
 
 	ex desired_angle = angle_->GetVariable();
