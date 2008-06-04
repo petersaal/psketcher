@@ -58,7 +58,10 @@ double ConstraintSolver::GetMeritValue(const mmcMatrix & x)
 		new_error = new_error.subs(free_parameters[current_par] == x(current_par,0), subs_options::no_pattern);
 	}
 
-	// check to make sure the expression evaluates to a numeric value
+	// evaluate to a numeric
+	new_error = evalf(new_error);
+
+	// check to make sure the expression is a numeric value
 	if (is_a<numeric>(new_error)) {
 		result = ex_to<numeric>(new_error).to_double();
 	} else {
@@ -87,6 +90,10 @@ mmcMatrix ConstraintSolver::GetMeritGradient(const mmcMatrix & x)
 	// check to make sure the grad expressions evaluate to a numeric value
 	for(unsigned int current_ex = 0; current_ex < new_grad.size(); current_ex++)
 	{
+		// evaluate to a numeric
+		new_grad[current_ex] = evalf(new_grad[current_ex]);
+		
+		// make sure the expression is a numeric value
 		if (is_a<numeric>(new_grad[current_ex])) {
 			gradient(current_ex,0) = ex_to<numeric>(new_grad[current_ex]).to_double();
 		} else {
