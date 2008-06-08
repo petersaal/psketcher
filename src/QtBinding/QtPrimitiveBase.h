@@ -27,6 +27,7 @@ class QtPrimitiveBase : public QGraphicsItem
 		// some utility methods used to paint primitives
 		void PaintPoint(QPainter *painter, const QStyleOptionGraphicsItem *option, double x, double y);
 		QPolygonF GetArrowPolygon(double x1, double y1, double x2, double y2, double arrow_head_length, double arrow_head_width, bool double_arrow = false) const;
+		QPainterPath GetArcArrowPath(double x_center, double y_center, double radius, double theta1, double theta2, double arrow_head_length, double arrow_head_width) const;
 
 	protected:
 
