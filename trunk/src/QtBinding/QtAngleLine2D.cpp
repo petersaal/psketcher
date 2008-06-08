@@ -1,9 +1,9 @@
 #include "QtAngleLine2D.h"
 
 
-QtAngleLine2D::QtAngleLine2D(QGraphicsItem * parent, const Line2DPointer line1, const Line2DPointer line2, double angle):
+QtAngleLine2D::QtAngleLine2D(QGraphicsItem * parent, const Line2DPointer line1, const Line2DPointer line2, double angle, bool interior_angle):
 QtPrimitiveBase(parent),
-AngleLine2D(line1,line2,angle)
+AngleLine2D(line1,line2,angle,interior_angle)
 {
 	// Display the newly create ais_object
 	Display();
