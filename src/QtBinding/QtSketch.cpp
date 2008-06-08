@@ -56,9 +56,9 @@ QtParallelLine2DPointer QtSketch::AddParallelLine2D(const Line2DPointer line1, c
 	return new_constraint;
 }
 
-QtAngleLine2DPointer QtSketch::AddAngleLine2D(const Line2DPointer line1, const Line2DPointer line2, double angle)
+QtAngleLine2DPointer QtSketch::AddAngleLine2D(const Line2DPointer line1, const Line2DPointer line2, double angle, bool interior_angle)
 {
-	QtAngleLine2DPointer new_constraint(new QtAngleLine2D(0,line1,line2,angle));
+	QtAngleLine2DPointer new_constraint(new QtAngleLine2D(0,line1,line2,angle,interior_angle));
 	AddConstraintEquation(new_constraint);
 	return new_constraint;
 }

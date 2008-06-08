@@ -16,7 +16,8 @@ void AngleLine2DConstructor::CreateObject()
 
 		double angle = 10.0*(mmcPI/180.0);
 		
-		parent_sketch_->AddAngleLine2D(line1_, line2_,angle);
+		// @fixme need to determine if user intended an interior angle or an exterior angle
+		parent_sketch_->AddAngleLine2D(line1_, line2_,angle, true /* interior_angle */);
 	}
 }
 
