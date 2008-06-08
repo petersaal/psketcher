@@ -178,7 +178,7 @@ void Ark3DWidget::GenerateTestSketch()
 	ConstraintEquationBasePointer constraint2 = current_sketch_->AddDistancePoint2D(point2,point3,12.0);
 	ConstraintEquationBasePointer constraint3 = current_sketch_->AddParallelLine2D(line1,line3);
 	ConstraintEquationBasePointer constraint4 = current_sketch_->AddParallelLine2D(line2,line4);
-	ConstraintEquationBasePointer constraint5 = current_sketch_->AddAngleLine2D(line2,line1,mmcPI/2.0);
+	ConstraintEquationBasePointer constraint5 = current_sketch_->AddAngleLine2D(line1,line2,mmcPI/2.0);
 
 	ConstraintEquationBasePointer constraint6 = current_sketch_->AddTangentEdge2D(line3,Point2,arc1,Point1);
 	ConstraintEquationBasePointer constraint7 = current_sketch_->AddTangentEdge2D(line4,Point1,arc1,Point2);
