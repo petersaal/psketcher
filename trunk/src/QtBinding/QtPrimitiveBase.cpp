@@ -108,9 +108,18 @@ QPainterPath QtPrimitiveBase::GetArcArrowPath(double x_center, double y_center, 
 	QRectF rect(QPointF(x_center-radius,y_center-radius),
  				QPointF(x_center+radius,y_center+radius));
 	
-	double arrow_base_theta1 = theta1 + arrow_head_length/radius;
-	double arrow_base_theta2 = theta2 - arrow_head_length/radius;
+	double arrow_base_theta1;
+	double arrow_base_theta2;
 	
+	if(theta2 >= theta1)
+	{
+		arrow_base_theta1 = theta1 + arrow_head_length/radius;
+		arrow_base_theta2 = theta2 - arrow_head_length/radius;
+	} else {
+		arrow_base_theta1 = theta1 - arrow_head_length/radius;
+		arrow_base_theta2 = theta2 + arrow_head_length/radius;
+	}
+
 	mmcMatrix normal_1(2,1);
 	mmcMatrix normal_2(2,1);
 
