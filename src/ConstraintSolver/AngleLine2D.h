@@ -14,6 +14,11 @@ class AngleLine2D : public ConstraintEquationBase
 		double GetTextRadius() {return text_radius_;}	
 		double GetTextAngle() {return text_angle_;}
 
+		Line2DPointer GetLine1() const {return line1_;}
+		Line2DPointer GetLine2() const {return line2_;}
+
+		bool IsInteriorAngle() const {return interior_angle_;}
+		
 	protected:
 		Line2DPointer line1_;
 		Line2DPointer line2_;
