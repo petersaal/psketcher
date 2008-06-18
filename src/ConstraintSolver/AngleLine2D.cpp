@@ -82,13 +82,37 @@ void AngleLine2D::SetDefaultTextLocation()
 		ave_radius += sqrt((x4-x_center)*(x4-x_center)+(y4-y_center)*(y4-y_center));
 		ave_radius = ave_radius/4.0;
 
-		ave_angle += atan2(y1-y_center,x1-x_center);
-		ave_angle += atan2(y2-y_center,x2-x_center);
-		ave_angle += atan2(y3-y_center,x3-x_center);
-		ave_angle += atan2(y4-y_center,x4-x_center);
-		ave_angle = ave_angle / 4.0;
+		int angle_counter = 0;
+		if((y1-y_center)*(y1-y_center)+(x1-x_center)*(x1-x_center) > 0)
+		{
+			ave_angle += atan2(y1-y_center,x1-x_center) + 2.0*mmcPI;
+			angle_counter++;
+		}
 
-		text_radius_ = ave_radius;
+		if((y2-y_center)*(y2-y_center)+(x2-x_center)*(x2-x_center) > 0)
+		{
+			ave_angle += atan2(y2-y_center,x2-x_center) + 2.0*mmcPI;
+			angle_counter++;
+		}
+
+		if((y3-y_center)*(y3-y_center)+(x3-x_center)*(x3-x_center) > 0)
+		{
+			ave_angle += atan2(y3-y_center,x3-x_center) + 2.0*mmcPI;
+			angle_counter++;
+		}
+
+		if((y4-y_center)*(y4-y_center)+(x4-x_center)*(x4-x_center) > 0)
+		{
+			ave_angle += atan2(y4-y_center,x4-x_center) + 2.0*mmcPI;
+			angle_counter++;
+		}
+
+		if(angle_counter > 0)
+			ave_angle = ave_angle / (double)angle_counter;
+		else
+			ave_angle = 0.0;
+
+		text_radius_ = ave_radius*0.75;
 		text_angle_ = ave_angle;
 	}
 }

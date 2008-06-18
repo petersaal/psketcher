@@ -18,6 +18,9 @@ class AngleLine2D : public ConstraintEquationBase
 		Line2DPointer GetLine2() const {return line2_;}
 
 		bool IsInteriorAngle() const {return interior_angle_;}
+
+		double GetAngleValue() const {return angle_->GetValue();}
+		void SetAngleValue(double angle) {angle_->SetValue(angle);}
 		
 	protected:
 		Line2DPointer line1_;

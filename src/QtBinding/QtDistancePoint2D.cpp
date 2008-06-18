@@ -101,6 +101,7 @@ distance_constraint_(distance_constraint), QGraphicsProxyWidget(parent)
 	distance_line_edit_->setValidator(new QDoubleValidator(this));
 	distance_line_edit_->setAlignment(Qt::AlignCenter);
 	distance_line_edit_->setText(QString("%1").arg(distance_constraint_->GetValue()));
+	textChanged();
 	//distance_line_edit_->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Fixed);
 	distance_line_edit_->resize(distance_line_edit_->minimumSizeHint());
 	connect(distance_line_edit_, SIGNAL(textChanged(const QString &)), this, SLOT(textChanged()));
@@ -140,6 +141,7 @@ bool QtDistancePoint2DWidget::event(QEvent *event)
 	if(event->type() == QEvent::FocusOut)
 	{
 		distance_line_edit_->setText(QString("%1").arg(distance_constraint_->GetValue()));
+		textChanged();
 	}
 	
 	return QGraphicsProxyWidget::event(event);

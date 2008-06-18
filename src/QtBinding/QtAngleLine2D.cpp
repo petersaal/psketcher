@@ -6,6 +6,8 @@ QtAngleLine2D::QtAngleLine2D(QGraphicsItem * parent, const Line2DPointer line1, 
 QtPrimitiveBase(parent),
 AngleLine2D(line1,line2,angle,interior_angle)
 {
+	angle_widget_ = 0;
+	
 	// Display the newly create ais_object
 	Display();
 }
@@ -80,6 +82,7 @@ void QtAngleLine2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 	double x_center, y_center;
 	bool lines_parallel = false;
 
+
 	if(denominator == 0.0)
 	{
 		// Lines are parallel
@@ -101,12 +104,12 @@ void QtAngleLine2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 	}
 
 	if(!lines_parallel)
-	{
+	{	
 		// normal case where lines are not parallel
-
+		// @fixme need to handle the case where one of the lines has zero length (the calculation of theta will fail)
 		double alpha1 = atan2(y2-y1, x2-x1);
-		double theta = acos((x1*x2+y1*y2)/(sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2))*sqrt((x3-x4)*(x3-x4)+(y3-y4)*(y3-y4))));
-		
+		double theta = acos(((x2-x1)*(x4-x3)+(y2-y1)*(y4-y3))/(sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2))*sqrt((x3-x4)*(x3-x4)+(y3-y4)*(y3-y4))));
+
 		double alpha2 = alpha1 + theta;
 		double alpha3 = alpha1 + mmcPI;
 		double alpha4 = alpha1 + mmcPI + theta;
@@ -157,14 +160,111 @@ void QtAngleLine2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 		}
 
 		// display the arrow arc
-		QPainterPath arrow_arc = GetArcArrowPath(x_center, y_center, GetTextRadius(),arrow_arc_theta1,arrow_arc_theta2,15.0/option->levelOfDetail,12.0/option->levelOfDetail);
-
+		QPainterPath arrow_arc = GetArcArrowPath(x_center, -y_center, GetTextRadius(),arrow_arc_theta1,arrow_arc_theta2,15.0/option->levelOfDetail,12.0/option->levelOfDetail);
 		painter->drawPath(arrow_arc);
+
+		// @fixme need to add leader lines if arrow arc does not contact lines
+
+		// draw an additional arc to the text if text is outside of the arrow arc
+		QRectF rect(QPointF(x_center-GetTextRadius(),-y_center-GetTextRadius()),
+					QPointF(x_center+GetTextRadius(),-y_center+GetTextRadius()));
+		if(text_theta < arrow_arc_theta1)
+			painter->drawArc(rect,(text_theta)*(180.0/mmcPI)*16.0,(arrow_arc_theta1-text_theta)*(180.0/mmcPI)*16.0);
+		else if (text_theta > arrow_arc_theta2) 
+			painter->drawArc(rect,(arrow_arc_theta2)*(180.0/mmcPI)*16.0,((text_theta)-(arrow_arc_theta2))*(180.0/mmcPI)*16.0);
+
+		// display the editable text
+		// create the line edit widget graphics item
+		if(angle_widget_ == 0)
+		{
+			// @fixme need to make sure the following dyname_cast won't create a pointer that is need used even if this shared_ptr class is freed from memory
+			angle_widget_ = new QtAngleLine2DWidget(shared_from_this(),dynamic_cast<QGraphicsItem*>(const_cast<QtAngleLine2D*>(this)));
+		}
+		angle_widget_->UpdateGeometry(text_x, text_y, option->levelOfDetail);
+
 	} else {
-		// degenerate case where lines are parallel
+		// the case where the lines are parallel
+		// @fixme need to implement QtAngleLine2D case when the two lines are parallel		
 
 	} // if(!lines_parallel)
-
 	
+}
+
+
+
+
+
+
+QtAngleLine2DWidget::QtAngleLine2DWidget(QtAngleLine2DPointer arc_primitive, QGraphicsItem *parent) :
+angle_constraint_primitive_(arc_primitive), QGraphicsProxyWidget(parent)
+{
+	//setFlags(ItemIgnoresTransformations);
+
+	// create widget
+	angle_line_edit_ = new QLineEdit;
+	angle_line_edit_->setValidator(new QDoubleValidator(this));
+	angle_line_edit_->setAlignment(Qt::AlignCenter);
+	angle_line_edit_->setText(QString("%1").arg(angle_constraint_primitive_->GetAngleValue()));
+	textChanged();
+	//angle_line_edit_->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Fixed);
+	angle_line_edit_->resize(angle_line_edit_->minimumSizeHint());
+	connect(angle_line_edit_, SIGNAL(textChanged(const QString &)), this, SLOT(textChanged()));
+	connect(angle_line_edit_, SIGNAL(returnPressed()), this, SLOT(applyChanges()));
+
+	// package widget
+	setWidget(angle_line_edit_);
+}
+
+
+
+// apply the changes if valid values have been entered
+void QtAngleLine2DWidget::applyChanges()
+{
+	if(angle_line_edit_->hasAcceptableInput())
+	{
+		angle_constraint_primitive_->SetAngleValue(angle_line_edit_->text().toDouble());
+		clearFocus();
+		emit modelChanged();
+	}
+}
+
+
+void QtAngleLine2DWidget::textChanged()
+{
+	bool acceptable_input;
+
+	acceptable_input = angle_line_edit_->hasAcceptableInput();
+
+	// resize the dialog to automaticall fit all of the text displayed
+	QFontMetrics fm(font());
+	angle_line_edit_->setFixedWidth(fm.width(angle_line_edit_->text() + "  "));
+}
+
+bool QtAngleLine2DWidget::event(QEvent *event)
+{
+	if(event->type() == QEvent::FocusOut)
+	{
+		angle_line_edit_->setText(QString("%1").arg(angle_constraint_primitive_->GetAngleValue()));
+		textChanged();
+	}
+	
+	return QGraphicsProxyWidget::event(event);
+}
+
+void QtAngleLine2DWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget * widget)
+{
+
+	QGraphicsProxyWidget::paint(painter, option,widget);	
+}
+
+void QtAngleLine2DWidget::UpdateGeometry(double text_s, double text_t, double scale)
+{
+	QTransform transform;
+	transform.translate(text_s,-text_t);
+	transform.scale(1.0/scale, 1.0/scale);
+	
+	transform.translate(-angle_line_edit_->width()*0.5,-angle_line_edit_->height()*0.5);
+
+	setTransform(transform);
 }
 

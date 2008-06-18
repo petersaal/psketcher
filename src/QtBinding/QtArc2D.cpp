@@ -125,6 +125,7 @@ arc_primitive_(arc_primitive), QGraphicsProxyWidget(parent)
 	radius_line_edit_->setValidator(new QDoubleValidator(this));
 	radius_line_edit_->setAlignment(Qt::AlignCenter);
 	radius_line_edit_->setText(QString("%1").arg(arc_primitive_->GetRadiusValue()));
+	textChanged();
 	//radius_line_edit_->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Fixed);
 	radius_line_edit_->resize(radius_line_edit_->minimumSizeHint());
 	connect(radius_line_edit_, SIGNAL(textChanged(const QString &)), this, SLOT(textChanged()));
@@ -164,6 +165,7 @@ bool QtArc2DWidget::event(QEvent *event)
 	if(event->type() == QEvent::FocusOut)
 	{
 		radius_line_edit_->setText(QString("%1").arg(arc_primitive_->GetRadiusValue()));
+		textChanged();
 	}
 	
 	return QGraphicsProxyWidget::event(event);
