@@ -62,6 +62,9 @@ QRectF QtAngleLine2D::boundingRect() const
 
 void QtAngleLine2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget * /* widget */) 
 {
+	double leader_gap = 10.0/option->levelOfDetail;
+	double leader_extension = 15.0/option->levelOfDetail;
+
 	painter->setPen(QPen(Qt::black, 1.0/option->levelOfDetail));
 	painter->setBrush(QBrush(Qt::black,Qt::SolidPattern));
 
@@ -81,7 +84,10 @@ void QtAngleLine2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 	double text_x, text_y;
 	double x_center, y_center;
 	bool lines_parallel = false;
-
+	double arrow_tip_x1;
+	double arrow_tip_x2;
+	double arrow_tip_y1;
+	double arrow_tip_y2;
 
 	if(denominator == 0.0)
 	{
@@ -163,8 +169,25 @@ void QtAngleLine2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 		QPainterPath arrow_arc = GetArcArrowPath(x_center, -y_center, GetTextRadius(),arrow_arc_theta1,arrow_arc_theta2,15.0/option->levelOfDetail,12.0/option->levelOfDetail);
 		painter->drawPath(arrow_arc);
 
-		// @fixme need to add leader lines if arrow arc does not contact lines
+		// get coordinates of arrow tip locations, will be used later to construct leader lines
+		if(IsInteriorAngle())
+		{
+			// theta1 correspnds to line1 
+			arrow_tip_x1 = x_center + GetTextRadius()*cos(arrow_arc_theta1);
+			arrow_tip_y1 = y_center + GetTextRadius()*sin(arrow_arc_theta1);
 
+			arrow_tip_x2 = x_center + GetTextRadius()*cos(arrow_arc_theta2);
+			arrow_tip_y2 = y_center + GetTextRadius()*sin(arrow_arc_theta2);
+			
+		} else {
+			// theta1 correspnds to line2 
+			arrow_tip_x2 = x_center + GetTextRadius()*cos(arrow_arc_theta1);
+			arrow_tip_y2 = y_center + GetTextRadius()*sin(arrow_arc_theta1);
+
+			arrow_tip_x1 = x_center + GetTextRadius()*cos(arrow_arc_theta2);
+			arrow_tip_y1 = y_center + GetTextRadius()*sin(arrow_arc_theta2);
+		}
+		
 		// draw an additional arc to the text if text is outside of the arrow arc
 		QRectF rect(QPointF(x_center-GetTextRadius(),-y_center-GetTextRadius()),
 					QPointF(x_center+GetTextRadius(),-y_center+GetTextRadius()));
@@ -187,6 +210,57 @@ void QtAngleLine2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 		// @fixme need to implement QtAngleLine2D case when the two lines are parallel		
 
 	} // if(!lines_parallel)
+
+	// create leader for line1 if necessary
+	double delta1, delta2;
+	double line1_length = sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));
+	delta1 = sqrt((arrow_tip_x1-x1)*(arrow_tip_x1-x1)+(arrow_tip_y1-y1)*(arrow_tip_y1-y1));
+	delta2 = sqrt((arrow_tip_x1-x2)*(arrow_tip_x1-x2)+(arrow_tip_y1-y2)*(arrow_tip_y1-y2));
+	if(delta1 > line1_length)
+	{
+		double direction_x = arrow_tip_x1-x1;
+		double direction_y = arrow_tip_y1-y1;
+		double direction_length = sqrt(direction_x*direction_x + direction_y*direction_y);
+		direction_x = direction_x / direction_length;
+		direction_y = direction_y / direction_length;
+
+		painter->drawLine(QPointF(x2+leader_gap*direction_x,y2+leader_gap*direction_y),
+						  QPointF(x1+(delta1+leader_extension)*direction_x,y1+(delta1+leader_extension)*direction_y));
+	} else if (delta2 > line1_length) {
+		double direction_x = arrow_tip_x1-x2;
+		double direction_y = arrow_tip_y1-y2;
+		double direction_length = sqrt(direction_x*direction_x + direction_y*direction_y);
+		direction_x = direction_x / direction_length;
+		direction_y = direction_y / direction_length;
+
+		painter->drawLine(QPointF(x1+leader_gap*direction_x,y1+leader_gap*direction_y),
+						  QPointF(x2+(delta2+leader_extension)*direction_x,y2+(delta2+leader_extension)*direction_y));
+	}
+
+	// create leader for line2 if necessary
+	double line2_length = sqrt((x3-x4)*(x3-x4)+(y3-y4)*(y3-y4));
+	delta1 = sqrt((arrow_tip_x2-x3)*(arrow_tip_x2-x3)+(arrow_tip_y2-y3)*(arrow_tip_y2-y3));
+	delta2 = sqrt((arrow_tip_x2-x4)*(arrow_tip_x2-x4)+(arrow_tip_y2-y4)*(arrow_tip_y2-y4));
+	if(delta1 > line2_length)
+	{
+		double direction_x = arrow_tip_x2-x3;
+		double direction_y = arrow_tip_y2-y3;
+		double direction_length = sqrt(direction_x*direction_x + direction_y*direction_y);
+		direction_x = direction_x / direction_length;
+		direction_y = direction_y / direction_length;
+
+		painter->drawLine(QPointF(x4+leader_gap*direction_x,-(y4+leader_gap*direction_y)),
+						  QPointF(x3+(delta1+leader_extension)*direction_x,-(y3+(delta1+leader_extension)*direction_y)));
+	} else if (delta2 > line2_length) {
+		double direction_x = arrow_tip_x2-x4;
+		double direction_y = arrow_tip_y2-y4;
+		double direction_length = sqrt(direction_x*direction_x + direction_y*direction_y);
+		direction_x = direction_x / direction_length;
+		direction_y = direction_y / direction_length;
+
+		painter->drawLine(QPointF(x3+leader_gap*direction_x,-(y3+leader_gap*direction_y)),
+						  QPointF(x4+(delta2+leader_extension)*direction_x,-(y4+(delta2+leader_extension)*direction_y)));
+	}
 	
 }
 
@@ -204,7 +278,7 @@ angle_constraint_primitive_(arc_primitive), QGraphicsProxyWidget(parent)
 	angle_line_edit_ = new QLineEdit;
 	angle_line_edit_->setValidator(new QDoubleValidator(this));
 	angle_line_edit_->setAlignment(Qt::AlignCenter);
-	angle_line_edit_->setText(QString("%1").arg(angle_constraint_primitive_->GetAngleValue()));
+	angle_line_edit_->setText(QString("%1").arg(angle_constraint_primitive_->GetAngleValue()*(180.0/mmcPI)));
 	textChanged();
 	//angle_line_edit_->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Fixed);
 	angle_line_edit_->resize(angle_line_edit_->minimumSizeHint());
@@ -222,7 +296,7 @@ void QtAngleLine2DWidget::applyChanges()
 {
 	if(angle_line_edit_->hasAcceptableInput())
 	{
-		angle_constraint_primitive_->SetAngleValue(angle_line_edit_->text().toDouble());
+		angle_constraint_primitive_->SetAngleValue(angle_line_edit_->text().toDouble()*(mmcPI/180.0));
 		clearFocus();
 		emit modelChanged();
 	}
@@ -244,7 +318,7 @@ bool QtAngleLine2DWidget::event(QEvent *event)
 {
 	if(event->type() == QEvent::FocusOut)
 	{
-		angle_line_edit_->setText(QString("%1").arg(angle_constraint_primitive_->GetAngleValue()));
+		angle_line_edit_->setText(QString("%1").arg(angle_constraint_primitive_->GetAngleValue()*(180.0/mmcPI)));
 		textChanged();
 	}
 	
