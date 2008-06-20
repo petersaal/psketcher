@@ -113,8 +113,24 @@ void QtAngleLine2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 	{	
 		// normal case where lines are not parallel
 		// @fixme need to handle the case where one of the lines has zero length (the calculation of theta will fail)
-		double alpha1 = atan2(y2-y1, x2-x1);
-		double theta = acos(((x2-x1)*(x4-x3)+(y2-y1)*(y4-y3))/(sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2))*sqrt((x3-x4)*(x3-x4)+(y3-y4)*(y3-y4))));
+		double line1_theta = atan2(y2-y1, x2-x1);
+		double line2_theta = atan2(y4-y3, x4-x3);
+		if(line2_theta < line1_theta)
+			line2_theta += 2.0*mmcPI;
+
+		double theta;
+		bool theta_is_interior;	
+
+		if(line2_theta - line1_theta > mmcPI)
+		{
+			theta_is_interior = false;
+			theta = line2_theta - line1_theta - mmcPI;
+		} else {
+			theta_is_interior = true;
+			theta = line2_theta - line1_theta;
+		}
+
+		double alpha1 = line1_theta;
 
 		double alpha2 = alpha1 + theta;
 		double alpha3 = alpha1 + mmcPI;
@@ -136,7 +152,7 @@ void QtAngleLine2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 		
 		double arrow_arc_theta1;
 		double arrow_arc_theta2;
-		if(IsInteriorAngle())
+		if(IsInteriorAngle() && theta_is_interior || !IsInteriorAngle() && !theta_is_interior)
 		{
 			// either sector 1 or sector 3 for an interior angle
 			double sector_1_delta = fabs((alpha1+alpha2)*0.5-text_theta);
@@ -150,6 +166,14 @@ void QtAngleLine2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 				arrow_arc_theta1 = alpha3;
 				arrow_arc_theta2 = alpha4;
 			}
+
+			// theta1 correspnds to line1 
+			arrow_tip_x1 = x_center + GetTextRadius()*cos(arrow_arc_theta1);
+			arrow_tip_y1 = y_center + GetTextRadius()*sin(arrow_arc_theta1);
+
+			arrow_tip_x2 = x_center + GetTextRadius()*cos(arrow_arc_theta2);
+			arrow_tip_y2 = y_center + GetTextRadius()*sin(arrow_arc_theta2);
+
 		} else {
 			// either sector 2 or sector 4 for an exterior angle
 			double sector_2_delta = fabs((alpha2+alpha3)*0.5-text_theta);
@@ -163,23 +187,7 @@ void QtAngleLine2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 				arrow_arc_theta1 = alpha4;
 				arrow_arc_theta2 = alpha5;
 			}
-		}
 
-		// display the arrow arc
-		QPainterPath arrow_arc = GetArcArrowPath(x_center, -y_center, GetTextRadius(),arrow_arc_theta1,arrow_arc_theta2,15.0/option->levelOfDetail,12.0/option->levelOfDetail);
-		painter->drawPath(arrow_arc);
-
-		// get coordinates of arrow tip locations, will be used later to construct leader lines
-		if(IsInteriorAngle())
-		{
-			// theta1 correspnds to line1 
-			arrow_tip_x1 = x_center + GetTextRadius()*cos(arrow_arc_theta1);
-			arrow_tip_y1 = y_center + GetTextRadius()*sin(arrow_arc_theta1);
-
-			arrow_tip_x2 = x_center + GetTextRadius()*cos(arrow_arc_theta2);
-			arrow_tip_y2 = y_center + GetTextRadius()*sin(arrow_arc_theta2);
-			
-		} else {
 			// theta1 correspnds to line2 
 			arrow_tip_x2 = x_center + GetTextRadius()*cos(arrow_arc_theta1);
 			arrow_tip_y2 = y_center + GetTextRadius()*sin(arrow_arc_theta1);
@@ -187,6 +195,10 @@ void QtAngleLine2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 			arrow_tip_x1 = x_center + GetTextRadius()*cos(arrow_arc_theta2);
 			arrow_tip_y1 = y_center + GetTextRadius()*sin(arrow_arc_theta2);
 		}
+
+		// display the arrow arc
+		QPainterPath arrow_arc = GetArcArrowPath(x_center, -y_center, GetTextRadius(),arrow_arc_theta1,arrow_arc_theta2,15.0/option->levelOfDetail,12.0/option->levelOfDetail);
+		painter->drawPath(arrow_arc);
 		
 		// draw an additional arc to the text if text is outside of the arrow arc
 		QRectF rect(QPointF(x_center-GetTextRadius(),-y_center-GetTextRadius()),
@@ -216,7 +228,7 @@ void QtAngleLine2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 	double line1_length = sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));
 	delta1 = sqrt((arrow_tip_x1-x1)*(arrow_tip_x1-x1)+(arrow_tip_y1-y1)*(arrow_tip_y1-y1));
 	delta2 = sqrt((arrow_tip_x1-x2)*(arrow_tip_x1-x2)+(arrow_tip_y1-y2)*(arrow_tip_y1-y2));
-	if(delta1 > line1_length)
+	if(delta1 > line1_length && delta1 > delta2)
 	{
 		double direction_x = arrow_tip_x1-x1;
 		double direction_y = arrow_tip_y1-y1;
@@ -224,8 +236,8 @@ void QtAngleLine2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 		direction_x = direction_x / direction_length;
 		direction_y = direction_y / direction_length;
 
-		painter->drawLine(QPointF(x2+leader_gap*direction_x,y2+leader_gap*direction_y),
-						  QPointF(x1+(delta1+leader_extension)*direction_x,y1+(delta1+leader_extension)*direction_y));
+		painter->drawLine(QPointF(x2+leader_gap*direction_x,-(y2+leader_gap*direction_y)),
+						  QPointF(x1+(delta1+leader_extension)*direction_x,-(y1+(delta1+leader_extension)*direction_y)));
 	} else if (delta2 > line1_length) {
 		double direction_x = arrow_tip_x1-x2;
 		double direction_y = arrow_tip_y1-y2;
@@ -233,15 +245,15 @@ void QtAngleLine2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 		direction_x = direction_x / direction_length;
 		direction_y = direction_y / direction_length;
 
-		painter->drawLine(QPointF(x1+leader_gap*direction_x,y1+leader_gap*direction_y),
-						  QPointF(x2+(delta2+leader_extension)*direction_x,y2+(delta2+leader_extension)*direction_y));
+		painter->drawLine(QPointF(x1+leader_gap*direction_x,-(y1+leader_gap*direction_y)),
+						  QPointF(x2+(delta2+leader_extension)*direction_x,-(y2+(delta2+leader_extension)*direction_y)));
 	}
 
 	// create leader for line2 if necessary
 	double line2_length = sqrt((x3-x4)*(x3-x4)+(y3-y4)*(y3-y4));
 	delta1 = sqrt((arrow_tip_x2-x3)*(arrow_tip_x2-x3)+(arrow_tip_y2-y3)*(arrow_tip_y2-y3));
 	delta2 = sqrt((arrow_tip_x2-x4)*(arrow_tip_x2-x4)+(arrow_tip_y2-y4)*(arrow_tip_y2-y4));
-	if(delta1 > line2_length)
+	if(delta1 > line2_length && delta1 > delta2)
 	{
 		double direction_x = arrow_tip_x2-x3;
 		double direction_y = arrow_tip_y2-y3;
