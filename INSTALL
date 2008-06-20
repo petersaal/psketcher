@@ -5,13 +5,12 @@ Installation Instructions
 Dependencies
 -----------------------
 
-qt4-dev (must have qt version 4.4 or greater)
+qt4-dev (must have qt version 4.4 or greater, 4.4 is available in hardy-backports)
 libsqlite3-dev
-cmake-2.4 (this is the build system used)
-libginac-1.3.7
-gsl-1.9
-boost C++ libraries (only use shared_ptr.hpp)
-
+cmake (this is the build system used, verion 2.4 or greater)
+libginac-dev
+libgsl0-dev (version 1.9 or greater)
+libboost-dev C++ libraries (only use shared_ptr.hpp)
 
 Build and run instructions
 ----------------------------
