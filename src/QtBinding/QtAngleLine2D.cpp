@@ -62,6 +62,8 @@ QRectF QtAngleLine2D::boundingRect() const
 
 void QtAngleLine2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget * /* widget */) 
 {
+	// @fixme need to handle the case where one of the lines has zero length (make sure there are no divide by zeros)
+
 	double leader_gap = 10.0/option->levelOfDetail;
 	double leader_extension = 15.0/option->levelOfDetail;
 
@@ -112,7 +114,6 @@ void QtAngleLine2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 	if(!lines_parallel)
 	{	
 		// normal case where lines are not parallel
-		// @fixme need to handle the case where one of the lines has zero length (the calculation of theta will fail)
 		double line1_theta = atan2(y2-y1, x2-x1);
 		double line2_theta = atan2(y4-y3, x4-x3);
 		if(line2_theta < line1_theta)
@@ -220,7 +221,7 @@ void QtAngleLine2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 	} else {
 		// the case where the lines are parallel
 		// @fixme need to implement QtAngleLine2D case when the two lines are parallel		
-
+		
 	} // if(!lines_parallel)
 
 	// create leader for line1 if necessary
