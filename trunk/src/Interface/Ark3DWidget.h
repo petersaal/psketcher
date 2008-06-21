@@ -60,6 +60,7 @@ class Ark3DWidget : public QGraphicsView
 		virtual void wheelEvent        ( QWheelEvent* e );
 		virtual void leaveEvent		   ( QEvent * e);
 		virtual void mouseDoubleClickEvent ( QMouseEvent * event );
+		virtual void drawBackground ( QPainter * painter, const QRectF & rect );
 	
 	private: // members
 		QtSketchPointer current_sketch_;

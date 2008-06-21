@@ -19,6 +19,12 @@ QGraphicsView(scene, parent)
 	setDragMode(ScrollHandDrag);	// mouse drag events cause panning
 	setViewportUpdateMode(QGraphicsView::FullViewportUpdate); // update whole scene at a time
 	setRenderHints(QPainter::Antialiasing); // enable antialiasing
+	//setResizeAnchor(QGraphicsView::AnchorUnderMouse);
+
+	// turn off scroll bars (the mouse will be used to pan the scene)
+	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	
 
 /*
 	// create the python interpretor instance
@@ -286,4 +292,23 @@ void Ark3DWidget::fitExtents()
 	QRectF rect = scene()->itemsBoundingRect();
 	std::cout << "bounding rect " << rect.x() << ", " << rect.y() << ", " << rect.width() << ", " << rect.height() << std::endl;
 	fitInView(rect,Qt::KeepAspectRatio);
+}
+
+void Ark3DWidget::drawBackground ( QPainter * painter, const QRectF & rect )
+{
+	// resize the scene rectangle to twice the visible rectangle which is passed to this function
+	QRectF scene_rect;
+	
+	QPointF center_point = rect.center(); // current centerpoint of rectangle
+	QSizeF size = rect.size(); // current size of rectangle
+	size.setWidth(size.width()*2.0);
+	size.setHeight(size.height()*2.0);
+	scene_rect.setSize(size);  // scale rectangle, top left corner will not move
+	scene_rect.moveCenter(center_point); // move center of rectangle back to the original center
+	
+	// finally, set the scene rectangle
+	setSceneRect(scene_rect);
+
+	// let the base class do its thing
+	QGraphicsView::drawBackground(painter, rect);
 }
