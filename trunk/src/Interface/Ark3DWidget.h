@@ -68,7 +68,7 @@ class Ark3DWidget : public QGraphicsView
 	
 	
 	private: // methods
-	
+		QPoint previous_mouse_position_;
 	
 	
 	public:
