@@ -16,10 +16,10 @@ QGraphicsView(scene, parent)
 	GenerateDefaultSketch();
 
 	setInteractive(true);  // allow selections and other mouse interactions
-	setDragMode(ScrollHandDrag);	// mouse drag events cause panning
+	setDragMode(NoDrag);	// mouse drag events cause panning
 	setViewportUpdateMode(QGraphicsView::FullViewportUpdate); // update whole scene at a time
 	setRenderHints(QPainter::Antialiasing); // enable antialiasing
-	//setResizeAnchor(QGraphicsView::AnchorUnderMouse);
+	setTransformationAnchor(QGraphicsView::AnchorUnderMouse); 
 
 	// turn off scroll bars (the mouse will be used to pan the scene)
 	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -90,9 +90,15 @@ void Ark3DWidget::mousePressEvent   ( QMouseEvent* e )
 			// @fixme redraw();
 			emit sketchActionFinished();
 		}
+	} else if (e->button() & Qt::MidButton) {
+		// begin pan event and change cursor to a hand to convey this to the user
+		QGraphicsView::mousePressEvent(e);
+		setCursor(Qt::SizeAllCursor);
 	} else {
 		QGraphicsView::mousePressEvent(e);
 	}
+
+	previous_mouse_position_ = e->pos();
 }
 
 void Ark3DWidget::mouseReleaseEvent ( QMouseEvent* e )
@@ -118,6 +124,9 @@ void Ark3DWidget::mouseReleaseEvent ( QMouseEvent* e )
 			// @fixme redraw();
 			emit sketchActionFinished();
 		}
+	} else if (e->button() & Qt::MidButton) {
+		// pan event has ended to reset cursor to its default
+		unsetCursor();
 	} else {
 		QGraphicsView::mouseReleaseEvent(e);
 	}
@@ -125,7 +134,7 @@ void Ark3DWidget::mouseReleaseEvent ( QMouseEvent* e )
 }
 
 void Ark3DWidget::mouseMoveEvent    ( QMouseEvent* e )
-{
+{	
 	if(interactive_primitive_ != 0)
 	{
 		MotionEventPropertiesPointer event_props(new QtMotionEventProperties(e));
@@ -138,9 +147,15 @@ void Ark3DWidget::mouseMoveEvent    ( QMouseEvent* e )
 			// @fixme redraw();
 			emit sketchActionFinished();
 		}
+	} else if(e->buttons() & Qt::MidButton) {
+		// translate the scene rectangle when the middle mouse button is pressed and moved
+		QPointF delta = mapToScene(e->pos() - previous_mouse_position_);
+		translate(delta.x(),delta.y());
 	} else {
 		QGraphicsView::mouseMoveEvent(e);
 	}
+
+	previous_mouse_position_ = e->pos();
 }
 
 // Wheel event causes the scene to zoon in or out
