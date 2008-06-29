@@ -237,7 +237,7 @@ void QtAngleLine2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 
 	} else {
 		// the case where the lines are parallel
-		// @fixme need to implement QtAngleLine2D case when the two lines are parallel		
+		// @fixme need to implement QtAngleLine2D::paint method for case when the two lines are parallel		
 		
 	} // if(!lines_parallel)
 
@@ -306,7 +306,7 @@ angle_constraint_primitive_(arc_primitive), QGraphicsProxyWidget(parent)
 
 	// create widget
 	angle_line_edit_ = new QLineEdit;
-	angle_line_edit_->setStyleSheet("QLineEdit { border-width: 2px; border-style: solid; border-color: rgb(166,86,0);}");
+	angle_line_edit_->setStyleSheet(LineEditStyleSheet);
 	angle_line_edit_->setValidator(new QDoubleValidator(this));
 	angle_line_edit_->setAlignment(Qt::AlignCenter);
 	angle_line_edit_->setText(QString("%1").arg(angle_constraint_primitive_->GetAngleValue()*(180.0/mmcPI)));
