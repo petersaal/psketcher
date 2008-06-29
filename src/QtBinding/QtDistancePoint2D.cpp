@@ -6,6 +6,12 @@ QtDistancePoint2D::QtDistancePoint2D(QGraphicsItem * parent,const Point2DPointer
 QtPrimitiveBase(parent),
 DistancePoint2D(point1,point2,distance)
 {
+	SetProperties(Annotation);
+	SetSelectedProperties(SelectedAnnotation);
+	SetMouseHoverProperties(HoverAnnotation);
+
+	setZValue(GetProperties().GetZ());
+
 	distance_widget_ = 0;
 
 	// Display the newly create ais_object
@@ -30,17 +36,25 @@ QRectF QtDistancePoint2D::boundingRect() const
 
 void QtDistancePoint2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget * /* widget */)
 {
-	// some constants that need to eventually be set elsewhere
-	// @fixme the following paint related constants need to be defined as class members
-	double arrow_head_length = 15.0/option->levelOfDetail;
-	double arrow_head_width = 12.0/option->levelOfDetail;
-	double line_width = 1.0/option->levelOfDetail;
-	double leader_gap = 10.0/option->levelOfDetail;
-	double leader_extension = 15.0/option->levelOfDetail;
-	// end of constants
+	DisplayProperties current_properties;
 
-	painter->setPen(QPen(Qt::black, line_width));
-	painter->setBrush(QBrush(Qt::black,Qt::SolidPattern));
+	if(option->state & QStyle::State_MouseOver)
+	{
+		current_properties = GetMouseHoverProperties();
+	} else if (option->state & QStyle::State_Selected) {
+		current_properties = GetSelectedProperties();
+	} else {
+		current_properties = GetProperties();
+	}
+	
+	double leader_gap = current_properties.GetLeaderGap()/option->levelOfDetail;
+	double leader_extension = current_properties.GetLeaderExtension()/option->levelOfDetail;
+
+	double arrow_head_length = current_properties.GetArrowHeadLength()/option->levelOfDetail;
+	double arrow_head_width = current_properties.GetArrowHeadWidth()/option->levelOfDetail;
+
+	painter->setPen(current_properties.GetPen(option->levelOfDetail));
+	painter->setBrush(current_properties.GetBrush());
 
 	mmcMatrix point1 = point1_->GetmmcMatrix();
 	mmcMatrix point2 = point2_->GetmmcMatrix();
@@ -98,6 +112,7 @@ distance_constraint_(distance_constraint), QGraphicsProxyWidget(parent)
 
 	// create widget
 	distance_line_edit_ = new QLineEdit;
+	distance_line_edit_->setStyleSheet("QLineEdit { border-width: 2px; border-style: solid; border-color: rgb(166,86,0);}");
 	distance_line_edit_->setValidator(new QDoubleValidator(this));
 	distance_line_edit_->setAlignment(Qt::AlignCenter);
 	distance_line_edit_->setText(QString("%1").arg(distance_constraint_->GetValue()));

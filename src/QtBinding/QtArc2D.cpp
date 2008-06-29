@@ -8,6 +8,12 @@ QtArc2D::QtArc2D (QGraphicsItem * parent, double s_center, double t_center, doub
 QtPrimitiveBase(parent),
 Arc2D(s_center,t_center,theta_1,theta_2,radius,sketch_plane, s_center_free, t_center_free, theta_1_free, theta_2_free,radius_free)
 {
+	SetProperties(Primitive);
+	SetSelectedProperties(SelectedPrimitive);
+	SetMouseHoverProperties(HoverPrimitive);
+
+	setZValue(GetProperties().GetZ());
+
 	radius_widget_ = 0;
 
 	// Display the newly create ais_object
@@ -18,6 +24,12 @@ QtArc2D::QtArc2D (QGraphicsItem * parent,DOFPointer s_center, DOFPointer t_cente
 QtPrimitiveBase(parent),
 Arc2D(s_center,t_center,theta_1,theta_2,radius,sketch_plane)
 {
+	SetProperties(Primitive);
+	SetSelectedProperties(SelectedPrimitive);
+	SetMouseHoverProperties(HoverPrimitive);
+
+	setZValue(GetProperties().GetZ());
+
 	// Display the newly create ais_object
 	Display();
 }
@@ -44,11 +56,34 @@ QRectF QtArc2D::boundingRect() const
 
 void QtArc2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget * /* widget */) 
 {
-	double leader_extension_angle = ((15.0/GetRadius()->GetValue())*(180.0/mmcPI))/option->levelOfDetail;
-	double leader_gap_angle = ((10.0/GetRadius()->GetValue())*(180.0/mmcPI))/option->levelOfDetail;
+	DisplayProperties current_properties;
+
+	// @fixme the way radius_properties and point_properties are defined in the following if statement block will prevent the user from changing the display properties of the radius dimension or the points at run time since the DisplayProperties constructor is used to set these properties
+	DisplayProperties radius_properties; 
+	DisplayProperties point_properties;
+
+	if(option->state & QStyle::State_MouseOver)
+	{
+		current_properties = GetMouseHoverProperties();
+		radius_properties = DisplayProperties(HoverAnnotation);
+		point_properties = DisplayProperties(HoverPointPrimitive);
+	} else if (option->state & QStyle::State_Selected) {
+		current_properties = GetSelectedProperties();
+		radius_properties = DisplayProperties(SelectedAnnotation);
+		point_properties = DisplayProperties(SelectedPointPrimitive);
+	} else {
+		current_properties = GetProperties();
+		radius_properties = DisplayProperties(Annotation);
+		point_properties = DisplayProperties(PointPrimitive);
+	}
+	
+	double leader_gap = current_properties.GetLeaderGap()/option->levelOfDetail;
+	double leader_extension = current_properties.GetLeaderExtension()/option->levelOfDetail;
+
+	double leader_extension_angle = ((leader_extension/GetRadius()->GetValue())*(180.0/mmcPI))/option->levelOfDetail;
+	double leader_gap_angle = ((leader_gap/GetRadius()->GetValue())*(180.0/mmcPI))/option->levelOfDetail;
 
 	// paint the actual arc
-	painter->setPen(QPen(Qt::black, 1.0/option->levelOfDetail));
 
 	double radius = GetRadius()->GetValue();
 	QRectF rect(QPointF(GetSCenter()->GetValue()-radius,-GetTCenter()->GetValue()-radius),
@@ -63,8 +98,8 @@ void QtArc2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 	// If it is a free parameter, it is not really a constraint and should not be displayed as such
 	if( ! radius_->IsFree())
 	{
-		painter->setPen(QPen(Qt::black, 1.0/option->levelOfDetail));
-		painter->setBrush(QBrush(Qt::black,Qt::SolidPattern));
+		painter->setPen(radius_properties.GetPen(option->levelOfDetail));
+		painter->setBrush(radius_properties.GetBrush());
 
 		QPolygonF radius_arrow = GetArrowPolygon(s_center_->GetValue(),-t_center_->GetValue(),s_center_->GetValue()+radius_->GetValue()*cos(GetTextAngle()),
 							   -(t_center_->GetValue()+radius_->GetValue()*sin(GetTextAngle())), 15.0/option->levelOfDetail,12.0/option->levelOfDetail);
@@ -91,12 +126,14 @@ void QtArc2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 		radius_widget_->UpdateGeometry(option->levelOfDetail);
 	}
 
+	painter->setPen(current_properties.GetPen(option->levelOfDetail));
+	painter->setBrush(current_properties.GetBrush());
 
 	painter->drawArc(rect,angle1*16.0,(angle2-angle1)*16.0);
 
 	// now paint the end points and the center point
-	painter->setPen(QPen(Qt::black, 1.0/option->levelOfDetail));
-	painter->setBrush(QBrush(Qt::lightGray,Qt::SolidPattern));
+	painter->setPen(point_properties.GetPen(option->levelOfDetail));
+	painter->setBrush(point_properties.GetBrush());
 
 	// end 2
 	PaintPoint(painter, option,s_center_->GetValue()+radius_->GetValue()*cos(theta_1_->GetValue()),
@@ -122,6 +159,7 @@ arc_primitive_(arc_primitive), QGraphicsProxyWidget(parent)
 
 	// create widget
 	radius_line_edit_ = new QLineEdit;
+	radius_line_edit_->setStyleSheet("QLineEdit { border-width: 2px; border-style: solid; border-color: rgb(166,86,0);}");
 	radius_line_edit_->setValidator(new QDoubleValidator(this));
 	radius_line_edit_->setAlignment(Qt::AlignCenter);
 	radius_line_edit_->setText(QString("%1").arg(arc_primitive_->GetRadiusValue()));

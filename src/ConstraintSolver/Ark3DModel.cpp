@@ -18,6 +18,7 @@ void Ark3DModel::AddConstraintEquation(const ConstraintEquationBasePointer &new_
   sort( dof_list_.begin(), dof_list_.end());
   dof_list_.erase( unique( dof_list_.begin(), dof_list_.end()), dof_list_.end());
 	
+	ApplySelectionMask(current_selection_mask_);
 }
 
 /*
@@ -35,16 +36,18 @@ void Ark3DModel::AddPrimitive(const PrimitiveBasePointer &new_primitive)
 
 	// delete duplicate primitives
 	// @todo warn user if the primitive added is a duplicate
-  sort( primitive_list_.begin(), primitive_list_.end());
-  primitive_list_.erase( unique( primitive_list_.begin(), primitive_list_.end()), primitive_list_.end());	
+	sort( primitive_list_.begin(), primitive_list_.end());
+	primitive_list_.erase( unique( primitive_list_.begin(), primitive_list_.end()), primitive_list_.end());	
 
 
 	// Add DOF's to DOF vector containter
 	dof_list_.insert(dof_list_.end(),new_primitive->GetDOFList().begin(),new_primitive->GetDOFList().end());
 
 	// delete duplicate DOF's
-  sort( dof_list_.begin(), dof_list_.end());
-  dof_list_.erase( unique( dof_list_.begin(), dof_list_.end()), dof_list_.end());
+	sort( dof_list_.begin(), dof_list_.end());
+	dof_list_.erase( unique( dof_list_.begin(), dof_list_.end()), dof_list_.end());
+
+	ApplySelectionMask(current_selection_mask_);
 }
 
 /*
@@ -147,6 +150,8 @@ void Ark3DModel::UpdateDisplay()
 
 void Ark3DModel::ApplySelectionMask(SelectionMask mask)
 {
+	current_selection_mask_ = mask;
+
 	// Apply mask to all of the constraint equations
 	for(unsigned int current_equation = 0; current_equation < constraint_equation_list_.size(); current_equation++)
 		constraint_equation_list_[current_equation]->ApplySelectionMask(mask);

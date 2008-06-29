@@ -6,6 +6,12 @@ QtAngleLine2D::QtAngleLine2D(QGraphicsItem * parent, const Line2DPointer line1, 
 QtPrimitiveBase(parent),
 AngleLine2D(line1,line2,angle,interior_angle)
 {
+	SetProperties(Annotation);
+	SetSelectedProperties(SelectedAnnotation);
+	SetMouseHoverProperties(HoverAnnotation);
+
+	setZValue(GetProperties().GetZ());
+
 	angle_widget_ = 0;
 	
 	// Display the newly create ais_object
@@ -64,11 +70,22 @@ void QtAngleLine2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 {
 	// @fixme need to handle the case where one of the lines has zero length (make sure there are no divide by zeros)
 
-	double leader_gap = 10.0/option->levelOfDetail;
-	double leader_extension = 15.0/option->levelOfDetail;
+	DisplayProperties current_properties;
 
-	painter->setPen(QPen(Qt::black, 1.0/option->levelOfDetail));
-	painter->setBrush(QBrush(Qt::black,Qt::SolidPattern));
+	if(option->state & QStyle::State_MouseOver)
+	{
+		current_properties = GetMouseHoverProperties();
+	} else if (option->state & QStyle::State_Selected) {
+		current_properties = GetSelectedProperties();
+	} else {
+		current_properties = GetProperties();
+	}
+
+	painter->setPen(current_properties.GetPen(option->levelOfDetail));
+	painter->setBrush(current_properties.GetBrush());
+	
+	double leader_gap = current_properties.GetLeaderGap()/option->levelOfDetail;
+	double leader_extension = current_properties.GetLeaderExtension()/option->levelOfDetail;
 
 	// first determine the intersection point of the two lines
 	double x1 = GetLine1()->GetPoint1()->GetSValue();
@@ -289,6 +306,7 @@ angle_constraint_primitive_(arc_primitive), QGraphicsProxyWidget(parent)
 
 	// create widget
 	angle_line_edit_ = new QLineEdit;
+	angle_line_edit_->setStyleSheet("QLineEdit { border-width: 2px; border-style: solid; border-color: rgb(166,86,0);}");
 	angle_line_edit_->setValidator(new QDoubleValidator(this));
 	angle_line_edit_->setAlignment(Qt::AlignCenter);
 	angle_line_edit_->setText(QString("%1").arg(angle_constraint_primitive_->GetAngleValue()*(180.0/mmcPI)));
@@ -340,7 +358,6 @@ bool QtAngleLine2DWidget::event(QEvent *event)
 
 void QtAngleLine2DWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget * widget)
 {
-
 	QGraphicsProxyWidget::paint(painter, option,widget);	
 }
 

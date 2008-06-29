@@ -9,6 +9,12 @@ QtTangentEdge2D::QtTangentEdge2D (QGraphicsItem * parent,
 QtPrimitiveBase(parent),
 TangentEdge2D(edge1,point_num_1,edge2,point_num_2)
 {
+	SetProperties(Annotation);
+	SetSelectedProperties(SelectedAnnotation);
+	SetMouseHoverProperties(HoverAnnotation);
+
+	setZValue(GetProperties().GetZ());
+
 	// Display the newly create ais_object
 	Display();
 }

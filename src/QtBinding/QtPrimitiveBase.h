@@ -1,6 +1,8 @@
 #ifndef QtPrimitiveBaseH
 #define QtPrimitiveBaseH
 
+#include "DisplayProperties.h"
+
 #include <QGraphicsItem>
 #include <QRectF>
 #include "../ConstraintSolver/Primitives.h"
@@ -18,6 +20,14 @@ class QtPrimitiveBase : public QGraphicsItem
 
 		void Erase();
 
+		DisplayProperties GetProperties()           {return properties_;}
+		DisplayProperties GetSelectedProperties()   {return selected_properties_;}
+		DisplayProperties GetMouseHoverProperties() {return mouse_hover_properties_;}
+	
+		void SetProperties(DefaultPropertiesSet prop_set) {properties_ = DisplayProperties(prop_set);}
+		void SetSelectedProperties(DefaultPropertiesSet prop_set) {selected_properties_ = DisplayProperties(prop_set);}
+		void SetMouseHoverProperties(DefaultPropertiesSet prop_set) {mouse_hover_properties_ = DisplayProperties(prop_set);}
+
 		// update coordinates of primitive
 		virtual void UpdateDisplay();
 
@@ -30,7 +40,11 @@ class QtPrimitiveBase : public QGraphicsItem
 		QPainterPath GetArcArrowPath(double x_center, double y_center, double radius, double theta1, double theta2, double arrow_head_length, double arrow_head_width) const;
 
 	protected:
-
+		// member class that stores display properties for the primitives
+		DisplayProperties properties_;
+		DisplayProperties selected_properties_;
+		DisplayProperties mouse_hover_properties_;
+		
 };
 
 

@@ -5,6 +5,11 @@ QtPoint::QtPoint (QGraphicsItem * parent, double x, double y, double z, bool x_f
 QtPrimitiveBase(parent),
 Point(x,y,z,x_free,y_free,z_free)
 {
+	SetProperties(PointPrimitive);
+	SetSelectedProperties(SelectedPointPrimitive);
+	SetMouseHoverProperties(HoverPointPrimitive);
+
+	setZValue(GetProperties().GetZ());
 
 	// Display the newly create ais_object
 	Display();
