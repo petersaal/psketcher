@@ -32,7 +32,19 @@ QRectF QtLine2D::boundingRect() const
 
 void QtLine2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget * /* widget */) 
 {
-	painter->setPen(QPen(Qt::black, 1.0/option->levelOfDetail));
+	DisplayProperties current_properties;
+
+	if(option->state & QStyle::State_MouseOver)
+	{
+		current_properties = GetMouseHoverProperties();
+	} else if (option->state & QStyle::State_Selected) {
+		current_properties = GetSelectedProperties();
+	} else {
+		current_properties = GetProperties();
+	}
+
+	painter->setPen(current_properties.GetPen(option->levelOfDetail));
+	painter->setBrush(current_properties.GetBrush());
 
 	QLineF line(QPointF(GetS1()->GetValue(),-GetT1()->GetValue()),QPointF(GetS2()->GetValue(),-GetT2()->GetValue()));
 	painter->drawLine(line);

@@ -5,7 +5,10 @@
 QtPrimitiveBase::QtPrimitiveBase(QGraphicsItem * parent ) : 
 QGraphicsItem(parent)
 {
-
+	// by default use primitive display properties
+	SetProperties(Primitive);
+	SetSelectedProperties(SelectedPrimitive);
+	SetMouseHoverProperties(HoverPrimitive);
 }
 
 void QtPrimitiveBase::Display()
@@ -25,7 +28,7 @@ bool QtPrimitiveBase::IsSelected()
 
 void QtPrimitiveBase::SetSelectable(bool selectable)
 {
-	return setFlag(QGraphicsItem::ItemIsSelectable, selectable);
+	setFlag(QGraphicsItem::ItemIsSelectable, selectable);
 }
 
 // Erase current ais_object from the ais_context

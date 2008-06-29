@@ -8,6 +8,7 @@ class Ark3DModel
 {
 public:
 	// Acessor Methods
+	Ark3DModel() {current_selection_mask_ = All;}
 	~Ark3DModel() {dof_list_.clear(); constraint_equation_list_.clear(); primitive_list_.clear();}
 	
 	// Constraint equation management
@@ -38,6 +39,8 @@ private:
 	std::vector<DOFPointer> dof_list_;
 	std::vector<ConstraintEquationBasePointer> constraint_equation_list_;
 	std::vector<PrimitiveBasePointer> primitive_list_;
+
+	SelectionMask current_selection_mask_;
 };
 
 

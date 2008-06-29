@@ -16,7 +16,7 @@ QGraphicsView(scene, parent)
 	GenerateDefaultSketch();
 
 	setInteractive(true);  // allow selections and other mouse interactions
-	setDragMode(NoDrag);	// mouse drag events cause panning
+	setDragMode(QGraphicsView::RubberBandDrag);	
 	setViewportUpdateMode(QGraphicsView::FullViewportUpdate); // update whole scene at a time
 	setRenderHints(QPainter::Antialiasing); // enable antialiasing
 	setTransformationAnchor(QGraphicsView::AnchorUnderMouse); 
@@ -24,7 +24,6 @@ QGraphicsView(scene, parent)
 	// turn off scroll bars (the mouse will be used to pan the scene)
 	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-	
 
 /*
 	// create the python interpretor instance
@@ -214,8 +213,8 @@ void Ark3DWidget::GenerateTestSketch()
 	edge_loop1->AddEdge(line4);
 	std::cout << "Is loop valid: " << edge_loop1->IsLoopValid() << std::endl;
 
-	current_sketch_->ApplySelectionMask(Points);
-	current_sketch_->ApplySelectionMask(Edges);
+	//current_sketch_->ApplySelectionMask(Points);
+	//current_sketch_->ApplySelectionMask(Edges);
 
 	fitExtents();
 }

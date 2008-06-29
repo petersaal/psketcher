@@ -4,6 +4,12 @@ QtParallelLine2D::QtParallelLine2D(QGraphicsItem * parent, const Line2DPointer l
 QtPrimitiveBase(parent),
 ParallelLine2D(line1,line2)
 {
+	SetProperties(Annotation);
+	SetSelectedProperties(SelectedAnnotation);
+	SetMouseHoverProperties(HoverAnnotation);
+
+	setZValue(GetProperties().GetZ());
+
 	// Display the newly create ais_object
 	Display();
 }
