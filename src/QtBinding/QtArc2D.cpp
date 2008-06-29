@@ -159,7 +159,7 @@ arc_primitive_(arc_primitive), QGraphicsProxyWidget(parent)
 
 	// create widget
 	radius_line_edit_ = new QLineEdit;
-	radius_line_edit_->setStyleSheet("QLineEdit { border-width: 2px; border-style: solid; border-color: rgb(166,86,0);}");
+	radius_line_edit_->setStyleSheet(LineEditStyleSheet);
 	radius_line_edit_->setValidator(new QDoubleValidator(this));
 	radius_line_edit_->setAlignment(Qt::AlignCenter);
 	radius_line_edit_->setText(QString("%1").arg(arc_primitive_->GetRadiusValue()));

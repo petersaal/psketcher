@@ -4,6 +4,9 @@
 #include <QColor>
 #include <QBrush>
 #include <QPen>
+#include <QString>
+
+const QString LineEditStyleSheet("QLineEdit { border-width: 2px; border-style: solid; border-color: rgb(166,86,0);}");
 
 enum DefaultPropertiesSet {Primitive, SelectedPrimitive, HoverPrimitive, Annotation, SelectedAnnotation, HoverAnnotation, PointPrimitive, SelectedPointPrimitive, HoverPointPrimitive};
 

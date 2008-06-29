@@ -112,7 +112,7 @@ distance_constraint_(distance_constraint), QGraphicsProxyWidget(parent)
 
 	// create widget
 	distance_line_edit_ = new QLineEdit;
-	distance_line_edit_->setStyleSheet("QLineEdit { border-width: 2px; border-style: solid; border-color: rgb(166,86,0);}");
+	distance_line_edit_->setStyleSheet(LineEditStyleSheet);
 	distance_line_edit_->setValidator(new QDoubleValidator(this));
 	distance_line_edit_->setAlignment(Qt::AlignCenter);
 	distance_line_edit_->setText(QString("%1").arg(distance_constraint_->GetValue()));
