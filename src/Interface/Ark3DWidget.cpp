@@ -25,6 +25,8 @@ QGraphicsView(scene, parent)
 	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
+	setMouseTracking(true);
+
 /*
 	// create the python interpretor instance
 	PyImport_AppendInittab( "ark3d_module", &initark3d_module );
@@ -102,6 +104,7 @@ void Ark3DWidget::mousePressEvent   ( QMouseEvent* e )
 
 void Ark3DWidget::mouseReleaseEvent ( QMouseEvent* e )
 {
+	
 	if(interactive_primitive_ != 0)
 	{
 		MouseEventPropertiesPointer event_props(new QtMouseEventProperties((MouseButtonEventType)ButtonRelease,e));
@@ -325,4 +328,10 @@ void Ark3DWidget::drawBackground ( QPainter * painter, const QRectF & rect )
 
 	// let the base class do its thing
 	QGraphicsView::drawBackground(painter, rect);
+}
+
+void Ark3DWidget::SelectUnderMouse(QMouseEvent *e, bool multi_select)
+{
+
+
 }

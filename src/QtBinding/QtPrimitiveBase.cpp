@@ -9,6 +9,9 @@ QGraphicsItem(parent)
 	SetProperties(Primitive);
 	SetSelectedProperties(SelectedPrimitive);
 	SetMouseHoverProperties(HoverPrimitive);
+
+	// accept mouse hover events (false by default)
+	setAcceptHoverEvents(true);
 }
 
 void QtPrimitiveBase::Display()

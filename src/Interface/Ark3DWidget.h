@@ -27,6 +27,7 @@ class Ark3DWidget : public QGraphicsView
 		~Ark3DWidget();
 	
 		void GenerateDefaultSketch();
+
 	
 	signals:
 		void sketchActionFinished();
@@ -61,6 +62,8 @@ class Ark3DWidget : public QGraphicsView
 		virtual void leaveEvent		   ( QEvent * e);
 		virtual void mouseDoubleClickEvent ( QMouseEvent * event );
 		virtual void drawBackground ( QPainter * painter, const QRectF & rect );
+
+		void SelectUnderMouse(QMouseEvent *e, bool multi_select = false);
 	
 	private: // members
 		QtSketchPointer current_sketch_;

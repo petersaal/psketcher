@@ -18,8 +18,10 @@ class QtLine2D : public QtPrimitiveBase, public Line2D
 		virtual QRectF boundingRect() const;
 		virtual void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*);
 
+		virtual QPainterPath shape() const {return current_shape_;}
+	
 	private:
-
+		QPainterPath current_shape_;
 };
 typedef boost::shared_ptr<QtLine2D> QtLine2DPointer;
 
