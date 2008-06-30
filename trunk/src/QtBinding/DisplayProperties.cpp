@@ -95,9 +95,9 @@ DisplayProperties::DisplayProperties(DefaultPropertiesSet prop_set)
 			leader_gap_ = 10.0;
 			leader_extension_ = 15.0;
 			z_ = 2.0;
-			pen_color_ = Qt::black;
+			pen_color_ = Qt::lightGray;
 			pen_width_ = 1.0;
-			brush_ = QBrush(Qt::lightGray,Qt::SolidPattern);
+			brush_ = QBrush(Qt::black,Qt::SolidPattern);
 	
 			break;
 

@@ -46,6 +46,14 @@ void QtLine2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 	painter->setPen(current_properties.GetPen(option->levelOfDetail));
 	painter->setBrush(current_properties.GetBrush());
 
-	QLineF line(QPointF(GetS1()->GetValue(),-GetT1()->GetValue()),QPointF(GetS2()->GetValue(),-GetT2()->GetValue()));
-	painter->drawLine(line);
+	// update the shape that will be used for mouse selection
+	QPainterPath line_path;
+	QPolygonF line_polygon;
+	line_polygon << QPointF(GetS1()->GetValue(),-GetT1()->GetValue()) << QPointF(GetS2()->GetValue(),-GetT2()->GetValue());
+	line_path.addPolygon(line_polygon);
+	current_shape_ = line_path;
+
+	// draw the actual line using the path that was just created
+	painter->drawPath(line_path);
+
 }

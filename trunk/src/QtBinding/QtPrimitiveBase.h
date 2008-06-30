@@ -44,7 +44,6 @@ class QtPrimitiveBase : public QGraphicsItem
 		DisplayProperties properties_;
 		DisplayProperties selected_properties_;
 		DisplayProperties mouse_hover_properties_;
-		
 };
 
 
