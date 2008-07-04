@@ -18,8 +18,10 @@ class QtPoint2D : public QtPrimitiveBase, public Point2D
 		virtual QRectF boundingRect() const;
 		virtual void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*);
 
-	private:
+		virtual QPainterPath shape() const {return current_shape_;}
 
+	private:
+		QPainterPath current_shape_;
 };
 typedef boost::shared_ptr<QtPoint2D> QtPoint2DPointer;
 

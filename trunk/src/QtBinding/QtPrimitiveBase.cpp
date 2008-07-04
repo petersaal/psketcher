@@ -3,7 +3,8 @@
 #include "QtPrimitiveBase.h"
 
 QtPrimitiveBase::QtPrimitiveBase(QGraphicsItem * parent ) : 
-QGraphicsItem(parent)
+QGraphicsItem(parent),
+selection_diameter_(2.0)
 {
 	// by default use primitive display properties
 	SetProperties(Primitive);
@@ -46,6 +47,13 @@ void QtPrimitiveBase::PaintPoint(QPainter *painter, const QStyleOptionGraphicsIt
 	QRectF rect(QPointF(x-radius,y-radius),
  				QPointF(x+radius,y+radius));
 	painter->drawEllipse(rect);
+}
+
+void QtPrimitiveBase::PaintPointAndSelectionPath(QPainter *painter, const QStyleOptionGraphicsItem *option, double x, double y,QPainterPath &selection_path)
+{
+	selection_path.addEllipse(QPointF(x,y),0.5*selection_diameter_/option->levelOfDetail,0.5*selection_diameter_/option->levelOfDetail);
+
+	PaintPoint(painter, option, x, y);
 }
 
 QPolygonF QtPrimitiveBase::GetArrowPolygon(double x1, double y1, double x2, double y2, double arrow_head_length, double arrow_head_width, bool double_arrow) const
@@ -176,4 +184,57 @@ QPainterPath QtPrimitiveBase::GetArcArrowPath(double x_center, double y_center, 
 	path.arcTo(rect,arrow_base_theta2*(180.0/mmcPI),(arrow_base_theta1-arrow_base_theta2)*(180.0/mmcPI));
 
 	return path;
+}
+
+QLineF QtPrimitiveBase::GetLineAndSelectionPath(mmcMatrix point1, mmcMatrix point2, QPainterPath &selection_path, double scale)
+{
+	// create selection area polygon
+	mmcMatrix tangent = point2 - point1;
+	mmcMatrix normal(2,1);
+	
+	normal(0,0) = -tangent(1,0); 
+	normal(1,0) = tangent(0,0);
+
+	double length = normal.GetMagnitude();
+	double radius = 0.5*selection_diameter_/scale;
+
+	if(length > 0.0){
+		// line has non-zero length 
+		normal = (1.0/length)*normal;
+		
+		mmcMatrix corner1 = point1 + radius*normal;
+		mmcMatrix corner2 = point2 + radius*normal;
+		mmcMatrix corner3 = point2 - radius*normal;
+		mmcMatrix corner4 = point1 - radius*normal;
+
+		QPolygonF line_selection_polygon;
+
+		line_selection_polygon << QPointF(corner1(0,0),corner1(1,0));
+		line_selection_polygon << QPointF(corner2(0,0),corner2(1,0));
+		line_selection_polygon << QPointF(corner3(0,0),corner3(1,0));
+		line_selection_polygon << QPointF(corner4(0,0),corner4(1,0));
+		line_selection_polygon << QPointF(corner1(0,0),corner1(1,0));
+
+		selection_path.addPolygon(line_selection_polygon);
+
+	} else {
+		// line has zero length, make a selection circle rather than a rectangle
+		selection_path.addEllipse(QPointF(point1(0,0),point1(1,0)),0.5*selection_diameter_,0.5*selection_diameter_);
+	}
+
+	return QLineF(QPointF(point1(0,0),point1(1,0)),QPointF(point2(0,0),point2(1,0)));
+}
+
+QLineF QtPrimitiveBase::GetLineAndSelectionPath(double x1, double y1, double x2, double y2, QPainterPath &selection_path, double scale)
+{
+	mmcMatrix point1(2,1);
+	mmcMatrix point2(2,1);
+
+	point1(0,0) = x1;
+	point1(1,0) = y1;
+	
+	point2(0,0) = x2;
+	point2(1,0) = y2;
+
+	return GetLineAndSelectionPath(point1, point2, selection_path, scale);
 }

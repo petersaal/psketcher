@@ -71,6 +71,8 @@ void QtPoint2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 	painter->setPen(current_properties.GetPen(option->levelOfDetail));
 	painter->setBrush(current_properties.GetBrush());	
 
-	PaintPoint(painter, option, GetSValue(), -GetTValue());
+	QPainterPath point_path;
+	PaintPointAndSelectionPath(painter, option, GetSValue(), -GetTValue(),point_path);
+	current_shape_ = point_path;
 }
 
