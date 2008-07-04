@@ -201,11 +201,12 @@ QLineF QtPrimitiveBase::GetLineAndSelectionPath(mmcMatrix point1, mmcMatrix poin
 	if(length > 0.0){
 		// line has non-zero length 
 		normal = (1.0/length)*normal;
-		
-		mmcMatrix corner1 = point1 + radius*normal;
-		mmcMatrix corner2 = point2 + radius*normal;
-		mmcMatrix corner3 = point2 - radius*normal;
-		mmcMatrix corner4 = point1 - radius*normal;
+		tangent = (1.0/length)*tangent;		
+
+		mmcMatrix corner1 = point1+radius*tangent + radius*normal;
+		mmcMatrix corner2 = point2-radius*tangent + radius*normal;
+		mmcMatrix corner3 = point2-radius*tangent - radius*normal;
+		mmcMatrix corner4 = point1+radius*tangent - radius*normal;
 
 		QPolygonF line_selection_polygon;
 
@@ -213,9 +214,9 @@ QLineF QtPrimitiveBase::GetLineAndSelectionPath(mmcMatrix point1, mmcMatrix poin
 		line_selection_polygon << QPointF(corner2(0,0),corner2(1,0));
 		line_selection_polygon << QPointF(corner3(0,0),corner3(1,0));
 		line_selection_polygon << QPointF(corner4(0,0),corner4(1,0));
-		line_selection_polygon << QPointF(corner1(0,0),corner1(1,0));
 
 		selection_path.addPolygon(line_selection_polygon);
+		selection_path.closeSubpath();
 
 	} else {
 		// line has zero length, make a selection circle rather than a rectangle
@@ -237,4 +238,37 @@ QLineF QtPrimitiveBase::GetLineAndSelectionPath(double x1, double y1, double x2,
 	point2(1,0) = y2;
 
 	return GetLineAndSelectionPath(point1, point2, selection_path, scale);
+}
+
+QPainterPath QtPrimitiveBase::GetArcAndSelectionPath(double center_x, double center_y, double radius, double theta1, double theta2, QPainterPath &selection_path, double scale)
+{
+	if(theta1 > theta2)
+	{
+		double temp;
+		theta1 = temp;
+		theta1 = theta2;
+		theta2 = temp;
+	}
+
+	QPainterPath arc_path;
+	
+	QRectF rect(QPointF(center_x-radius,center_y-radius),QPointF(center_x+radius,center_y+radius));
+
+	arc_path.moveTo(center_x + radius*cos(theta1), center_y + radius*sin(theta1));
+	arc_path.arcTo(rect,theta1*(180.0/mmcPI),(theta2-theta1)*(180.0/mmcPI));
+
+	// create selection path
+	double gap_angle = (((0.5*selection_diameter_)/radius))/scale;
+
+	double current_radius = (radius+0.5*selection_diameter_);
+
+	rect = QRectF(QPointF(center_x-current_radius,center_y-current_radius),QPointF(center_x+current_radius,center_y+current_radius));
+	selection_path.moveTo(center_x + current_radius*cos(theta1+gap_angle), center_y + current_radius*sin(theta1+gap_angle));
+	selection_path.arcTo(rect,(theta1+gap_angle)*(180.0/mmcPI),(theta2-theta1-2.0*gap_angle)*(180.0/mmcPI));
+	current_radius = (radius-0.5*selection_diameter_);
+	selection_path.lineTo(center_x + current_radius*cos(theta2-gap_angle), center_y + current_radius*sin(theta2-gap_angle));
+	selection_path.arcTo(rect,(theta2-gap_angle)*(180.0/mmcPI),(theta1-theta2+2.0*gap_angle)*(180.0/mmcPI));
+	selection_path.closeSubpath();
+
+	return arc_path;
 }
