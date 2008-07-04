@@ -44,6 +44,8 @@ class QtPrimitiveBase : public QGraphicsItem
 
 		QLineF GetLineAndSelectionPath(double x1, double y1, double x2, double y2, QPainterPath &selection_path, double scale);
 		QLineF GetLineAndSelectionPath(mmcMatrix point1, mmcMatrix point2, QPainterPath &selection_path, double scale);
+		
+		QPainterPath GetArcAndSelectionPath(double center_x, double center_y, double radius, double theta1, double theta2, QPainterPath &selection_path, double scale);
 
 	protected:
 		// member class that stores display properties for the primitives
