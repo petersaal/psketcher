@@ -26,9 +26,11 @@ class QtArc2D : public QtPrimitiveBase, public Arc2D, public boost::enable_share
 
 		virtual QRectF boundingRect() const;
 		virtual void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*);
+		virtual QPainterPath shape() const {return current_shape_;}
 
 	private:
 		QtArc2DWidget *radius_widget_;
+		QPainterPath current_shape_;
 
 };
 typedef boost::shared_ptr<QtArc2D> QtArc2DPointer;
