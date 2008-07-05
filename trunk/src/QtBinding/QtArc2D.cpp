@@ -83,8 +83,6 @@ void QtArc2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 	double leader_extension_angle = ((leader_extension/GetRadius()->GetValue())*(180.0/mmcPI))/option->levelOfDetail;
 	double leader_gap_angle = ((leader_gap/GetRadius()->GetValue())*(180.0/mmcPI))/option->levelOfDetail;
 
-	// paint the actual arc
-
 	double radius = GetRadius()->GetValue();
 	QRectF rect(QPointF(GetSCenter()->GetValue()-radius,-GetTCenter()->GetValue()-radius),
  				QPointF(GetSCenter()->GetValue()+radius,-GetTCenter()->GetValue()+radius));
@@ -129,7 +127,10 @@ void QtArc2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 	painter->setPen(current_properties.GetPen(option->levelOfDetail));
 	painter->setBrush(current_properties.GetBrush());
 
-	painter->drawArc(rect,angle1*16.0,(angle2-angle1)*16.0);
+	// paint the actual arc
+	QPainterPath arc_selection_path;
+	painter->drawPath(GetArcAndSelectionPath(GetSCenter()->GetValue(), -GetTCenter()->GetValue(), radius, angle1*(mmcPI/180.0), angle2*(mmcPI/180.0), arc_selection_path, option->levelOfDetail));
+	current_shape_ = arc_selection_path;
 
 	// now paint the end points and the center point
 	painter->setPen(point_properties.GetPen(option->levelOfDetail));
