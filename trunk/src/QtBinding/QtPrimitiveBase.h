@@ -42,10 +42,13 @@ class QtPrimitiveBase : public QGraphicsItem
 		QPolygonF GetArrowPolygon(double x1, double y1, double x2, double y2, double arrow_head_length, double arrow_head_width, bool double_arrow = false) const;
 		QPainterPath GetArcArrowPath(double x_center, double y_center, double radius, double theta1, double theta2, double arrow_head_length, double arrow_head_width) const;
 
-		QLineF GetLineAndSelectionPath(double x1, double y1, double x2, double y2, QPainterPath &selection_path, double scale);
-		QLineF GetLineAndSelectionPath(mmcMatrix point1, mmcMatrix point2, QPainterPath &selection_path, double scale);
+		QLineF GetLineAndSelectionPath(double x1, double y1, double x2, double y2, QPainterPath &selection_path, double scale) const;
+		QLineF GetLineAndSelectionPath(mmcMatrix point1, mmcMatrix point2, QPainterPath &selection_path, double scale) const;
 		
-		QPainterPath GetArcAndSelectionPath(double center_x, double center_y, double radius, double theta1, double theta2, QPainterPath &selection_path, double scale);
+		QPainterPath GetArcAndSelectionPath(double center_x, double center_y, double radius, double theta1, double theta2, QPainterPath &selection_path, double scale) const;
+
+		QPolygonF GetArrowPolygonAndSelectionPath(double x1, double y1, double x2, double y2, double arrow_head_length, double arrow_head_width, QPainterPath &selection_path, double scale) const;
+		QPainterPath GetArcArrowPathAndSelectionPath(double x_center, double y_center, double radius, double theta1, double theta2, double arrow_head_length, double arrow_head_width, QPainterPath &selection_path, double scale) const;
 
 	protected:
 		// member class that stores display properties for the primitives

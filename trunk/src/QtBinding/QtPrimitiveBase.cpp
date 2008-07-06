@@ -22,6 +22,11 @@ void QtPrimitiveBase::Display()
 
 void QtPrimitiveBase::UpdateDisplay()
 {
+	// if this method is called, it is likely that the geometry of the primitives have changed
+	// it is called after the constraint network is solved
+	prepareGeometryChange();  // let the QGraphicsView know that bound rectangles and selection shapes could be changing
+	
+	// go ahead and redraw everything using its QGraphicsItem method
 	update();
 }
 
@@ -186,7 +191,7 @@ QPainterPath QtPrimitiveBase::GetArcArrowPath(double x_center, double y_center, 
 	return path;
 }
 
-QLineF QtPrimitiveBase::GetLineAndSelectionPath(mmcMatrix point1, mmcMatrix point2, QPainterPath &selection_path, double scale)
+QLineF QtPrimitiveBase::GetLineAndSelectionPath(mmcMatrix point1, mmcMatrix point2, QPainterPath &selection_path, double scale) const
 {
 	// create selection area polygon
 	mmcMatrix tangent = point2 - point1;
@@ -229,7 +234,7 @@ QLineF QtPrimitiveBase::GetLineAndSelectionPath(mmcMatrix point1, mmcMatrix poin
 	return QLineF(QPointF(point1(0,0),point1(1,0)),QPointF(point2(0,0),point2(1,0)));
 }
 
-QLineF QtPrimitiveBase::GetLineAndSelectionPath(double x1, double y1, double x2, double y2, QPainterPath &selection_path, double scale)
+QLineF QtPrimitiveBase::GetLineAndSelectionPath(double x1, double y1, double x2, double y2, QPainterPath &selection_path, double scale) const
 {
 	mmcMatrix point1(2,1);
 	mmcMatrix point2(2,1);
@@ -243,7 +248,7 @@ QLineF QtPrimitiveBase::GetLineAndSelectionPath(double x1, double y1, double x2,
 	return GetLineAndSelectionPath(point1, point2, selection_path, scale);
 }
 
-QPainterPath QtPrimitiveBase::GetArcAndSelectionPath(double center_x, double center_y, double radius, double theta1, double theta2, QPainterPath &selection_path, double scale)
+QPainterPath QtPrimitiveBase::GetArcAndSelectionPath(double center_x, double center_y, double radius, double theta1, double theta2, QPainterPath &selection_path, double scale) const
 {
 	if(theta1 > theta2)
 	{
@@ -279,3 +284,65 @@ QPainterPath QtPrimitiveBase::GetArcAndSelectionPath(double center_x, double cen
 
 	return arc_path;
 }
+
+
+QPolygonF QtPrimitiveBase::GetArrowPolygonAndSelectionPath(double x1, double y1, double x2, double y2, double arrow_head_length, double arrow_head_width, QPainterPath &selection_path, double scale) const
+{
+	mmcMatrix start_point(2,1);
+	start_point(0,0) = x1;
+	start_point(1,0) = y1;
+
+	mmcMatrix end_point(2,1);
+	end_point(0,0) = x2;
+	end_point(1,0) = y2;
+	
+	mmcMatrix line_vector = (end_point - start_point).GetNormalized();
+	
+	mmcMatrix normal_vector(2,1);
+	normal_vector(0,0) = line_vector(1,0);
+	normal_vector(1,0) = -line_vector(0,0);
+
+	mmcMatrix arrow_base = end_point - arrow_head_length*line_vector;
+	mmcMatrix corner_1 = arrow_base + 0.5*arrow_head_width*normal_vector;
+	mmcMatrix corner_2 = arrow_base - 0.5*arrow_head_width*normal_vector;
+
+	QPolygonF polygon;
+
+	mmcMatrix start_arrow_base = start_point + arrow_head_length*line_vector;
+	mmcMatrix start_corner_1 = start_arrow_base + 0.5*arrow_head_width*normal_vector;
+	mmcMatrix start_corner_2 = start_arrow_base - 0.5*arrow_head_width*normal_vector;
+
+	polygon << QPointF(start_arrow_base(0,0),start_arrow_base(1,0)) 
+			<< QPointF(start_corner_1(0,0),start_corner_1(1,0))
+			<< QPointF(start_point(0,0),start_point(1,0))
+			<< QPointF(start_corner_2(0,0),start_corner_2(1,0))
+			<< QPointF(start_arrow_base(0,0),start_arrow_base(1,0))
+			<< QPointF(arrow_base(0,0),arrow_base(1,0)) 
+			<< QPointF(corner_1(0,0),corner_1(1,0))
+			<< QPointF(end_point(0,0),end_point(1,0))
+			<< QPointF(corner_2(0,0),corner_2(1,0))
+			<< QPointF(arrow_base(0,0),arrow_base(1,0))
+			<< QPointF(start_arrow_base(0,0),start_arrow_base(1,0));
+
+	QPolygonF selection_polygon;
+	mmcMatrix selection_corner_1 = arrow_base + 0.5*(selection_diameter_/scale)*normal_vector;
+	mmcMatrix selection_corner_2 = arrow_base - 0.5*(selection_diameter_/scale)*normal_vector;
+	mmcMatrix selection_start_corner_1 = start_arrow_base + 0.5*(selection_diameter_/scale)*normal_vector;
+	mmcMatrix selection_start_corner_2 = start_arrow_base - 0.5*(selection_diameter_/scale)*normal_vector;
+
+	selection_path.moveTo(QPointF(selection_start_corner_1(0,0),selection_start_corner_1(1,0)));
+	selection_path.lineTo(QPointF(start_corner_1(0,0),start_corner_1(1,0)));
+	selection_path.lineTo(QPointF(start_point(0,0),start_point(1,0)));
+	selection_path.lineTo(QPointF(start_corner_2(0,0),start_corner_2(1,0)));
+	selection_path.lineTo(QPointF(selection_start_corner_2(0,0),selection_start_corner_2(1,0)));
+	selection_path.lineTo(QPointF(selection_corner_2(0,0),selection_corner_2(1,0)));
+	selection_path.lineTo(QPointF(corner_2(0,0),corner_2(1,0)));
+	selection_path.lineTo(QPointF(end_point(0,0),end_point(1,0)));
+	selection_path.lineTo(QPointF(corner_1(0,0),corner_1(1,0)));
+	selection_path.lineTo(QPointF(selection_corner_1(0,0),selection_corner_1(1,0)));
+	selection_path.closeSubpath();
+
+	return polygon;
+}
+
+
