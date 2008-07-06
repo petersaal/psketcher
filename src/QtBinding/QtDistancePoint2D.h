@@ -23,9 +23,11 @@ class QtDistancePoint2D : public QtPrimitiveBase, public DistancePoint2D, public
 
 		virtual QRectF boundingRect() const;
 		virtual void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*);
+		virtual QPainterPath shape() const {return current_shape_;}
 
 	private:
 		QtDistancePoint2DWidget *distance_widget_;
+		QPainterPath current_shape_;
 
 };
 typedef boost::shared_ptr<QtDistancePoint2D> QtDistancePoint2DPointer;

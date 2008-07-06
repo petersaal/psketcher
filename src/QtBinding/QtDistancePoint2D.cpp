@@ -89,9 +89,12 @@ void QtDistancePoint2D::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 	// draw line from arrow to text
 	painter->drawLine(QPointF(arrow_end_1(0,0),-arrow_end_1(1,0)),QPointF(text_location(0,0),-text_location(1,0)));
 
-	QPolygonF arrow = GetArrowPolygon(arrow_end_1(0,0),-arrow_end_1(1,0),arrow_end_2(0,0),-arrow_end_2(1,0),arrow_head_length,arrow_head_width,true);
+	QPainterPath arrow_selection_path;
+	QPolygonF arrow = GetArrowPolygonAndSelectionPath(arrow_end_1(0,0),-arrow_end_1(1,0),arrow_end_2(0,0),-arrow_end_2(1,0),arrow_head_length,arrow_head_width,arrow_selection_path,option->levelOfDetail);
+	current_shape_ = arrow_selection_path;
 
 	painter->drawPolygon(arrow);
+	//painter->drawPath(arrow_selection_path);
 
 	// create the line edit widget graphics item
 	if(distance_widget_ == 0)
