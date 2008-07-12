@@ -48,7 +48,7 @@ void QtArc2D::UpdateDisplay()
 
 QRectF QtArc2D::boundingRect() const
 {
-	double radius = GetRadius()->GetValue();
+	double radius = qMax(GetRadius()->GetValue(),GetTextRadius()) + GetBoundingRectPad();
 	QRectF rect(QPointF(GetSCenter()->GetValue()-radius,-GetTCenter()->GetValue()-radius),
  				QPointF(GetSCenter()->GetValue()+radius,-GetTCenter()->GetValue()+radius));
 	return rect;

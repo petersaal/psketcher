@@ -29,6 +29,8 @@ class QtPrimitiveBase : public QGraphicsItem
 		void SetSelectedProperties(DefaultPropertiesSet prop_set) {selected_properties_ = DisplayProperties(prop_set);}
 		void SetMouseHoverProperties(DefaultPropertiesSet prop_set) {mouse_hover_properties_ = DisplayProperties(prop_set);}
 
+		double GetBoundingRectPad() const {return bounding_rect_pad_;}
+
 		// update coordinates of primitive
 		virtual void UpdateDisplay();
 
@@ -57,6 +59,8 @@ class QtPrimitiveBase : public QGraphicsItem
 		DisplayProperties mouse_hover_properties_;
 
 		double selection_diameter_;
+
+		double bounding_rect_pad_;
 };
 
 

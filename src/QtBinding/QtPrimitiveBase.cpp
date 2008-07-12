@@ -4,7 +4,8 @@
 
 QtPrimitiveBase::QtPrimitiveBase(QGraphicsItem * parent ) : 
 QGraphicsItem(parent),
-selection_diameter_(6.0)
+selection_diameter_(6.0),
+bounding_rect_pad_(10.0)
 {
 	// by default use primitive display properties
 	SetProperties(Primitive);
@@ -120,7 +121,6 @@ QPolygonF QtPrimitiveBase::GetArrowPolygon(double x1, double y1, double x2, doub
 QPainterPath QtPrimitiveBase::GetArcArrowPath(double x_center, double y_center, double radius, double theta1, double theta2, double arrow_head_length, double arrow_head_width) const
 {
 	// theta1 and theta2 are in radians
-	
 	QPainterPath path;
 
 	// define everyting that will be needed to create the arc arrow
@@ -228,7 +228,7 @@ QLineF QtPrimitiveBase::GetLineAndSelectionPath(mmcMatrix point1, mmcMatrix poin
 
 	} else {
 		// this line has zero length, so make a selection circle rather than a rectangle
-		selection_path.addEllipse(QPointF(point1(0,0),point1(1,0)),0.5*selection_diameter_,0.5*selection_diameter_);
+		selection_path.addEllipse(QPointF(point1(0,0),point1(1,0)),0.5*(selection_diameter_/scale),0.5*(selection_diameter_/scale));
 	}
 
 	return QLineF(QPointF(point1(0,0),point1(1,0)),QPointF(point2(0,0),point2(1,0)));
@@ -345,4 +345,103 @@ QPolygonF QtPrimitiveBase::GetArrowPolygonAndSelectionPath(double x1, double y1,
 	return polygon;
 }
 
+
+QPainterPath QtPrimitiveBase::GetArcArrowPathAndSelectionPath(double x_center, double y_center, double radius, double theta1, double theta2, double arrow_head_length, double arrow_head_width, QPainterPath &selection_path, double scale) const
+{
+
+	// theta1 and theta2 are in radians
+	QPainterPath path;
+
+	// define everyting that will be needed to create the arc arrow
+	QRectF rect(QPointF(x_center-radius,y_center-radius),
+ 				QPointF(x_center+radius,y_center+radius));
+	
+	double arrow_base_theta1;
+	double arrow_base_theta2;
+
+	if(theta2 >= theta1)
+	{
+		arrow_base_theta1 = theta1 + arrow_head_length/radius;
+		arrow_base_theta2 = theta2 - arrow_head_length/radius;
+	} else {
+		arrow_base_theta1 = theta1 - arrow_head_length/radius;
+		arrow_base_theta2 = theta2 + arrow_head_length/radius;
+	}
+
+	mmcMatrix normal_1(2,1);
+	mmcMatrix normal_2(2,1);
+
+	mmcMatrix base_point_1;
+	mmcMatrix base_point_2;
+	mmcMatrix tip_point_1(2,1);
+	mmcMatrix tip_point_2(2,1);
+
+	mmcMatrix center(2,1);
+	center(0,0) = x_center;
+	center(1,0) = y_center;
+
+	tip_point_1(0,0) = radius*cos(theta1);
+	tip_point_1(1,0) = -radius*sin(theta1);
+	tip_point_1 = tip_point_1 + center;
+
+	normal_1(0,0) = cos(arrow_base_theta1);
+	normal_1(1,0) = -sin(arrow_base_theta1);
+
+	base_point_1 = radius * normal_1 + center;
+
+	tip_point_2(0,0) = radius*cos(theta2);
+	tip_point_2(1,0) = -radius*sin(theta2);
+	tip_point_2 = tip_point_2 + center;
+
+	normal_2(0,0) = cos(arrow_base_theta2);
+	normal_2(1,0) = -sin(arrow_base_theta2);
+
+	base_point_2 = radius * normal_2 + center;
+
+	mmcMatrix arrow_1_corner_1 = base_point_1 + 0.5*arrow_head_width*normal_1;
+	mmcMatrix arrow_1_corner_2 = base_point_1 - 0.5*arrow_head_width*normal_1;
+
+	mmcMatrix arrow_2_corner_1 = base_point_2 + 0.5*arrow_head_width*normal_2;
+	mmcMatrix arrow_2_corner_2 = base_point_2 - 0.5*arrow_head_width*normal_2;
+
+	// create the arc arrow
+	path.moveTo(base_point_1(0,0),base_point_1(1,0));
+	path.lineTo(arrow_1_corner_1(0,0), arrow_1_corner_1(1,0));
+	path.lineTo(tip_point_1(0,0), tip_point_1(1,0));
+	path.lineTo(arrow_1_corner_2(0,0), arrow_1_corner_2(1,0));
+	path.arcTo(rect,arrow_base_theta1*(180.0/mmcPI),(arrow_base_theta2-arrow_base_theta1)*(180.0/mmcPI));
+	path.lineTo(arrow_2_corner_1(0,0), arrow_2_corner_1(1,0));
+	path.lineTo(tip_point_2(0,0), tip_point_2(1,0));
+	path.lineTo(arrow_2_corner_2(0,0), arrow_2_corner_2(1,0));
+	path.arcTo(rect,arrow_base_theta2*(180.0/mmcPI),(arrow_base_theta1-arrow_base_theta2)*(180.0/mmcPI));
+
+
+	// create the arc arrow selection path
+	mmcMatrix arrow_1_corner_1b = base_point_1 + 0.5*(selection_diameter_/scale)*normal_1;
+	mmcMatrix arrow_1_corner_2b = base_point_1 - 0.5*(selection_diameter_/scale)*normal_1;
+
+	mmcMatrix arrow_2_corner_1b = base_point_2 + 0.5*(selection_diameter_/scale)*normal_2;
+	mmcMatrix arrow_2_corner_2b = base_point_2 - 0.5*(selection_diameter_/scale)*normal_2;
+
+	double radius1 = radius+0.5*(selection_diameter_/scale);
+	double radius2 = radius-0.5*(selection_diameter_/scale);
+
+	QRectF rect1(QPointF(x_center-radius1,y_center-radius1),
+ 				QPointF(x_center+radius1,y_center+radius1));
+
+	QRectF rect2(QPointF(x_center-radius2,y_center-radius2),
+ 				QPointF(x_center+radius2,y_center+radius2));
+
+	selection_path.moveTo(arrow_1_corner_1b(0,0),arrow_1_corner_1b(1,0));
+	selection_path.lineTo(arrow_1_corner_1(0,0), arrow_1_corner_1(1,0));
+	selection_path.lineTo(tip_point_1(0,0), tip_point_1(1,0));
+	selection_path.lineTo(arrow_1_corner_2(0,0), arrow_1_corner_2(1,0));
+	selection_path.arcTo(rect1,arrow_base_theta1*(180.0/mmcPI),(arrow_base_theta2-arrow_base_theta1)*(180.0/mmcPI));
+	selection_path.lineTo(arrow_2_corner_2(0,0), arrow_2_corner_2(1,0));
+	selection_path.lineTo(tip_point_2(0,0), tip_point_2(1,0));
+	selection_path.lineTo(arrow_2_corner_1(0,0), arrow_2_corner_1(1,0));
+	selection_path.arcTo(rect2,arrow_base_theta2*(180.0/mmcPI),(arrow_base_theta1-arrow_base_theta2)*(180.0/mmcPI));
+
+	return path;
+}
 

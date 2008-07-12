@@ -27,7 +27,12 @@ void QtLine2D::UpdateDisplay()
 
 QRectF QtLine2D::boundingRect() const
 {
-	return QRectF(QPointF(GetS1()->GetValue(),-GetT1()->GetValue()),QPointF(GetS2()->GetValue(),-GetT2()->GetValue()));
+	double min_x = qMin(GetS1()->GetValue(),GetS2()->GetValue());
+	double max_x = qMax(GetS1()->GetValue(),GetS2()->GetValue());
+	double min_y = qMin(GetT1()->GetValue(),GetT2()->GetValue());
+	double max_y = qMax(GetT1()->GetValue(),GetT2()->GetValue());
+
+	return QRectF(QPointF(min_x-GetBoundingRectPad(),-(min_y-GetBoundingRectPad())),QPointF(max_x+GetBoundingRectPad(),-(max_y+GetBoundingRectPad())));
 }
 
 void QtLine2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget * /* widget */)
