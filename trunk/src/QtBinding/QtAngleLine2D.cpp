@@ -31,39 +31,82 @@ void QtAngleLine2D::UpdateDisplay()
 
 QRectF QtAngleLine2D::boundingRect() const
 { 
-	double min_s, max_s, min_t, max_t;
-	max_s = min_s = GetLine1()->GetS1()->GetValue();
-	max_t= min_t = GetLine1()->GetT1()->GetValue();
-	
-	double current_s;
-	double current_t;	
+	QRectF bounding_rect;
 
-	for(int i = 0; i<3; i++)
+	// first determine the intersection point of the two lines
+	double x1 = GetLine1()->GetPoint1()->GetSValue();
+	double x2 = GetLine1()->GetPoint2()->GetSValue();
+	double x3 = GetLine2()->GetPoint1()->GetSValue();
+	double x4 = GetLine2()->GetPoint2()->GetSValue();
+
+	double y1 = GetLine1()->GetPoint1()->GetTValue();
+	double y2 = GetLine1()->GetPoint2()->GetTValue();
+	double y3 = GetLine2()->GetPoint1()->GetTValue();
+	double y4 = GetLine2()->GetPoint2()->GetTValue();
+
+	double denominator = (x1-x2)*(y3-y4)-(x3-x4)*(y1-y2);
+
+	double text_x, text_y;
+	double x_center, y_center;
+	bool lines_parallel = false;
+	double arrow_tip_x1;
+	double arrow_tip_x2;
+	double arrow_tip_y1;
+	double arrow_tip_y2;
+
+	if(denominator == 0.0)
 	{
-		if (i == 0)
-		{
-			current_s = GetLine1()->GetS2()->GetValue();
-			current_t = GetLine1()->GetT2()->GetValue();	
-		} else if (i == 1) {
-			current_s = GetLine2()->GetS1()->GetValue();
-			current_t = GetLine2()->GetT1()->GetValue();	
-		} else if (i == 2) {
-			current_s = GetLine2()->GetS2()->GetValue();
-			current_t = GetLine2()->GetT2()->GetValue();	
-		}	
+		// Lines are parallel, use the extrema of the lines to define the bounding box
+
+		double min_s, max_s, min_t, max_t;
+		max_s = min_s = GetLine1()->GetS1()->GetValue();
+		max_t= min_t = GetLine1()->GetT1()->GetValue();
 		
-		if(max_s < current_s)
-			max_s = current_s;
-		else if(min_s > current_s)
-			min_s = current_s;
+		double current_s;
+		double current_t;	
 	
-		if(max_t < current_t)
-			max_t = current_t;
-		else if(min_t > current_t)
-			min_t = current_t;
+		for(int i = 0; i<3; i++)
+		{
+			if (i == 0)
+			{
+				current_s = GetLine1()->GetS2()->GetValue();
+				current_t = GetLine1()->GetT2()->GetValue();	
+			} else if (i == 1) {
+				current_s = GetLine2()->GetS1()->GetValue();
+				current_t = GetLine2()->GetT1()->GetValue();	
+			} else if (i == 2) {
+				current_s = GetLine2()->GetS2()->GetValue();
+				current_t = GetLine2()->GetT2()->GetValue();	
+			}	
+			
+			if(max_s < current_s)
+				max_s = current_s;
+			else if(min_s > current_s)
+				min_s = current_s;
+		
+			if(max_t < current_t)
+				max_t = current_t;
+			else if(min_t > current_t)
+				min_t = current_t;
+		}
+		
+		bounding_rect = QRectF(QPointF(min_s, -min_t),QPointF(max_s,-max_t));
+
+	} else {
+		// lines do intersect
+		// finish calculating the intersection point
+		double temp1 = x1*y2-y1*x2;
+		double temp2 = x3*y4-x4*y3;
+		
+		x_center = (temp1*(x3-x4)-temp2*(x1-x2))/denominator;
+		y_center = (temp1*(y3-y4)-temp2*(y1-y2))/denominator;
+
+		double radius = GetTextRadius() + GetBoundingRectPad();
+
+		bounding_rect = QRectF(QPointF(x_center-radius, -(y_center-radius)),QPointF(x_center+radius,-(y_center+radius)));
 	}
-	
-	return QRectF(QPointF(min_s, -min_t),QPointF(max_s,-max_t));
+
+	return bounding_rect;
 }
 
 void QtAngleLine2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget * /* widget */) 
@@ -215,8 +258,10 @@ void QtAngleLine2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 		}
 
 		// display the arrow arc
-		QPainterPath arrow_arc = GetArcArrowPath(x_center, -y_center, GetTextRadius(),arrow_arc_theta1,arrow_arc_theta2,15.0/option->levelOfDetail,12.0/option->levelOfDetail);
+		QPainterPath selection_path;
+		QPainterPath arrow_arc = GetArcArrowPathAndSelectionPath(x_center, -y_center, GetTextRadius(),arrow_arc_theta1,arrow_arc_theta2,15.0/option->levelOfDetail,12.0/option->levelOfDetail,selection_path,option->levelOfDetail);
 		painter->drawPath(arrow_arc);
+		current_shape_ = selection_path;
 		
 		// draw an additional arc to the text if text is outside of the arrow arc
 		QRectF rect(QPointF(x_center-GetTextRadius(),-y_center-GetTextRadius()),

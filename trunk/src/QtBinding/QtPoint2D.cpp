@@ -52,6 +52,11 @@ QRectF QtPoint2D::boundingRect() const
 {
 	QRectF rect(QPointF(GetSValue(),-GetTValue()),
  				QPointF(GetSValue(),-GetTValue()));
+	
+	// increase the size of the box to account for the actual radius of the point that represents the circle
+	// @fixme if the user zooms out or if the model has a large length scale, the bounding box wont contain the whole point
+	rect.adjust(-GetBoundingRectPad(),-GetBoundingRectPad(),GetBoundingRectPad(),GetBoundingRectPad());
+	
 	return rect;
 }
 

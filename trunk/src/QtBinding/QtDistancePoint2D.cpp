@@ -31,7 +31,28 @@ void QtDistancePoint2D::UpdateDisplay()
 
 QRectF QtDistancePoint2D::boundingRect() const
 { 
-	return QRectF(QPointF(GetPoint1()->GetSValue(),-GetPoint1()->GetTValue()),QPointF(GetPoint2()->GetSValue(),-GetPoint2()->GetTValue()));
+	mmcMatrix point1 = point1_->GetmmcMatrix();
+	mmcMatrix point2 = point2_->GetmmcMatrix();
+	mmcMatrix tangent = (point2-point1).GetNormalized();
+
+	mmcMatrix normal(2,1);
+	normal(0,0) = -tangent(1,0);
+	normal(1,0) = tangent(0,0);
+
+	mmcMatrix text_location = point1 + tangent*text_position_ + normal*text_offset_;	
+
+	double offset = (text_location - point1).DotProduct(normal);
+
+	mmcMatrix arrow_end_1 = point1 + offset*normal;
+	mmcMatrix arrow_end_2 = point2 + offset*normal;
+
+	double max_x = qMax(qMax(point1(0,0),point2(0,0)),qMax(arrow_end_1(0,0),arrow_end_2(0,0)));
+	double max_y = qMax(qMax(point1(1,0),point2(1,0)),qMax(arrow_end_1(1,0),arrow_end_2(1,0)));
+
+	double min_x = qMin(qMin(point1(0,0),point2(0,0)),qMin(arrow_end_1(0,0),arrow_end_2(0,0)));
+	double min_y = qMin(qMin(point1(1,0),point2(1,0)),qMin(arrow_end_1(1,0),arrow_end_2(1,0)));
+
+	return QRectF(QPointF(min_x-GetBoundingRectPad(),-(min_y-GetBoundingRectPad())),QPointF(max_x+GetBoundingRectPad(),-(max_y+GetBoundingRectPad())));
 }
 
 void QtDistancePoint2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget * /* widget */)

@@ -24,9 +24,12 @@ class QtAngleLine2D : public QtPrimitiveBase, public AngleLine2D, public boost::
 		virtual QRectF boundingRect() const;
 		virtual void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*);
 
+		virtual QPainterPath shape() const {return current_shape_;}
+
 	private:
 		QtAngleLine2DWidget *angle_widget_;
-
+		
+		QPainterPath current_shape_;
 };
 typedef boost::shared_ptr<QtAngleLine2D> QtAngleLine2DPointer;
 
