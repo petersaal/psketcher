@@ -24,6 +24,7 @@ Edge2DBase(sketch_plane)
 
 	point1_ = GeneratePoint1();
 	point2_ = GeneratePoint2();
+	center_point_ = GenerateCenterPoint();
 
 	SetDefaultTextLocation();
 }
@@ -44,6 +45,7 @@ Edge2DBase(sketch_plane)
 
 	point1_ = GeneratePoint1();
 	point2_ = GeneratePoint2();
+	center_point_ = GenerateCenterPoint();
 
 	SetDefaultTextLocation();
 }
@@ -116,6 +118,13 @@ Point2DPointer Arc2D::GeneratePoint2()
 
 	// create the actual point object
 	Point2DPointer result(new Point2D(s_dof, t_dof, sketch_plane_));
+	return result;
+}
+
+// Returns a point which will follow the center point of the arc
+Point2DPointer Arc2D::GenerateCenterPoint()
+{
+	Point2DPointer result(new Point2D(s_center_, t_center_, sketch_plane_));
 	return result;
 }
 
