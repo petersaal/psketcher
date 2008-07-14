@@ -58,23 +58,19 @@ void QtArc2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 {
 	DisplayProperties current_properties;
 
-	// @fixme the way radius_properties and point_properties are defined in the following if statement block will prevent the user from changing the display properties of the radius dimension or the points at run time since the DisplayProperties constructor is used to set these properties
+	// @fixme the way radius_properties is defined in the following if statement block will prevent the user from changing the display properties of the radius dimension or the points at run time since the DisplayProperties constructor is used to set these properties
 	DisplayProperties radius_properties; 
-	DisplayProperties point_properties;
 
 	if(option->state & QStyle::State_MouseOver)
 	{
 		current_properties = GetMouseHoverProperties();
 		radius_properties = DisplayProperties(HoverAnnotation);
-		point_properties = DisplayProperties(HoverPointPrimitive);
 	} else if (option->state & QStyle::State_Selected) {
 		current_properties = GetSelectedProperties();
 		radius_properties = DisplayProperties(SelectedAnnotation);
-		point_properties = DisplayProperties(SelectedPointPrimitive);
 	} else {
 		current_properties = GetProperties();
 		radius_properties = DisplayProperties(Annotation);
-		point_properties = DisplayProperties(PointPrimitive);
 	}
 	
 	double leader_gap = current_properties.GetLeaderGap()/option->levelOfDetail;
@@ -131,20 +127,6 @@ void QtArc2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 	QPainterPath arc_selection_path;
 	painter->drawPath(GetArcAndSelectionPath(GetSCenter()->GetValue(), -GetTCenter()->GetValue(), radius, angle1*(mmcPI/180.0), angle2*(mmcPI/180.0), arc_selection_path, option->levelOfDetail));
 	current_shape_ = arc_selection_path;
-
-	// now paint the end points and the center point
-	painter->setPen(point_properties.GetPen(option->levelOfDetail));
-	painter->setBrush(point_properties.GetBrush());
-
-	// end 2
-	PaintPoint(painter, option,s_center_->GetValue()+radius_->GetValue()*cos(theta_1_->GetValue()),
-							   -(t_center_->GetValue()+radius_->GetValue()*sin(theta_1_->GetValue())));
-	// end 1
-	PaintPoint(painter, option,s_center_->GetValue()+radius_->GetValue()*cos(theta_2_->GetValue()),
-							   -( t_center_->GetValue()+radius_->GetValue()*sin(theta_2_->GetValue())));
-
-	// center point
-	PaintPoint(painter, option,s_center_->GetValue(),-t_center_->GetValue());
 }
 
 

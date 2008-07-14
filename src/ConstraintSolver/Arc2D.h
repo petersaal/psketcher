@@ -31,9 +31,11 @@ class Arc2D : public Edge2DBase
 
 		Point2DPointer GetPoint1(){return point1_;}
 		Point2DPointer GetPoint2(){return point2_;}
+		Point2DPointer GetCenterPoint() {return center_point_;}
 
 		Point2DPointer GeneratePoint1();
 		Point2DPointer GeneratePoint2();
+		Point2DPointer GenerateCenterPoint();
 
 		void GetTangent1(GiNaC::ex & s_component, GiNaC::ex & t_component);  // returns expression that defines tangent vector for each endpoint of the edge
 		void GetTangent2(GiNaC::ex & s_component, GiNaC::ex & t_component);
@@ -60,6 +62,7 @@ class Arc2D : public Edge2DBase
 		// If these points are generated for each call to GetPoint1() then, for every call to GetPoint*(), the pointers to the S and T DOF's will be unique
 		Point2DPointer point1_;
 		Point2DPointer point2_;
+		Point2DPointer center_point_;
 
 		double text_radius_;
 		double text_angle_;

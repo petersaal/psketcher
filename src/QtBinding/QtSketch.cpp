@@ -20,6 +20,22 @@ QtArc2DPointer QtSketch::AddArc2D (double s_center, double t_center, double thet
 {
 	QtArc2DPointer new_arc(new QtArc2D(0,s_center, t_center, theta_1, theta_2, radius, GetSketchPlane(),s_center_free, t_center_free, theta_1_free, theta_2_free, radius_free));
 	AddPrimitive(new_arc);
+
+	// now add the end points and the center of the arc as seperate primitives so that they can be selected by the user for constructing lines and other primitives
+	// @fixme these points need to be removed fro the sketch if new_arc is ever deleted from the scene otherwise the arc will still drive the points but will not be visible
+
+	Point2DPointer point1 = new_arc->GetPoint1();
+	Point2DPointer point2 = new_arc->GetPoint2();
+	Point2DPointer center_point = new_arc->GetCenterPoint();
+
+	QtPoint2DPointer qt_point1(new QtPoint2D(0,point1->GetSDOF(), point1->GetTDOF(), GetSketchPlane()));
+	QtPoint2DPointer qt_point2(new QtPoint2D(0,point2->GetSDOF(), point2->GetTDOF(), GetSketchPlane()));
+	QtPoint2DPointer qt_center_point(new QtPoint2D(0,center_point->GetSDOF(), center_point->GetTDOF(), GetSketchPlane()));
+
+	AddPrimitive(qt_point1);
+	AddPrimitive(qt_point2);
+	AddPrimitive(qt_center_point);
+
 	return new_arc;
 }
 

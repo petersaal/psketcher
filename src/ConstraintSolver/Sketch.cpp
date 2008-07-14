@@ -18,6 +18,13 @@ Arc2DPointer Sketch::AddArc2D (double s_center, double t_center, double theta_1,
 {
 	Arc2DPointer new_arc(new Arc2D(s_center, t_center, theta_1, theta_2, radius, sketch_plane_,s_center_free, t_center_free, theta_1_free, theta_2_free, radius_free));
 	AddPrimitive(new_arc);
+
+	// now add the end points and the center of the arc as seperate primitives so that they can be selected by the user for constructing lines and other primitives
+	// @fixme these points need to be removed fro the sketch if new_arc is ever deleted from the scene otherwise the arc will still drive the points but will not be visible
+	AddPrimitive(new_arc->GetPoint1());
+	AddPrimitive(new_arc->GetPoint2());
+	AddPrimitive(new_arc->GetCenterPoint());
+
 	return new_arc;
 }
 
