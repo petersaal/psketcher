@@ -50,16 +50,17 @@ double ConstraintSolver::GetMeritValue(const mmcMatrix & x)
 {
 	double result = 0;
 
-	ex new_error = error_function;
+	ex new_error;
+
+	exmap map;
 
 	// substitute x into the error function
 	for(unsigned int current_par = 0; current_par < free_parameters.size(); current_par++)
 	{
-		new_error = new_error.subs(free_parameters[current_par] == x(current_par,0), subs_options::no_pattern);
+		map[free_parameters[current_par]] = x(current_par,0);
 	}
 
-	// evaluate to a numeric
-	new_error = evalf(new_error);
+	new_error = error_function.subs(map, subs_options::no_pattern).evalf();
 
 	// check to make sure the expression is a numeric value
 	if (is_a<numeric>(new_error)) {
@@ -77,22 +78,19 @@ mmcMatrix ConstraintSolver::GetMeritGradient(const mmcMatrix & x)
 
 	vector<ex> new_grad;
 
+	exmap map;
+
+	// substitute x into the error function
+	for(unsigned int current_par = 0; current_par < free_parameters.size(); current_par++)
+	{
+		map[free_parameters[current_par]] = x(current_par,0);
+	}	
+
 	// substitute the current x into the gradient expression
 	for(unsigned int current_ex = 0; current_ex < grad_expressions.size(); current_ex++)
 	{
-		new_grad.push_back(grad_expressions[current_ex]);
-		for(unsigned int current_par = 0; current_par < free_parameters.size(); current_par++)
-		{
-			new_grad[current_ex] = new_grad[current_ex].subs(free_parameters[current_par] == x(current_par,0), subs_options::no_pattern);
-		}
-	}
-	
-	// check to make sure the grad expressions evaluate to a numeric value
-	for(unsigned int current_ex = 0; current_ex < new_grad.size(); current_ex++)
-	{
-		// evaluate to a numeric
-		new_grad[current_ex] = evalf(new_grad[current_ex]);
-		
+		new_grad.push_back(grad_expressions[current_ex].subs(map, subs_options::no_pattern).evalf());
+
 		// make sure the expression is a numeric value
 		if (is_a<numeric>(new_grad[current_ex])) {
 			gradient(current_ex,0) = ex_to<numeric>(new_grad[current_ex]).to_double();
@@ -100,6 +98,7 @@ mmcMatrix ConstraintSolver::GetMeritGradient(const mmcMatrix & x)
 			throw MeritFunctionException();
 		}
 	}
+	
 
 	return gradient;
 }
