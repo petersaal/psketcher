@@ -70,12 +70,12 @@ void Ark3DWidget::resizeEvent       ( QResizeEvent* e )
 
 void Ark3DWidget::mousePressEvent   ( QMouseEvent* e )
 {
-	if(interactive_primitive_ != 0)
+	if(interactive_primitive_ != 0 && !(e->button() & Qt::MidButton))
 	{
 		MouseEventPropertiesPointer event_props(new QtMouseEventProperties((MouseButtonEventType)ButtonPress,e,this));
 		bool finished = false;
 
-		switch (e->button()) {
+		switch (e->button() && !(e->button() & Qt::MidButton)) {
 			case Qt::LeftButton:  finished = interactive_primitive_->LeftButtonDown(event_props); break;
 			case Qt::MidButton:   finished = interactive_primitive_->MiddleButtonDown(event_props); break;
 			case Qt::RightButton: finished = interactive_primitive_->RightButtonDown(event_props); break;
@@ -105,7 +105,7 @@ void Ark3DWidget::mousePressEvent   ( QMouseEvent* e )
 void Ark3DWidget::mouseReleaseEvent ( QMouseEvent* e )
 {
 	
-	if(interactive_primitive_ != 0)
+	if(interactive_primitive_ != 0 && !((e->button() & Qt::MidButton)))
 	{
 		MouseEventPropertiesPointer event_props(new QtMouseEventProperties((MouseButtonEventType)ButtonRelease,e,this));
 		bool finished = false;
@@ -137,8 +137,9 @@ void Ark3DWidget::mouseReleaseEvent ( QMouseEvent* e )
 
 void Ark3DWidget::mouseMoveEvent    ( QMouseEvent* e )
 {	
-	if(interactive_primitive_ != 0)
+	if(interactive_primitive_ != 0 && !(e->buttons() & Qt::MidButton))
 	{
+		QGraphicsView::mouseMoveEvent(e);
 		MotionEventPropertiesPointer event_props(new QtMotionEventProperties(e,this));
 		if(interactive_primitive_->MouseMove(event_props))
 		{
