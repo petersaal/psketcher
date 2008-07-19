@@ -1,13 +1,19 @@
 #include <QMouseEvent>
+#include <QGraphicsView>
 #include "QtEventProperties.h"
 
 // Constructor
-QtMouseEventProperties::QtMouseEventProperties(MouseButtonEventType event_type, QMouseEvent  *event)
+QtMouseEventProperties::QtMouseEventProperties(MouseButtonEventType event_type, QMouseEvent  *event, QGraphicsView *view)
 {
-	x_position_ = event->x();
-	y_position_ = event->y();
+	screen_x_position_ = event->x();
+	screen_y_position_ = event->y();
 	
-
+	// translate the screen coordinates to world coordinates
+	QPointF scene_location = view->mapToScene(screen_x_position_,screen_y_position_);
+	global_x_position_ = scene_location.x();
+	global_y_position_ = -scene_location.y();
+	global_z_position_ = 0.0;
+	
 	control_ = event->modifiers() & Qt::ControlModifier;
 	shift_ = event->modifiers() & Qt::ShiftModifier;
 	alt_ = event->modifiers() & Qt::AltModifier;
@@ -24,11 +30,16 @@ QtMouseEventProperties::QtMouseEventProperties(MouseButtonEventType event_type, 
 	mouse_event_type_ = event_type;
 }
 
-QtMotionEventProperties::QtMotionEventProperties(QMouseEvent  *event)
+QtMotionEventProperties::QtMotionEventProperties(QMouseEvent  *event, QGraphicsView *view)
 {
-	x_position_ = event->x();
-	y_position_ = event->y();
-	
+	screen_x_position_ = event->x();
+	screen_y_position_ = event->y();
+
+	// translate the screen coordinates to world coordinates
+	QPointF scene_location = view->mapToScene(screen_x_position_,screen_y_position_);
+	global_x_position_ = scene_location.x();
+	global_y_position_ = -scene_location.y();
+	global_z_position_ = 0.0;
 
 	control_ = event->modifiers() & Qt::ControlModifier;
 	shift_ = event->modifiers() & Qt::ShiftModifier;
