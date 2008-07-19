@@ -12,7 +12,7 @@ class QtMouseEventProperties : public MouseEventProperties
 {
 	public:
 		// Constructor
-		QtMouseEventProperties(MouseButtonEventType event_type, QMouseEvent *event);
+		QtMouseEventProperties(MouseButtonEventType event_type, QMouseEvent *event, QGraphicsView *view);
 
 	private:
 };
@@ -25,7 +25,7 @@ class QtMotionEventProperties : public MotionEventProperties
 {
 	public:
 		// Constructor
-		QtMotionEventProperties(QMouseEvent  *event);
+		QtMotionEventProperties(QMouseEvent  *event, QGraphicsView *view);
 
 	private:
 };

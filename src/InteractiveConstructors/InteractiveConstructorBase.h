@@ -12,8 +12,12 @@ class MouseEventProperties
 {
 	public:
 		// Accessor methods used to retrieve values (the constructor will define all of the values)
-		double GetXPosition() {return x_position_;}
-		double GetYPosition() {return y_position_;}
+		double GetXPosition() {return global_x_position_;}
+		double GetYPosition() {return global_y_position_;}
+		double GetZPosition() {return global_z_position_;}
+
+		double GetXScreenPosition() {return screen_x_position_;}
+		double GetYScreenPosition() {return screen_y_position_;}
 		
 		bool ControlPressed() {return control_;}
 		bool ShiftPressed() {return shift_;}
@@ -23,8 +27,12 @@ class MouseEventProperties
 		MouseButtonEventType GetEventType() {return mouse_event_type_;}
 
 	protected:
-		double x_position_;
-		double y_position_;
+		double screen_x_position_;
+		double screen_y_position_;
+
+		double global_x_position_;
+		double global_y_position_;
+		double global_z_position_;
 		
 		bool control_;
 		bool shift_;
@@ -41,8 +49,12 @@ class MotionEventProperties
 {
 	public:
 		// Accessor methods used to retrieve values (the constructor will define all of the values)
-		double GetXPosition() {return x_position_;}
-		double GetYPosition() {return y_position_;}
+		double GetXPosition() {return global_x_position_;}
+		double GetYPosition() {return global_y_position_;}
+		double GetZPosition() {return global_z_position_;}
+
+		double GetXScreenPosition() {return screen_x_position_;}
+		double GetYScreenPosition() {return screen_y_position_;}
 		
 		bool ControlPressed() {return control_;}
 		bool ShiftPressed() {return shift_;}
@@ -55,9 +67,13 @@ class MotionEventProperties
 		bool Button5Pressed() {return button_5_;}
 
 	protected:
-		double x_position_;
-		double y_position_;
+		double screen_x_position_;
+		double screen_y_position_;
 		
+		double global_x_position_;
+		double global_y_position_;
+		double global_z_position_;
+
 		bool control_;
 		bool shift_;
 		bool alt_;
@@ -91,9 +107,6 @@ class InteractiveConstructorBase
 		virtual bool RightButtonUp(MouseEventPropertiesPointer event_props) {return false;}
 
 		virtual bool MouseMove(MotionEventPropertiesPointer event_props) {return false;}
-
-		// utility methods
-		bool GetGlobalLocation(int screen_x, int screen_y, double &x, double &y, double &z, bool grid_snap = false);
 
 	protected:
 		QtSketchPointer parent_sketch_;

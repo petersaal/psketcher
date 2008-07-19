@@ -17,23 +17,13 @@ void Point2DConstructor::CreateObject()
 
 bool Point2DConstructor::LeftButtonUp(MouseEventPropertiesPointer event_props)
 {
-	int x_screen = (int)event_props->GetXPosition();
-	int y_screen = (int)event_props->GetYPosition();
-
-	double x,y,z;
+	double x = event_props->GetXPosition();
+	double y = event_props->GetYPosition();
+	double z = event_props->GetZPosition();
 	
-	// if control button is pressed, force grid snapping. Otherwise used the parent_sketch's grid snapping preference
-	bool success;
-	if(event_props->ControlPressed())
-		success = GetGlobalLocation(x_screen, y_screen, x, y, z, true);
-	else
-		success = GetGlobalLocation(x_screen, y_screen, x, y, z, parent_sketch_->GetGridSnap());
-		
-	if(success)
-	{
-		parent_sketch_->GetSketchPlane()->GetSTLocation(x,y,z,current_s_,current_t_);
-		primitive_finished_ = true;
-	}
+	// project x,y,z coordinates onto sketch plane
+	parent_sketch_->GetSketchPlane()->GetSTLocation(x,y,z,current_s_,current_t_);
+	primitive_finished_ = true;
 	
-	return success;
+	return primitive_finished_;
 }
