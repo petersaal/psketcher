@@ -76,7 +76,10 @@ void Ark3DWidget::mousePressEvent   ( QMouseEvent* e )
 		bool finished = false;
 
 		switch (e->button() && !(e->button() & Qt::MidButton)) {
-			case Qt::LeftButton:  finished = interactive_primitive_->LeftButtonDown(event_props); break;
+			case Qt::LeftButton:
+				QGraphicsView::mousePressEvent(e);
+				finished = interactive_primitive_->LeftButtonDown(event_props);
+				break;
 			case Qt::MidButton:   finished = interactive_primitive_->MiddleButtonDown(event_props); break;
 			case Qt::RightButton: finished = interactive_primitive_->RightButtonDown(event_props); break;
 			default:              finished = false; 
@@ -111,7 +114,10 @@ void Ark3DWidget::mouseReleaseEvent ( QMouseEvent* e )
 		bool finished = false;
 
 		switch (e->button()) {
-			case Qt::LeftButton:  finished = interactive_primitive_->LeftButtonUp(event_props); break;
+			case Qt::LeftButton:
+				QGraphicsView::mouseReleaseEvent(e); // allow the user to select an object
+				finished = interactive_primitive_->LeftButtonUp(event_props); 
+				break;
 			case Qt::MidButton:   finished = interactive_primitive_->MiddleButtonUp(event_props); break;
 			case Qt::RightButton: finished = interactive_primitive_->RightButtonUp(event_props); break;
 			default:              finished = false;
@@ -139,6 +145,9 @@ void Ark3DWidget::mouseMoveEvent    ( QMouseEvent* e )
 {	
 	if(interactive_primitive_ != 0 && !(e->buttons() & Qt::MidButton))
 	{
+		if(e->buttons() & Qt::LeftButton)
+			QGraphicsView::mouseMoveEvent(e); // allows selection hinting to occur
+
 		QGraphicsView::mouseMoveEvent(e);
 		MotionEventPropertiesPointer event_props(new QtMotionEventProperties(e,this));
 		if(interactive_primitive_->MouseMove(event_props))
