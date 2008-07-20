@@ -6,7 +6,7 @@
 
 // If MMC_ERROR_CHECK is set to 1, mmcMatrix class checks for overruns when accessing matrices.
 // If MMC_ERROR_CHECK is set to 0, the class will be much faster and some methods will be inlined.
-#define MMC_ERROR_CHECK 1
+#define MMC_ERROR_CHECK 0
 
 
 const double mmcPI = 3.14159265359;

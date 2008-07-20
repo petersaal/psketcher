@@ -103,3 +103,40 @@ mmcMatrix ConstraintSolver::GetMeritGradient(const mmcMatrix & x)
 	return gradient;
 }
 
+void ConstraintSolver::GetMeritValuePlusGradient(const mmcMatrix & x, double &value, mmcMatrix &gradient)
+{
+	exmap map;
+
+	// substitute x into the error function
+	for(unsigned int current_par = 0; current_par < free_parameters.size(); current_par++)
+	{
+		map[free_parameters[current_par]] = x(current_par,0);
+	}	
+
+	// first calculate merit function value
+	ex new_error = error_function.subs(map, subs_options::no_pattern).evalf();
+
+	// check to make sure the expression is a numeric value
+	if (is_a<numeric>(new_error)) {
+		value = ex_to<numeric>(new_error).to_double();
+	} else {
+		throw MeritFunctionException();
+ 	}
+
+	// now calculate merit function gradient
+	vector<ex> new_grad;
+	gradient.SetSize(GetNumDims(),1);
+
+	for(unsigned int current_ex = 0; current_ex < grad_expressions.size(); current_ex++)
+	{
+		new_grad.push_back(grad_expressions[current_ex].subs(map, subs_options::no_pattern).evalf());
+
+		// make sure the expression is a numeric value
+		if (is_a<numeric>(new_grad[current_ex])) {
+			gradient(current_ex,0) = ex_to<numeric>(new_grad[current_ex]).to_double();
+		} else {
+			throw MeritFunctionException();
+		}
+	}
+}
+

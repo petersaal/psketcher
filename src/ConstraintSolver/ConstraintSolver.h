@@ -15,6 +15,7 @@ public:
 
 	virtual double GetMeritValue(const mmcMatrix & x);
 	virtual mmcMatrix GetMeritGradient(const mmcMatrix & x);
+	virtual void GetMeritValuePlusGradient(const mmcMatrix & x, double &value, mmcMatrix &gradient);
 
 private:
 	std::vector<GiNaC::symbol> free_parameters;
