@@ -44,11 +44,11 @@ Edge2DBase(sketch_plane)
 	s2_ = point2->GetSDOF();
 	t2_ = point2->GetTDOF();
 
-	dof_list_.push_back(s1_);
-	dof_list_.push_back(t1_);
+	AddDOF(s1_);
+	AddDOF(t1_);
 
-	dof_list_.push_back(s2_);
-	dof_list_.push_back(t2_);
+	AddDOF(s2_);
+	AddDOF(t2_);
 }
 
 Point2DPointer Line2D::GetPoint1()

@@ -14,7 +14,7 @@ point2_(point2)
 	DOFPointer new_dof(new IndependentDOF(distance,false));
 	distance_ = new_dof;
 
-	dof_list_.push_back(distance_);
+	AddDOF(distance_);
 
 	// create the expression that defines the constraint and add it the the constraint list
 	boost::shared_ptr<ex> new_constraint(new ex);

@@ -18,8 +18,8 @@ s_(new IndependentDOF(s,s_free)),
 t_(new IndependentDOF(t,t_free)),
 Primitive2DBase(sketch_plane)
 {
-	dof_list_.push_back(s_);
-	dof_list_.push_back(t_);
+	AddDOF(s_);
+	AddDOF(t_);
 }
 
 Point2D :: Point2D ( DOFPointer s, DOFPointer t, SketchPlanePointer sketch_plane):
@@ -27,8 +27,8 @@ s_(s),
 t_(t),
 Primitive2DBase(sketch_plane)
 {
-	dof_list_.push_back(s_);
-	dof_list_.push_back(t_);
+	AddDOF(s_);
+	AddDOF(t_);
 }
 
 void Point2D::ApplySelectionMask(SelectionMask mask)

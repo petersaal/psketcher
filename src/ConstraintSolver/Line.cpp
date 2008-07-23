@@ -10,13 +10,13 @@ Line :: Line(const PointPointer point1, const PointPointer point2)
 	y2_ = point2->GetYDOF();
 	z2_ = point2->GetZDOF();
 
-	dof_list_.push_back(x1_);
-	dof_list_.push_back(y1_);
-	dof_list_.push_back(z1_);
+	AddDOF(x1_);
+	AddDOF(y1_);
+	AddDOF(z1_);
 
-	dof_list_.push_back(x2_);
-	dof_list_.push_back(y2_);
-	dof_list_.push_back(z2_);
+	AddDOF(x2_);
+	AddDOF(y2_);
+	AddDOF(z2_);
 }
 
 void Line::ApplySelectionMask(SelectionMask mask)

@@ -19,6 +19,7 @@ class DependentDOF : public DOF
 		void SetFree(bool free) { /* @fixme warn user about an attempt to modify a dependent DOF */;}
 		double GetValue()const;
 		GiNaC::ex GetExpression()const;
+		const std::vector<DOFPointer> & GetDOFList() {return source_dof_list_;}
 
 	private:
 		GiNaC::ex expression_;

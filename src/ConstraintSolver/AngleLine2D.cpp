@@ -17,7 +17,7 @@ interior_angle_(interior_angle)
 	DOFPointer new_dof(new IndependentDOF(angle,false));
 	angle_ = new_dof;	
 
-	dof_list_.push_back(angle_);
+	AddDOF(angle_);
 
 	// create the expression that defines the parallel constraint and add it the the constraint list
 	boost::shared_ptr<ex> new_constraint(new ex);
