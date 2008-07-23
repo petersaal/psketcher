@@ -21,8 +21,8 @@ class PrimitiveBase
 		virtual ~PrimitiveBase() {dof_list_.clear();}
 		
 		// Accessor methods
-		const std::vector<DOFPointer> & GetDOFList() {return dof_list_;}
-		
+		void AddDOF(DOFPointer new_dof);  // add a new dof to the DOF list
+		const std::vector<DOFPointer> & GetDOFList() {return dof_list_;}	
 		unsigned GetID()const {return id_number_;}
 
 		// selection methods
@@ -34,13 +34,14 @@ class PrimitiveBase
 		virtual void Display() {;}
 		virtual void UpdateDisplay() {;}
 
-	protected:
-		std::vector<DOFPointer> dof_list_;
 
+	protected:
 		bool selected_;
 		bool selectable_;
 
 	private:
+		std::vector<DOFPointer> dof_list_;
+
 		// each instance of this class has a unique ID number
 		unsigned id_number_;
 

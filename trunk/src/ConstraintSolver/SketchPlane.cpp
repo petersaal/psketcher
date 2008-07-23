@@ -17,19 +17,19 @@ base_(base)
 	std::vector<DOFPointer> current_dof_list = normal_->GetDOFList();
 	for(unsigned int current_dof = 0; current_dof < current_dof_list.size(); current_dof++)
 	{
-		dof_list_.push_back(current_dof_list[current_dof]);
+		AddDOF(current_dof_list[current_dof]);
 	}
 
 	current_dof_list = up_->GetDOFList();
 	for(unsigned int current_dof = 0; current_dof < current_dof_list.size(); current_dof++)
 	{
-		dof_list_.push_back(current_dof_list[current_dof]);
+		AddDOF(current_dof_list[current_dof]);
 	}
 
 	current_dof_list = base_->GetDOFList();
 	for(unsigned int current_dof = 0; current_dof < current_dof_list.size(); current_dof++)
 	{
-		dof_list_.push_back(current_dof_list[current_dof]);
+		AddDOF(current_dof_list[current_dof]);
 	}
 }
 

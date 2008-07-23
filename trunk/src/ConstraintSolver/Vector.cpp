@@ -10,9 +10,9 @@ x_(new IndependentDOF(x,x_free)),
 y_(new IndependentDOF(y,y_free)),
 z_(new IndependentDOF(z,z_free))
 {
-	dof_list_.push_back(x_);
-	dof_list_.push_back(y_);
-	dof_list_.push_back(z_);
+	AddDOF(x_);
+	AddDOF(y_);
+	AddDOF(z_);
 }
 
 // Return mmaMatrix vector of current x,y,z values

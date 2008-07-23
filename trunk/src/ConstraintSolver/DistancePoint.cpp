@@ -10,7 +10,7 @@ DistancePoint::DistancePoint(const PointPointer point1, const PointPointer point
 	// Create a DOF for the distance parameter
 	DOFPointer new_dof(new IndependentDOF(distance,false));
 	
-	dof_list_.push_back(new_dof);
+	AddDOF(new_dof);
 
 	// create the expression that defines the constraint and add it the the constraint list
 	boost::shared_ptr<ex> new_constraint(new ex);

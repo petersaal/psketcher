@@ -16,11 +16,11 @@ theta_2_(new IndependentDOF(theta_2,theta_2_free)),
 radius_(new IndependentDOF(radius,radius_free)),
 Edge2DBase(sketch_plane)
 {
-	dof_list_.push_back(s_center_);
-	dof_list_.push_back(t_center_);
-	dof_list_.push_back(theta_1_);
-	dof_list_.push_back(theta_2_);
-	dof_list_.push_back(radius_);
+	AddDOF(s_center_);
+	AddDOF(t_center_);
+	AddDOF(theta_1_);
+	AddDOF(theta_2_);
+	AddDOF(radius_);
 
 	point1_ = GeneratePoint1();
 	point2_ = GeneratePoint2();
@@ -37,11 +37,11 @@ theta_2_(theta_2),
 radius_(radius),
 Edge2DBase(sketch_plane)
 {
-	dof_list_.push_back(s_center_);
-	dof_list_.push_back(t_center_);
-	dof_list_.push_back(theta_1_);
-	dof_list_.push_back(theta_2_);
-	dof_list_.push_back(radius_);
+	AddDOF(s_center_);
+	AddDOF(t_center_);
+	AddDOF(theta_1_);
+	AddDOF(theta_2_);
+	AddDOF(radius_);
 
 	point1_ = GeneratePoint1();
 	point2_ = GeneratePoint2();
