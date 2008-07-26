@@ -11,6 +11,10 @@ line1_(line1),
 line2_(line2),
 interior_angle_(interior_angle)
 {
+	// store the primitives that this primitive depends on
+	AddPrimitive(line1);
+	AddPrimitive(line2);
+
 	SetDefaultTextLocation();
 
 	// Create a DOF for the angle parameter

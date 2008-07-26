@@ -16,6 +16,8 @@ theta_2_(new IndependentDOF(theta_2,theta_2_free)),
 radius_(new IndependentDOF(radius,radius_free)),
 Edge2DBase(sketch_plane)
 {
+	AddPrimitive(sketch_plane);
+
 	AddDOF(s_center_);
 	AddDOF(t_center_);
 	AddDOF(theta_1_);
@@ -37,6 +39,8 @@ theta_2_(theta_2),
 radius_(radius),
 Edge2DBase(sketch_plane)
 {
+	AddPrimitive(sketch_plane);
+
 	AddDOF(s_center_);
 	AddDOF(t_center_);
 	AddDOF(theta_1_);

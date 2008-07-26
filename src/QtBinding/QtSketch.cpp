@@ -32,6 +32,11 @@ QtArc2DPointer QtSketch::AddArc2D (double s_center, double t_center, double thet
 	QtPoint2DPointer qt_point2(new QtPoint2D(0,point2->GetSDOF(), point2->GetTDOF(), GetSketchPlane()));
 	QtPoint2DPointer qt_center_point(new QtPoint2D(0,center_point->GetSDOF(), center_point->GetTDOF(), GetSketchPlane()));
 
+	// need to explicitly make these points dependent on the arc primitive so that if the arc primitive is ever deleted from the scene, these primitives will be deleted also
+	qt_point1->AddPrimitive(new_arc);
+	qt_point2->AddPrimitive(new_arc);
+	qt_center_point->AddPrimitive(new_arc);
+
 	AddPrimitive(qt_point1);
 	AddPrimitive(qt_point2);
 	AddPrimitive(qt_center_point);

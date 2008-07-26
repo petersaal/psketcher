@@ -6,6 +6,9 @@ using namespace GiNaC;
 // Create a parallelism constrain between two lines
 ParallelLine::ParallelLine(const LinePointer line1, const LinePointer line2)
 {
+	AddPrimitive(line1);
+	AddPrimitive(line2);
+
 	// create the expression that defines the parallel constraint and add it the the constraint list
 	boost::shared_ptr<ex> new_constraint(new ex);
 	

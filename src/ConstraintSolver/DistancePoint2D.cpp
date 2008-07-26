@@ -10,6 +10,9 @@ DistancePoint2D::DistancePoint2D(const Point2DPointer point1, const Point2DPoint
 point1_(point1),
 point2_(point2)
 {
+	AddPrimitive(point1);
+	AddPrimitive(point2);
+
 	// Create a DOF for the distance parameter
 	DOFPointer new_dof(new IndependentDOF(distance,false));
 	distance_ = new_dof;

@@ -18,6 +18,8 @@ s_(new IndependentDOF(s,s_free)),
 t_(new IndependentDOF(t,t_free)),
 Primitive2DBase(sketch_plane)
 {
+	AddPrimitive(sketch_plane);
+
 	AddDOF(s_);
 	AddDOF(t_);
 }
@@ -27,6 +29,8 @@ s_(s),
 t_(t),
 Primitive2DBase(sketch_plane)
 {
+	AddPrimitive(sketch_plane);
+	
 	AddDOF(s_);
 	AddDOF(t_);
 }

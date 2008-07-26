@@ -2,6 +2,9 @@
 
 Line :: Line(const PointPointer point1, const PointPointer point2)
 {
+	AddPrimitive(point1);
+	AddPrimitive(point2);
+
 	x1_ = point1->GetXDOF();
 	y1_ = point1->GetYDOF();
 	z1_ = point1->GetZDOF();
