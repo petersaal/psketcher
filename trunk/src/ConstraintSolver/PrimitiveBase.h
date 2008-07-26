@@ -18,10 +18,11 @@ class PrimitiveBase
 {
 	public:
 		PrimitiveBase();
-		virtual ~PrimitiveBase() {dof_list_.clear();}
+		virtual ~PrimitiveBase() {dof_list_.clear(); primitive_list_.clear();}
 		
 		// Accessor methods
 		void AddDOF(DOFPointer new_dof);  // add a new dof to the DOF list
+		void AddPrimitive(boost::shared_ptr<PrimitiveBase> new_primitive) {primitive_list_.push_back(new_primitive);}
 		const std::vector<DOFPointer> & GetDOFList() {return dof_list_;}	
 		unsigned GetID()const {return id_number_;}
 
@@ -41,6 +42,7 @@ class PrimitiveBase
 
 	private:
 		std::vector<DOFPointer> dof_list_;
+		std::vector< boost::shared_ptr<PrimitiveBase> > primitive_list_;  // list of primitives that this primitive depends on (used for knowing which dependent primitives need to be deleted when deleting a given primitive)
 
 		// each instance of this class has a unique ID number
 		unsigned id_number_;

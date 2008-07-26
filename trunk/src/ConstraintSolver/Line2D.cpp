@@ -38,6 +38,10 @@ void Line2D::ApplySelectionMask(SelectionMask mask)
 Line2D :: Line2D(const Point2DPointer point1, const Point2DPointer point2, SketchPlanePointer sketch_plane):
 Edge2DBase(sketch_plane)
 {
+	AddPrimitive(point1);
+	AddPrimitive(point2);
+	AddPrimitive(sketch_plane);
+
 	s1_ = point1->GetSDOF();
 	t1_ = point1->GetTDOF();
 

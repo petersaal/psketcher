@@ -7,6 +7,9 @@ using namespace GiNaC;
 // Create a constraint that defines the distance between two points
 DistancePoint::DistancePoint(const PointPointer point1, const PointPointer point2, double distance)
 {
+	AddPrimitive(point1);
+	AddPrimitive(point2);
+
 	// Create a DOF for the distance parameter
 	DOFPointer new_dof(new IndependentDOF(distance,false));
 	

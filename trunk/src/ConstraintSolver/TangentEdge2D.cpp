@@ -7,6 +7,8 @@ TangentEdge2D::TangentEdge2D(Edge2DBasePointer edge1, EdgePointNumber point_num_
 edge1_(edge1),
 edge2_(edge2)
 {
+	AddPrimitive(edge1);
+	AddPrimitive(edge2);
 
 	ex s_1, t_1, s_2, t_2;	// tangent vector for edge1 (s_1,t_1) and tangent vector for edge2 (s_2,t_2)
 

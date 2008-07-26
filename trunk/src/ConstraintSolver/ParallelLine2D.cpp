@@ -8,6 +8,9 @@ ParallelLine2D::ParallelLine2D(const Line2DPointer line1, const Line2DPointer li
 line1_(line1),
 line2_(line2)
 {
+	AddPrimitive(line1);
+	AddPrimitive(line2);
+
 	// create the expression that defines the parallel constraint and add it the the constraint list
 	boost::shared_ptr<ex> new_constraint(new ex);
 	

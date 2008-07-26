@@ -9,6 +9,10 @@ normal_(normal),
 up_(up),
 base_(base)
 {
+	AddPrimitive(normal);
+	AddPrimitive(up);
+	AddPrimitive(base);
+
 	// @TODO need to check to insure that the normal vector and the up vector are normalized, calculations later on will assume this
 
 	// @TODO need to make sure that up vector lies in plane defined by normal vector (up vector must be orthogonal to normal vector)
