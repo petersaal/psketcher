@@ -17,9 +17,6 @@ ParallelLine2D(line1,line2)
 
 void QtParallelLine2D::UpdateDisplay()
 {
-	// first, erase the pervious AIS_ParallelRelation from the display because we'll have to recreate it
-	Erase();
-
 	Display();
 
 	QtPrimitiveBase::UpdateDisplay();

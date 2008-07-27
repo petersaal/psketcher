@@ -37,10 +37,6 @@ Arc2D(s_center,t_center,theta_1,theta_2,radius,sketch_plane)
 
 void QtArc2D::UpdateDisplay()
 {
-	// first, erase the pervious AIS_ParallelRelation from the display because we'll have to recreate it
-	Erase();
-	
-
 	Display();
 
 	QtPrimitiveBase::UpdateDisplay();

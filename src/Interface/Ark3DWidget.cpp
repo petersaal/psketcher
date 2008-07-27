@@ -345,3 +345,14 @@ void Ark3DWidget::SelectUnderMouse(QMouseEvent *e, bool multi_select)
 
 
 }
+
+void Ark3DWidget::keyReleaseEvent ( QKeyEvent * event )
+{
+	if(event->key() == Qt::Key_Delete)
+	{
+		current_sketch_->DeleteSelected();
+	} else {
+		// not handling the event, call the base class implementation
+		QGraphicsView::keyReleaseEvent(event);
+	}
+}

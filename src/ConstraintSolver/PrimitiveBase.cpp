@@ -10,7 +10,8 @@ unsigned PrimitiveBase::next_id_number_ = 1;
 PrimitiveBase::PrimitiveBase():
 id_number_(next_id_number_++),
 selected_(false),
-selectable_(true)
+selectable_(true),
+delete_me_(false)
 {
 
 }
@@ -52,4 +53,21 @@ void PrimitiveBase::AddDOF(DOFPointer new_dof)
 	// lastly, remove any duplicate degrees of freedom in the list
 	sort( dof_list_.begin(), dof_list_.end());
 	dof_list_.erase( unique( dof_list_.begin(), dof_list_.end()), dof_list_.end());
+}
+
+// returns true if deletion flag changes, otherwise returns false
+bool PrimitiveBase::FlagForDeletionIfDependent(boost::shared_ptr<PrimitiveBase> input_primitive)
+{
+	// short circuit if already flagged for deletion
+	if(IsFlaggedForDeletion())
+		return false;
+
+	// check to see if this primitive depends on the input primitive
+	if (find(primitive_list_.begin(), primitive_list_.end(), input_primitive) != primitive_list_.end())
+	{
+		FlagForDeletion();
+		return true;
+	} else {
+		return false;
+	}
 }

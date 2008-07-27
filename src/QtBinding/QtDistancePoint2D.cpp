@@ -21,9 +21,6 @@ DistancePoint2D(point1,point2,distance)
 
 void QtDistancePoint2D::UpdateDisplay()
 {
-	// first, erase the pervious AIS_ParallelRelation from the display because we'll have to recreate it
-	Erase();
-
 	Display();
 
 	QtPrimitiveBase::UpdateDisplay();

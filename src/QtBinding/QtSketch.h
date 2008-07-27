@@ -34,6 +34,8 @@ class QtSketch : public Sketch
 		QtTangentEdge2DPointer AddTangentEdge2D(Edge2DBasePointer edge1, EdgePointNumber point_num_1, Edge2DBasePointer edge2, EdgePointNumber point_num_2);
 
 	private:
+		virtual void PreparePrimitiveForDeletion(PrimitiveBasePointer primitive_to_delete);
+
 		QGraphicsScene *scene_;
 		bool grid_snap_;
 };
