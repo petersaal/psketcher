@@ -26,6 +26,10 @@ class PrimitiveBase
 		const std::vector<DOFPointer> & GetDOFList() {return dof_list_;}	
 		unsigned GetID()const {return id_number_;}
 
+		void FlagForDeletion() {delete_me_ = true;}
+		bool IsFlaggedForDeletion() const {return delete_me_;}
+		bool FlagForDeletionIfDependent(boost::shared_ptr<PrimitiveBase> input_primitive);
+
 		// selection methods
 		virtual bool IsSelected() { return selected_;}
 		virtual void SetSelectable(bool selectable);
@@ -49,6 +53,9 @@ class PrimitiveBase
 
 		// static variable used to provide a unique ID number to each instance of this class
 		static unsigned next_id_number_;
+
+		// deletion flag used when deleting primitives model
+		bool delete_me_; 
 };
 typedef boost::shared_ptr<PrimitiveBase> PrimitiveBasePointer;
 

@@ -22,9 +22,6 @@ TangentEdge2D(edge1,point_num_1,edge2,point_num_2)
 
 void QtTangentEdge2D::UpdateDisplay()
 {
-	// first, erase the pervious AIS_ParallelRelation from the display because we'll have to recreate it
-	Erase();
-
 	Display();
 
 	QtPrimitiveBase::UpdateDisplay();

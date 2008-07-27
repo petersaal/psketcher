@@ -188,4 +188,90 @@ std::vector<ConstraintEquationBasePointer> Ark3DModel::GetConstraintEquations()
 	return selected_constraint_equations;
 }
 
+void Ark3DModel::DeletePrimitive(PrimitiveBasePointer primitive_to_delete)
+{
+	primitive_to_delete->FlagForDeletion();
+	FlagDependentsForDeletion(primitive_to_delete);
+	DeleteFlagged();
+}
+
+// Flag any primitives or constraint equations for deletion that depend on this primitive
+void Ark3DModel::FlagDependentsForDeletion(PrimitiveBasePointer primitive_to_delete)
+{
+	bool status_changed;
+
+	// loop through all of the primitives
+	for(unsigned int current_primitive = 0; current_primitive < primitive_list_.size(); current_primitive++)
+	{
+		status_changed = primitive_list_[current_primitive]->FlagForDeletionIfDependent(primitive_to_delete);
+		if(status_changed)
+			// recurse if this primitive is now flagged for deletion
+			FlagDependentsForDeletion(primitive_list_[current_primitive]);
+	}
+
+	// loop through all of the constraints
+	for(unsigned int current_equation = 0; current_equation < constraint_equation_list_.size(); current_equation++)
+	{
+		status_changed = constraint_equation_list_[current_equation]->FlagForDeletionIfDependent(primitive_to_delete);
+		if(status_changed)
+			// recurse if this constraint equation is now flagged for deletion
+			FlagDependentsForDeletion(constraint_equation_list_[current_equation]);
+	}
+}
+
+// delete all of the primitives that have been flagged for deletion
+void Ark3DModel::DeleteFlagged()
+{
+	std::vector<PrimitiveBasePointer>::iterator iter1 = primitive_list_.begin();
+
+	while(iter1 != primitive_list_.end())
+	{
+		if((*iter1)->IsFlaggedForDeletion())
+		{
+			PreparePrimitiveForDeletion(*iter1);
+			iter1 = primitive_list_.erase(iter1);
+		} else {
+			iter1++;
+		}
+	}
+	
+	std::vector<ConstraintEquationBasePointer>::iterator iter2 = constraint_equation_list_.begin();
+
+	while(iter2 != constraint_equation_list_.end())
+	{
+		if((*iter2)->IsFlaggedForDeletion())
+		{
+			PreparePrimitiveForDeletion(*iter2);
+			iter2 = constraint_equation_list_.erase(iter2);
+		} else {
+			iter2++;
+		}
+	}
+}
+
+void Ark3DModel::DeleteSelected()
+{
+	// loop through all of the primitives
+	for(unsigned int current_primitive = 0; current_primitive < primitive_list_.size(); current_primitive++)
+	{
+		if(primitive_list_[current_primitive]->IsSelected())
+		{
+			primitive_list_[current_primitive]->FlagForDeletion();
+			FlagDependentsForDeletion(primitive_list_[current_primitive]);
+		}
+	}
+
+	// loop through all of the constraints
+	for(unsigned int current_equation = 0; current_equation < constraint_equation_list_.size(); current_equation++)
+	{
+		if(constraint_equation_list_[current_equation]->IsSelected())
+		{
+			constraint_equation_list_[current_equation]->FlagForDeletion();
+			FlagDependentsForDeletion(constraint_equation_list_[current_equation]);
+		}
+	}
+
+	DeleteFlagged();
+}
+
 

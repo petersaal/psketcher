@@ -13,13 +13,13 @@ public:
 	
 	// Constraint equation management
 	void AddConstraintEquation(const ConstraintEquationBasePointer &new_constraint_equation);
-	//void AddConstraintEquations(const std::vector<ConstraintEquationBasePointer> &new_constraint_equations);
-	//void DeleteConstraintEquation(ConstraintEquationBasePointer constraint_to_delete);
 	
 	// Primitive management
 	void AddPrimitive(const PrimitiveBasePointer &new_primitive);
-	//void AddPrimitives(const std::vector<PrimitiveBasePointer> &new_primitives);
-	//void DeletePrimitive(PrimitiveBasePointer primitive_to_delete);
+	
+	// method for deleting primitives (either a primitive or a constraint equation)
+	void DeletePrimitive(PrimitiveBasePointer primitive_to_delete);
+	void DeleteSelected();
 
 	void SolveConstraints();
 
@@ -36,6 +36,10 @@ public:
 	std::vector<ConstraintEquationBasePointer> GetConstraintEquations();
 
 private:
+	void FlagDependentsForDeletion(PrimitiveBasePointer primitive_to_delete); // Flag any primitives or constraint equations for deletion that depend on this primitive
+	void DeleteFlagged(); // delete all of the primitives that have been flagged for deletion
+	virtual void PreparePrimitiveForDeletion(PrimitiveBasePointer primitive_to_delete) {;}
+
 	std::vector<DOFPointer> dof_list_;
 	std::vector<ConstraintEquationBasePointer> constraint_equation_list_;
 	std::vector<PrimitiveBasePointer> primitive_list_;

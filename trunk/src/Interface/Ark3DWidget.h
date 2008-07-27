@@ -62,6 +62,7 @@ class Ark3DWidget : public QGraphicsView
 		virtual void leaveEvent		   ( QEvent * e);
 		virtual void mouseDoubleClickEvent ( QMouseEvent * event );
 		virtual void drawBackground ( QPainter * painter, const QRectF & rect );
+		virtual void keyReleaseEvent ( QKeyEvent * event );
 
 		void SelectUnderMouse(QMouseEvent *e, bool multi_select = false);
 	
