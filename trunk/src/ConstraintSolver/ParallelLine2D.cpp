@@ -6,7 +6,8 @@ using namespace GiNaC;
 // Create a parallelism constrain between two lines
 ParallelLine2D::ParallelLine2D(const Line2DPointer line1, const Line2DPointer line2):
 line1_(line1),
-line2_(line2)
+line2_(line2),
+marker_position_(0.5)   // by default place marker at the middle of the constrained lines
 {
 	AddPrimitive(line1);
 	AddPrimitive(line2);
@@ -30,3 +31,5 @@ line2_(line2)
 	constraints_.push_back(new_constraint);
 	weight_list_.push_back(1.0);
 }
+
+
