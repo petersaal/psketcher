@@ -18,7 +18,10 @@ class QtParallelLine2D : public QtPrimitiveBase, public ParallelLine2D
 		virtual QRectF boundingRect() const;
 		virtual void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*);
 
+		virtual QPainterPath shape() const {return current_shape_;}
+
 	private:
+		QPainterPath current_shape_;
 
 };
 typedef boost::shared_ptr<QtParallelLine2D> QtParallelLine2DPointer;
