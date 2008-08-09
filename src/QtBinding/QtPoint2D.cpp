@@ -64,13 +64,19 @@ void QtPoint2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 {
 	DisplayProperties current_properties;
 
+	// @fixme the way constraint_properties is defined in the following if statement block will prevent the user from changing the display properties of the point constraints at run time since the DisplayProperties constructor is used to set these properties
+	DisplayProperties constraint_properties;
+
 	if(option->state & QStyle::State_MouseOver && IsSelectable())
 	{
 		current_properties = GetMouseHoverProperties();
+		constraint_properties = DisplayProperties(HoverAnnotation);
 	} else if (option->state & QStyle::State_Selected) {
 		current_properties = GetSelectedProperties();
+		constraint_properties = DisplayProperties(SelectedAnnotation);
 	} else {
 		current_properties = GetProperties();
+		constraint_properties = DisplayProperties(Annotation);
 	}
 
 	painter->setPen(current_properties.GetPen(option->levelOfDetail));
@@ -78,6 +84,41 @@ void QtPoint2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
 	QPainterPath point_path;
 	PaintPointAndSelectionPath(painter, option, GetSValue(), -GetTValue(),point_path);
+
+	// if point is constrained, draw the constraints
+	if(! SIsFree() || ! TIsFree())
+	{
+		painter->setPen(constraint_properties.GetPen(option->levelOfDetail));
+		painter->setBrush(constraint_properties.GetBrush());
+		
+		double radius = 5.0/option->levelOfDetail;
+
+		if((! SIsFree() && ! GetSDOF()->IsDependent() )  && (! TIsFree() && ! GetTDOF()->IsDependent() ))
+		{
+			QRectF rect(QPointF(GetSValue()-radius,-(GetTValue()-radius)),
+			QPointF(GetSValue()+radius,-(GetTValue()+radius)));
+			painter->setBrush(Qt::NoBrush);
+			painter->drawEllipse(rect);
+
+		} else if((! SIsFree() && ! GetSDOF()->IsDependent() )) {
+
+			painter->drawLine(QPointF(GetSValue()-radius,-(GetTValue()-radius)),
+			QPointF(GetSValue()-radius,-(GetTValue()+radius)));
+
+			painter->drawLine(QPointF(GetSValue()+radius,-(GetTValue()-radius)),
+			QPointF(GetSValue()+radius,-(GetTValue()+radius)));
+
+		} else if((! TIsFree() && ! GetTDOF()->IsDependent() )) {
+
+			painter->drawLine(QPointF(GetSValue()+radius,-(GetTValue()+radius)),
+			QPointF(GetSValue()-radius,-(GetTValue()+radius)));
+
+			painter->drawLine(QPointF(GetSValue()-radius,-(GetTValue()-radius)),
+			QPointF(GetSValue()+radius,-(GetTValue()-radius)));
+		}
+	}
+	
+
 	current_shape_ = point_path;
 }
 
