@@ -57,7 +57,7 @@ void QtArc2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 	// @fixme the way radius_properties is defined in the following if statement block will prevent the user from changing the display properties of the radius dimension or the points at run time since the DisplayProperties constructor is used to set these properties
 	DisplayProperties radius_properties; 
 
-	if(option->state & QStyle::State_MouseOver)
+	if(option->state & QStyle::State_MouseOver && IsSelectable())
 	{
 		current_properties = GetMouseHoverProperties();
 		radius_properties = DisplayProperties(HoverAnnotation);

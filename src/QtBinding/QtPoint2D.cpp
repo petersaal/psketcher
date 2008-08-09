@@ -64,7 +64,7 @@ void QtPoint2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 {
 	DisplayProperties current_properties;
 
-	if(option->state & QStyle::State_MouseOver)
+	if(option->state & QStyle::State_MouseOver && IsSelectable())
 	{
 		current_properties = GetMouseHoverProperties();
 	} else if (option->state & QStyle::State_Selected) {

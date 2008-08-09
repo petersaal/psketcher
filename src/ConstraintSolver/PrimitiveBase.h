@@ -30,6 +30,8 @@ class PrimitiveBase
 		bool IsFlaggedForDeletion() const {return delete_me_;}
 		bool FlagForDeletionIfDependent(boost::shared_ptr<PrimitiveBase> input_primitive);
 
+		bool IsSelectable() const {return selectable_;}
+
 		// selection methods
 		virtual bool IsSelected() { return selected_;}
 		virtual void SetSelectable(bool selectable);
