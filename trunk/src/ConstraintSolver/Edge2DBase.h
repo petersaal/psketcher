@@ -20,6 +20,9 @@ class Edge2DBase : public Primitive2DBase
 		virtual void GetTangent1(GiNaC::ex & s_component, GiNaC::ex & t_component) = 0;  // returns expression that defines tangent vector for each endpoint of the edge
 		virtual void GetTangent2(GiNaC::ex & s_component, GiNaC::ex & t_component) = 0;
 
+		virtual void GetTangent1(double & s_component, double & t_component) = 0;
+		virtual void GetTangent2(double & s_component, double & t_component) = 0;
+
 		// methods implemented by this base class
 		bool IsPointCoincident(EdgePointNumber my_point_number, boost::shared_ptr<Edge2DBase> other_edge, EdgePointNumber other_point_number);
 	protected:

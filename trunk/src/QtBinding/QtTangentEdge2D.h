@@ -19,7 +19,10 @@ class QtTangentEdge2D : public QtPrimitiveBase, public TangentEdge2D
 		virtual QRectF boundingRect() const;
 		virtual void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*);
 
+		virtual QPainterPath shape() const {return current_shape_;}
+
 	private:
+		QPainterPath current_shape_;
 
 };
 typedef boost::shared_ptr<QtTangentEdge2D> QtTangentEdge2DPointer;

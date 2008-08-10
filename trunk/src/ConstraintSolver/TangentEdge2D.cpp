@@ -5,7 +5,9 @@ using namespace GiNaC;
 
 TangentEdge2D::TangentEdge2D(Edge2DBasePointer edge1, EdgePointNumber point_num_1, Edge2DBasePointer edge2, EdgePointNumber point_num_2):
 edge1_(edge1),
-edge2_(edge2)
+edge2_(edge2),
+point_num_1_(point_num_1),
+point_num_2_(point_num_2)
 {
 	AddPrimitive(edge1);
 	AddPrimitive(edge2);

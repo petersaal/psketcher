@@ -144,6 +144,20 @@ void Arc2D::GetTangent2(GiNaC::ex & s_component, GiNaC::ex & t_component)
 	t_component = cos(GetTheta2()->GetVariable());
 }
 
+
+void Arc2D::GetTangent1(double & s_component, double & t_component)
+{
+	s_component = sin(GetTheta1()->GetValue());
+	t_component = -cos(GetTheta1()->GetValue());
+}
+
+void Arc2D::GetTangent2(double & s_component, double & t_component)
+{
+	s_component = -sin(GetTheta2()->GetValue());
+	t_component = cos(GetTheta2()->GetValue());
+}
+
+
 void Arc2D::SetDefaultTextLocation()
 {
 	text_angle_ = (theta_1_->GetValue() + theta_2_->GetValue())*0.5;
