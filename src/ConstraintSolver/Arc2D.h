@@ -40,6 +40,9 @@ class Arc2D : public Edge2DBase
 		void GetTangent1(GiNaC::ex & s_component, GiNaC::ex & t_component);  // returns expression that defines tangent vector for each endpoint of the edge
 		void GetTangent2(GiNaC::ex & s_component, GiNaC::ex & t_component);
 
+		void GetTangent1(double & s_component, double & t_component);
+		void GetTangent2(double & s_component, double & t_component);
+
 		void ApplySelectionMask(SelectionMask mask);
 
 		void SetTextLocation(double text_radius, double text_angle) {text_radius_ = text_radius; text_angle_ = text_angle;}

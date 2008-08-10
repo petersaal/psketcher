@@ -25,6 +25,9 @@ class Line2D : public Edge2DBase
 		void GetTangent1(GiNaC::ex & s_component, GiNaC::ex & t_component);  // returns expression that defines tangent vector for each endpoint of the edge
 		void GetTangent2(GiNaC::ex & s_component, GiNaC::ex & t_component);
 
+		void GetTangent1(double & s_component, double & t_component);
+		void GetTangent2(double & s_component, double & t_component);
+
 		void ApplySelectionMask(SelectionMask mask);
 
 	private:

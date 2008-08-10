@@ -1,11 +1,10 @@
 #include "Line2D.h"
 
 using namespace std;
-using namespace GiNaC;
 
 void Line2D::GetTangent1(GiNaC::ex & s_component, GiNaC::ex & t_component)
 {
-	ex length = sqrt(pow(GetS1()->GetVariable()-GetS2()->GetVariable(),2)+pow(GetT1()->GetVariable()-GetT2()->GetVariable(),2));
+	GiNaC::ex length = sqrt(pow(GetS1()->GetVariable()-GetS2()->GetVariable(),2)+pow(GetT1()->GetVariable()-GetT2()->GetVariable(),2));
 	
 	s_component = (GetS1()->GetVariable() - GetS2()->GetVariable())/length;
 	t_component = (GetT1()->GetVariable() - GetT2()->GetVariable())/length;
@@ -13,10 +12,26 @@ void Line2D::GetTangent1(GiNaC::ex & s_component, GiNaC::ex & t_component)
 
 void Line2D::GetTangent2(GiNaC::ex & s_component, GiNaC::ex & t_component)
 {
-	ex length = sqrt(pow(GetS1()->GetVariable()-GetS2()->GetVariable(),2)+pow(GetT1()->GetVariable()-GetT2()->GetVariable(),2));
+	GiNaC::ex length = sqrt(pow(GetS1()->GetVariable()-GetS2()->GetVariable(),2)+pow(GetT1()->GetVariable()-GetT2()->GetVariable(),2));
 	
 	s_component = (GetS2()->GetVariable() - GetS1()->GetVariable())/length;
 	t_component = (GetT2()->GetVariable() - GetT1()->GetVariable())/length;
+}
+
+void Line2D::GetTangent1(double & s_component, double & t_component)
+{
+	double length = sqrt(pow(GetS1()->GetValue()-GetS2()->GetValue(),2)+pow(GetT1()->GetValue()-GetT2()->GetValue(),2));
+	
+	s_component = (GetS1()->GetValue() - GetS2()->GetValue())/length;
+	t_component = (GetT1()->GetValue() - GetT2()->GetValue())/length;
+}
+
+void Line2D::GetTangent2(double & s_component, double & t_component)
+{
+	double length = sqrt(pow(GetS1()->GetValue()-GetS2()->GetValue(),2)+pow(GetT1()->GetValue()-GetT2()->GetValue(),2));
+	
+	s_component = (GetS2()->GetValue() - GetS1()->GetValue())/length;
+	t_component = (GetT2()->GetValue() - GetT1()->GetValue())/length;
 }
 
 // returns global coordinates of line end points
