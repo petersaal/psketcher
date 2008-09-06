@@ -67,6 +67,14 @@ AngleLine2DPointer Sketch::AddAngleLine2D(const Line2DPointer line1, const Line2
 	return new_constraint;
 }
 
+AngleLine2DPointer Sketch::AddAngleLine2D(const Line2DPointer line1, const Line2DPointer line2, bool interior_angle)
+{
+	AngleLine2DPointer new_constraint(new AngleLine2D(line1,line2,1.0,interior_angle)); // using a temp angle of 1.0, will be replaced by the current angle next
+	new_constraint->SetAngleValue(new_constraint->GetActualAngle());
+	AddConstraintEquation(new_constraint);
+	return new_constraint;
+}
+
 TangentEdge2DPointer Sketch::AddTangentEdge2D(Edge2DBasePointer edge1, EdgePointNumber point_num_1, Edge2DBasePointer edge2, EdgePointNumber point_num_2)
 {
 	TangentEdge2DPointer new_constraint(new TangentEdge2D(edge1, point_num_1, edge2, point_num_2));

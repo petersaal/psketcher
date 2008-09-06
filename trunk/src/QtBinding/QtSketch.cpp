@@ -84,6 +84,14 @@ QtAngleLine2DPointer QtSketch::AddAngleLine2D(const Line2DPointer line1, const L
 	return new_constraint;
 }
 
+QtAngleLine2DPointer QtSketch::AddAngleLine2D(const Line2DPointer line1, const Line2DPointer line2, bool interior_angle)
+{
+	QtAngleLine2DPointer new_constraint(new QtAngleLine2D(0,line1,line2,1.0,interior_angle)); // using a temp angle of 1.0, will be replaced by the current angle next
+	new_constraint->SetAngleValue(new_constraint->GetActualAngle());
+	AddConstraintEquation(new_constraint);
+	return new_constraint;
+}
+
 QtTangentEdge2DPointer QtSketch::AddTangentEdge2D(Edge2DBasePointer edge1, EdgePointNumber point_num_1, Edge2DBasePointer edge2, EdgePointNumber point_num_2)
 {
 	QtTangentEdge2DPointer new_constraint(new QtTangentEdge2D(0,edge1, point_num_1, edge2, point_num_2));
