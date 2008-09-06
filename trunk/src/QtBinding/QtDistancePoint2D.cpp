@@ -85,20 +85,14 @@ void QtDistancePoint2D::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 	mmcMatrix text_location = point1 + tangent*text_position_ + normal*text_offset_;
 	
 	double offset = (text_location - point1).DotProduct(normal);
-	double offset_sign;
-	if (offset >= 1)
-		offset_sign = 1.0;
-	else
-		offset_sign = -1.0;
-			
-
+	
 	mmcMatrix arrow_end_1 = point1 + offset*normal;
 	mmcMatrix arrow_end_2 = point2 + offset*normal;
 
-	mmcMatrix leader_start_1 = point1 + offset_sign*leader_gap*normal;
-	mmcMatrix leader_start_2 = point2 + offset_sign*leader_gap*normal;
-	mmcMatrix leader_end_1 = point1 + (offset+offset_sign*leader_extension)*normal;
-	mmcMatrix leader_end_2 = point2 + (offset+offset_sign*leader_extension)*normal;
+	mmcMatrix leader_start_1 = point1 + leader_gap*normal;
+	mmcMatrix leader_start_2 = point2 + leader_gap*normal;
+	mmcMatrix leader_end_1 = point1 + (offset+leader_extension)*normal;
+	mmcMatrix leader_end_2 = point2 + (offset+leader_extension)*normal;
 
 	// draw leader lines
 	painter->drawLine(QPointF(leader_start_1(0,0),-leader_start_1(1,0)),QPointF(leader_end_1(0,0),-leader_end_1(1,0)));
