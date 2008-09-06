@@ -21,6 +21,8 @@ class AngleLine2D : public ConstraintEquationBase
 
 		double GetAngleValue() const {return angle_->GetValue();}
 		void SetAngleValue(double angle) {angle_->SetValue(angle);}
+
+		double GetActualAngle() const;
 		
 	protected:
 		Line2DPointer line1_;

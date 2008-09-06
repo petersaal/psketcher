@@ -120,3 +120,25 @@ void AngleLine2D::SetDefaultTextLocation()
 		text_angle_ = ave_angle;
 	}
 }
+
+double AngleLine2D::GetActualAngle() const
+{	
+	boost::shared_ptr<ex> new_constraint(new ex);
+	
+	double line1_ds = line1_->GetS2()->GetValue() - line1_->GetS1()->GetValue();
+	double line1_dt = line1_->GetT2()->GetValue() - line1_->GetT1()->GetValue();
+	double line1_length = sqrt(line1_ds*line1_ds+line1_dt*line1_dt);
+
+	double line2_ds = line2_->GetS2()->GetValue() - line2_->GetS1()->GetValue();
+	double line2_dt = line2_->GetT2()->GetValue() - line2_->GetT1()->GetValue();
+	double line2_length = sqrt(line2_ds*line2_ds+line2_dt*line2_dt);
+
+	double actual_angle;
+	if(interior_angle_)
+		actual_angle = acos((1/(line1_length*line2_length))*(line1_ds*line2_ds + line1_dt*line2_dt));
+	else
+		actual_angle = mmcPI - acos((1/(line1_length*line2_length))*(line1_ds*line2_ds + line1_dt*line2_dt));
+
+
+	return actual_angle;
+}
