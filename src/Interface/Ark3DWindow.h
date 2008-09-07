@@ -71,8 +71,11 @@ private:
     QAction *selectAction;
 	QAction *makeLineAction;
 	QAction *makePointAction;
+	QAction *makeArcAction;
 	QAction *makeDistanceConstraintAction;
 	QAction *makeAngleConstraintAction;
+	QAction *makeParallelConstraintAction;
+	QAction *makeTangentConstraintAction;
 	QToolBar *sketchToolBar;
 
 	// The OpenCASCADE Qt widget and the QGraphicsScene;

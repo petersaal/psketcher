@@ -4,11 +4,7 @@ find_package(PkgConfig)
 find_package(Qt4 REQUIRED)
 include(${QT_USE_FILE})
 
-#OpenCascade
-INCLUDE_DIRECTORIES (${CASROOT}/inc)
-INCLUDE_DIRECTORIES (${CASROOT}/src/WOKTclLib)
-
 # create the ark3d library
-ADD_LIBRARY (InteractiveConstructors STATIC QtEventProperties.cpp  InteractiveConstructorBase.cpp  Line2DConstructor.cpp  Point2DConstructor.cpp DistancePoint2DConstructor.cpp AngleLine2DConstructor.cpp)
+ADD_LIBRARY (InteractiveConstructors STATIC QtEventProperties.cpp  InteractiveConstructorBase.cpp  Line2DConstructor.cpp  Point2DConstructor.cpp DistancePoint2DConstructor.cpp AngleLine2DConstructor.cpp ParallelLine2DConstructor.cpp)
 
 

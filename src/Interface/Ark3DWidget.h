@@ -15,6 +15,7 @@ extern "C" {
 #include "../InteractiveConstructors/Line2DConstructor.h"
 #include "../InteractiveConstructors/DistancePoint2DConstructor.h"
 #include "../InteractiveConstructors/AngleLine2DConstructor.h"
+#include "../InteractiveConstructors/ParallelLine2DConstructor.h"
 
 class QGraphicsScene;
 
@@ -47,6 +48,7 @@ class Ark3DWidget : public QGraphicsView
 		void MakeDistanceConstraint();
 		void MakeAngleConstraint();
 		void MakeTangentConstraint();
+		void MakeParallelConstraint();
 
 		void modelChanged();
 
