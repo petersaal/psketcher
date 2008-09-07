@@ -280,6 +280,13 @@ void Ark3DWidget::MakeAngleConstraint()
 
 void Ark3DWidget::MakeTangentConstraint() {;}
 
+
+void Ark3DWidget::MakeParallelConstraint()
+{
+	if(interactive_primitive_ != 0) delete interactive_primitive_;
+	interactive_primitive_ = new ParallelLine2DConstructor(current_sketch_);
+}
+
 // double clicking causes the currently selected item to span its edit dialog
 void Ark3DWidget::mouseDoubleClickEvent ( QMouseEvent * event )
 {

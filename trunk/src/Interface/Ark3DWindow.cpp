@@ -113,6 +113,12 @@ void Ark3DWindow::createActions()
 	makePointAction->setStatusTip(tr("Create Point"));
     connect(makePointAction, SIGNAL(triggered()), view, SLOT(MakePoint()));
 
+	makeArcAction = new QAction(tr("Arc"), sketchActionGroup);
+	makeArcAction->setCheckable(true);
+	makeArcAction->setIcon(QIcon(":/icons/arc.svg"));
+	makeArcAction->setStatusTip(tr("Create Arc"));
+    connect(makeArcAction, SIGNAL(triggered()), view, SLOT(MakeArc()));
+
 	makeDistanceConstraintAction = new QAction(tr("Distance Constraint"), sketchActionGroup);
 	makeDistanceConstraintAction->setCheckable(true);
 	makeDistanceConstraintAction->setIcon(QIcon(":/icons/distance.svg"));
@@ -124,6 +130,18 @@ void Ark3DWindow::createActions()
 	makeAngleConstraintAction->setIcon(QIcon(":/icons/angle.svg"));
 	makeAngleConstraintAction->setStatusTip(tr("Create Angle Constraint"));
     connect(makeAngleConstraintAction, SIGNAL(triggered()), view, SLOT(MakeAngleConstraint()));
+
+	makeParallelConstraintAction = new QAction(tr("Parallel Constraint"), sketchActionGroup);
+	makeParallelConstraintAction->setCheckable(true);
+	makeParallelConstraintAction->setIcon(QIcon(":/icons/parallel.svg"));
+	makeParallelConstraintAction->setStatusTip(tr("Create Parallelism Constraint"));
+    connect(makeParallelConstraintAction, SIGNAL(triggered()), view, SLOT(MakeParallelConstraint()));
+
+	makeTangentConstraintAction = new QAction(tr("Tangent Constraint"), sketchActionGroup);
+	makeTangentConstraintAction->setCheckable(true);
+	makeTangentConstraintAction->setIcon(QIcon(":/icons/tangent.svg"));
+	makeTangentConstraintAction->setStatusTip(tr("Create Tangency Constraint"));
+    connect(makeTangentConstraintAction, SIGNAL(triggered()), view, SLOT(MakeTangentConstraint()));
 
 	selectAction->setChecked(true);
 }

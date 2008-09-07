@@ -15,6 +15,9 @@
     <file>icons/point.svg</file>
     <file>icons/distance.svg</file>
     <file>icons/angle.svg</file>  
+    <file>icons/arc.svg</file>
+    <file>icons/parallel.svg</file>
+    <file>icons/tangent.svg</file>
     <file>icons/select_pointer.svg</file>
 </qresource>
 </RCC>
