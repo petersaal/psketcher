@@ -122,3 +122,17 @@ void QtPoint2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 	current_shape_ = point_path;
 }
 
+void QtPoint2D::mouseMoveEvent ( QGraphicsSceneMouseEvent * event )
+{
+	if(event->buttons() & Qt::LeftButton)
+	{		
+		// move the point to the new global position
+		SetSValue(event->scenePos().x());
+		SetTValue(-event->scenePos().y());
+
+	} else {
+		// not handling this event, let the base class do its thing
+		QGraphicsItem::mouseMoveEvent(event);
+	}
+}
+

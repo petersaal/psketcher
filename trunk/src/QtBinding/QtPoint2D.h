@@ -20,6 +20,8 @@ class QtPoint2D : public QtPrimitiveBase, public Point2D
 
 		virtual QPainterPath shape() const {return current_shape_;}
 
+		virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * event );
+
 	private:
 		QPainterPath current_shape_;
 };
