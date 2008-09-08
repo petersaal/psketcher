@@ -130,6 +130,11 @@ void QtPoint2D::mouseMoveEvent ( QGraphicsSceneMouseEvent * event )
 		SetSValue(event->scenePos().x());
 		SetTValue(-event->scenePos().y());
 
+		// force a update of the display so that the drag event is seen interactively
+		scene()->update();
+
+		//@fixme After drag operation is finished, need to trigger QtSketch's modelChanged() slot
+
 	} else {
 		// not handling this event, let the base class do its thing
 		QGraphicsItem::mouseMoveEvent(event);
