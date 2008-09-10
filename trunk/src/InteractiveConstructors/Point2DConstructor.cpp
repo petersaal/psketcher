@@ -11,7 +11,7 @@ void Point2DConstructor::CreateObject()
 {
 	if(primitive_finished_)
 	{
-		parent_sketch_->AddPoint2D(current_s_, current_t_, false, false);
+		parent_sketch_->AddPoint2D(current_s_, current_t_, true, true);
 	}
 }
 
