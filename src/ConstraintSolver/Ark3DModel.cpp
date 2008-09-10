@@ -119,20 +119,24 @@ void Ark3DModel::SolveConstraints()
 			}
 		}
 	
-		// populate the initial condition matrix using free_values
-		mmcMatrix initial_free_values(free_values.size(),1);
-		for(unsigned int current_free_value = 0; current_free_value < free_values.size(); current_free_value++)
-			initial_free_values(current_free_value,0) = free_values[current_free_value];
-	
-	
-		ConstraintSolver my_constraint_solver(constraints, weights, free_parameters,
-																			fixed_parameters, fixed_values);
-	
-		mmcMatrix computed_free_values = my_constraint_solver.MinimizeMeritFunction(initial_free_values, 1000, 1e-10, 1e-15, 100, 1, &std::cout);
-	
-		// Update the free DOF's with the solution
-		for(unsigned int current_dof = 0; current_dof < free_dof_list.size(); current_dof++)
-			free_dof_list[current_dof]->SetValue(computed_free_values(current_dof,0));
+		// only continue if there are actually some free values to solve for
+		if(free_values.size() > 0)
+		{
+			// populate the initial condition matrix using free_values
+			mmcMatrix initial_free_values(free_values.size(),1);
+			for(unsigned int current_free_value = 0; current_free_value < free_values.size(); current_free_value++)
+				initial_free_values(current_free_value,0) = free_values[current_free_value];
+		
+		
+			ConstraintSolver my_constraint_solver(constraints, weights, free_parameters,
+																				fixed_parameters, fixed_values);
+		
+			mmcMatrix computed_free_values = my_constraint_solver.MinimizeMeritFunction(initial_free_values, 1000, 1e-10, 1e-15, 100, 1, &std::cout);
+		
+			// Update the free DOF's with the solution
+			for(unsigned int current_dof = 0; current_dof < free_dof_list.size(); current_dof++)
+				free_dof_list[current_dof]->SetValue(computed_free_values(current_dof,0));
+		}
 	}
 }
 
