@@ -25,7 +25,7 @@ QGraphicsView(scene, parent)
 	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-	setMouseTracking(true);
+	//setMouseTracking(true);
 
 /*
 	// create the python interpretor instance
@@ -161,13 +161,19 @@ void Ark3DWidget::mouseMoveEvent    ( QMouseEvent* e )
 		}
 	} else if(e->buttons() & Qt::MidButton) {
 		// translate the scene rectangle when the middle mouse button is pressed and moved
-		QPointF delta = mapToScene(e->pos() - previous_mouse_position_);
-		translate(delta.x(),delta.y());
+		//QPointF delta = mapToScene(e->pos()) - mapToScene(previous_mouse_position_);
+		
+		QPointF delta = (e->pos()) - (previous_mouse_position_);
+		
+		//std::cout << "(x,y) = (" << delta.x() << ", " << delta.y() << ")"<< std::endl;
+		
+		horizontalScrollBar()->setValue(horizontalScrollBar()->value() - delta.x());
+		verticalScrollBar()->setValue(verticalScrollBar()->value() - delta.y());
+
 	} else {
 		QGraphicsView::mouseMoveEvent(e);
 	}
-
-	previous_mouse_position_ = e->pos();
+previous_mouse_position_ = e->pos();
 }
 
 // Wheel event causes the scene to zoon in or out
