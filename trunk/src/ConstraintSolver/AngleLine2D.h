@@ -34,6 +34,10 @@ class AngleLine2D : public ConstraintEquationBase
 
 		double text_radius_;
 		double text_angle_;
+
+		// the following two parameters are used to position the angle dimension label if line1_ and line2_ happen to be parallel
+		double text_s_;
+		double text_t_;
 };
 typedef boost::shared_ptr<AngleLine2D> AngleLine2DPointer;
 
