@@ -31,6 +31,56 @@ Edge2DBase(sketch_plane)
 	SetDefaultTextLocation();
 }
 
+// construct 2D arc from three points on the sketch plane
+Arc2D::Arc2D (double s1, double t1, double s2, double t2, double s3, double t3, SketchPlanePointer sketch_plane,
+              bool s_center_free, bool t_center_free, bool theta_1_free, bool theta_2_free, bool radius_free):
+Edge2DBase(sketch_plane)
+{
+	double m11 = s1*(t2-t3)-t1*(s2-s3)+(s2*t3-t2*s3);
+	double mag1 = s1*s1+t1*t1;
+	double mag2 = s2*s2+t2*t2;
+	double mag3 = s3*s3+t3*t3;
+	double m12 = mag1*(t2-t3)-t1*(mag2-mag3)+(mag2*t3-mag3*t2);
+	double m13 = mag1*(s2-s3) - s1*(mag2-mag3) + (mag2*s3-mag3*s2);
+	double m14 = mag1*(s2*t3-t2*s3) - s1*(mag2*t3-t2*mag3) + t1*(mag2*s3-s2*mag3);
+
+	// check to insure that the lines are not colinears1
+	if(m11 == 0.0)
+	{	
+		// lines are colinear, throw an exception
+		throw PrimitiveException();
+	} else {
+		double s_center = 0.5*(m12/m11);
+		double t_center = 0.5*(m13/m11);
+		
+		double radius = sqrt(s_center*s_center + t_center*t_center + m14/m11);
+	
+		double theta_1 = atan2(t1-t_center, s1-s_center);
+		double theta_2 = atan2(t3-t_center, s3-s_center);
+
+		s_center_.reset(new IndependentDOF(s_center,s_center_free));
+		t_center_.reset(new IndependentDOF(t_center,t_center_free));
+		theta_1_.reset(new IndependentDOF(theta_1,theta_1_free));
+		theta_2_.reset(new IndependentDOF(theta_2,theta_2_free));
+		radius_.reset(new IndependentDOF(radius,radius_free));
+
+		AddPrimitive(sketch_plane);
+	
+		AddDOF(s_center_);
+		AddDOF(t_center_);
+		AddDOF(theta_1_);
+		AddDOF(theta_2_);
+		AddDOF(radius_);
+	
+		point1_ = GeneratePoint1();
+		point2_ = GeneratePoint2();
+		center_point_ = GenerateCenterPoint();
+	
+		SetDefaultTextLocation();
+	}
+}
+
+
 Arc2D::Arc2D (DOFPointer s_center, DOFPointer t_center, DOFPointer theta_1, DOFPointer theta_2, DOFPointer radius, SketchPlanePointer sketch_plane):
 s_center_(s_center),
 t_center_(t_center),
