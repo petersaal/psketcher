@@ -25,6 +25,8 @@ class QtDistancePoint2D : public QtPrimitiveBase, public DistancePoint2D, public
 		virtual void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*);
 		virtual QPainterPath shape() const {return current_shape_;}
 
+		virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * event );
+
 	private:
 		QtDistancePoint2DWidget *distance_widget_;
 		QPainterPath current_shape_;
