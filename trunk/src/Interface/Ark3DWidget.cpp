@@ -173,7 +173,7 @@ void Ark3DWidget::mouseMoveEvent    ( QMouseEvent* e )
 	} else {
 		QGraphicsView::mouseMoveEvent(e);
 	}
-previous_mouse_position_ = e->pos();
+	previous_mouse_position_ = e->pos();
 }
 
 // Wheel event causes the scene to zoon in or out

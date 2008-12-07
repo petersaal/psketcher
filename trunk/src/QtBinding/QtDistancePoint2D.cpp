@@ -76,7 +76,17 @@ void QtDistancePoint2D::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 
 	mmcMatrix point1 = point1_->GetmmcMatrix();
 	mmcMatrix point2 = point2_->GetmmcMatrix();
-	mmcMatrix tangent = (point2-point1).GetNormalized();
+
+	mmcMatrix tangent = (point2-point1);
+	double tangent_magnitude = tangent.GetMagnitude();
+	if (tangent_magnitude > 0.0)
+	{
+		tangent = tangent.GetScaled(1.0/tangent_magnitude);
+	} else {
+		// tangent vector has zero length, define an arbitrary tangent vector to avoid divide by zero
+		tangent(0,0) = 1.0;
+		tangent(1,0) = 0.0;	
+	}
 
 	mmcMatrix normal(2,1);
 	normal(0,0) = -tangent(1,0);
@@ -118,6 +128,24 @@ void QtDistancePoint2D::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 	distance_widget_->UpdateGeometry(option->levelOfDetail);
 }
 
+
+void QtDistancePoint2D::mouseMoveEvent ( QGraphicsSceneMouseEvent * event )
+{
+	if(event->buttons() & Qt::LeftButton)
+	{		
+		// move the point to the new global position
+		SetSTTextLocation(event->scenePos().x(),-event->scenePos().y());
+
+		// force a update of the display so that the drag event is seen interactively
+		scene()->update();
+
+		//@fixme After drag operation is finished, need to trigger QtSketch's modelChanged() slot
+
+	} else {
+		// not handling this event, let the base class do its thing
+		QGraphicsItem::mouseMoveEvent(event);
+	}
+}
 
 
 QtDistancePoint2DWidget::QtDistancePoint2DWidget(QtDistancePoint2DPointer distance_constraint, QGraphicsItem *parent) :
