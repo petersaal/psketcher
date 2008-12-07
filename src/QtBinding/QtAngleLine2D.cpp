@@ -153,8 +153,8 @@ void QtAngleLine2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 		// Lines are parallel
 		lines_parallel = true;
 
-		text_x = (x1 + x2 + x3 + x4) / 4.0;
-		text_y = (y1 + y2 + y3 + y4) / 4.0;
+		text_x = text_s_;
+		text_y = text_t_;
 	} else {
 		// lines do intersect
 		// finish calculating the intersection point
@@ -277,62 +277,81 @@ void QtAngleLine2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 		}
 		angle_widget_->UpdateGeometry(text_x, text_y, option->levelOfDetail);
 
+		// create leader for line1 if necessary
+		double delta1, delta2;
+		double line1_length = sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));
+		delta1 = sqrt((arrow_tip_x1-x1)*(arrow_tip_x1-x1)+(arrow_tip_y1-y1)*(arrow_tip_y1-y1));
+		delta2 = sqrt((arrow_tip_x1-x2)*(arrow_tip_x1-x2)+(arrow_tip_y1-y2)*(arrow_tip_y1-y2));
+		if(delta1 > line1_length && delta1 > delta2)
+		{
+			double direction_x = arrow_tip_x1-x1;
+			double direction_y = arrow_tip_y1-y1;
+			double direction_length = sqrt(direction_x*direction_x + direction_y*direction_y);
+			direction_x = direction_x / direction_length;
+			direction_y = direction_y / direction_length;
+	
+			painter->drawLine(QPointF(x2+leader_gap*direction_x,-(y2+leader_gap*direction_y)),
+							QPointF(x1+(delta1+leader_extension)*direction_x,-(y1+(delta1+leader_extension)*direction_y)));
+		} else if (delta2 > line1_length) {
+			double direction_x = arrow_tip_x1-x2;
+			double direction_y = arrow_tip_y1-y2;
+			double direction_length = sqrt(direction_x*direction_x + direction_y*direction_y);
+			direction_x = direction_x / direction_length;
+			direction_y = direction_y / direction_length;
+	
+			painter->drawLine(QPointF(x1+leader_gap*direction_x,-(y1+leader_gap*direction_y)),
+							QPointF(x2+(delta2+leader_extension)*direction_x,-(y2+(delta2+leader_extension)*direction_y)));
+		}
+	
+		// create leader for line2 if necessary
+		double line2_length = sqrt((x3-x4)*(x3-x4)+(y3-y4)*(y3-y4));
+		delta1 = sqrt((arrow_tip_x2-x3)*(arrow_tip_x2-x3)+(arrow_tip_y2-y3)*(arrow_tip_y2-y3));
+		delta2 = sqrt((arrow_tip_x2-x4)*(arrow_tip_x2-x4)+(arrow_tip_y2-y4)*(arrow_tip_y2-y4));
+		if(delta1 > line2_length && delta1 > delta2)
+		{
+			double direction_x = arrow_tip_x2-x3;
+			double direction_y = arrow_tip_y2-y3;
+			double direction_length = sqrt(direction_x*direction_x + direction_y*direction_y);
+			direction_x = direction_x / direction_length;
+			direction_y = direction_y / direction_length;
+	
+			painter->drawLine(QPointF(x4+leader_gap*direction_x,-(y4+leader_gap*direction_y)),
+							QPointF(x3+(delta1+leader_extension)*direction_x,-(y3+(delta1+leader_extension)*direction_y)));
+		} else if (delta2 > line2_length) {
+			double direction_x = arrow_tip_x2-x4;
+			double direction_y = arrow_tip_y2-y4;
+			double direction_length = sqrt(direction_x*direction_x + direction_y*direction_y);
+			direction_x = direction_x / direction_length;
+			direction_y = direction_y / direction_length;
+	
+			painter->drawLine(QPointF(x3+leader_gap*direction_x,-(y3+leader_gap*direction_y)),
+							QPointF(x4+(delta2+leader_extension)*direction_x,-(y4+(delta2+leader_extension)*direction_y)));
+		}
+
 	} else {
 		// the case where the lines are parallel
-		// @fixme need to implement QtAngleLine2D::paint method for case when the two lines are parallel		
+
+		// display an arrow to the center point of each of the lines
+		QPainterPath selection_path;
+
+		QPolygonF arrow1 = GetArrowPolygonAndSelectionPath(text_x, -text_y, 0.5*(x1+x2), -0.5*(y1+y2),15.0/option->levelOfDetail,12.0/option->levelOfDetail,selection_path,option->levelOfDetail);
+		painter->drawPolygon(arrow1);
+		current_shape_ = selection_path;
+
+		QPolygonF arrow2 = GetArrowPolygonAndSelectionPath(text_x, -text_y, 0.5*(x3+x4), -0.5*(y3+y4),15.0/option->levelOfDetail,12.0/option->levelOfDetail,selection_path,option->levelOfDetail);
+		painter->drawPolygon(arrow2);
+		current_shape_.addPath(selection_path);
+
+		// display the editable text
+		// create the line edit widget graphics item
+		if(angle_widget_ == 0)
+		{
+			// @fixme need to make sure the following dyname_cast won't create a pointer that is need used even if this shared_ptr class is freed from memory
+			angle_widget_ = new QtAngleLine2DWidget(shared_from_this(),dynamic_cast<QGraphicsItem*>(const_cast<QtAngleLine2D*>(this)));
+		}
+		angle_widget_->UpdateGeometry(text_x, text_y, option->levelOfDetail);
 		
 	} // if(!lines_parallel)
-
-	// create leader for line1 if necessary
-	double delta1, delta2;
-	double line1_length = sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));
-	delta1 = sqrt((arrow_tip_x1-x1)*(arrow_tip_x1-x1)+(arrow_tip_y1-y1)*(arrow_tip_y1-y1));
-	delta2 = sqrt((arrow_tip_x1-x2)*(arrow_tip_x1-x2)+(arrow_tip_y1-y2)*(arrow_tip_y1-y2));
-	if(delta1 > line1_length && delta1 > delta2)
-	{
-		double direction_x = arrow_tip_x1-x1;
-		double direction_y = arrow_tip_y1-y1;
-		double direction_length = sqrt(direction_x*direction_x + direction_y*direction_y);
-		direction_x = direction_x / direction_length;
-		direction_y = direction_y / direction_length;
-
-		painter->drawLine(QPointF(x2+leader_gap*direction_x,-(y2+leader_gap*direction_y)),
-						  QPointF(x1+(delta1+leader_extension)*direction_x,-(y1+(delta1+leader_extension)*direction_y)));
-	} else if (delta2 > line1_length) {
-		double direction_x = arrow_tip_x1-x2;
-		double direction_y = arrow_tip_y1-y2;
-		double direction_length = sqrt(direction_x*direction_x + direction_y*direction_y);
-		direction_x = direction_x / direction_length;
-		direction_y = direction_y / direction_length;
-
-		painter->drawLine(QPointF(x1+leader_gap*direction_x,-(y1+leader_gap*direction_y)),
-						  QPointF(x2+(delta2+leader_extension)*direction_x,-(y2+(delta2+leader_extension)*direction_y)));
-	}
-
-	// create leader for line2 if necessary
-	double line2_length = sqrt((x3-x4)*(x3-x4)+(y3-y4)*(y3-y4));
-	delta1 = sqrt((arrow_tip_x2-x3)*(arrow_tip_x2-x3)+(arrow_tip_y2-y3)*(arrow_tip_y2-y3));
-	delta2 = sqrt((arrow_tip_x2-x4)*(arrow_tip_x2-x4)+(arrow_tip_y2-y4)*(arrow_tip_y2-y4));
-	if(delta1 > line2_length && delta1 > delta2)
-	{
-		double direction_x = arrow_tip_x2-x3;
-		double direction_y = arrow_tip_y2-y3;
-		double direction_length = sqrt(direction_x*direction_x + direction_y*direction_y);
-		direction_x = direction_x / direction_length;
-		direction_y = direction_y / direction_length;
-
-		painter->drawLine(QPointF(x4+leader_gap*direction_x,-(y4+leader_gap*direction_y)),
-						  QPointF(x3+(delta1+leader_extension)*direction_x,-(y3+(delta1+leader_extension)*direction_y)));
-	} else if (delta2 > line2_length) {
-		double direction_x = arrow_tip_x2-x4;
-		double direction_y = arrow_tip_y2-y4;
-		double direction_length = sqrt(direction_x*direction_x + direction_y*direction_y);
-		direction_x = direction_x / direction_length;
-		direction_y = direction_y / direction_length;
-
-		painter->drawLine(QPointF(x3+leader_gap*direction_x,-(y3+leader_gap*direction_y)),
-						  QPointF(x4+(delta2+leader_extension)*direction_x,-(y4+(delta2+leader_extension)*direction_y)));
-	}
 	
 }
 

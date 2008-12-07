@@ -64,9 +64,13 @@ void AngleLine2D::SetDefaultTextLocation()
 
 	if(denominator == 0.0)
 	{
-		// Lines are parallel so there is no sense in defining text_radius_ and text_angle_ since there is no intersection point to reference it to
-		text_radius_ = 0.0;
+		// so use the length of the lines to set a reasonable radius and set angle to 0.0
+		text_radius_ = 0.25*(sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2)) + sqrt((x3-x4)*(x3-x4)+(y3-y4)*(y3-y4)));
 		text_angle_ = 0.0;
+
+		// use the following parameters to locate the text instead
+		text_s_ = 0.25*(x1+x2+x3+x4);
+		text_t_ = 0.25*(y1+y2+y3+y4);
 	} else {
 		// lines do intersect
 		// finish calculating the intersection point
