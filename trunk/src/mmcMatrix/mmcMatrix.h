@@ -11,7 +11,7 @@
 
 const double mmcPI = 3.14159265359;
 
-enum mmcECODE {CANNOT_CREATE, ADD_INCOMPAT, SIZE_ZERO, MULT_INCOMPAT, OVERRUN, NOT_SQUARE, NOT_VECTOR, VECTOR_INCOMPAT, SINGULAR, CANNOT_CROSS, CANNOT_COMBINE, CANNOT_SUB, CHILD_ERROR, IP_ERROR, CANNOT_OPEN};
+enum mmcECODE {CANNOT_CREATE, ADD_INCOMPAT, SIZE_ZERO, MULT_INCOMPAT, OVERRUN, NOT_SQUARE, NOT_VECTOR, VECTOR_INCOMPAT, SINGULAR, CANNOT_CROSS, CANNOT_COMBINE, CANNOT_SUB, CHILD_ERROR, IP_ERROR, CANNOT_OPEN, DIVIDE_BY_ZERO};
 
 const char mmcECODE_STRINGS[][250] = {"Attempt to create or resize a matrix with the number of rows or columns less that or equal to 0.",
                 "Matrices not compatible for addition, subraction or element-wise multiplication operations.",
@@ -27,7 +27,8 @@ const char mmcECODE_STRINGS[][250] = {"Attempt to create or resize a matrix with
 								"Cannot get/set sub matrix.",
 								"Error occurred in child class.",
                 "Result formal paramter can not be the class itself or another formal parameter.",
-								"Cannot open file."};
+								"Cannot open file.",
+								"Divide by zero."};
 
 // format to use when writing the matrix to the output buffer
 enum mmcOUTPUT_FORMAT {MMC_NATIVE, MATLAB_ASCII};

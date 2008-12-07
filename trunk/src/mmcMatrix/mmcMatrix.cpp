@@ -1172,6 +1172,16 @@ double *mmcMatrix::GetCVector()const
 // Normalizes a vector
 mmcMatrix mmcMatrix::GetNormalized()const
 {
+  if(MMC_ERROR_CHECK)
+  {
+    // check to insure the magnitude is not zero
+    double magnitude = GetMagnitude();
+	if(magnitude == 0)
+		throw mmcException(DIVIDE_BY_ZERO, __LINE__);
+	else
+		return GetScaled(1.0/magnitude);
+  }
+
   return GetScaled(1.0 / GetMagnitude());
 }
 
