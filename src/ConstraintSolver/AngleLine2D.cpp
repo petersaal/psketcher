@@ -125,6 +125,42 @@ void AngleLine2D::SetDefaultTextLocation()
 	}
 }
 
+void AngleLine2D::SetSTTextLocation(double text_s, double text_t)
+{
+	// first determine the intersection point of the two lines
+	double x1 = line1_->GetPoint1()->GetSValue();
+	double x2 = line1_->GetPoint2()->GetSValue();
+	double x3 = line2_->GetPoint1()->GetSValue();
+	double x4 = line2_->GetPoint2()->GetSValue();
+
+	double y1 = line1_->GetPoint1()->GetTValue();
+	double y2 = line1_->GetPoint2()->GetTValue();
+	double y3 = line2_->GetPoint1()->GetTValue();
+	double y4 = line2_->GetPoint2()->GetTValue();
+
+	double denominator = (x1-x2)*(y3-y4)-(x3-x4)*(y1-y2);
+
+	if(denominator == 0.0)
+	{
+		// the lines are parallel
+
+		// use the following parameters to locate the text instead of text_radius_ and text_angle_
+		text_s_ = text_s;
+		text_t_ = text_t;
+	} else {
+		// lines do intersect
+		// finish calculating the intersection point
+		double temp1 = x1*y2-y1*x2;
+		double temp2 = x3*y4-x4*y3;
+		
+		double x_center = (temp1*(x3-x4)-temp2*(x1-x2))/denominator;
+		double y_center = (temp1*(y3-y4)-temp2*(y1-y2))/denominator;
+
+		text_radius_ = sqrt((x_center - text_s)*(x_center - text_s) + (y_center - text_t)*(y_center - text_t));
+		text_angle_ = atan2(text_t-y_center, text_s-x_center);
+	}
+}
+
 double AngleLine2D::GetActualAngle() const
 {	
 	boost::shared_ptr<ex> new_constraint(new ex);

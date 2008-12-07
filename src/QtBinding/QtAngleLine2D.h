@@ -26,6 +26,8 @@ class QtAngleLine2D : public QtPrimitiveBase, public AngleLine2D, public boost::
 
 		virtual QPainterPath shape() const {return current_shape_;}
 
+		virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * event );
+
 	private:
 		QtAngleLine2DWidget *angle_widget_;
 		

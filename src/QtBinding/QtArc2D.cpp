@@ -125,8 +125,23 @@ void QtArc2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 	current_shape_ = arc_selection_path;
 }
 
+void QtArc2D::mouseMoveEvent ( QGraphicsSceneMouseEvent * event )
+{
+	if(event->buttons() & Qt::LeftButton)
+	{		
+		// move the point to the new global position
+		SetSTTextLocation(event->scenePos().x(),-event->scenePos().y());
 
+		// force a update of the display so that the drag event is seen interactively
+		scene()->update();
 
+		//@fixme After drag operation is finished, need to trigger QtSketch's modelChanged() slot
+
+	} else {
+		// not handling this event, let the base class do its thing
+		QGraphicsItem::mouseMoveEvent(event);
+	}
+}
 
 
 
