@@ -164,3 +164,9 @@ void Arc2D::SetDefaultTextLocation()
 
 	text_radius_ = 0.5*radius_->GetValue();
 }
+
+void Arc2D::SetSTTextLocation(double text_s, double text_t)
+{
+	text_radius_ = sqrt((s_center_->GetValue() - text_s)*(s_center_->GetValue() - text_s) + (t_center_->GetValue() - text_t)*(t_center_->GetValue() - text_t));
+	text_angle_ = atan2(text_t-t_center_->GetValue(), text_s-s_center_->GetValue());
+}

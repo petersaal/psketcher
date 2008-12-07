@@ -10,6 +10,7 @@ class AngleLine2D : public ConstraintEquationBase
 		AngleLine2D(const Line2DPointer line1, const Line2DPointer line2, double angle /* radians */, bool interior_angle);
 
 		void SetTextLocation(double text_radius, double text_angle) {text_radius_ = text_radius; text_angle_ = text_angle;}
+		void SetSTTextLocation(double text_s, double text_t);
 		void SetDefaultTextLocation();
 		double GetTextRadius() const {return text_radius_;}	
 		double GetTextAngle() const {return text_angle_;}
