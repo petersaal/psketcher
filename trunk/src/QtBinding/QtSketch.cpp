@@ -44,6 +44,51 @@ QtArc2DPointer QtSketch::AddArc2D (double s_center, double t_center, double thet
 	return new_arc;
 }
 
+QtArc2DPointer QtSketch::AddArc2D (double s1, double t1, double s2, double t2, double s3, double t3, bool s_center_free, bool t_center_free, bool theta_1_free, bool theta_2_free, bool radius_free)
+{
+	bool success = true;
+	
+	QtArc2DPointer new_arc;
+
+	try{
+		new_arc.reset(new QtArc2D(0,s1,t1,s2,t2,s3,t3, GetSketchPlane(),s_center_free, t_center_free, theta_1_free, theta_2_free, radius_free));
+	}
+	catch (PrimitiveException e)
+	{
+		// all three points were on a straight line so no arc could be made
+		success = false;
+	}
+	
+	if(success)
+	{
+		AddPrimitive(new_arc);
+	
+		// now add the end points and the center of the arc as seperate primitives so that they can be selected by the user for constructing lines and other primitives
+		// @fixme these points need to be removed fro the sketch if new_arc is ever deleted from the scene otherwise the arc will still drive the points but will not be visible
+	
+		Point2DPointer point1 = new_arc->GetPoint1();
+		Point2DPointer point2 = new_arc->GetPoint2();
+		Point2DPointer center_point = new_arc->GetCenterPoint();
+	
+		QtPoint2DPointer qt_point1(new QtPoint2D(0,point1->GetSDOF(), point1->GetTDOF(), GetSketchPlane()));
+		QtPoint2DPointer qt_point2(new QtPoint2D(0,point2->GetSDOF(), point2->GetTDOF(), GetSketchPlane()));
+		QtPoint2DPointer qt_center_point(new QtPoint2D(0,center_point->GetSDOF(), center_point->GetTDOF(), GetSketchPlane()));
+	
+		// need to explicitly make these points dependent on the arc primitive so that if the arc primitive is ever deleted from the scene, these primitives will be deleted also
+		qt_point1->AddPrimitive(new_arc);
+		qt_point2->AddPrimitive(new_arc);
+		qt_center_point->AddPrimitive(new_arc);
+	
+		AddPrimitive(qt_point1);
+		AddPrimitive(qt_point2);
+		AddPrimitive(qt_center_point);
+	}
+
+
+	return new_arc;
+
+}
+
 
 QtLine2DPointer QtSketch::AddLine2D (const Point2DPointer point1, const Point2DPointer point2)
 {

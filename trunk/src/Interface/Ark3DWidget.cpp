@@ -264,7 +264,11 @@ void Ark3DWidget::MakeLine()
 
 void Ark3DWidget::MakePolyLine() {;}
 
-void Ark3DWidget::MakeArc() {;}
+void Ark3DWidget::MakeArc()
+{
+	if(interactive_primitive_ != 0) delete interactive_primitive_;
+	interactive_primitive_ = new Arc2DConstructor(current_sketch_);
+}
 
 void Ark3DWidget::MakePoint() 
 {
