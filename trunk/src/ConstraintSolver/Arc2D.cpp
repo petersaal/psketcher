@@ -56,12 +56,21 @@ Edge2DBase(sketch_plane)
 		double radius = sqrt(s_center*s_center + t_center*t_center + m14/m11);
 	
 		double theta_1 = atan2(t1-t_center, s1-s_center);
-		double theta_2 = atan2(t3-t_center, s3-s_center);
+		double theta_2 = atan2(t2-t_center, s2-s_center);
+		double theta_3 = atan2(t3-t_center, s3-s_center);
+
+		if(!((theta_2 <= theta_3 && theta_2 >= theta_1) || (theta_2 <= theta_1 && theta_2 >= theta_3)))
+		{
+			if(theta_3 < theta_1)
+				theta_3 += 2.0*mmcPI;
+			else
+				theta_1 += 2.0*mmcPI;	
+		}
 
 		s_center_.reset(new IndependentDOF(s_center,s_center_free));
 		t_center_.reset(new IndependentDOF(t_center,t_center_free));
 		theta_1_.reset(new IndependentDOF(theta_1,theta_1_free));
-		theta_2_.reset(new IndependentDOF(theta_2,theta_2_free));
+		theta_2_.reset(new IndependentDOF(theta_3,theta_2_free));
 		radius_.reset(new IndependentDOF(radius,radius_free));
 
 		AddPrimitive(sketch_plane);
