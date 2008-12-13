@@ -20,6 +20,24 @@ Arc2D(s_center,t_center,theta_1,theta_2,radius,sketch_plane, s_center_free, t_ce
 	Display();
 }
 
+QtArc2D::QtArc2D (QGraphicsItem * parent, double s1, double t1, double s2, double t2, double s3, double t3,
+			SketchPlanePointer sketch_plane, bool s_center_free, bool t_center_free, bool theta_1_free, bool theta_2_free, bool radius_free):
+QtPrimitiveBase(parent),
+Arc2D(s1,t1,s2,t2,s3,t3, sketch_plane, s_center_free, t_center_free, theta_1_free, theta_2_free,radius_free)
+{
+	SetProperties(Primitive);
+	SetSelectedProperties(SelectedPrimitive);
+	SetMouseHoverProperties(HoverPrimitive);
+
+	setZValue(GetProperties().GetZ());
+
+	radius_widget_ = 0;
+
+	// Display the newly create ais_object
+	Display();
+}
+
+
 QtArc2D::QtArc2D (QGraphicsItem * parent,DOFPointer s_center, DOFPointer t_center, DOFPointer theta_1, DOFPointer theta_2, DOFPointer radius, SketchPlanePointer sketch_plane):
 QtPrimitiveBase(parent),
 Arc2D(s_center,t_center,theta_1,theta_2,radius,sketch_plane)

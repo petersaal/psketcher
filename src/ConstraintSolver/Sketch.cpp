@@ -28,6 +28,35 @@ Arc2DPointer Sketch::AddArc2D (double s_center, double t_center, double theta_1,
 	return new_arc;
 }
 
+Arc2DPointer Sketch::AddArc2D (double s1, double t1, double s2, double t2, double s3, double t3, bool s_center_free, bool t_center_free, bool theta_1_free, bool theta_2_free, bool radius_free)
+{
+	bool success = true;
+	
+	Arc2DPointer new_arc;
+
+	try{
+		new_arc.reset(new Arc2D(s1,t1,s2,t2,s3,t3, sketch_plane_,s_center_free, t_center_free, theta_1_free, theta_2_free, radius_free));
+	}
+	catch (PrimitiveException e)
+	{
+		// all three points were on a straight line so no arc could be made
+		success = false;
+	}
+	
+	if(success)
+	{
+		AddPrimitive(new_arc);
+		
+		// now add the end points and the center of the arc as seperate primitives so that they can be selected by the user for constructing lines and other primitives
+		// @fixme these points need to be removed fro the sketch if new_arc is ever deleted from the scene otherwise the arc will still drive the points but will not be visible
+		AddPrimitive(new_arc->GetPoint1());
+		AddPrimitive(new_arc->GetPoint2());
+		AddPrimitive(new_arc->GetCenterPoint());
+	
+	} 
+
+	return new_arc;
+}
 
 Line2DPointer Sketch::AddLine2D (const Point2DPointer point1, const Point2DPointer point2)
 {

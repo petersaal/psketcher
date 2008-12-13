@@ -51,7 +51,7 @@ Edge2DBase(sketch_plane)
 		throw PrimitiveException();
 	} else {
 		double s_center = 0.5*(m12/m11);
-		double t_center = 0.5*(m13/m11);
+		double t_center = -0.5*(m13/m11);
 		
 		double radius = sqrt(s_center*s_center + t_center*t_center + m14/m11);
 	
