@@ -288,7 +288,11 @@ void Ark3DWidget::MakeAngleConstraint()
 	interactive_primitive_ = new AngleLine2DConstructor(current_sketch_);
 }
 
-void Ark3DWidget::MakeTangentConstraint() {;}
+void Ark3DWidget::MakeTangentConstraint()
+{
+	if(interactive_primitive_ != 0) delete interactive_primitive_;
+	interactive_primitive_ = new TangentEdge2DConstructor(current_sketch_);
+}
 
 
 void Ark3DWidget::MakeParallelConstraint()

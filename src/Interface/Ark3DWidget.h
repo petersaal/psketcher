@@ -16,6 +16,7 @@ extern "C" {
 #include "../InteractiveConstructors/DistancePoint2DConstructor.h"
 #include "../InteractiveConstructors/AngleLine2DConstructor.h"
 #include "../InteractiveConstructors/ParallelLine2DConstructor.h"
+#include "../InteractiveConstructors/TangentEdge2DConstructor.h"
 #include "../InteractiveConstructors/Arc2DConstructor.h"
 
 class QGraphicsScene;
