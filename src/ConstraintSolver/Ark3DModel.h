@@ -1,6 +1,10 @@
 #ifndef Ark3DModelH
 #define Ark3DModelH
 
+#include <string>
+
+//#include <soci.h>
+
 #include "Primitives.h"
 #include "ConstraintSolver.h"
 
@@ -34,6 +38,10 @@ public:
 
 	// return vector of selected constraint equations
 	std::vector<ConstraintEquationBasePointer> GetConstraintEquations();
+
+	// Methods relating to saving and loading the model from a file
+	// An SQLite3 database is used to store the model 
+	bool Save(std::string file_name);
 
 private:
 	void FlagDependentsForDeletion(PrimitiveBasePointer primitive_to_delete); // Flag any primitives or constraint equations for deletion that depend on this primitive
