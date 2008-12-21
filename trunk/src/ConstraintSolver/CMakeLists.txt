@@ -1,6 +1,7 @@
 LINK_DIRECTORIES ("../mmcMatrix")
 LINK_DIRECTORIES ("../NumOptimization")
 
+
 # create the ark3d library
 ADD_LIBRARY (Ark3d STATIC ConstraintSolver.cpp Ark3DModel.cpp Sketch.cpp DOF.cpp IndependentDOF.cpp DependentDOF.cpp PrimitiveBase.cpp Point.cpp Vector.cpp SketchPlane.cpp Primitive2DBase.cpp Point2D.cpp Edge2DBase.cpp Line.cpp Line2D.cpp ConstraintEquationBase.cpp DistancePoint2D.cpp DistancePoint.cpp ParallelLine.cpp ParallelLine2D.cpp TangentEdge2D.cpp AngleLine2D.cpp Arc2D.cpp EdgeLoop2D.cpp)
 
@@ -21,4 +22,9 @@ INCLUDE_DIRECTORIES (${GINAC_INCLUDE_DIRS})
 pkg_check_modules(sqlite3 sqlite3)
 LINK_DIRECTORIES (${SQLITE3_LIBRARY_DIRS})
 INCLUDE_DIRECTORIES (${SQLITE3_INCLUDE_DIRS})
+
+#SOCI
+LINK_DIRECTORIES ("/usr/lib")
+INCLUDE_DIRECTORIES("/usr/include/soci")
+
 
