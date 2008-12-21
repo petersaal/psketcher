@@ -1,4 +1,9 @@
 #include <iostream>
+
+#include <soci.h>
+#include <sqlite3/soci-sqlite3.h>
+
+
 #include "Ark3DModel.h"
 
 void Ark3DModel::AddConstraintEquation(const ConstraintEquationBasePointer &new_constraint_equation)
@@ -276,6 +281,12 @@ void Ark3DModel::DeleteSelected()
 	}
 
 	DeleteFlagged();
+}
+
+bool Ark3DModel::Save(std::string file_name)
+{
+	SOCI::Session sql(SOCI::sqlite3, "test_database");
+
 }
 
 
