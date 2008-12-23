@@ -2,18 +2,15 @@ Installation Instructions
 -------------------------
 
 
-Dependencies (the Ubuntu package names are used)
+Dependencies
 -----------------------
 
-qt4-dev (must have qt version 4.4 or greater)
+qt4-dev (must have qt version 4.4 or greater, 4.4 is available in hardy-backports)
 libsqlite3-dev
-libsoci-core-gcc
-libsoci-core-gcc-dev
-libsoci-sqlite3-gcc
-cmake (this is the build system used, verion 2.6 or greater)
+cmake (this is the build system used, verion 2.4 or greater)
 libginac-dev
 libgsl0-dev (version 1.9 or greater)
-libboost-dev C++ libraries 
+libboost-dev C++ libraries (only use shared_ptr.hpp)
 
 Build and run instructions
 ----------------------------
