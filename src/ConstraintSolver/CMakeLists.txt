@@ -23,8 +23,4 @@ pkg_check_modules(sqlite3 sqlite3)
 LINK_DIRECTORIES (${SQLITE3_LIBRARY_DIRS})
 INCLUDE_DIRECTORIES (${SQLITE3_INCLUDE_DIRS})
 
-#SOCI
-LINK_DIRECTORIES ("/usr/lib")
-INCLUDE_DIRECTORIES("/usr/include/soci")
-
 

@@ -3,8 +3,6 @@
 
 #include <string>
 
-//#include <soci.h>
-
 #include "Primitives.h"
 #include "ConstraintSolver.h"
 
