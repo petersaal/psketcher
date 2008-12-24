@@ -4,9 +4,6 @@
 #include <boost/shared_ptr.hpp>
 #include <ginac/ginac.h>
 
-//Exception class
-class PrimitiveException{};
-
 // Abstract DOF base class
 class DOF
 {

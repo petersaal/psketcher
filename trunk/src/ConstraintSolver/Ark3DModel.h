@@ -3,6 +3,8 @@
 
 #include <string>
 
+#include <sqlite3.h>
+
 #include "Primitives.h"
 #include "ConstraintSolver.h"
 
@@ -10,9 +12,12 @@ class Ark3DModel
 {
 public:
 	// Acessor Methods
-	Ark3DModel() {current_selection_mask_ = All;}
+	Ark3DModel();
 	~Ark3DModel() {dof_list_.clear(); constraint_equation_list_.clear(); primitive_list_.clear();}
 	
+	// methods used to manage the sqlite3 database, this database is used to implement saving to file and undo/redo functionality
+	void InitializeDatabase();
+
 	// Constraint equation management
 	void AddConstraintEquation(const ConstraintEquationBasePointer &new_constraint_equation);
 	
@@ -51,6 +56,9 @@ private:
 	std::vector<PrimitiveBasePointer> primitive_list_;
 
 	SelectionMask current_selection_mask_;
+
+	// SQLite3 database that will be used to implement file save and undo/redo
+	sqlite3 *database_;
 };
 
 

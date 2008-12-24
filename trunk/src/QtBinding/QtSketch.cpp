@@ -53,7 +53,7 @@ QtArc2DPointer QtSketch::AddArc2D (double s1, double t1, double s2, double t2, d
 	try{
 		new_arc.reset(new QtArc2D(0,s1,t1,s2,t2,s3,t3, GetSketchPlane(),s_center_free, t_center_free, theta_1_free, theta_2_free, radius_free));
 	}
-	catch (PrimitiveException e)
+	catch (Ark3DException e)
 	{
 		// all three points were on a straight line so no arc could be made
 		success = false;

@@ -1,5 +1,7 @@
 #include "DependentDOF.h"
 
+#include "PrimitiveBase.h"
+
 using namespace std;
 using namespace GiNaC;
 
@@ -40,7 +42,7 @@ double DependentDOF::GetValue()const
 	if (is_a<numeric>(current_expression)) {
 		result = ex_to<numeric>(current_expression).to_double();
 	} else {
-		throw PrimitiveException();
+		throw Ark3DException();
   	}
 
 	return result;

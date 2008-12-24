@@ -48,7 +48,7 @@ Edge2DBase(sketch_plane)
 	if(m11 == 0.0)
 	{	
 		// lines are colinear, throw an exception
-		throw PrimitiveException();
+		throw Ark3DException();
 	} else {
 		double s_center = 0.5*(m12/m11);
 		double t_center = -0.5*(m13/m11);

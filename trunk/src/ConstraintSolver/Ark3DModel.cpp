@@ -1,6 +1,24 @@
 #include <iostream>
 #include "Ark3DModel.h"
 
+Ark3DModel::Ark3DModel():
+current_selection_mask_(All),
+database_(0)
+{
+	InitializeDatabase();
+}
+
+void Ark3DModel::InitializeDatabase()
+{
+	int rc = sqlite3_open("test_model", &database_);
+	if( rc ){
+		// an error occurred when trying to open the database
+		//fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
+		sqlite3_close(database_);
+		throw Ark3DException();
+	}
+}
+
 void Ark3DModel::AddConstraintEquation(const ConstraintEquationBasePointer &new_constraint_equation)
 {
 	// Add constraint equation to constraint equation vector container

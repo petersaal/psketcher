@@ -7,7 +7,8 @@
 
 #include "DOF.h"
 
-
+//Exception class
+class Ark3DException{};
 
 // Selection masks
 enum SelectionMask {None, All, Points, Edges, Constraints, Lines, Arcs};
