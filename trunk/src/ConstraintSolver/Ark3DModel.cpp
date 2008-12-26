@@ -1,6 +1,12 @@
 #include <iostream>
 #include "Ark3DModel.h"
 
+const std::string SQL_ark3d_database_schema = "BEGIN;"
+												"CREATE TABLE dof_list (id INTEGER PRIMARY KEY, table_name TEXT NOT NULL);"
+												"CREATE TABLE primitive_list (id INTEGER PRIMARY KEY, table_name TEXT NOT NULL);"
+												"CREATE TABLE constraint_equation_list (id INTEGER PRIMARY KEY, table_name TEXT NOT NULL);"
+											  "COMMIT;";
+
 Ark3DModel::Ark3DModel():
 current_selection_mask_(All),
 database_(0)
@@ -8,15 +14,37 @@ database_(0)
 	InitializeDatabase();
 }
 
+Ark3DModel::~Ark3DModel() 
+{
+	// close the database
+	sqlite3_close(database_);
+
+	// clear out the lists
+	dof_list_.clear(); 
+	constraint_equation_list_.clear(); 
+	primitive_list_.clear();
+
+}
+
 void Ark3DModel::InitializeDatabase()
 {
 	int rc = sqlite3_open("test_model", &database_);
 	if( rc ){
 		// an error occurred when trying to open the database
-		//fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
+		std::string error_description = "Can't open database: " + std::string(sqlite3_errmsg(database_));
 		sqlite3_close(database_);
-		throw Ark3DException();
+		throw Ark3DException(error_description);
 	}
+
+	// define the database schema
+	char *zErrMsg = 0;
+	rc = sqlite3_exec(database_, SQL_ark3d_database_schema.c_str(), 0, 0, &zErrMsg);
+	if( rc!=SQLITE_OK ){
+		std::string error_description = "SQL error: " + std::string(zErrMsg);
+		sqlite3_free(zErrMsg);
+		throw Ark3DException(error_description);
+	}
+	
 }
 
 void Ark3DModel::AddConstraintEquation(const ConstraintEquationBasePointer &new_constraint_equation)
