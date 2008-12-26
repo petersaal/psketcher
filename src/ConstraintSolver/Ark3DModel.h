@@ -13,7 +13,7 @@ class Ark3DModel
 public:
 	// Acessor Methods
 	Ark3DModel();
-	~Ark3DModel() {dof_list_.clear(); constraint_equation_list_.clear(); primitive_list_.clear();}
+	~Ark3DModel();
 	
 	// methods used to manage the sqlite3 database, this database is used to implement saving to file and undo/redo functionality
 	void InitializeDatabase();

@@ -1,6 +1,8 @@
 #ifndef PrimitiveBaseH
 #define PrimitiveBaseH
 
+#include <string>
+#include <iostream>
 #include <math.h>
 #include <vector>
 #include "../mmcMatrix/mmcMatrix.h"
@@ -8,7 +10,15 @@
 #include "DOF.h"
 
 //Exception class
-class Ark3DException{};
+class Ark3DException
+{
+	public:
+		Ark3DException() {std::cerr << "Ark3D exception thrown: No description available." << std::endl;}
+		Ark3DException(std::string error_description) {std::cerr << "Ark3D exception thrown: " << error_description << std::endl;}
+
+	private:
+	
+};
 
 // Selection masks
 enum SelectionMask {None, All, Points, Edges, Constraints, Lines, Arcs};
