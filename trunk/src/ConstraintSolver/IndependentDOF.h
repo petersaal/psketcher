@@ -14,6 +14,9 @@ class IndependentDOF : public DOF
 		void SetValue ( double value ) {value_ = value;}
 		double GetValue()const {return value_;}
 
+		// method for adding this object to the SQLite3 database
+		virtual void AddToDatabase(sqlite3 *database);
+
 	private:
 		double value_;
 };

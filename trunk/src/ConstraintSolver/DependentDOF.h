@@ -21,6 +21,9 @@ class DependentDOF : public DOF
 		GiNaC::ex GetExpression()const;
 		const std::vector<DOFPointer> & GetDOFList() {return source_dof_list_;}
 
+		// method for adding this object to the SQLite3 database
+		virtual void AddToDatabase(sqlite3 *database);
+
 	private:
 		GiNaC::ex expression_;
 		std::vector<DOFPointer> source_dof_list_;

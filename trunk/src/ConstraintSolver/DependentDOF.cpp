@@ -63,3 +63,9 @@ GiNaC::ex DependentDOF::GetExpression()const
 
 	return result;
 }
+
+// method for adding this object to the SQLite3 database
+void DependentDOF::AddToDatabase(sqlite3 *database)
+{
+	
+}
