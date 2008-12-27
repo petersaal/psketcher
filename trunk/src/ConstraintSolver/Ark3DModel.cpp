@@ -1,11 +1,37 @@
 #include <iostream>
+#include <sys/stat.h>
 #include "Ark3DModel.h"
 
 const std::string SQL_ark3d_database_schema = "BEGIN;"
 												"CREATE TABLE dof_list (id INTEGER PRIMARY KEY, table_name TEXT NOT NULL);"
 												"CREATE TABLE primitive_list (id INTEGER PRIMARY KEY, table_name TEXT NOT NULL);"
 												"CREATE TABLE constraint_equation_list (id INTEGER PRIMARY KEY, table_name TEXT NOT NULL);"
+												"CREATE TABLE undo_redo_list (id INTEGER PRIMARY KEY, undo TEXT, redo TEXT);"
+												"CREATE TABLE undo_stable_points (stable_id INTEGER);"
 											  "COMMIT;";
+
+const std::string ark3d_current_database_file = "ark3d_working_db.current";
+const std::string ark3d_previous_database_file = "ark3d_working_db.previous";
+
+// utility function used by this class 
+bool FileExists(std::string file_name) {
+  struct stat file_info;
+  bool result;
+  int file_stat;
+
+  // Attempt to get the file attributes
+  file_stat = stat(file_name.c_str(),&file_info);
+  if(file_stat == 0) {
+    result = true;
+  } else {
+	// was unable to get that file info, file may not exist or there may be some other problem
+    result = false;
+  }
+
+  return(result);
+}
+
+
 
 Ark3DModel::Ark3DModel():
 current_selection_mask_(All),
@@ -28,7 +54,17 @@ Ark3DModel::~Ark3DModel()
 
 void Ark3DModel::InitializeDatabase()
 {
-	int rc = sqlite3_open("test_model", &database_);
+	// @fixme The following code for deleting and renaming files for the working database needs to be made more robust. Some cases will blow up. For example, if the the user does not have permision to move or delete the files or if there is a directory with the same name as one of the default database files.
+
+	// delete the previous database file if it already exists
+	if(FileExists(ark3d_previous_database_file))
+		remove(ark3d_previous_database_file.c_str());
+
+	// move the current database file to the previous database file if it exists
+	if(FileExists(ark3d_current_database_file))
+		rename(ark3d_current_database_file.c_str(),ark3d_previous_database_file.c_str());
+
+	int rc = sqlite3_open(ark3d_current_database_file.c_str(), &database_);
 	if( rc ){
 		// an error occurred when trying to open the database
 		std::string error_description = "Can't open database: " + std::string(sqlite3_errmsg(database_));
