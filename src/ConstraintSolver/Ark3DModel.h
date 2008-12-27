@@ -8,6 +8,9 @@
 #include "Primitives.h"
 #include "ConstraintSolver.h"
 
+// utility function used by this class for setting up the database and performing file save operations
+bool FileExists(std::string file_name);
+
 class Ark3DModel
 {
 public:
