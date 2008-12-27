@@ -3,6 +3,7 @@
 
 #include <boost/shared_ptr.hpp>
 #include <ginac/ginac.h>
+#include <sqlite3.h>
 
 // Abstract DOF base class
 class DOF
@@ -26,6 +27,9 @@ class DOF
 
 		bool IsDependent()const {return dependent_;}
 
+		// method for adding this object to the SQLite3 database, needs to be implement by each child class
+		virtual void AddToDatabase(sqlite3 *database) = 0;
+
 	private:
 		GiNaC::symbol variable_;
 		bool free_;
@@ -36,6 +40,9 @@ class DOF
 
 		// static variable used to provide a unique ID number to each instance of this class
 		static unsigned next_id_number_;
+		
+		// if not zero, this is the database where changes to the value of this DOF are stored
+		sqlite3 *database_;
 };
 typedef boost::shared_ptr<DOF> DOFPointer;
 

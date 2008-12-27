@@ -43,7 +43,12 @@ database_(0)
 Ark3DModel::~Ark3DModel() 
 {
 	// close the database
-	sqlite3_close(database_);
+	int rc = sqlite3_close(database_);
+	if(rc)
+	{
+		// error occured when attempting to close the database
+		std::cerr << "Error closing SQL Database: " << sqlite3_errmsg(database_) << std::endl;
+	}
 
 	// clear out the lists
 	dof_list_.clear(); 
@@ -72,7 +77,7 @@ void Ark3DModel::InitializeDatabase()
 		throw Ark3DException(error_description);
 	}
 
-	// define the database schema
+	// initialize the database schema
 	char *zErrMsg = 0;
 	rc = sqlite3_exec(database_, SQL_ark3d_database_schema.c_str(), 0, 0, &zErrMsg);
 	if( rc!=SQLITE_OK ){
