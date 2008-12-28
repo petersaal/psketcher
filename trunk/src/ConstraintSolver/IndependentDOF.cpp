@@ -21,7 +21,7 @@ DOF(name,free,false /*dependent*/)
 }
 
 // method for adding this object to the SQLite3 database
-void IndependentDOF::AddToDatabase(sqlite3 *database)const
+void IndependentDOF::AddToDatabase(sqlite3 *database)
 {	
 	// set the database for this object, in the future this database will be updated whenever this object is updated
 	database_ = database;
@@ -52,10 +52,11 @@ void IndependentDOF::AddToDatabase(sqlite3 *database)const
 	char *zErrMsg = 0;
 	int rc = sqlite3_exec(database_, sql_insert.c_str(), 0, 0, &zErrMsg);
 	if( rc!=SQLITE_OK ){
+		std::cerr << "SQL error: " << zErrMsg << endl;
 		sqlite3_free(zErrMsg);
 		
 		// the table "independent_dof_list" may not exist, attempt to create
-		rc = sqlite3_exec(database_, SQL_independent_dof_database_schema.c_str(), 0, 0, &zErrMsg);
+		rc = sqlite3_exec(database_, ("ROLLBACK;"+SQL_independent_dof_database_schema).c_str(), 0, 0, &zErrMsg);  // need to add ROLLBACK since previous transaction failed
 		if( rc!=SQLITE_OK ){
 			std::string error_description = "SQL error: " + std::string(zErrMsg);
 			sqlite3_free(zErrMsg);
@@ -71,7 +72,10 @@ void IndependentDOF::AddToDatabase(sqlite3 *database)const
 		}
 	}
 
+	cout << sql_insert << endl;
+
 	// finally, update the undo_redo_list in the database with the database changes that have just been made
+	/*
 	temp_stream.str("");
 	
 	temp_stream << "INSERT INTO undo_redo_list(undo,redo) VALUES('"
@@ -83,4 +87,5 @@ void IndependentDOF::AddToDatabase(sqlite3 *database)const
 		sqlite3_free(zErrMsg);
 		throw Ark3DException(error_description);
 	}
+	*/
 }
