@@ -20,6 +20,54 @@ DOF(name,free,false /*dependent*/)
 	value_ = value;
 }
 
+void IndependentDOF::SetValue ( double value ) 
+{
+	if(database_ != 0) // if this DOF is tied to a database then update the database
+	{
+		double old_value = value_;
+		value_ = value;
+
+		// define the update statement
+		stringstream sql_stream;
+		sql_stream.precision(__DBL_DIG__);
+		sql_stream << "UPDATE independent_dof_list SET value=" 
+					<< value_ << " WHERE id=" << id_number_ << ";";
+
+		string sql_update = sql_stream.str();
+		
+		// define the undo statement
+		sql_stream.str("");
+		sql_stream << "UPDATE independent_dof_list SET value=" 
+					<< old_value << " WHERE id=" << id_number_ << ";";
+	
+		string sql_undo = sql_stream.str();
+		
+		// do the database update
+		char *zErrMsg = 0;
+		int rc = sqlite3_exec(database_, sql_update.c_str(), 0, 0, &zErrMsg);
+		if( rc!=SQLITE_OK ){
+			std::string error_description = "SQL error: " + std::string(zErrMsg);
+			sqlite3_free(zErrMsg);
+			throw Ark3DException(error_description);
+		}
+
+		// store the undo/redo information in the database
+		// need to use sqlite3_mprintf to make sure the single quotes in the sql statements get escaped where needed
+		char *sql_undo_redo = sqlite3_mprintf("INSERT INTO undo_redo_list(undo,redo) VALUES('%q','%q');",sql_undo.c_str(),sql_update.c_str());
+	
+		rc = sqlite3_exec(database_, sql_undo_redo, 0, 0, &zErrMsg);
+		if( rc!=SQLITE_OK ){
+			std::string error_description = "SQL error: " + std::string(zErrMsg);
+			sqlite3_free(zErrMsg);
+			throw Ark3DException(error_description);
+		}
+
+	}else{
+		// this is the case where there is not database
+		value_=value; 
+	} // if(database_ != 0)
+}
+
 // method for adding this object to the SQLite3 database
 void IndependentDOF::AddToDatabase(sqlite3 *database)
 {	
@@ -71,8 +119,6 @@ void IndependentDOF::AddToDatabase(sqlite3 *database)
 			throw Ark3DException(error_description);
 		}
 	}
-
-	cout << sql_insert << endl;
 
 	// finally, update the undo_redo_list in the database with the database changes that have just been made
 	// need to use sqlite3_mprintf to make sure the single quotes in the sql statements get escaped where needed

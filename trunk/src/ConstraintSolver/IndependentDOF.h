@@ -11,7 +11,7 @@ class IndependentDOF : public DOF
 		IndependentDOF ( const char *name, double value = 0.0, bool free = false );
 
 		//Accessor methods
-		void SetValue ( double value ) {value_ = value;}
+		void SetValue ( double value );
 		double GetValue()const {return value_;}
 
 		// method for adding this object to the SQLite3 database
