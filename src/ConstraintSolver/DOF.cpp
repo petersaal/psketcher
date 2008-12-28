@@ -1,4 +1,5 @@
 #include <string>
+#include <sstream>
 #include <iostream>
 
 #include "DOF.h"
@@ -14,10 +15,10 @@ id_number_(next_id_number_++),free_(free), dependent_(dependent),
 database_(0)
 {
 	// by default, name variable using id_number_
-	string variable_name;
-	variable_name = "dof" + id_number_;
+	stringstream variable_name;
+	variable_name << "dof" << id_number_;
 
-	variable_.set_name(variable_name);
+	variable_.set_name(variable_name.str());
 }
 
 DOF::DOF ( const char *name, bool free, bool dependent) :

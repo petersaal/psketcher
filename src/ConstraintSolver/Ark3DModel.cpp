@@ -182,14 +182,14 @@ void Ark3DModel::SolveConstraints()
 		}
 	
 		// For each dependent DOF, substitute its defining expression into all of the constraint equations that reference it
-		for(unsigned int current_dof = 0; current_dof < dof_list_.size(); current_dof++)
+		for (map<unsigned,DOFPointer>::iterator dof_it=dof_list_.begin() ; dof_it != dof_list_.end(); dof_it++ )
 		{
-			if(dof_list_[current_dof]->IsDependent())
+			if((*dof_it).second->IsDependent())
 			{
 				// loop over each constraint equation and substitute the dependent DOF
 				for(unsigned int current_equation = 0; current_equation < constraints.size(); current_equation++)
 				{
-					constraints[current_equation] = constraints[current_equation].subs(dof_list_[current_dof]->GetVariable() == dof_list_[current_dof]->GetExpression(),GiNaC::subs_options::no_pattern);
+					constraints[current_equation] = constraints[current_equation].subs((*dof_it).second->GetVariable() == (*dof_it).second->GetExpression(),GiNaC::subs_options::no_pattern);
 				}
 			}
 		}
@@ -201,17 +201,17 @@ void Ark3DModel::SolveConstraints()
 		std::vector<GiNaC::symbol> fixed_parameters;
 		std::vector<double> fixed_values;
 		
-		for(unsigned int current_dof = 0; current_dof < dof_list_.size(); current_dof++)
+		for (map<unsigned,DOFPointer>::iterator dof_it=dof_list_.begin() ; dof_it != dof_list_.end(); dof_it++ )
 		{
-			if(dof_list_[current_dof]->IsFree())
+			if((*dof_it).second->IsFree())
 			{	// free parameter
-				free_parameters.push_back(dof_list_[current_dof]->GetVariable());
-				free_dof_list.push_back(dof_list_[current_dof]);
-				free_values.push_back(dof_list_[current_dof]->GetValue());
-			} else if( ! dof_list_[current_dof]->IsDependent()) 
+				free_parameters.push_back((*dof_it).second->GetVariable());
+				free_dof_list.push_back((*dof_it).second);
+				free_values.push_back((*dof_it).second->GetValue());
+			} else if( ! (*dof_it).second->IsDependent()) 
 			{	// fixed, independent parameter
-				fixed_parameters.push_back(dof_list_[current_dof]->GetVariable());
-				fixed_values.push_back(dof_list_[current_dof]->GetValue());
+				fixed_parameters.push_back((*dof_it).second->GetVariable());
+				fixed_values.push_back((*dof_it).second->GetValue());
 			}
 		}
 	
