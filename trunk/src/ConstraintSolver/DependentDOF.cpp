@@ -83,7 +83,20 @@ void DependentDOF::AddToDatabase(sqlite3 *database)
 				<< expression_ << "', 'source_dof_table_" << id_number_ <<"'); "
                 << "INSERT INTO dof_list VALUES("
                 << id_number_ << ",'dependent_dof_list'); "
-                << "COMMIT; ";
+				<< "CREATE TABLE " << "source_dof_table_" << id_number_ << " (id INTEGER PRIMARY KEY, table_name TEXT NOT NULL);";
+
+	// add each source dof to the source_dof table that was just created for this dependent dof	
+	for(unsigned int current_dof = 0; current_dof < source_dof_list_.size(); current_dof++)
+	{
+		if(source_dof_list_[current_dof]->IsDependent())
+		{
+			temp_stream << "INSERT INTO " << "source_dof_table_" << id_number_ << " VALUES(" << source_dof_list_[current_dof]->GetID() << ",'dependent_dof_list'); ";
+		} else {
+			temp_stream << "INSERT INTO " << "source_dof_table_" << id_number_ << " VALUES(" << source_dof_list_[current_dof]->GetID() << ",'independent_dof_list'); ";
+		}
+	}
+
+	temp_stream << "COMMIT; ";
 
 	string sql_insert = temp_stream.str();
 
@@ -92,6 +105,7 @@ void DependentDOF::AddToDatabase(sqlite3 *database)
 	temp_stream << "BEGIN; "
 				<< "DELETE FROM dof_list WHERE id=" << id_number_ 
 				<< "; DELETE FROM dependent_dof_list WHERE id=" << id_number_ 
+				<< "; DROP TABLE " << "source_dof_table_" << id_number_
 				<< "; COMMIT;";
 
 	string sql_undo = temp_stream.str();
