@@ -30,19 +30,20 @@ class DOF
 		// method for adding this object to the SQLite3 database, needs to be implement by each child class
 		virtual void AddToDatabase(sqlite3 *database) = 0;
 
-	private:
-		GiNaC::symbol variable_;
-		bool free_;
-		bool dependent_;
-		
+	protected:
+		// if not zero, this is the database where changes to the value of this DOF are stored
+		sqlite3 *database_;
+
 		// each instance of this class has a unique ID number
 		unsigned id_number_;
 
+		GiNaC::symbol variable_;
+		bool free_;
+
+	private:
+		bool dependent_;
 		// static variable used to provide a unique ID number to each instance of this class
 		static unsigned next_id_number_;
-		
-		// if not zero, this is the database where changes to the value of this DOF are stored
-		sqlite3 *database_;
 };
 typedef boost::shared_ptr<DOF> DOFPointer;
 
