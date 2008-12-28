@@ -1324,7 +1324,7 @@ ostream& operator<< (ostream& os, const mmcMatrix &rhs)
 
     	// Set the precision of the data output
     	//os << setw(30);    
-      os.precision(20);
+      os.precision(__DBL_DIG__);
 
     	// Now write all of the data in a row-wise fashion
     	for(int row = 0; row < rhs.GetNumRows(); row++)
