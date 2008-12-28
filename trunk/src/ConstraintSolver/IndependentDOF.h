@@ -13,6 +13,7 @@ class IndependentDOF : public DOF
 		//Accessor methods
 		void SetValue ( double value );
 		double GetValue()const {return value_;}
+		virtual void SetFree(bool free);
 
 		// method for adding this object to the SQLite3 database
 		virtual void AddToDatabase(sqlite3 *database);

@@ -1,10 +1,14 @@
-#include "DependentDOF.h"
+#include <string>
+#include <sstream>
 
+#include "DependentDOF.h"
 #include "PrimitiveBase.h"
 
 using namespace std;
 using namespace GiNaC;
 
+
+const string SQL_dependent_dof_database_schema = "CREATE TABLE dependent_dof_list (id INTEGER PRIMARY KEY, variable_name TEXT NOT NULL, bool_free INTEGER NOT NULL, expression TEXT NOT NULL, source_dof_table_name TEXT NOT NULL);";
 
 DependentDOF :: DependentDOF (ex expression, std::vector<DOFPointer> source_dof_list):
 DOF(false /*free*/,true /*dependent*/)
