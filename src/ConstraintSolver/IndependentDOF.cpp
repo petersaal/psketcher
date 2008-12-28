@@ -21,7 +21,7 @@ DOF(name,free,false /*dependent*/)
 }
 
 // method for adding this object to the SQLite3 database
-void IndependentDOF::AddToDatabase(sqlite3 *database)
+void IndependentDOF::AddToDatabase(sqlite3 *database)const
 {	
 	// set the database for this object, in the future this database will be updated whenever this object is updated
 	database_ = database;

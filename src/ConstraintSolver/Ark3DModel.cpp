@@ -2,6 +2,8 @@
 #include <sys/stat.h>
 #include "Ark3DModel.h"
 
+using namespace std;
+
 const std::string SQL_ark3d_database_schema = "BEGIN;"
 												"CREATE TABLE dof_list (id INTEGER PRIMARY KEY, table_name TEXT NOT NULL);"
 												"CREATE TABLE primitive_list (id INTEGER PRIMARY KEY, table_name TEXT NOT NULL);"
@@ -98,12 +100,16 @@ void Ark3DModel::AddConstraintEquation(const ConstraintEquationBasePointer &new_
   sort( constraint_equation_list_.begin(), constraint_equation_list_.end());
   constraint_equation_list_.erase( unique( constraint_equation_list_.begin(), constraint_equation_list_.end()), constraint_equation_list_.end());
 
-	// Add DOF's to DOF vector containter
-	dof_list_.insert(dof_list_.end(),new_constraint_equation->GetDOFList().begin(),new_constraint_equation->GetDOFList().end());
-
-	// delete duplicate DOF's
-  sort( dof_list_.begin(), dof_list_.end());
-  dof_list_.erase( unique( dof_list_.begin(), dof_list_.end()), dof_list_.end());
+	// Add DOF's to DOF map containter
+	vector<DOFPointer>::const_iterator dof_it;
+	vector<DOFPointer>::const_iterator dof_end = new_constraint_equation->GetDOFList().end();
+	pair<map<unsigned,DOFPointer>::iterator,bool> ret;
+	for ( dof_it=new_constraint_equation->GetDOFList().begin() ; dof_it != dof_end; dof_it++ )
+	{
+		ret = dof_list_.insert(pair<unsigned,DOFPointer>((*dof_it)->GetID(),(*dof_it)));
+		if(ret.second) // ret.second is true if this DOFPointer is not already in the map
+			(*dof_it)->AddToDatabase(database_); // this DOF is new to this model and needs to be added to the database
+	}
 	
 	ApplySelectionMask(current_selection_mask_);
 }
@@ -126,13 +132,16 @@ void Ark3DModel::AddPrimitive(const PrimitiveBasePointer &new_primitive)
 	sort( primitive_list_.begin(), primitive_list_.end());
 	primitive_list_.erase( unique( primitive_list_.begin(), primitive_list_.end()), primitive_list_.end());	
 
-
 	// Add DOF's to DOF vector containter
-	dof_list_.insert(dof_list_.end(),new_primitive->GetDOFList().begin(),new_primitive->GetDOFList().end());
-
-	// delete duplicate DOF's
-	sort( dof_list_.begin(), dof_list_.end());
-	dof_list_.erase( unique( dof_list_.begin(), dof_list_.end()), dof_list_.end());
+	vector<DOFPointer>::const_iterator dof_it;
+	vector<DOFPointer>::const_iterator dof_end = new_primitive->GetDOFList().end();
+	pair<map<unsigned,DOFPointer>::iterator,bool> ret;
+	for ( dof_it=new_primitive->GetDOFList().begin() ; dof_it != dof_end; dof_it++ )
+	{
+		ret = dof_list_.insert(pair<unsigned,DOFPointer>((*dof_it)->GetID(),(*dof_it)));
+		if(ret.second) // ret.second is true if this DOFPointer is not already in the map
+			(*dof_it)->AddToDatabase(database_); // this DOF is new to this model and needs to be added to the database
+	}
 
 	ApplySelectionMask(current_selection_mask_);
 }
