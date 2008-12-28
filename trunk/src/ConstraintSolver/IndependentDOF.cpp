@@ -29,22 +29,22 @@ void IndependentDOF::AddToDatabase(sqlite3 *database)
 	// First, create the sql statements to undo and redo this operation
 	stringstream temp_stream;
 	temp_stream.precision(__DBL_DIG__);
-	temp_stream << "BEGIN;"
+	temp_stream << "BEGIN; "
                 << "INSERT INTO independent_dof_list VALUES(" 
                 << id_number_ << ",'" << variable_.get_name() << "'," 
-				<< free_ << "," << value_ <<");"
+				<< free_ << "," << value_ <<"); "
                 << "INSERT INTO dof_list VALUES("
-                << id_number_ << ",'independent_dof_list');"
-                << "COMMIT;";
+                << id_number_ << ",'independent_dof_list'); "
+                << "COMMIT; ";
 
 	string sql_insert = temp_stream.str();
 
 	temp_stream.str(""); // clears the string stream
 
-	temp_stream << "BEGIN;"
+	temp_stream << "BEGIN; "
 				<< "DELETE FROM dof_list WHERE id=" << id_number_ 
-				<< "DELETE FROM independent_dof_list WHERE id=" << id_number_ 
-				<< "COMMIT;";
+				<< "; DELETE FROM independent_dof_list WHERE id=" << id_number_ 
+				<< "; COMMIT;";
 
 	string sql_undo = temp_stream.str();
 
@@ -75,17 +75,15 @@ void IndependentDOF::AddToDatabase(sqlite3 *database)
 	cout << sql_insert << endl;
 
 	// finally, update the undo_redo_list in the database with the database changes that have just been made
-	/*
-	temp_stream.str("");
-	
-	temp_stream << "INSERT INTO undo_redo_list(undo,redo) VALUES('"
-				<< sql_undo << "','" << sql_insert << "');";
+	// need to use sqlite3_mprintf to make sure the single quotes in the sql statements get escaped where needed
+	char *sql_undo_redo = sqlite3_mprintf("INSERT INTO undo_redo_list(undo,redo) VALUES('%q','%q')",sql_undo.c_str(),sql_insert.c_str());
 
-	rc = sqlite3_exec(database_, temp_stream.str().c_str(), 0, 0, &zErrMsg);
+	rc = sqlite3_exec(database_, sql_undo_redo, 0, 0, &zErrMsg);
 	if( rc!=SQLITE_OK ){
 		std::string error_description = "SQL error: " + std::string(zErrMsg);
 		sqlite3_free(zErrMsg);
 		throw Ark3DException(error_description);
 	}
-	*/
+
+	sqlite3_free(sql_undo_redo);
 }
