@@ -2,6 +2,7 @@
 #define Ark3DModelH
 
 #include <string>
+#include <map>
 
 #include <sqlite3.h>
 
@@ -54,7 +55,7 @@ private:
 	void DeleteFlagged(); // delete all of the primitives that have been flagged for deletion
 	virtual void PreparePrimitiveForDeletion(PrimitiveBasePointer primitive_to_delete) {;}
 
-	std::vector<DOFPointer> dof_list_;
+	std::map<unsigned,DOFPointer> dof_list_;
 	std::vector<ConstraintEquationBasePointer> constraint_equation_list_;
 	std::vector<PrimitiveBasePointer> primitive_list_;
 
