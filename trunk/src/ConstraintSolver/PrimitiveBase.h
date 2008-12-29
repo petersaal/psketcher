@@ -52,8 +52,16 @@ class PrimitiveBase
 		virtual void Display() {;}
 		virtual void UpdateDisplay() {;}
 
+		// Utility method to add the dof_list_ and primitive_list_ to the database
+		void AddListsToDatabase(const std::string &dof_list_table_name, const std::string &primitive_list_table_name);
+
+		// method for adding this object to the SQLite3 database, needs to be implement by each child class
+		virtual void AddToDatabase(sqlite3 *database) {;} // @fixme: change to a abstract method (=0) so that the compiler finds any child classes that don't implement this method
 
 	protected:
+		// if not zero, this is the database where changes to the value of this DOF are stored
+		sqlite3 *database_;
+
 		bool selected_;
 		bool selectable_;
 
