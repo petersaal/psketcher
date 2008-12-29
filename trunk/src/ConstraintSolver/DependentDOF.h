@@ -21,8 +21,10 @@ class DependentDOF : public DOF
 		GiNaC::ex GetExpression()const;
 		const std::vector<DOFPointer> & GetDOFList() {return source_dof_list_;}
 
-		// method for adding this object to the SQLite3 database
+		// methods for adding and removing this object to the SQLite3 database
 		virtual void AddToDatabase(sqlite3 *database);
+		virtual void RemoveFromDatabase();
+		void DatabaseAddDelete(bool add_to_database); // utility method called by AddToDatabase and DeleteFromDatabase since they both do similar things
 
 	private:
 		GiNaC::ex expression_;

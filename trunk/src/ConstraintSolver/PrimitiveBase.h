@@ -53,7 +53,7 @@ class PrimitiveBase
 		virtual void UpdateDisplay() {;}
 
 		// Utility method to add the dof_list_ and primitive_list_ to the database
-		void AddListsToDatabase(const std::string &dof_list_table_name, const std::string &primitive_list_table_name);
+		void DatabaseAddDeleteLists(bool add_to_database, const std::string &dof_list_table_name, const std::string &primitive_list_table_name);
 
 		// method for adding this object to the SQLite3 database, needs to be implement by each child class
 		virtual void AddToDatabase(sqlite3 *database) {;} // @fixme: change to a abstract method (=0) so that the compiler finds any child classes that don't implement this method
