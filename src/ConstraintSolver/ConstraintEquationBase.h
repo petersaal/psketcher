@@ -16,7 +16,7 @@ class ConstraintEquationBase : public PrimitiveBase
 		virtual void ApplySelectionMask(SelectionMask mask);
 
 		// Utility method to add the constraints_ list to the database
-		void AddConstraintListToDatabase(const std::string &constraint_list_table_name);
+		void DatabaseAddDeleteConstraintList(bool add_to_database, const std::string &constraint_list_table_name);
 
 	protected:
 		// constraints and weight_list_ are parallel vectors

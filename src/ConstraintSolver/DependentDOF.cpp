@@ -74,7 +74,19 @@ void DependentDOF::AddToDatabase(sqlite3 *database)
 	// set the database for this object, in the future this database will be updated whenever this object is updated
 	database_ = database;
 
+	DatabaseAddDelete(true);
+}
+
+void DependentDOF::RemoveFromDatabase()
+{
+	DatabaseAddDelete(false);
+}
+
+void DependentDOF::DatabaseAddDelete(bool add_to_database) // utility method called by AddToDatabase and DeleteFromDatabase since they both do similar things
+{
 	// First, create the sql statements to undo and redo this operation
+	string sql_do, sql_undo;
+
 	stringstream temp_stream;
 	temp_stream.precision(__DBL_DIG__);
 	temp_stream << "BEGIN; "
@@ -93,7 +105,10 @@ void DependentDOF::AddToDatabase(sqlite3 *database)
 
 	temp_stream << "COMMIT; ";
 
-	string sql_insert = temp_stream.str();
+	if(add_to_database)
+		sql_do = temp_stream.str();
+	else
+		sql_undo = temp_stream.str();
 
 	temp_stream.str(""); // clears the string stream
 
@@ -103,35 +118,45 @@ void DependentDOF::AddToDatabase(sqlite3 *database)
 				<< "; DROP TABLE " << "source_dof_table_" << id_number_
 				<< "; COMMIT;";
 
-	string sql_undo = temp_stream.str();
+	if(add_to_database)
+		sql_undo = temp_stream.str();
+	else
+		sql_do = temp_stream.str();
 
 	// add this object to the appropriate tables by executing the SQL command sql_insert 
 	char *zErrMsg = 0;
-	int rc = sqlite3_exec(database_, sql_insert.c_str(), 0, 0, &zErrMsg);
+	int rc = sqlite3_exec(database_, sql_do.c_str(), 0, 0, &zErrMsg);
 	if( rc!=SQLITE_OK ){
-		std::cerr << "SQL error: " << zErrMsg << endl;
-		sqlite3_free(zErrMsg);
-		
-		// the table "dependent_dof_list" may not exist, attempt to create
-		rc = sqlite3_exec(database_, ("ROLLBACK;"+SQL_dependent_dof_database_schema).c_str(), 0, 0, &zErrMsg);  // need to add ROLLBACK since previous transaction failed
-		if( rc!=SQLITE_OK ){
+		if(add_to_database)
+		{
+			//std::cerr << "SQL error: " << zErrMsg << endl;
+			sqlite3_free(zErrMsg);
+			
+			// the table "dependent_dof_list" may not exist, attempt to create
+			rc = sqlite3_exec(database_, ("ROLLBACK;"+SQL_dependent_dof_database_schema).c_str(), 0, 0, &zErrMsg);  // need to add ROLLBACK since previous transaction failed
+			if( rc!=SQLITE_OK ){
+				std::string error_description = "SQL error: " + std::string(zErrMsg);
+				sqlite3_free(zErrMsg);
+				throw Ark3DException(error_description);
+			}
+	
+			// now that the table has been created, attempt the insert one last time
+			rc = sqlite3_exec(database_, sql_do.c_str(), 0, 0, &zErrMsg);
+			if( rc!=SQLITE_OK ){
+				std::string error_description = "SQL error: " + std::string(zErrMsg);
+				sqlite3_free(zErrMsg);
+				throw Ark3DException(error_description);
+			}
+		} else {
 			std::string error_description = "SQL error: " + std::string(zErrMsg);
 			sqlite3_free(zErrMsg);
 			throw Ark3DException(error_description);
-		}
-
-		// now that the table has been created, attempt the insert one last time
-		rc = sqlite3_exec(database_, sql_insert.c_str(), 0, 0, &zErrMsg);
-		if( rc!=SQLITE_OK ){
-			std::string error_description = "SQL error: " + std::string(zErrMsg);
-			sqlite3_free(zErrMsg);
-			throw Ark3DException(error_description);
-		}
+		} 
 	}
 
 	// finally, update the undo_redo_list in the database with the database changes that have just been made
 	// need to use sqlite3_mprintf to make sure the single quotes in the sql statements get escaped where needed
-	char *sql_undo_redo = sqlite3_mprintf("INSERT INTO undo_redo_list(undo,redo) VALUES('%q','%q')",sql_undo.c_str(),sql_insert.c_str());
+	char *sql_undo_redo = sqlite3_mprintf("INSERT INTO undo_redo_list(undo,redo) VALUES('%q','%q')",sql_undo.c_str(),sql_do.c_str());
 
 	rc = sqlite3_exec(database_, sql_undo_redo, 0, 0, &zErrMsg);
 	if( rc!=SQLITE_OK ){
@@ -142,3 +167,5 @@ void DependentDOF::AddToDatabase(sqlite3 *database)
 
 	sqlite3_free(sql_undo_redo);
 }
+
+

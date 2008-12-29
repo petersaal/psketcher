@@ -14,8 +14,9 @@ void ConstraintEquationBase::ApplySelectionMask(SelectionMask mask)
 }
 
 // Utility method to add the constraints_ list to the database
-void ConstraintEquationBase::AddConstraintListToDatabase(const std::string &constraint_list_table_name)
+void ConstraintEquationBase::DatabaseAddDeleteConstraintList(bool add_to_database, const std::string &constraint_list_table_name)
 {
+	string sql_do, sql_undo;	
 	stringstream temp_stream;
 
 	temp_stream << "BEGIN;"
@@ -29,7 +30,10 @@ void ConstraintEquationBase::AddConstraintListToDatabase(const std::string &cons
 
 	temp_stream << "COMMIT;";
 
-	string sql_do = temp_stream.str();
+	if(add_to_database)
+		sql_do = temp_stream.str();
+	else
+		sql_undo = temp_stream.str();
 
 	temp_stream.str("");
 
@@ -38,7 +42,10 @@ void ConstraintEquationBase::AddConstraintListToDatabase(const std::string &cons
  				<< "DROP TABLE " << constraint_list_table_name
 				<< "; COMMIT;";
 
-	string sql_undo = temp_stream.str();
+	if(add_to_database)
+		sql_undo = temp_stream.str();
+	else
+		sql_do = temp_stream.str();
 
 	// go ahead and create the sql tables
 	char *zErrMsg = 0;

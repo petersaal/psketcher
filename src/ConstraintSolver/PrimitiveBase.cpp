@@ -76,8 +76,10 @@ bool PrimitiveBase::FlagForDeletionIfDependent(boost::shared_ptr<PrimitiveBase> 
 }
 
 // utility method used to add the dof_list_ and the primitive_list_ to the database
-void PrimitiveBase::AddListsToDatabase(const string &dof_list_table_name, const string &primitive_list_table_name)
+void PrimitiveBase::DatabaseAddDeleteLists(bool add_to_database, const string &dof_list_table_name, const string &primitive_list_table_name)
 {
+	string sql_do, sql_undo;
+
 	stringstream temp_stream;
 
 	temp_stream << "BEGIN;"
@@ -98,7 +100,10 @@ void PrimitiveBase::AddListsToDatabase(const string &dof_list_table_name, const 
 
 	temp_stream << "COMMIT;";
 
-	string sql_do = temp_stream.str();
+	if(add_to_database)
+		sql_do = temp_stream.str();
+	else
+		sql_undo = temp_stream.str();
 
 	temp_stream.str("");
 
@@ -108,7 +113,10 @@ void PrimitiveBase::AddListsToDatabase(const string &dof_list_table_name, const 
 				<< "; DROP TABLE " << primitive_list_table_name
 				<< "; COMMIT;";
 
-	string sql_undo = temp_stream.str();
+	if(add_to_database)
+		sql_undo = temp_stream.str();
+	else
+		sql_do = temp_stream.str();
 
 	// go ahead and create the sql tables
 	char *zErrMsg = 0;

@@ -17,6 +17,8 @@ class IndependentDOF : public DOF
 
 		// method for adding this object to the SQLite3 database
 		virtual void AddToDatabase(sqlite3 *database);
+		virtual void RemoveFromDatabase();
+		void DatabaseAddDelete(bool add_to_database); // utility method called by AddToDatabase and DeleteFromDatabase since they both do similar things
 
 	private:
 		double value_;
