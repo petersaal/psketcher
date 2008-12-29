@@ -56,8 +56,8 @@ private:
 	virtual void PreparePrimitiveForDeletion(PrimitiveBasePointer primitive_to_delete) {;}
 
 	std::map<unsigned,DOFPointer> dof_list_;
-	std::vector<ConstraintEquationBasePointer> constraint_equation_list_;
-	std::vector<PrimitiveBasePointer> primitive_list_;
+	std::map<unsigned,ConstraintEquationBasePointer> constraint_equation_list_;
+	std::map<unsigned,PrimitiveBasePointer> primitive_list_;
 
 	SelectionMask current_selection_mask_;
 

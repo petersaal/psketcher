@@ -29,6 +29,7 @@ class DOF
 
 		// method for adding this object to the SQLite3 database, needs to be implement by each child class
 		virtual void AddToDatabase(sqlite3 *database) = 0;
+		virtual void RemoveFromDatabase() {;} // @fixme: change to abstract (=0) 
 
 	protected:
 		// if not zero, this is the database where changes to the value of this DOF are stored
