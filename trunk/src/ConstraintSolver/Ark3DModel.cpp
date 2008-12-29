@@ -93,12 +93,10 @@ void Ark3DModel::InitializeDatabase()
 void Ark3DModel::AddConstraintEquation(const ConstraintEquationBasePointer &new_constraint_equation)
 {
 	// Add constraint equation to constraint equation vector container
-	constraint_equation_list_.push_back(new_constraint_equation);
-	
-	// delete duplicate constraint equations
-	// @todo warn user if the constraint equation added is a duplicate
-  sort( constraint_equation_list_.begin(), constraint_equation_list_.end());
-  constraint_equation_list_.erase( unique( constraint_equation_list_.begin(), constraint_equation_list_.end()), constraint_equation_list_.end());
+	pair<map<unsigned,ConstraintEquationBasePointer>::iterator,bool> constraint_ret;
+	constraint_ret = constraint_equation_list_.insert(pair<unsigned,ConstraintEquationBasePointer>(new_constraint_equation->GetID(),new_constraint_equation));
+	if(constraint_ret.second) // constraint_ret.second is true if this constraint is not already in the map
+		new_constraint_equation->AddToDatabase(database_);		
 
 	// Add DOF's to DOF map containter
 	vector<DOFPointer>::const_iterator dof_it;
@@ -125,12 +123,10 @@ void Ark3DModel::AddConstraintEquations(const std::vector<ConstraintEquationBase
 void Ark3DModel::AddPrimitive(const PrimitiveBasePointer &new_primitive)
 {
 	// Add primitive to the primitive vector container
-	primitive_list_.push_back(new_primitive);
-
-	// delete duplicate primitives
-	// @todo warn user if the primitive added is a duplicate
-	sort( primitive_list_.begin(), primitive_list_.end());
-	primitive_list_.erase( unique( primitive_list_.begin(), primitive_list_.end()), primitive_list_.end());	
+	pair<map<unsigned,PrimitiveBasePointer>::iterator,bool> primitive_ret;
+	primitive_ret = primitive_list_.insert(pair<unsigned,PrimitiveBasePointer>(new_primitive->GetID(),new_primitive));
+	if(primitive_ret.second) // primitive_ret.second is true if this primitive is not already in the map
+		new_primitive->AddToDatabase(database_);
 
 	// Add DOF's to DOF vector containter
 	vector<DOFPointer>::const_iterator dof_it;
@@ -167,11 +163,11 @@ void Ark3DModel::SolveConstraints()
 		std::vector<GiNaC::ex> constraints;
 		std::vector<double> weights;
 	
-		for(unsigned int current_equation = 0; current_equation < constraint_equation_list_.size(); current_equation++)
+		for(map<unsigned,ConstraintEquationBasePointer>::iterator constraint_it=constraint_equation_list_.begin() ; constraint_it != constraint_equation_list_.end(); constraint_it++ )
 		{
-				std::vector< boost::shared_ptr<GiNaC::ex> > current_constraint_list = constraint_equation_list_[current_equation]->GetConstraintList();
+				std::vector< boost::shared_ptr<GiNaC::ex> > current_constraint_list = constraint_it->second->GetConstraintList();
 				
-				std::vector<double> current_weight_list = constraint_equation_list_[current_equation]->GetWeightList();
+				std::vector<double> current_weight_list = constraint_it->second->GetWeightList();
 	
 				// loop over each expression in the constraint equation class
 				for(unsigned int current_sub_equation = 0; current_sub_equation < current_constraint_list.size(); current_sub_equation++)
@@ -240,12 +236,12 @@ void Ark3DModel::SolveConstraints()
 void Ark3DModel::UpdateDisplay()
 {
 	// Update display for all of the constraint equations
-	for(unsigned int current_equation = 0; current_equation < constraint_equation_list_.size(); current_equation++)
-		constraint_equation_list_[current_equation]->UpdateDisplay();
+	for(map<unsigned,ConstraintEquationBasePointer>::iterator constraint_it=constraint_equation_list_.begin() ; constraint_it != constraint_equation_list_.end(); constraint_it++ )
+		constraint_it->second->UpdateDisplay();
 
 	// Update display for all of the primitives
-	for(unsigned int current_primitive = 0; current_primitive < primitive_list_.size(); current_primitive++)
-		primitive_list_[current_primitive]->UpdateDisplay();
+	for(map<unsigned,PrimitiveBasePointer>::iterator primitive_it=primitive_list_.begin() ; primitive_it != primitive_list_.end(); primitive_it++ )
+		primitive_it->second->UpdateDisplay();
 }
 
 void Ark3DModel::ApplySelectionMask(SelectionMask mask)
@@ -253,12 +249,12 @@ void Ark3DModel::ApplySelectionMask(SelectionMask mask)
 	current_selection_mask_ = mask;
 
 	// Apply mask to all of the constraint equations
-	for(unsigned int current_equation = 0; current_equation < constraint_equation_list_.size(); current_equation++)
-		constraint_equation_list_[current_equation]->ApplySelectionMask(mask);
+	for(map<unsigned,ConstraintEquationBasePointer>::iterator constraint_it=constraint_equation_list_.begin() ; constraint_it != constraint_equation_list_.end(); constraint_it++ )
+		constraint_it->second->ApplySelectionMask(mask);
 
 	// Apply mask to  all of the primitives
-	for(unsigned int current_primitive = 0; current_primitive < primitive_list_.size(); current_primitive++)
-		primitive_list_[current_primitive]->ApplySelectionMask(mask);
+	for(map<unsigned,PrimitiveBasePointer>::iterator primitive_it=primitive_list_.begin() ; primitive_it != primitive_list_.end(); primitive_it++ )
+		primitive_it->second->ApplySelectionMask(mask);
 
 }
 
@@ -266,10 +262,10 @@ std::vector<PrimitiveBasePointer> Ark3DModel::GetSelectedPrimitives()
 {
 	std::vector<PrimitiveBasePointer> selected_primitives;
 
-	for(unsigned int current_primitive = 0; current_primitive < primitive_list_.size(); current_primitive++)
+	for(map<unsigned,PrimitiveBasePointer>::iterator primitive_it=primitive_list_.begin() ; primitive_it != primitive_list_.end(); primitive_it++ )
 	{
-		if(primitive_list_[current_primitive]->IsSelected())
-			selected_primitives.push_back(primitive_list_[current_primitive]);
+		if(primitive_it->second->IsSelected())
+			selected_primitives.push_back(primitive_it->second);
 	}
 
 	return selected_primitives;
@@ -279,10 +275,10 @@ std::vector<ConstraintEquationBasePointer> Ark3DModel::GetConstraintEquations()
 {
 	std::vector<ConstraintEquationBasePointer> selected_constraint_equations;
 
-	for(unsigned int current_equation = 0; current_equation < constraint_equation_list_.size(); current_equation++)
+	for(map<unsigned,ConstraintEquationBasePointer>::iterator constraint_it=constraint_equation_list_.begin() ; constraint_it != constraint_equation_list_.end(); constraint_it++ )
 	{
-		if(constraint_equation_list_[current_equation]->IsSelected())
-			selected_constraint_equations.push_back(constraint_equation_list_[current_equation]);
+		if(constraint_it->second->IsSelected())
+			selected_constraint_equations.push_back(constraint_it->second);
 	}
 
 	return selected_constraint_equations;
@@ -301,48 +297,50 @@ void Ark3DModel::FlagDependentsForDeletion(PrimitiveBasePointer primitive_to_del
 	bool status_changed;
 
 	// loop through all of the primitives
-	for(unsigned int current_primitive = 0; current_primitive < primitive_list_.size(); current_primitive++)
+	for(map<unsigned,PrimitiveBasePointer>::iterator primitive_it=primitive_list_.begin() ; primitive_it != primitive_list_.end(); primitive_it++ )
 	{
-		status_changed = primitive_list_[current_primitive]->FlagForDeletionIfDependent(primitive_to_delete);
+		status_changed = primitive_it->second->FlagForDeletionIfDependent(primitive_to_delete);
 		if(status_changed)
 			// recurse if this primitive is now flagged for deletion
-			FlagDependentsForDeletion(primitive_list_[current_primitive]);
+			FlagDependentsForDeletion(primitive_it->second);
 	}
 
 	// loop through all of the constraints
-	for(unsigned int current_equation = 0; current_equation < constraint_equation_list_.size(); current_equation++)
+	for(map<unsigned,ConstraintEquationBasePointer>::iterator constraint_it=constraint_equation_list_.begin() ; constraint_it != constraint_equation_list_.end(); constraint_it++ )
 	{
-		status_changed = constraint_equation_list_[current_equation]->FlagForDeletionIfDependent(primitive_to_delete);
+		status_changed = constraint_it->second->FlagForDeletionIfDependent(primitive_to_delete);
 		if(status_changed)
 			// recurse if this constraint equation is now flagged for deletion
-			FlagDependentsForDeletion(constraint_equation_list_[current_equation]);
+			FlagDependentsForDeletion(constraint_it->second);
 	}
 }
 
 // delete all of the primitives that have been flagged for deletion
 void Ark3DModel::DeleteFlagged()
 {
-	std::vector<PrimitiveBasePointer>::iterator iter1 = primitive_list_.begin();
+	map<unsigned,PrimitiveBasePointer>::iterator iter1 = primitive_list_.begin();
 
 	while(iter1 != primitive_list_.end())
 	{
-		if((*iter1)->IsFlaggedForDeletion())
+		if(iter1->second->IsFlaggedForDeletion())
 		{
-			PreparePrimitiveForDeletion(*iter1);
-			iter1 = primitive_list_.erase(iter1);
+			PreparePrimitiveForDeletion(iter1->second);
+			iter1->second->RemoveFromDatabase();
+			primitive_list_.erase(iter1++);
 		} else {
 			iter1++;
 		}
 	}
 	
-	std::vector<ConstraintEquationBasePointer>::iterator iter2 = constraint_equation_list_.begin();
+	map<unsigned,ConstraintEquationBasePointer>::iterator iter2 = constraint_equation_list_.begin();
 
 	while(iter2 != constraint_equation_list_.end())
 	{
-		if((*iter2)->IsFlaggedForDeletion())
+		if(iter2->second->IsFlaggedForDeletion())
 		{
-			PreparePrimitiveForDeletion(*iter2);
-			iter2 = constraint_equation_list_.erase(iter2);
+			PreparePrimitiveForDeletion(iter2->second);
+			iter2->second->RemoveFromDatabase();
+			constraint_equation_list_.erase(iter2++);
 		} else {
 			iter2++;
 		}
@@ -352,22 +350,22 @@ void Ark3DModel::DeleteFlagged()
 void Ark3DModel::DeleteSelected()
 {
 	// loop through all of the primitives
-	for(unsigned int current_primitive = 0; current_primitive < primitive_list_.size(); current_primitive++)
+	for(map<unsigned,PrimitiveBasePointer>::iterator primitive_it=primitive_list_.begin() ; primitive_it != primitive_list_.end(); primitive_it++ )
 	{
-		if(primitive_list_[current_primitive]->IsSelected())
+		if(primitive_it->second->IsSelected())
 		{
-			primitive_list_[current_primitive]->FlagForDeletion();
-			FlagDependentsForDeletion(primitive_list_[current_primitive]);
+			primitive_it->second->FlagForDeletion();
+			FlagDependentsForDeletion(primitive_it->second);
 		}
 	}
 
 	// loop through all of the constraints
-	for(unsigned int current_equation = 0; current_equation < constraint_equation_list_.size(); current_equation++)
+	for(map<unsigned,ConstraintEquationBasePointer>::iterator constraint_it=constraint_equation_list_.begin() ; constraint_it != constraint_equation_list_.end(); constraint_it++ )
 	{
-		if(constraint_equation_list_[current_equation]->IsSelected())
+		if(constraint_it->second->IsSelected())
 		{
-			constraint_equation_list_[current_equation]->FlagForDeletion();
-			FlagDependentsForDeletion(constraint_equation_list_[current_equation]);
+			constraint_it->second->FlagForDeletion();
+			FlagDependentsForDeletion(constraint_it->second);
 		}
 	}
 
