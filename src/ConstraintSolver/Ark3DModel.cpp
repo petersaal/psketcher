@@ -114,6 +114,16 @@ void Ark3DModel::AddConstraintEquation(const ConstraintEquationBasePointer &new_
 	if(constraint_ret.second) // constraint_ret.second is true if this constraint is not already in the map
 		new_constraint_equation->AddToDatabase(database_);		
 
+	// Add the primitives that this constraint depends on to the primitive map container
+	vector<PrimitiveBasePointer>::const_iterator primitive_it;
+	vector<PrimitiveBasePointer>::const_iterator primitive_end = new_constraint_equation->GetPrimitiveList().end();
+	for ( primitive_it=new_constraint_equation->GetPrimitiveList().begin() ; primitive_it != primitive_end; primitive_it++ )
+	{
+		pair<map<unsigned,PrimitiveBasePointer>::iterator,bool> primitive_ret = primitive_list_.insert(pair<unsigned,PrimitiveBasePointer>((*primitive_it)->GetID(),(*primitive_it)));
+		if(primitive_ret.second) // ret.second is true if this PrimitivePointer is not already in the map
+			(*primitive_it)->AddToDatabase(database_); // this primitive is new to this model and needs to be added to the database
+	}
+
 	// Add DOF's to DOF map containter
 	vector<DOFPointer>::const_iterator dof_it;
 	vector<DOFPointer>::const_iterator dof_end = new_constraint_equation->GetDOFList().end();
@@ -144,7 +154,17 @@ void Ark3DModel::AddPrimitive(const PrimitiveBasePointer &new_primitive)
 	if(primitive_ret.second) // primitive_ret.second is true if this primitive is not already in the map
 		new_primitive->AddToDatabase(database_);
 
-	// Add DOF's to DOF vector containter
+	// Add the primitives that this primitive depends on to the primitive map container
+	vector<PrimitiveBasePointer>::const_iterator primitive_it;
+	vector<PrimitiveBasePointer>::const_iterator primitive_end = new_primitive->GetPrimitiveList().end();
+	for ( primitive_it=new_primitive->GetPrimitiveList().begin() ; primitive_it != primitive_end; primitive_it++ )
+	{
+		primitive_ret = primitive_list_.insert(pair<unsigned,PrimitiveBasePointer>((*primitive_it)->GetID(),(*primitive_it)));
+		if(primitive_ret.second) // ret.second is true if this PrimitivePointer is not already in the map
+			(*primitive_it)->AddToDatabase(database_); // this primitive is new to this model and needs to be added to the database
+	}
+
+	// Add DOF's that this primitive depends on to DOF map containter
 	vector<DOFPointer>::const_iterator dof_it;
 	vector<DOFPointer>::const_iterator dof_end = new_primitive->GetDOFList().end();
 	pair<map<unsigned,DOFPointer>::iterator,bool> ret;

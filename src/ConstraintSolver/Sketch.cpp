@@ -19,7 +19,7 @@
 Sketch::Sketch(VectorPointer normal, VectorPointer up, PointPointer base):
 sketch_plane_(new SketchPlane(normal,up,base))
 {
-
+	AddPrimitive(sketch_plane_);
 }
 
 Point2DPointer Sketch::AddPoint2D ( double s, double t, bool s_free, bool t_free)
