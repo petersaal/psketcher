@@ -31,14 +31,14 @@ void IndependentDOF::SetValue ( double value )
 		stringstream sql_stream;
 		sql_stream.precision(__DBL_DIG__);
 		sql_stream << "UPDATE independent_dof_list SET value=" 
-					<< value_ << " WHERE id=" << id_number_ << ";";
+					<< value_ << " WHERE id=" << GetID() << ";";
 
 		string sql_update = sql_stream.str();
 		
 		// define the undo statement
 		sql_stream.str("");
 		sql_stream << "UPDATE independent_dof_list SET value=" 
-					<< old_value << " WHERE id=" << id_number_ << ";";
+					<< old_value << " WHERE id=" << GetID() << ";";
 	
 		string sql_undo = sql_stream.str();
 		
@@ -70,25 +70,25 @@ void IndependentDOF::SetValue ( double value )
 
 void IndependentDOF::SetFree(bool free)
 {
-	if(free != free_)
+	if(free != IsFree())
 	{
 		if(database_ != 0) // if this DOF is tied to a database then update the database
 		{
-			bool old_value = free_;
-			free_ = free;
+			bool old_value = IsFree();
+			SetFree(free);
 	
 			// define the update statement
 			stringstream sql_stream;
 			sql_stream.precision(__DBL_DIG__);
 			sql_stream << "UPDATE independent_dof_list SET bool_free=" 
-						<< free_ << " WHERE id=" << id_number_ << ";";
+						<< IsFree() << " WHERE id=" << GetID() << ";";
 	
 			string sql_update = sql_stream.str();
 			
 			// define the undo statement
 			sql_stream.str("");
 			sql_stream << "UPDATE independent_dof_list SET bool_free=" 
-						<< old_value << " WHERE id=" << id_number_ << ";";
+						<< old_value << " WHERE id=" << GetID() << ";";
 		
 			string sql_undo = sql_stream.str();
 			
@@ -114,7 +114,7 @@ void IndependentDOF::SetFree(bool free)
 	
 		}else{
 			// this is the case where there is not a database
-			free_=free; 
+			SetFree(free); 
 		} // if(database_ != 0)
 	} // if(free != free_)
 }
@@ -142,10 +142,10 @@ void IndependentDOF::DatabaseAddDelete(bool add_to_database) // utility method c
 	temp_stream.precision(__DBL_DIG__);
 	temp_stream << "BEGIN; "
                 << "INSERT INTO independent_dof_list VALUES(" 
-                << id_number_ << ",'" << variable_.get_name() << "'," 
-				<< free_ << "," << value_ <<"); "
+                << GetID() << ",'" << GetVariable().get_name() << "'," 
+				<< IsFree() << "," << value_ <<"); "
                 << "INSERT INTO dof_list VALUES("
-                << id_number_ << ",'independent_dof_list'); "
+                << GetID() << ",'independent_dof_list'); "
                 << "COMMIT; ";
 
 	if(add_to_database)
@@ -156,8 +156,8 @@ void IndependentDOF::DatabaseAddDelete(bool add_to_database) // utility method c
 	temp_stream.str(""); // clears the string stream
 
 	temp_stream << "BEGIN; "
-				<< "DELETE FROM dof_list WHERE id=" << id_number_ 
-				<< "; DELETE FROM independent_dof_list WHERE id=" << id_number_ 
+				<< "DELETE FROM dof_list WHERE id=" << GetID() 
+				<< "; DELETE FROM independent_dof_list WHERE id=" << GetID() 
 				<< "; COMMIT;";
 
 	if(add_to_database)

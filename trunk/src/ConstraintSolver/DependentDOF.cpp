@@ -91,16 +91,16 @@ void DependentDOF::DatabaseAddDelete(bool add_to_database) // utility method cal
 	temp_stream.precision(__DBL_DIG__);
 	temp_stream << "BEGIN; "
                 << "INSERT INTO dependent_dof_list VALUES(" 
-                << id_number_ << ",'" << variable_.get_name() << "','" 
-				<< expression_ << "', 'source_dof_table_" << id_number_ <<"'); "
+                << GetID() << ",'" << GetVariable().get_name() << "','" 
+				<< expression_ << "', 'source_dof_table_" << GetID() <<"'); "
                 << "INSERT INTO dof_list VALUES("
-                << id_number_ << ",'dependent_dof_list'); "
-				<< "CREATE TABLE " << "source_dof_table_" << id_number_ << " (id INTEGER PRIMARY KEY);";
+                << GetID() << ",'dependent_dof_list'); "
+				<< "CREATE TABLE " << "source_dof_table_" << GetID() << " (id INTEGER PRIMARY KEY);";
 
 	// add each source dof to the source_dof table that was just created for this dependent dof	
 	for(unsigned int current_dof = 0; current_dof < source_dof_list_.size(); current_dof++)
 	{
-			temp_stream << "INSERT INTO " << "source_dof_table_" << id_number_ << " VALUES(" << source_dof_list_[current_dof]->GetID() << "); ";
+			temp_stream << "INSERT INTO " << "source_dof_table_" << GetID() << " VALUES(" << source_dof_list_[current_dof]->GetID() << "); ";
 	}
 
 	temp_stream << "COMMIT; ";
@@ -113,9 +113,9 @@ void DependentDOF::DatabaseAddDelete(bool add_to_database) // utility method cal
 	temp_stream.str(""); // clears the string stream
 
 	temp_stream << "BEGIN; "
-				<< "DELETE FROM dof_list WHERE id=" << id_number_ 
-				<< "; DELETE FROM dependent_dof_list WHERE id=" << id_number_ 
-				<< "; DROP TABLE " << "source_dof_table_" << id_number_
+				<< "DELETE FROM dof_list WHERE id=" << GetID() 
+				<< "; DELETE FROM dependent_dof_list WHERE id=" << GetID() 
+				<< "; DROP TABLE " << "source_dof_table_" << GetID()
 				<< "; COMMIT;";
 
 	if(add_to_database)
