@@ -50,7 +50,8 @@ class PrimitiveBase
 		// Accessor methods
 		void AddDOF(DOFPointer new_dof);  // add a new dof to the DOF list
 		void AddPrimitive(boost::shared_ptr<PrimitiveBase> new_primitive);
-		const std::vector<DOFPointer> & GetDOFList() {return dof_list_;}	
+		const std::vector<DOFPointer> & GetDOFList() {return dof_list_;}
+		const std::vector<boost::shared_ptr<PrimitiveBase> > & GetPrimitiveList() {return primitive_list_;}
 		unsigned GetID()const {return id_number_;}
 
 		void FlagForDeletion() {delete_me_ = true;}

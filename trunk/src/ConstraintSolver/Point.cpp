@@ -19,7 +19,7 @@
 #include "Point.h"
 #include "IndependentDOF.h"
 
-const std::string SQL_point2d_database_schema = "CREATE TABLE point_list (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, x_dof REAL NOT NULL, y_dof INTEGER NOT NULL, z_dof INTEGER NOT NULL);";
+const std::string SQL_point2d_database_schema = "CREATE TABLE point_list (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, x_dof INTEGER NOT NULL, y_dof INTEGER NOT NULL, z_dof INTEGER NOT NULL);";
 
 using namespace std;
 using namespace GiNaC;
