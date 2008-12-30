@@ -28,6 +28,11 @@ class Point2D : public Primitive2DBase
 
 		mmcMatrix GetmmcMatrix()const;
 
+		// method for adding this object to the SQLite3 database, needs to be implement by each child class
+		virtual void AddToDatabase(sqlite3 *database);
+		virtual void RemoveFromDatabase();
+		void DatabaseAddRemove(bool add_to_database); // Utility method used by AddToDatabase and RemoveFromDatabase
+
 	private:
 		DOFPointer s_;
 		DOFPointer t_;

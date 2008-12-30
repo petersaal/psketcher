@@ -35,13 +35,13 @@ class DOF
 		// if not zero, this is the database where changes to the value of this DOF are stored
 		sqlite3 *database_;
 
+	private:
 		// each instance of this class has a unique ID number
 		unsigned id_number_;
 
 		GiNaC::symbol variable_;
 		bool free_;
 
-	private:
 		bool dependent_;
 		// static variable used to provide a unique ID number to each instance of this class
 		static unsigned next_id_number_;
