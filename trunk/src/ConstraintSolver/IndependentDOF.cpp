@@ -86,18 +86,18 @@ void IndependentDOF::SetValue ( double value )
 
 void IndependentDOF::SetFree(bool free)
 {
-	if(free != IsFree())
+	if(free != free_)
 	{
 		if(database_ != 0) // if this DOF is tied to a database then update the database
 		{
-			bool old_value = IsFree();
-			SetFree(free);
+			bool old_value = free_;
+			free_ = free;
 	
 			// define the update statement
 			stringstream sql_stream;
 			sql_stream.precision(__DBL_DIG__);
 			sql_stream << "UPDATE independent_dof_list SET bool_free=" 
-						<< IsFree() << " WHERE id=" << GetID() << ";";
+						<< free_ << " WHERE id=" << GetID() << ";";
 	
 			string sql_update = sql_stream.str();
 			
@@ -127,10 +127,12 @@ void IndependentDOF::SetFree(bool free)
 				sqlite3_free(zErrMsg);
 				throw Ark3DException(error_description);
 			}
+
+			sqlite3_free(sql_undo_redo);
 	
 		}else{
 			// this is the case where there is not a database
-			SetFree(free); 
+			free_ = free; 
 		} // if(database_ != 0)
 	} // if(free != free_)
 }
@@ -159,7 +161,7 @@ void IndependentDOF::DatabaseAddDelete(bool add_to_database) // utility method c
 	temp_stream << "BEGIN; "
                 << "INSERT INTO independent_dof_list VALUES(" 
                 << GetID() << ",'" << GetVariable().get_name() << "'," 
-				<< IsFree() << "," << value_ <<"); "
+				<< free_ << "," << value_ <<"); "
                 << "INSERT INTO dof_list VALUES("
                 << GetID() << ",'independent_dof_list'); "
                 << "COMMIT; ";
