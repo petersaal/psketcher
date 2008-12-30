@@ -35,6 +35,15 @@ database_(0)
 
 }
 
+void PrimitiveBase::AddPrimitive(boost::shared_ptr<PrimitiveBase> new_primitive) 
+{
+	primitive_list_.push_back(new_primitive);
+
+	// remove any duplicate primitives from the primitive list
+	sort( primitive_list_.begin(), primitive_list_.end());
+	primitive_list_.erase( unique( primitive_list_.begin(), primitive_list_.end()), primitive_list_.end());
+}
+
 void PrimitiveBase::SetSelectable(bool selectable)
 {
 	selectable_ = selectable;
