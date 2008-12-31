@@ -32,7 +32,7 @@ selectable_(true),
 delete_me_(false),
 database_(0)
 {
-	cout << "In PrimitiveBase constructor" << endl;
+	//cout << "In PrimitiveBase constructor" << endl;
 }
 
 void PrimitiveBase::AddPrimitive(boost::shared_ptr<PrimitiveBase> new_primitive) 

@@ -52,7 +52,7 @@ QRectF QtDistancePoint2D::boundingRect() const
 	normal(0,0) = -tangent(1,0);
 	normal(1,0) = tangent(0,0);
 
-	mmcMatrix text_location = point1 + tangent*text_position_ + normal*text_offset_;	
+	mmcMatrix text_location = point1 + tangent*text_position_->GetValue() + normal*text_offset_->GetValue();	
 
 	double offset = (text_location - point1).DotProduct(normal);
 
@@ -108,7 +108,7 @@ void QtDistancePoint2D::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 	normal(0,0) = -tangent(1,0);
 	normal(1,0) = tangent(0,0);
 	
-	mmcMatrix text_location = point1 + tangent*text_position_ + normal*text_offset_;
+	mmcMatrix text_location = point1 + tangent*text_position_->GetValue() + normal*text_offset_->GetValue();
 	
 	double offset = (text_location - point1).DotProduct(normal);
 	double offset_sign = offset >= 0.0 ? 1.0 : -1.0;

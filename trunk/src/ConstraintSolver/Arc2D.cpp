@@ -241,9 +241,11 @@ void Arc2D::SetDefaultTextLocation()
 {
 	double text_angle = (theta_1_->GetValue() + theta_2_->GetValue())*0.5;
 	text_angle_.reset(new IndependentDOF(text_angle,false));
+	AddDOF(text_angle_);
 
 	double text_radius = 0.5*radius_->GetValue();
 	text_radius_.reset(new IndependentDOF(text_radius,false));
+	AddDOF(text_radius_);
 }
 
 void Arc2D::SetSTTextLocation(double text_s, double text_t)
