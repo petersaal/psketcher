@@ -63,12 +63,17 @@ class Arc2D : public Edge2DBase
 
 		void ApplySelectionMask(SelectionMask mask);
 
-		void SetTextLocation(double text_radius, double text_angle) {text_radius_ = text_radius; text_angle_ = text_angle;}
+		void SetTextLocation(double text_radius, double text_angle) {text_radius_->SetValue(text_radius); text_angle_->SetValue(text_angle);}
 		void SetSTTextLocation(double text_s_, double text_t_);
 		void SetDefaultTextLocation();
-		double GetTextRadius() const {return text_radius_;}	
-		double GetTextAngle() const {return text_angle_;}
+		double GetTextRadius() const {return text_radius_->GetValue();}
+		double GetTextAngle() const {return text_angle_->GetValue();}
 	
+		// method for adding this object to the SQLite3 database
+		virtual void AddToDatabase(sqlite3 *database);
+		virtual void RemoveFromDatabase();
+		void DatabaseAddRemove(bool add_to_database); // Utility method used by AddToDatabase and RemoveFromDatabase
+
 	protected:
 		// parameters that define the arc
 		DOFPointer s_center_;
@@ -86,8 +91,8 @@ class Arc2D : public Edge2DBase
 		Point2DPointer point2_;
 		Point2DPointer center_point_;
 
-		double text_radius_;
-		double text_angle_;
+		DOFPointer text_radius_;
+		DOFPointer text_angle_;
 };
 typedef boost::shared_ptr<Arc2D> Arc2DPointer;
 
