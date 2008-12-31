@@ -19,7 +19,7 @@
 #include "Point.h"
 #include "IndependentDOF.h"
 
-const std::string SQL_point2d_database_schema = "CREATE TABLE point_list (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, x_dof INTEGER NOT NULL, y_dof INTEGER NOT NULL, z_dof INTEGER NOT NULL);";
+const std::string SQL_point_database_schema = "CREATE TABLE point_list (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, x_dof INTEGER NOT NULL, y_dof INTEGER NOT NULL, z_dof INTEGER NOT NULL);";
 
 using namespace std;
 using namespace GiNaC;
@@ -116,7 +116,7 @@ void Point::DatabaseAddRemove(bool add_to_database) // Utility method used by Ad
 			sqlite3_free(zErrMsg);
 			
 			// the table "independent_dof_list" may not exist, attempt to create
-			rc = sqlite3_exec(database_, ("ROLLBACK;"+SQL_point2d_database_schema).c_str(), 0, 0, &zErrMsg);  // need to add ROLLBACK since previous transaction failed
+			rc = sqlite3_exec(database_, ("ROLLBACK;"+SQL_point_database_schema).c_str(), 0, 0, &zErrMsg);  // need to add ROLLBACK since previous transaction failed
 			if( rc!=SQLITE_OK ){
 				std::string error_description = "SQL error: " + std::string(zErrMsg);
 				sqlite3_free(zErrMsg);
