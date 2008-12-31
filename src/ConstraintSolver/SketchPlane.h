@@ -35,6 +35,12 @@ class SketchPlane : public PrimitiveBase
 		VectorPointer GetNormal() {return normal_;}
 		VectorPointer GetUp() {return up_;}
 		PointPointer GetBase() {return base_;}
+
+		// method for adding this object to the SQLite3 database
+		virtual void AddToDatabase(sqlite3 *database);
+		virtual void RemoveFromDatabase();
+		void DatabaseAddRemove(bool add_to_database); // Utility method used by AddToDatabase and RemoveFromDatabase
+
 	private:
 		VectorPointer normal_;
 		VectorPointer up_;
