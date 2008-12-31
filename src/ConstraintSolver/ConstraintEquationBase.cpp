@@ -41,7 +41,7 @@ void ConstraintEquationBase::DatabaseAddDeleteConstraintList(bool add_to_databas
 	// add the insert statements for each constraint in constraints_	
 	for(unsigned int current_constraint = 0; current_constraint < constraints_.size(); current_constraint++)
 	{
-		temp_stream << "INSERT INTO " << constraint_list_table_name << " VALUES('" << constraints_[current_constraint] << "'," << weight_list_[current_constraint] << "); ";
+		temp_stream << "INSERT INTO " << constraint_list_table_name << " VALUES('" << *(constraints_[current_constraint]) << "'," << weight_list_[current_constraint] << "); ";
 	}
 
 	temp_stream << "COMMIT;";

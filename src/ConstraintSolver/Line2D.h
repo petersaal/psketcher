@@ -57,6 +57,10 @@ class Line2D : public Edge2DBase
 
 		DOFPointer s2_;
 		DOFPointer t2_;
+
+		// point1 and point2 do not need to be put into the database since they are created on the fly as needed
+		Point2DPointer point1_;  // point1 and point2 depend on s1 through t2 and are included just so they don't have to be generated for every call to GetPoint*()
+		Point2DPointer point2_;
 };
 typedef boost::shared_ptr<Line2D> Line2DPointer;
 

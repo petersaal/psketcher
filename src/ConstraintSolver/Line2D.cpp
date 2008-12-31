@@ -92,16 +92,24 @@ Edge2DBase(sketch_plane)
 
 Point2DPointer Line2D::GetPoint1()
 {
-	// create the actual point object
-	Point2DPointer result(new Point2D(GetS1(), GetT1(), GetSketchPlane()));
-	return result;
+	if(point1_.get() == 0)
+	{
+		// point object does not exist yet so create it
+		point1_.reset(new Point2D(GetS1(), GetT1(), GetSketchPlane()));
+	}
+
+	return point1_;
 }
 
 Point2DPointer Line2D::GetPoint2()
 {
-	// create the actual point object
-	Point2DPointer result(new Point2D(GetS2(), GetT2(), GetSketchPlane()));
-	return result;
+	if(point2_.get() == 0)
+	{
+		// create the actual point object
+		point2_.reset(new Point2D(GetS2(), GetT2(), GetSketchPlane()));
+	}
+	
+	return point2_;
 }
 
 void Line2D::AddToDatabase(sqlite3 *database)
