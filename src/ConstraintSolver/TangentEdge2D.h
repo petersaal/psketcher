@@ -32,6 +32,11 @@ class TangentEdge2D : public ConstraintEquationBase
 		EdgePointNumber GetPointNum1() const {return point_num_1_;}
 		EdgePointNumber GetPointNum2() const {return point_num_2_;}
 
+		// method for adding this object to the SQLite3 database
+		virtual void AddToDatabase(sqlite3 *database);
+		virtual void RemoveFromDatabase();
+		void DatabaseAddRemove(bool add_to_database); // Utility method used by AddToDatabase and RemoveFromDatabase
+
 	protected:
 		Edge2DBasePointer edge1_;
 		Edge2DBasePointer edge2_;
