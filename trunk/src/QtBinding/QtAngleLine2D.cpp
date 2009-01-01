@@ -169,8 +169,8 @@ void QtAngleLine2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 		// Lines are parallel
 		lines_parallel = true;
 
-		text_x = text_s_;
-		text_y = text_t_;
+		text_x = text_s_->GetValue();
+		text_y = text_t_->GetValue();
 	} else {
 		// lines do intersect
 		// finish calculating the intersection point

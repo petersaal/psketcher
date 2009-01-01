@@ -14,9 +14,12 @@
 **
 ****************************************************************************/
 
-#include "AngleLine2D.h"
+#include <sstream>
 
+#include "AngleLine2D.h"
 #include "IndependentDOF.h"
+
+const std::string SQL_angle_line2d_database_schema = "CREATE TABLE angle_line2d_list (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, constraint_table_name TEXT NOT NULL, line1 INTEGER NOT NULL, line2 INTEGER NOT NULL, angle_dof INTEGER NOT NULL, interior_angle_bool INTEGER NOT NULL, text_angle_dof INTEGER NOT NULL, text_radius_dof INTEGER NOT NULL, text_s_dof INTEGER NOT NULL, text_t_dof INTEGER NOT NULL);";
 
 using namespace std;
 using namespace GiNaC;
@@ -25,7 +28,11 @@ using namespace GiNaC;
 AngleLine2D::AngleLine2D(const Line2DPointer line1, const Line2DPointer line2, double angle /* radians */, bool interior_angle):
 line1_(line1),
 line2_(line2),
-interior_angle_(interior_angle)
+interior_angle_(interior_angle),
+text_angle_(new IndependentDOF(0.0,false)),
+text_radius_(new IndependentDOF(0.0,false)),
+text_s_(new IndependentDOF(0.0,false)),
+text_t_(new IndependentDOF(0.0,false))
 {
 	// store the primitives that this primitive depends on
 	AddPrimitive(line1);
@@ -81,12 +88,12 @@ void AngleLine2D::SetDefaultTextLocation()
 	if(denominator == 0.0)
 	{
 		// so use the length of the lines to set a reasonable radius and set angle to 0.0
-		text_radius_ = 0.25*(sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2)) + sqrt((x3-x4)*(x3-x4)+(y3-y4)*(y3-y4)));
-		text_angle_ = 0.0;
+		text_radius_->SetValue(0.25*(sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2)) + sqrt((x3-x4)*(x3-x4)+(y3-y4)*(y3-y4))));
+		text_angle_->SetValue(0.0);
 
 		// use the following parameters to locate the text instead
-		text_s_ = 0.25*(x1+x2+x3+x4);
-		text_t_ = 0.25*(y1+y2+y3+y4);
+		text_s_->SetValue(0.25*(x1+x2+x3+x4));
+		text_t_->SetValue(0.25*(y1+y2+y3+y4));
 	} else {
 		// lines do intersect
 		// finish calculating the intersection point
@@ -136,8 +143,8 @@ void AngleLine2D::SetDefaultTextLocation()
 		else
 			ave_angle = 0.0;
 
-		text_radius_ = ave_radius*0.75;
-		text_angle_ = ave_angle;
+		text_radius_->SetValue(ave_radius*0.75);
+		text_angle_->SetValue(ave_angle);
 	}
 }
 
@@ -161,8 +168,8 @@ void AngleLine2D::SetSTTextLocation(double text_s, double text_t)
 		// the lines are parallel
 
 		// use the following parameters to locate the text instead of text_radius_ and text_angle_
-		text_s_ = text_s;
-		text_t_ = text_t;
+		text_s_->SetValue(text_s);
+		text_t_->SetValue(text_t);
 	} else {
 		// lines do intersect
 		// finish calculating the intersection point
@@ -172,8 +179,8 @@ void AngleLine2D::SetSTTextLocation(double text_s, double text_t)
 		double x_center = (temp1*(x3-x4)-temp2*(x1-x2))/denominator;
 		double y_center = (temp1*(y3-y4)-temp2*(y1-y2))/denominator;
 
-		text_radius_ = sqrt((x_center - text_s)*(x_center - text_s) + (y_center - text_t)*(y_center - text_t));
-		text_angle_ = atan2(text_t-y_center, text_s-x_center);
+		text_radius_->SetValue(sqrt((x_center - text_s)*(x_center - text_s) + (y_center - text_t)*(y_center - text_t)));
+		text_angle_->SetValue(atan2(text_t-y_center, text_s-x_center));
 	}
 }
 
@@ -197,4 +204,111 @@ double AngleLine2D::GetActualAngle() const
 
 
 	return actual_angle;
+}
+
+void AngleLine2D::AddToDatabase(sqlite3 *database)
+{
+	database_ = database;
+	DatabaseAddRemove(true);
+}
+
+void AngleLine2D::RemoveFromDatabase()
+{
+	DatabaseAddRemove(false);
+}
+
+void AngleLine2D::DatabaseAddRemove(bool add_to_database) // Utility method used by AddToDatabase and RemoveFromDatabase
+{
+	string sql_do, sql_undo;
+
+	stringstream dof_list_table_name;
+	dof_list_table_name << "dof_table_" << GetID();
+	stringstream primitive_list_table_name;
+	primitive_list_table_name << "primitive_table_" << GetID();
+	stringstream constraint_list_table_name;
+	constraint_list_table_name << "constraint_table_" << GetID();
+
+	//"CREATE TABLE angle_line2d_list (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, constraint_table_name TEXT NOT NULL, line1 INTEGER NOT NULL, line2 INTEGER NOT NULL, angle_dof INTEGER NOT NULL, interior_angle_bool INTEGER NOT NULL, text_angle_dof INTEGER NOT NULL, text_radius_dof INTEGER NOT NULL, text_s_dof INTEGER NOT NULL, text_t_dof INTEGER NOT NULL);"
+
+	// First, create the sql statements to undo and redo this operation
+	stringstream temp_stream;
+	temp_stream.precision(__DBL_DIG__);
+	temp_stream << "BEGIN; "
+                << "INSERT INTO angle_line2d_list VALUES(" 
+                << GetID() << ",'" << dof_list_table_name.str() << "','" 
+				<< primitive_list_table_name.str() 
+				<< "','" << constraint_list_table_name.str()
+				<< "'," << line1_->GetID() << "," << line2_->GetID()
+				<< "," << angle_->GetID() << "," << interior_angle_
+				<< "," << text_angle_->GetID() << "," << text_radius_->GetID()
+				<< "," << text_s_->GetID() << "," << text_t_->GetID()
+				<< "); "
+                << "INSERT INTO constraint_equation_list VALUES("
+                << GetID() << ",'angle_line2d_list'); "
+                << "COMMIT; ";
+
+	if(add_to_database)
+		sql_do = temp_stream.str();
+	else
+		sql_undo = temp_stream.str();
+
+	temp_stream.str(""); // clears the string stream
+
+	temp_stream << "BEGIN; "
+				<< "DELETE FROM constraint_equation_list WHERE id=" << GetID() 
+				<< "; DELETE FROM angle_line2d_list WHERE id=" << GetID() 
+				<< "; COMMIT;";
+
+	if(add_to_database)
+		sql_undo = temp_stream.str();
+	else
+		sql_do = temp_stream.str();
+
+	// add this object to the appropriate tables by executing the SQL command sql_insert 
+	char *zErrMsg = 0;
+	int rc = sqlite3_exec(database_, sql_do.c_str(), 0, 0, &zErrMsg);
+	if( rc!=SQLITE_OK ){
+		if(add_to_database)
+		{
+			//std::cerr << "SQL error: " << zErrMsg << endl;
+			sqlite3_free(zErrMsg);
+			
+			// the table "independent_dof_list" may not exist, attempt to create
+			rc = sqlite3_exec(database_, ("ROLLBACK;"+SQL_angle_line2d_database_schema).c_str(), 0, 0, &zErrMsg);  // need to add ROLLBACK since previous transaction failed
+			if( rc!=SQLITE_OK ){
+				std::string error_description = "SQL error: " + std::string(zErrMsg);
+				sqlite3_free(zErrMsg);
+				throw Ark3DException(error_description);
+			}
+	
+			// now that the table has been created, attempt the insert one last time
+			rc = sqlite3_exec(database_, sql_do.c_str(), 0, 0, &zErrMsg);
+			if( rc!=SQLITE_OK ){
+				std::string error_description = "SQL error: " + std::string(zErrMsg);
+				sqlite3_free(zErrMsg);
+				throw Ark3DException(error_description);
+			}
+		} else {
+			std::string error_description = "SQL error: " + std::string(zErrMsg);
+			sqlite3_free(zErrMsg);
+			throw Ark3DException(error_description);
+		}
+	}
+
+	// finally, update the undo_redo_list in the database with the database changes that have just been made
+	// need to use sqlite3_mprintf to make sure the single quotes in the sql statements get escaped where needed
+	char *sql_undo_redo = sqlite3_mprintf("INSERT INTO undo_redo_list(undo,redo) VALUES('%q','%q')",sql_undo.c_str(),sql_do.c_str());
+
+	rc = sqlite3_exec(database_, sql_undo_redo, 0, 0, &zErrMsg);
+	if( rc!=SQLITE_OK ){
+		std::string error_description = "SQL error: " + std::string(zErrMsg);
+		sqlite3_free(zErrMsg);
+		throw Ark3DException(error_description);
+	}
+
+	sqlite3_free(sql_undo_redo);
+
+	// Now use the methods provided by PrimitiveBase and ConstraintEquationBase to create the tables listing the DOF's, the other Primitives that this primitive depends on, and the constraint equations
+	DatabaseAddDeleteLists(add_to_database,dof_list_table_name.str(),primitive_list_table_name.str());
+	DatabaseAddDeleteConstraintList(add_to_database, constraint_list_table_name.str());
 }

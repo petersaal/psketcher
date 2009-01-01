@@ -25,11 +25,11 @@ class AngleLine2D : public ConstraintEquationBase
 	public:
 		AngleLine2D(const Line2DPointer line1, const Line2DPointer line2, double angle /* radians */, bool interior_angle);
 
-		void SetTextLocation(double text_radius, double text_angle) {text_radius_ = text_radius; text_angle_ = text_angle;}
+		void SetTextLocation(double text_radius, double text_angle) {text_radius_->SetValue(text_radius); text_angle_->SetValue(text_angle);}
 		void SetSTTextLocation(double text_s, double text_t);
 		void SetDefaultTextLocation();
-		double GetTextRadius() const {return text_radius_;}	
-		double GetTextAngle() const {return text_angle_;}
+		double GetTextRadius() const {return text_radius_->GetValue();}	
+		double GetTextAngle() const {return text_angle_->GetValue();}
 
 		Line2DPointer GetLine1() const {return line1_;}
 		Line2DPointer GetLine2() const {return line2_;}
@@ -40,6 +40,11 @@ class AngleLine2D : public ConstraintEquationBase
 		void SetAngleValue(double angle) {angle_->SetValue(angle);}
 
 		double GetActualAngle() const;
+
+		// method for adding this object to the SQLite3 database
+		virtual void AddToDatabase(sqlite3 *database);
+		virtual void RemoveFromDatabase();
+		void DatabaseAddRemove(bool add_to_database); // Utility method used by AddToDatabase and RemoveFromDatabase
 		
 	protected:
 		Line2DPointer line1_;
@@ -49,12 +54,12 @@ class AngleLine2D : public ConstraintEquationBase
 		
 		bool interior_angle_;
 
-		double text_radius_;
-		double text_angle_;
+		DOFPointer text_radius_;
+		DOFPointer text_angle_;
 
-		// the following two parameters are used to position the angle dimension label if line1_ and line2_ happen to be parallel
-		double text_s_;
-		double text_t_;
+		// the following two parameters are used to position the angle dimension label if line1_ and line2_ happen to be exactly parallel
+		DOFPointer text_s_;
+		DOFPointer text_t_;
 };
 typedef boost::shared_ptr<AngleLine2D> AngleLine2DPointer;
 
