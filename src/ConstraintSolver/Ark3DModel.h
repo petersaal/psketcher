@@ -66,6 +66,18 @@ public:
 	// An SQLite3 database is used to store the model 
 	bool Save(std::string file_name);
 
+	// these methods fetch objects from the map containers or create them using the factory methods below if they do not exist in their respective map
+	DOFPointer FetchDOF(unsigned id, const std::string &table_name);
+	template <class data_t> boost::shared_ptr<data_t> FetchPrimitive(unsigned id, const std::string &table_name);
+	template <class data_t> boost::shared_ptr<data_t> FetchConstraint(unsigned id, const std::string &table_name);
+
+	// methods for generating objects directly from the database
+	DOFPointer DOFFactory(unsigned id, const std::string &table_name);
+	PrimitiveBasePointer PrimitiveFactory(unsigned id, const std::string &table_name);
+	ConstraintEquationBasePointer ConstraintFactory(unsigned id, const std::string &table_name);
+	
+	sqlite3 *GetDatabase() {return database_;}
+
 private:
 	void FlagDependentsForDeletion(PrimitiveBasePointer primitive_to_delete); // Flag any primitives or constraint equations for deletion that depend on this primitive
 	void DeleteFlagged(); // delete all of the primitives that have been flagged for deletion

@@ -408,4 +408,132 @@ void Ark3DModel::DeleteSelected()
 	DeleteFlagged();
 }
 
+DOFPointer Ark3DModel::FetchDOF(unsigned id, const string &table_name)
+{
+	map<unsigned,DOFPointer>::iterator dof_it = dof_list_.find(id);
+	if(dof_it != dof_list_.end())
+	{
+		// dof exists, return it
+		return(dof_it->second);
+
+	} else {
+		// dof object does not exist, need to create it from the database
+		return DOFFactory(id,table_name);
+	}
+}
+
+template <class data_t> boost::shared_ptr<data_t> Ark3DModel::FetchPrimitive(unsigned id, const string &table_name)
+{
+	PrimitiveBasePointer temp;
+	boost::shared_ptr<data_t> result;
+
+	map<unsigned,PrimitiveBasePointer>::iterator primitive_it = primitive_list_.find(id);
+	if(primitive_it != primitive_list_.end())
+	{
+		// primitive already exists
+		temp = primitive_it->second;
+
+	} else {
+		// primitive object does not exist, need to create it from the database
+		temp = PrimitiveFactory(id,table_name);
+		AddPrimitive(temp);
+	}
+
+	// attempt to cast the PrimitiveBasePointer to the desired datatype, generate an error if the cast fails
+	if(dynamic_cast<data_t *>(temp.get()) != 0){
+		result = boost::dynamic_pointer_cast<data_t>(temp);
+	} else {
+		throw Ark3DException("Requested data type does not match database data type.");
+	}
+	
+	return result;
+}
+
+
+template <class data_t> boost::shared_ptr<data_t> Ark3DModel::FetchConstraint(unsigned id, const string &table_name)
+{
+	ConstraintEquationBasePointer temp;
+	boost::shared_ptr<data_t> result;
+
+	map<unsigned,ConstraintEquationBasePointer>::iterator constraint_it = constraint_equation_list_.find(id);
+	if(constraint_it != constraint_equation_list_.end())
+	{
+		// primitive already exists
+		temp = constraint_it->second;
+
+	} else {
+		// primitive object does not exist, need to create it from the database
+		temp = ConstraintFactory(id,table_name);
+		AddConstraintEquation(temp);
+	}
+
+	// attempt to cast the PrimitiveBasePointer to the desired datatype, generate an error if the cast fails
+	if(dynamic_cast<data_t *>(temp.get()) != 0){
+		result = boost::dynamic_pointer_cast<data_t>(temp);
+	} else {
+		throw Ark3DException("Requested data type does not match database data type.");
+	}
+	
+	return result;
+}
+
+DOFPointer Ark3DModel::DOFFactory(unsigned id, const string &table_name)
+{
+		if(table_name == "independent_dof_list")
+		{
+
+		}
+		else if(table_name == "dependent_dof_list"){
+		
+		}
+		else {
+			throw Ark3DException("Ark3D::DOFFactory: Unable to determine type based on database table name " + table_name);
+		}
+}
+
+PrimitiveBasePointer Ark3DModel::PrimitiveFactory(unsigned id, const string &table_name)
+{
+		if(table_name == "arc2d_list")
+		{
+
+		}
+		else if(table_name == "line2d_list"){
+
+		}
+		else if(table_name == "point_list"){
+
+		}
+		else if(table_name == "point2d_list"){
+
+		}
+		else if(table_name == "sketch_plane_list"){
+
+		}
+		else if(table_name == "vector_list"){
+
+		}
+		else {
+			throw Ark3DException("Ark3D::PrimitiveFactory: Unable to determine type based on database table name " + table_name);	
+		}
+}
+
+ConstraintEquationBasePointer Ark3DModel::ConstraintFactory(unsigned id, const string &table_name)
+{
+		if(table_name == "angle_line2d_list"){
+
+		}
+		else if(table_name == "distance_point2d_list"){
+
+		}
+		else if(table_name == "parallel_line2d_list"){
+
+		}
+		else if(table_name == "tangent_edge2d_list"){
+
+		}
+		else {
+			throw Ark3DException("Ark3D::ConstraintFactory: Unable to determine type based on database table name " + table_name);
+		}
+}
+
 
