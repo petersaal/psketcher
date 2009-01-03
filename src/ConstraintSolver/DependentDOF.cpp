@@ -127,6 +127,7 @@ void DependentDOF :: SyncToDatabase(unsigned id, Ark3DModel &ark3d_model)
 	int source_dof_id;
 	DOFPointer source_dof;
 	GiNaC::lst variable_list;
+	source_dof_list_.clear(); // clear the contents of this list, will be replaced by the contents of the database
 	while(rc == SQLITE_ROW) {
 		source_dof_id = sqlite3_column_int(statement,0);
 
