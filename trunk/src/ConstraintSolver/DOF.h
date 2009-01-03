@@ -66,13 +66,13 @@ class DOF
 		// each instance of this class has a unique ID number
 		unsigned id_number_;
 
+		// deletion flag used when deleting primitives model
+		bool delete_me_; 
+
 	private:
 		bool dependent_;
 		// static variable used to provide a unique ID number to each instance of this class
 		static unsigned next_id_number_;
-
-		// deletion flag used when deleting primitives model
-		bool delete_me_; 
 };
 typedef boost::shared_ptr<DOF> DOFPointer;
 
