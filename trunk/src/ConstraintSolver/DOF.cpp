@@ -28,7 +28,8 @@ unsigned DOF::next_id_number_ = 1;
 
 DOF::DOF (bool free, bool dependent) :
 id_number_(next_id_number_++),free_(free), dependent_(dependent),
-database_(0)
+database_(0),
+delete_me_(false)
 {
 	// by default, name variable using id_number_
 	stringstream variable_name;
@@ -39,14 +40,16 @@ database_(0)
 
 DOF::DOF ( const char *name, bool free, bool dependent) :
 id_number_(next_id_number_++),free_(free), dependent_(dependent),
-database_(0)
+database_(0),
+delete_me_(false)
 {
 	variable_.set_name(name);
 }
 
 DOF::DOF (unsigned id, bool dependent) :
 id_number_(id),free_(false), dependent_(dependent),
-database_(0)
+database_(0),
+delete_me_(false)
 {
 
 }

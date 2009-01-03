@@ -251,9 +251,17 @@ void Ark3DWidget::GenerateTestSketch()
 	//current_sketch_->ApplySelectionMask(Points);
 	//current_sketch_->ApplySelectionMask(Edges);
 
-	DOFPointer test_dof_1 = current_sketch_->DOFFactory(1);
+	DOFPointer test_dof_1 = current_sketch_->DOFFactory(15);
+	std::cout << "Name for DependentDOF 15 (from database)= " << test_dof_1->GetVariable().get_name() << ", value = " << test_dof_1->GetValue() << ", free = " << test_dof_1->IsFree() << ", dependent " << test_dof_1->IsDependent() << std::endl;
+
+	DOFPointer test_dof_4 = current_sketch_->FetchDOF(15);
+	std::cout << "Name for DependentDOF 15 (from memory)= " << test_dof_4->GetVariable().get_name() << ", value = " << test_dof_4->GetValue() << ", free = " << test_dof_4->IsFree() << ", dependent " << test_dof_4->IsDependent() << std::endl;
+
 	DependentDOFPointer test_dof_2 = boost::dynamic_pointer_cast<DependentDOF>(current_sketch_->DOFFactory(22));
-	std::cout << "Expression for DependentDOF 22 = " << test_dof_2->GetExpression() << std::endl;
+	std::cout << "Expression for DependentDOF 22 (from database)= " << test_dof_2->GetExpression() << ", value = " << test_dof_2->GetValue() << ", free = " << test_dof_2->IsFree() << ", dependent = " << test_dof_2->IsDependent() << ", name = " << test_dof_2->GetVariable().get_name() << std::endl;
+
+	DependentDOFPointer test_dof_3 = boost::dynamic_pointer_cast<DependentDOF>(current_sketch_->FetchDOF(22));
+	std::cout << "Expression for DependentDOF 22 (from memory)= " << test_dof_3->GetExpression() << ", value = " << test_dof_3->GetValue() << ", free = " << test_dof_3->IsFree() << ", dependent = " << test_dof_3->IsDependent() << ", name = " << test_dof_3->GetVariable().get_name() << std::endl;
 
 	fitExtents();
 }

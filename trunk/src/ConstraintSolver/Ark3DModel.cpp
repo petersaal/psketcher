@@ -532,10 +532,10 @@ DOFPointer Ark3DModel::DOFFactory(unsigned id)
 
 	if(table_name == "independent_dof_list")
 	{
-		result.reset(new IndependentDOF(id,table_name,*this));
+		result.reset(new IndependentDOF(id,*this));
 	}
 	else if(table_name == "dependent_dof_list"){
-		result.reset(new DependentDOF(id,table_name,*this));
+		result.reset(new DependentDOF(id,*this));
 	}
 	else {
 		throw Ark3DException("Ark3D::DOFFactory: Unable to determine type based on database table name " + table_name);

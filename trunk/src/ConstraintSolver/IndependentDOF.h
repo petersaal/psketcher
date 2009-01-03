@@ -19,7 +19,6 @@
 
 #include "DOF.h"
 
-class Ark3DModel;
 
 // IndependentDOF class
 class IndependentDOF : public DOF
@@ -28,7 +27,7 @@ class IndependentDOF : public DOF
 		IndependentDOF ( double value = 0.0, bool free = false );
 		IndependentDOF ( const char *name, double value = 0.0, bool free = false );
 		// the following constructor creates the DOF from the database stored in ark3d_model
-		IndependentDOF ( unsigned id, const std::string &table_name, Ark3DModel &ark3d_model );
+		IndependentDOF ( unsigned id, Ark3DModel &ark3d_model );
 
 		//Accessor methods
 		void SetValue ( double value );
@@ -39,6 +38,9 @@ class IndependentDOF : public DOF
 		virtual void AddToDatabase(sqlite3 *database);
 		virtual void RemoveFromDatabase();
 		void DatabaseAddDelete(bool add_to_database); // utility method called by AddToDatabase and DeleteFromDatabase since they both do similar things
+
+		// method to synchronize this object to the database
+		virtual void SyncToDatabase(unsigned id, Ark3DModel &ark3d_model);
 
 	private:
 		double value_;

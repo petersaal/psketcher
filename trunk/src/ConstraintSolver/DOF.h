@@ -21,6 +21,8 @@
 #include <ginac/ginac.h>
 #include <sqlite3.h>
 
+class Ark3DModel;
+
 // Abstract DOF base class
 class DOF
 {
@@ -44,9 +46,15 @@ class DOF
 
 		bool IsDependent()const {return dependent_;}
 
+		void FlagForDeletion() {delete_me_ = true;}
+		bool IsFlaggedForDeletion() const {return delete_me_;}
+
 		// method for adding this object to the SQLite3 database, needs to be implement by each child class
 		virtual void AddToDatabase(sqlite3 *database) = 0;
 		virtual void RemoveFromDatabase() = 0;
+
+		// method to synchronize this object to the database, needs to be implemented by each child class
+		virtual void SyncToDatabase(unsigned id, Ark3DModel &ark3d_model) = 0;
 
 	protected:
 		// if not zero, this is the database where changes to the value of this DOF are stored
@@ -62,6 +70,9 @@ class DOF
 		bool dependent_;
 		// static variable used to provide a unique ID number to each instance of this class
 		static unsigned next_id_number_;
+
+		// deletion flag used when deleting primitives model
+		bool delete_me_; 
 };
 typedef boost::shared_ptr<DOF> DOFPointer;
 
