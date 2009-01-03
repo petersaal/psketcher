@@ -39,7 +39,7 @@ DOF(name,free,false /*dependent*/)
 
 // the following constructor creates the DOF from the database stored in ark3d_model
 IndependentDOF :: IndependentDOF ( unsigned id, const string &table_name, Ark3DModel &ark3d_model ):
-DOF(id,false /* bool independent */)
+DOF(id,false /* bool dependent */)
 {
 	database_ = ark3d_model.GetDatabase();
 
@@ -79,6 +79,14 @@ DOF(id,false /* bool independent */)
 		throw Ark3DException(error_description.str());
 	}
 
+	rc = sqlite3_step(statement);
+	if( rc!=SQLITE_DONE ){
+		// sql statement didn't finish properly, some error must to have occured
+		std::string error_description = "SQL error: " + std::string(zErrMsg);
+		sqlite3_free(zErrMsg);
+		throw Ark3DException(error_description);
+	}
+	
 	rc = sqlite3_finalize(statement);
 	if( rc!=SQLITE_OK ){
 		std::string error_description = "SQL error: " + std::string(zErrMsg);

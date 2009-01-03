@@ -15,6 +15,7 @@
 ****************************************************************************/
 
 #include <iostream>
+#include <sstream>
 #include <sys/stat.h>
 #include "Ark3DModel.h"
 
@@ -408,7 +409,7 @@ void Ark3DModel::DeleteSelected()
 	DeleteFlagged();
 }
 
-DOFPointer Ark3DModel::FetchDOF(unsigned id, const string &table_name)
+DOFPointer Ark3DModel::FetchDOF(unsigned id)
 {
 	map<unsigned,DOFPointer>::iterator dof_it = dof_list_.find(id);
 	if(dof_it != dof_list_.end())
@@ -418,11 +419,11 @@ DOFPointer Ark3DModel::FetchDOF(unsigned id, const string &table_name)
 
 	} else {
 		// dof object does not exist, need to create it from the database
-		return DOFFactory(id,table_name);
+		return DOFFactory(id);
 	}
 }
 
-template <class data_t> boost::shared_ptr<data_t> Ark3DModel::FetchPrimitive(unsigned id, const string &table_name)
+template <class data_t> boost::shared_ptr<data_t> Ark3DModel::FetchPrimitive(unsigned id)
 {
 	PrimitiveBasePointer temp;
 	boost::shared_ptr<data_t> result;
@@ -435,7 +436,7 @@ template <class data_t> boost::shared_ptr<data_t> Ark3DModel::FetchPrimitive(uns
 
 	} else {
 		// primitive object does not exist, need to create it from the database
-		temp = PrimitiveFactory(id,table_name);
+		temp = PrimitiveFactory(id);
 		AddPrimitive(temp);
 	}
 
@@ -450,7 +451,7 @@ template <class data_t> boost::shared_ptr<data_t> Ark3DModel::FetchPrimitive(uns
 }
 
 
-template <class data_t> boost::shared_ptr<data_t> Ark3DModel::FetchConstraint(unsigned id, const string &table_name)
+template <class data_t> boost::shared_ptr<data_t> Ark3DModel::FetchConstraint(unsigned id)
 {
 	ConstraintEquationBasePointer temp;
 	boost::shared_ptr<data_t> result;
@@ -463,7 +464,7 @@ template <class data_t> boost::shared_ptr<data_t> Ark3DModel::FetchConstraint(un
 
 	} else {
 		// primitive object does not exist, need to create it from the database
-		temp = ConstraintFactory(id,table_name);
+		temp = ConstraintFactory(id);
 		AddConstraintEquation(temp);
 	}
 
@@ -477,67 +478,214 @@ template <class data_t> boost::shared_ptr<data_t> Ark3DModel::FetchConstraint(un
 	return result;
 }
 
-DOFPointer Ark3DModel::DOFFactory(unsigned id, const string &table_name)
+DOFPointer Ark3DModel::DOFFactory(unsigned id)
 {
-		DOFPointer result;
+	// grab the table name from the database so we now exactly which class needs to be created
+	char *zErrMsg = 0;
+	int rc;
+	sqlite3_stmt *statement;
+	stringstream table_name_stream;
+	string table_name;
 
-		if(table_name == "independent_dof_list")
-		{
-			result.reset(new IndependentDOF(id,table_name,*this));
-		}
-		else if(table_name == "dependent_dof_list"){
-			// result.reset(new DependentDOF(id,table_name,*this));
-		}
-		else {
-			throw Ark3DException("Ark3D::DOFFactory: Unable to determine type based on database table name " + table_name);
-		}
+	stringstream sql_command;
+	sql_command << "SELECT * FROM dof_list WHERE id=" << id << ";";
 
-		return result;
+	rc = sqlite3_prepare(database_, sql_command.str().c_str(), -1, &statement, 0);
+	if( rc!=SQLITE_OK ){
+		std::string error_description = "SQL error: " + std::string(zErrMsg);
+		sqlite3_free(zErrMsg);
+		throw Ark3DException(error_description);
+	}
+
+	rc = sqlite3_step(statement);
+
+	if(rc == SQLITE_ROW) {
+		// row exist, store the values to initialize this object
+		table_name_stream << sqlite3_column_text(statement,1);
+		table_name = table_name_stream.str();
+	} else {
+		// the requested row does not exist in the database
+		sqlite3_finalize(statement);
+
+		stringstream error_description;
+		error_description << "SQLite rowid " << id << " in table " << table_name << " does not exist";
+		throw Ark3DException(error_description.str());
+	}
+
+	rc = sqlite3_step(statement);
+	if( rc!=SQLITE_DONE ){
+		// sql statement didn't finish properly, some error must to have occured
+		std::string error_description = "SQL error: " + std::string(zErrMsg);
+		sqlite3_free(zErrMsg);
+		throw Ark3DException(error_description);
+	}
+	
+	rc = sqlite3_finalize(statement);
+	if( rc!=SQLITE_OK ){
+		std::string error_description = "SQL error: " + std::string(zErrMsg);
+		sqlite3_free(zErrMsg);
+		throw Ark3DException(error_description);
+	}
+
+	// now generate the object based on the table name
+	DOFPointer result;
+
+	if(table_name == "independent_dof_list")
+	{
+		result.reset(new IndependentDOF(id,table_name,*this));
+	}
+	else if(table_name == "dependent_dof_list"){
+		result.reset(new DependentDOF(id,table_name,*this));
+	}
+	else {
+		throw Ark3DException("Ark3D::DOFFactory: Unable to determine type based on database table name " + table_name);
+	}
+
+	return result;
 }
 
-PrimitiveBasePointer Ark3DModel::PrimitiveFactory(unsigned id, const string &table_name)
+PrimitiveBasePointer Ark3DModel::PrimitiveFactory(unsigned id)
 {
-		if(table_name == "arc2d_list")
-		{
+	// grab the table name from the database so we now exactly which class needs to be created
+	char *zErrMsg = 0;
+	int rc;
+	sqlite3_stmt *statement;
+	stringstream table_name_stream;
+	string table_name;
 
-		}
-		else if(table_name == "line2d_list"){
+	stringstream sql_command;
+	sql_command << "SELECT * FROM primitive_list WHERE id=" << id << ";";
 
-		}
-		else if(table_name == "point_list"){
+	rc = sqlite3_prepare(database_, sql_command.str().c_str(), -1, &statement, 0);
+	if( rc!=SQLITE_OK ){
+		std::string error_description = "SQL error: " + std::string(zErrMsg);
+		sqlite3_free(zErrMsg);
+		throw Ark3DException(error_description);
+	}
 
-		}
-		else if(table_name == "point2d_list"){
+	rc = sqlite3_step(statement);
 
-		}
-		else if(table_name == "sketch_plane_list"){
+	if(rc == SQLITE_ROW) {
+		// row exist, store the values to initialize this object
+		table_name_stream << sqlite3_column_text(statement,1);
+		table_name = table_name_stream.str();
+	} else {
+		// the requested row does not exist in the database
+		sqlite3_finalize(statement);
 
-		}
-		else if(table_name == "vector_list"){
+		stringstream error_description;
+		error_description << "SQLite rowid " << id << " in table " << table_name << " does not exist";
+		throw Ark3DException(error_description.str());
+	}
 
-		}
-		else {
-			throw Ark3DException("Ark3D::PrimitiveFactory: Unable to determine type based on database table name " + table_name);	
-		}
+	rc = sqlite3_step(statement);
+	if( rc!=SQLITE_DONE ){
+		// sql statement didn't finish properly, some error must to have occured
+		std::string error_description = "SQL error: " + std::string(zErrMsg);
+		sqlite3_free(zErrMsg);
+		throw Ark3DException(error_description);
+	}
+	
+	rc = sqlite3_finalize(statement);
+	if( rc!=SQLITE_OK ){
+		std::string error_description = "SQL error: " + std::string(zErrMsg);
+		sqlite3_free(zErrMsg);
+		throw Ark3DException(error_description);
+	}
+
+	// now generate the object based on the table name
+
+	if(table_name == "arc2d_list")
+	{
+
+	}
+	else if(table_name == "line2d_list"){
+
+	}
+	else if(table_name == "point_list"){
+
+	}
+	else if(table_name == "point2d_list"){
+
+	}
+	else if(table_name == "sketch_plane_list"){
+
+	}
+	else if(table_name == "vector_list"){
+
+	}
+	else {
+		throw Ark3DException("Ark3D::PrimitiveFactory: Unable to determine type based on database table name " + table_name);	
+	}
 }
 
-ConstraintEquationBasePointer Ark3DModel::ConstraintFactory(unsigned id, const string &table_name)
+ConstraintEquationBasePointer Ark3DModel::ConstraintFactory(unsigned id)
 {
-		if(table_name == "angle_line2d_list"){
 
-		}
-		else if(table_name == "distance_point2d_list"){
+	// grab the table name from the database so we now exactly which class needs to be created
+	char *zErrMsg = 0;
+	int rc;
+	sqlite3_stmt *statement;
+	stringstream table_name_stream;
+	string table_name;
 
-		}
-		else if(table_name == "parallel_line2d_list"){
+	stringstream sql_command;
+	sql_command << "SELECT * FROM constraint_equation_list WHERE id=" << id << ";";
 
-		}
-		else if(table_name == "tangent_edge2d_list"){
+	rc = sqlite3_prepare(database_, sql_command.str().c_str(), -1, &statement, 0);
+	if( rc!=SQLITE_OK ){
+		std::string error_description = "SQL error: " + std::string(zErrMsg);
+		sqlite3_free(zErrMsg);
+		throw Ark3DException(error_description);
+	}
 
-		}
-		else {
-			throw Ark3DException("Ark3D::ConstraintFactory: Unable to determine type based on database table name " + table_name);
-		}
+	rc = sqlite3_step(statement);
+
+	if(rc == SQLITE_ROW) {
+		// row exist, store the values to initialize this object
+		table_name_stream << sqlite3_column_text(statement,1);
+		table_name = table_name_stream.str();
+	} else {
+		// the requested row does not exist in the database
+		sqlite3_finalize(statement);
+
+		stringstream error_description;
+		error_description << "SQLite rowid " << id << " in table " << table_name << " does not exist";
+		throw Ark3DException(error_description.str());
+	}
+
+	rc = sqlite3_step(statement);
+	if( rc!=SQLITE_DONE ){
+		// sql statement didn't finish properly, some error must to have occured
+		std::string error_description = "SQL error: " + std::string(zErrMsg);
+		sqlite3_free(zErrMsg);
+		throw Ark3DException(error_description);
+	}
+	
+	rc = sqlite3_finalize(statement);
+	if( rc!=SQLITE_OK ){
+		std::string error_description = "SQL error: " + std::string(zErrMsg);
+		sqlite3_free(zErrMsg);
+		throw Ark3DException(error_description);
+	}
+
+	// now generate the object based on the table name
+
+	if(table_name == "angle_line2d_list"){
+
+	}
+	else if(table_name == "distance_point2d_list"){
+
+	}
+	else if(table_name == "parallel_line2d_list"){
+
+	}
+	else if(table_name == "tangent_edge2d_list"){
+
+	}
+	else {
+		throw Ark3DException("Ark3D::ConstraintFactory: Unable to determine type based on database table name " + table_name);
+	}
 }
 
 

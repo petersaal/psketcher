@@ -21,12 +21,16 @@
 
 #include "DOF.h"
 
+class Ark3DModel;
+
 // DependentDOF class
 class DependentDOF : public DOF
 {
 	public:
 		DependentDOF ( GiNaC::ex expression, std::vector<DOFPointer> source_dof_list);
 		DependentDOF ( const char *name, GiNaC::ex expression, std::vector<DOFPointer> source_dof_list);
+		// the following constructor creates the DOF from the database stored in ark3d_model
+		DependentDOF ( unsigned id, const std::string &table_name, Ark3DModel &ark3d_model );
 
 		~DependentDOF () {source_dof_list_.clear();}
 		
