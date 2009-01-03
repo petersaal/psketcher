@@ -21,7 +21,6 @@
 
 #include "DOF.h"
 
-class Ark3DModel;
 
 // DependentDOF class
 class DependentDOF : public DOF
@@ -30,7 +29,7 @@ class DependentDOF : public DOF
 		DependentDOF ( GiNaC::ex expression, std::vector<DOFPointer> source_dof_list);
 		DependentDOF ( const char *name, GiNaC::ex expression, std::vector<DOFPointer> source_dof_list);
 		// the following constructor creates the DOF from the database stored in ark3d_model
-		DependentDOF ( unsigned id, const std::string &table_name, Ark3DModel &ark3d_model );
+		DependentDOF ( unsigned id, Ark3DModel &ark3d_model );
 
 		~DependentDOF () {source_dof_list_.clear();}
 		
@@ -45,6 +44,9 @@ class DependentDOF : public DOF
 		virtual void AddToDatabase(sqlite3 *database);
 		virtual void RemoveFromDatabase();
 		void DatabaseAddDelete(bool add_to_database); // utility method called by AddToDatabase and DeleteFromDatabase since they both do similar things
+
+		// method to synchronize this object to the database
+		virtual void SyncToDatabase(unsigned id, Ark3DModel &ark3d_model);
 
 	private:
 		GiNaC::ex expression_;

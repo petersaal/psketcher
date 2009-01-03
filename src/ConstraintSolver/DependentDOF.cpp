@@ -44,11 +44,18 @@ DOF(name,false /*free*/,true /*dependent*/)
 }
 
 // the following constructor creates the DOF from the database stored in ark3d_model
-DependentDOF :: DependentDOF ( unsigned id, const string &table_name, Ark3DModel &ark3d_model ):
+DependentDOF :: DependentDOF ( unsigned id, Ark3DModel &ark3d_model ):
 DOF(id,true /* bool dependent */)
+{
+	SyncToDatabase(id,ark3d_model);
+}
+
+void DependentDOF :: SyncToDatabase(unsigned id, Ark3DModel &ark3d_model)
 {
 	database_ = ark3d_model.GetDatabase();
 	free_ =false;
+
+	string table_name = "dependent_dof_list";
 
 	char *zErrMsg = 0;
 	int rc;
