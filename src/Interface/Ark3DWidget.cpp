@@ -251,6 +251,9 @@ void Ark3DWidget::GenerateTestSketch()
 	//current_sketch_->ApplySelectionMask(Points);
 	//current_sketch_->ApplySelectionMask(Edges);
 
+	DOFPointer test_dof_1 = current_sketch_->DOFFactory(1,"independent_dof_list");
+	DOFPointer test_dof_2 = current_sketch_->DOFFactory(21,"dependent_dof_list");
+
 	fitExtents();
 }
 

@@ -72,9 +72,9 @@ public:
 	template <class data_t> boost::shared_ptr<data_t> FetchConstraint(unsigned id, const std::string &table_name);
 
 	// methods for generating objects directly from the database
-	DOFPointer DOFFactory(unsigned id, const std::string &table_name);
-	PrimitiveBasePointer PrimitiveFactory(unsigned id, const std::string &table_name);
-	ConstraintEquationBasePointer ConstraintFactory(unsigned id, const std::string &table_name);
+	virtual DOFPointer DOFFactory(unsigned id, const std::string &table_name);
+	virtual PrimitiveBasePointer PrimitiveFactory(unsigned id, const std::string &table_name);
+	virtual ConstraintEquationBasePointer ConstraintFactory(unsigned id, const std::string &table_name);
 	
 	sqlite3 *GetDatabase() {return database_;}
 
