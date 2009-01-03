@@ -19,12 +19,16 @@
 
 #include "DOF.h"
 
+class Ark3DModel;
+
 // IndependentDOF class
 class IndependentDOF : public DOF
 {
 	public:
 		IndependentDOF ( double value = 0.0, bool free = false );
 		IndependentDOF ( const char *name, double value = 0.0, bool free = false );
+		// the following constructor creates the DOF from the database stored in ark3d_model
+		IndependentDOF ( unsigned id, const std::string &table_name, Ark3DModel &ark3d_model );
 
 		//Accessor methods
 		void SetValue ( double value );

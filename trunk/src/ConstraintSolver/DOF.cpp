@@ -43,3 +43,10 @@ database_(0)
 {
 	variable_.set_name(name);
 }
+
+DOF::DOF (unsigned id, bool dependent) :
+id_number_(id),free_(false), dependent_(dependent),
+database_(0)
+{
+
+}

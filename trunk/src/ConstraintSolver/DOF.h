@@ -26,7 +26,8 @@ class DOF
 {
 	public:
 		DOF (bool free, bool dependent);
-		DOF ( const char *name, bool free, bool dependent);
+		DOF (const char *name, bool free, bool dependent);
+		DOF (unsigned id, bool dependent); // used when creating a DOF from the sqlite database
 
 		virtual ~DOF() {;}
 
@@ -53,10 +54,11 @@ class DOF
 
 		GiNaC::symbol variable_;
 		bool free_;
-	private:
+
 		// each instance of this class has a unique ID number
 		unsigned id_number_;
 
+	private:
 		bool dependent_;
 		// static variable used to provide a unique ID number to each instance of this class
 		static unsigned next_id_number_;

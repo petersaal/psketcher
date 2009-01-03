@@ -479,16 +479,20 @@ template <class data_t> boost::shared_ptr<data_t> Ark3DModel::FetchConstraint(un
 
 DOFPointer Ark3DModel::DOFFactory(unsigned id, const string &table_name)
 {
+		DOFPointer result;
+
 		if(table_name == "independent_dof_list")
 		{
-
+			result.reset(new IndependentDOF(id,table_name,*this));
 		}
 		else if(table_name == "dependent_dof_list"){
-		
+			// result.reset(new DependentDOF(id,table_name,*this));
 		}
 		else {
 			throw Ark3DException("Ark3D::DOFFactory: Unable to determine type based on database table name " + table_name);
 		}
+
+		return result;
 }
 
 PrimitiveBasePointer Ark3DModel::PrimitiveFactory(unsigned id, const string &table_name)
