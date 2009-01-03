@@ -19,6 +19,7 @@
 
 #include "DependentDOF.h"
 #include "PrimitiveBase.h"
+#include "Ark3DModel.h"
 
 using namespace std;
 using namespace GiNaC;
@@ -40,6 +41,112 @@ DOF(name,false /*free*/,true /*dependent*/)
 	// @fixme Need to make sure that all DOF's in expression are included in the DOF list
 	expression_ = expression;
 	source_dof_list_ = source_dof_list;
+}
+
+// the following constructor creates the DOF from the database stored in ark3d_model
+DependentDOF :: DependentDOF ( unsigned id, const string &table_name, Ark3DModel &ark3d_model ):
+DOF(id,true /* bool dependent */)
+{
+	database_ = ark3d_model.GetDatabase();
+	free_ =false;
+
+	char *zErrMsg = 0;
+	int rc;
+	sqlite3_stmt *statement;
+	stringstream source_dof_table_name;
+	stringstream expression;
+
+	// "CREATE TABLE dependent_dof_list (id INTEGER PRIMARY KEY, variable_name TEXT NOT NULL, expression TEXT NOT NULL, source_dof_table_name TEXT NOT NULL);"
+	
+	stringstream sql_command;
+	sql_command << "SELECT * FROM " << table_name << " WHERE id=" << id << ";";
+
+	rc = sqlite3_prepare(ark3d_model.GetDatabase(), sql_command.str().c_str(), -1, &statement, 0);
+	if( rc!=SQLITE_OK ){
+		std::string error_description = "SQL error: " + std::string(zErrMsg);
+		sqlite3_free(zErrMsg);
+		throw Ark3DException(error_description);
+	}
+
+	rc = sqlite3_step(statement);
+
+	if(rc == SQLITE_ROW) {
+		// row exist, store the values to initialize this object
+		id_number_ = sqlite3_column_int(statement,0);
+		stringstream variable_name;
+		variable_name << sqlite3_column_text(statement,1);
+		variable_.set_name(variable_name.str());
+		expression << sqlite3_column_text(statement,2);
+		source_dof_table_name << sqlite3_column_text(statement,3);
+	} else {
+		// the requested row does not exist in the database
+		sqlite3_finalize(statement);	
+
+		stringstream error_description;
+		error_description << "SQLite rowid " << id << " in table " << table_name << " does not exist";
+		throw Ark3DException(error_description.str());
+	}
+
+	rc = sqlite3_step(statement);
+	if( rc!=SQLITE_DONE ){
+		// sql statement didn't finish properly, some error must to have occured
+		std::string error_description = "SQL error: " + std::string(zErrMsg);
+		sqlite3_free(zErrMsg);
+		throw Ark3DException(error_description);
+	}
+	
+	rc = sqlite3_finalize(statement);
+	if( rc!=SQLITE_OK ){
+		std::string error_description = "SQL error: " + std::string(zErrMsg);
+		sqlite3_free(zErrMsg);
+		throw Ark3DException(error_description);
+	}
+
+	// next read the source dof table that lists the DOF's that this DependentDOF depends on
+	sql_command.str("");
+	sql_command << "SELECT * FROM " << source_dof_table_name.str() << ";";
+
+	rc = sqlite3_prepare(ark3d_model.GetDatabase(), sql_command.str().c_str(), -1, &statement, 0);
+	if( rc!=SQLITE_OK ){
+		std::string error_description = "SQL error: " + std::string(zErrMsg);
+		sqlite3_free(zErrMsg);
+		throw Ark3DException(error_description);
+	}
+
+	rc = sqlite3_step(statement);
+	
+	int source_dof_id;
+	DOFPointer source_dof;
+	GiNaC::lst variable_list;
+	while(rc == SQLITE_ROW) {
+		source_dof_id = sqlite3_column_int(statement,0);
+
+		// get the dof (it will be automatically created if it doesn't already exist)
+		source_dof = ark3d_model.FetchDOF(source_dof_id);
+
+		source_dof_list_.push_back(source_dof);
+		variable_list.append(source_dof->GetVariable());
+
+		rc = sqlite3_step(statement);
+	}
+
+	// we now have enought information to define the expression_ member variable for this dependent dof
+	expression_ = GiNaC::ex(expression.str(),variable_list);
+
+	if( rc!=SQLITE_DONE ){
+		// sql statement didn't finish properly, some error must to have occured
+		std::string error_description = "SQL error: " + std::string(zErrMsg);
+		sqlite3_free(zErrMsg);
+		throw Ark3DException(error_description);
+	}
+
+	rc = sqlite3_finalize(statement);
+	if( rc!=SQLITE_OK ){
+		std::string error_description = "SQL error: " + std::string(zErrMsg);
+		sqlite3_free(zErrMsg);
+		throw Ark3DException(error_description);
+	}
+	
 }
 
 double DependentDOF::GetValue()const

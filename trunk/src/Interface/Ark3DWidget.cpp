@@ -251,8 +251,9 @@ void Ark3DWidget::GenerateTestSketch()
 	//current_sketch_->ApplySelectionMask(Points);
 	//current_sketch_->ApplySelectionMask(Edges);
 
-	DOFPointer test_dof_1 = current_sketch_->DOFFactory(1,"independent_dof_list");
-	DOFPointer test_dof_2 = current_sketch_->DOFFactory(21,"dependent_dof_list");
+	DOFPointer test_dof_1 = current_sketch_->DOFFactory(1);
+	DependentDOFPointer test_dof_2 = boost::dynamic_pointer_cast<DependentDOF>(current_sketch_->DOFFactory(22));
+	std::cout << "Expression for DependentDOF 22 = " << test_dof_2->GetExpression() << std::endl;
 
 	fitExtents();
 }
