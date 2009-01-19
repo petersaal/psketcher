@@ -41,10 +41,17 @@ DOF(name,free,false /*dependent*/)
 IndependentDOF :: IndependentDOF ( unsigned id, Ark3DModel &ark3d_model ):
 DOF(id,false /* bool dependent */)
 {
-	SyncToDatabase(id,ark3d_model);
+	bool exists = SyncToDatabase(id,ark3d_model);
+	
+	if(!exists) // this object does not exist in the table
+	{
+		stringstream error_description;
+		error_description << "SQLite rowid " << id << " in table independent_dof_list does not exist";
+		throw Ark3DException(error_description.str());
+	}
 }
 
-void IndependentDOF :: SyncToDatabase(unsigned id, Ark3DModel &ark3d_model)
+bool IndependentDOF :: SyncToDatabase(unsigned id, Ark3DModel &ark3d_model)
 {
 	database_ = ark3d_model.GetDatabase();
 
@@ -83,9 +90,7 @@ void IndependentDOF :: SyncToDatabase(unsigned id, Ark3DModel &ark3d_model)
 		// the requested row does not exist in the database
 		sqlite3_finalize(statement);	
 
-		stringstream error_description;
-		error_description << "SQLite rowid " << id << " in table " << table_name << " does not exist";
-		throw Ark3DException(error_description.str());
+		return false; // row does not exist in the database, exit method and return false
 	}
 
 	rc = sqlite3_step(statement);
@@ -102,6 +107,8 @@ void IndependentDOF :: SyncToDatabase(unsigned id, Ark3DModel &ark3d_model)
 		sqlite3_free(zErrMsg);
 		throw Ark3DException(error_description);
 	}
+
+	return true; // row existed in the database
 }
 
 void IndependentDOF::SetValue ( double value ) 

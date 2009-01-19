@@ -54,7 +54,8 @@ class DOF
 		virtual void RemoveFromDatabase() = 0;
 
 		// method to synchronize this object to the database, needs to be implemented by each child class
-		virtual void SyncToDatabase(unsigned id, Ark3DModel &ark3d_model) = 0;
+		// returns true on success, returns false if row does not exist in the database
+		virtual bool SyncToDatabase(unsigned id, Ark3DModel &ark3d_model) = 0;
 
 	protected:
 		// if not zero, this is the database where changes to the value of this DOF are stored

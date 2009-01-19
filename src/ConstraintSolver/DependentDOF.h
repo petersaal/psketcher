@@ -46,7 +46,7 @@ class DependentDOF : public DOF
 		void DatabaseAddDelete(bool add_to_database); // utility method called by AddToDatabase and DeleteFromDatabase since they both do similar things
 
 		// method to synchronize this object to the database
-		virtual void SyncToDatabase(unsigned id, Ark3DModel &ark3d_model);
+		virtual bool SyncToDatabase(unsigned id, Ark3DModel &ark3d_model);
 
 	private:
 		GiNaC::ex expression_;

@@ -508,7 +508,7 @@ DOFPointer Ark3DModel::DOFFactory(unsigned id)
 		sqlite3_finalize(statement);
 
 		stringstream error_description;
-		error_description << "SQLite rowid " << id << " in table " << table_name << " does not exist";
+		error_description << "SQLite rowid " << id << " in table dof_list does not exist";
 		throw Ark3DException(error_description.str());
 	}
 
