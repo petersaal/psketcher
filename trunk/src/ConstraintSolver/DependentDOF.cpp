@@ -47,10 +47,17 @@ DOF(name,false /*free*/,true /*dependent*/)
 DependentDOF :: DependentDOF ( unsigned id, Ark3DModel &ark3d_model ):
 DOF(id,true /* bool dependent */)
 {
-	SyncToDatabase(id,ark3d_model);
+	bool exists = SyncToDatabase(id,ark3d_model);
+	
+	if(!exists) // this object does not exist in the table
+	{
+		stringstream error_description;
+		error_description << "SQLite rowid " << id << " in table dependent_dof_list does not exist";
+		throw Ark3DException(error_description.str());
+	}
 }
 
-void DependentDOF :: SyncToDatabase(unsigned id, Ark3DModel &ark3d_model)
+bool DependentDOF :: SyncToDatabase(unsigned id, Ark3DModel &ark3d_model)
 {
 	database_ = ark3d_model.GetDatabase();
 	free_ =false;
@@ -91,9 +98,7 @@ void DependentDOF :: SyncToDatabase(unsigned id, Ark3DModel &ark3d_model)
 		// the requested row does not exist in the database
 		sqlite3_finalize(statement);	
 
-		stringstream error_description;
-		error_description << "SQLite rowid " << id << " in table " << table_name << " does not exist";
-		throw Ark3DException(error_description.str());
+		return false; // object not present in database, return false
 	}
 
 	rc = sqlite3_step(statement);
@@ -157,6 +162,7 @@ void DependentDOF :: SyncToDatabase(unsigned id, Ark3DModel &ark3d_model)
 		throw Ark3DException(error_description);
 	}
 	
+	return true; // object exists in table and was defined successfully
 }
 
 double DependentDOF::GetValue()const

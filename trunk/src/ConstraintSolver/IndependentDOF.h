@@ -39,8 +39,8 @@ class IndependentDOF : public DOF
 		virtual void RemoveFromDatabase();
 		void DatabaseAddDelete(bool add_to_database); // utility method called by AddToDatabase and DeleteFromDatabase since they both do similar things
 
-		// method to synchronize this object to the database
-		virtual void SyncToDatabase(unsigned id, Ark3DModel &ark3d_model);
+		// method to synchronize this object to the database, returns false if the object does not exist in the database
+		virtual bool SyncToDatabase(unsigned id, Ark3DModel &ark3d_model);
 
 	private:
 		double value_;
