@@ -76,6 +76,13 @@ class PrimitiveBase
 		virtual void AddToDatabase(sqlite3 *database) {;} // @fixme: change to a abstract method (=0) so that the compiler finds any child classes that don't implement this method
 		virtual void RemoveFromDatabase() {;} // @fixme: change to abstract (=0) 
 
+		// Utility method to sync dof_list_ and primitive_list_ to the database
+		void SyncListsToDatabase(const std::string &dof_list_table_name, const std::string &primitive_list_table_name);
+
+		// method to synchronize this object to the database, needs to be implemented by each child class
+		// returns true on success, returns false if row does not exist in the database
+		virtual bool SyncToDatabase(unsigned id, Ark3DModel &ark3d_model) {;} // @fixme This method should be abstract to insure that all child classes implement it
+
 	protected:
 		// if not zero, this is the database where changes to the value of this DOF are stored
 		sqlite3 *database_;

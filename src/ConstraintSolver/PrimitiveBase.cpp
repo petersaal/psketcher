@@ -163,3 +163,12 @@ void PrimitiveBase::DatabaseAddDeleteLists(bool add_to_database, const string &d
 		throw Ark3DException(error_description);
 	}
 }
+
+// Utility method to sync dof_list_ and primitive_list_ to the database
+void PrimitiveBase::SyncListsToDatabase(const std::string &dof_list_table_name, const std::string &primitive_list_table_name)
+{
+
+
+
+
+}

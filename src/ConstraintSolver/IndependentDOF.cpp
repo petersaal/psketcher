@@ -55,8 +55,6 @@ bool IndependentDOF :: SyncToDatabase(unsigned id, Ark3DModel &ark3d_model)
 {
 	database_ = ark3d_model.GetDatabase();
 
-	delete_me_ = false; // lets Ark3DModel know that this object is actually in the database
-
 	string table_name = "independent_dof_list";
 
 	char *zErrMsg = 0;
