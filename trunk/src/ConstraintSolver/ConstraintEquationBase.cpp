@@ -104,8 +104,6 @@ void ConstraintEquationBase::SyncConstraintListToDatabase(const std::string &con
 	for(unsigned int current_dof = 0; current_dof < dof_list.size(); current_dof++)
 	{
 		variable_list.append(dof_list[current_dof]->GetVariable());
-
-		cout << dof_list[current_dof]->GetVariable().get_name() << endl;
 	}
 
 	// create the SQL statement needed to pull the table called constraint_list_table_name

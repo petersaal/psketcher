@@ -32,6 +32,11 @@ point2_(point2)
 	AddPrimitive(point1);
 	AddPrimitive(point2);
 
+	AddDOF(point1->GetSDOF());
+	AddDOF(point1->GetTDOF());
+	AddDOF(point2->GetSDOF());
+	AddDOF(point2->GetTDOF());
+
 	// Create a DOF for the distance parameter
 	DOFPointer new_dof(new IndependentDOF(distance,false));
 	distance_ = new_dof;
