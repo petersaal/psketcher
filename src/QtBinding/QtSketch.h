@@ -57,7 +57,8 @@ class QtSketch : public Sketch
 		QGraphicsScene *scene_;
 		bool grid_snap_;
 };
-typedef boost::shared_ptr<QtSketch> QtSketchPointer;
+//typedef boost::shared_ptr<QtSketch> QtSketchPointer;
+typedef QtSketch* QtSketchPointer;
 
 
 #endif //QtSketchH

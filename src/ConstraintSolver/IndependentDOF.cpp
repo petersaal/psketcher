@@ -68,9 +68,9 @@ bool IndependentDOF :: SyncToDatabase(unsigned id, Ark3DModel &ark3d_model)
 
 	rc = sqlite3_prepare(ark3d_model.GetDatabase(), sql_command.str().c_str(), -1, &statement, 0);
 	if( rc!=SQLITE_OK ){
-		std::string error_description = "SQL error: " + std::string(zErrMsg);
-		sqlite3_free(zErrMsg);
-		throw Ark3DException(error_description);
+		stringstream error_description;
+		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
+		throw Ark3DException(error_description.str());
 	}
 
 	rc = sqlite3_step(statement);
@@ -94,16 +94,16 @@ bool IndependentDOF :: SyncToDatabase(unsigned id, Ark3DModel &ark3d_model)
 	rc = sqlite3_step(statement);
 	if( rc!=SQLITE_DONE ){
 		// sql statement didn't finish properly, some error must to have occured
-		std::string error_description = "SQL error: " + std::string(zErrMsg);
-		sqlite3_free(zErrMsg);
-		throw Ark3DException(error_description);
+		stringstream error_description;
+		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
+		throw Ark3DException(error_description.str());
 	}
 	
 	rc = sqlite3_finalize(statement);
 	if( rc!=SQLITE_OK ){
-		std::string error_description = "SQL error: " + std::string(zErrMsg);
-		sqlite3_free(zErrMsg);
-		throw Ark3DException(error_description);
+		stringstream error_description;
+		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
+		throw Ark3DException(error_description.str());
 	}
 
 	return true; // row existed in the database

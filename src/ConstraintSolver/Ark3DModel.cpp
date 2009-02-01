@@ -426,7 +426,6 @@ DOFPointer Ark3DModel::FetchDOF(unsigned id)
 DOFPointer Ark3DModel::DOFFactory(unsigned id)
 {
 	// grab the table name from the database so we now exactly which class needs to be created
-	char *zErrMsg = 0;
 	int rc;
 	sqlite3_stmt *statement;
 	stringstream table_name_stream;
@@ -437,9 +436,9 @@ DOFPointer Ark3DModel::DOFFactory(unsigned id)
 
 	rc = sqlite3_prepare(database_, sql_command.str().c_str(), -1, &statement, 0);
 	if( rc!=SQLITE_OK ){
-		std::string error_description = "SQL error: " + std::string(zErrMsg);
-		sqlite3_free(zErrMsg);
-		throw Ark3DException(error_description);
+		stringstream error_description;
+		error_description << "SQL error: " << sqlite3_errmsg(database_);
+		throw Ark3DException(error_description.str());
 	}
 
 	rc = sqlite3_step(statement);
@@ -460,16 +459,16 @@ DOFPointer Ark3DModel::DOFFactory(unsigned id)
 	rc = sqlite3_step(statement);
 	if( rc!=SQLITE_DONE ){
 		// sql statement didn't finish properly, some error must to have occured
-		std::string error_description = "SQL error: " + std::string(zErrMsg);
-		sqlite3_free(zErrMsg);
-		throw Ark3DException(error_description);
+		stringstream error_description;
+		error_description << "SQL error: " << sqlite3_errmsg(database_);
+		throw Ark3DException(error_description.str());
 	}
 	
 	rc = sqlite3_finalize(statement);
 	if( rc!=SQLITE_OK ){
-		std::string error_description = "SQL error: " + std::string(zErrMsg);
-		sqlite3_free(zErrMsg);
-		throw Ark3DException(error_description);
+		stringstream error_description;
+		error_description << "SQL error: " << sqlite3_errmsg(database_);
+		throw Ark3DException(error_description.str());
 	}
 
 	// now generate the object based on the table name
@@ -492,7 +491,6 @@ DOFPointer Ark3DModel::DOFFactory(unsigned id)
 PrimitiveBasePointer Ark3DModel::PrimitiveFactory(unsigned id)
 {
 	// grab the table name from the database so we now exactly which class needs to be created
-	char *zErrMsg = 0;
 	int rc;
 	sqlite3_stmt *statement;
 	stringstream table_name_stream;
@@ -503,9 +501,9 @@ PrimitiveBasePointer Ark3DModel::PrimitiveFactory(unsigned id)
 
 	rc = sqlite3_prepare(database_, sql_command.str().c_str(), -1, &statement, 0);
 	if( rc!=SQLITE_OK ){
-		std::string error_description = "SQL error: " + std::string(zErrMsg);
-		sqlite3_free(zErrMsg);
-		throw Ark3DException(error_description);
+		stringstream error_description;
+		error_description << "SQL error: " << sqlite3_errmsg(database_);
+		throw Ark3DException(error_description.str());
 	}
 
 	rc = sqlite3_step(statement);
@@ -526,16 +524,16 @@ PrimitiveBasePointer Ark3DModel::PrimitiveFactory(unsigned id)
 	rc = sqlite3_step(statement);
 	if( rc!=SQLITE_DONE ){
 		// sql statement didn't finish properly, some error must to have occured
-		std::string error_description = "SQL error: " + std::string(zErrMsg);
-		sqlite3_free(zErrMsg);
-		throw Ark3DException(error_description);
+		stringstream error_description;
+		error_description << "SQL error: " << sqlite3_errmsg(database_);
+		throw Ark3DException(error_description.str());
 	}
 	
 	rc = sqlite3_finalize(statement);
 	if( rc!=SQLITE_OK ){
-		std::string error_description = "SQL error: " + std::string(zErrMsg);
-		sqlite3_free(zErrMsg);
-		throw Ark3DException(error_description);
+		stringstream error_description;
+		error_description << "SQL error: " << sqlite3_errmsg(database_);
+		throw Ark3DException(error_description.str());
 	}
 
 	// now generate the object based on the table name
@@ -568,7 +566,6 @@ ConstraintEquationBasePointer Ark3DModel::ConstraintFactory(unsigned id)
 {
 
 	// grab the table name from the database so we now exactly which class needs to be created
-	char *zErrMsg = 0;
 	int rc;
 	sqlite3_stmt *statement;
 	stringstream table_name_stream;
@@ -579,9 +576,9 @@ ConstraintEquationBasePointer Ark3DModel::ConstraintFactory(unsigned id)
 
 	rc = sqlite3_prepare(database_, sql_command.str().c_str(), -1, &statement, 0);
 	if( rc!=SQLITE_OK ){
-		std::string error_description = "SQL error: " + std::string(zErrMsg);
-		sqlite3_free(zErrMsg);
-		throw Ark3DException(error_description);
+		stringstream error_description;
+		error_description << "SQL error: " << sqlite3_errmsg(database_);
+		throw Ark3DException(error_description.str());
 	}
 
 	rc = sqlite3_step(statement);
@@ -602,16 +599,16 @@ ConstraintEquationBasePointer Ark3DModel::ConstraintFactory(unsigned id)
 	rc = sqlite3_step(statement);
 	if( rc!=SQLITE_DONE ){
 		// sql statement didn't finish properly, some error must to have occured
-		std::string error_description = "SQL error: " + std::string(zErrMsg);
-		sqlite3_free(zErrMsg);
-		throw Ark3DException(error_description);
+		stringstream error_description;
+		error_description << "SQL error: " << sqlite3_errmsg(database_);
+		throw Ark3DException(error_description.str());
 	}
 	
 	rc = sqlite3_finalize(statement);
 	if( rc!=SQLITE_OK ){
-		std::string error_description = "SQL error: " + std::string(zErrMsg);
-		sqlite3_free(zErrMsg);
-		throw Ark3DException(error_description);
+		stringstream error_description;
+		error_description << "SQL error: " << sqlite3_errmsg(database_);
+		throw Ark3DException(error_description.str());
 	}
 
 	// now generate the object based on the table name
