@@ -34,6 +34,10 @@ class ConstraintEquationBase : public PrimitiveBase
 		// Utility method to add the constraints_ list to the database
 		void DatabaseAddDeleteConstraintList(bool add_to_database, const std::string &constraint_list_table_name);
 
+		// utility method to synchronize the contraints_ and weight_list_ vectors to the database
+		// Important: this method assumes that the method PrimitiveBase::SyncListsToDatabase(...) has been called prior to calling this method (needs the dof_list_ vector up to date)
+		void SyncConstraintListToDatabase(const std::string &constraint_list_table_name, Ark3DModel &ark3d_model);
+
 	protected:
 		// constraints and weight_list_ are parallel vectors
 		// stores constraints

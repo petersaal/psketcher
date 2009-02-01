@@ -62,11 +62,14 @@ Ark3DWidget::~Ark3DWidget()
 {
 	if(interactive_primitive_ != 0)
 		delete interactive_primitive_;
+
+	if(current_sketch_ != 0)
+		delete current_sketch_;
 }
 
 void Ark3DWidget::select()
 {
-	if(current_sketch_.get() != 0)
+	if(current_sketch_ != 0)
 		current_sketch_->ApplySelectionMask(All);
 
 	// delete any interactive primitives that were in the process of being constructed
@@ -264,15 +267,18 @@ void Ark3DWidget::GenerateTestSketch()
 	std::cout << "Expression for DependentDOF 22 (from memory)= " << test_dof_3->GetExpression() << ", value = " << test_dof_3->GetValue() << ", free = " << test_dof_3->IsFree() << ", dependent = " << test_dof_3->IsDependent() << ", name = " << test_dof_3->GetVariable().get_name() << std::endl;
 
 	Point2DPointer test_point = current_sketch_->FetchPrimitive<Point2D>(10);
-	
+	test_point->SyncListsToDatabase("dof_table_10","primitive_table_10",*current_sketch_);	
+
 	DistancePoint2DPointer test_constraint = current_sketch_->FetchConstraint<DistancePoint2D>(19);
+	//test_constraint->SyncListsToDatabase("dof_table_19","primitive_table_19",*current_sketch_);	
+	//test_constraint->SyncConstraintListToDatabase("constraint_table_19",*current_sketch_);
 
 	fitExtents();
 }
 
 void Ark3DWidget::SolveConstraints() 
 {
-	if(current_sketch_.get() != 0)
+	if(current_sketch_ != 0)
 	{
 		current_sketch_->SolveConstraints();
 		current_sketch_->UpdateDisplay();

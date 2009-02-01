@@ -17,6 +17,7 @@
 #include <sstream>
 
 #include "ConstraintEquationBase.h"
+#include "Ark3DModel.h"
 
 using namespace std;
 using namespace GiNaC;
@@ -81,5 +82,73 @@ void ConstraintEquationBase::DatabaseAddDeleteConstraintList(bool add_to_databas
 		std::string error_description = "SQL error: " + std::string(zErrMsg);
 		sqlite3_free(zErrMsg);
 		throw Ark3DException(error_description);
+	}
+}
+
+// utility method to synchronize the contraints_ and weight_list_ vectors to the database
+// Important: this method assumes that the method PrimitiveBase::SyncListsToDatabase(...) has been called prior to calling this method (needs the dof_list_ vector up to date)
+void ConstraintEquationBase::SyncConstraintListToDatabase(const std::string &constraint_list_table_name, Ark3DModel &ark3d_model)
+{
+	int rc;
+	sqlite3_stmt *statement;
+
+	// synchronize the constraint_ and weight_list_ parallel vectors to the database
+	
+	// clear the contents of the constraint vectors, they will be recreated from the database
+	constraints_.clear();
+	weight_list_.clear();
+
+	// need to populate the list of variables that all of the constraints in the list will depend on (populate from PrimitiveBase::dof_list_)
+	std::vector<DOFPointer> dof_list = GetDOFList();
+	GiNaC::lst variable_list;
+	for(unsigned int current_dof = 0; current_dof < dof_list.size(); current_dof++)
+	{
+		variable_list.append(dof_list[current_dof]->GetVariable());
+
+		cout << dof_list[current_dof]->GetVariable().get_name() << endl;
+	}
+
+	// create the SQL statement needed to pull the table called constraint_list_table_name
+	stringstream sql_command;
+	sql_command << "SELECT * FROM " << constraint_list_table_name << ";";
+
+	rc = sqlite3_prepare(ark3d_model.GetDatabase(), sql_command.str().c_str(), -1, &statement, 0);
+	if( rc!=SQLITE_OK ){
+		stringstream error_description;
+		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
+		throw Ark3DException(error_description.str());
+	}
+
+	rc = sqlite3_step(statement);
+	
+	int current_dof_id;
+	DOFPointer current_dof;
+	stringstream expression;
+	double weight;
+	boost::shared_ptr<GiNaC::ex> current_constraint;
+	while(rc == SQLITE_ROW) {
+		expression.str("");
+		expression << sqlite3_column_text(statement,0); // column 0 holds the text form the the constraint equation
+		weight = sqlite3_column_double(statement,1);    // column 1 holds the weight of the above constraint equation
+
+		current_constraint.reset(new GiNaC::ex(expression.str(),variable_list));
+		constraints_.push_back(current_constraint);
+		weight_list_.push_back(weight);
+	
+		rc = sqlite3_step(statement);
+	}
+
+	if( rc!=SQLITE_DONE ){
+		// sql statement didn't finish properly, some error must to have occured
+		stringstream error_description;
+		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
+		throw Ark3DException(error_description.str());
+	}
+
+	rc = sqlite3_finalize(statement);
+	if( rc!=SQLITE_OK ){
+		stringstream error_description;
+		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
+		throw Ark3DException(error_description.str());
 	}
 }
