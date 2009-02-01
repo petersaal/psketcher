@@ -18,6 +18,7 @@
 
 #include "PrimitiveBase.h"
 #include "DependentDOF.h"
+#include "Ark3DModel.h"
 
 using namespace std;
 using namespace GiNaC;
@@ -165,10 +166,100 @@ void PrimitiveBase::DatabaseAddDeleteLists(bool add_to_database, const string &d
 }
 
 // Utility method to sync dof_list_ and primitive_list_ to the database
-void PrimitiveBase::SyncListsToDatabase(const std::string &dof_list_table_name, const std::string &primitive_list_table_name)
+void PrimitiveBase::SyncListsToDatabase(const std::string &dof_list_table_name, const std::string &primitive_list_table_name, Ark3DModel &ark3d_model)
 {
+	char *zErrMsg = 0;
+	int rc;
+	sqlite3_stmt *statement;
+
+	// synchronize the dof_list_ vector to the database
+	
+	// clear the contents of the vector, will be recreated from the database
+	dof_list_.clear();
+
+	stringstream sql_command;
+	sql_command << "SELECT * FROM " << dof_list_table_name << ";";
+
+	rc = sqlite3_prepare(ark3d_model.GetDatabase(), sql_command.str().c_str(), -1, &statement, 0);
+	if( rc!=SQLITE_OK ){
+		std::string error_description = "SQL error: " + std::string(zErrMsg);
+		sqlite3_free(zErrMsg);
+		throw Ark3DException(error_description);
+	}
+
+	rc = sqlite3_step(statement);
+	
+	int current_dof_id;
+	DOFPointer current_dof;
+	while(rc == SQLITE_ROW) {
+		current_dof_id = sqlite3_column_int(statement,0);
+
+		// get the dof (it will be automatically created from the database if it doesn't already exist)
+		current_dof = ark3d_model.FetchDOF(current_dof_id);
+
+		dof_list_.push_back(current_dof);
+
+		rc = sqlite3_step(statement);
+	}
+
+	if( rc!=SQLITE_DONE ){
+		// sql statement didn't finish properly, some error must to have occured
+		std::string error_description = "SQL error: " + std::string(zErrMsg);
+		sqlite3_free(zErrMsg);
+		throw Ark3DException(error_description);
+	}
+
+	rc = sqlite3_finalize(statement);
+	if( rc!=SQLITE_OK ){
+		std::string error_description = "SQL error: " + std::string(zErrMsg);
+		sqlite3_free(zErrMsg);
+		throw Ark3DException(error_description);
+	}
 
 
 
+	// synchronize the primitive_list_ to the database
+
+	// clear the contents of the vector, will be recreated from the database
+	primitive_list_.clear();
+
+	sql_command.str(""); // clear the contents of the string stream
+	sql_command << "SELECT * FROM " << primitive_list_table_name << ";";
+
+	rc = sqlite3_prepare(ark3d_model.GetDatabase(), sql_command.str().c_str(), -1, &statement, 0);
+	if( rc!=SQLITE_OK ){
+		std::string error_description = "SQL error: " + std::string(zErrMsg);
+		sqlite3_free(zErrMsg);
+		throw Ark3DException(error_description);
+	}
+
+	rc = sqlite3_step(statement);
+	
+	int current_primitive_id;
+	PrimitiveBasePointer current_primitive;
+	while(rc == SQLITE_ROW) {
+		current_primitive_id = sqlite3_column_int(statement,0);
+
+		// get the dof (it will be automatically created from the database if it doesn't already exist)
+		current_primitive = ark3d_model.FetchPrimitive<PrimitiveBase>(current_primitive_id);
+
+		primitive_list_.push_back(current_primitive);
+
+		rc = sqlite3_step(statement);
+	}
+
+	if( rc!=SQLITE_DONE ){
+		// sql statement didn't finish properly, some error must to have occured
+		std::string error_description = "SQL error: " + std::string(zErrMsg);
+		sqlite3_free(zErrMsg);
+		throw Ark3DException(error_description);
+	}
+
+	rc = sqlite3_finalize(statement);
+	if( rc!=SQLITE_OK ){
+		std::string error_description = "SQL error: " + std::string(zErrMsg);
+		sqlite3_free(zErrMsg);
+		throw Ark3DException(error_description);
+	}
 
 }

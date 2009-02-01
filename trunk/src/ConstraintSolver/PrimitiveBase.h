@@ -77,7 +77,7 @@ class PrimitiveBase
 		virtual void RemoveFromDatabase() {;} // @fixme: change to abstract (=0) 
 
 		// Utility method to sync dof_list_ and primitive_list_ to the database
-		void SyncListsToDatabase(const std::string &dof_list_table_name, const std::string &primitive_list_table_name);
+		void SyncListsToDatabase(const std::string &dof_list_table_name, const std::string &primitive_list_table_name, Ark3DModel &ark3d_model);
 
 		// method to synchronize this object to the database, needs to be implemented by each child class
 		// returns true on success, returns false if row does not exist in the database

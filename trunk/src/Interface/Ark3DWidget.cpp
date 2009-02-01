@@ -263,6 +263,10 @@ void Ark3DWidget::GenerateTestSketch()
 	DependentDOFPointer test_dof_3 = boost::dynamic_pointer_cast<DependentDOF>(current_sketch_->FetchDOF(22));
 	std::cout << "Expression for DependentDOF 22 (from memory)= " << test_dof_3->GetExpression() << ", value = " << test_dof_3->GetValue() << ", free = " << test_dof_3->IsFree() << ", dependent = " << test_dof_3->IsDependent() << ", name = " << test_dof_3->GetVariable().get_name() << std::endl;
 
+	Point2DPointer test_point = current_sketch_->FetchPrimitive<Point2D>(10);
+	
+	DistancePoint2DPointer test_constraint = current_sketch_->FetchConstraint<DistancePoint2D>(19);
+
 	fitExtents();
 }
 

@@ -423,61 +423,6 @@ DOFPointer Ark3DModel::FetchDOF(unsigned id)
 	}
 }
 
-template <class data_t> boost::shared_ptr<data_t> Ark3DModel::FetchPrimitive(unsigned id)
-{
-	PrimitiveBasePointer temp;
-	boost::shared_ptr<data_t> result;
-
-	map<unsigned,PrimitiveBasePointer>::iterator primitive_it = primitive_list_.find(id);
-	if(primitive_it != primitive_list_.end())
-	{
-		// primitive already exists
-		temp = primitive_it->second;
-
-	} else {
-		// primitive object does not exist, need to create it from the database
-		temp = PrimitiveFactory(id);
-		AddPrimitive(temp);
-	}
-
-	// attempt to cast the PrimitiveBasePointer to the desired datatype, generate an error if the cast fails
-	if(dynamic_cast<data_t *>(temp.get()) != 0){
-		result = boost::dynamic_pointer_cast<data_t>(temp);
-	} else {
-		throw Ark3DException("Requested data type does not match database data type.");
-	}
-	
-	return result;
-}
-
-
-template <class data_t> boost::shared_ptr<data_t> Ark3DModel::FetchConstraint(unsigned id)
-{
-	ConstraintEquationBasePointer temp;
-	boost::shared_ptr<data_t> result;
-
-	map<unsigned,ConstraintEquationBasePointer>::iterator constraint_it = constraint_equation_list_.find(id);
-	if(constraint_it != constraint_equation_list_.end())
-	{
-		// primitive already exists
-		temp = constraint_it->second;
-
-	} else {
-		// primitive object does not exist, need to create it from the database
-		temp = ConstraintFactory(id);
-		AddConstraintEquation(temp);
-	}
-
-	// attempt to cast the PrimitiveBasePointer to the desired datatype, generate an error if the cast fails
-	if(dynamic_cast<data_t *>(temp.get()) != 0){
-		result = boost::dynamic_pointer_cast<data_t>(temp);
-	} else {
-		throw Ark3DException("Requested data type does not match database data type.");
-	}
-	
-	return result;
-}
-
 DOFPointer Ark3DModel::DOFFactory(unsigned id)
 {
 	// grab the table name from the database so we now exactly which class needs to be created
