@@ -43,6 +43,7 @@ find_package(PkgConfig)
 
 #SQLite3
 pkg_check_modules(sqlite3 sqlite3)
+LINK_DIRECTORIES (${sqlite3_LIBRARY_DIRS})
 
 #gsl
 pkg_check_modules(GSL gsl)
