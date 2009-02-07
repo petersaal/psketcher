@@ -39,6 +39,7 @@ class DOF
 		virtual GiNaC::ex GetExpression()const {return variable_;}
 
 		unsigned GetID()const {return id_number_;}
+		void SetID(int id_number) {id_number_ = id_number; next_id_number_ = id_number_ >= next_id_number_ ? id_number_ : next_id_number_;} 
 
 		const GiNaC::symbol & GetVariable()const {return variable_ ;}
 		bool IsFree()const {return free_;}
@@ -64,9 +65,6 @@ class DOF
 		GiNaC::symbol variable_;
 		bool free_;
 
-		// each instance of this class has a unique ID number
-		unsigned id_number_;
-
 	private:
 		// deletion flag used when deleting primitives model
 		bool delete_me_;
@@ -74,6 +72,9 @@ class DOF
 		bool dependent_;
 		// static variable used to provide a unique ID number to each instance of this class
 		static unsigned next_id_number_;
+
+		// each instance of this class has a unique ID number
+		unsigned id_number_;
 };
 typedef boost::shared_ptr<DOF> DOFPointer;
 

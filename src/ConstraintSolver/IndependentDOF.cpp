@@ -77,7 +77,7 @@ bool IndependentDOF :: SyncToDatabase(unsigned id, Ark3DModel &ark3d_model)
 
 	if(rc == SQLITE_ROW) {
 		// row exist, store the values to initialize this object
-		id_number_ = sqlite3_column_int(statement,0);
+		SetID(sqlite3_column_int(statement,0));
 		stringstream variable_name;
 		variable_name << sqlite3_column_text(statement,1);
 		variable_.set_name(variable_name.str());
