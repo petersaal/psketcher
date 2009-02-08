@@ -25,6 +25,7 @@ class Line2D : public Edge2DBase
 {
 	public:
 		Line2D (const Point2DPointer point1, const Point2DPointer point2, SketchPlanePointer sketch_plane);
+		Line2D (unsigned id, Ark3DModel &ark3d_model); // Construct from database
 
 		DOFPointer GetS1()const {return s1_;}
 		DOFPointer GetT1()const {return t1_;}
@@ -50,6 +51,7 @@ class Line2D : public Edge2DBase
 		virtual void AddToDatabase(sqlite3 *database);
 		virtual void RemoveFromDatabase();
 		void DatabaseAddRemove(bool add_to_database); // Utility method used by AddToDatabase and RemoveFromDatabase
+		virtual bool SyncToDatabase(unsigned id, Ark3DModel &ark3d_model);
 
 	private:
 		DOFPointer s1_;

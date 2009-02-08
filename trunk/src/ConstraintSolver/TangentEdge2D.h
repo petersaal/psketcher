@@ -24,6 +24,7 @@ class TangentEdge2D : public ConstraintEquationBase
 {
 	public:
 		TangentEdge2D(Edge2DBasePointer edge1, EdgePointNumber point_num_1, Edge2DBasePointer edge2, EdgePointNumber point_num_2);
+		TangentEdge2D(unsigned id, Ark3DModel &ark3d_model); // Construct from database
 
 		// Accessor methods
 		Edge2DBasePointer GetEdge1() const {return edge1_;}
@@ -36,6 +37,7 @@ class TangentEdge2D : public ConstraintEquationBase
 		virtual void AddToDatabase(sqlite3 *database);
 		virtual void RemoveFromDatabase();
 		void DatabaseAddRemove(bool add_to_database); // Utility method used by AddToDatabase and RemoveFromDatabase
+		virtual bool SyncToDatabase(unsigned id, Ark3DModel &ark3d_model);
 
 	protected:
 		Edge2DBasePointer edge1_;

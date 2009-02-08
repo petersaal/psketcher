@@ -25,6 +25,8 @@ class Vector : public PrimitiveBase
 	public:
 		Vector ( double x, double y, double z, bool x_free = false, bool y_free = false, bool z_free = false);
 		//Vector ( DOFPointer x, DOFPointer y, DOFPointer z );
+		Vector (unsigned id, Ark3DModel &ark3d_model); // Construct from database
+
 		mmcMatrix GetmmcMatrix();  // returns mmcMatrix vector containing current location 
 
 		void ApplySelectionMask(SelectionMask mask);
@@ -33,6 +35,7 @@ class Vector : public PrimitiveBase
 		virtual void AddToDatabase(sqlite3 *database);
 		virtual void RemoveFromDatabase();
 		void DatabaseAddRemove(bool add_to_database); // Utility method used by AddToDatabase and RemoveFromDatabase
+		virtual bool SyncToDatabase(unsigned id, Ark3DModel &ark3d_model);
 
 	private:
 		DOFPointer x_;

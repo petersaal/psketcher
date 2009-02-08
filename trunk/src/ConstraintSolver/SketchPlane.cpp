@@ -18,10 +18,25 @@
 
 #include "SketchPlane.h"
 
+#include "Ark3DModel.h"
+
 const std::string SQL_sketch_plane_database_schema = "CREATE TABLE sketch_plane_list (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, base_point INTEGER NOT NULL, normal_vector INTEGER NOT NULL, up_vector INTEGER NOT NULL);";
 
 using namespace std;
 using namespace GiNaC;
+
+// Construct from database
+SketchPlane::SketchPlane(unsigned id, Ark3DModel &ark3d_model)
+{
+	bool exists = SyncToDatabase(id,ark3d_model);
+	
+	if(!exists) // this object does not exist in the table
+	{
+		stringstream error_description;
+		error_description << "SQLite rowid " << id << " in table sketch_plane_list does not exist";
+		throw Ark3DException(error_description.str());
+	}
+}
 
 // Constructor for SketchPlane class
 SketchPlane::SketchPlane ( VectorPointer normal, VectorPointer up, PointPointer base):
@@ -211,4 +226,67 @@ void SketchPlane::DatabaseAddRemove(bool add_to_database) // Utility method used
 
 	// Now use the method provided by PrimitiveBase to create the tables listing the DOF's and the other Primitives that this primitive depends on
 	DatabaseAddDeleteLists(add_to_database,dof_list_table_name.str(),primitive_list_table_name.str());
+}
+
+
+
+bool SketchPlane::SyncToDatabase(unsigned id, Ark3DModel &ark3d_model)
+{
+	database_ = ark3d_model.GetDatabase();
+
+	string table_name = "sketch_plane_list";
+
+	char *zErrMsg = 0;
+	int rc;
+	sqlite3_stmt *statement;
+	
+	stringstream sql_command;
+	sql_command << "SELECT * FROM " << table_name << " WHERE id=" << id << ";";
+
+	rc = sqlite3_prepare(ark3d_model.GetDatabase(), sql_command.str().c_str(), -1, &statement, 0);
+	if( rc!=SQLITE_OK ){
+		stringstream error_description;
+		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
+		throw Ark3DException(error_description.str());
+	}
+
+	rc = sqlite3_step(statement);
+
+	stringstream dof_table_name, primitive_table_name;
+
+	if(rc == SQLITE_ROW) {
+		// row exists, store the values to initialize this object
+		SetID(sqlite3_column_int(statement,0));
+		dof_table_name << sqlite3_column_text(statement,1);
+		primitive_table_name << sqlite3_column_text(statement,2);
+		base_ = ark3d_model.FetchPrimitive<Point>(sqlite3_column_int(statement,3));
+		normal_ = ark3d_model.FetchPrimitive<Vector>(sqlite3_column_int(statement,4));
+		up_ = ark3d_model.FetchPrimitive<Vector>(sqlite3_column_int(statement,5));
+
+	} else {
+		// the requested row does not exist in the database
+		sqlite3_finalize(statement);	
+
+		return false; // row does not exist in the database, exit method and return false
+	}
+
+	rc = sqlite3_step(statement);
+	if( rc!=SQLITE_DONE ){
+		// sql statement didn't finish properly, some error must to have occured
+		stringstream error_description;
+		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
+		throw Ark3DException(error_description.str());
+	}
+	
+	rc = sqlite3_finalize(statement);
+	if( rc!=SQLITE_OK ){
+		stringstream error_description;
+		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
+		throw Ark3DException(error_description.str());
+	}
+
+	// now sync the lists store in the base classes
+	SyncListsToDatabase(dof_table_name.str(),primitive_table_name.str(),ark3d_model); // PrimitiveBase
+
+	return true; // row existed in the database
 }

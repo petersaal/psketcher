@@ -24,6 +24,7 @@ class ParallelLine2D : public ConstraintEquationBase
 {
 	public:
 		ParallelLine2D(const Line2DPointer line1, const Line2DPointer line2);
+		ParallelLine2D(unsigned id, Ark3DModel &ark3d_model); // Construct from database
 
 		double GetMarkerPosition() const {return marker_position_->GetValue();}
 		void SetMarkerPosition(const double marker_position) {marker_position_->SetValue(marker_position);} // @fixme need to maker sure that the new marker position is in the set [0.0,1.0]
@@ -35,6 +36,7 @@ class ParallelLine2D : public ConstraintEquationBase
 		virtual void AddToDatabase(sqlite3 *database);
 		virtual void RemoveFromDatabase();
 		void DatabaseAddRemove(bool add_to_database); // Utility method used by AddToDatabase and RemoveFromDatabase
+		virtual bool SyncToDatabase(unsigned id, Ark3DModel &ark3d_model);
 
 	protected:
 		Line2DPointer line1_;

@@ -24,6 +24,10 @@ Primitive2DBase(sketch_plane)
 {
 }
 
+Edge2DBase::Edge2DBase()
+{
+}
+
 void Edge2DBase::ApplySelectionMask(SelectionMask mask)
 {
 	if(mask == All || mask == Edges)

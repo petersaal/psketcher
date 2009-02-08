@@ -67,6 +67,7 @@ point2_(point2)
 	SetDefaultTextLocation();
 }
 
+// Construct from database
 DistancePoint2D::DistancePoint2D(unsigned id, Ark3DModel &ark3d_model)
 {
 	bool exists = SyncToDatabase(id,ark3d_model);

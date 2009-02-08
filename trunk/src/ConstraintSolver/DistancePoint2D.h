@@ -24,7 +24,7 @@ class DistancePoint2D : public ConstraintEquationBase
 {
 	public:
 		DistancePoint2D(const Point2DPointer point1, const Point2DPointer point2, double distance);
-		DistancePoint2D(unsigned id, Ark3DModel &ark3d_model);
+		DistancePoint2D(unsigned id, Ark3DModel &ark3d_model); // Construct from database
 
 		double GetActualDistance();
 		double GetValue()const {return distance_->GetValue();}

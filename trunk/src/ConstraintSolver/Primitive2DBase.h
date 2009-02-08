@@ -25,7 +25,9 @@ class Primitive2DBase : public PrimitiveBase
 {
 	public:
 		Primitive2DBase(SketchPlanePointer sketch_plane) {sketch_plane_ = sketch_plane;}
+		Primitive2DBase() {;}
 		SketchPlanePointer GetSketchPlane() { return sketch_plane_;}
+		void SetSketchPlane(SketchPlanePointer sketch_plane) {sketch_plane_ = sketch_plane;}
 
 	protected:
 		SketchPlanePointer sketch_plane_;
