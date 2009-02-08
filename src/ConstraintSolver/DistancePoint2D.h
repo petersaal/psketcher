@@ -42,7 +42,7 @@ class DistancePoint2D : public ConstraintEquationBase
 		virtual void AddToDatabase(sqlite3 *database);
 		virtual void RemoveFromDatabase();
 		void DatabaseAddRemove(bool add_to_database); // Utility method used by AddToDatabase and RemoveFromDatabase
-		virtual bool SyncToDatabase(unsigned id, Ark3DModel &ark3d_model);
+		virtual bool SyncToDatabase(Ark3DModel &ark3d_model);
 
 	protected:
 		Point2DPointer point1_;
