@@ -47,7 +47,7 @@ DOF(name,false /*free*/,true /*dependent*/)
 DependentDOF :: DependentDOF ( unsigned id, Ark3DModel &ark3d_model ):
 DOF(id,true /* bool dependent */)
 {
-	bool exists = SyncToDatabase(id,ark3d_model);
+	SetID(id);  bool exists = SyncToDatabase(ark3d_model);
 	
 	if(!exists) // this object does not exist in the table
 	{
@@ -57,7 +57,7 @@ DOF(id,true /* bool dependent */)
 	}
 }
 
-bool DependentDOF :: SyncToDatabase(unsigned id, Ark3DModel &ark3d_model)
+bool DependentDOF :: SyncToDatabase(Ark3DModel &ark3d_model)
 {
 	database_ = ark3d_model.GetDatabase();
 	free_ =false;
@@ -73,7 +73,7 @@ bool DependentDOF :: SyncToDatabase(unsigned id, Ark3DModel &ark3d_model)
 	// "CREATE TABLE dependent_dof_list (id INTEGER PRIMARY KEY, variable_name TEXT NOT NULL, expression TEXT NOT NULL, source_dof_table_name TEXT NOT NULL);"
 	
 	stringstream sql_command;
-	sql_command << "SELECT * FROM " << table_name << " WHERE id=" << id << ";";
+	sql_command << "SELECT * FROM " << table_name << " WHERE id=" << GetID() << ";";
 
 	rc = sqlite3_prepare(ark3d_model.GetDatabase(), sql_command.str().c_str(), -1, &statement, 0);
 	if( rc!=SQLITE_OK ){
@@ -86,7 +86,7 @@ bool DependentDOF :: SyncToDatabase(unsigned id, Ark3DModel &ark3d_model)
 
 	if(rc == SQLITE_ROW) {
 		// row exist, store the values to initialize this object
-		SetID(sqlite3_column_int(statement,0));
+		
 		stringstream variable_name;
 		variable_name << sqlite3_column_text(statement,1);
 		variable_.set_name(variable_name.str());

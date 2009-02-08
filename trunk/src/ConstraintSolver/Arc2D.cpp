@@ -138,7 +138,7 @@ Edge2DBase(sketch_plane)
 // Construct from database
 Arc2D::Arc2D(unsigned id, Ark3DModel &ark3d_model)
 {
-	bool exists = SyncToDatabase(id,ark3d_model);
+	SetID(id);  bool exists = SyncToDatabase(ark3d_model);
 	
 	if(!exists) // this object does not exist in the table
 	{
@@ -374,7 +374,7 @@ void Arc2D::DatabaseAddRemove(bool add_to_database) // Utility method used by Ad
 	DatabaseAddDeleteLists(add_to_database,dof_list_table_name.str(),primitive_list_table_name.str());
 }
 
-bool Arc2D::SyncToDatabase(unsigned id, Ark3DModel &ark3d_model)
+bool Arc2D::SyncToDatabase(Ark3DModel &ark3d_model)
 {
 	database_ = ark3d_model.GetDatabase();
 
@@ -385,7 +385,7 @@ bool Arc2D::SyncToDatabase(unsigned id, Ark3DModel &ark3d_model)
 	sqlite3_stmt *statement;
 	
 	stringstream sql_command;
-	sql_command << "SELECT * FROM " << table_name << " WHERE id=" << id << ";";
+	sql_command << "SELECT * FROM " << table_name << " WHERE id=" << GetID() << ";";
 
 	rc = sqlite3_prepare(ark3d_model.GetDatabase(), sql_command.str().c_str(), -1, &statement, 0);
 	if( rc!=SQLITE_OK ){
@@ -400,7 +400,7 @@ bool Arc2D::SyncToDatabase(unsigned id, Ark3DModel &ark3d_model)
 
 	if(rc == SQLITE_ROW) {
 		// row exists, store the values to initialize this object
-		SetID(sqlite3_column_int(statement,0));
+		
 		dof_table_name << sqlite3_column_text(statement,1);
 		primitive_table_name << sqlite3_column_text(statement,2);
 		SetSketchPlane(ark3d_model.FetchPrimitive<SketchPlane>(sqlite3_column_int(statement,3)));
