@@ -24,7 +24,7 @@ class AngleLine2D : public ConstraintEquationBase
 {
 	public:
 		AngleLine2D(const Line2DPointer line1, const Line2DPointer line2, double angle /* radians */, bool interior_angle);
-		AngleLine2D(unsigned id, Ark3DModel &ark3d_model);
+		AngleLine2D(unsigned id, Ark3DModel &ark3d_model); // Construct from database
 	
 		void SetTextLocation(double text_radius, double text_angle) {text_radius_->SetValue(text_radius); text_angle_->SetValue(text_angle);}
 		void SetSTTextLocation(double text_s, double text_t);

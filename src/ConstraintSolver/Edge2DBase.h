@@ -21,11 +21,12 @@
 #include "Point2D.h"
 
 // Abstract base class for 2D edges
-enum EdgePointNumber {Point1, Point2};
+enum EdgePointNumber {Point1 = 1, Point2 = 2};
 class Edge2DBase : public Primitive2DBase
 {
 	public:
 		Edge2DBase(SketchPlanePointer sketch_plane);
+		Edge2DBase();
 		virtual ~Edge2DBase() {;}
 		
 		virtual void ApplySelectionMask(SelectionMask mask);

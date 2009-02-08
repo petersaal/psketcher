@@ -25,6 +25,7 @@ class Point : public PrimitiveBase
 	public:
 		Point ( double x, double y, double z, bool x_free = false, bool y_free = false, bool z_free = false);
 		//Point ( DOFPointer x, DOFPointer y, DOFPointer z );
+		Point (unsigned id, Ark3DModel &ark3d_model); // Construct from database
 
 		void ApplySelectionMask(SelectionMask mask);
 
@@ -38,6 +39,7 @@ class Point : public PrimitiveBase
 		virtual void AddToDatabase(sqlite3 *database);
 		virtual void RemoveFromDatabase();
 		void DatabaseAddRemove(bool add_to_database); // Utility method used by AddToDatabase and RemoveFromDatabase
+		virtual bool SyncToDatabase(unsigned id, Ark3DModel &ark3d_model);
 
 	private:
 		DOFPointer x_;

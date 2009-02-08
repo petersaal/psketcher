@@ -26,6 +26,8 @@ class SketchPlane : public PrimitiveBase
 {
 	public:
 		SketchPlane ( VectorPointer normal, VectorPointer up, PointPointer base);
+		SketchPlane (unsigned id, Ark3DModel &ark3d_model); // Construct from database
+
 		void Get3DLocation ( double s, double t, double & x, double & y, double & z);
 		double GetSTLocation( double x, double y, double z, double &s, double &t);
 		void GetABCD ( double & coef_a, double & coef_b, double & coef_c, double & coef_d);
@@ -40,6 +42,7 @@ class SketchPlane : public PrimitiveBase
 		virtual void AddToDatabase(sqlite3 *database);
 		virtual void RemoveFromDatabase();
 		void DatabaseAddRemove(bool add_to_database); // Utility method used by AddToDatabase and RemoveFromDatabase
+		virtual bool SyncToDatabase(unsigned id, Ark3DModel &ark3d_model);
 
 	private:
 		VectorPointer normal_;

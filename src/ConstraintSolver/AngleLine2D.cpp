@@ -72,6 +72,7 @@ text_t_(new IndependentDOF(0.0,false))
 	weight_list_.push_back(1.0);
 }
 
+// Construct from database
 AngleLine2D::AngleLine2D(unsigned id, Ark3DModel &ark3d_model)
 {
 	bool exists = SyncToDatabase(id,ark3d_model);
