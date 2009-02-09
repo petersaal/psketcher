@@ -36,25 +36,31 @@ point_num_2_(point_num_2)
 
 	ex s_1, t_1, s_2, t_2;	// tangent vector for edge1 (s_1,t_1) and tangent vector for edge2 (s_2,t_2)
 
+	std::vector<DOFPointer> dof_list; // vector container storing all of the DOF's that this constraint depends on
+
 	if(point_num_1 == Point1)
 	{	// use point1 of edge1
-		edge1->GetTangent1(s_1,t_1);
+		edge1->GetTangent1(s_1,t_1, dof_list);
 	} else {
 		// use point2 of edge1
-		edge1->GetTangent2(s_1,t_1);
+		edge1->GetTangent2(s_1,t_1, dof_list);
 	}
 
 	if(point_num_2 == Point1)
 	{
 		// use point1 of edge2
-		edge2->GetTangent1(s_2,t_2);
+		edge2->GetTangent1(s_2,t_2, dof_list);
 	} else {
 		// use point2 of edge2
-		edge2->GetTangent2(s_2,t_2);
+		edge2->GetTangent2(s_2,t_2, dof_list);
 	}
 
 	// create the expression object that will store the constraint
 	boost::shared_ptr<ex> new_constraint(new ex);
+
+	// add every DOF that the above expression depends on to the vector dof_list_
+	for(unsigned int current_dof = 0; current_dof < dof_list.size(); current_dof++)
+		AddDOF(dof_list[current_dof]);
 
 	// Calculate the dot product between the two tangent vectors
 	// this expression will be zero when the lines are parallel

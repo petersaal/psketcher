@@ -35,6 +35,16 @@ marker_position_(new IndependentDOF(0.5,false))   // by default place marker at 
 	AddPrimitive(line1);
 	AddPrimitive(line2);
 
+	AddDOF(line1_->GetS1());
+	AddDOF(line1_->GetS2());
+	AddDOF(line1_->GetT1());
+	AddDOF(line1_->GetT2());
+
+	AddDOF(line2_->GetS1());
+	AddDOF(line2_->GetS2());
+	AddDOF(line2_->GetT1());
+	AddDOF(line2_->GetT2());
+
 	AddDOF(marker_position_);
 
 	// create the expression that defines the parallel constraint and add it the the constraint list
