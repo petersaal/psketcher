@@ -82,7 +82,7 @@ class PrimitiveBase
 
 		// method to synchronize this object to the database, needs to be implemented by each child class
 		// returns true on success, returns false if row does not exist in the database
-		virtual bool SyncToDatabase(unsigned id, Ark3DModel &ark3d_model) {;} // @fixme This method should be abstract to insure that all child classes implement it
+		virtual bool SyncToDatabase(Ark3DModel &ark3d_model) {;} // @fixme This method should be abstract to insure that all child classes implement it
 
 	protected:
 		// if not zero, this is the database where changes to the value of this DOF are stored

@@ -270,8 +270,24 @@ void Ark3DWidget::GenerateTestSketch()
 	test_point->SyncListsToDatabase("dof_table_10","primitive_table_10",*current_sketch_);	
 
 	DistancePoint2DPointer test_constraint = current_sketch_->FetchConstraint<DistancePoint2D>(19);
-	//test_constraint->SyncListsToDatabase("dof_table_19","primitive_table_19",*current_sketch_);	
+	//test_constraint->SyncListsToDatabase("dof_table_19","primitive_table_19",*current_sketch_);
 	//test_constraint->SyncConstraintListToDatabase("constraint_table_19",*current_sketch_);
+
+	point1->SyncToDatabase(*current_sketch_);
+	point2->SyncToDatabase(*current_sketch_);
+	point3->SyncToDatabase(*current_sketch_);
+	arc1->SyncToDatabase(*current_sketch_);
+	line1->SyncToDatabase(*current_sketch_);	
+	line2->SyncToDatabase(*current_sketch_);
+	line3->SyncToDatabase(*current_sketch_);
+	line4->SyncToDatabase(*current_sketch_);
+	constraint1->SyncToDatabase(*current_sketch_); // distance
+	constraint2->SyncToDatabase(*current_sketch_); // distance
+	constraint3->SyncToDatabase(*current_sketch_); // parallel
+	constraint4->SyncToDatabase(*current_sketch_); // parallel
+	constraint5->SyncToDatabase(*current_sketch_); // angle
+	constraint6->SyncToDatabase(*current_sketch_); // tangent
+	constraint7->SyncToDatabase(*current_sketch_); // tangent
 
 	fitExtents();
 }

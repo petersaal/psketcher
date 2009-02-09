@@ -46,9 +46,12 @@ Edge2DBase(sketch_plane)
 	AddDOF(theta_2_);
 	AddDOF(radius_);
 
-	point1_ = GeneratePoint1();
+	point1_ = GeneratePoint1(); 
+	AddPrimitive(point1_);
 	point2_ = GeneratePoint2();
+	AddPrimitive(point2_);
 	center_point_ = GenerateCenterPoint();
+	AddPrimitive(center_point_);
 
 	SetDefaultTextLocation();
 }
@@ -102,10 +105,13 @@ Edge2DBase(sketch_plane)
 		AddDOF(theta_1_);
 		AddDOF(theta_2_);
 		AddDOF(radius_);
-	
+		
 		point1_ = GeneratePoint1();
+		AddPrimitive(point1_); 
 		point2_ = GeneratePoint2();
+		AddPrimitive(point2_);
 		center_point_ = GenerateCenterPoint();
+		AddPrimitive(center_point_);
 	
 		SetDefaultTextLocation();
 	}
@@ -129,8 +135,11 @@ Edge2DBase(sketch_plane)
 	AddDOF(radius_);
 
 	point1_ = GeneratePoint1();
+	AddPrimitive(point1_);
 	point2_ = GeneratePoint2();
+	AddPrimitive(point2_);
 	center_point_ = GenerateCenterPoint();
+	AddPrimitive(center_point_);
 
 	SetDefaultTextLocation();
 }
@@ -226,16 +235,20 @@ Point2DPointer Arc2D::GenerateCenterPoint()
 	return result;
 }
 
-void Arc2D::GetTangent1(GiNaC::ex & s_component, GiNaC::ex & t_component)
+void Arc2D::GetTangent1(GiNaC::ex & s_component, GiNaC::ex & t_component, std::vector<DOFPointer> & dof_list)
 {
 	s_component = sin(GetTheta1()->GetVariable());
 	t_component = -cos(GetTheta1()->GetVariable());
+	
+	dof_list.push_back(GetTheta1());
 }
 
-void Arc2D::GetTangent2(GiNaC::ex & s_component, GiNaC::ex & t_component)
+void Arc2D::GetTangent2(GiNaC::ex & s_component, GiNaC::ex & t_component, std::vector<DOFPointer> & dof_list)
 {
 	s_component = -sin(GetTheta2()->GetVariable());
 	t_component = cos(GetTheta2()->GetVariable());
+
+	dof_list.push_back(GetTheta2());
 }
 
 

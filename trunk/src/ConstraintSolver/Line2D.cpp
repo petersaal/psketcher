@@ -24,20 +24,30 @@ const std::string SQL_line2d_database_schema = "CREATE TABLE line2d_list (id INT
 
 using namespace std;
 
-void Line2D::GetTangent1(GiNaC::ex & s_component, GiNaC::ex & t_component)
+void Line2D::GetTangent1(GiNaC::ex & s_component, GiNaC::ex & t_component, std::vector<DOFPointer> & dof_list)
 {
 	GiNaC::ex length = sqrt(pow(GetS1()->GetVariable()-GetS2()->GetVariable(),2)+pow(GetT1()->GetVariable()-GetT2()->GetVariable(),2));
 	
 	s_component = (GetS1()->GetVariable() - GetS2()->GetVariable())/length;
 	t_component = (GetT1()->GetVariable() - GetT2()->GetVariable())/length;
+
+	dof_list.push_back(GetS1());
+	dof_list.push_back(GetS2());
+	dof_list.push_back(GetT1());
+	dof_list.push_back(GetT2());
 }
 
-void Line2D::GetTangent2(GiNaC::ex & s_component, GiNaC::ex & t_component)
+void Line2D::GetTangent2(GiNaC::ex & s_component, GiNaC::ex & t_component, std::vector<DOFPointer> & dof_list)
 {
 	GiNaC::ex length = sqrt(pow(GetS1()->GetVariable()-GetS2()->GetVariable(),2)+pow(GetT1()->GetVariable()-GetT2()->GetVariable(),2));
 	
 	s_component = (GetS2()->GetVariable() - GetS1()->GetVariable())/length;
 	t_component = (GetT2()->GetVariable() - GetT1()->GetVariable())/length;
+
+	dof_list.push_back(GetS1());
+	dof_list.push_back(GetS2());
+	dof_list.push_back(GetT1());
+	dof_list.push_back(GetT2());
 }
 
 void Line2D::GetTangent1(double & s_component, double & t_component)

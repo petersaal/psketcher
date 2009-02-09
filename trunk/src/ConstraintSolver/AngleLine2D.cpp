@@ -40,6 +40,21 @@ text_t_(new IndependentDOF(0.0,false))
 	AddPrimitive(line1);
 	AddPrimitive(line2);
 
+	AddDOF(line1_->GetS1());
+	AddDOF(line1_->GetS2());
+	AddDOF(line1_->GetT1());
+	AddDOF(line1_->GetT2());
+
+	AddDOF(line2_->GetS1());
+	AddDOF(line2_->GetS2());
+	AddDOF(line2_->GetT1());
+	AddDOF(line2_->GetT2());
+
+	AddDOF(text_angle_);
+	AddDOF(text_radius_);
+	AddDOF(text_s_);
+	AddDOF(text_t_);
+
 	SetDefaultTextLocation();
 
 	// Create a DOF for the angle parameter
