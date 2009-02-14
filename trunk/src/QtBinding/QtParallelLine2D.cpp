@@ -18,6 +18,20 @@
 
 #include "QtParallelLine2D.h"
 
+QtParallelLine2D::QtParallelLine2D (QGraphicsItem * parent, unsigned id, Ark3DModel &ark3d_model):
+QtPrimitiveBase(parent),
+ParallelLine2D(id,ark3d_model)
+{
+	SetProperties(Annotation);
+	SetSelectedProperties(SelectedAnnotation);
+	SetMouseHoverProperties(HoverAnnotation);
+
+	setZValue(GetProperties().GetZ());
+
+	// Display the newly create ais_object
+	Display();
+}
+
 QtParallelLine2D::QtParallelLine2D(QGraphicsItem * parent, const Line2DPointer line1, const Line2DPointer line2):
 QtPrimitiveBase(parent),
 ParallelLine2D(line1,line2)

@@ -21,6 +21,20 @@
 #include "QtLine2D.h"
 #include "QtArc2D.h"
 
+QtTangentEdge2D::QtTangentEdge2D (QGraphicsItem * parent, unsigned id, Ark3DModel &ark3d_model):
+QtPrimitiveBase(parent),
+TangentEdge2D(id,ark3d_model)
+{
+	SetProperties(Annotation);
+	SetSelectedProperties(SelectedAnnotation);
+	SetMouseHoverProperties(HoverAnnotation);
+
+	setZValue(GetProperties().GetZ());
+
+	// Display the newly create ais_object
+	Display();
+}
+
 QtTangentEdge2D::QtTangentEdge2D (QGraphicsItem * parent,
                        Edge2DBasePointer edge1, EdgePointNumber point_num_1, 
                        Edge2DBasePointer edge2, EdgePointNumber point_num_2):

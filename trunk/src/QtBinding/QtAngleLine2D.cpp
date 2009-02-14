@@ -18,6 +18,22 @@
 
 #include "QtAngleLine2D.h"
 
+QtAngleLine2D::QtAngleLine2D(QGraphicsItem * parent, unsigned id, Ark3DModel &ark3d_model):
+QtPrimitiveBase(parent),
+AngleLine2D(id,ark3d_model)
+{
+	SetProperties(Annotation);
+	SetSelectedProperties(SelectedAnnotation);
+	SetMouseHoverProperties(HoverAnnotation);
+
+	setZValue(GetProperties().GetZ());
+
+	angle_widget_ = 0;
+	
+	// Display the newly create ais_object
+	Display();
+}
+
 QtAngleLine2D::QtAngleLine2D(QGraphicsItem * parent, const Line2DPointer line1, const Line2DPointer line2, double angle, bool interior_angle):
 QtPrimitiveBase(parent),
 AngleLine2D(line1,line2,angle,interior_angle)

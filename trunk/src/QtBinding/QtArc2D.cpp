@@ -18,6 +18,22 @@
 
 #include "QtArc2D.h"
 
+QtArc2D::QtArc2D (QGraphicsItem * parent, unsigned id, Ark3DModel &ark3d_model):
+QtPrimitiveBase(parent),
+Arc2D(id,ark3d_model)
+{
+	SetProperties(Primitive);
+	SetSelectedProperties(SelectedPrimitive);
+	SetMouseHoverProperties(HoverPrimitive);
+
+	setZValue(GetProperties().GetZ());
+
+	radius_widget_ = 0;
+
+	// Display the newly create ais_object
+	Display();
+}
+
 QtArc2D::QtArc2D (QGraphicsItem * parent, double s_center, double t_center, double theta_1, double theta_2, double radius, 
 					SketchPlanePointer sketch_plane, bool s_center_free, bool t_center_free, bool theta_1_free, bool theta_2_free, 
 					bool radius_free):

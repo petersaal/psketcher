@@ -253,7 +253,8 @@ void Ark3DWidget::GenerateTestSketch()
 
 	//current_sketch_->ApplySelectionMask(Points);
 	//current_sketch_->ApplySelectionMask(Edges);
-
+	
+	/*
 	DOFPointer test_dof_1 = current_sketch_->DOFFactory(15);
 	std::cout << "Name for DependentDOF 15 (from database)= " << test_dof_1->GetVariable().get_name() << ", value = " << test_dof_1->GetValue() << ", free = " << test_dof_1->IsFree() << ", dependent " << test_dof_1->IsDependent() << std::endl;
 
@@ -272,6 +273,7 @@ void Ark3DWidget::GenerateTestSketch()
 	DistancePoint2DPointer test_constraint = current_sketch_->FetchConstraint<DistancePoint2D>(19);
 	//test_constraint->SyncListsToDatabase("dof_table_19","primitive_table_19",*current_sketch_);
 	//test_constraint->SyncConstraintListToDatabase("constraint_table_19",*current_sketch_);
+	*/
 
 	point1->SyncToDatabase(*current_sketch_);
 	point2->SyncToDatabase(*current_sketch_);

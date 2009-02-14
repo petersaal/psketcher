@@ -16,6 +16,20 @@
 
 #include "QtPoint.h"
 
+QtPoint::QtPoint (QGraphicsItem * parent, unsigned id, Ark3DModel &ark3d_model):
+QtPrimitiveBase(parent),
+Point(id,ark3d_model)
+{
+	SetProperties(PointPrimitive);
+	SetSelectedProperties(SelectedPointPrimitive);
+	SetMouseHoverProperties(HoverPointPrimitive);
+
+	setZValue(GetProperties().GetZ());
+
+	// Display the newly create ais_object
+	Display();
+}
+
 
 QtPoint::QtPoint (QGraphicsItem * parent, double x, double y, double z, bool x_free, bool y_free, bool z_free) :
 QtPrimitiveBase(parent),
