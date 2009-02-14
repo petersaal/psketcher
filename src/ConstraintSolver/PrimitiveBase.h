@@ -56,6 +56,7 @@ class PrimitiveBase
 		void SetID(int id_number) {id_number_ = id_number; next_id_number_ = id_number_ >= next_id_number_ ? id_number_ : next_id_number_;}
 
 		void FlagForDeletion() {delete_me_ = true;}
+		void UnflagForDeletion() {delete_me_ = false;}
 		bool IsFlaggedForDeletion() const {return delete_me_;}
 		bool FlagForDeletionIfDependent(boost::shared_ptr<PrimitiveBase> input_primitive);
 

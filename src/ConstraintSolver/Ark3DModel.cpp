@@ -382,6 +382,9 @@ void Ark3DModel::DeleteFlagged()
 			iter2++;
 		}
 	}
+
+	// there may now be some DOF's that are not need, go ahead and delete them
+	DeleteUnusedDOFs();
 }
 
 void Ark3DModel::DeleteSelected()
@@ -636,4 +639,71 @@ ConstraintEquationBasePointer Ark3DModel::ConstraintFactory(unsigned id)
 	return result;
 }
 
+// synchronize the primitive, constraint, and DOF lists to the database (used to implement file open and undo/redo)
+void Ark3DModel::SyncToDatabase()
+{
+
+
+
+}
+
+// delete all unneeded DOF's in the dof_list_ container
+void Ark3DModel::DeleteUnusedDOFs()
+{
+	// first flag all of the DOF's for deletion
+	for (map<unsigned,DOFPointer>::iterator dof_it=dof_list_.begin() ; dof_it != dof_list_.end(); dof_it++ )
+		(*dof_it).second->FlagForDeletion();
+
+	// loop through all of the primitives and constraints and unflag any DOF's that they depend on
+	// loop over the primitives
+	for(map<unsigned,PrimitiveBasePointer>::iterator primitive_it=primitive_list_.begin() ; primitive_it != primitive_list_.end(); primitive_it++ )
+	{
+		vector<DOFPointer>::const_iterator dof_it;
+		vector<DOFPointer>::const_iterator dof_end = primitive_it->second->GetDOFList().end();
+		for (dof_it=primitive_it->second->GetDOFList().begin() ; dof_it != dof_end; dof_it++ )
+		{
+			map<unsigned,DOFPointer>::iterator find_dof_it = dof_list_.find((*dof_it)->GetID());
+			if(find_dof_it != dof_list_.end())
+			{
+				// dof exists, unflag it for deletion
+				find_dof_it->second->UnflagForDeletion();
+			} else {
+				// dof does not exist, throw an exception
+				throw Ark3DException("Expected DOF does not exist in dof_list_ container.");
+			}
+		}
+	}
+
+	// loop over the constraints
+	for(map<unsigned,ConstraintEquationBasePointer>::iterator constraint_it=constraint_equation_list_.begin() ; constraint_it != constraint_equation_list_.end(); constraint_it++ )
+	{
+		vector<DOFPointer>::const_iterator dof_it;
+		vector<DOFPointer>::const_iterator dof_end = constraint_it->second->GetDOFList().end();
+		for (dof_it=constraint_it->second->GetDOFList().begin() ; dof_it != dof_end; dof_it++ )
+		{
+			map<unsigned,DOFPointer>::iterator find_dof_it = dof_list_.find((*dof_it)->GetID());
+			if(find_dof_it != dof_list_.end())
+			{
+				// dof exists, unflag it for deletion
+				find_dof_it->second->UnflagForDeletion();
+			} else {
+				// dof does not exist, throw an exception
+				throw Ark3DException("Expected DOF does not exist in dof_list_ container.");
+			}
+		}
+	}
+
+	// Finally, delete any DOF's that are still flagged for deletion
+	map<unsigned,DOFPointer>::iterator dof_it = dof_list_.begin();
+	while(dof_it != dof_list_.end())
+	{
+		if(dof_it->second->IsFlaggedForDeletion())
+		{
+			dof_it->second->RemoveFromDatabase();
+			dof_list_.erase(dof_it++);
+		} else {
+			dof_it++;
+		}
+	}
+}
 
