@@ -639,14 +639,6 @@ ConstraintEquationBasePointer Ark3DModel::ConstraintFactory(unsigned id)
 	return result;
 }
 
-// synchronize the primitive, constraint, and DOF lists to the database (used to implement file open and undo/redo)
-void Ark3DModel::SyncToDatabase()
-{
-
-
-
-}
-
 // delete all unneeded DOF's in the dof_list_ container
 void Ark3DModel::DeleteUnusedDOFs()
 {
@@ -705,5 +697,124 @@ void Ark3DModel::DeleteUnusedDOFs()
 			dof_it++;
 		}
 	}
+}
+
+// synchronize the primitive, constraint, and DOF lists to the database (used to implement file open and undo/redo)
+void Ark3DModel::SyncToDatabase()
+{
+	// Step 1: Flag all primitives and constraint equations for deletion
+	for (map<unsigned,PrimitiveBasePointer>::iterator primitive_it=primitive_list_.begin() ; primitive_it != primitive_list_.end(); primitive_it++ )
+		(*primitive_it).second->FlagForDeletion();
+
+	for (map<unsigned,ConstraintEquationBasePointer>::iterator constraint_it=constraint_equation_list_.begin() ; constraint_it != constraint_equation_list_.end(); constraint_it++ )
+		(*constraint_it).second->FlagForDeletion();
+
+	// Step 2: Fetch all primitives and constraints that are defined in the database
+
+	// synchronize the primitive_list_ container to the database
+
+	char *zErrMsg = 0;
+	int rc;
+	sqlite3_stmt *statement;
+
+	stringstream sql_command;
+	sql_command << "SELECT * FROM primitive_list;";
+
+	rc = sqlite3_prepare(GetDatabase(), sql_command.str().c_str(), -1, &statement, 0);
+	if( rc!=SQLITE_OK ){
+		stringstream error_description;
+		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
+		throw Ark3DException(error_description.str());
+	}
+
+	rc = sqlite3_step(statement);
+	
+	int current_primitive_id;
+	PrimitiveBasePointer current_primitive;
+	while(rc == SQLITE_ROW) {
+		current_primitive_id = sqlite3_column_int(statement,0);
+
+		// get the primitive (it will be automatically created from the database if it doesn't already exist)
+		current_primitive = FetchPrimitive<PrimitiveBase>(current_primitive_id);
+		
+		if(current_primitive->IsFlaggedForDeletion())
+		{
+			// this primitive already existed in memory, all we need to do is sync it to the database
+			current_primitive->SyncToDatabase(*this);
+			current_primitive->UnflagForDeletion(); // don't need to delete this primitive since it exists in the database
+		} else {
+			// this primitive was not in memory, need to add it to the model
+			AddPrimitive(current_primitive);
+		}
+
+		rc = sqlite3_step(statement);
+	}
+
+	if( rc!=SQLITE_DONE ){
+		// sql statement didn't finish properly, some error must to have occured
+		stringstream error_description;
+		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
+		throw Ark3DException(error_description.str());
+	}
+
+	rc = sqlite3_finalize(statement);
+	if( rc!=SQLITE_OK ){
+		stringstream error_description;
+		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
+		throw Ark3DException(error_description.str());
+	}
+
+
+	// synchronize the constraint_equation_list_ container to the database
+	sql_command.str(""); // clear the contents of the string stream
+	sql_command << "SELECT * FROM constraint_equation_list;";
+
+	rc = sqlite3_prepare(GetDatabase(), sql_command.str().c_str(), -1, &statement, 0);
+	if( rc!=SQLITE_OK ){
+		stringstream error_description;
+		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
+		throw Ark3DException(error_description.str());
+	}
+
+	rc = sqlite3_step(statement);
+	
+	int current_constraint_id;
+	ConstraintEquationBasePointer current_constraint;
+	while(rc == SQLITE_ROW) {
+		current_constraint_id = sqlite3_column_int(statement,0);
+
+		// get the constraint (it will be automatically created from the database if it doesn't already exist)
+		current_constraint = FetchConstraint<ConstraintEquationBase>(current_constraint_id);
+
+		if(current_constraint->IsFlaggedForDeletion())
+		{
+			// this primitive already existed in memory, all we need to do is sync it to the database
+			current_constraint->SyncToDatabase(*this);
+			current_constraint->UnflagForDeletion(); // don't need to delete this primitive since it exists in the database
+		} else {
+			// this primitive was not in memory, need to add it to the model
+			AddConstraintEquation(current_constraint);
+		}
+
+		rc = sqlite3_step(statement);
+	}
+
+	if( rc!=SQLITE_DONE ){
+		// sql statement didn't finish properly, some error must to have occured
+		stringstream error_description;
+		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
+		throw Ark3DException(error_description.str());
+	}
+
+	rc = sqlite3_finalize(statement);
+	if( rc!=SQLITE_OK ){
+		stringstream error_description;
+		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
+		throw Ark3DException(error_description.str());
+	}
+
+
+	// Step 3: Delete all primitives and constraints that are flagged for deletion
+	DeleteFlagged();
 }
 

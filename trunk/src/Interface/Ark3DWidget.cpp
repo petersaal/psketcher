@@ -275,6 +275,7 @@ void Ark3DWidget::GenerateTestSketch()
 	//test_constraint->SyncConstraintListToDatabase("constraint_table_19",*current_sketch_);
 	*/
 
+	/*
 	point1->SyncToDatabase(*current_sketch_);
 	point2->SyncToDatabase(*current_sketch_);
 	point3->SyncToDatabase(*current_sketch_);
@@ -290,6 +291,9 @@ void Ark3DWidget::GenerateTestSketch()
 	constraint5->SyncToDatabase(*current_sketch_); // angle
 	constraint6->SyncToDatabase(*current_sketch_); // tangent
 	constraint7->SyncToDatabase(*current_sketch_); // tangent
+	*/
+
+	//current_sketch_->SyncToDatabase();
 
 	fitExtents();
 }
