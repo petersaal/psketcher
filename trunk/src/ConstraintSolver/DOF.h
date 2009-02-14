@@ -48,6 +48,7 @@ class DOF
 		bool IsDependent()const {return dependent_;}
 
 		void FlagForDeletion() {delete_me_ = true;}
+		void UnflagForDeletion() {delete_me_ = false;}
 		bool IsFlaggedForDeletion() const {return delete_me_;}
 
 		// method for adding this object to the SQLite3 database, needs to be implement by each child class

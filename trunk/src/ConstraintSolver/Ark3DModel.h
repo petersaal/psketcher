@@ -85,6 +85,7 @@ private:
 
 	void FlagDependentsForDeletion(PrimitiveBasePointer primitive_to_delete); // Flag any primitives or constraint equations for deletion that depend on this primitive
 	void DeleteFlagged(); // delete all of the primitives that have been flagged for deletion
+	void DeleteUnusedDOFs(); // delete all unused DOF's in the dof_list_ container
 	virtual void PreparePrimitiveForDeletion(PrimitiveBasePointer primitive_to_delete) {;}
 
 	std::map<unsigned,DOFPointer> dof_list_;
