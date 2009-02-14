@@ -18,6 +18,22 @@
 
 #include "QtDistancePoint2D.h"
 
+QtDistancePoint2D::QtDistancePoint2D (QGraphicsItem * parent, unsigned id, Ark3DModel &ark3d_model):
+QtPrimitiveBase(parent),
+DistancePoint2D(id,ark3d_model)
+{
+	SetProperties(Annotation);
+	SetSelectedProperties(SelectedAnnotation);
+	SetMouseHoverProperties(HoverAnnotation);
+
+	setZValue(GetProperties().GetZ());
+
+	distance_widget_ = 0;
+
+	// Display the newly create ais_object
+	Display();
+}
+
 QtDistancePoint2D::QtDistancePoint2D(QGraphicsItem * parent,const Point2DPointer point1, const Point2DPointer point2,double distance):
 QtPrimitiveBase(parent),
 DistancePoint2D(point1,point2,distance)

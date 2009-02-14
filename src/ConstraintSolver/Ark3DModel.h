@@ -64,6 +64,7 @@ public:
 
 	// Methods relating to saving and loading the model from a file
 	// An SQLite3 database is used to store the model 
+	void SyncToDatabase();  // synchronize the primitive, constraint, and DOF lists to the database (used to implement file open and undo/redo)
 	bool Save(std::string file_name);
 
 	// these methods fetch objects from the map containers or create them using the factory methods below if they do not exist in their respective map
@@ -73,13 +74,13 @@ public:
 	
 	sqlite3 *GetDatabase() {return database_;}
 
+private:
+
 	// methods for generating objects directly from the database
 	// These methods are private since the Fetch methods should be used to access the DOF's primitives and constraints and they will call these methods if necessary
 	virtual DOFPointer DOFFactory(unsigned id);
 	virtual PrimitiveBasePointer PrimitiveFactory(unsigned id);
 	virtual ConstraintEquationBasePointer ConstraintFactory(unsigned id);
-
-private:
 
 
 	void FlagDependentsForDeletion(PrimitiveBasePointer primitive_to_delete); // Flag any primitives or constraint equations for deletion that depend on this primitive

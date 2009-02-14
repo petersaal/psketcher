@@ -14,7 +14,11 @@
 **
 ****************************************************************************/
 
+#include <sstream>
+
 #include "QtSketch.h"
+
+using namespace std;
 
 QtSketch::QtSketch(QGraphicsScene *scene, VectorPointer normal, VectorPointer up, PointPointer base, bool grid_snap):
 Sketch(normal,up,base),
@@ -206,6 +210,154 @@ void QtSketch::PreparePrimitiveForDeletion(PrimitiveBasePointer primitive_to_del
 		
 		current_primitive->Erase();
 	}
+}
+
+PrimitiveBasePointer QtSketch::PrimitiveFactory(unsigned id)
+{
+	// grab the table name from the database so we now exactly which class needs to be created
+	int rc;
+	sqlite3_stmt *statement;
+	stringstream table_name_stream;
+	string table_name;
+
+	stringstream sql_command;
+	sql_command << "SELECT * FROM primitive_list WHERE id=" << id << ";";
+
+	rc = sqlite3_prepare(GetDatabase(), sql_command.str().c_str(), -1, &statement, 0);
+	if( rc!=SQLITE_OK ){
+		stringstream error_description;
+		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
+		throw Ark3DException(error_description.str());
+	}
+
+	rc = sqlite3_step(statement);
+
+	if(rc == SQLITE_ROW) {
+		// row exist, store the values to initialize this object
+		table_name_stream << sqlite3_column_text(statement,1);
+		table_name = table_name_stream.str();
+	} else {
+		// the requested row does not exist in the database
+		sqlite3_finalize(statement);
+
+		stringstream error_description;
+		error_description << "SQLite rowid " << id << " in table " << table_name << " does not exist";
+		throw Ark3DException(error_description.str());
+	}
+
+	rc = sqlite3_step(statement);
+	if( rc!=SQLITE_DONE ){
+		// sql statement didn't finish properly, some error must to have occured
+		stringstream error_description;
+		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
+		throw Ark3DException(error_description.str());
+	}
+	
+	rc = sqlite3_finalize(statement);
+	if( rc!=SQLITE_OK ){
+		stringstream error_description;
+		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
+		throw Ark3DException(error_description.str());
+	}
+
+	// now generate the object based on the table name
+	PrimitiveBasePointer result;
+
+	if(table_name == "arc2d_list")
+	{
+		result.reset(new QtArc2D(0,id,*this));
+	}
+	else if(table_name == "line2d_list"){
+		result.reset(new QtLine2D(0,id,*this));
+	}
+	else if(table_name == "point_list"){
+		result.reset(new Point(id,*this));
+	}
+	else if(table_name == "point2d_list"){
+		result.reset(new QtPoint2D(0,id,*this));
+	}
+	else if(table_name == "sketch_plane_list"){
+		result.reset(new SketchPlane(id,*this));
+	}
+	else if(table_name == "vector_list"){
+		result.reset(new Vector(id,*this));
+	}
+	else {
+		throw Ark3DException("Ark3D::PrimitiveFactory: Unable to determine type based on database table name " + table_name);	
+	}
+
+	return result;
+}
+
+ConstraintEquationBasePointer QtSketch::ConstraintFactory(unsigned id)
+{
+
+	// grab the table name from the database so we now exactly which class needs to be created
+	int rc;
+	sqlite3_stmt *statement;
+	stringstream table_name_stream;
+	string table_name;
+
+	stringstream sql_command;
+	sql_command << "SELECT * FROM constraint_equation_list WHERE id=" << id << ";";
+
+	rc = sqlite3_prepare(GetDatabase(), sql_command.str().c_str(), -1, &statement, 0);
+	if( rc!=SQLITE_OK ){
+		stringstream error_description;
+		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
+		throw Ark3DException(error_description.str());
+	}
+
+	rc = sqlite3_step(statement);
+
+	if(rc == SQLITE_ROW) {
+		// row exist, store the values to initialize this object
+		table_name_stream << sqlite3_column_text(statement,1);
+		table_name = table_name_stream.str();
+	} else {
+		// the requested row does not exist in the database
+		sqlite3_finalize(statement);
+
+		stringstream error_description;
+		error_description << "SQLite rowid " << id << " in table " << table_name << " does not exist";
+		throw Ark3DException(error_description.str());
+	}
+
+	rc = sqlite3_step(statement);
+	if( rc!=SQLITE_DONE ){
+		// sql statement didn't finish properly, some error must to have occured
+		stringstream error_description;
+		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
+		throw Ark3DException(error_description.str());
+	}
+	
+	rc = sqlite3_finalize(statement);
+	if( rc!=SQLITE_OK ){
+		stringstream error_description;
+		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
+		throw Ark3DException(error_description.str());
+	}
+
+	// now generate the object based on the table name
+	ConstraintEquationBasePointer result;
+
+	if(table_name == "angle_line2d_list"){
+		result.reset(new QtAngleLine2D(0,id,*this));
+	}
+	else if(table_name == "distance_point2d_list"){
+		result.reset(new QtDistancePoint2D(0,id,*this));
+	}
+	else if(table_name == "parallel_line2d_list"){
+		result.reset(new QtParallelLine2D(0,id,*this));
+	}
+	else if(table_name == "tangent_edge2d_list"){
+		result.reset(new QtTangentEdge2D(0,id,*this));
+	}
+	else {
+		throw Ark3DException("Ark3D::ConstraintFactory: Unable to determine type based on database table name " + table_name);
+	}
+
+	return result;
 }
 
 

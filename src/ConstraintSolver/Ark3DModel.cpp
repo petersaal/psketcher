@@ -537,29 +537,32 @@ PrimitiveBasePointer Ark3DModel::PrimitiveFactory(unsigned id)
 	}
 
 	// now generate the object based on the table name
+	PrimitiveBasePointer result;
 
 	if(table_name == "arc2d_list")
 	{
-
+		result.reset(new Arc2D(id,*this));
 	}
 	else if(table_name == "line2d_list"){
-
+		result.reset(new Line2D(id,*this));
 	}
 	else if(table_name == "point_list"){
-
+		result.reset(new Point(id,*this));
 	}
 	else if(table_name == "point2d_list"){
-
+		result.reset(new Point2D(id,*this));
 	}
 	else if(table_name == "sketch_plane_list"){
-
+		result.reset(new SketchPlane(id,*this));
 	}
 	else if(table_name == "vector_list"){
-
+		result.reset(new Vector(id,*this));
 	}
 	else {
 		throw Ark3DException("Ark3D::PrimitiveFactory: Unable to determine type based on database table name " + table_name);	
 	}
+
+	return result;
 }
 
 ConstraintEquationBasePointer Ark3DModel::ConstraintFactory(unsigned id)
@@ -612,22 +615,25 @@ ConstraintEquationBasePointer Ark3DModel::ConstraintFactory(unsigned id)
 	}
 
 	// now generate the object based on the table name
+	ConstraintEquationBasePointer result;
 
 	if(table_name == "angle_line2d_list"){
-
+		result.reset(new AngleLine2D(id,*this));
 	}
 	else if(table_name == "distance_point2d_list"){
-
+		result.reset(new DistancePoint2D(id,*this));
 	}
 	else if(table_name == "parallel_line2d_list"){
-
+		result.reset(new ParallelLine2D(id,*this));
 	}
 	else if(table_name == "tangent_edge2d_list"){
-
+		result.reset(new TangentEdge2D(id,*this));
 	}
 	else {
 		throw Ark3DException("Ark3D::ConstraintFactory: Unable to determine type based on database table name " + table_name);
 	}
+
+	return result;
 }
 
 

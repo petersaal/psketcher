@@ -22,6 +22,7 @@
 class QtParallelLine2D : public QtPrimitiveBase, public ParallelLine2D
 {
 	public:
+		QtParallelLine2D (QGraphicsItem * parent, unsigned id, Ark3DModel &ark3d_model);
 		QtParallelLine2D (QGraphicsItem * parent,
 																			 const Line2DPointer line1, const Line2DPointer line2);
 
