@@ -29,9 +29,6 @@ class QtPrimitiveBase : public QGraphicsItem
 {
 	public:
 		QtPrimitiveBase(QGraphicsItem * parent = 0);
-		
-		// erase from the AIS_InteractiveContext and clear vector container
-		virtual ~QtPrimitiveBase() { Erase();}
 
 		virtual void Display();
 

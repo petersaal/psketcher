@@ -69,11 +69,25 @@ Ark3DModel::~Ark3DModel()
 		std::cerr << "Error closing SQL Database: " << sqlite3_errmsg(database_) << std::endl;
 	}
 
+	// let all of the primitives and constraints do some cleanup if needed before they are deleted
+	map<unsigned,PrimitiveBasePointer>::iterator iter1 = primitive_list_.begin();
+	while(iter1 != primitive_list_.end())
+	{
+		PreparePrimitiveForDeletion(iter1->second);
+		iter1++;
+	}
+	
+	map<unsigned,ConstraintEquationBasePointer>::iterator iter2 = constraint_equation_list_.begin();
+	while(iter2 != constraint_equation_list_.end())
+	{
+		PreparePrimitiveForDeletion(iter2->second);
+		iter2++;
+	}	
+	
 	// clear out the lists
 	dof_list_.clear(); 
 	constraint_equation_list_.clear(); 
 	primitive_list_.clear();
-
 }
 
 void Ark3DModel::InitializeDatabase()

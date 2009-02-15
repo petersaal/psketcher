@@ -64,7 +64,7 @@ Ark3DWidget::~Ark3DWidget()
 		delete interactive_primitive_;
 
 	if(current_sketch_ != 0)
-		delete current_sketch_;
+		delete current_sketch_;	
 }
 
 void Ark3DWidget::select()
