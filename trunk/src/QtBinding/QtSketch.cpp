@@ -28,6 +28,14 @@ scene_(scene)
 
 }
 
+QtSketch::QtSketch(QGraphicsScene *scene, const std::string &file_name, bool grid_snap):
+Sketch(file_name),
+scene_(scene),
+grid_snap_(grid_snap)
+{
+
+}
+
 QtPoint2DPointer QtSketch::AddPoint2D ( double s, double t, bool s_free, bool t_free)
 {
 	QtPoint2DPointer new_point(new QtPoint2D(0,s,t,GetSketchPlane(),s_free,t_free));

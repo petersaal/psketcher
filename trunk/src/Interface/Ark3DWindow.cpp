@@ -91,6 +91,22 @@ void Ark3DWindow::createActions()
 	solveConstraintsAction->setStatusTip(tr("Solve Constraints"));
     connect(solveConstraintsAction, SIGNAL(triggered()), view, SLOT(SolveConstraints()));
 
+	// file actions
+	newFileAction = new QAction(tr("New"), this);
+	newFileAction->setStatusTip(tr("Create New File"));
+	connect(newFileAction, SIGNAL(triggered()), view, SLOT(newFile()));
+
+	openAction = new QAction(tr("Open..."), this);
+	openAction->setStatusTip(tr("Open an Existing File"));
+	connect(openAction, SIGNAL(triggered()), view, SLOT(open()));
+
+	saveAction = new QAction(tr("Save"), this);
+	saveAction->setStatusTip(tr("Save Current File"));
+	connect(saveAction, SIGNAL(triggered()), view, SLOT(save()));
+
+	saveAsAction = new QAction(tr("Save As..."), this);
+	saveAsAction->setStatusTip(tr("Save Current File Under a Different Name"));
+	connect(saveAsAction, SIGNAL(triggered()), view, SLOT(saveAs()));
 
 	// Create Sketch actions
 	sketchActionGroup = new QActionGroup(this);
@@ -149,6 +165,10 @@ void Ark3DWindow::createActions()
 void Ark3DWindow::createMenus()
 {
     fileMenu = menuBar()->addMenu( tr("&File") );
+		fileMenu->addAction( newFileAction );
+		fileMenu->addAction( openAction );
+		fileMenu->addAction( saveAction );
+		fileMenu->addAction( saveAsAction );
 		fileMenu->addAction( exitAction );
 
     editMenu = menuBar()->addMenu( tr("&Edit") );

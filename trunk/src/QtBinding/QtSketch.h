@@ -29,6 +29,7 @@ class QtSketch : public Sketch
 	public:
 		// constructor
 		QtSketch(QGraphicsScene *scene, VectorPointer normal, VectorPointer up, PointPointer base, bool grid_snap = false);
+		QtSketch(QGraphicsScene *scene, const std::string &file_name, bool grid_snap = false);
 
 		// accessor methods
 		bool GetGridSnap() {return grid_snap_;}

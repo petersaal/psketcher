@@ -22,6 +22,12 @@ sketch_plane_(new SketchPlane(normal,up,base))
 	AddPrimitive(sketch_plane_);
 }
 
+Sketch::Sketch(const std::string &file_name):
+Ark3DModel(file_name)
+{
+
+}
+
 Point2DPointer Sketch::AddPoint2D ( double s, double t, bool s_free, bool t_free)
 {
 	Point2DPointer new_point(new Point2D(s,t,sketch_plane_,s_free,t_free));

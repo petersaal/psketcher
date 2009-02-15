@@ -63,7 +63,8 @@ public:
 	// Methods relating to saving and loading the model from a file
 	// An SQLite3 database is used to store the model 
 	void SyncToDatabase();  // synchronize the primitive, constraint, and DOF lists to the database (used to implement file open and undo/redo)
-	bool Save(const std::string &file_name = ""); // returns true on success
+	bool Save(const std::string &file_name = "", bool save_copy = false); // returns true on success
+	const std::string & GetFileName() {return current_file_name_;}
 
 	// these methods fetch objects from the map containers or create them using the factory methods below if they do not exist in their respective map
 	DOFPointer FetchDOF(unsigned id);

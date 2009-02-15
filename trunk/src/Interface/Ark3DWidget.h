@@ -71,6 +71,12 @@ class Ark3DWidget : public QGraphicsView
 		void modelChanged();
 
 		void fitExtents();
+
+		// slots for file handling
+		void open();
+		void newFile();
+		bool save();
+		bool saveAs();
 	
 	protected: // methods
 		virtual void paintEvent        ( QPaintEvent* e );
