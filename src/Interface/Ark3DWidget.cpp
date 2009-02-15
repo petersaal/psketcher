@@ -437,3 +437,48 @@ void Ark3DWidget::keyReleaseEvent ( QKeyEvent * event )
 		QGraphicsView::keyReleaseEvent(event);
 	}
 }
+
+void Ark3DWidget::open()
+{
+	// @fixme Need to add a check to make sure that there are no unsaved changes before loading another file
+	QString file_name = QFileDialog::getOpenFileName(this,tr("Open Sketch"),".",tr("pSketcher sketch files (*.pSketch)"));
+
+	if(!file_name.isEmpty())
+	{
+		delete current_sketch_;
+		current_sketch_ = new QtSketch(scene(),file_name.toStdString());
+	}
+}
+
+void Ark3DWidget::newFile()
+{
+	// @fixme Need to add a check to make sure that there are no unsaved changes before loading a new file
+
+	delete current_sketch_;
+
+	// create a new Ark3D sketch
+	VectorPointer normal( new Vector(0.0,0.0,1.0));
+	VectorPointer up( new Vector(0.0,1.0,0.0));
+	PointPointer base( new Point(0.0,0.0,0.0));
+	current_sketch_ = QtSketchPointer(new QtSketch(scene(),normal, up, base));
+}
+
+bool Ark3DWidget::save()
+{
+	if(current_sketch_->GetFileName() == "")
+	{	
+		return saveAs();
+	} else {
+		return current_sketch_->Save();
+	}
+}
+
+bool Ark3DWidget::saveAs()
+{
+	QString file_name = QFileDialog::getSaveFileName(this,tr("Save Sketch"), ".", tr("pSketcher sketch files (*.pSketch)"));
+
+	if (file_name.isEmpty())
+		return false;
+
+	return current_sketch_->Save(file_name.toStdString());
+}

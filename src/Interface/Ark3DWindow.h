@@ -66,6 +66,12 @@ private:
 	QAction *solveConstraintsAction;
 	QToolBar *debugToolBar;
 
+	// File actions
+	QAction *saveAction;
+	QAction *openAction;
+	QAction *saveAsAction;
+	QAction *newFileAction;
+
 	// Sketching action
 	QActionGroup *sketchActionGroup;
     QAction *selectAction;

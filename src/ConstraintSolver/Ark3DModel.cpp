@@ -134,9 +134,9 @@ void Ark3DModel::InitializeDatabase()
 	
 }
 
-bool Ark3DModel::Save(const std::string &file_name)
+bool Ark3DModel::Save(const std::string &file_name, bool save_copy)
 {
-	if(file_name != "")
+	if(file_name != "" && !save_copy)
 		current_file_name_ = file_name;
 
 	bool success = true;
@@ -146,13 +146,18 @@ bool Ark3DModel::Save(const std::string &file_name)
 	if(rc)
 	{
 		// error occured when attempting to close the database
-		std::cerr << "Error closing SQL Database: " << sqlite3_errmsg(database_) << std::endl;
+		std::stringstream error_description;
+		error_description << "Error closing SQL Database: " << sqlite3_errmsg(database_) << std::endl;	
+		throw Ark3DException(error_description.str());
 	}
 	database_ = 0;
 
 	// now copy the working database to the location of current_file_name_
 	try{
-		boost::filesystem::copy_file(ark3d_current_database_file,current_file_name_);
+		if(!save_copy)
+			boost::filesystem::copy_file(ark3d_current_database_file,current_file_name_);
+		else
+			boost::filesystem::copy_file(ark3d_current_database_file,file_name);
 	}
 	catch (boost::filesystem::basic_filesystem_error<string> e) {
 		success = false;
