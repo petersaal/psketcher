@@ -25,14 +25,12 @@
 #include "Primitives.h"
 #include "ConstraintSolver.h"
 
-// utility function used by this class for setting up the database and performing file save operations
-bool FileExists(std::string file_name);
-
 class Ark3DModel
 {
 public:
 	// Acessor Methods
 	Ark3DModel();
+	Ark3DModel(const std::string &file_name);  // construct from file
 	~Ark3DModel();
 	
 	// methods used to manage the sqlite3 database, this database is used to implement saving to file and undo/redo functionality
@@ -65,7 +63,7 @@ public:
 	// Methods relating to saving and loading the model from a file
 	// An SQLite3 database is used to store the model 
 	void SyncToDatabase();  // synchronize the primitive, constraint, and DOF lists to the database (used to implement file open and undo/redo)
-	bool Save(std::string file_name);
+	bool Save(const std::string &file_name = ""); // returns true on success
 
 	// these methods fetch objects from the map containers or create them using the factory methods below if they do not exist in their respective map
 	DOFPointer FetchDOF(unsigned id);
@@ -96,6 +94,9 @@ private:
 
 	// SQLite3 database that will be used to implement file save and undo/redo
 	sqlite3 *database_;
+
+	// current file name
+	std::string current_file_name_;
 };
 
 

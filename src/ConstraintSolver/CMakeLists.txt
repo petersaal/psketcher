@@ -8,6 +8,11 @@ ADD_LIBRARY (Ark3d STATIC ConstraintSolver.cpp Sketch.cpp DOF.cpp IndependentDOF
 # The following module is included so that the pkg_check_modules macro can be used below
 find_package(PkgConfig)
 
+#Boost
+find_package( Boost 1.34 COMPONENTS filesystem )
+link_directories ( ${Boost_LIBRARY_DIRS} )
+include_directories ( ${Boost_INCLUDE_DIRS} )
+
 #gsl
 pkg_check_modules(GSL gsl)
 LINK_DIRECTORIES (${GSL_LIBRARY_DIRS})
