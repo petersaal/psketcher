@@ -41,6 +41,11 @@ FIND_PACKAGE (GLUT REQUIRED)
 # The following module is included so that the pkg_check_modules macro can be used below
 find_package(PkgConfig)
 
+#Boost
+find_package( Boost 1.34 COMPONENTS filesystem )
+link_directories ( ${Boost_LIBRARY_DIRS} )
+include_directories ( ${Boost_INCLUDE_DIRS} )
+
 #SQLite3
 pkg_check_modules(sqlite3 sqlite3)
 LINK_DIRECTORIES (${sqlite3_LIBRARY_DIRS})
@@ -64,6 +69,7 @@ add_executable(ark3d
     ${ark3d_MOCS}
     ${ark3d_RCC_SRCS})
 
+TARGET_LINK_LIBRARIES (ark3d ${Boost_LIBRARIES})
 TARGET_LINK_LIBRARIES (ark3d ${SQLITE3_LIBRARIES})
 TARGET_LINK_LIBRARIES(ark3d ${OPENGL_LIBRARIES})
 TARGET_LINK_LIBRARIES(ark3d ${GLUT_Xmu_LIBRARY})

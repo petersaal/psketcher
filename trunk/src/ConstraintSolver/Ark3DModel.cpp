@@ -16,7 +16,7 @@
 
 #include <iostream>
 #include <sstream>
-#include <sys/stat.h>
+#include <boost/filesystem.hpp>
 #include "Ark3DModel.h"
 
 using namespace std;
@@ -32,31 +32,45 @@ const std::string SQL_ark3d_database_schema = "BEGIN;"
 const std::string ark3d_current_database_file = "ark3d_working_db.current";
 const std::string ark3d_previous_database_file = "ark3d_working_db.previous";
 
-// utility function used by this class 
-bool FileExists(std::string file_name) {
-  struct stat file_info;
-  bool result;
-  int file_stat;
 
-  // Attempt to get the file attributes
-  file_stat = stat(file_name.c_str(),&file_info);
-  if(file_stat == 0) {
-    result = true;
-  } else {
-	// was unable to get that file info, file may not exist or there may be some other problem
-    result = false;
-  }
-
-  return(result);
-}
-
-
-
+// construct empty model
 Ark3DModel::Ark3DModel():
 current_selection_mask_(All),
-database_(0)
+database_(0),
+current_file_name_("")
 {
+	// initialize an empty database
 	InitializeDatabase();
+}
+
+// construct existing model from file
+Ark3DModel::Ark3DModel(const std::string &file_name):
+current_selection_mask_(All),
+database_(0),
+current_file_name_(file_name)
+{
+	// delete the previous database file if it already exists
+	if(boost::filesystem::exists(ark3d_previous_database_file))
+		boost::filesystem::remove(ark3d_previous_database_file);
+
+	// move the current database file to the previous database file if it exists
+	if(boost::filesystem::exists(ark3d_current_database_file))
+		boost::filesystem::rename(ark3d_current_database_file,ark3d_previous_database_file);
+
+	// replace the working database file with the file to be opened
+	boost::filesystem::copy_file(current_file_name_,ark3d_current_database_file);
+
+	// open the working database file
+	int rc = sqlite3_open(ark3d_current_database_file.c_str(), &database_);
+	if( rc ){
+		// an error occurred when trying to open the database
+		std::string error_description = "Can't open database: " + std::string(sqlite3_errmsg(database_));
+		sqlite3_close(database_);
+		throw Ark3DException(error_description);
+	}
+
+	// synchronize memory to the newly opened database
+	SyncToDatabase();
 }
 
 Ark3DModel::~Ark3DModel() 
@@ -68,6 +82,7 @@ Ark3DModel::~Ark3DModel()
 		// error occured when attempting to close the database
 		std::cerr << "Error closing SQL Database: " << sqlite3_errmsg(database_) << std::endl;
 	}
+	database_ = 0;
 
 	// let all of the primitives and constraints do some cleanup if needed before they are deleted
 	map<unsigned,PrimitiveBasePointer>::iterator iter1 = primitive_list_.begin();
@@ -92,15 +107,13 @@ Ark3DModel::~Ark3DModel()
 
 void Ark3DModel::InitializeDatabase()
 {
-	// @fixme The following code for deleting and renaming files for the working database needs to be made more robust. Some cases will blow up. For example, if the the user does not have permision to move or delete the files or if there is a directory with the same name as one of the default database files.
-
 	// delete the previous database file if it already exists
-	if(FileExists(ark3d_previous_database_file))
-		remove(ark3d_previous_database_file.c_str());
+	if(boost::filesystem::exists(ark3d_previous_database_file))
+		boost::filesystem::remove(ark3d_previous_database_file);
 
 	// move the current database file to the previous database file if it exists
-	if(FileExists(ark3d_current_database_file))
-		rename(ark3d_current_database_file.c_str(),ark3d_previous_database_file.c_str());
+	if(boost::filesystem::exists(ark3d_current_database_file))
+		boost::filesystem::rename(ark3d_current_database_file,ark3d_previous_database_file);
 
 	int rc = sqlite3_open(ark3d_current_database_file.c_str(), &database_);
 	if( rc ){
@@ -119,6 +132,42 @@ void Ark3DModel::InitializeDatabase()
 		throw Ark3DException(error_description);
 	}
 	
+}
+
+bool Ark3DModel::Save(const std::string &file_name)
+{
+	if(file_name != "")
+		current_file_name_ = file_name;
+
+	bool success = true;
+
+	// first close the working database so that it is in a stable state
+	int rc = sqlite3_close(database_);
+	if(rc)
+	{
+		// error occured when attempting to close the database
+		std::cerr << "Error closing SQL Database: " << sqlite3_errmsg(database_) << std::endl;
+	}
+	database_ = 0;
+
+	// now copy the working database to the location of current_file_name_
+	try{
+		boost::filesystem::copy_file(ark3d_current_database_file,current_file_name_);
+	}
+	catch (boost::filesystem::basic_filesystem_error<string> e) {
+		success = false;
+	}
+
+	// finally, reopen the working database so that it can continue to be used
+	rc = sqlite3_open(ark3d_current_database_file.c_str(), &database_);
+	if( rc ){
+		// an error occurred when trying to open the database
+		std::string error_description = "Can't open database: " + std::string(sqlite3_errmsg(database_));
+		sqlite3_close(database_);
+		throw Ark3DException(error_description);
+	}
+
+	return success;
 }
 
 void Ark3DModel::AddConstraintEquation(const ConstraintEquationBasePointer &new_constraint_equation)
