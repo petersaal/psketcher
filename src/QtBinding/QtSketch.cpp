@@ -172,7 +172,7 @@ QtTangentEdge2DPointer QtSketch::AddTangentEdge2D(Edge2DBasePointer edge1, EdgeP
 	return new_constraint;
 }
 
-void QtSketch::AddConstraintEquation(const ConstraintEquationBasePointer &new_constraint_equation)
+void QtSketch::AddConstraintEquation(const ConstraintEquationBasePointer &new_constraint_equation, bool update_database)
 {
 	// if this constraint equation is derived from QtPrimitiveBase add it to the scene
 	
@@ -187,10 +187,10 @@ void QtSketch::AddConstraintEquation(const ConstraintEquationBasePointer &new_co
 	}
 
 	// now call the base class version of this method
-	Ark3DModel::AddConstraintEquation(new_constraint_equation);
+	Ark3DModel::AddConstraintEquation(new_constraint_equation,update_database);
 }
 
-void QtSketch::AddPrimitive(const PrimitiveBasePointer &new_primitive)
+void QtSketch::AddPrimitive(const PrimitiveBasePointer &new_primitive, bool update_database)
 {
 	// if this primitive is derived from QtPrimitiveBase add it to the scene
 	
@@ -205,7 +205,7 @@ void QtSketch::AddPrimitive(const PrimitiveBasePointer &new_primitive)
 	}
 
 	// now call the base class version of this method
-	Ark3DModel::AddPrimitive(new_primitive);
+	Ark3DModel::AddPrimitive(new_primitive, update_database);
 
 }
 

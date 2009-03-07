@@ -37,10 +37,10 @@ public:
 	void InitializeDatabase();
 
 	// Constraint equation management
-	void AddConstraintEquation(const ConstraintEquationBasePointer &new_constraint_equation);
+	virtual void AddConstraintEquation(const ConstraintEquationBasePointer &new_constraint_equation, bool update_database = true);
 	
 	// Primitive management
-	void AddPrimitive(const PrimitiveBasePointer &new_primitive);
+	virtual void AddPrimitive(const PrimitiveBasePointer &new_primitive, bool update_database = true);
 	
 	// method for deleting primitives (either a primitive or a constraint equation)
 	void DeletePrimitive(PrimitiveBasePointer primitive_to_delete);
@@ -116,7 +116,7 @@ template <class data_t> boost::shared_ptr<data_t> Ark3DModel::FetchPrimitive(uns
 	} else {
 		// primitive object does not exist, need to create it from the database
 		temp = PrimitiveFactory(id);
-		AddPrimitive(temp);
+		AddPrimitive(temp, false);  // don't update DB since primitive already exists in DB
 	}
 
 	// attempt to cast the PrimitiveBasePointer to the desired datatype, generate an error if the cast fails
@@ -143,7 +143,7 @@ template <class data_t> boost::shared_ptr<data_t> Ark3DModel::FetchConstraint(un
 	} else {
 		// primitive object does not exist, need to create it from the database
 		temp = ConstraintFactory(id);
-		AddConstraintEquation(temp);
+		AddConstraintEquation(temp, false);  // don't add to DB since the constraint equation already exists in the DB
 	}
 
 	// attempt to cast the PrimitiveBasePointer to the desired datatype, generate an error if the cast fails
