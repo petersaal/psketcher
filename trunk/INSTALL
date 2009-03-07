@@ -11,6 +11,7 @@ cmake (this is the build system used, verion 2.6 or greater)
 libginac-dev
 libgsl0-dev (version 1.9 or greater)
 libboost-dev C++ libraries 
+libboost-filesystem-dev
 
 Build and run instructions
 ----------------------------

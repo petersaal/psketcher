@@ -175,12 +175,12 @@ bool Ark3DModel::Save(const std::string &file_name, bool save_copy)
 	return success;
 }
 
-void Ark3DModel::AddConstraintEquation(const ConstraintEquationBasePointer &new_constraint_equation)
+void Ark3DModel::AddConstraintEquation(const ConstraintEquationBasePointer &new_constraint_equation, bool update_database)
 {
 	// Add constraint equation to constraint equation vector container
 	pair<map<unsigned,ConstraintEquationBasePointer>::iterator,bool> constraint_ret;
 	constraint_ret = constraint_equation_list_.insert(pair<unsigned,ConstraintEquationBasePointer>(new_constraint_equation->GetID(),new_constraint_equation));
-	if(constraint_ret.second) // constraint_ret.second is true if this constraint is not already in the map
+	if(constraint_ret.second && update_database) // constraint_ret.second is true if this constraint is not already in the map
 		new_constraint_equation->AddToDatabase(database_);		
 
 	// Add the primitives that this constraint depends on to the primitive map container
@@ -189,7 +189,7 @@ void Ark3DModel::AddConstraintEquation(const ConstraintEquationBasePointer &new_
 	for ( primitive_it=new_constraint_equation->GetPrimitiveList().begin() ; primitive_it != primitive_end; primitive_it++ )
 	{
 		pair<map<unsigned,PrimitiveBasePointer>::iterator,bool> primitive_ret = primitive_list_.insert(pair<unsigned,PrimitiveBasePointer>((*primitive_it)->GetID(),(*primitive_it)));
-		if(primitive_ret.second) // ret.second is true if this PrimitivePointer is not already in the map
+		if(primitive_ret.second && update_database) // ret.second is true if this PrimitivePointer is not already in the map
 			(*primitive_it)->AddToDatabase(database_); // this primitive is new to this model and needs to be added to the database
 	}
 
@@ -200,7 +200,7 @@ void Ark3DModel::AddConstraintEquation(const ConstraintEquationBasePointer &new_
 	for ( dof_it=new_constraint_equation->GetDOFList().begin() ; dof_it != dof_end; dof_it++ )
 	{
 		ret = dof_list_.insert(pair<unsigned,DOFPointer>((*dof_it)->GetID(),(*dof_it)));
-		if(ret.second) // ret.second is true if this DOFPointer is not already in the map
+		if(ret.second && update_database) // ret.second is true if this DOFPointer is not already in the map
 			(*dof_it)->AddToDatabase(database_); // this DOF is new to this model and needs to be added to the database
 	}
 	
@@ -215,12 +215,12 @@ void Ark3DModel::AddConstraintEquations(const std::vector<ConstraintEquationBase
 }
 */
 
-void Ark3DModel::AddPrimitive(const PrimitiveBasePointer &new_primitive)
+void Ark3DModel::AddPrimitive(const PrimitiveBasePointer &new_primitive, bool update_database)
 {
 	// Add primitive to the primitive vector container
 	pair<map<unsigned,PrimitiveBasePointer>::iterator,bool> primitive_ret;
 	primitive_ret = primitive_list_.insert(pair<unsigned,PrimitiveBasePointer>(new_primitive->GetID(),new_primitive));
-	if(primitive_ret.second) // primitive_ret.second is true if this primitive is not already in the map
+	if(primitive_ret.second && update_database) // primitive_ret.second is true if this primitive is not already in the map
 		new_primitive->AddToDatabase(database_);
 
 	// Add the primitives that this primitive depends on to the primitive map container
@@ -229,7 +229,7 @@ void Ark3DModel::AddPrimitive(const PrimitiveBasePointer &new_primitive)
 	for ( primitive_it=new_primitive->GetPrimitiveList().begin() ; primitive_it != primitive_end; primitive_it++ )
 	{
 		primitive_ret = primitive_list_.insert(pair<unsigned,PrimitiveBasePointer>((*primitive_it)->GetID(),(*primitive_it)));
-		if(primitive_ret.second) // ret.second is true if this PrimitivePointer is not already in the map
+		if(primitive_ret.second && update_database) // ret.second is true if this PrimitivePointer is not already in the map
 			(*primitive_it)->AddToDatabase(database_); // this primitive is new to this model and needs to be added to the database
 	}
 
@@ -240,7 +240,7 @@ void Ark3DModel::AddPrimitive(const PrimitiveBasePointer &new_primitive)
 	for ( dof_it=new_primitive->GetDOFList().begin() ; dof_it != dof_end; dof_it++ )
 	{
 		ret = dof_list_.insert(pair<unsigned,DOFPointer>((*dof_it)->GetID(),(*dof_it)));
-		if(ret.second) // ret.second is true if this DOFPointer is not already in the map
+		if(ret.second && update_database) // ret.second is true if this DOFPointer is not already in the map
 			(*dof_it)->AddToDatabase(database_); // this DOF is new to this model and needs to be added to the database
 	}
 
@@ -812,7 +812,8 @@ void Ark3DModel::SyncToDatabase()
 			current_primitive->UnflagForDeletion(); // don't need to delete this primitive since it exists in the database
 		} else {
 			// this primitive was not in memory, need to add it to the model
-			AddPrimitive(current_primitive);
+			// don't update the database since we are in the process of syncing to the database
+			AddPrimitive(current_primitive, false /*bool update_database */);
 		}
 
 		rc = sqlite3_step(statement);
@@ -861,7 +862,8 @@ void Ark3DModel::SyncToDatabase()
 			current_constraint->UnflagForDeletion(); // don't need to delete this primitive since it exists in the database
 		} else {
 			// this primitive was not in memory, need to add it to the model
-			AddConstraintEquation(current_constraint);
+			// don't update the database since we are in the process of reading the model from the database
+			AddConstraintEquation(current_constraint, false /* bool update_database */);
 		}
 
 		rc = sqlite3_step(statement);
