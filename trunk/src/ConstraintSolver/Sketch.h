@@ -26,6 +26,8 @@ class Sketch : public Ark3DModel
 		Sketch(VectorPointer normal, VectorPointer up, PointPointer base);
 		Sketch(const std::string &file_name);
 	
+		void AddToDatabase();
+
 		// Accessor methods
 		SketchPlanePointer GetSketchPlane() {return sketch_plane_;}
 

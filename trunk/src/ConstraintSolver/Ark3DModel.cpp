@@ -155,9 +155,15 @@ bool Ark3DModel::Save(const std::string &file_name, bool save_copy)
 	// now copy the working database to the location of current_file_name_
 	try{
 		if(!save_copy)
+		{
+			if(boost::filesystem::exists(current_file_name_))
+				boost::filesystem::remove(current_file_name_); // delete file if it already exists
 			boost::filesystem::copy_file(ark3d_current_database_file,current_file_name_);
-		else
+		} else {
+			if(boost::filesystem::exists(file_name))
+				boost::filesystem::remove(file_name); // delete file if it already exists
 			boost::filesystem::copy_file(ark3d_current_database_file,file_name);
+		}
 	}
 	catch (boost::filesystem::basic_filesystem_error<string> e) {
 		success = false;

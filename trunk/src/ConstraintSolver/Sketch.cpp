@@ -13,18 +13,89 @@
 ** Copyright (C) 2006-2008 Michael Greminger. All rights reserved.
 **
 ****************************************************************************/
-
+#include <iostream>
+#include <sstream>
 #include "Sketch.h"
+
+const std::string SQL_sketch_database_schema = "CREATE TABLE sketch (sketch_plane INTEGER NOT NULL);";
 
 Sketch::Sketch(VectorPointer normal, VectorPointer up, PointPointer base):
 sketch_plane_(new SketchPlane(normal,up,base))
 {
 	AddPrimitive(sketch_plane_);
+	AddToDatabase();
 }
 
 Sketch::Sketch(const std::string &file_name):
 Ark3DModel(file_name)
 {
+	// need to set the value for sketch_plane_ from the database
+	char *zErrMsg = 0;
+	int rc;
+	sqlite3_stmt *statement;
+	
+	std::string sql_command = "SELECT * FROM sketch;";
+
+	rc = sqlite3_prepare(GetDatabase(), sql_command.c_str(), -1, &statement, 0);
+	if( rc!=SQLITE_OK ){
+		std::stringstream error_description;
+		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
+		throw Ark3DException(error_description.str());
+	}
+
+	rc = sqlite3_step(statement);
+
+	if(rc == SQLITE_ROW) {
+		// set the sketch plane based on the database
+		sketch_plane_ = FetchPrimitive<SketchPlane>(sqlite3_column_int(statement,0));
+
+	} else {
+		// the requested row does not exist in the database
+		sqlite3_finalize(statement);	
+
+		throw Ark3DException("SketchPlane ID not stored in database, cannot initialize Sketch Object");
+	}
+
+	rc = sqlite3_step(statement);
+	if( rc!=SQLITE_DONE ){
+		// sql statement didn't finish properly, some error must to have occured
+		std::stringstream error_description;
+		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
+		throw Ark3DException(error_description.str());
+	}
+	
+	rc = sqlite3_finalize(statement);
+	if( rc!=SQLITE_OK ){
+		std::stringstream error_description;
+		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
+		throw Ark3DException(error_description.str());
+	}
+
+}
+
+// Add the information needed by this class to the database
+void Sketch::AddToDatabase()
+{
+	// initialize the database schema for this class
+	char *zErrMsg = 0;
+	int rc;
+	rc = sqlite3_exec(GetDatabase(), SQL_sketch_database_schema.c_str(), 0, 0, &zErrMsg);
+	if( rc!=SQLITE_OK ){
+		std::string error_description = "SQL error: " + std::string(zErrMsg);
+		sqlite3_free(zErrMsg);
+		throw Ark3DException(error_description);
+	}
+
+	// Add the database row for this class
+	std::stringstream temp_stream;
+	temp_stream << "INSERT INTO sketch VALUES("
+                << sketch_plane_->GetID() << "); ";
+	rc = sqlite3_exec(GetDatabase(), temp_stream.str().c_str(), 0, 0, &zErrMsg);
+	if( rc!=SQLITE_OK ){
+		std::string error_description = "SQL error: " + std::string(zErrMsg);
+		sqlite3_free(zErrMsg);
+		throw Ark3DException(error_description);
+	}
 
 }
 
