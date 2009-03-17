@@ -25,14 +25,13 @@
 #include "../ConstraintSolver/Primitives.h"
 
 // QtPrimitiveBase class
-class QtPrimitiveBase : public QGraphicsItem
+class QtPrimitiveBase : public QGraphicsItem, virtual public PrimitiveBase
 {
 	public:
 		QtPrimitiveBase(QGraphicsItem * parent = 0);
 
 		virtual void Display();
-
-		void Erase();
+		virtual void Erase();
 
 		DisplayProperties GetProperties()           {return properties_;}
 		DisplayProperties GetSelectedProperties()   {return selected_properties_;}

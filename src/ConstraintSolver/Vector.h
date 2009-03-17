@@ -20,7 +20,7 @@
 #include "PrimitiveBase.h"
 
 // vector class
-class Vector : public PrimitiveBase
+class Vector : virtual public PrimitiveBase
 {
 	public:
 		Vector ( double x, double y, double z, bool x_free = false, bool y_free = false, bool z_free = false);

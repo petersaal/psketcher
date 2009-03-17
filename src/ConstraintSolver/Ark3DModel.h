@@ -77,15 +77,14 @@ private:
 
 	// methods for generating objects directly from the database
 	// These methods are private since the Fetch methods should be used to access the DOF's primitives and constraints and they will call these methods if necessary
-	virtual DOFPointer DOFFactory(unsigned id);
-	virtual PrimitiveBasePointer PrimitiveFactory(unsigned id);
-	virtual ConstraintEquationBasePointer ConstraintFactory(unsigned id);
+	DOFPointer DOFFactory(unsigned id);
+	PrimitiveBasePointer PrimitiveFactory(unsigned id);
+	ConstraintEquationBasePointer ConstraintFactory(unsigned id);
 
 
 	void FlagDependentsForDeletion(PrimitiveBasePointer primitive_to_delete); // Flag any primitives or constraint equations for deletion that depend on this primitive
 	void DeleteFlagged(); // delete all of the primitives that have been flagged for deletion
 	void DeleteUnusedDOFs(); // delete all unused DOF's in the dof_list_ container
-	virtual void PreparePrimitiveForDeletion(PrimitiveBasePointer primitive_to_delete) {;}
 
 	std::map<unsigned,DOFPointer> dof_list_;
 	std::map<unsigned,ConstraintEquationBasePointer> constraint_equation_list_;

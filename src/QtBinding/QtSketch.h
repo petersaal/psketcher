@@ -55,10 +55,8 @@ class QtSketch : public Sketch
 	private:
 		// methods for generating objects directly from the database
 		// These methods are private since the Fetch methods should be used to access the DOF's primitives and constraints and they will call these methods if necessary
-		virtual PrimitiveBasePointer PrimitiveFactory(unsigned id);
-		virtual ConstraintEquationBasePointer ConstraintFactory(unsigned id);
-
-		virtual void PreparePrimitiveForDeletion(PrimitiveBasePointer primitive_to_delete);
+		PrimitiveBasePointer PrimitiveFactory(unsigned id);
+		ConstraintEquationBasePointer ConstraintFactory(unsigned id);
 
 		QGraphicsScene *scene_;
 		bool grid_snap_;

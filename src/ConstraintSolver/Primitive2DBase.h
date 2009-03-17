@@ -21,7 +21,7 @@
 #include "SketchPlane.h"
 
 // Base class for points constrained to a sketch plane
-class Primitive2DBase : public PrimitiveBase
+class Primitive2DBase : virtual public PrimitiveBase
 {
 	public:
 		Primitive2DBase(SketchPlanePointer sketch_plane) {sketch_plane_ = sketch_plane;}
