@@ -28,9 +28,11 @@
 class Ark3DModel
 {
 public:
-	// Acessor Methods
-	Ark3DModel();
-	Ark3DModel(const std::string &file_name);  // construct from file
+	// Constructors
+	Ark3DModel(PrimitiveBasePointer (*current_primitive_factory)(unsigned, Ark3DModel &) = Ark3DModel::PrimitiveFactory, ConstraintEquationBasePointer (*current_constraint_factory)(unsigned, Ark3DModel &) = Ark3DModel::ConstraintFactory);
+
+	Ark3DModel(const std::string &file_name, PrimitiveBasePointer (*current_primitive_factory)(unsigned, Ark3DModel &) = Ark3DModel::PrimitiveFactory, ConstraintEquationBasePointer (*current_constraint_factory)(unsigned, Ark3DModel &) = Ark3DModel::ConstraintFactory);  // construct from file
+
 	~Ark3DModel();
 	
 	// methods used to manage the sqlite3 database, this database is used to implement saving to file and undo/redo functionality
@@ -73,14 +75,16 @@ public:
 	
 	sqlite3 *GetDatabase() {return database_;}
 
-private:
-
 	// methods for generating objects directly from the database
-	// These methods are private since the Fetch methods should be used to access the DOF's primitives and constraints and they will call these methods if necessary
 	DOFPointer DOFFactory(unsigned id);
 	static PrimitiveBasePointer PrimitiveFactory(unsigned id, Ark3DModel &ark3d_model);
 	static ConstraintEquationBasePointer ConstraintFactory(unsigned id, Ark3DModel &ark3d_model);
 
+private:
+
+	// function pointers so that child classes can implement their own factory methods for use within the constructor of Ark3DModel (virtual methods won't work in the constructor) 
+	PrimitiveBasePointer (*CurrentPrimitiveFactory)(unsigned, Ark3DModel &);
+	ConstraintEquationBasePointer (*CurrentConstraintFactory)(unsigned, Ark3DModel &);
 
 	void FlagDependentsForDeletion(PrimitiveBasePointer primitive_to_delete); // Flag any primitives or constraint equations for deletion that depend on this primitive
 	void DeleteFlagged(); // delete all of the primitives that have been flagged for deletion
@@ -114,7 +118,7 @@ template <class data_t> boost::shared_ptr<data_t> Ark3DModel::FetchPrimitive(uns
 
 	} else {
 		// primitive object does not exist, need to create it from the database
-		temp = PrimitiveFactory(id,*this);
+		temp = CurrentPrimitiveFactory(id,*this);
 		AddPrimitive(temp, false);  // don't update DB since primitive already exists in DB
 	}
 
@@ -141,7 +145,7 @@ template <class data_t> boost::shared_ptr<data_t> Ark3DModel::FetchConstraint(un
 
 	} else {
 		// primitive object does not exist, need to create it from the database
-		temp = ConstraintFactory(id,*this);
+		temp = CurrentConstraintFactory(id,*this);
 		AddConstraintEquation(temp, false);  // don't add to DB since the constraint equation already exists in the DB
 	}
 

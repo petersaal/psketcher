@@ -21,7 +21,7 @@
 using namespace std;
 
 QtSketch::QtSketch(QGraphicsScene *scene, VectorPointer normal, VectorPointer up, PointPointer base, bool grid_snap):
-Sketch(normal,up,base),
+Sketch(normal,up,base, QtSketch::PrimitiveFactory, QtSketch::ConstraintFactory),
 grid_snap_(grid_snap),
 scene_(scene)
 {
@@ -29,7 +29,7 @@ scene_(scene)
 }
 
 QtSketch::QtSketch(QGraphicsScene *scene, const std::string &file_name, bool grid_snap):
-Sketch(file_name),
+Sketch(file_name,QtSketch::PrimitiveFactory, QtSketch::ConstraintFactory),
 scene_(scene),
 grid_snap_(grid_snap)
 {
@@ -206,7 +206,6 @@ void QtSketch::AddPrimitive(const PrimitiveBasePointer &new_primitive, bool upda
 
 	// now call the base class version of this method
 	Ark3DModel::AddPrimitive(new_primitive, update_database);
-
 }
 
 PrimitiveBasePointer QtSketch::PrimitiveFactory(unsigned id, Ark3DModel &ark3d_model)
