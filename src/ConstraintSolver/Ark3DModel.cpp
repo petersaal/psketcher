@@ -34,7 +34,9 @@ const std::string ark3d_previous_database_file = "ark3d_working_db.previous";
 
 
 // construct empty model
-Ark3DModel::Ark3DModel():
+Ark3DModel::Ark3DModel(PrimitiveBasePointer (*current_primitive_factory)(unsigned, Ark3DModel &), ConstraintEquationBasePointer (*current_constraint_factory)(unsigned, Ark3DModel &)):
+CurrentPrimitiveFactory(current_primitive_factory),
+CurrentConstraintFactory(current_constraint_factory),
 current_selection_mask_(All),
 database_(0),
 current_file_name_("")
@@ -44,7 +46,9 @@ current_file_name_("")
 }
 
 // construct existing model from file
-Ark3DModel::Ark3DModel(const std::string &file_name):
+Ark3DModel::Ark3DModel(const std::string &file_name,PrimitiveBasePointer (*current_primitive_factory)(unsigned, Ark3DModel &), ConstraintEquationBasePointer (*current_constraint_factory)(unsigned, Ark3DModel &)):
+CurrentPrimitiveFactory(current_primitive_factory),
+CurrentConstraintFactory(current_constraint_factory),
 current_selection_mask_(All),
 database_(0),
 current_file_name_(file_name)

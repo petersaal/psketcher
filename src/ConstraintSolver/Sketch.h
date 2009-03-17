@@ -23,8 +23,9 @@ class Sketch : public Ark3DModel
 {
 	public:
 		// constructor
-		Sketch(VectorPointer normal, VectorPointer up, PointPointer base);
-		Sketch(const std::string &file_name);
+		Sketch(VectorPointer normal, VectorPointer up, PointPointer base,PrimitiveBasePointer (*current_primitive_factory)(unsigned, Ark3DModel &) = Ark3DModel::PrimitiveFactory, ConstraintEquationBasePointer (*current_constraint_factory)(unsigned, Ark3DModel &) = Ark3DModel::ConstraintFactory);
+
+		Sketch(const std::string &file_name,PrimitiveBasePointer (*current_primitive_factory)(unsigned, Ark3DModel &) = Ark3DModel::PrimitiveFactory, ConstraintEquationBasePointer (*current_constraint_factory)(unsigned, Ark3DModel &) = Ark3DModel::ConstraintFactory);
 	
 		void AddToDatabase();
 

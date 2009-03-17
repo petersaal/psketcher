@@ -442,7 +442,7 @@ void Ark3DWidget::open()
 {
 	// @fixme Need to add a check to make sure that there are no unsaved changes before loading another file
 	QString file_name = QFileDialog::getOpenFileName(this,tr("Open Sketch"),".",tr("pSketcher sketch files (*.pSketch)"));
-
+	
 	if(!file_name.isEmpty())
 	{
 		delete current_sketch_;

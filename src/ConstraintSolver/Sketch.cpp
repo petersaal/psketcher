@@ -19,15 +19,16 @@
 
 const std::string SQL_sketch_database_schema = "CREATE TABLE sketch (sketch_plane INTEGER NOT NULL);";
 
-Sketch::Sketch(VectorPointer normal, VectorPointer up, PointPointer base):
+Sketch::Sketch(VectorPointer normal, VectorPointer up, PointPointer base,PrimitiveBasePointer (*current_primitive_factory)(unsigned, Ark3DModel &), ConstraintEquationBasePointer (*current_constraint_factory)(unsigned, Ark3DModel &)):
+Ark3DModel(current_primitive_factory, current_constraint_factory),
 sketch_plane_(new SketchPlane(normal,up,base))
 {
 	AddPrimitive(sketch_plane_);
 	AddToDatabase();
 }
 
-Sketch::Sketch(const std::string &file_name):
-Ark3DModel(file_name)
+Sketch::Sketch(const std::string &file_name, PrimitiveBasePointer (*current_primitive_factory)(unsigned, Ark3DModel &), ConstraintEquationBasePointer (*current_constraint_factory)(unsigned, Ark3DModel &)):
+Ark3DModel(file_name, current_primitive_factory, current_constraint_factory)
 {
 	// need to set the value for sketch_plane_ from the database
 	char *zErrMsg = 0;
