@@ -70,6 +70,7 @@ class PrimitiveBase
 		// display methods
 		virtual void Display() {;}
 		virtual void UpdateDisplay() {;}
+		virtual void Erase() {;}
 
 		// Utility method to add the dof_list_ and primitive_list_ to the database
 		void DatabaseAddDeleteLists(bool add_to_database, const std::string &dof_list_table_name, const std::string &primitive_list_table_name);

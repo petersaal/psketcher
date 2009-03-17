@@ -61,8 +61,11 @@ void QtPrimitiveBase::SetSelectable(bool selectable)
 void QtPrimitiveBase::Erase()
 {
 	QGraphicsScene *current_scene = scene();
+
 	if(current_scene != 0)
+	{
 		current_scene->removeItem(this);
+	}
 }
 
 void QtPrimitiveBase::PaintPoint(QPainter *painter, const QStyleOptionGraphicsItem *option, double x, double y)

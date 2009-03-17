@@ -21,7 +21,7 @@
 #include "Point.h"
 
 // line class
-class Line : public PrimitiveBase
+class Line : virtual public PrimitiveBase
 {
 	public:
 		Line (const PointPointer point1, const PointPointer point2);

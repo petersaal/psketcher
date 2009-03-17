@@ -88,14 +88,14 @@ Ark3DModel::~Ark3DModel()
 	map<unsigned,PrimitiveBasePointer>::iterator iter1 = primitive_list_.begin();
 	while(iter1 != primitive_list_.end())
 	{
-		PreparePrimitiveForDeletion(iter1->second);
+		iter1->second->Erase();
 		iter1++;
 	}
 	
 	map<unsigned,ConstraintEquationBasePointer>::iterator iter2 = constraint_equation_list_.begin();
 	while(iter2 != constraint_equation_list_.end())
 	{
-		PreparePrimitiveForDeletion(iter2->second);
+		iter2->second->Erase();
 		iter2++;
 	}	
 	
@@ -435,7 +435,7 @@ void Ark3DModel::DeleteFlagged()
 	{
 		if(iter1->second->IsFlaggedForDeletion())
 		{
-			PreparePrimitiveForDeletion(iter1->second);
+			iter1->second->Erase();
 			iter1->second->RemoveFromDatabase();
 			primitive_list_.erase(iter1++);
 		} else {
@@ -449,7 +449,7 @@ void Ark3DModel::DeleteFlagged()
 	{
 		if(iter2->second->IsFlaggedForDeletion())
 		{
-			PreparePrimitiveForDeletion(iter2->second);
+			iter2->second->Erase();
 			iter2->second->RemoveFromDatabase();
 			constraint_equation_list_.erase(iter2++);
 		} else {

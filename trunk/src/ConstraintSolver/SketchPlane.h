@@ -22,7 +22,7 @@
 #include "Point.h"
 
 // sketch plane class (includes up vector)
-class SketchPlane : public PrimitiveBase
+class SketchPlane : virtual public PrimitiveBase
 {
 	public:
 		SketchPlane ( VectorPointer normal, VectorPointer up, PointPointer base);

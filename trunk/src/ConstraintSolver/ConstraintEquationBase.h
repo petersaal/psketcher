@@ -20,7 +20,7 @@
 #include "PrimitiveBase.h"
 
 // constraint equation class
-class ConstraintEquationBase : public PrimitiveBase
+class ConstraintEquationBase : virtual public PrimitiveBase
 {
 	public:
 		virtual ~ConstraintEquationBase() {constraints_.clear();}

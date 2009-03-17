@@ -20,7 +20,7 @@
 #include "PrimitiveBase.h"
 
 // point class
-class Point : public PrimitiveBase
+class Point : virtual public PrimitiveBase
 {
 	public:
 		Point ( double x, double y, double z, bool x_free = false, bool y_free = false, bool z_free = false);

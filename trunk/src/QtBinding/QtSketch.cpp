@@ -209,17 +209,6 @@ void QtSketch::AddPrimitive(const PrimitiveBasePointer &new_primitive, bool upda
 
 }
 
-// remove the primitive from the QGraphicsScene so that it will no longer be visible when it is deleted
-void QtSketch::PreparePrimitiveForDeletion(PrimitiveBasePointer primitive_to_delete)
-{
-	if(dynamic_cast<QtPrimitiveBase*>(primitive_to_delete.get()) != 0)
-	{
-		boost::shared_ptr<QtPrimitiveBase> current_primitive = boost::dynamic_pointer_cast<QtPrimitiveBase>(primitive_to_delete);
-		
-		current_primitive->Erase();
-	}
-}
-
 PrimitiveBasePointer QtSketch::PrimitiveFactory(unsigned id)
 {
 	// grab the table name from the database so we now exactly which class needs to be created
