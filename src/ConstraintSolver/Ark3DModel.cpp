@@ -565,7 +565,7 @@ DOFPointer Ark3DModel::DOFFactory(unsigned id)
 	return result;
 }
 
-PrimitiveBasePointer Ark3DModel::PrimitiveFactory(unsigned id)
+PrimitiveBasePointer Ark3DModel::PrimitiveFactory(unsigned id, Ark3DModel &ark3d_model)
 {
 	// grab the table name from the database so we now exactly which class needs to be created
 	int rc;
@@ -576,10 +576,10 @@ PrimitiveBasePointer Ark3DModel::PrimitiveFactory(unsigned id)
 	stringstream sql_command;
 	sql_command << "SELECT * FROM primitive_list WHERE id=" << id << ";";
 
-	rc = sqlite3_prepare(database_, sql_command.str().c_str(), -1, &statement, 0);
+	rc = sqlite3_prepare(ark3d_model.GetDatabase(), sql_command.str().c_str(), -1, &statement, 0);
 	if( rc!=SQLITE_OK ){
 		stringstream error_description;
-		error_description << "SQL error: " << sqlite3_errmsg(database_);
+		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
 		throw Ark3DException(error_description.str());
 	}
 
@@ -602,14 +602,14 @@ PrimitiveBasePointer Ark3DModel::PrimitiveFactory(unsigned id)
 	if( rc!=SQLITE_DONE ){
 		// sql statement didn't finish properly, some error must to have occured
 		stringstream error_description;
-		error_description << "SQL error: " << sqlite3_errmsg(database_);
+		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
 		throw Ark3DException(error_description.str());
 	}
 	
 	rc = sqlite3_finalize(statement);
 	if( rc!=SQLITE_OK ){
 		stringstream error_description;
-		error_description << "SQL error: " << sqlite3_errmsg(database_);
+		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
 		throw Ark3DException(error_description.str());
 	}
 
@@ -618,22 +618,22 @@ PrimitiveBasePointer Ark3DModel::PrimitiveFactory(unsigned id)
 
 	if(table_name == "arc2d_list")
 	{
-		result.reset(new Arc2D(id,*this));
+		result.reset(new Arc2D(id,ark3d_model));
 	}
 	else if(table_name == "line2d_list"){
-		result.reset(new Line2D(id,*this));
+		result.reset(new Line2D(id,ark3d_model));
 	}
 	else if(table_name == "point_list"){
-		result.reset(new Point(id,*this));
+		result.reset(new Point(id,ark3d_model));
 	}
 	else if(table_name == "point2d_list"){
-		result.reset(new Point2D(id,*this));
+		result.reset(new Point2D(id,ark3d_model));
 	}
 	else if(table_name == "sketch_plane_list"){
-		result.reset(new SketchPlane(id,*this));
+		result.reset(new SketchPlane(id,ark3d_model));
 	}
 	else if(table_name == "vector_list"){
-		result.reset(new Vector(id,*this));
+		result.reset(new Vector(id,ark3d_model));
 	}
 	else {
 		throw Ark3DException("Ark3D::PrimitiveFactory: Unable to determine type based on database table name " + table_name);	
@@ -642,7 +642,7 @@ PrimitiveBasePointer Ark3DModel::PrimitiveFactory(unsigned id)
 	return result;
 }
 
-ConstraintEquationBasePointer Ark3DModel::ConstraintFactory(unsigned id)
+ConstraintEquationBasePointer Ark3DModel::ConstraintFactory(unsigned id, Ark3DModel &ark3d_model)
 {
 
 	// grab the table name from the database so we now exactly which class needs to be created
@@ -654,10 +654,10 @@ ConstraintEquationBasePointer Ark3DModel::ConstraintFactory(unsigned id)
 	stringstream sql_command;
 	sql_command << "SELECT * FROM constraint_equation_list WHERE id=" << id << ";";
 
-	rc = sqlite3_prepare(database_, sql_command.str().c_str(), -1, &statement, 0);
+	rc = sqlite3_prepare(ark3d_model.GetDatabase(), sql_command.str().c_str(), -1, &statement, 0);
 	if( rc!=SQLITE_OK ){
 		stringstream error_description;
-		error_description << "SQL error: " << sqlite3_errmsg(database_);
+		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
 		throw Ark3DException(error_description.str());
 	}
 
@@ -680,14 +680,14 @@ ConstraintEquationBasePointer Ark3DModel::ConstraintFactory(unsigned id)
 	if( rc!=SQLITE_DONE ){
 		// sql statement didn't finish properly, some error must to have occured
 		stringstream error_description;
-		error_description << "SQL error: " << sqlite3_errmsg(database_);
+		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
 		throw Ark3DException(error_description.str());
 	}
 	
 	rc = sqlite3_finalize(statement);
 	if( rc!=SQLITE_OK ){
 		stringstream error_description;
-		error_description << "SQL error: " << sqlite3_errmsg(database_);
+		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
 		throw Ark3DException(error_description.str());
 	}
 
@@ -695,16 +695,16 @@ ConstraintEquationBasePointer Ark3DModel::ConstraintFactory(unsigned id)
 	ConstraintEquationBasePointer result;
 
 	if(table_name == "angle_line2d_list"){
-		result.reset(new AngleLine2D(id,*this));
+		result.reset(new AngleLine2D(id,ark3d_model));
 	}
 	else if(table_name == "distance_point2d_list"){
-		result.reset(new DistancePoint2D(id,*this));
+		result.reset(new DistancePoint2D(id,ark3d_model));
 	}
 	else if(table_name == "parallel_line2d_list"){
-		result.reset(new ParallelLine2D(id,*this));
+		result.reset(new ParallelLine2D(id,ark3d_model));
 	}
 	else if(table_name == "tangent_edge2d_list"){
-		result.reset(new TangentEdge2D(id,*this));
+		result.reset(new TangentEdge2D(id,ark3d_model));
 	}
 	else {
 		throw Ark3DException("Ark3D::ConstraintFactory: Unable to determine type based on database table name " + table_name);

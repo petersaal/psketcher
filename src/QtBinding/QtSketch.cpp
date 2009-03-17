@@ -209,7 +209,7 @@ void QtSketch::AddPrimitive(const PrimitiveBasePointer &new_primitive, bool upda
 
 }
 
-PrimitiveBasePointer QtSketch::PrimitiveFactory(unsigned id)
+PrimitiveBasePointer QtSketch::PrimitiveFactory(unsigned id, Ark3DModel &ark3d_model)
 {
 	// grab the table name from the database so we now exactly which class needs to be created
 	int rc;
@@ -220,10 +220,10 @@ PrimitiveBasePointer QtSketch::PrimitiveFactory(unsigned id)
 	stringstream sql_command;
 	sql_command << "SELECT * FROM primitive_list WHERE id=" << id << ";";
 
-	rc = sqlite3_prepare(GetDatabase(), sql_command.str().c_str(), -1, &statement, 0);
+	rc = sqlite3_prepare(ark3d_model.GetDatabase(), sql_command.str().c_str(), -1, &statement, 0);
 	if( rc!=SQLITE_OK ){
 		stringstream error_description;
-		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
+		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
 		throw Ark3DException(error_description.str());
 	}
 
@@ -246,14 +246,14 @@ PrimitiveBasePointer QtSketch::PrimitiveFactory(unsigned id)
 	if( rc!=SQLITE_DONE ){
 		// sql statement didn't finish properly, some error must to have occured
 		stringstream error_description;
-		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
+		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
 		throw Ark3DException(error_description.str());
 	}
 	
 	rc = sqlite3_finalize(statement);
 	if( rc!=SQLITE_OK ){
 		stringstream error_description;
-		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
+		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
 		throw Ark3DException(error_description.str());
 	}
 
@@ -262,22 +262,22 @@ PrimitiveBasePointer QtSketch::PrimitiveFactory(unsigned id)
 
 	if(table_name == "arc2d_list")
 	{
-		result.reset(new QtArc2D(0,id,*this));
+		result.reset(new QtArc2D(0,id,ark3d_model));
 	}
 	else if(table_name == "line2d_list"){
-		result.reset(new QtLine2D(0,id,*this));
+		result.reset(new QtLine2D(0,id,ark3d_model));
 	}
 	else if(table_name == "point_list"){
-		result.reset(new Point(id,*this));
+		result.reset(new Point(id,ark3d_model));
 	}
 	else if(table_name == "point2d_list"){
-		result.reset(new QtPoint2D(0,id,*this));
+		result.reset(new QtPoint2D(0,id,ark3d_model));
 	}
 	else if(table_name == "sketch_plane_list"){
-		result.reset(new SketchPlane(id,*this));
+		result.reset(new SketchPlane(id,ark3d_model));
 	}
 	else if(table_name == "vector_list"){
-		result.reset(new Vector(id,*this));
+		result.reset(new Vector(id,ark3d_model));
 	}
 	else {
 		throw Ark3DException("Ark3D::PrimitiveFactory: Unable to determine type based on database table name " + table_name);	
@@ -286,7 +286,7 @@ PrimitiveBasePointer QtSketch::PrimitiveFactory(unsigned id)
 	return result;
 }
 
-ConstraintEquationBasePointer QtSketch::ConstraintFactory(unsigned id)
+ConstraintEquationBasePointer QtSketch::ConstraintFactory(unsigned id, Ark3DModel &ark3d_model)
 {
 
 	// grab the table name from the database so we now exactly which class needs to be created
@@ -298,10 +298,10 @@ ConstraintEquationBasePointer QtSketch::ConstraintFactory(unsigned id)
 	stringstream sql_command;
 	sql_command << "SELECT * FROM constraint_equation_list WHERE id=" << id << ";";
 
-	rc = sqlite3_prepare(GetDatabase(), sql_command.str().c_str(), -1, &statement, 0);
+	rc = sqlite3_prepare(ark3d_model.GetDatabase(), sql_command.str().c_str(), -1, &statement, 0);
 	if( rc!=SQLITE_OK ){
 		stringstream error_description;
-		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
+		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
 		throw Ark3DException(error_description.str());
 	}
 
@@ -324,14 +324,14 @@ ConstraintEquationBasePointer QtSketch::ConstraintFactory(unsigned id)
 	if( rc!=SQLITE_DONE ){
 		// sql statement didn't finish properly, some error must to have occured
 		stringstream error_description;
-		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
+		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
 		throw Ark3DException(error_description.str());
 	}
 	
 	rc = sqlite3_finalize(statement);
 	if( rc!=SQLITE_OK ){
 		stringstream error_description;
-		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
+		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
 		throw Ark3DException(error_description.str());
 	}
 
@@ -339,16 +339,16 @@ ConstraintEquationBasePointer QtSketch::ConstraintFactory(unsigned id)
 	ConstraintEquationBasePointer result;
 
 	if(table_name == "angle_line2d_list"){
-		result.reset(new QtAngleLine2D(0,id,*this));
+		result.reset(new QtAngleLine2D(0,id,ark3d_model));
 	}
 	else if(table_name == "distance_point2d_list"){
-		result.reset(new QtDistancePoint2D(0,id,*this));
+		result.reset(new QtDistancePoint2D(0,id,ark3d_model));
 	}
 	else if(table_name == "parallel_line2d_list"){
-		result.reset(new QtParallelLine2D(0,id,*this));
+		result.reset(new QtParallelLine2D(0,id,ark3d_model));
 	}
 	else if(table_name == "tangent_edge2d_list"){
-		result.reset(new QtTangentEdge2D(0,id,*this));
+		result.reset(new QtTangentEdge2D(0,id,ark3d_model));
 	}
 	else {
 		throw Ark3DException("Ark3D::ConstraintFactory: Unable to determine type based on database table name " + table_name);

@@ -78,8 +78,8 @@ private:
 	// methods for generating objects directly from the database
 	// These methods are private since the Fetch methods should be used to access the DOF's primitives and constraints and they will call these methods if necessary
 	DOFPointer DOFFactory(unsigned id);
-	PrimitiveBasePointer PrimitiveFactory(unsigned id);
-	ConstraintEquationBasePointer ConstraintFactory(unsigned id);
+	static PrimitiveBasePointer PrimitiveFactory(unsigned id, Ark3DModel &ark3d_model);
+	static ConstraintEquationBasePointer ConstraintFactory(unsigned id, Ark3DModel &ark3d_model);
 
 
 	void FlagDependentsForDeletion(PrimitiveBasePointer primitive_to_delete); // Flag any primitives or constraint equations for deletion that depend on this primitive
@@ -114,7 +114,7 @@ template <class data_t> boost::shared_ptr<data_t> Ark3DModel::FetchPrimitive(uns
 
 	} else {
 		// primitive object does not exist, need to create it from the database
-		temp = PrimitiveFactory(id);
+		temp = PrimitiveFactory(id,*this);
 		AddPrimitive(temp, false);  // don't update DB since primitive already exists in DB
 	}
 
@@ -141,7 +141,7 @@ template <class data_t> boost::shared_ptr<data_t> Ark3DModel::FetchConstraint(un
 
 	} else {
 		// primitive object does not exist, need to create it from the database
-		temp = ConstraintFactory(id);
+		temp = ConstraintFactory(id,*this);
 		AddConstraintEquation(temp, false);  // don't add to DB since the constraint equation already exists in the DB
 	}
 

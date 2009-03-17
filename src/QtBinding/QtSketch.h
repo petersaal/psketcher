@@ -55,8 +55,8 @@ class QtSketch : public Sketch
 	private:
 		// methods for generating objects directly from the database
 		// These methods are private since the Fetch methods should be used to access the DOF's primitives and constraints and they will call these methods if necessary
-		PrimitiveBasePointer PrimitiveFactory(unsigned id);
-		ConstraintEquationBasePointer ConstraintFactory(unsigned id);
+		static PrimitiveBasePointer PrimitiveFactory(unsigned id, Ark3DModel &ark3d_model);
+		static ConstraintEquationBasePointer ConstraintFactory(unsigned id, Ark3DModel &ark3d_model);
 
 		QGraphicsScene *scene_;
 		bool grid_snap_;
