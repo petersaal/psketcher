@@ -75,13 +75,17 @@ public:
 	
 	sqlite3 *GetDatabase() {return database_;}
 
+protected:
 	// methods for generating objects directly from the database
 	DOFPointer DOFFactory(unsigned id);
 	static PrimitiveBasePointer PrimitiveFactory(unsigned id, Ark3DModel &ark3d_model);
 	static ConstraintEquationBasePointer ConstraintFactory(unsigned id, Ark3DModel &ark3d_model);
 
-private:
+	std::map<unsigned,DOFPointer> dof_list_;
+	std::map<unsigned,ConstraintEquationBasePointer> constraint_equation_list_;
+	std::map<unsigned,PrimitiveBasePointer> primitive_list_;
 
+private:
 	// function pointers so that child classes can implement their own factory methods for use within the constructor of Ark3DModel (virtual methods won't work in the constructor) 
 	PrimitiveBasePointer (*CurrentPrimitiveFactory)(unsigned, Ark3DModel &);
 	ConstraintEquationBasePointer (*CurrentConstraintFactory)(unsigned, Ark3DModel &);
@@ -89,10 +93,6 @@ private:
 	void FlagDependentsForDeletion(PrimitiveBasePointer primitive_to_delete); // Flag any primitives or constraint equations for deletion that depend on this primitive
 	void DeleteFlagged(); // delete all of the primitives that have been flagged for deletion
 	void DeleteUnusedDOFs(); // delete all unused DOF's in the dof_list_ container
-
-	std::map<unsigned,DOFPointer> dof_list_;
-	std::map<unsigned,ConstraintEquationBasePointer> constraint_equation_list_;
-	std::map<unsigned,PrimitiveBasePointer> primitive_list_;
 
 	SelectionMask current_selection_mask_;
 

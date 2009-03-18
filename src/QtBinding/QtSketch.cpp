@@ -33,6 +33,32 @@ Sketch(file_name,QtSketch::PrimitiveFactory, QtSketch::ConstraintFactory),
 scene_(scene),
 grid_snap_(grid_snap)
 {
+	// now that primitives and constraints have been defined from the file, loop through all of the primitives and constraints and display any that are derived from QGraphicsItem
+	// loop over the primitives
+	for(map<unsigned,PrimitiveBasePointer>::iterator primitive_it=primitive_list_.begin() ; primitive_it != primitive_list_.end(); primitive_it++ )
+	{
+		// Normally this type of cast is dangerous since it does the increment share_ptr's reference count
+		// It is safe to pass this pointer to QGraphicsScene since QGraphicsItem's destructor removes itself from the QGraphicsScene it is a member of before deleting itself. Becuase of this, scene_ will not contain a nonexistant temp_graphics_item
+		QGraphicsItem *temp_graphics_item = dynamic_cast<QGraphicsItem*>(primitive_it->second.get());
+	
+		if(temp_graphics_item != 0)
+		{
+			scene_->addItem(temp_graphics_item);
+		}
+	}
+
+	// loop over the constraints
+	for(map<unsigned,ConstraintEquationBasePointer>::iterator constraint_it=constraint_equation_list_.begin() ; constraint_it != constraint_equation_list_.end(); constraint_it++ )
+	{
+		// Normally this type of cast is dangerous since it does the increment share_ptr's reference count
+		// It is safe to pass this pointer to QGraphicsScene since QGraphicsItem's destructor removes itself from the QGraphicsScene it is a member of before deleting itself. Becuase of this, scene_ will not contain a nonexistant temp_graphics_item
+		QGraphicsItem *temp_graphics_item = dynamic_cast<QGraphicsItem*>(constraint_it->second.get());
+	
+		if(temp_graphics_item != 0)
+		{
+			scene_->addItem(temp_graphics_item);
+		}
+	}
 
 }
 
