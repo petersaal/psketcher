@@ -53,7 +53,7 @@ class PrimitiveBase
 		const std::vector<DOFPointer> & GetDOFList() {return dof_list_;}
 		const std::vector<boost::shared_ptr<PrimitiveBase> > & GetPrimitiveList() {return primitive_list_;}
 		unsigned GetID()const {return id_number_;}
-		void SetID(int id_number) {id_number_ = id_number; next_id_number_ = id_number_ >= next_id_number_ ? id_number_ : next_id_number_;}
+		void SetID(int id_number) {id_number_ = id_number; next_id_number_ = id_number_ >= next_id_number_ ? id_number_+1 : next_id_number_;}
 
 		void FlagForDeletion() {delete_me_ = true;}
 		void UnflagForDeletion() {delete_me_ = false;}
