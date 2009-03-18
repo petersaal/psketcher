@@ -461,7 +461,7 @@ void Ark3DModel::DeleteFlagged()
 		}
 	}
 
-	// there may now be some DOF's that are not need, go ahead and delete them
+	// there may now be some DOF's that are not needed, go ahead and delete them
 	DeleteUnusedDOFs();
 }
 
@@ -500,7 +500,12 @@ DOFPointer Ark3DModel::FetchDOF(unsigned id)
 
 	} else {
 		// dof object does not exist, need to create it from the database
-		return DOFFactory(id);
+		DOFPointer new_dof = DOFFactory(id);
+
+		// add this DOF to the DOF map container so that it is not reconstructed upon a subsiquent call to FetchDOF
+		dof_list_.insert(pair<unsigned,DOFPointer>(id,new_dof));
+
+		return new_dof;
 	}
 }
 
