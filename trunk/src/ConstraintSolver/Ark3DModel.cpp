@@ -785,6 +785,9 @@ void Ark3DModel::DeleteUnusedDOFs()
 // synchronize the primitive, constraint, and DOF lists to the database (used to implement file open and undo/redo)
 void Ark3DModel::SyncToDatabase()
 {
+	// set the next_id_number_ variables for the PrimitiveBase and DOF classes (this is a static member)
+	SetMaxIDNumbers();
+
 	// Step 1: Flag all primitives and constraint equations for deletion
 	for (map<unsigned,PrimitiveBasePointer>::iterator primitive_it=primitive_list_.begin() ; primitive_it != primitive_list_.end(); primitive_it++ )
 		(*primitive_it).second->FlagForDeletion();
@@ -903,3 +906,81 @@ void Ark3DModel::SyncToDatabase()
 	DeleteFlagged();
 }
 
+void Ark3DModel::SetMaxIDNumbers()
+{
+	// need to set the next_id_number_ members of the PrimitiveBase and DOF classes
+	char *zErrMsg = 0;
+	int rc;
+	sqlite3_stmt *statement;
+	
+	std::string sql_command_primitive = "SELECT max(id) AS id FROM primitive_list;";
+	std::string sql_command_dof = "SELECT max(id) AS id FROM dof_list;";
+
+	rc = sqlite3_prepare(GetDatabase(), sql_command_primitive.c_str(), -1, &statement, 0);
+	if( rc!=SQLITE_OK ){
+		std::stringstream error_description;
+		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
+		throw Ark3DException(error_description.str());
+	}
+
+	rc = sqlite3_step(statement);
+
+	if(rc == SQLITE_ROW) {
+		// set the next_id_number_ value based on the max id number in the database
+		PrimitiveBase::SetNextID(sqlite3_column_int(statement,0)+1);
+		
+		cout << "next primitive = " << sqlite3_column_int(statement,0)+1 << endl;
+
+		rc = sqlite3_finalize(statement);
+
+	} else {
+		// the requested row does not exist in the database so there are no existing primitive entities
+		// set next_id_number_ to 1
+		PrimitiveBase::SetNextID(1);
+
+		cout << "next primitive = " << 1 << endl;
+
+		sqlite3_finalize(statement);	
+	}
+
+	// make sure the finalize statement didn't generate an error
+	if( rc!=SQLITE_OK ){
+		std::stringstream error_description;
+		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
+		throw Ark3DException(error_description.str());
+	}
+
+
+	rc = sqlite3_prepare(GetDatabase(), sql_command_dof.c_str(), -1, &statement, 0);
+	if( rc!=SQLITE_OK ){
+		std::stringstream error_description;
+		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
+		throw Ark3DException(error_description.str());
+	}
+
+	rc = sqlite3_step(statement);
+
+	if(rc == SQLITE_ROW) {
+		// set the next_id_number_ value based on the max id number in the database
+		DOF::SetNextID(sqlite3_column_int(statement,0)+1);
+		
+		cout << "next dof = " << sqlite3_column_int(statement,0)+1 << endl;
+
+		rc = sqlite3_finalize(statement);
+	} else {
+		// the requested row does not exist in the database so there are no existing primitive entities
+		// set next_id_number_ to 1
+		DOF::SetNextID(1);
+
+		cout << "next dof = " << 1 << endl;
+
+		sqlite3_finalize(statement);	
+	}
+
+	// make sure the finalize statement didn't generate an error
+	if( rc!=SQLITE_OK ){
+		std::stringstream error_description;
+		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
+		throw Ark3DException(error_description.str());
+	}
+}

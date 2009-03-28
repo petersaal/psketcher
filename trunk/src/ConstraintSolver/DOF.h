@@ -39,7 +39,8 @@ class DOF
 		virtual GiNaC::ex GetExpression()const {return variable_;}
 
 		unsigned GetID()const {return id_number_;}
-		void SetID(int id_number) {id_number_ = id_number; next_id_number_ = id_number_ >= next_id_number_ ? id_number_+1 : next_id_number_;} 
+		void SetID(int id_number) {id_number_ = id_number;}
+		static void SetNextID(int next_id) {next_id_number_ = next_id;}
 
 		const GiNaC::symbol & GetVariable()const {return variable_ ;}
 		bool IsFree()const {return free_;}
