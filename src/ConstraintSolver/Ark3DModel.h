@@ -65,6 +65,7 @@ public:
 	// Methods relating to saving and loading the model from a file
 	// An SQLite3 database is used to store the model 
 	void SyncToDatabase();  // synchronize the primitive, constraint, and DOF lists to the database (used to implement file open and undo/redo)
+	void SetMaxIDNumbers(); // set the max id numbers for the PrimitiveBase and DOF classes via their static method setNextID(...)
 	bool Save(const std::string &file_name = "", bool save_copy = false); // returns true on success
 	const std::string & GetFileName() {return current_file_name_;}
 
