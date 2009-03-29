@@ -23,7 +23,7 @@
 using namespace std;
 using namespace GiNaC;
 
-const std::string SQL_independent_dof_database_schema = "CREATE TABLE independent_dof_list (id INTEGER PRIMARY KEY, variable_name TEXT NOT NULL, bool_free INTEGER NOT NULL, value REAL NOT NULL);";
+const std::string SQL_independent_dof_database_schema = "CREATE TABLE independent_dof_list (id INTEGER PRIMARY KEY, variable_name TEXT NOT NULL, bool_free INTEGER CHECK (bool_free >= 0 AND bool_free <= 1), value REAL NOT NULL);";
 
 IndependentDOF ::IndependentDOF ( double value, bool free):
 DOF(free,false /*dependent*/)
