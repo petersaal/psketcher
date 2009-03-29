@@ -21,13 +21,26 @@
 
 using namespace std;
 
-const std::string SQL_ark3d_database_schema = "BEGIN;"
-												"CREATE TABLE dof_list (id INTEGER PRIMARY KEY, table_name TEXT NOT NULL);"
-												"CREATE TABLE primitive_list (id INTEGER PRIMARY KEY, table_name TEXT NOT NULL);"
-												"CREATE TABLE constraint_equation_list (id INTEGER PRIMARY KEY, table_name TEXT NOT NULL);"
-												"CREATE TABLE undo_redo_list (id INTEGER PRIMARY KEY, undo TEXT, redo TEXT);"
-												"CREATE TABLE undo_stable_points (stable_id INTEGER);"
-											  "COMMIT;";
+const std::string SQL_ark3d_database_schema = 
+"BEGIN;"
+	"CREATE TABLE dof_list (id INTEGER PRIMARY KEY, table_name TEXT NOT NULL);"
+	"CREATE TABLE primitive_list (id INTEGER PRIMARY KEY, table_name TEXT NOT NULL);"
+	"CREATE TABLE constraint_equation_list (id INTEGER PRIMARY KEY, table_name TEXT NOT NULL);"
+	"CREATE TABLE undo_redo_list (id INTEGER PRIMARY KEY, undo TEXT, redo TEXT);"
+	"CREATE TABLE undo_stable_points (id INTEGER PRIMARY KEY, stable_point INTEGER NOT NULL UNIQUE, bool_current_stable_point INTEGER CHECK (bool_current_stable_point >= 0 AND bool_current_stable_point <= 1), description TEXT);"
+	"CREATE TRIGGER clear_current_stable_point BEFORE UPDATE ON undo_stable_points "
+	"WHEN (NEW.bool_current_stable_point == 1 AND OLD.bool_current_stable_point == 0) "
+	"BEGIN "
+		"UPDATE undo_stable_points SET bool_current_stable_point=0 WHERE bool_current_stable_point=1;"
+	"END;"
+	"CREATE TRIGGER truncate_undo_list BEFORE INSERT ON undo_redo_list "
+	"WHEN EXISTS (SELECT stable_point FROM undo_stable_points WHERE bool_current_stable_point=1) "
+	"BEGIN "
+		"DELETE FROM undo_redo_list WHERE id > (SELECT stable_point FROM  undo_stable_points WHERE bool_current_stable_point=1);"
+		"DELETE FROM undo_stable_points WHERE stable_point > (SELECT stable_point FROM  undo_stable_points WHERE bool_current_stable_point=1);"
+		"UPDATE undo_stable_points SET bool_current_stable_point=0 WHERE bool_current_stable_point=1;"
+	"END;"
+"COMMIT;";
 
 const std::string ark3d_current_database_file = "ark3d_working_db.current";
 const std::string ark3d_previous_database_file = "ark3d_working_db.previous";
