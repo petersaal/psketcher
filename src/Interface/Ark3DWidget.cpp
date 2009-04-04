@@ -239,6 +239,7 @@ void Ark3DWidget::GenerateTestSketch()
 	ConstraintEquationBasePointer constraint5 = current_sketch_->AddAngleLine2D(line1,line2,mmcPI/2.0,false);
 	//ConstraintEquationBasePointer constraint8 = current_sketch_->AddAngleLine2D(line2,line3,mmcPI/2.0,false);
 
+
 	ConstraintEquationBasePointer constraint6 = current_sketch_->AddTangentEdge2D(line3,Point2,arc1,Point1);
 	ConstraintEquationBasePointer constraint7 = current_sketch_->AddTangentEdge2D(line4,Point1,arc1,Point2);
 	
@@ -250,6 +251,8 @@ void Ark3DWidget::GenerateTestSketch()
 	edge_loop1->AddEdge(arc1);
 	edge_loop1->AddEdge(line4);
 	std::cout << "Is loop valid: " << edge_loop1->IsLoopValid() << std::endl;
+
+	current_sketch_->MarkStablePoint("Create test sketch");
 
 	//current_sketch_->ApplySelectionMask(Points);
 	//current_sketch_->ApplySelectionMask(Edges);
