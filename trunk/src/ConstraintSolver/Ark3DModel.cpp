@@ -943,18 +943,15 @@ void Ark3DModel::SetMaxIDNumbers()
 		PrimitiveBase::SetNextID(sqlite3_column_int(statement,0)+1);
 		
 		cout << "next primitive = " << sqlite3_column_int(statement,0)+1 << endl;
-
-		rc = sqlite3_finalize(statement);
-
 	} else {
 		// the requested row does not exist in the database so there are no existing primitive entities
 		// set next_id_number_ to 1
 		PrimitiveBase::SetNextID(1);
 
-		cout << "next primitive = " << 1 << endl;
-
-		sqlite3_finalize(statement);	
+		cout << "next primitive = " << 1 << endl;	
 	}
+
+	rc = sqlite3_finalize(statement);
 
 	// make sure the finalize statement didn't generate an error
 	if( rc!=SQLITE_OK ){
@@ -978,17 +975,15 @@ void Ark3DModel::SetMaxIDNumbers()
 		DOF::SetNextID(sqlite3_column_int(statement,0)+1);
 		
 		cout << "next dof = " << sqlite3_column_int(statement,0)+1 << endl;
-
-		rc = sqlite3_finalize(statement);
 	} else {
 		// the requested row does not exist in the database so there are no existing primitive entities
 		// set next_id_number_ to 1
 		DOF::SetNextID(1);
 
 		cout << "next dof = " << 1 << endl;
-
-		sqlite3_finalize(statement);	
 	}
+
+	rc = sqlite3_finalize(statement);
 
 	// make sure the finalize statement didn't generate an error
 	if( rc!=SQLITE_OK ){
@@ -996,4 +991,101 @@ void Ark3DModel::SetMaxIDNumbers()
 		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
 		throw Ark3DException(error_description.str());
 	}
+}
+
+
+void Ark3DModel::MarkStablePoint(const std::string &description)
+{
+	// Add a new stable point, use the maximum id from the undo_redo_list table as the stable id
+	// Do add a stable point if the undo_redo_list table is empty or if this stable point has has already been defined
+
+	// first get the max max undo_redo id and the max stable point
+	int max_undo_redo_id, max_stable_point;
+	bool undo_redo_list_empty = false;
+	bool stable_point_already_exists = false;
+	bool stable_point_list_empty = false;
+
+	char *zErrMsg = 0;
+	int rc;
+	sqlite3_stmt *statement;
+	
+	std::string sql_command_undo_redo_list = "SELECT max(id) AS id FROM undo_redo_list;";
+	std::string sql_command_undo_stable_points = "SELECT max(stable_point) AS stable_point FROM undo_stable_points;";
+
+	rc = sqlite3_prepare(GetDatabase(), sql_command_undo_redo_list.c_str(), -1, &statement, 0);
+	if( rc!=SQLITE_OK ){
+		std::stringstream error_description;
+		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
+		throw Ark3DException(error_description.str());
+	}
+
+	rc = sqlite3_step(statement);
+
+	if(rc == SQLITE_ROW) {
+		// undo_redo_list is not empty, record the max id
+		max_undo_redo_id = sqlite3_column_int(statement,0);		
+	} else {
+		// the undo_redo_list is empty
+		undo_redo_list_empty = true;
+	}
+
+	rc = sqlite3_finalize(statement);
+
+	// make sure the finalize statement didn't generate an error
+	if( rc!=SQLITE_OK ){
+		std::stringstream error_description;
+		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
+		throw Ark3DException(error_description.str());
+	}
+
+
+	rc = sqlite3_prepare(GetDatabase(), sql_command_undo_stable_points.c_str(), -1, &statement, 0);
+	if( rc!=SQLITE_OK ){
+		std::stringstream error_description;
+		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
+		throw Ark3DException(error_description.str());
+	}
+
+	rc = sqlite3_step(statement);
+
+	if(rc == SQLITE_ROW) {
+		// the stable point list is not empty, record the max stable point
+		max_stable_point = sqlite3_column_int(statement,0);
+		
+		// check to see if this stable point has already been defined
+		if(!undo_redo_list_empty && max_undo_redo_id == max_stable_point)
+			stable_point_already_exists = true;
+	
+	} else {
+		// the undo_redo_list is empty
+		stable_point_list_empty = true;
+	}
+
+	rc = sqlite3_finalize(statement);
+
+	// make sure the finalize statement didn't generate an error
+	if( rc!=SQLITE_OK ){
+		std::stringstream error_description;
+		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
+		throw Ark3DException(error_description.str());
+	}
+ 
+	// now add the row for this new stable point if it doesn't already exist and the unde/redo list is not empty
+	if(!undo_redo_list_empty && !stable_point_already_exists)
+	{
+		// define the update statement
+		char *sql_statement = sqlite3_mprintf("INSERT INTO undo_stable_points(stable_point,bool_current_stable_point,description) VALUES(%d,0,'%q');",max_undo_redo_id,description.c_str());
+		
+		// do the database update
+		char *zErrMsg = 0;
+		int rc = sqlite3_exec(database_, sql_statement, 0, 0, &zErrMsg);
+		if( rc!=SQLITE_OK ){
+			std::string error_description = "SQL error: " + std::string(zErrMsg);
+			sqlite3_free(zErrMsg);
+			throw Ark3DException(error_description);
+		}
+
+		sqlite3_free(sql_statement);
+	}
+
 }

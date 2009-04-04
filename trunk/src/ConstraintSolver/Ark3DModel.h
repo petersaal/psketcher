@@ -76,6 +76,13 @@ public:
 	
 	sqlite3 *GetDatabase() {return database_;}
 
+	// methods to implement undo/redo functionality
+	bool Undo();
+	bool Redo();
+	bool IsUndoAvailable();
+	bool IsRedoAvailable();
+	void MarkStablePoint(const std::string &description);
+
 protected:
 	// methods for generating objects directly from the database
 	DOFPointer DOFFactory(unsigned id);
