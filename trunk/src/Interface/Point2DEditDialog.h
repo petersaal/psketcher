@@ -34,7 +34,7 @@ class Point2DEditDialog : public QDialog
 		Point2DEditDialog(Point2DPointer point, QWidget *parent = 0);
 
 	signals:
-		void modelChanged();  // emitted when changes are applied
+		void modelChanged(QString description);  // emitted when changes are applied
 
 	private slots:
 		void accept();

@@ -114,6 +114,7 @@ void Ark3DWidget::mousePressEvent   ( QMouseEvent* e )
 			interactive_primitive_ = 0;
 			// @fixme redraw();
 			emit sketchActionFinished();
+			modelChanged(tr("Create primitive"));
 		}
 	} else if (e->button() & Qt::MidButton) {
 		// begin pan event and change cursor to a hand to convey this to the user
@@ -152,6 +153,7 @@ void Ark3DWidget::mouseReleaseEvent ( QMouseEvent* e )
 			interactive_primitive_ = 0;
 			// @fixme redraw();
 			emit sketchActionFinished();
+			modelChanged(tr("Create primitive"));
 		}
 	} else if (e->button() & Qt::MidButton) {
 		// pan event has ended to reset cursor to its default
@@ -179,6 +181,7 @@ void Ark3DWidget::mouseMoveEvent    ( QMouseEvent* e )
 			interactive_primitive_ = 0;
 			// @fixme redraw();
 			emit sketchActionFinished();
+			modelChanged(tr("Create primitive"));
 		}
 	} else if(e->buttons() & Qt::MidButton) {
 		// translate the scene rectangle when the middle mouse button is pressed and moved
@@ -218,6 +221,8 @@ void Ark3DWidget::GenerateDefaultSketch()
 	VectorPointer up( new Vector(0.0,1.0,0.0));
 	PointPointer base( new Point(0.0,0.0,0.0));
 	current_sketch_ = QtSketchPointer(new QtSketch(scene(),normal, up, base));
+
+	modelChanged(tr("Initialize Sketch"));
 }
 
 void Ark3DWidget::GenerateTestSketch()
@@ -244,31 +249,9 @@ void Ark3DWidget::GenerateTestSketch()
 	ConstraintEquationBasePointer constraint5 = current_sketch_->AddAngleLine2D(line1,line2,mmcPI/2.0,false);
 	//ConstraintEquationBasePointer constraint8 = current_sketch_->AddAngleLine2D(line2,line3,mmcPI/2.0,false);
 
-	temp_bool = current_sketch_->IsUndoAvailable(description);
-	if (temp_bool)
-		cout << "Undo " << description << endl;
-	else
-		cout << "No undo available" << endl;	
-
-	current_sketch_->MarkStablePoint("Create test sketch");
-	temp_bool = current_sketch_->IsUndoAvailable(description);
-	if (temp_bool)
-		cout << "Undo " << description << endl;
-	else
-		cout << "No undo available" << endl;
-	
-
 	ConstraintEquationBasePointer constraint6 = current_sketch_->AddTangentEdge2D(line3,Point2,arc1,Point1);
-
-	current_sketch_->MarkStablePoint("Added tangent edge constraints");
-	temp_bool = current_sketch_->IsUndoAvailable(description);
-	if (temp_bool)
-		cout << "Undo " << description << endl;
-	else
-		cout << "No undo available" << endl;
-
 	ConstraintEquationBasePointer constraint7 = current_sketch_->AddTangentEdge2D(line4,Point1,arc1,Point2);
-	
+
 	// create an edge loop
 	EdgeLoop2DPointer edge_loop1(new EdgeLoop2D());
 	edge_loop1->AddEdge(line1);
@@ -277,19 +260,6 @@ void Ark3DWidget::GenerateTestSketch()
 	edge_loop1->AddEdge(arc1);
 	edge_loop1->AddEdge(line4);
 	std::cout << "Is loop valid: " << edge_loop1->IsLoopValid() << std::endl;
-
-	temp_bool = current_sketch_->IsUndoAvailable(description);
-	if (temp_bool)
-		cout << "Undo " << description << endl;
-	else
-		cout << "No undo available" << endl;
-		
-	temp_bool = current_sketch_->IsRedoAvailable(description);
-	if (temp_bool)
-		cout << "Redo " << description << endl;
-	else
-		cout << "No redo available" << endl;
-
 
 	//current_sketch_->ApplySelectionMask(Points);
 	//current_sketch_->ApplySelectionMask(Edges);
@@ -335,6 +305,8 @@ void Ark3DWidget::GenerateTestSketch()
 
 	//current_sketch_->SyncToDatabase();
 
+	modelChanged("Create test sketch");
+
 	fitExtents();
 }
 
@@ -344,6 +316,8 @@ void Ark3DWidget::SolveConstraints()
 	{
 		current_sketch_->SolveConstraints();
 		current_sketch_->UpdateDisplay();
+
+		modelChanged(tr("Solve constraints"));
 	}
 }
 
@@ -418,7 +392,7 @@ void Ark3DWidget::mouseDoubleClickEvent ( QMouseEvent * event )
 			
 				// create the point edit dialog
 				Point2DEditDialog *point_edit_dialog = new Point2DEditDialog(selected_point, this);
-				connect(point_edit_dialog, SIGNAL(modelChanged()), this, SLOT(modelChanged()));
+				connect(point_edit_dialog, SIGNAL(modelChanged(QString)), this, SLOT(modelChanged(QString)));
 				point_edit_dialog->show();
 			} 
 		}
@@ -430,8 +404,9 @@ void Ark3DWidget::mouseDoubleClickEvent ( QMouseEvent * event )
 
 // This slot is called whenever the model changes
 // This slot will handle updating the display and the undo history
-void Ark3DWidget::modelChanged()
+void Ark3DWidget::modelChanged(QString description)
 {
+	current_sketch_->MarkStablePoint(description.toStdString());
 	current_sketch_->UpdateDisplay();
 }
 
@@ -472,6 +447,7 @@ void Ark3DWidget::keyReleaseEvent ( QKeyEvent * event )
 	if(event->key() == Qt::Key_Delete)
 	{
 		current_sketch_->DeleteSelected();
+		modelChanged(tr("Delete primitive(s)"));
 	} else {
 		// not handling the event, call the base class implementation
 		QGraphicsView::keyReleaseEvent(event);
@@ -501,6 +477,8 @@ void Ark3DWidget::newFile()
 	VectorPointer up( new Vector(0.0,1.0,0.0));
 	PointPointer base( new Point(0.0,0.0,0.0));
 	current_sketch_ = QtSketchPointer(new QtSketch(scene(),normal, up, base));
+
+	modelChanged(tr("Intialize sketch"));
 }
 
 bool Ark3DWidget::save()

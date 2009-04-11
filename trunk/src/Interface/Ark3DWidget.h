@@ -68,7 +68,7 @@ class Ark3DWidget : public QGraphicsView
 		void MakeTangentConstraint();
 		void MakeParallelConstraint();
 
-		void modelChanged();
+		void modelChanged(QString description);
 
 		void fitExtents();
 
