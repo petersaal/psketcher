@@ -103,7 +103,7 @@ void Point2DEditDialog::applyChanges()
 	point_->SetSFree( ! sFixedCheckBox_->isChecked());
 	point_->SetTFree( ! tFixedCheckBox_->isChecked());
 
-	emit modelChanged();
+	emit modelChanged(tr("Point Edit"));
 }
 
 
