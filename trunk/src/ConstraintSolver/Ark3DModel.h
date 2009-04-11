@@ -79,8 +79,10 @@ public:
 	// methods to implement undo/redo functionality
 	bool Undo();
 	bool Redo();
-	bool IsUndoAvailable();
-	bool IsRedoAvailable();
+	bool IsUndoAvailable(std::string &description);
+	bool IsUndoAvailable(int &current_stable_point, int &new_stable_point, int &current_row_id /* current row id of table undo_stable_points */, std::string &description);
+	bool IsRedoAvailable(std::string &description);
+	bool IsRedoAvailable(int &current_stable_point, int &new_stable_point, int &current_row_id /* current row id of table undo_stable_points */, std::string &description);
 	void MarkStablePoint(const std::string &description);
 
 protected:
