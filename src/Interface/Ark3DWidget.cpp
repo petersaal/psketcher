@@ -24,6 +24,8 @@
 #include "../InteractiveConstructors/QtEventProperties.h"
 #include "Point2DEditDialog.h"
 
+using namespace std;
+
 Ark3DWidget::Ark3DWidget(QGraphicsScene * scene, QWidget * parent) :
 QGraphicsView(scene, parent)
 {
@@ -220,6 +222,9 @@ void Ark3DWidget::GenerateDefaultSketch()
 
 void Ark3DWidget::GenerateTestSketch()
 {
+	string description;
+	bool temp_bool;
+
 	Point2DPointer point1 = current_sketch_->AddPoint2D(0.0,0.0,false,false);  // none of the dof's can vary
 	Point2DPointer point2 = current_sketch_->AddPoint2D(10.0,0.0,true,false);  // only x dof can vary
 	Point2DPointer point3 = current_sketch_->AddPoint2D(10.0,10.0,true,true);  // x and y dof's can vary
@@ -239,6 +244,20 @@ void Ark3DWidget::GenerateTestSketch()
 	ConstraintEquationBasePointer constraint5 = current_sketch_->AddAngleLine2D(line1,line2,mmcPI/2.0,false);
 	//ConstraintEquationBasePointer constraint8 = current_sketch_->AddAngleLine2D(line2,line3,mmcPI/2.0,false);
 
+	temp_bool = current_sketch_->IsUndoAvailable(description);
+	if (temp_bool)
+		cout << "Undo " << description << endl;
+	else
+		cout << "No undo available" << endl;	
+
+	current_sketch_->MarkStablePoint("Create test sketch");
+
+	temp_bool = current_sketch_->IsUndoAvailable(description);
+	if (temp_bool)
+		cout << "Undo " << description << endl;
+	else
+		cout << "No undo available" << endl;
+	
 
 	ConstraintEquationBasePointer constraint6 = current_sketch_->AddTangentEdge2D(line3,Point2,arc1,Point1);
 	ConstraintEquationBasePointer constraint7 = current_sketch_->AddTangentEdge2D(line4,Point1,arc1,Point2);
@@ -252,7 +271,14 @@ void Ark3DWidget::GenerateTestSketch()
 	edge_loop1->AddEdge(line4);
 	std::cout << "Is loop valid: " << edge_loop1->IsLoopValid() << std::endl;
 
-	current_sketch_->MarkStablePoint("Create test sketch");
+	current_sketch_->MarkStablePoint("Added tangent edge constraints");
+
+	temp_bool = current_sketch_->IsUndoAvailable(description);
+	if (temp_bool)
+		cout << "Undo " << description << endl;
+	else
+		cout << "No undo available" << endl;
+		
 
 	//current_sketch_->ApplySelectionMask(Points);
 	//current_sketch_->ApplySelectionMask(Edges);

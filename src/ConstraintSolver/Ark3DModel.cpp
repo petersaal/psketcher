@@ -1087,5 +1087,191 @@ void Ark3DModel::MarkStablePoint(const std::string &description)
 
 		sqlite3_free(sql_statement);
 	}
+}
+
+bool Ark3DModel::IsUndoAvailable(string &description)
+{
+	int current_stable_point, new_stable_point, current_row_id;
+	return IsUndoAvailable(current_stable_point, new_stable_point, current_row_id, description);
+}
+
+bool Ark3DModel::IsRedoAvailable(string &description)
+{
+	int current_stable_point, new_stable_point, current_row_id;
+	return IsRedoAvailable(current_stable_point, new_stable_point, current_row_id, description);
+}
+
+bool Ark3DModel::IsUndoAvailable(int &current_stable_point, int &new_stable_point, int &current_row_id /* current row id of table undo_stable_points */, string &description)
+{
+	bool result = true;
+
+	stringstream temp_stream;
+
+	char *zErrMsg = 0;
+	int rc;
+	sqlite3_stmt *statement;
+	
+	string sql_command = "SELECT * FROM undo_stable_points WHERE bool_current_stable_point=1;";
+
+	rc = sqlite3_prepare(database_, sql_command.c_str(), -1, &statement, 0);
+	if( rc!=SQLITE_OK ){
+		stringstream error_description;
+		error_description << "SQL error: " << sqlite3_errmsg(database_);
+		throw Ark3DException(error_description.str());
+	}
+
+	rc = sqlite3_step(statement);
+
+	if(rc == SQLITE_ROW) {
+		// row exists
+		
+		current_row_id = sqlite3_column_int(statement,0);
+		current_stable_point = sqlite3_column_int(statement,1);
+		temp_stream.str("");
+		temp_stream << sqlite3_column_text(statement,3);
+		description = temp_stream.str();
+
+		rc = sqlite3_finalize(statement);
+		if( rc!=SQLITE_OK ){
+			stringstream error_description;
+			error_description << "SQL error: " << sqlite3_errmsg(database_);
+			throw Ark3DException(error_description.str());
+		}
+
+	} else {
+		// the requested row does not exist in the database
+		// we are at the end of the undo/redo list, retrieve that last row in undo_stable_points to determine if and undo is available
+		
+		// must first finalize the previous sql statement
+		rc = sqlite3_finalize(statement);
+		if( rc!=SQLITE_OK ){
+			stringstream error_description;
+			error_description << "SQL error: " << sqlite3_errmsg(database_);
+			throw Ark3DException(error_description.str());
+		}
+		
+		// Check to insure that the last stable point int the table undo_stable_points matches the last id in the undo_redo_table
+		// an undo cannot be performed if the model is not currently at a stable point
+		sql_command = "SELECT * FROM undo_stable_points WHERE stable_point=(SELECT max(stable_point) AS stable_point FROM undo_stable_points);";
+		rc = sqlite3_prepare(database_, sql_command.c_str(), -1, &statement, 0);
+		if( rc!=SQLITE_OK ){
+			stringstream error_description;
+			error_description << "SQL error: " << sqlite3_errmsg(database_);
+			throw Ark3DException(error_description.str());
+		}
+	
+		rc = sqlite3_step(statement);
+	
+		if(rc == SQLITE_ROW) {
+			// row exists
+			
+			current_row_id = sqlite3_column_int(statement,0);
+			current_stable_point = sqlite3_column_int(statement,1);
+			temp_stream.str("");
+			temp_stream << sqlite3_column_text(statement,3);
+			description = temp_stream.str();
+
+			rc = sqlite3_finalize(statement);
+			if( rc!=SQLITE_OK ){
+				stringstream error_description;
+				error_description << "SQL error: " << sqlite3_errmsg(database_);
+				throw Ark3DException(error_description.str());
+			}
+
+			// make sure that current_row_id matches the largest id in the undo_redo_table
+			sql_command = "SELECT max(id) AS id FROM undo_redo_list;";
+			rc = sqlite3_prepare(database_, sql_command.c_str(), -1, &statement, 0);
+			if( rc!=SQLITE_OK ){
+				stringstream error_description;
+				error_description << "SQL error: " << sqlite3_errmsg(database_);
+				throw Ark3DException(error_description.str());
+			}
+		
+			rc = sqlite3_step(statement);
+		
+			if(rc == SQLITE_ROW) {
+				// row exists
+				
+				int max_undo_redo_table_id = sqlite3_column_int(statement,0);
+	
+				rc = sqlite3_finalize(statement);
+				if( rc!=SQLITE_OK ){
+					stringstream error_description;
+					error_description << "SQL error: " << sqlite3_errmsg(database_);
+					throw Ark3DException(error_description.str());
+				}
+	
+				if(max_undo_redo_table_id != current_stable_point)
+				{
+					// The model is not currently at a stable point, cannot perform undo operation
+					return false;
+				}
+
+			} else {
+				// row doesn't exist (the undo_redo_table is emtpy), this is an error condition since there is a stable point defined
+				rc = sqlite3_finalize(statement);
+				throw Ark3DException("Ark3DModel Error: The undo_redo_table is empty while a stable point is defined.);");	
+				return false;
+			}
+
+
+		} else {
+			// undo_stable_points table is empty so undo is not available
+
+			// must first finalize the previous sql statement
+			rc = sqlite3_finalize(statement);
+			if( rc!=SQLITE_OK ){
+				stringstream error_description;
+				error_description << "SQL error: " << sqlite3_errmsg(database_);
+				throw Ark3DException(error_description.str());
+			}
+			return false;
+		}
+	}
+
+	if(current_row_id == 1)
+	{
+		// we are already at the first stable point, no more undos are available
+		return false;
+	} else {
+		// get teh new stalbe point
+		temp_stream.str("");
+		temp_stream << "SELECT stable_point FROM undo_stable_points WHERE id=" << current_row_id-1 << ";";
+
+		rc = sqlite3_prepare(database_, temp_stream.str().c_str(), -1, &statement, 0);
+		if( rc!=SQLITE_OK ){
+			stringstream error_description;
+			error_description << "SQL error: " << sqlite3_errmsg(database_);
+			throw Ark3DException(error_description.str());
+		}
+	
+		rc = sqlite3_step(statement);
+	
+		if(rc == SQLITE_ROW) {
+			// row exists
+			
+			new_stable_point = sqlite3_column_int(statement,0);
+	
+			rc = sqlite3_finalize(statement);
+			if( rc!=SQLITE_OK ){
+				stringstream error_description;
+				error_description << "SQL error: " << sqlite3_errmsg(database_);
+				throw Ark3DException(error_description.str());
+			}
+	
+			// undo exists and has been fully defined
+			return true;
+	
+		} else {
+			// value doesn't exist, this is an error condition 
+			rc = sqlite3_finalize(statement);
+			throw Ark3DException("Ark3DModel Error: Inconsistant undo_stable_points table.");
+			return false;
+		}
+	}
+}
+
+bool Ark3DModel::IsRedoAvailable(int &current_stable_point, int &new_stable_point, int &current_row_id /* current row id of table undo_stable_points */, string &description)
+{
 
 }
