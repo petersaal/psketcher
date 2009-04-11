@@ -251,7 +251,6 @@ void Ark3DWidget::GenerateTestSketch()
 		cout << "No undo available" << endl;	
 
 	current_sketch_->MarkStablePoint("Create test sketch");
-
 	temp_bool = current_sketch_->IsUndoAvailable(description);
 	if (temp_bool)
 		cout << "Undo " << description << endl;
@@ -260,6 +259,14 @@ void Ark3DWidget::GenerateTestSketch()
 	
 
 	ConstraintEquationBasePointer constraint6 = current_sketch_->AddTangentEdge2D(line3,Point2,arc1,Point1);
+
+	current_sketch_->MarkStablePoint("Added tangent edge constraints");
+	temp_bool = current_sketch_->IsUndoAvailable(description);
+	if (temp_bool)
+		cout << "Undo " << description << endl;
+	else
+		cout << "No undo available" << endl;
+
 	ConstraintEquationBasePointer constraint7 = current_sketch_->AddTangentEdge2D(line4,Point1,arc1,Point2);
 	
 	// create an edge loop
@@ -271,14 +278,18 @@ void Ark3DWidget::GenerateTestSketch()
 	edge_loop1->AddEdge(line4);
 	std::cout << "Is loop valid: " << edge_loop1->IsLoopValid() << std::endl;
 
-	current_sketch_->MarkStablePoint("Added tangent edge constraints");
-
 	temp_bool = current_sketch_->IsUndoAvailable(description);
 	if (temp_bool)
 		cout << "Undo " << description << endl;
 	else
 		cout << "No undo available" << endl;
 		
+	temp_bool = current_sketch_->IsRedoAvailable(description);
+	if (temp_bool)
+		cout << "Redo " << description << endl;
+	else
+		cout << "No redo available" << endl;
+
 
 	//current_sketch_->ApplySelectionMask(Points);
 	//current_sketch_->ApplySelectionMask(Edges);
