@@ -1368,6 +1368,8 @@ bool Ark3DModel::Undo()
 
 	if(undo_available)
 	{
+
+		cout << "new_stable_point = " << new_stable_point << ", current_stable_point = " << current_stable_point << endl;
 	
 		// retrieve the appropriate SQL commands to undo from the database and execute each one
 		char *zErrMsg = 0;
@@ -1375,7 +1377,7 @@ bool Ark3DModel::Undo()
 		sqlite3_stmt *statement;
 		
 		stringstream sql_command;
-		sql_command << "SELECT undo FROM undo_redo_list WHERE (id > " << new_stable_point << " & id <= " << current_stable_point << ") ORDER BY id COLLATE DESC;";
+		sql_command << "SELECT undo FROM undo_redo_list WHERE (id > " << new_stable_point << " AND id <= " << current_stable_point << ") ORDER BY id DESC;";
 	
 		rc = sqlite3_prepare(database_, sql_command.str().c_str(), -1, &statement, 0);
 		if( rc!=SQLITE_OK ){
@@ -1386,20 +1388,15 @@ bool Ark3DModel::Undo()
 	
 		rc = sqlite3_step(statement);
 			
-		stringstream undo_command;
-		
+		stringstream current_undo_command;
+		vector<string> undo_command_list;	
+
+
 		while(rc == SQLITE_ROW) {
 			//retrieve the undo command	
-			undo_command.str("");
-			undo_command << sqlite3_column_text(statement,0);
-	
-			// execute the undo command
-			rc = sqlite3_exec(database_, undo_command.str().c_str(), 0, 0, &zErrMsg);
-			if( rc!=SQLITE_OK ){
-				std::string error_description = "Ark3DModel error: SQL error in executing undo commands. SQL error: " + std::string(zErrMsg);
-				sqlite3_free(zErrMsg);
-				throw Ark3DException(error_description);
-			}
+			current_undo_command.str("");
+			current_undo_command << sqlite3_column_text(statement,0);
+			undo_command_list.push_back(current_undo_command.str());
 
 			// go to the next row in the results
 			rc = sqlite3_step(statement);
@@ -1419,6 +1416,23 @@ bool Ark3DModel::Undo()
 			throw Ark3DException(error_description.str());
 		}
 	
+		// loop through all of the undo commands and excecute each one
+		vector<string>::iterator it_undo = undo_command_list.begin();
+		while(it_undo != undo_command_list.end())
+		{
+			cout << "Current Undo Command: " << it_undo->c_str() << endl;
+
+			// execute the redo command
+			rc = sqlite3_exec(database_, it_undo->c_str(), 0, 0, &zErrMsg);
+			if( rc!=SQLITE_OK ){
+				std::string error_description = "Ark3DModel error: SQL error in replaying redo commands. SQL error: " + std::string(zErrMsg);
+				sqlite3_free(zErrMsg);
+				throw Ark3DException(error_description);
+			}
+			
+			it_undo++;
+		}
+
 		// update the current stable point to reflect the undo operation
 		sql_command.str("");
 		sql_command << "UPDATE undo_stable_points SET bool_current_stable_point=1 WHERE id=" << current_row_id-1 << ";";
@@ -1454,7 +1468,7 @@ bool Ark3DModel::Redo()
 		sqlite3_stmt *statement;
 		
 		stringstream sql_command;
-		sql_command << "SELECT redo FROM undo_redo_list WHERE (id <= " << new_stable_point << " & id > " << current_stable_point << ") ORDER BY id COLLATE ASC;";
+		sql_command << "SELECT redo FROM undo_redo_list WHERE (id <= " << new_stable_point << " AND id > " << current_stable_point << ") ORDER BY id ASC;";
 	
 		rc = sqlite3_prepare(database_, sql_command.str().c_str(), -1, &statement, 0);
 		if( rc!=SQLITE_OK ){
@@ -1464,21 +1478,15 @@ bool Ark3DModel::Redo()
 		}
 	
 		rc = sqlite3_step(statement);
-			
-		stringstream redo_command;
+		
+		stringstream current_redo_command;
+		std::vector<string> redo_command_list;
 		
 		while(rc == SQLITE_ROW) {
-			//retrieve the redo command	
-			redo_command.str("");
-			redo_command << sqlite3_column_text(statement,0);
-	
-			// execute the redo command
-			rc = sqlite3_exec(database_, redo_command.str().c_str(), 0, 0, &zErrMsg);
-			if( rc!=SQLITE_OK ){
-				std::string error_description = "Ark3DModel error: SQL error in replaying redo commands. SQL error: " + std::string(zErrMsg);
-				sqlite3_free(zErrMsg);
-				throw Ark3DException(error_description);
-			}
+			//store the redo command	
+			current_redo_command.str("");
+			current_redo_command << sqlite3_column_text(statement,0);
+			redo_command_list.push_back(current_redo_command.str());
 
 			// go to the next row in the results
 			rc = sqlite3_step(statement);
@@ -1497,7 +1505,24 @@ bool Ark3DModel::Redo()
 			error_description << "SQL error: " << sqlite3_errmsg(database_);
 			throw Ark3DException(error_description.str());
 		}
-	
+
+		// loop through all of the redo commands and excecute each one
+		vector<string>::iterator it_redo = redo_command_list.begin();
+		while(it_redo != redo_command_list.end())
+		{
+			cout << "Current Redo Command: " << it_redo->c_str() << endl;
+
+			// execute the redo command
+			rc = sqlite3_exec(database_, it_redo->c_str(), 0, 0, &zErrMsg);
+			if( rc!=SQLITE_OK ){
+				std::string error_description = "Ark3DModel error: SQL error in replaying redo commands. SQL error: " + std::string(zErrMsg);
+				sqlite3_free(zErrMsg);
+				throw Ark3DException(error_description);
+			}
+			
+			it_redo++;
+		}
+
 		// update the current stable point to reflect the redo operation
 		sql_command.str("");
 		sql_command << "UPDATE undo_stable_points SET bool_current_stable_point=1 WHERE id=" << current_row_id+1 << ";";
