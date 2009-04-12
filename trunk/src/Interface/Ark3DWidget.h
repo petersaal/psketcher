@@ -68,8 +68,6 @@ class Ark3DWidget : public QGraphicsView
 		void MakeTangentConstraint();
 		void MakeParallelConstraint();
 
-		void modelChanged(QString description);
-
 		void fitExtents();
 
 		// slots for file handling
@@ -77,6 +75,11 @@ class Ark3DWidget : public QGraphicsView
 		void newFile();
 		bool save();
 		bool saveAs();
+
+		// slots for undo/redo
+		void modelChanged(QString description);
+		void undo();	
+		void redo();
 	
 	protected: // methods
 		virtual void paintEvent        ( QPaintEvent* e );

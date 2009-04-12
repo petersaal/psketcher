@@ -108,6 +108,15 @@ void Ark3DWindow::createActions()
 	saveAsAction->setStatusTip(tr("Save Current File Under a Different Name"));
 	connect(saveAsAction, SIGNAL(triggered()), view, SLOT(saveAs()));
 
+	// edit actions
+	undoAction = new QAction(tr("Undo"), this);
+	undoAction->setStatusTip(tr("Undo"));
+	connect(undoAction, SIGNAL(triggered()), view, SLOT(undo()));
+
+	redoAction = new QAction(tr("Redo"), this);
+	redoAction->setStatusTip(tr("Redo"));
+	connect(redoAction, SIGNAL(triggered()), view, SLOT(redo()));
+
 	// Create Sketch actions
 	sketchActionGroup = new QActionGroup(this);
 	
@@ -172,6 +181,8 @@ void Ark3DWindow::createMenus()
 		fileMenu->addAction( exitAction );
 
     editMenu = menuBar()->addMenu( tr("&Edit") );
+		editMenu->addAction( undoAction );
+		editMenu->addAction( redoAction );
 
 	viewMenu = menuBar()->addMenu( tr("&View") );
 			viewMenu->addAction( fitAction );

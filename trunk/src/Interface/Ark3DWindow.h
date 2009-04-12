@@ -72,6 +72,10 @@ private:
 	QAction *saveAsAction;
 	QAction *newFileAction;
 
+	// Edit actions
+	QAction *undoAction;
+	QAction *redoAction;
+
 	// Sketching action
 	QActionGroup *sketchActionGroup;
     QAction *selectAction;
