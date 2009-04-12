@@ -160,6 +160,7 @@ void Ark3DWidget::mouseReleaseEvent ( QMouseEvent* e )
 		unsetCursor();
 	} else {
 		QGraphicsView::mouseReleaseEvent(e);
+		modelChanged(tr("Modify primitive"));
 	}
 
 }
@@ -410,6 +411,18 @@ void Ark3DWidget::modelChanged(QString description)
 	current_sketch_->UpdateDisplay();
 }
 
+void Ark3DWidget::undo()
+{
+	current_sketch_->Undo();
+	current_sketch_->UpdateDisplay();
+}
+
+void Ark3DWidget::redo()
+{
+	current_sketch_->Redo();
+	current_sketch_->UpdateDisplay();
+}
+
 void Ark3DWidget::fitExtents()
 {
 	QRectF rect = scene()->itemsBoundingRect();
@@ -500,3 +513,5 @@ bool Ark3DWidget::saveAs()
 
 	return current_sketch_->Save(file_name.toStdString());
 }
+
+
