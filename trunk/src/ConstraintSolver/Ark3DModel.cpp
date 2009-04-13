@@ -444,7 +444,7 @@ void Ark3DModel::FlagDependentsForDeletion(PrimitiveBasePointer primitive_to_del
 }
 
 // delete all of the primitives that have been flagged for deletion
-void Ark3DModel::DeleteFlagged()
+void Ark3DModel::DeleteFlagged(bool remove_from_db)
 {
 	map<unsigned,PrimitiveBasePointer>::iterator iter1 = primitive_list_.begin();
 
@@ -453,7 +453,8 @@ void Ark3DModel::DeleteFlagged()
 		if(iter1->second->IsFlaggedForDeletion())
 		{
 			iter1->second->Erase();
-			iter1->second->RemoveFromDatabase();
+			if(remove_from_db)
+				iter1->second->RemoveFromDatabase();
 			primitive_list_.erase(iter1++);
 		} else {
 			iter1++;
@@ -467,7 +468,8 @@ void Ark3DModel::DeleteFlagged()
 		if(iter2->second->IsFlaggedForDeletion())
 		{
 			iter2->second->Erase();
-			iter2->second->RemoveFromDatabase();
+			if(remove_from_db)
+				iter2->second->RemoveFromDatabase();
 			constraint_equation_list_.erase(iter2++);
 		} else {
 			iter2++;
@@ -475,7 +477,7 @@ void Ark3DModel::DeleteFlagged()
 	}
 
 	// there may now be some DOF's that are not needed, go ahead and delete them
-	DeleteUnusedDOFs();
+	DeleteUnusedDOFs(false /* don't attempt to remove from the database */);
 }
 
 void Ark3DModel::DeleteSelected()
@@ -508,7 +510,8 @@ DOFPointer Ark3DModel::FetchDOF(unsigned id)
 	map<unsigned,DOFPointer>::iterator dof_it = dof_list_.find(id);
 	if(dof_it != dof_list_.end())
 	{
-		// dof exists, return it
+		// dof exists, synchronize it to the database and return it
+		(dof_it->second)->SyncToDatabase(*this);
 		return(dof_it->second);
 
 	} else {
@@ -736,7 +739,7 @@ ConstraintEquationBasePointer Ark3DModel::ConstraintFactory(unsigned id, Ark3DMo
 }
 
 // delete all unneeded DOF's in the dof_list_ container
-void Ark3DModel::DeleteUnusedDOFs()
+void Ark3DModel::DeleteUnusedDOFs(bool remove_from_db)
 {
 	// first flag all of the DOF's for deletion
 	for (map<unsigned,DOFPointer>::iterator dof_it=dof_list_.begin() ; dof_it != dof_list_.end(); dof_it++ )
@@ -787,7 +790,8 @@ void Ark3DModel::DeleteUnusedDOFs()
 	{
 		if(dof_it->second->IsFlaggedForDeletion())
 		{
-			dof_it->second->RemoveFromDatabase();
+			if(remove_from_db)
+				dof_it->second->RemoveFromDatabase();
 			dof_list_.erase(dof_it++);
 		} else {
 			dof_it++;
@@ -916,7 +920,7 @@ void Ark3DModel::SyncToDatabase()
 
 
 	// Step 3: Delete all primitives and constraints that are flagged for deletion
-	DeleteFlagged();
+	DeleteFlagged(false /* delete_from_db */);
 }
 
 void Ark3DModel::SetMaxIDNumbers()
@@ -925,8 +929,11 @@ void Ark3DModel::SetMaxIDNumbers()
 	char *zErrMsg = 0;
 	int rc;
 	sqlite3_stmt *statement;
+
+	int max_primitive, max_constraint, next_primitive;
 	
 	std::string sql_command_primitive = "SELECT max(id) AS id FROM primitive_list;";
+	std::string sql_command_constraint = "SELECT max(id) AS id FROM constraint_equation_list;";
 	std::string sql_command_dof = "SELECT max(id) AS id FROM dof_list;";
 
 	rc = sqlite3_prepare(GetDatabase(), sql_command_primitive.c_str(), -1, &statement, 0);
@@ -939,16 +946,12 @@ void Ark3DModel::SetMaxIDNumbers()
 	rc = sqlite3_step(statement);
 
 	if(rc == SQLITE_ROW) {
-		// set the next_id_number_ value based on the max id number in the database
-		PrimitiveBase::SetNextID(sqlite3_column_int(statement,0)+1);
-		
-		cout << "next primitive = " << sqlite3_column_int(statement,0)+1 << endl;
+		// set the next_primitive value based on the max id number in the database
+		max_primitive = sqlite3_column_int(statement,0);
 	} else {
 		// the requested row does not exist in the database so there are no existing primitive entities
-		// set next_id_number_ to 1
-		PrimitiveBase::SetNextID(1);
-
-		cout << "next primitive = " << 1 << endl;	
+		// set max_primitve to 0
+		max_primitive=0;
 	}
 
 	rc = sqlite3_finalize(statement);
@@ -960,6 +963,37 @@ void Ark3DModel::SetMaxIDNumbers()
 		throw Ark3DException(error_description.str());
 	}
 
+	rc = sqlite3_prepare(GetDatabase(), sql_command_constraint.c_str(), -1, &statement, 0);
+	if( rc!=SQLITE_OK ){
+		std::stringstream error_description;
+		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
+		throw Ark3DException(error_description.str());
+	}
+
+	rc = sqlite3_step(statement);
+
+	if(rc == SQLITE_ROW) {
+		// set the max_constraint value from the database
+		max_constraint = sqlite3_column_int(statement,0);
+	} else {
+		// the requested row does not exist in the database so there are no existing constraint entities
+		// set max_constraint to 0
+		max_constraint=0;
+	}
+
+	rc = sqlite3_finalize(statement);
+
+	// make sure the finalize statement didn't generate an error
+	if( rc!=SQLITE_OK ){
+		std::stringstream error_description;
+		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
+		throw Ark3DException(error_description.str());
+	}
+
+	next_primitive = max_constraint > max_primitive ? max_constraint+1 : max_primitive+1;
+	
+	PrimitiveBase::SetNextID(next_primitive);
+	cout << "next primitive = " << next_primitive << endl;	
 
 	rc = sqlite3_prepare(GetDatabase(), sql_command_dof.c_str(), -1, &statement, 0);
 	if( rc!=SQLITE_OK ){
@@ -1420,7 +1454,7 @@ bool Ark3DModel::Undo()
 		vector<string>::iterator it_undo = undo_command_list.begin();
 		while(it_undo != undo_command_list.end())
 		{
-			cout << "Current Undo Command: " << it_undo->c_str() << endl;
+			//cout << "Current Undo Command: " << it_undo->c_str() << endl;
 
 			// execute the redo command
 			rc = sqlite3_exec(database_, it_undo->c_str(), 0, 0, &zErrMsg);
@@ -1510,7 +1544,7 @@ bool Ark3DModel::Redo()
 		vector<string>::iterator it_redo = redo_command_list.begin();
 		while(it_redo != redo_command_list.end())
 		{
-			cout << "Current Redo Command: " << it_redo->c_str() << endl;
+			//cout << "Current Redo Command: " << it_redo->c_str() << endl;
 
 			// execute the redo command
 			rc = sqlite3_exec(database_, it_redo->c_str(), 0, 0, &zErrMsg);
