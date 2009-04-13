@@ -101,8 +101,8 @@ private:
 	ConstraintEquationBasePointer (*CurrentConstraintFactory)(unsigned, Ark3DModel &);
 
 	void FlagDependentsForDeletion(PrimitiveBasePointer primitive_to_delete); // Flag any primitives or constraint equations for deletion that depend on this primitive
-	void DeleteFlagged(); // delete all of the primitives that have been flagged for deletion
-	void DeleteUnusedDOFs(); // delete all unused DOF's in the dof_list_ container
+	void DeleteFlagged(bool remove_from_db = true); // delete all of the primitives that have been flagged for deletion
+	void DeleteUnusedDOFs(bool remove_from_db = true); // delete all unused DOF's in the dof_list_ container
 
 	SelectionMask current_selection_mask_;
 
