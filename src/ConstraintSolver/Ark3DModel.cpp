@@ -17,6 +17,15 @@
 #include <iostream>
 #include <sstream>
 #include <boost/filesystem.hpp>
+
+// Begining of includes related to libdime (used for dxf import and export)
+#include "../dime/Basic.h"  // force the inclusion of my own version of this libdime header (the default version creates a conflicting decleration of uint32 as compared to GiNaC)
+#include <dime/Model.h>
+#include <dime/Output.h>
+#include <dime/entities/Entity.h>
+#include <dime/sections/EntitiesSection.h>
+// End of includes related to libdime
+
 #include "Ark3DModel.h"
 
 using namespace std;
@@ -1575,4 +1584,66 @@ bool Ark3DModel::Redo()
 		// no undo operation is avialable
 		return false;	
 	}
+}
+
+bool Ark3DModel::ExportDXF(const std::string &file_name)
+{
+	bool success = true;
+	dimeOutput dime_output;
+	vector<dimeEntity*> entity_list;
+
+	// delete any file that already exists with the same name
+	try{
+		if(boost::filesystem::exists(file_name))
+			boost::filesystem::remove(file_name); 
+	}
+	catch (boost::filesystem::basic_filesystem_error<string> e) {
+		success = false;
+	}
+
+	if(success)
+	{	
+		// open the dxf file for writing
+		success = dime_output.setFilename(file_name.c_str()); // file is opened for writing
+	}
+
+	if(success)
+	{
+		// Create a dime model to add all of the primitives to
+		dimeModel dime_model;
+
+		// add the entities section.
+		dimeEntitiesSection * entities = new dimeEntitiesSection;
+		dime_model.insertSection(entities);
+		
+		// loop through all of the primitives and give each one a chance to generate a dimeEntity
+		dimeEntity *current_dime_entity;
+		map<unsigned,PrimitiveBasePointer>::iterator iter1 = primitive_list_.begin();
+		while(iter1 != primitive_list_.end())
+		{
+			current_dime_entity = iter1->second->GenerateDimeEntity();
+			if(current_dime_entity != 0 )
+			{
+				dime_model.addEntity(current_dime_entity);
+				entity_list.push_back(current_dime_entity);
+			}
+			
+			iter1++;
+		}
+	
+		// write the actual dxf file
+		dime_model.write(&dime_output);
+	}
+
+	/*
+	// delete all of the entites that were created
+	vector<dimeEntity*>::iterator current_entity = entity_list.begin();
+	while(current_entity != entity_list.end())
+	{
+		delete *current_entity;
+		current_entity++;
+	}
+	*/
+
+	return success;
 }

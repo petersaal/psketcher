@@ -75,6 +75,7 @@ class Ark3DWidget : public QGraphicsView
 		void newFile();
 		bool save();
 		bool saveAs();
+		bool exportDXF();
 
 		// slots for undo/redo
 		void modelChanged(QString description);

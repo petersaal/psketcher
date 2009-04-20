@@ -16,6 +16,11 @@
 
 #include <sstream>
 
+// Begining of includes related to libdime (used for dxf import and export)
+#include "../dime/Basic.h"  // force the inclusion of my own version of this libdime header (the default version creates a conflicting decleration of uint32 as compared to GiNaC)
+#include <dime/entities/Line.h>
+// End of includes related to libdime
+
 #include "Line2D.h"
 
 #include "Ark3DModel.h"
@@ -68,7 +73,7 @@ void Line2D::GetTangent2(double & s_component, double & t_component)
 
 // returns global coordinates of line end points
 void Line2D :: Get3DLocations(double & x1, double & y1, double & z1,
-															double & x2, double & y2, double & z2)
+															double & x2, double & y2, double & z2) const
 {
 	sketch_plane_->Get3DLocation(s1_->GetValue(), t1_->GetValue(), x1, y1, z1);
 	sketch_plane_->Get3DLocation(s2_->GetValue(), t2_->GetValue(), x2, y2, z2);
@@ -297,4 +302,25 @@ bool Line2D::SyncToDatabase(Ark3DModel &ark3d_model)
 	SyncListsToDatabase(dof_table_name.str(),primitive_table_name.str(),ark3d_model); // PrimitiveBase
 
 	return true; // row existed in the database
+}
+
+dimeEntity *Line2D::GenerateDimeEntity() const
+{
+	dimeLine *output;
+
+	// get the 3d coordinates for the line endpoints
+	double x1,y1,z1,x2,y2,z2;
+	Get3DLocations(x1,y1,z1,x2,y2,z2);
+	
+	// define the endpoints in the dime format
+	dimeVec3f point1(x1,y1,z1);
+	dimeVec3f point2(x2,y2,z2);
+
+	// create the actual line
+	output = new dimeLine();
+
+	output->setCoords(0,point1);
+	output->setCoords(1,point2);	
+
+	return output;
 }

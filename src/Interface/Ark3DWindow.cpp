@@ -108,12 +108,18 @@ void Ark3DWindow::createActions()
 	saveAsAction->setStatusTip(tr("Save Current File Under a Different Name"));
 	connect(saveAsAction, SIGNAL(triggered()), view, SLOT(saveAs()));
 
+	exportDXFAction = new QAction(tr("Export DXF..."), this);
+	exportDXFAction->setStatusTip(tr("Export DXF File"));
+	connect(exportDXFAction, SIGNAL(triggered()), view, SLOT(exportDXF()));
+
 	// edit actions
 	undoAction = new QAction(tr("Undo"), this);
+	undoAction->setShortcut(tr("Ctrl+Z"));
 	undoAction->setStatusTip(tr("Undo"));
 	connect(undoAction, SIGNAL(triggered()), view, SLOT(undo()));
 
 	redoAction = new QAction(tr("Redo"), this);
+	redoAction->setShortcut(tr("Ctrl+Shift+Z"));
 	redoAction->setStatusTip(tr("Redo"));
 	connect(redoAction, SIGNAL(triggered()), view, SLOT(redo()));
 
@@ -178,6 +184,7 @@ void Ark3DWindow::createMenus()
 		fileMenu->addAction( openAction );
 		fileMenu->addAction( saveAction );
 		fileMenu->addAction( saveAsAction );
+		fileMenu->addAction( exportDXFAction );
 		fileMenu->addAction( exitAction );
 
     editMenu = menuBar()->addMenu( tr("&Edit") );

@@ -85,6 +85,9 @@ public:
 	bool IsRedoAvailable(int &current_stable_point, int &new_stable_point, int &current_row_id /* current row id of table undo_stable_points */, std::string &description);
 	void MarkStablePoint(const std::string &description);
 
+	// methods for importing and exporting geometry
+	bool ExportDXF(const std::string &file_name);
+
 protected:
 	// methods for generating objects directly from the database
 	DOFPointer DOFFactory(unsigned id);

@@ -514,4 +514,12 @@ bool Ark3DWidget::saveAs()
 	return current_sketch_->Save(file_name.toStdString());
 }
 
+bool Ark3DWidget::exportDXF()
+{
+	QString file_name = QFileDialog::getSaveFileName(this,tr("Export DXF File"), ".", tr("dxf files (*.dxf)"));
 
+	if (file_name.isEmpty())
+		return false;
+
+	return current_sketch_->ExportDXF(file_name.toStdString());
+}

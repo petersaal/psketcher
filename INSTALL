@@ -12,6 +12,7 @@ libginac-dev
 libgsl0-dev (version 1.9 or greater)
 libboost-dev C++ libraries 
 libboost-filesystem-dev
+libdime-dev
 
 Build and run instructions
 ----------------------------
