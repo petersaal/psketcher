@@ -25,6 +25,8 @@
 
 #include "DOF.h"
 
+class dimeEntity;
+
 //Exception class
 class Ark3DException
 {
@@ -87,6 +89,8 @@ class PrimitiveBase
 		// method to synchronize this object to the database, needs to be implemented by each child class
 		// returns true on success, returns false if row does not exist in the database
 		virtual bool SyncToDatabase(Ark3DModel &ark3d_model) {;} // @fixme This method should be abstract to insure that all child classes implement it
+
+		virtual dimeEntity *GenerateDimeEntity() const {return 0;}  // used for DXF export
 
 	protected:
 		// if not zero, this is the database where changes to the value of this DOF are stored

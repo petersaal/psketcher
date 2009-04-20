@@ -71,6 +71,7 @@ private:
 	QAction *openAction;
 	QAction *saveAsAction;
 	QAction *newFileAction;
+	QAction *exportDXFAction;
 
 	// Edit actions
 	QAction *undoAction;

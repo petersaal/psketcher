@@ -34,7 +34,7 @@ class Line2D : public Edge2DBase
 		DOFPointer GetT2()const {return t2_;}
 
 		void Get3DLocations(double & x1, double & y1, double & z1,
-												double & x2, double & y2, double & z2);
+												double & x2, double & y2, double & z2)const ;
 
 		Point2DPointer GetPoint1();
 		Point2DPointer GetPoint2();
@@ -52,6 +52,8 @@ class Line2D : public Edge2DBase
 		virtual void RemoveFromDatabase();
 		void DatabaseAddRemove(bool add_to_database); // Utility method used by AddToDatabase and RemoveFromDatabase
 		virtual bool SyncToDatabase(Ark3DModel &ark3d_model);
+
+		virtual dimeEntity *GenerateDimeEntity() const;
 
 	private:
 		DOFPointer s1_;
