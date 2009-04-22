@@ -16,6 +16,12 @@
 
 #include <sstream>
 
+// Begining of includes related to libdime (used for dxf import and export)
+#include "../dime/Basic.h"  // force the inclusion of my own version of this libdime header (the default version creates a conflicting decleration of uint32 as compared to GiNaC)
+#include <dime/entities/Arc.h>
+// End of includes related to libdime
+
+
 const std::string SQL_arc2d_database_schema = "CREATE TABLE arc2d_list (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, sketch_plane INTEGER NOT NULL, center_point INTEGER NOT NULL, radius_dof INTEGER NOT NULL, s_center_dof INTEGER NOT NULL, t_center_dof INTEGER NOT NULL, theta_1_dof INTEGER NOT NULL, theta_2_dof INTEGER NOT NULL, end1_point INTEGER NOT NULL, end2_point INTEGER NOT NULL, text_angle_dof INTEGER NOT NULL, text_radius_dof INTEGER NOT NULL);";
 
 #include "Arc2D.h"
@@ -157,7 +163,7 @@ Arc2D::Arc2D(unsigned id, Ark3DModel &ark3d_model)
 	}
 }
 
-void Arc2D::Get3DLocations(double & x_center, double & y_center, double & z_center)
+void Arc2D::Get3DLocations(double & x_center, double & y_center, double & z_center) const
 {
 	sketch_plane_->Get3DLocation(s_center_->GetValue(), t_center_->GetValue(), x_center, y_center, z_center);
 }
@@ -454,4 +460,44 @@ bool Arc2D::SyncToDatabase(Ark3DModel &ark3d_model)
 	SyncListsToDatabase(dof_table_name.str(),primitive_table_name.str(),ark3d_model); // PrimitiveBase
 
 	return true; // row existed in the database
+}
+
+dimeEntity *Arc2D::GenerateDimeEntity() const
+{
+	dimeArc *output;
+
+	// get the 3d coordinates for the center point
+	double x_center, y_center, z_center;
+	Get3DLocations(x_center,y_center,z_center);
+
+	// get the normal vector for the current sketch plane which defines the axis direction of the arc
+	double x_normal = sketch_plane_->GetNormal()->GetXValue();
+	double y_normal = sketch_plane_->GetNormal()->GetYValue();
+	double z_normal = sketch_plane_->GetNormal()->GetZValue();
+	
+	// define the center point and normal vector in the dime format
+	dimeVec3f center(x_center,y_center,z_center);
+	dimeVec3f normal(x_normal,y_normal,z_normal);
+
+	// create the actual arc
+	output = new dimeArc();
+
+	double theta1 = theta_1_->GetValue()*(180.0/mmcPI);
+	double theta2 = theta_2_->GetValue()*(180.0/mmcPI);
+
+	if(theta1 > theta2)
+	{
+		double temp;
+		temp = theta1;
+		theta1 = theta2;
+		theta2 = temp;
+	}
+
+	output->setExtrusionDir(normal);
+	output->setCenter(center);
+	output->setStartAngle(theta1);
+	output->setEndAngle(theta2);
+	output->setRadius(radius_->GetValue());
+
+	return output;
 }

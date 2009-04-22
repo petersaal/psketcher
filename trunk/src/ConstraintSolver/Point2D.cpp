@@ -16,6 +16,13 @@
 
 #include <sstream>
 
+
+// Begining of includes related to libdime (used for dxf import and export)
+#include "../dime/Basic.h"  // force the inclusion of my own version of this libdime header (the default version creates a conflicting decleration of uint32 as compared to GiNaC)
+#include <dime/entities/Point.h>
+// End of includes related to libdime
+
+
 #include "IndependentDOF.h"
 #include "Point2D.h"
 
@@ -245,4 +252,24 @@ bool Point2D::SyncToDatabase(Ark3DModel &ark3d_model)
 	SyncListsToDatabase(dof_table_name.str(),primitive_table_name.str(),ark3d_model); // PrimitiveBase
 
 	return true; // row existed in the database
+}
+
+
+dimeEntity *Point2D::GenerateDimeEntity() const
+{
+	dimePoint *output;
+
+	// get the 3d coordinates for the point
+	double x,y,z;
+	Get3DLocation(x,y,z);
+	
+	// define the point coordinates in dime vector format
+	dimeVec3f point(x,y,z);
+
+	// create the actual point
+	output = new dimePoint();
+
+	output->setCoords(point);	
+
+	return output;
 }

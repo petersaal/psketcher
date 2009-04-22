@@ -1590,7 +1590,6 @@ bool Ark3DModel::ExportDXF(const std::string &file_name)
 {
 	bool success = true;
 	dimeOutput dime_output;
-	vector<dimeEntity*> entity_list;
 
 	// delete any file that already exists with the same name
 	try{
@@ -1623,10 +1622,7 @@ bool Ark3DModel::ExportDXF(const std::string &file_name)
 		{
 			current_dime_entity = iter1->second->GenerateDimeEntity();
 			if(current_dime_entity != 0 )
-			{
 				dime_model.addEntity(current_dime_entity);
-				entity_list.push_back(current_dime_entity);
-			}
 			
 			iter1++;
 		}
@@ -1634,16 +1630,6 @@ bool Ark3DModel::ExportDXF(const std::string &file_name)
 		// write the actual dxf file
 		dime_model.write(&dime_output);
 	}
-
-	/*
-	// delete all of the entites that were created
-	vector<dimeEntity*>::iterator current_entity = entity_list.begin();
-	while(current_entity != entity_list.end())
-	{
-		delete *current_entity;
-		current_entity++;
-	}
-	*/
 
 	return success;
 }

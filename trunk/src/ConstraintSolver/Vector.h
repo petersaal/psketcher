@@ -27,6 +27,10 @@ class Vector : virtual public PrimitiveBase
 		//Vector ( DOFPointer x, DOFPointer y, DOFPointer z );
 		Vector (unsigned id, Ark3DModel &ark3d_model); // Construct from database
 
+		double GetXValue()const {return x_->GetValue();}
+		double GetYValue()const {return y_->GetValue();}
+		double GetZValue()const {return z_->GetValue();}
+
 		mmcMatrix GetmmcMatrix();  // returns mmcMatrix vector containing current location 
 
 		void ApplySelectionMask(SelectionMask mask);
