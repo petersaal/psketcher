@@ -51,6 +51,8 @@ class Point2D : public Primitive2DBase
 		void DatabaseAddRemove(bool add_to_database); // Utility method used by AddToDatabase and RemoveFromDatabase
 		virtual bool SyncToDatabase(Ark3DModel &ark3d_model);
 
+		dimeEntity *GenerateDimeEntity() const;
+
 	private:
 		DOFPointer s_;
 		DOFPointer t_;

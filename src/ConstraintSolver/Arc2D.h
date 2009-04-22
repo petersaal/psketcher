@@ -46,7 +46,7 @@ class Arc2D : public Edge2DBase
 		double GetRadiusValue()const {return radius_->GetValue();}
 		void SetRadiusValue(double radius) {radius_->SetValue(radius);}
 
-		void Get3DLocations(double & x_center, double & y_center, double & z_center);
+		void Get3DLocations(double & x_center, double & y_center, double & z_center) const;
 
 		Point2DPointer GetPoint1(){return point1_;}
 		Point2DPointer GetPoint2(){return point2_;}
@@ -75,6 +75,8 @@ class Arc2D : public Edge2DBase
 		virtual void RemoveFromDatabase();
 		void DatabaseAddRemove(bool add_to_database); // Utility method used by AddToDatabase and RemoveFromDatabase
 		virtual bool SyncToDatabase(Ark3DModel &ark3d_model);
+
+		dimeEntity *GenerateDimeEntity() const; // used for DXF export
 
 	protected:
 		// parameters that define the arc
