@@ -39,7 +39,7 @@
 
 // we prefer to use floats to save mem. Applications needing
 // scientific calculations should typedef this to double
-typedef float dxfdouble;
+typedef double dxfdouble;
 
 #ifdef _WIN32
 #include "float.h"
@@ -70,16 +70,45 @@ T DXFSQR(const T x)
 #include <support/SupportDefs.h>
 #else // ! defined(__BEOS__)
 typedef signed char int8;
-typedef unsigned char uint8;
+//  typedef unsigned char uint8;
 typedef signed short int16;
-typedef unsigned short uint16;
+//  typedef unsigned short uint16;
 #ifdef _WIN32
 typedef long int32;
 #else // ! defined(_WIN32)
 typedef signed int int32;
 #endif // ! defined(_WIN32)
-typedef long unsigned int uint32;
+// typedef long unsigned int uint32;
 #endif // ! defined(__BEOS__)
+
+// define uint8, uint6, and uint32
+// using code from /usr/include/cln/types.h to prevent conflicts
+// dime's original typedef's for uint8, uint16, and uint32 are commented out above
+#include <cln/intparam.h>
+  // 8 bits
+  #if (char_bitsize==8)
+    typedef signed char    sint8;
+    typedef unsigned char  uint8;
+  #else
+    #error "No 8 bit integer type?"
+  #endif
+  // 16 bits
+  #if (short_bitsize==16)
+    typedef short           sint16;
+    typedef unsigned short  uint16;
+  #else
+    #error "No 16 bit integer type?"
+  #endif
+  // 32 bits
+  #if (long_bitsize==32)
+    typedef long           sint32;
+    typedef unsigned long  uint32;
+  #elif (int_bitsize==32)
+    typedef int            sint32;
+    typedef unsigned int   uint32;
+  #else
+    #error "No 32 bit integer type?"
+  #endif
 
 #ifdef macintosh
  char* strdup( const char* );
