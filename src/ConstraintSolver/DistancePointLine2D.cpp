@@ -84,7 +84,7 @@ DistancePointLine2D::DistancePointLine2D(unsigned id, Ark3DModel &ark3d_model)
 
 // Calculate the current actual distance between the point and the line
 // This method is used to set the distance when graphically generating a distance constraint
-double DistancePointLine2D::GetActualDistance()
+double DistancePointLine2D::GetActualDistance() const
 {
 	// calculate the distance between point1_ and point2_
 	double term1 = (line_->GetS2()->GetValue() - line_->GetS1()->GetValue());
