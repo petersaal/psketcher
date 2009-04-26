@@ -734,6 +734,9 @@ ConstraintEquationBasePointer Ark3DModel::ConstraintFactory(unsigned id, Ark3DMo
 	else if(table_name == "distance_point2d_list"){
 		result.reset(new DistancePoint2D(id,ark3d_model));
 	}
+	else if(table_name == "distance_pointline2d_list"){
+		result.reset(new DistancePointLine2D(id,ark3d_model));
+	}
 	else if(table_name == "parallel_line2d_list"){
 		result.reset(new ParallelLine2D(id,ark3d_model));
 	}

@@ -31,6 +31,7 @@
 #include "Line2D.h"
 #include "ConstraintEquationBase.h"
 #include "DistancePoint2D.h"
+#include "DistancePointLine2D.h"
 #include "DistancePoint.h"
 #include "ParallelLine.h"
 #include "ParallelLine2D.h"
