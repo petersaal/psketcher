@@ -27,7 +27,7 @@ class DistancePointLine2D : public ConstraintEquationBase
 		DistancePointLine2D(const Point2DPointer point, const Line2DPointer line, double distance);
 		DistancePointLine2D(unsigned id, Ark3DModel &ark3d_model); // Construct from database
 
-		double GetActualDistance();
+		double GetActualDistance() const;
 		double GetValue()const {return distance_->GetValue();}
 		void SetValue(double value) {distance_->SetValue(value);}
 		void SetTextLocation(double text_position, double text_offset) {text_position_->SetValue(text_position); text_offset_->SetValue(text_offset);}
