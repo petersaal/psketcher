@@ -39,7 +39,7 @@
 
 // we prefer to use floats to save mem. Applications needing
 // scientific calculations should typedef this to double
-typedef double dxfdouble;
+typedef float dxfdouble;
 
 #ifdef _WIN32
 #include "float.h"
