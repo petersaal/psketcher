@@ -198,9 +198,9 @@ private:
 class mmcException{
 public:	
   mmcException(mmcECODE error_code,int line_num) {ErrorCode = error_code;
-                                                  std::cout << "mmcError: " << mmcECODE_STRINGS[error_code] << " at line " << line_num << " in " << "mmcMatrix.cpp." << std::endl;}
+                                                  std::cerr << "mmcError: " << mmcECODE_STRINGS[error_code] << " at line " << line_num << " in " << "mmcMatrix.cpp." << std::endl;}
   mmcException(mmcECODE error_code,int line_num, const char *source_file) {ErrorCode = error_code;
-                                                                           std::cout << "mmcError: " << mmcECODE_STRINGS[error_code] << " at line " << line_num << " in " << source_file << "." << std::endl;}
+                                                                           std::cerr << "mmcError: " << mmcECODE_STRINGS[error_code] << " at line " << line_num << " in " << source_file << "." << std::endl;}
 
 private:
   mmcECODE ErrorCode;

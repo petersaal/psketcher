@@ -260,7 +260,7 @@ void Ark3DWidget::GenerateTestSketch()
 	edge_loop1->AddEdge(line3);
 	edge_loop1->AddEdge(arc1);
 	edge_loop1->AddEdge(line4);
-	std::cout << "Is loop valid: " << edge_loop1->IsLoopValid() << std::endl;
+	//std::cout << "Is loop valid: " << edge_loop1->IsLoopValid() << std::endl;
 
 	//current_sketch_->ApplySelectionMask(Points);
 	//current_sketch_->ApplySelectionMask(Edges);
@@ -426,7 +426,7 @@ void Ark3DWidget::redo()
 void Ark3DWidget::fitExtents()
 {
 	QRectF rect = scene()->itemsBoundingRect();
-	std::cout << "bounding rect " << rect.x() << ", " << rect.y() << ", " << rect.width() << ", " << rect.height() << std::endl;
+	//std::cout << "bounding rect " << rect.x() << ", " << rect.y() << ", " << rect.width() << ", " << rect.height() << std::endl;
 	fitInView(rect,Qt::KeepAspectRatio);
 }
 
