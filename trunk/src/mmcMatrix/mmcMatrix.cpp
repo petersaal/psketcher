@@ -1544,7 +1544,7 @@ mmcMatrix::mmcMatrix(const char *file_name)
 
 	if(error)
 	{
-		cout << "Failed to open file: " << file_name << endl;
+		cerr << "Failed to open file: " << file_name << endl;
 		throw mmcException(CANNOT_OPEN, __LINE__);
 	}
 }
@@ -1557,7 +1557,7 @@ bool mmcMatrix::WriteToFile(const char *file_name)const
 	if(!fout)
 	{
 		// Error opening the file
-		cout << "Error creating the file: " << file_name << endl;
+		cerr << "Error creating the file: " << file_name << endl;
 		return true;
 		
 	} else {

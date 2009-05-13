@@ -58,7 +58,7 @@ point2_(point2)
 													pow(point1->GetTDOF()->GetVariable() - point2->GetTDOF()->GetVariable(),2))
 										- distance_->GetVariable();
 
-	cout << *new_constraint << endl;
+	// cout << *new_constraint << endl;
 
 	constraints_.push_back(new_constraint);
 	weight_list_.push_back(1.0);

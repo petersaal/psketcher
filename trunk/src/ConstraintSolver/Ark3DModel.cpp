@@ -360,7 +360,7 @@ void Ark3DModel::SolveConstraints()
 			ConstraintSolver my_constraint_solver(constraints, weights, free_parameters,
 																				fixed_parameters, fixed_values);
 		
-			mmcMatrix computed_free_values = my_constraint_solver.MinimizeMeritFunction(initial_free_values, 1000, 1e-10, 1e-15, 100, 1, &std::cout);
+			mmcMatrix computed_free_values = my_constraint_solver.MinimizeMeritFunction(initial_free_values, 1000, 1e-10, 1e-15, 100, 1, &std::cerr);
 		
 			// Update the free DOF's with the solution
 			for(unsigned int current_dof = 0; current_dof < free_dof_list.size(); current_dof++)
@@ -1005,7 +1005,7 @@ void Ark3DModel::SetMaxIDNumbers()
 	next_primitive = max_constraint > max_primitive ? max_constraint+1 : max_primitive+1;
 	
 	PrimitiveBase::SetNextID(next_primitive);
-	cout << "next primitive = " << next_primitive << endl;	
+	cerr << "next primitive = " << next_primitive << endl;	
 
 	rc = sqlite3_prepare(GetDatabase(), sql_command_dof.c_str(), -1, &statement, 0);
 	if( rc!=SQLITE_OK ){
@@ -1020,13 +1020,13 @@ void Ark3DModel::SetMaxIDNumbers()
 		// set the next_id_number_ value based on the max id number in the database
 		DOF::SetNextID(sqlite3_column_int(statement,0)+1);
 		
-		cout << "next dof = " << sqlite3_column_int(statement,0)+1 << endl;
+		cerr << "next dof = " << sqlite3_column_int(statement,0)+1 << endl;
 	} else {
 		// the requested row does not exist in the database so there are no existing primitive entities
 		// set next_id_number_ to 1
 		DOF::SetNextID(1);
 
-		cout << "next dof = " << 1 << endl;
+		cerr << "next dof = " << 1 << endl;
 	}
 
 	rc = sqlite3_finalize(statement);
@@ -1415,7 +1415,7 @@ bool Ark3DModel::Undo()
 	if(undo_available)
 	{
 
-		cout << "new_stable_point = " << new_stable_point << ", current_stable_point = " << current_stable_point << endl;
+		cerr << "new_stable_point = " << new_stable_point << ", current_stable_point = " << current_stable_point << endl;
 	
 		// retrieve the appropriate SQL commands to undo from the database and execute each one
 		char *zErrMsg = 0;
