@@ -73,7 +73,6 @@ class IndependentDOF(_DOF):
         self.value = value
         self.free = free     # If free is True, the constraint solver is able 
                              # to modify this DOF
-
     @property 
     def variable(self): return self.__variable
 
@@ -90,13 +89,15 @@ class DependentDOF(_DOF):
     def __init__(self,expression,dof_list):
         _DOF.__init__(self)  # self.id gets defined by the base class
         self.__variable = sympy.Symbol("dof"+str(self.id));
-        self.__dof_list = dof_list
+        self.__dof_list = list(set(dof_list)) # Remove any duplicates
         self.__expression = expression
-        self.__value_function = sympy.lambdify(self.__dof_list, self.__expression)
+        # Create a python function to speed up evaluation of the expression
+        # Because this function relies on the order of __dof_list, a set cannot be used for __dof_list
+        self.__value_function = sympy.lambdify([dof.variable for dof in self.__dof_list], self.__expression)
         
     @property
     def value(self):
-        return self.__value_function([dof.vlaue for dof in self.__dof_list])
+        return self.__value_function(*[dof.value for dof in self.__dof_list])
 
     @property 
     def variable(self): return self.__variable
@@ -196,16 +197,16 @@ class Line2D(_Edge):
                             (self.__y1.expression-self.__y2.expression)**2)
         x_component = (self.__x1.expression-self.__x2.expression)/length
         y_component = (self.__y1.expression-self.__y2.expression)/length
-        dof_list = [self.__x1, self.__x2, self.__y1, self.__y2]
-        return (x_component, y_component, dof_list)
+        dof_set = set((self.__x1, self.__x2, self.__y1, self.__y2))
+        return (x_component, y_component, dof_set)
         
     def get_tangent2_expression(self):
         length = sympy.sqrt((self.__x1.expression-self.__x2.expression)**2+\
                             (self.__y1.expression-self.__y2.expression)**2)
         x_component = (self.__x2.expression-self.__x1.expression)/length
         y_component = (self.__y2.expression-self.__y1.expression)/length
-        dof_list = [(self.__x1, self.__x2, self.__y1, self.__y2)]
-        return (x_component, y_component, dof_list)
+        dof_set = set((self.__x1, self.__x2, self.__y1, self.__y2))
+        return (x_component, y_component, dof_set)
 
     # x1, x2, y1, and y2 are all read only so define property attributes
     # they are read only since __point1, __point2, and __source_primitve_set all 
@@ -233,6 +234,87 @@ class Line2D(_Edge):
     
     @property
     def source_primitive_set(self): return self.__source_primitive_set
+
+
+class Arc2D(_Edge):
+    """Two dimensional arc class"""
+    
+    def __init__(self, x_center, y_center, theta1, theta2, radius, \
+                 x_center_free=False, y_center_free=False, theta1_free=False, \
+                 theta2_free=False, radius_free=False):
+        self.__source_primitive_set = set()  # Expected for all children of _Primitive
+        
+        self.__x_center = x_center if isinstance(x_center,_DOF) else IndependentDOF(x_center,x_center_free)
+        self.__y_center = y_center if isinstance(y_center,_DOF) else IndependentDOF(y_center,y_center_free)
+        self.__theta1 = theta1 if isinstance(theta1,_DOF) else IndependentDOF(theta1,theta1_free)
+        self.__theta2 = theta2 if isinstance(theta2,_DOF) else IndependentDOF(theta2,theta2_free)
+        self.__radius = radius if isinstance(radius,_DOF) else IndependentDOF(radius,radius_free)
+
+        _Primitive.__init__(self)  # self.id gets defined by the base class
+        
+        # Create the point attributes that are expected for all classes that
+        # inherit from _Edge
+        self.__point1 = self.__generate_point1()
+        self.__point2 = self.__generate_point2()
+        self.__center_point = Point2D(self.__x_center,  self.__y_center)
+
+    def __generate_point1(self):
+        x = self.__x_center.variable + self.__radius.variable*sympy.cos(self.__theta1.variable)
+        y = self.__y_center.variable + self.__radius.variable*sympy.sin(self.__theta1.variable)
+        
+        x_dof = DependentDOF(x, set( (self.__x_center,self.__radius,self.__theta1) ))
+        y_dof = DependentDOF(y, set( (self.__y_center,self.__radius,self.__theta1) ))
+        
+        return Point2D(x_dof, y_dof)
+        
+    def __generate_point2(self):
+        x = self.__x_center.variable + self.__radius.variable*sympy.cos(self.__theta2.variable)
+        y = self.__y_center.variable + self.__radius.variable*sympy.sin(self.__theta2.variable)
+        
+        x_dof = DependentDOF(x, set( (self.__x_center,self.__radius,self.__theta2) ))
+        y_dof = DependentDOF(y, set( (self.__y_center,self.__radius,self.__theta2) ))
+        
+        return Point2D(x_dof, y_dof)
+
+    def get_tangent1_expression(self):
+        x_component = sympy.sin(self.__theta1.variable);
+        y_component = -sympy.cos(self.__theta1.variable);
+        
+        return (x_component, y_component, set((self.__theta1)))
+        
+    def get_tangent2_expression(self):
+        x_component = -sympy.sin(self.__theta2.variable);
+        y_component = sympy.cos(self.__theta2.variable);
+
+        return (x_component, y_component, set((self.__theta2)))
+        
+    @property
+    def x_center(self): return self.__x_center
+
+    @property
+    def y_center(self): return self.__y_center
+
+    @property
+    def theta1(self): return self.__theta1
+    
+    @property
+    def theta2(self): return self.__theta2
+
+    @property
+    def point1(self): return self.__point1
+    
+    @property
+    def point2(self): return self.__point2
+
+    @property
+    def center_point(self): return self.__center_point
+
+    @property
+    def dof_set(self): return set((self.__x_center,self.__y_center,self.__theta1, \
+                                   self.__theta2,self.__radius))
+    @property
+    def source_primitive_set(self): return self.__source_primitive_set
+
 
 if __name__ == "__main__":
     import doctest
