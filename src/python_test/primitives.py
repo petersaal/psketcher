@@ -34,9 +34,9 @@ False
 True
 >>> line1.source_primitive_set == set((point1,point3))
 False
->>> print(line1.get_tangent1_expression())[0:2]
+>>> print(line1.get_tangent1_expression()[0:2])
 ((dof0 - dof2)/((dof0 - dof2)**2 + (dof1 - dof3)**2)**(1/2), (dof1 - dof3)/((dof0 - dof2)**2 + (dof1 - dof3)**2)**(1/2))
->>> print(line1.get_tangent2_expression())[0:2]
+>>> print(line1.get_tangent2_expression()[0:2])
 ((dof2 - dof0)/((dof0 - dof2)**2 + (dof1 - dof3)**2)**(1/2), (dof3 - dof1)/((dof0 - dof2)**2 + (dof1 - dof3)**2)**(1/2))
 """
 
@@ -69,10 +69,19 @@ class IndependentDOF(_DOF):
 
     def __init__(self,value,free=False):
         _DOF.__init__(self)  # self.id gets defined by the base class
-        self.expression = sympy.Symbol("dof"+str(self.id));
+        self.__variable = sympy.Symbol("dof"+str(self.id));
         self.value = value
         self.free = free     # If free is True, the constraint solver is able 
                              # to modify this DOF
+
+    @property 
+    def variable(self): return self.__variable
+
+    @property
+    def expression(self): return self.__variable
+
+    @property
+    def dependent(self): return False
 
 
 class DependentDOF(_DOF):
@@ -80,11 +89,40 @@ class DependentDOF(_DOF):
     
     def __init__(self,expression,dof_list):
         _DOF.__init__(self)  # self.id gets defined by the base class
+        self.__variable = sympy.Symbol("dof"+str(self.id));
+        self.__dof_list = dof_list
+        self.__expression = expression
+        self.__value_function = sympy.lambdify(self.__dof_list, self.__expression)
+        
+    @property
+    def value(self):
+        return self.__value_function([dof.vlaue for dof in self.__dof_list])
+
+    @property 
+    def variable(self): return self.__variable
+
+    @property
+    def expression(self):
+        expression = self.__expression
+        expression = expression.subs( \
+                     [(dof.variable, dof.expression) for dof in self.__dof_list if dof.dependent])
+        return expression
+
+    @property
+    def dof_list(self): return self.__dof_list
+
+    @property
+    def free(self): return False
+        
+    @property
+    def dependent(self): return True
+
 
 class _Edge(_Primitive):
     """ Edge base class used to group edge primitives (Line2D, Arc2D, etc.). This
     class cannot be used on its own."""
     pass
+
 
 class Point2D(_Primitive):
     """Two dimensional point class"""
@@ -98,25 +136,22 @@ class Point2D(_Primitive):
         _Primitive.__init__(self)  # self.id gets defined
     
     # __x and __y are read only
-    def _get_x(self):
-        return self.__x
-    x = property(fget=_get_x)
+    @property
+    def x(self): return self.__x
 
-    def _get_y(self):
-        return self.__y
-    y= property(fget=_get_y)
+    @property
+    def y(self): return self.__y
 
-    def _get_dof_set(self):
-        return set((self.__x,self.__y))
-    dof_set = property(fget=_get_dof_set) # all _Primitive children need this property
+    @property
+    def dof_set(self): return set((self.__x,self.__y))
 
-    def _get_source_primitive_set(self):
-        return self.__source_primitive_set.copy()
-    source_primitive_set=property(fget=_get_source_primitive_set) # all _Primitive children need this property
+    @property
+    def source_primitive_set(self): return self.__source_primitive_set
 
     def __eq__(self,other):
         """Two Point2D objects are equal if all of their DOF's are identical"""
-        return True if self.__x is other.x and self.__y is other.y else False
+        return True if self.__x is other.__x and self.__y is other.__y else False
+
 
 class Line2D(_Edge):
     """Two dimensional line class"""
@@ -161,51 +196,43 @@ class Line2D(_Edge):
                             (self.__y1.expression-self.__y2.expression)**2)
         x_component = (self.__x1.expression-self.__x2.expression)/length
         y_component = (self.__y1.expression-self.__y2.expression)/length
-        dof_set = set((self.__x1, self.__x2, self.__y1, self.__y2))
-        return (x_component, y_component, dof_set)
+        dof_list = [self.__x1, self.__x2, self.__y1, self.__y2]
+        return (x_component, y_component, dof_list)
         
     def get_tangent2_expression(self):
         length = sympy.sqrt((self.__x1.expression-self.__x2.expression)**2+\
                             (self.__y1.expression-self.__y2.expression)**2)
         x_component = (self.__x2.expression-self.__x1.expression)/length
         y_component = (self.__y2.expression-self.__y1.expression)/length
-        dof_set = set((self.__x1, self.__x2, self.__y1, self.__y2))
-        return (x_component, y_component, dof_set)
+        dof_list = [(self.__x1, self.__x2, self.__y1, self.__y2)]
+        return (x_component, y_component, dof_list)
 
     # x1, x2, y1, and y2 are all read only so define property attributes
     # they are read only since __point1, __point2, and __source_primitve_set all 
     # depend on their particular instance
-    def _get_x1(self):
-        return self.__x1
-    x1 = property(fget=_get_x1)
+    @property
+    def x1(self): return self.__x1
+
+    @property
+    def x2(self): return self.__x2
+
+    @property
+    def y1(self): return self.__y1
     
-    def _get_x2(self):
-        return self.__x2
-    x2 = property(fget=_get_x2)
+    @property
+    def y2(self): return self.__y2
+
+    @property
+    def point1(self): return self.__point1
     
-    def _get_y1(self):
-        return self.__y1
-    y1 = property(fget=_get_y1)
+    @property
+    def point2(self): return self.__point2
     
-    def _get_y2(self):
-        return self.__y2
-    y2 = property(fget=_get_y2)
-        
-    def _get_point1(self):
-        return self.__point1
-    point1 = property(fget=_get_point1)
+    @property
+    def dof_set(self): return set((self.__x1,self.__y1,self.__x2,self.__y2))
     
-    def _get_point2(self):
-        return self.__point2
-    point2 = property(fget=_get_point2)
-        
-    def _get_dof_set(self):
-        return set((self.__x1,self.__y1,self.__x2,self.__y2))
-    dof_set = property(fget=_get_dof_set) # all _Primitive children need this property
-    
-    def _get_source_primitive_set(self):
-        return self.__source_primitive_set.copy()
-    source_primitive_set=property(fget=_get_source_primitive_set) # all _Primitive children need this property
+    @property
+    def source_primitive_set(self): return self.__source_primitive_set
 
 if __name__ == "__main__":
     import doctest
