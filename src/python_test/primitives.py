@@ -50,8 +50,11 @@ class _DOF(object):
                      # SQLite database
     
     def __init__(self):
-        self.id = _DOF.__current_id
+        self.__id = _DOF.__current_id
         _DOF.__current_id += 1
+        
+    @property
+    def id(self): return self.__id
 
 
 class _Primitive(object):
@@ -61,8 +64,11 @@ class _Primitive(object):
                             # identify it when it is stored in the SQLite database
     
     def __init__(self):
-        self.id = _Primitive.__current_id
+        self.__id = _Primitive.__current_id
         _Primitive.__current_id += 1
+        
+    @property
+    def id(self): return self.__id
         
 class IndependentDOF(_DOF):
     """Independent DOF class"""
@@ -316,6 +322,98 @@ class Arc2D(_Edge):
     def source_primitive_set(self): return self.__source_primitive_set
 
 
+class _Constraint(object):
+    """Constraint base class, cannot be used directly. """
+    
+    __current_id = 0 # Each instance of _Constraint has a unique ID that is used to 
+                     # identify it when it is stored in the SQLite database
+    
+    def __init__(self):
+        self.__id = _Constraint.__current_id
+        _Constraint.__current_id += 1
+        
+    @property
+    def id(self): return self.__id
+
+class _DistancePoint2D(_Constraint):
+    """Generates distance constraint between two Point2D objects"""
+    
+    def __init__(self, point1, point2, distance):
+        _Constraint.__init__(self)  # self.id gets defined by the base class
+        self.__point1 = point1
+        self.__point2 = point2
+        self.__distance = distance if isinstance(distance,_DOF) else IndependentDOF(distance,free=False)
+        
+        # Store a set of dof's and a set of primitives that this constraint depends on
+        self.__source_primitive_set = set((point1,point2))  # Expected for all children of _Constraint
+        self.__dof_set = set((self.__distance, point1.x, point1.y, point2.x, point2.y))
+        
+        # create the constraint equation expression
+        constraint_equation = sympy.sqrt((point1.x.variable-point2.x.variable)**2+ \
+                                         (point1.y.variable-point2.y.variable)) - \
+                              self.__distance.variable
+    
+        # Create the constraint equation list, each element of the list is a tuple of a 
+        # constraint expression and a constraint weight. 
+        self.__constraint_equation_list = list()
+        self.__constraint_equation_list.append( (constraint_equation,1.0) )
+
+    @property
+    def constraint_equation_list(self): return self.__constraint_equation_list
+
+    @property
+    def dof_set(self): return self.__dof_set
+    
+    @property
+    def source_primitive_set(self): return self.__source_primitive_set
+    
+class ParallelLine2D(_Constraint):
+    """Generates parallelism constraint between two Line2D objects"""
+    
+    def __init__(self, line1, line2):
+        _Constraint.__init__(self)  # self.id gets defined by the base class
+        self.__line1 = line1
+        self.__line2 = line2
+        
+        # Store a set of dof's and a set of primitives that this constraint depends on
+        self.__source_primitive_set = set((line1,line2))  # Expected for all children of _Constraint
+        self.__dof_set = set((line1.x1, line1.y1, line1.x2, line1.y2, \
+                              line2.x1, line2.y1, line2.x2, line2.y2))
+        
+        # create the constraint equation expression
+        line1_dx = line1.x1.variable - line1.x2.variable;
+        line1_dy = line1.y1.variable - line1.y2.variable;
+        line1_length = sympy.sqrt(line1_dx**2+line1_dy**2);
+
+        line2_dx = line2.x1.variable - line2.x2.variable;
+        line2_dy = line2.y1.variable - line2.y2.variable;
+        line2_length = sympy.sqrt(line2_dx**2+line2_dy**2);
+
+        # Calculate the dot product normalized by the vector lengths and subtract one.
+        # This expression will be zero when the lines are parallel
+        # Ideally, I would use abs() instead of ()**2 but abs is not differentiable. 
+        constraint_equation = ((1/(line1_length*line2_length))*(line1_dx*line2_dx + line1_dy*line2_dy)**2)-1;
+
+        # Create the constraint equation list, each element of the list is a tuple of a 
+        # constraint expression and a constraint weight. 
+        self.__constraint_equation_list = list()
+        self.__constraint_equation_list.append( (constraint_equation,1.0) )
+
+    @property
+    def constraint_equation_list(self): return self.__constraint_equation_list
+
+    @property
+    def dof_set(self): return self.__dof_set
+    
+    @property
+    def source_primitive_set(self): return self.__source_primitive_set
+    
+class AngleLine2D(_Constraint):
+    pass
+    
+class TangentEdge2D(_Constraint):
+    pass
+    
 if __name__ == "__main__":
     import doctest
     doctest.testmod()
