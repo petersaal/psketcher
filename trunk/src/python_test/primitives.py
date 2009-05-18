@@ -13,8 +13,8 @@
 >>> constraint3 = ParallelLine2D(line1,line3)
 >>> constraint4 = ParallelLine2D(line2,line4)
 >>> constraint5 = AngleLine2D(line1,line2,pi*0.5,False)
->>> constraint6 = TangentEdge2D(line3,arc1)  #point2,point1
->>> constraint7 = TangentEdge2D(line4,arc1)  #point1,point2
+>>> constraint6 = TangentEdge2D(line3,arc1)
+>>> constraint7 = TangentEdge2D(line4,arc1)
 """
 
 import sympy
@@ -328,7 +328,7 @@ class DistancePoint2D(_Constraint):
         
         # create the constraint equation expression
         constraint_equation = sympy.sqrt((point1.x.variable-point2.x.variable)**2+ \
-                                         (point1.y.variable-point2.y.variable)) - \
+                                         (point1.y.variable-point2.y.variable)**2) - \
                               self.__distance.variable
     
         # Create the constraint equation list, each element of the list is a tuple of a 
@@ -370,7 +370,7 @@ class ParallelLine2D(_Constraint):
         # Calculate the dot product normalized by the vector lengths and subtract one.
         # This expression will be zero when the lines are parallel
         # Ideally, I would use abs() instead of ()**2 but abs is not differentiable. 
-        constraint_equation = ((1/(line1_length*line2_length))*(line1_dx*line2_dx + line1_dy*line2_dy)**2)-1
+        constraint_equation = ((1/(line1_length*line2_length))*(line1_dx*line2_dx + line1_dy*line2_dy))**2-1
 
         # Create the constraint equation list, each element of the list is a tuple of a 
         # constraint expression and a constraint weight. 
@@ -461,8 +461,8 @@ class TangentEdge2D(_Constraint):
                 edge1_point_num = 2
                 edge2_point_num = 1
             elif edge1.point2 == edge2.point2:
-                edge1_point_num = 1
-                edge2_point_num = 1
+                edge1_point_num = 2
+                edge2_point_num = 2
             else:
                 raise ValueError("If the edges do not share a common point both edge1_point_num and \
                                  edge2_point_num must be supplied")
