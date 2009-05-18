@@ -1,46 +1,24 @@
 # doctest examples
 """
->>> point1 = Point2D(1.0,2.0)
->>> point2 = Point2D(2.0,3.0)
->>> point3 = Point2D(4.0,5.0)
->>> point4 = Point2D(point3.x,point3.y)
->>> point3 == point4
-True
->>> point3 == point2
-False
+>>> point1 = Point2D(0.0,0.0,False,False)
+>>> point2 = Point2D(10.0,0.0,True,False)
+>>> point3 = Point2D(10.0,10.0,True,True)
+>>> arc1 = Arc2D(1.5,6.0,(pi/2.0)*0.8,pi*1.2,2.0,True,True,True,True,False)
 >>> line1 = Line2D(point1,point2)
->>> line2 = Line2D(point3,point4)
-Traceback (most recent call last):
-    ...
-ValueError: Both ends of the line cannot have identical DOF's
 >>> line2 = Line2D(point2,point3)
->>> line3 = Line2D(x1=1.0,y1=2.0,x2=2.0,y2=3.0)
->>> line3 = Line2D(x1=point1.x,y1=point1.y,x2=point2.x,y2=point2.y)
->>> line2.point1 == line3.point2
-True
->>> line2.point2 == line3.point2
-False
->>> set((line1.x1,line1.y1,line1.x2,line1.y2)) == point1.dof_set
-False
->>> set((line1.x1,line1.y1,line1.x2,line1.y2)) == line1.dof_set
-True
->>> set((line1.x1,line1.y1,line1.x2,line1.y2)) == line2.dof_set
-False
->>> set((point1.x,point1.y)) == point1.dof_set
-True
->>> set((point1.x,point1.y)) == point2.dof_set
-False
->>> line1.source_primitive_set == set((point1,point2))
-True
->>> line1.source_primitive_set == set((point1,point3))
-False
->>> print(line1.get_tangent1_expression()[0:2])
-((dof0 - dof2)/((dof0 - dof2)**2 + (dof1 - dof3)**2)**(1/2), (dof1 - dof3)/((dof0 - dof2)**2 + (dof1 - dof3)**2)**(1/2))
->>> print(line1.get_tangent2_expression()[0:2])
-((dof2 - dof0)/((dof0 - dof2)**2 + (dof1 - dof3)**2)**(1/2), (dof3 - dof1)/((dof0 - dof2)**2 + (dof1 - dof3)**2)**(1/2))
+>>> line3 = Line2D(point3,arc1.point1)
+>>> line4 = Line2D(arc1.point2,point1)
+>>> constraint1 = DistancePoint2D(point1,point2,6.0)
+>>> constraint2 = DistancePoint2D(point2,point3,12.0)
+>>> constraint3 = ParallelLine2D(line1,line3)
+>>> constraint4 = ParallelLine2D(line2,line4)
+>>> constraint5 = AngleLine2D(line1,line2,pi*0.5,False)
+>>> constraint6 = TangentEdge2D(line3,arc1)  #point2,point1
+>>> constraint7 = TangentEdge2D(line4,arc1)  #point1,point2
 """
 
 import sympy
+from scipy import pi
 
 class _DOF(object):
     """DOF base class, cannot be used directly. """
@@ -286,13 +264,13 @@ class Arc2D(_Edge):
         x_component = sympy.sin(self.__theta1.variable);
         y_component = -sympy.cos(self.__theta1.variable);
         
-        return (x_component, y_component, set((self.__theta1)))
+        return (x_component, y_component, set((self.__theta1,)))
         
     def get_tangent2_expression(self):
         x_component = -sympy.sin(self.__theta2.variable);
         y_component = sympy.cos(self.__theta2.variable);
 
-        return (x_component, y_component, set((self.__theta2)))
+        return (x_component, y_component, set((self.__theta2,)))
         
     @property
     def x_center(self): return self.__x_center
@@ -335,7 +313,7 @@ class _Constraint(object):
     @property
     def id(self): return self.__id
 
-class _DistancePoint2D(_Constraint):
+class DistancePoint2D(_Constraint):
     """Generates distance constraint between two Point2D objects"""
     
     def __init__(self, point1, point2, distance):
@@ -392,7 +370,7 @@ class ParallelLine2D(_Constraint):
         # Calculate the dot product normalized by the vector lengths and subtract one.
         # This expression will be zero when the lines are parallel
         # Ideally, I would use abs() instead of ()**2 but abs is not differentiable. 
-        constraint_equation = ((1/(line1_length*line2_length))*(line1_dx*line2_dx + line1_dy*line2_dy)**2)-1;
+        constraint_equation = ((1/(line1_length*line2_length))*(line1_dx*line2_dx + line1_dy*line2_dy)**2)-1
 
         # Create the constraint equation list, each element of the list is a tuple of a 
         # constraint expression and a constraint weight. 
@@ -409,10 +387,122 @@ class ParallelLine2D(_Constraint):
     def source_primitive_set(self): return self.__source_primitive_set
     
 class AngleLine2D(_Constraint):
-    pass
+    """Generates angle constraint between two Line2D objects"""
+    
+    def __init__(self, line1, line2, angle, interior_angle):
+        _Constraint.__init__(self)  # self.id gets defined by the base class
+        self.__line1 = line1
+        self.__line2 = line2
+        self.__angle = angle if isinstance(angle,_DOF) else IndependentDOF(angle,free=False)
+        self.__interior_angle = interior_angle
+        
+        # Store a set of dof's and a set of primitives that this constraint depends on
+        self.__source_primitive_set = set((line1,line2))  # Expected for all children of _Constraint
+        self.__dof_set = set((line1.x1, line1.y1, line1.x2, line1.y2, \
+                              line2.x1, line2.y1, line2.x2, line2.y2, self.__angle))
+        
+        # create the constraint equation expression
+        line1_dx = line1.x1.variable - line1.x2.variable;
+        line1_dy = line1.y1.variable - line1.y2.variable;
+        line1_length = sympy.sqrt(line1_dx**2+line1_dy**2);
+
+        line2_dx = line2.x1.variable - line2.x2.variable;
+        line2_dy = line2.y1.variable - line2.y2.variable;
+        line2_length = sympy.sqrt(line2_dx**2+line2_dy**2);
+
+        # Calculate the dot product normalized by the vector lengths and subtract the cos of the desired angle
+        # this expression will be zero when the lines are at the desired angle
+        if self.__interior_angle:
+            constraint_equation = (1/(line1_length*line2_length))* \
+                                  (line1_dx*line2_dx + line1_dy*line2_dy)-sympy.cos(self.__angle.variable)
+        else:
+            constraint_equation = (1/(line1_length*line2_length))* \
+                                  (line1_dx*line2_dx + line1_dy*line2_dy)-sympy.cos(pi-self.__angle.variable)
+
+        # Create the constraint equation list, each element of the list is a tuple of a 
+        # constraint expression and a constraint weight. 
+        self.__constraint_equation_list = list()
+        self.__constraint_equation_list.append( (constraint_equation,1.0) )
+
+    @property
+    def constraint_equation_list(self): return self.__constraint_equation_list
+
+    @property
+    def dof_set(self): return self.__dof_set
+    
+    @property
+    def source_primitive_set(self): return self.__source_primitive_set
+    
+    @property
+    def interior_angle(self): return self.__interior_angle
+    
+    @property
+    def angle(self): return self.__angle
     
 class TangentEdge2D(_Constraint):
-    pass
+    """Generates a tangent constraint between two _Edge objects"""
+    
+    def __init__(self, edge1, edge2, edge1_point_num=None, edge2_point_num=None):
+        _Constraint.__init__(self)  # self.id gets defined by the base class
+        self.__edge1 = edge1
+        self.__edge2 = edge2
+        
+        # Store a set of primitives that this constraint depends on
+        self.__source_primitive_set = set((edge1,edge2))  # Expected for all children of _Constraint
+        
+        if edge1_point_num == None or edge2_point_num == None:
+            if edge1.point1 == edge2.point1:
+                edge1_point_num = 1
+                edge2_point_num = 1
+            elif edge1.point1 == edge2.point2:
+                edge1_point_num = 1
+                edge2_point_num = 2
+            elif edge1.point2 == edge2.point1:
+                edge1_point_num = 2
+                edge2_point_num = 1
+            elif edge1.point2 == edge2.point2:
+                edge1_point_num = 1
+                edge2_point_num = 1
+            else:
+                raise ValueError("If the edges do not share a common point both edge1_point_num and \
+                                 edge2_point_num must be supplied")
+        
+        if edge1_point_num == 1:
+            (x1,y1,dof_set1) = edge1.get_tangent1_expression()
+        elif edge1_point_num == 2:
+            (x1,y1,dof_set1) = edge1.get_tangent2_expression()
+        else:
+            raise ValueError("edge1_point_num input parameter must be either 1 or 2")
+            
+        if edge2_point_num == 1:
+            (x2,y2,dof_set2) = edge2.get_tangent1_expression()
+        elif edge2_point_num == 2:
+            (x2,y2,dof_set2) = edge2.get_tangent2_expression()
+        else:
+            raise ValueError("edge2_point_num input parameter must be either 1 or 2")
+        
+        # Store a set of DOF's that this constraint depends on
+        self.__dof_set = set()
+        self.__dof_set.update(dof_set1,dof_set2)
+        
+        # Calculate the dot product between the two tangent vectors and subtract one.
+        # This expression will be zero when the lines are parallel.
+        # Ideally, I would use abs() instead of ()**2 but abs is not differentiable. 
+        constraint_equation = (x1*x2-y1*y2)**2-1
+
+        # Create the constraint equation list, each element of the list is a tuple of a 
+        # constraint expression and a constraint weight. 
+        self.__constraint_equation_list = list()
+        self.__constraint_equation_list.append( (constraint_equation,1.0) )
+
+    @property
+    def constraint_equation_list(self): return self.__constraint_equation_list
+
+    @property
+    def dof_set(self): return self.__dof_set
+    
+    @property
+    def source_primitive_set(self): return self.__source_primitive_set
     
 if __name__ == "__main__":
     import doctest
