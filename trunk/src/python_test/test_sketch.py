@@ -1,6 +1,7 @@
 from primitives import *
 from model import *
 from scipy import pi
+from math import fabs
 
 point1 = Point2D(0.0,0.0,False,False)
 point2 = Point2D(10.0,0.0,True,False)
@@ -25,4 +26,15 @@ model = Model()
 model.add_primitives(point1,point2,point3,arc1,line1,line2,line3,line4)
 model.add_constraints(constraint1,constraint2,constraint3,constraint4,constraint5,constraint6,constraint7)
 
+# solve the constraint equations
 model.solve_constraints()
+
+# check that the constraint solver found the correct solution
+epsilon = 1.0e-3
+print("point2 location test", fabs(point2.x.value-6.0) < epsilon)
+print("point3 location test", fabs(point3.x.value-6.0) < epsilon and \
+                              fabs(point3.y.value-12.0) < epsilon)
+print("arc1 center location test", fabs(arc1.center_point.x.value-2.0) < epsilon and \
+                                   fabs(arc1.center_point.y.value-10.0) < epsilon)
+print("theta1 and theta2 test", fabs(arc1.theta1.value-pi/2.0) < epsilon and \
+                                fabs(arc1.theta2.value-pi) < epsilon)

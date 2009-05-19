@@ -1,3 +1,51 @@
+#doctest examples
+"""
+>>> from primitives import *
+>>> from model import *
+>>> from scipy import pi
+>>> from math import fabs
+
+>>> point1 = Point2D(0.0,0.0,False,False)
+>>> point2 = Point2D(10.0,0.0,True,False)
+>>> point3 = Point2D(10.0,10.0,True,True)
+
+>>> arc1 = Arc2D(1.5,6.0,(pi/2.0)*0.8,pi*1.2,2.0,True,True,True,True,False)
+
+>>> line1 = Line2D(point1,point2)
+>>> line2 = Line2D(point2,point3)
+>>> line3 = Line2D(point3,arc1.point1)
+>>> line4 = Line2D(arc1.point2,point1)
+
+>>> constraint1 = DistancePoint2D(point1,point2,6.0)
+>>> constraint2 = DistancePoint2D(point2,point3,12.0)
+>>> constraint3 = ParallelLine2D(line1,line3)
+>>> constraint4 = ParallelLine2D(line2,line4)
+>>> constraint5 = AngleLine2D(line1,line2,pi*0.5,False)
+>>> constraint6 = TangentEdge2D(line3,arc1)  #point2,point1
+>>> constraint7 = TangentEdge2D(line4,arc1)  #point1,point2
+
+>>> model = Model()
+>>> model.add_primitives(point1,point2,point3,arc1,line1,line2,line3,line4)
+>>> model.add_constraints(constraint1,constraint2,constraint3,constraint4,constraint5,constraint6,constraint7)
+
+>>> # solve the constraint equations
+... model.solve_constraints() # doctest: +ELLIPSIS, +NORMALIZE_WHITESPACE
+Optimization terminated successfully. 
+    ...
+
+>>> # check that the constraint solver found the correct solution
+... epsilon = 1.0e-3
+
+>>> print("point2 location test", fabs(point2.x.value-6.0) < epsilon)
+('point2 location test', True)
+>>> print("point3 location test", fabs(point3.x.value-6.0) < epsilon and fabs(point3.y.value-12.0) < epsilon)
+('point3 location test', True)
+>>> print("arc1 center location test", fabs(arc1.center_point.x.value-2.0) < epsilon and fabs(arc1.center_point.y.value-10.0) < epsilon)
+('arc1 center location test', True)
+>>> print("theta1 and theta2 test", fabs(arc1.theta1.value-pi/2.0) < epsilon and fabs(arc1.theta2.value-pi) < epsilon)
+('theta1 and theta2 test', True)
+"""
+
 import sympy
 from scipy.optimize import fmin_bfgs
 from numpy import array
@@ -38,6 +86,10 @@ class Model(object):
                 self.__dof_dict[dof.id] = dof
         
     def solve_constraints(self):
+        # only proceed if there is at least one constraint equation defined
+        if not len(self.__constraint_dict) > 0:
+            return
+        
         # Define error function
         error_expression = None
         for constraint in self.__constraint_dict.itervalues():
@@ -59,6 +111,10 @@ class Model(object):
         # duplicates are removed by converting to a set and than back to a list
         free_dof_list = list(set([dof for dof in self.__dof_dict.itervalues() if dof.free]))
         
+        # Only proceed if there is at least one free parameter to be solved for
+        if not len(free_dof_list) > 0:
+            return
+        
         # create the functions for the error expression value and its gradient
         temp_error_function = sympy.lambdify([dof.variable for dof in free_dof_list], error_expression)
         error_function = lambda x: array(temp_error_function(*x)) # allows the error_function to accept a list as input
@@ -74,17 +130,14 @@ class Model(object):
         # create list of starting point values for the optimization
         starting_point = array([dof.value for dof in free_dof_list])
         
-        print starting_point
-        print temp_error_function(*starting_point)
-        print temp_error_gradient_function(*starting_point)
-        
-        def my_callback(x):
-            print(x)
-        
         # minimize the error function
         solution = fmin_bfgs(error_function, starting_point, fprime=error_gradient_function, \
-                             disp=True, callback = my_callback)
+                             disp=True, callback = None, gtol = 1.0e-10, maxiter=200)
 
         # update the DOF's with the solution
         for (index,value) in enumerate(solution):
             free_dof_list[index].value = value
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
