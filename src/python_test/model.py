@@ -98,7 +98,7 @@ class Model(object):
                     error_expression += weight*constraint_expression*constraint_expression
                 else:
                     error_expression = weight*constraint_expression*constraint_expression
-                
+
         # for each dependent dof, substitute its expression into the error expression
         for dof in (dof for dof in self.__dof_dict.itervalues() if dof.dependent):
             error_expression = error_expression.subs(dof.variable,dof.expression)
@@ -132,11 +132,20 @@ class Model(object):
         
         # minimize the error function
         solution = fmin_bfgs(error_function, starting_point, fprime=error_gradient_function, \
-                             disp=True, callback = None, gtol = 1.0e-10, maxiter=200)
+                             disp=True, callback = None, gtol = 1.0e-10, maxiter=150)
 
         # update the DOF's with the solution
         for (index,value) in enumerate(solution):
             free_dof_list[index].value = value
+            
+    @property
+    def primitive_dict(self): return self.__primitive_dict
+    
+    @property
+    def constraint_dict(self): return self.__constraint_dict
+    
+    @property
+    def dof_dict(self): return self.__dof_dict
 
 if __name__ == "__main__":
     import doctest
