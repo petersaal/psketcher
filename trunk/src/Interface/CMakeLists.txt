@@ -87,3 +87,18 @@ TARGET_LINK_LIBRARIES (ark3d bfgs)
 
 
 
+add_executable(test_sketch test.cpp)
+
+TARGET_LINK_LIBRARIES (test_sketch ${Boost_LIBRARIES})
+TARGET_LINK_LIBRARIES (test_sketch ${sqlite3_LIBRARIES})
+#TARGET_LINK_LIBRARIES(test_sketch ${OPENGL_LIBRARIES})
+#TARGET_LINK_LIBRARIES(test_sketch ${GLUT_Xmu_LIBRARY})
+#target_link_libraries(test_sketch ${QT_LIBRARIES})
+TARGET_LINK_LIBRARIES(test_sketch dime)
+#TARGET_LINK_LIBRARIES (test_sketch Ark3dQtBinding)
+TARGET_LINK_LIBRARIES (test_sketch Ark3d)
+TARGET_LINK_LIBRARIES (test_sketch mmcMatrix)
+TARGET_LINK_LIBRARIES (test_sketch InteractiveConstructors)
+TARGET_LINK_LIBRARIES (test_sketch ${GSL_LIBRARIES})
+TARGET_LINK_LIBRARIES (test_sketch ${GINAC_LIBRARIES})
+TARGET_LINK_LIBRARIES (test_sketch bfgs)
