@@ -74,10 +74,21 @@ class DependentDOF(_DOF):
         _DOF.__init__(self)  # self.id gets defined by the base class
         self.__variable = sympy.Symbol("dof"+str(self.id));
         self.__dof_list = list(set(dof_list)) # Remove any duplicates
-        self.__expression = expression
+        self.__original_expression = expression
         # Create a python function to speed up evaluation of the expression
         # Because this function relies on the order of __dof_list, a set cannot be used for __dof_list
-        self.__value_function = sympy.lambdify([dof.variable for dof in self.__dof_list], self.__expression)
+        self.__value_function = sympy.lambdify([dof.variable for dof in self.__dof_list], self.__original_expression)
+        
+        # Pre-compute the expression with all dependent DOF's substituted.
+        # This expression is used when this DOF is used in a constraint equation.
+        self.__expression = self.__original_expression.subs( \
+                     [(dof.variable, dof.expression) for dof in self.__dof_list if dof.dependent])
+        
+        # Create a deep list of the dof's that this dependent dof depends on (this set
+        # set will contain elements outside of self.__dof_list only if one of the items in
+        # __dof_list is itself a dependent DOF).
+        self.__deep_dof_set = set(self.__dof_list)
+        self.__deep_dof_set.update(*(dof.deep_dof_set for dof in self.__dof_list if dof.dependent))
         
     @property
     def value(self):
@@ -87,14 +98,13 @@ class DependentDOF(_DOF):
     def variable(self): return self.__variable
 
     @property
-    def expression(self):
-        expression = self.__expression
-        expression = expression.subs( \
-                     [(dof.variable, dof.expression) for dof in self.__dof_list if dof.dependent])
-        return expression
+    def expression(self): return self.__expression
 
     @property
     def dof_list(self): return self.__dof_list
+
+    @property
+    def deep_dof_set(self): return self.__deep_dof_set
 
     @property
     def free(self): return False
@@ -312,6 +322,34 @@ class _Constraint(object):
         
     @property
     def id(self): return self.__id
+    
+    def _generate_error_term_and_partials(self):
+        """ These utility method pre-calculates this constraint's error function term
+        and its partial derivative terms for the error function gradient."""
+        
+        # First define the error function term of this constraint
+        self.__error_function_term = sympy.core.numbers.RealNumber(0)
+        for (constraint_expression, weight) in self.constraint_equation_list:
+            self.__error_function_term += weight*constraint_expression*constraint_expression
+                
+        # For each dependent dof, substitute its expression into the error expression 
+        # and keep track of the DOF's that each dependent dof depends on
+        total_dof_set = set(self.dof_set)
+        for dof in (dof for dof in self.dof_set if dof.dependent):
+            self.__error_function_term = self.__error_function_term.subs(dof.variable,dof.expression)
+            total_dof_set.update(dof.deep_dof_set)
+            
+        # Now calculate the partials for this constraint's error function term.
+        # Store the partials in a dictionary using the dof id as the key
+        self.__error_function_term_partials = dict();
+        for dof in (dof for dof in total_dof_set if not dof.dependent):
+            self.__error_function_term_partials[dof.id] = sympy.diff(self.__error_function_term,dof.variable)
+        
+    @property
+    def error_function_term(self): return self.__error_function_term    
+    
+    @property
+    def error_function_term_partials(self): return self.__error_function_term_partials
 
 class DistancePoint2D(_Constraint):
     """Generates distance constraint between two Point2D objects"""
@@ -335,6 +373,10 @@ class DistancePoint2D(_Constraint):
         # constraint expression and a constraint weight. 
         self.__constraint_equation_list = list()
         self.__constraint_equation_list.append( (constraint_equation,1.0) )
+        
+        # Now use the following utility method to precompute some expressions used 
+        # in solving the constraints.
+        _Constraint._generate_error_term_and_partials(self)
 
     @property
     def constraint_equation_list(self): return self.__constraint_equation_list
@@ -376,6 +418,10 @@ class ParallelLine2D(_Constraint):
         # constraint expression and a constraint weight. 
         self.__constraint_equation_list = list()
         self.__constraint_equation_list.append( (constraint_equation,1.0) )
+
+        # Now use the following utility method to precompute some expressions used 
+        # in solving the constraints.
+        _Constraint._generate_error_term_and_partials(self)
 
     @property
     def constraint_equation_list(self): return self.__constraint_equation_list
@@ -423,6 +469,10 @@ class AngleLine2D(_Constraint):
         # constraint expression and a constraint weight. 
         self.__constraint_equation_list = list()
         self.__constraint_equation_list.append( (constraint_equation,1.0) )
+        
+        # Now use the following utility method to precompute some expressions used 
+        # in solving the constraints.
+        _Constraint._generate_error_term_and_partials(self)
 
     @property
     def constraint_equation_list(self): return self.__constraint_equation_list
@@ -494,6 +544,10 @@ class TangentEdge2D(_Constraint):
         # constraint expression and a constraint weight. 
         self.__constraint_equation_list = list()
         self.__constraint_equation_list.append( (constraint_equation,1.0) )
+
+        # Now use the following utility method to precompute some expressions used 
+        # in solving the constraints.
+        _Constraint._generate_error_term_and_partials(self)
 
     @property
     def constraint_equation_list(self): return self.__constraint_equation_list

@@ -59,6 +59,15 @@ class Model(object):
         self.__constraint_dict = dict()
         self.__primitive_dict = dict()
         
+    @property
+    def primitive_dict(self): return self.__primitive_dict
+    
+    @property
+    def constraint_dict(self): return self.__constraint_dict
+    
+    @property
+    def dof_dict(self): return self.__dof_dict
+        
     def add_constraints(self,*constraints):
         for constraint in constraints:
             # add each primitive to the dictionary
@@ -104,7 +113,7 @@ class Model(object):
             error_expression = error_expression.subs(dof.variable,dof.expression)
         
         # for each fixed dof (free=False), substitute its value into the error expression
-        for dof in (dof for dof in self.__dof_dict.itervalues() if not dof.free):
+        for dof in (dof for dof in self.__dof_dict.itervalues() if not dof.free and not dof.dependent):
             error_expression = error_expression.subs(dof.variable,dof.value)
         
         # create a list of the free parameters 
@@ -130,6 +139,8 @@ class Model(object):
         # create list of starting point values for the optimization
         starting_point = array([dof.value for dof in free_dof_list])
         
+        #print "starting error value = %f" % error_function(starting_point)
+        
         # minimize the error function
         solution = fmin_bfgs(error_function, starting_point, fprime=error_gradient_function, \
                              disp=True, callback = None, gtol = 1.0e-10, maxiter=150)
@@ -138,14 +149,67 @@ class Model(object):
         for (index,value) in enumerate(solution):
             free_dof_list[index].value = value
             
-    @property
-    def primitive_dict(self): return self.__primitive_dict
-    
-    @property
-    def constraint_dict(self): return self.__constraint_dict
-    
-    @property
-    def dof_dict(self): return self.__dof_dict
+    def solve_constraints_2(self):
+        # only proceed if there is at least one constraint equation defined
+        if not len(self.__constraint_dict) > 0:
+            return
+        
+        # Define error function and partial gradient dictionary
+        error_grad_dict = dict();
+        print "error function loop"
+        for (id,dof) in ( (id,dof) for (id,dof) in self.dof_dict.iteritems() if not dof.dependent):
+            error_grad_dict[id] = sympy.core.numbers.RealNumber(0)
+        error_expression = sympy.core.numbers.RealNumber(0)
+        print "grad loop"
+        for constraint in self.__constraint_dict.itervalues():
+            error_expression += constraint.error_function_term
+            for (id,partial) in ((id,partial) for (id,partial) in constraint.error_function_term_partials.iteritems()):
+                error_grad_dict[id] += partial
+        
+        # create a list of the free parameters 
+        # duplicates are removed by converting to a set and than back to a list
+        free_dof_list = list(set([dof for dof in self.__dof_dict.itervalues() if dof.free]))
+        
+        # Transfer the gradient from dictionary to list form in the order of the free DOF's
+        error_gradient = list()
+        for dof in free_dof_list:
+            error_gradient.append(error_grad_dict[dof.id])
+        
+        print "done create grad list"
+        
+        # Create a list of fixed parameters
+        fixed_dof_list  = list(set([dof for dof in self.__dof_dict.itervalues() if not dof.free and not dof.dependent]))
+        
+        # Only proceed if there is at least one free parameter to be solved for
+        if not len(free_dof_list) > 0:
+            return
+        
+        print "create lambda functs"
+        lambda_dof_list = [dof.variable for dof in fixed_dof_list]
+        lambda_dof_list.extend([dof.variable for dof in free_dof_list])
+        fixed_dof_values = [dof.value for dof in fixed_dof_list];
+        # create the functions for the error expression value and its gradient
+        temp_error_function = sympy.lambdify(lambda_dof_list, error_expression)
+        error_function = lambda x: array(temp_error_function(*(fixed_dof_values+x.tolist()))) # allows the error_function to accept a list as input
+        
+        temp_error_gradient_function = sympy.lambdify(lambda_dof_list,error_gradient)
+        error_gradient_function = lambda x: array(temp_error_gradient_function(*(fixed_dof_values+x.tolist())))
+        
+        # create list of starting point values for the optimization
+        starting_point = array([dof.value for dof in free_dof_list])
+        
+        #print "starting error value = %f" % error_function(starting_point)
+        
+        print "start bfgs"
+        
+        # minimize the error function
+        solution = fmin_bfgs(error_function, starting_point, fprime=error_gradient_function, \
+                             disp=True, callback = None, gtol = 1.0e-10, maxiter=150)
+
+        # update the DOF's with the solution
+        for (index,value) in enumerate(solution):
+            free_dof_list[index].value = value
+            
 
 if __name__ == "__main__":
     import doctest

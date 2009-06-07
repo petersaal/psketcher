@@ -35,7 +35,7 @@ print "Model containts %d dof's" % (len(model.dof_dict))
 print "Starting constraint solver..."
 
 # solve the constraint equations
-model.solve_constraints()
+model.solve_constraints_2()
 
 # check that the constraint solver found the correct solution
 epsilon = 1.0e-3
