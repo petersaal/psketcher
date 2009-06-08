@@ -48,7 +48,7 @@ Optimization terminated successfully.
 
 import sympy
 from scipy.optimize import fmin_bfgs
-from numpy import array
+from numpy import array,hstack,zeros,dot
 
 class Model(object):
     """The Model class maintains a list of primitives and constraints and provides
@@ -139,7 +139,7 @@ class Model(object):
         # create list of starting point values for the optimization
         starting_point = array([dof.value for dof in free_dof_list])
         
-        #print "starting error value = %f" % error_function(starting_point)
+        print "starting error value = %f" % error_function(starting_point)
         
         # minimize the error function
         solution = fmin_bfgs(error_function, starting_point, fprime=error_gradient_function, \
@@ -210,6 +210,78 @@ class Model(object):
         for (index,value) in enumerate(solution):
             free_dof_list[index].value = value
             
+    def solve_constraints_3(self):
+        # only proceed if there is at least one constraint equation defined
+        if not len(self.__constraint_dict) > 0:
+            return
+        
+        # create a list of the free parameters 
+        # duplicates are removed by converting to a set and than back to a list
+        free_dof_list = list(set([dof for dof in self.__dof_dict.itervalues() if dof.free]))
+        
+        # Create a list of fixed parameters
+        fixed_dof_list  = list(set([dof for dof in self.__dof_dict.itervalues() if not dof.free and not dof.dependent]))
+        
+        fixed_dof_array = array( [dof.value for dof in fixed_dof_list], dtype=float)
+        
+        dof_vector = fixed_dof_list + free_dof_list
+        dof_id_vector = [dof.id for dof in dof_vector]
+        dof_vector_size = len(dof_vector)
+        
+        # Only proceed if there is at least one free parameter to be solved for
+        if not len(free_dof_list) > 0:
+            return        
+        
+        # Define the dof transformation vectors for each constraint.
+        # The dof transformation vector transfers the dof vector from the whole model
+        # to each individual constraint's lambda arguments
+        constraint_transforms_dict = dict()
+        for (constraint_id,constraint_equation) in self.__constraint_dict.iteritems():
+            lambda_arg_list = constraint_equation.lambda_arg_list
+            dof_transform_matrix = zeros((len(lambda_arg_list),dof_vector_size))
+            
+            for index,arg_id in enumerate(lambda_arg_list):
+                dof_transform_matrix[index,dof_id_vector.index(arg_id)] = 1
+               
+            constraint_transforms_dict[constraint_id] = (dof_transform_matrix, \
+                                    self.__constraint_dict[constraint_id].error_lambda, \
+                                    self.__constraint_dict[constraint_id].error_partials_lambda)                     
+        
+        # Now define the error and gradient functions that will be passed to the BFGS routine
+        def error_function(x):
+            input_vector = hstack((fixed_dof_array,x))
+            error_value = 0.0
+            for (transform,error_lambda,error_partials_lambda) in constraint_transforms_dict.itervalues():
+                error_value += error_lambda(*dot(transform,input_vector))
+                
+            return error_value
+        
+        def error_gradient_function(x):
+            input_vector = hstack((fixed_dof_array,x))
+            error_vector = None
+            for (transform,error_lambda,error_partials_lambda) in constraint_transforms_dict.itervalues():
+                if error_vector is not None:
+                    error_vector += dot(transform.T,array(error_partials_lambda(*dot(transform,input_vector))))
+                else:
+                    error_vector = dot(transform.T,array(error_partials_lambda(*dot(transform,input_vector))))
+                    
+            return error_vector[len(fixed_dof_array):]
+        
+        # create list of starting point values for the optimization
+        starting_point = array([dof.value for dof in free_dof_list])
+        
+        print "starting error value = %f" % error_function(starting_point)
+        
+        print "start bfgs"
+        
+        # minimize the error function
+        solution = fmin_bfgs(error_function, starting_point, fprime=error_gradient_function, \
+                             disp=True, callback = None, gtol = 1.0e-10, maxiter=150)
+
+        # update the DOF's with the solution
+        for (index,value) in enumerate(solution):
+            free_dof_list[index].value = value
+
 
 if __name__ == "__main__":
     import doctest

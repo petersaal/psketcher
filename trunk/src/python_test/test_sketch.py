@@ -5,7 +5,7 @@ from math import fabs
 
 model = Model()
 
-for i in range(10):
+for i in range(1):
     point1 = Point2D(0.0,0.0,False,False)
     point2 = Point2D(10.0,0.0,True,False)
     point3 = Point2D(10.0,10.0,True,True)
@@ -35,7 +35,7 @@ print "Model containts %d dof's" % (len(model.dof_dict))
 print "Starting constraint solver..."
 
 # solve the constraint equations
-model.solve_constraints_2()
+model.solve_constraints_3()
 
 # check that the constraint solver found the correct solution
 epsilon = 1.0e-3

@@ -345,11 +345,28 @@ class _Constraint(object):
         for dof in (dof for dof in total_dof_set if not dof.dependent):
             self.__error_function_term_partials[dof.id] = sympy.diff(self.__error_function_term,dof.variable)
         
+        # Create lambda functions for both the error function term and its partial derivatives
+        independent_dof_vars = [dof.variable for dof in total_dof_set if not dof.dependent]
+        self.__lambda_arg_list = [dof.id for dof in total_dof_set if not dof.dependent]
+        self.__error_lambda = sympy.lambdify(independent_dof_vars,self.__error_function_term)
+        
+        partials_expression_list = [self.__error_function_term_partials[id] for id in self.__lambda_arg_list]
+        self.__error_partials_lambda = sympy.lambdify(independent_dof_vars,partials_expression_list)
+
     @property
     def error_function_term(self): return self.__error_function_term    
     
     @property
     def error_function_term_partials(self): return self.__error_function_term_partials
+
+    @property
+    def error_lambda(self): return self.__error_lambda
+    
+    @property
+    def error_partials_lambda(self): return self.__error_partials_lambda
+    
+    @property
+    def lambda_arg_list(self): return self.__lambda_arg_list
 
 class DistancePoint2D(_Constraint):
     """Generates distance constraint between two Point2D objects"""
