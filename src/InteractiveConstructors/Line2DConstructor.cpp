@@ -74,6 +74,7 @@ bool Line2DConstructor::MouseMove(MotionEventPropertiesPointer event_props)
         // project x,y,z coordinates onto sketch plane
         parent_sketch_->GetSketchPlane()->GetSTLocation(x,y,z,motion_s,motion_t);
 
+        // @fixme  Need to add a method to change DOF values without updating the DB
         temp_point_->SetSValue(motion_s);
         temp_point_->SetTValue(motion_t);
 
@@ -133,7 +134,7 @@ bool Line2DConstructor::LeftButtonUp(MouseEventPropertiesPointer event_props)
         // create a temp line to provide feedback to the user as the line is created
         temp_point_ = parent_sketch_->AddPoint2D(point1_->GetSValue(), point1_->GetTValue(),true,true);
         temp_point_defined_ = true;
-        temp_line_ = parent_sketch_->AddLine2D(point1_,temp_point_);
+        temp_line_ = parent_sketch_->AddLine2D(point1_,temp_point_); // @fixme Need to add a method to add a temp line without having to define a point, will solve selection issue with the second point of an interactive line
         temp_line_defined_ = true;
         temp_point_->SetSelectable(false); // cannot select this temp point otherwise other points will not be selected
 
