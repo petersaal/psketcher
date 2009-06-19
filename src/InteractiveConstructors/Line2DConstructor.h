@@ -38,6 +38,11 @@ class Line2DConstructor : public InteractiveConstructorBase
 		Point2DPointer point1_;
 		Point2DPointer point2_;
 
+        Point2DPointer temp_point_;
+        bool temp_point_defined_;
+        Line2DPointer temp_line_;
+        bool temp_line_defined_;
+        
         bool delete_point1_on_cancel_;
         bool delete_point2_on_cancel_;
 };

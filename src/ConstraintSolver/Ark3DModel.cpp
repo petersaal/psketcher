@@ -428,6 +428,12 @@ void Ark3DModel::DeletePrimitive(PrimitiveBasePointer primitive_to_delete)
 	DeleteFlagged();
 }
 
+void Ark3DModel::DeletePrimitiveNoDependancyCheck(PrimitiveBasePointer primitive_to_delete)
+{
+    primitive_to_delete->FlagForDeletion();
+    DeleteFlagged();
+}
+
 // Flag any primitives or constraint equations for deletion that depend on this primitive
 void Ark3DModel::FlagDependentsForDeletion(PrimitiveBasePointer primitive_to_delete)
 {

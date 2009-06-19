@@ -21,7 +21,9 @@ InteractiveConstructorBase(parent_sketch),
 primitive_finished_(false),
 point1_defined_(false),
 delete_point1_on_cancel_(false),
-delete_point2_on_cancel_(false)
+delete_point2_on_cancel_(false),
+temp_point_defined_(false),
+temp_line_defined_(false)
 {
 	parent_sketch_->ApplySelectionMask(Points);
 	parent_sketch_->ClearSelected();
@@ -36,6 +38,12 @@ Line2DConstructor::~Line2DConstructor()
 
     if(delete_point2_on_cancel_)
         parent_sketch_->DeletePrimitive(point2_);
+
+    if(temp_point_defined_)
+        parent_sketch_->DeletePrimitive(temp_point_);
+
+    if(temp_line_defined_)
+        parent_sketch_->DeletePrimitive(temp_line_);
 
     parent_sketch_->ApplySelectionMask(All); 
     parent_sketch_->ClearSelected();
@@ -55,6 +63,23 @@ void Line2DConstructor::CreateObject()
 
 bool Line2DConstructor::MouseMove(MotionEventPropertiesPointer event_props)
 {
+    if(temp_point_defined_)
+    {
+        double x = event_props->GetXPosition();
+        double y = event_props->GetYPosition();
+        double z = event_props->GetZPosition();
+
+        double motion_s, motion_t;
+        
+        // project x,y,z coordinates onto sketch plane
+        parent_sketch_->GetSketchPlane()->GetSTLocation(x,y,z,motion_s,motion_t);
+
+        temp_point_->SetSValue(motion_s);
+        temp_point_->SetTValue(motion_t);
+
+        parent_sketch_->UpdateDisplay();
+    }
+
 	return false;
 }
 
@@ -104,8 +129,19 @@ bool Line2DConstructor::LeftButtonUp(MouseEventPropertiesPointer event_props)
         point1_defined_ = true;
         if(new_point_created)
             delete_point1_on_cancel_ = true;
+
+        // create a temp line to provide feedback to the user as the line is created
+        temp_point_ = parent_sketch_->AddPoint2D(point1_->GetSValue(), point1_->GetTValue(),true,true);
+        temp_point_defined_ = true;
+        temp_line_ = parent_sketch_->AddLine2D(point1_,temp_point_);
+        temp_line_defined_ = true;
+        temp_point_->SetSelectable(false); // cannot select this temp point otherwise other points will not be selected
+
         return false;
     }
 
-
 }
+
+
+
+
