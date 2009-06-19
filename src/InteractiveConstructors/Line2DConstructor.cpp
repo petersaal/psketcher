@@ -19,17 +19,37 @@
 Line2DConstructor::Line2DConstructor(QtSketchPointer parent_sketch):
 InteractiveConstructorBase(parent_sketch),
 primitive_finished_(false),
-point1_defined_(false)
+point1_defined_(false),
+delete_point1_on_cancel_(false),
+delete_point2_on_cancel_(false)
 {
 	parent_sketch_->ApplySelectionMask(Points);
 	parent_sketch_->ClearSelected();
 }
+
+Line2DConstructor::~Line2DConstructor() 
+{
+    // Delete any primitives that where not used because this object was killed before the line
+    // could be completed.
+    if(delete_point1_on_cancel_)
+        parent_sketch_->DeletePrimitive(point1_);
+
+    if(delete_point2_on_cancel_)
+        parent_sketch_->DeletePrimitive(point2_);
+
+    parent_sketch_->ApplySelectionMask(All); 
+    parent_sketch_->ClearSelected();
+}  
 
 void Line2DConstructor::CreateObject()
 {
 	if(primitive_finished_)
 	{
 		parent_sketch_->AddLine2D(point1_, point2_);
+
+        // any temporary objects created can now be kept
+        delete_point1_on_cancel_ = false;
+        delete_point2_on_cancel_ = false;
 	}
 }
 
@@ -40,36 +60,52 @@ bool Line2DConstructor::MouseMove(MotionEventPropertiesPointer event_props)
 
 bool Line2DConstructor::LeftButtonUp(MouseEventPropertiesPointer event_props)
 {
-	// perform selection operation
-	//parent_sketch_->GetAISContext()->Select();
-
-	// first, make sure a point is selected
+    bool new_point_created = false;
+    QtPoint2DPointer new_point;
+    
+	// first, check to see if a point was created
 	std::vector<PrimitiveBasePointer> primitive_list = parent_sketch_->GetSelectedPrimitives();
 
-	if(primitive_list.size() < 1 )
-		return false; 							// no primitive selected
+    if(primitive_list.size() >= 1 && dynamic_cast<QtPoint2D*>(primitive_list[0].get()) != 0)
+    {
+        new_point = boost::dynamic_pointer_cast<QtPoint2D>(primitive_list[0]);
+    } else {
+        // no point was selected so create a point at the selection point
+        
+        double x = event_props->GetXPosition();
+        double y = event_props->GetYPosition();
+        double z = event_props->GetZPosition();
 
-	if(dynamic_cast<QtPoint2D*>(primitive_list[0].get()) != 0){
-		QtPoint2DPointer new_point = boost::dynamic_pointer_cast<QtPoint2D>(primitive_list[0]);
+        double click_s, click_t;
+        
+        // project x,y,z coordinates onto sketch plane
+        parent_sketch_->GetSketchPlane()->GetSTLocation(x,y,z,click_s,click_t);
 
-		if(point1_defined_)
-		{
-			point2_ = new_point;
-			
-			if(!(point2_->GetSDOF() == point1_->GetSDOF() && point2_->GetTDOF() == point1_->GetTDOF()))
-			{
-				primitive_finished_ = true;
-				return true;
-			} else {
-				return false;  // point2_ is the same as point1_ so line cannot be created
-			}
-		} else {
-			point1_ = new_point;
-			point1_defined_ = true;
-			return false;
-		}
+        new_point = parent_sketch_->AddPoint2D(click_s,click_t,true,true);
 
-	} else {
-		return false; // point not selected
-	}
+		new_point_created = true;
+    }
+
+    if(point1_defined_)
+    {
+        point2_ = new_point;
+        if(new_point_created)
+            delete_point2_on_cancel_ = true;
+        
+        if(!(point2_->GetSDOF() == point1_->GetSDOF() && point2_->GetTDOF() == point1_->GetTDOF()))
+        {
+            primitive_finished_ = true;
+            return true;
+        } else {
+            return false;  // point2_ is the same as point1_ so line cannot be created
+        }
+    } else {
+        point1_ = new_point;
+        point1_defined_ = true;
+        if(new_point_created)
+            delete_point1_on_cancel_ = true;
+        return false;
+    }
+
+
 }
