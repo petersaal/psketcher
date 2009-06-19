@@ -461,6 +461,17 @@ void Ark3DWidget::keyReleaseEvent ( QKeyEvent * event )
 	{
 		current_sketch_->DeleteSelected();
 		modelChanged(tr("Delete primitive(s)"));
+
+	} else if(event->key() == Qt::Key_Escape) {
+		// cancel the current primitive
+		if(interactive_primitive_ != 0)
+		{
+			delete interactive_primitive_;
+			interactive_primitive_ = 0;
+		}
+
+		emit sketchActionFinished();
+
 	} else {
 		// not handling the event, call the base class implementation
 		QGraphicsView::keyReleaseEvent(event);
@@ -469,6 +480,13 @@ void Ark3DWidget::keyReleaseEvent ( QKeyEvent * event )
 
 void Ark3DWidget::open()
 {
+    // delete any interactive constructors in use
+    if(interactive_primitive_ != 0)
+    {
+        delete interactive_primitive_;
+        interactive_primitive_ = 0;
+    }
+
 	// @fixme Need to add a check to make sure that there are no unsaved changes before loading another file
 	QString file_name = QFileDialog::getOpenFileName(this,tr("Open Sketch"),".",tr("pSketcher sketch files (*.pSketch)"));
 	
@@ -503,6 +521,13 @@ void Ark3DWidget::newFile()
 
 bool Ark3DWidget::save()
 {
+    // delete any interactive constructors in use
+    if(interactive_primitive_ != 0)
+    {
+        delete interactive_primitive_;
+        interactive_primitive_ = 0;
+    }
+
 	if(current_sketch_->GetFileName() == "")
 	{	
 		return saveAs();

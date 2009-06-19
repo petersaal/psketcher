@@ -38,6 +38,7 @@ public:
 private slots:
     void about();
 	void triggerSketchActionGroup();
+	void switchToSelectionMode();
 
 private:
     void createActions();
