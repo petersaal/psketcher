@@ -34,7 +34,6 @@ Ark3DWindow::Ark3DWindow()
 	view = new Ark3DWidget(scene,this); //Note this has changed!
 	this->setCentralWidget(view);
 
-
 	connect(view, SIGNAL(sketchActionFinished()), this, SLOT(triggerSketchActionGroup()));  // after sketch action is triggered, retrigger the currently selected action
 
     createActions();
@@ -223,4 +222,10 @@ void Ark3DWindow::triggerSketchActionGroup()
 	current_action->toggle();
 	current_action->trigger();
 }
+
+void Ark3DWindow::switchToSelectionMode()
+{
+	selectAction->setChecked(true);
+}
+
 
