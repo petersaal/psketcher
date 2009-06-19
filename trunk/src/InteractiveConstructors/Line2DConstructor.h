@@ -23,7 +23,7 @@ class Line2DConstructor : public InteractiveConstructorBase
 {
 	public:
 		Line2DConstructor(QtSketchPointer parent_sketch);
-		~Line2DConstructor() {parent_sketch_->ApplySelectionMask(All); parent_sketch_->ClearSelected();}  // turn off selection mask
+		~Line2DConstructor();
 
 		void CreateObject();
 
@@ -34,11 +34,12 @@ class Line2DConstructor : public InteractiveConstructorBase
 	private:
 		bool primitive_finished_;
 		bool point1_defined_;
-		double current_s_;
-		double current_t_;
 	
 		Point2DPointer point1_;
 		Point2DPointer point2_;
+
+        bool delete_point1_on_cancel_;
+        bool delete_point2_on_cancel_;
 };
 
 #endif //Line2DConstructorH

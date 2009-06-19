@@ -483,6 +483,13 @@ void Ark3DWidget::newFile()
 {
 	// @fixme Need to add a check to make sure that there are no unsaved changes before loading a new file
 
+    // delete any interactive constructors in use
+    if(interactive_primitive_ != 0)
+    {
+        delete interactive_primitive_;
+        interactive_primitive_ = 0;
+    }
+
 	delete current_sketch_;
 
 	// create a new Ark3D sketch
