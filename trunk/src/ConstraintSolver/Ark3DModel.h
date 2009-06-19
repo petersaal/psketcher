@@ -46,7 +46,8 @@ public:
 	
 	// method for deleting primitives (either a primitive or a constraint equation)
 	void DeletePrimitive(PrimitiveBasePointer primitive_to_delete);
-	void DeleteSelected();
+	void DeletePrimitiveNoDependancyCheck(PrimitiveBasePointer primitive_to_delete);
+    void DeleteSelected();
 
 	void SolveConstraints();
 
