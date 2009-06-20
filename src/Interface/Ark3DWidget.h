@@ -34,6 +34,7 @@ extern "C" {
 #include "../InteractiveConstructors/ParallelLine2DConstructor.h"
 #include "../InteractiveConstructors/TangentEdge2DConstructor.h"
 #include "../InteractiveConstructors/Arc2DConstructor.h"
+#include "../InteractiveConstructors/HoriVertLine2DConstructor.h"
 
 class QGraphicsScene;
 
@@ -60,6 +61,8 @@ class Ark3DWidget : public QGraphicsView
 
 		// Interactive constructor slots
 		void MakeLine();
+		void MakeHorizontalConstraint();
+		void MakeVerticalConstraint();
 		void MakePolyLine();
 		void MakeArc();
 		void MakePoint();

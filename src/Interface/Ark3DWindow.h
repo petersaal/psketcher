@@ -87,6 +87,8 @@ private:
 	QAction *makeDistanceConstraintAction;
 	QAction *makeAngleConstraintAction;
 	QAction *makeParallelConstraintAction;
+	QAction *makeVerticalConstraintAction;
+	QAction *makeHorizontalConstraintAction;
 	QAction *makeTangentConstraintAction;
 	QToolBar *sketchToolBar;
 
