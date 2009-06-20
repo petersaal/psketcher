@@ -29,7 +29,7 @@ extern "C" {
 #include "../InteractiveConstructors/InteractiveConstructorBase.h"
 #include "../InteractiveConstructors/Point2DConstructor.h"
 #include "../InteractiveConstructors/Line2DConstructor.h"
-#include "../InteractiveConstructors/DistancePoint2DConstructor.h"
+#include "../InteractiveConstructors/Distance2DConstructor.h"
 #include "../InteractiveConstructors/AngleLine2DConstructor.h"
 #include "../InteractiveConstructors/ParallelLine2DConstructor.h"
 #include "../InteractiveConstructors/TangentEdge2DConstructor.h"

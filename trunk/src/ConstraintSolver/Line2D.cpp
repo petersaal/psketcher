@@ -81,7 +81,7 @@ void Line2D :: Get3DLocations(double & x1, double & y1, double & z1,
 
 void Line2D::ApplySelectionMask(SelectionMask mask)
 {
-	if(mask == All || mask == Edges || mask == Lines)
+	if(mask == All || mask == Edges || mask == Lines || mask == PointsAndLines)
 		SetSelectable(true);
 	else
 		SetSelectable(false);

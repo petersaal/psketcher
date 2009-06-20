@@ -749,6 +749,9 @@ ConstraintEquationBasePointer Ark3DModel::ConstraintFactory(unsigned id, Ark3DMo
 	else if(table_name == "tangent_edge2d_list"){
 		result.reset(new TangentEdge2D(id,ark3d_model));
 	}
+    else if(table_name == "distance_pointline2d_list"){
+        result.reset(new DistancePointLine2D(id,ark3d_model));
+    }
 	else {
 		throw Ark3DException("Ark3D::ConstraintFactory: Unable to determine type based on database table name " + table_name);
 	}

@@ -45,7 +45,7 @@ Line :: Line(const PointPointer point1, const PointPointer point2)
 
 void Line::ApplySelectionMask(SelectionMask mask)
 {
-	if(mask == All || mask == Edges || mask == Lines)
+	if(mask == All || mask == Edges || mask == Lines || mask == PointsAndLines)
 		SetSelectable(true);
 	else
 		SetSelectable(false);

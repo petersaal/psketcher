@@ -39,7 +39,7 @@ class Ark3DException
 };
 
 // Selection masks
-enum SelectionMask {None, All, Points, Edges, Constraints, Lines, Arcs};
+enum SelectionMask {None, All, Points, Edges, Constraints, Lines, Arcs, PointsAndLines};
 
 
 /* Now will define the merit function derived class used in the template matching */
