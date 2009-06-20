@@ -746,6 +746,9 @@ ConstraintEquationBasePointer Ark3DModel::ConstraintFactory(unsigned id, Ark3DMo
 	else if(table_name == "parallel_line2d_list"){
 		result.reset(new ParallelLine2D(id,ark3d_model));
 	}
+	else if(table_name == "horivert_line2d_list"){
+		result.reset(new HoriVertLine2D(id,ark3d_model));
+	}
 	else if(table_name == "tangent_edge2d_list"){
 		result.reset(new TangentEdge2D(id,ark3d_model));
 	}
