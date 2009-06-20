@@ -56,11 +56,12 @@ line_(line)
 	// create the expression that defines the constraint and add it the the constraint list
 	boost::shared_ptr<ex> new_constraint(new ex);
 	
-	*new_constraint = abs((line_->GetS2()->GetVariable() - line_->GetS1()->GetVariable())*(line_->GetT1()->GetVariable() - point_->GetTDOF()->GetVariable())
-						- (line_->GetT2()->GetVariable() - line_->GetT1()->GetVariable())*(line_->GetS1()->GetVariable() - point_->GetSDOF()->GetVariable()))
-						/ sqrt( pow(line_->GetS2()->GetVariable() - line_->GetS1()->GetVariable(),2) +
+	// actually using the distance squared rather than the absolute distance to avoid the use of abs() (the constraint must be differentiable)
+	*new_constraint = pow(((line_->GetS2()->GetVariable() - line_->GetS1()->GetVariable())*(line_->GetT1()->GetVariable() - point_->GetTDOF()->GetVariable())
+						- (line_->GetT2()->GetVariable() - line_->GetT1()->GetVariable())*(line_->GetS1()->GetVariable() - point_->GetSDOF()->GetVariable())),2)
+						/ ( pow(line_->GetS2()->GetVariable() - line_->GetS1()->GetVariable(),2) +
 								pow(line_->GetT2()->GetVariable() - line_->GetT1()->GetVariable(),2))
-						- distance_->GetVariable();
+						- pow(distance_->GetVariable(),2);
 
 	constraints_.push_back(new_constraint);
 	weight_list_.push_back(1.0);
