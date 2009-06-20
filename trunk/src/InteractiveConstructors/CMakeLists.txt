@@ -5,6 +5,6 @@ find_package(Qt4 REQUIRED)
 include(${QT_USE_FILE})
 
 # create the ark3d library
-ADD_LIBRARY (InteractiveConstructors STATIC QtEventProperties.cpp  InteractiveConstructorBase.cpp  Line2DConstructor.cpp  Point2DConstructor.cpp Distance2DConstructor.cpp AngleLine2DConstructor.cpp ParallelLine2DConstructor.cpp Arc2DConstructor.cpp TangentEdge2DConstructor.cpp)
+ADD_LIBRARY (InteractiveConstructors STATIC QtEventProperties.cpp  InteractiveConstructorBase.cpp  Line2DConstructor.cpp  Point2DConstructor.cpp Distance2DConstructor.cpp AngleLine2DConstructor.cpp ParallelLine2DConstructor.cpp HoriVertLine2DConstructor.cpp Arc2DConstructor.cpp TangentEdge2DConstructor.cpp)
 
 

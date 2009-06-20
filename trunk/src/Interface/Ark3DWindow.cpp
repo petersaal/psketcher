@@ -167,6 +167,18 @@ void Ark3DWindow::createActions()
 	makeParallelConstraintAction->setStatusTip(tr("Create Parallelism Constraint"));
     connect(makeParallelConstraintAction, SIGNAL(triggered()), view, SLOT(MakeParallelConstraint()));
 
+	makeHorizontalConstraintAction = new QAction(tr("Horizontal Constraint"), sketchActionGroup);
+	makeHorizontalConstraintAction->setCheckable(true);
+	makeHorizontalConstraintAction->setIcon(QIcon(":/icons/horizontal.svg"));
+	makeHorizontalConstraintAction->setStatusTip(tr("Create Horizontal Constraint"));
+    connect(makeHorizontalConstraintAction, SIGNAL(triggered()), view, SLOT(MakeHorizontalConstraint()));
+
+	makeVerticalConstraintAction = new QAction(tr("Vertical Constraint"), sketchActionGroup);
+	makeVerticalConstraintAction->setCheckable(true);
+	makeVerticalConstraintAction->setIcon(QIcon(":/icons/vertical.svg"));
+	makeVerticalConstraintAction->setStatusTip(tr("Create Vertical Constraint"));
+    connect(makeVerticalConstraintAction, SIGNAL(triggered()), view, SLOT(MakeVerticalConstraint()));
+
 	makeTangentConstraintAction = new QAction(tr("Tangent Constraint"), sketchActionGroup);
 	makeTangentConstraintAction->setCheckable(true);
 	makeTangentConstraintAction->setIcon(QIcon(":/icons/tangent.svg"));

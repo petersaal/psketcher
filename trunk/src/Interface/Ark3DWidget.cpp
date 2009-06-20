@@ -351,6 +351,18 @@ void Ark3DWidget::MakePoint()
 	interactive_primitive_ = new Point2DConstructor(current_sketch_);
 }
 
+void Ark3DWidget::MakeVerticalConstraint() 
+{
+	if(interactive_primitive_ != 0) delete interactive_primitive_;
+	interactive_primitive_ = new HoriVertLine2DConstructor(current_sketch_,true);
+}
+
+void Ark3DWidget::MakeHorizontalConstraint() 
+{
+	if(interactive_primitive_ != 0) delete interactive_primitive_;
+	interactive_primitive_ = new HoriVertLine2DConstructor(current_sketch_,false);
+}
+
 void Ark3DWidget::MakeDistanceConstraint() 
 {
 	if(interactive_primitive_ != 0) delete interactive_primitive_;
