@@ -133,11 +133,13 @@ void QtDistancePointLine2D::paint(QPainter *painter, const QStyleOptionGraphicsI
 	mmcMatrix normal(2,1);
 	normal(0,0) = -tangent(1,0);
 	normal(1,0) = tangent(0,0);
+
+	double offset_direction = normal.DotProduct(point3-point2) > 0 ? 1.0 : -1.0;
 	
 	mmcMatrix text_location = point1 + tangent*text_position_->GetValue() + normal*text_offset_->GetValue();
 	
 	mmcMatrix arrow_end_1 = point1 + text_position_->GetValue()*tangent;
-	mmcMatrix arrow_end_2 = point1 + text_position_->GetValue()*tangent + normal*GetActualDistance();
+	mmcMatrix arrow_end_2 = point1 + text_position_->GetValue()*tangent + offset_direction*normal*GetActualDistance();
 
 	// define leader 1 (this is the leader at the point end of the distance constraint)
 	double leader_one_direction = (arrow_end_2-point3).DotProduct(tangent) >= 0.0 ? 1.0 : -1.0;
