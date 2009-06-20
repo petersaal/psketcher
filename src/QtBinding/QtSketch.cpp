@@ -186,6 +186,13 @@ QtParallelLine2DPointer QtSketch::AddParallelLine2D(const Line2DPointer line1, c
 	return new_constraint;
 }
 
+QtHoriVertLine2DPointer QtSketch::AddHoriVertLine2D(const Line2DPointer line, bool vertical_constraint)
+{
+	QtHoriVertLine2DPointer new_constraint (new QtHoriVertLine2D(0,line, vertical_constraint));
+	AddConstraintEquation(new_constraint);
+	return new_constraint;
+}
+
 QtAngleLine2DPointer QtSketch::AddAngleLine2D(const Line2DPointer line1, const Line2DPointer line2, double angle, bool interior_angle)
 {
 	QtAngleLine2DPointer new_constraint(new QtAngleLine2D(0,line1,line2,angle,interior_angle));
@@ -381,6 +388,9 @@ ConstraintEquationBasePointer QtSketch::ConstraintFactory(unsigned id, Ark3DMode
 	}
 	else if(table_name == "parallel_line2d_list"){
 		result.reset(new QtParallelLine2D(0,id,ark3d_model));
+	}
+	else if(table_name == "horivert_line2d_list"){
+		result.reset(new QtHoriVertLine2D(0,id,ark3d_model));
 	}
 	else if(table_name == "tangent_edge2d_list"){
 		result.reset(new QtTangentEdge2D(0,id,ark3d_model));

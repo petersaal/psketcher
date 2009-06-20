@@ -35,6 +35,7 @@
 #include "DistancePoint.h"
 #include "ParallelLine.h"
 #include "ParallelLine2D.h"
+#include "HoriVertLine2D.h"
 #include "TangentEdge2D.h"
 #include "AngleLine2D.h"
 #include "Arc2D.h"

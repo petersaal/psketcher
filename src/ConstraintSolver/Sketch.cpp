@@ -192,6 +192,13 @@ ParallelLine2DPointer Sketch::AddParallelLine2D(const Line2DPointer line1, const
 	return new_constraint;
 }
 
+HoriVertLine2DPointer Sketch::AddHoriVertLine2D(const Line2DPointer line, bool vertical_constraint)
+{
+	HoriVertLine2DPointer new_constraint (new HoriVertLine2D(line, vertical_constraint));
+	AddConstraintEquation(new_constraint);
+	return new_constraint;
+}
+
 AngleLine2DPointer Sketch::AddAngleLine2D(const Line2DPointer line1, const Line2DPointer line2, double angle, bool interior_angle)
 {
 	AngleLine2DPointer new_constraint(new AngleLine2D(line1,line2,angle,interior_angle));
