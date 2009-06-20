@@ -51,7 +51,7 @@ Point::Point(unsigned id, Ark3DModel &ark3d_model)
 
 void Point::ApplySelectionMask(SelectionMask mask)
 {
-	if(mask == All || mask == Points)
+	if(mask == All || mask == Points || mask == PointsAndLines)
 		SetSelectable(true);
 	else
 		SetSelectable(false);

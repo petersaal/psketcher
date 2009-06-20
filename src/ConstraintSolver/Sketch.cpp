@@ -176,6 +176,15 @@ DistancePoint2DPointer Sketch::AddDistancePoint2D(const Point2DPointer point1, c
 	return new_constraint;
 }
 
+// Add a distance constraint using the current distance
+DistancePointLine2DPointer Sketch::AddDistancePointLine2D(const Point2DPointer point, const Line2DPointer line)
+{
+    DistancePointLine2DPointer new_constraint(new DistancePointLine2D(point,line,1.0));  // using a temp distance of 1.0, will be replated by current distance next
+    new_constraint->SetValue(new_constraint->GetActualDistance());
+    AddConstraintEquation(new_constraint);
+    return new_constraint;
+}
+
 ParallelLine2DPointer Sketch::AddParallelLine2D(const Line2DPointer line1, const Line2DPointer line2)
 {
 	ParallelLine2DPointer new_constraint (new ParallelLine2D(line1, line2));

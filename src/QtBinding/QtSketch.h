@@ -47,6 +47,7 @@ class QtSketch : public Sketch
 		QtLine2DPointer AddLine2D (const Point2DPointer point1, const Point2DPointer point2);
 		QtDistancePoint2DPointer AddDistancePoint2D(const Point2DPointer point1, const Point2DPointer point2, double distance);
 		QtDistancePoint2DPointer AddDistancePoint2D(const Point2DPointer point1, const Point2DPointer point2);
+        QtDistancePointLine2DPointer AddDistancePointLine2D(const Point2DPointer point, const Line2DPointer line);
 		QtParallelLine2DPointer AddParallelLine2D(const Line2DPointer line1, const Line2DPointer line2);
 		QtAngleLine2DPointer AddAngleLine2D(const Line2DPointer line1, const Line2DPointer line2, double angle, bool interior_angle);
 		QtAngleLine2DPointer AddAngleLine2D(const Line2DPointer line1, const Line2DPointer line2, bool interior_angle);

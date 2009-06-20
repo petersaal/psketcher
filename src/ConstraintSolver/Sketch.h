@@ -39,6 +39,7 @@ class Sketch : public Ark3DModel
 		Line2DPointer AddLine2D (const Point2DPointer point1, const Point2DPointer point2);
 		DistancePoint2DPointer AddDistancePoint2D(const Point2DPointer point1, const Point2DPointer point2, double distance);
 		DistancePoint2DPointer AddDistancePoint2D(const Point2DPointer point1, const Point2DPointer point2);
+        DistancePointLine2DPointer AddDistancePointLine2D(const Point2DPointer point, const Line2DPointer line);
 		ParallelLine2DPointer AddParallelLine2D(const Line2DPointer line1, const Line2DPointer line2);
 		AngleLine2DPointer AddAngleLine2D(const Line2DPointer line1, const Line2DPointer line2, double angle, bool interior_angle);
 		AngleLine2DPointer AddAngleLine2D(const Line2DPointer line1, const Line2DPointer line2, bool interior_angle);

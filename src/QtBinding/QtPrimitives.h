@@ -25,6 +25,7 @@
 #include "QtArc2D.h"
 #include "QtParallelLine2D.h"
 #include "QtDistancePoint2D.h"
+#include "QtDistancePointLine2D.h"
 #include "QtAngleLine2D.h"
 #include "QtTangentEdge2D.h"
 

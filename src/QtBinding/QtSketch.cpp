@@ -169,6 +169,16 @@ QtDistancePoint2DPointer QtSketch::AddDistancePoint2D(const Point2DPointer point
 	return new_constraint;
 }
 
+// Add a distance constraint using the current distance
+QtDistancePointLine2DPointer QtSketch::AddDistancePointLine2D(const Point2DPointer point, const Line2DPointer line)
+{
+    QtDistancePointLine2DPointer new_constraint(new QtDistancePointLine2D(0,point,line,1.0));
+    new_constraint->SetValue(new_constraint->GetActualDistance());
+    new_constraint->UpdateDisplay();
+    AddConstraintEquation(new_constraint);
+    return new_constraint;
+}
+
 QtParallelLine2DPointer QtSketch::AddParallelLine2D(const Line2DPointer line1, const Line2DPointer line2)
 {
 	QtParallelLine2DPointer new_constraint (new QtParallelLine2D(0,line1, line2));
@@ -375,6 +385,9 @@ ConstraintEquationBasePointer QtSketch::ConstraintFactory(unsigned id, Ark3DMode
 	else if(table_name == "tangent_edge2d_list"){
 		result.reset(new QtTangentEdge2D(0,id,ark3d_model));
 	}
+    else if(table_name == "distance_pointline2d_list"){
+        result.reset(new QtDistancePointLine2D(0,id,ark3d_model));
+    }
 	else {
 		throw Ark3DException("Ark3D::ConstraintFactory: Unable to determine type based on database table name " + table_name);
 	}

@@ -354,7 +354,7 @@ void Ark3DWidget::MakePoint()
 void Ark3DWidget::MakeDistanceConstraint() 
 {
 	if(interactive_primitive_ != 0) delete interactive_primitive_;
-	interactive_primitive_ = new DistancePoint2DConstructor(current_sketch_);
+	interactive_primitive_ = new Distance2DConstructor(current_sketch_);
 }
 
 void Ark3DWidget::MakeAngleConstraint() 

@@ -77,7 +77,7 @@ Primitive2DBase(sketch_plane)
 
 void Point2D::ApplySelectionMask(SelectionMask mask)
 {
-	if(mask == All || mask == Points)
+	if(mask == All || mask == Points || mask == PointsAndLines)
 		SetSelectable(true);
 	else
 		SetSelectable(false);
