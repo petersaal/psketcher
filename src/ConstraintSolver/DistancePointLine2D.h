@@ -31,7 +31,7 @@ class DistancePointLine2D : public ConstraintEquationBase
 		double GetValue()const {return distance_->GetValue();}
 		void SetValue(double value) {distance_->SetValue(value);}
 		void SetTextLocation(double text_position, double text_offset) {text_position_->SetValue(text_position); text_offset_->SetValue(text_offset);}
-		void SetSTTextLocation(double s, double t);
+		void SetSTTextLocation(double s, double t, bool update_db=true);
 		void SetDefaultTextLocation();
 		double GetTextPosition() {return text_position_->GetValue();}
 		double GetTextOffset() {return text_offset_->GetValue();}

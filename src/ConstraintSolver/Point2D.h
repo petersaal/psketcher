@@ -36,8 +36,8 @@ class Point2D : public Primitive2DBase
 		bool SIsFree() const {return s_->IsFree();}
 		bool TIsFree() const {return t_->IsFree();}
 
-		void SetSValue(double value){s_->SetValue(value);}
-		void SetTValue(double value) {t_->SetValue(value);}
+		void SetSValue(double value, bool update_db = true){s_->SetValue(value,update_db);}
+		void SetTValue(double value, bool update_db = true) {t_->SetValue(value,update_db);}
 		void SetSFree(bool free) {s_->SetFree(free);}
 		void SetTFree(bool free) {t_->SetFree(free);}
 

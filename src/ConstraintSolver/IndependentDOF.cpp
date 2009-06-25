@@ -109,9 +109,9 @@ bool IndependentDOF :: SyncToDatabase(Ark3DModel &ark3d_model)
 	return true; // row existed in the database
 }
 
-void IndependentDOF::SetValue ( double value ) 
+void IndependentDOF::SetValue ( double value, bool update_db) 
 {
-	if(database_ != 0) // if this DOF is tied to a database then update the database
+	if(database_ != 0 && update_db ) // if this DOF is tied to a database then update the database
 	{
 		double old_value = value_;
 		value_ = value;
@@ -152,9 +152,9 @@ void IndependentDOF::SetValue ( double value )
 		}
 
 	}else{
-		// this is the case where there is not database
+		// this is the case where there is not database or the user chose to not update the db
 		value_=value; 
-	} // if(database_ != 0)
+	} // if(database_ != 0 && update_db)
 }
 
 void IndependentDOF::SetFree(bool free)

@@ -178,7 +178,7 @@ void AngleLine2D::SetDefaultTextLocation()
 	}
 }
 
-void AngleLine2D::SetSTTextLocation(double text_s, double text_t)
+void AngleLine2D::SetSTTextLocation(double text_s, double text_t, bool update_db)
 {
 	// first determine the intersection point of the two lines
 	double x1 = line1_->GetPoint1()->GetSValue();
@@ -198,8 +198,8 @@ void AngleLine2D::SetSTTextLocation(double text_s, double text_t)
 		// the lines are parallel
 
 		// use the following parameters to locate the text instead of text_radius_ and text_angle_
-		text_s_->SetValue(text_s);
-		text_t_->SetValue(text_t);
+		text_s_->SetValue(text_s, update_db);
+		text_t_->SetValue(text_t, update_db);
 	} else {
 		// lines do intersect
 		// finish calculating the intersection point
@@ -209,8 +209,8 @@ void AngleLine2D::SetSTTextLocation(double text_s, double text_t)
 		double x_center = (temp1*(x3-x4)-temp2*(x1-x2))/denominator;
 		double y_center = (temp1*(y3-y4)-temp2*(y1-y2))/denominator;
 
-		text_radius_->SetValue(sqrt((x_center - text_s)*(x_center - text_s) + (y_center - text_t)*(y_center - text_t)));
-		text_angle_->SetValue(atan2(text_t-y_center, text_s-x_center));
+		text_radius_->SetValue(sqrt((x_center - text_s)*(x_center - text_s) + (y_center - text_t)*(y_center - text_t)), update_db);
+		text_angle_->SetValue(atan2(text_t-y_center, text_s-x_center), update_db);
 	}
 }
 

@@ -34,7 +34,7 @@ class DOF
 		virtual ~DOF() {;}
 
 		//Accessor methods
-		virtual void SetValue ( double value ) = 0;
+		virtual void SetValue ( double value, bool update_db = true ) = 0;
 		virtual double GetValue()const = 0;
 		virtual GiNaC::ex GetExpression()const {return variable_;}
 

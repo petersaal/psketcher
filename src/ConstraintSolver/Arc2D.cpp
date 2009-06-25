@@ -282,7 +282,7 @@ void Arc2D::SetDefaultTextLocation()
 	AddDOF(text_radius_);
 }
 
-void Arc2D::SetSTTextLocation(double text_s, double text_t)
+void Arc2D::SetSTTextLocation(double text_s, double text_t, bool update_db)
 {
 	text_radius_->SetValue(sqrt((s_center_->GetValue() - text_s)*(s_center_->GetValue() - text_s) + (t_center_->GetValue() - text_t)*(t_center_->GetValue() - text_t)));
 	text_angle_->SetValue(atan2(text_t-t_center_->GetValue(), text_s-s_center_->GetValue()));
