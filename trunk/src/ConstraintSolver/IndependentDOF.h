@@ -30,7 +30,7 @@ class IndependentDOF : public DOF
 		IndependentDOF ( unsigned id, Ark3DModel &ark3d_model );
 
 		//Accessor methods
-		void SetValue ( double value );
+		void SetValue ( double value, bool update_db = true );
 		double GetValue()const {return value_;}
 		virtual void SetFree(bool free);
 

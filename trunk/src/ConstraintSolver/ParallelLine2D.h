@@ -27,7 +27,7 @@ class ParallelLine2D : public ConstraintEquationBase
 		ParallelLine2D(unsigned id, Ark3DModel &ark3d_model); // Construct from database
 
 		double GetMarkerPosition() const {return marker_position_->GetValue();}
-		void SetMarkerPosition(const double marker_position) {marker_position_->SetValue(marker_position);} // @fixme need to maker sure that the new marker position is in the set [0.0,1.0]
+		void SetMarkerPosition(const double marker_position,bool update_db=true) {marker_position_->SetValue(marker_position,update_db);} // @fixme need to maker sure that the new marker position is in the set [0.0,1.0]
 
 		Line2DPointer GetLine1() const {return line1_;}
 		Line2DPointer GetLine2() const {return line2_;}

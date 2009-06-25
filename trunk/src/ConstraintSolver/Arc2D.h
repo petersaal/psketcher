@@ -65,7 +65,7 @@ class Arc2D : public Edge2DBase
 		void ApplySelectionMask(SelectionMask mask);
 
 		void SetTextLocation(double text_radius, double text_angle) {text_radius_->SetValue(text_radius); text_angle_->SetValue(text_angle);}
-		void SetSTTextLocation(double text_s_, double text_t_);
+		void SetSTTextLocation(double text_s_, double text_t_, bool update_db=true);
 		void SetDefaultTextLocation();
 		double GetTextRadius() const {return text_radius_->GetValue();}
 		double GetTextAngle() const {return text_angle_->GetValue();}

@@ -34,7 +34,7 @@ class DependentDOF : public DOF
 		~DependentDOF () {source_dof_list_.clear();}
 		
 		//Accessor methods
-		void SetValue ( double value ) { /* @fixme warn user about an attempt to modify a dependent DOF */;}
+		void SetValue ( double value, bool update_db = true ) { /* @fixme warn user about an attempt to modify a dependent DOF */;}
 		void SetFree(bool free) { /* @fixme warn user about an attempt to modify a dependent DOF */;}
 		double GetValue()const;
 		GiNaC::ex GetExpression()const;

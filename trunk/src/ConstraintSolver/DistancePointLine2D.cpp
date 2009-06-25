@@ -138,7 +138,7 @@ void DistancePointLine2D::SetDefaultTextLocation()
 		text_position_->SetValue(1.1*tangent_magnitude);
 }
 
-void DistancePointLine2D::SetSTTextLocation(double s, double t)
+void DistancePointLine2D::SetSTTextLocation(double s, double t, bool update_db)
 {
 	mmcMatrix point1 = line_->GetPoint1()->GetmmcMatrix();
 	mmcMatrix point2 = line_->GetPoint2()->GetmmcMatrix();
@@ -170,8 +170,8 @@ void DistancePointLine2D::SetSTTextLocation(double s, double t)
 	inverse = (1.0/(normal(0,0)*tangent(1,0) - tangent(0,0)*normal(1,0)))*inverse;
 
 	mmcMatrix solution = inverse*(text_location - point1);
-	text_offset_->SetValue(solution(0,0));
-	text_position_->SetValue(solution(1,0));
+	text_offset_->SetValue(solution(0,0),update_db);
+	text_position_->SetValue(solution(1,0),update_db);
 }
 
 void DistancePointLine2D::AddToDatabase(sqlite3 *database)
