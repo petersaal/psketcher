@@ -111,11 +111,57 @@ bool IndependentDOF :: SyncToDatabase(Ark3DModel &ark3d_model)
 
 void IndependentDOF::SetValue ( double value, bool update_db) 
 {
+    value_ = value;
+
 	if(database_ != 0 && update_db ) // if this DOF is tied to a database then update the database
 	{
-		double old_value = value_;
-		value_ = value;
+		double old_value;
 
+        // first retrieve the current value in the database so that the undo command can be set properly
+        string table_name = "independent_dof_list";
+    
+        char *zErrMsg = 0;
+        int rc;
+        sqlite3_stmt *statement;
+        
+        stringstream sql_command;
+        sql_command << "SELECT * FROM " << table_name << " WHERE id=" << GetID() << ";";
+    
+        rc = sqlite3_prepare(database_, sql_command.str().c_str(), -1, &statement, 0);
+        if( rc!=SQLITE_OK ){
+            stringstream error_description;
+            error_description << "SQL error: " << sqlite3_errmsg(database_);
+            throw Ark3DException(error_description.str());
+        }
+    
+        rc = sqlite3_step(statement);
+    
+        if(rc == SQLITE_ROW) {
+            // row exist, retreive the previous value
+            old_value = sqlite3_column_double(statement,3);
+    
+        } else {
+            // the requested row does not exist in the database
+            sqlite3_finalize(statement);    
+            throw Ark3DException("DOF value is being updated for a DOF that is not currently stored in the database.");
+        }
+    
+        rc = sqlite3_step(statement);
+        if( rc!=SQLITE_DONE ){
+            // sql statement didn't finish properly, some error must to have occured
+            stringstream error_description;
+            error_description << "SQL error: " << sqlite3_errmsg(database_);
+            throw Ark3DException(error_description.str());
+        }
+        
+        rc = sqlite3_finalize(statement);
+        if( rc!=SQLITE_OK ){
+            stringstream error_description;
+            error_description << "SQL error: " << sqlite3_errmsg(database_);
+            throw Ark3DException(error_description.str());
+        }
+
+        // Now that the prevoius value is know, update the database
 		// define the update statement
 		stringstream sql_stream;
 		sql_stream.precision(__DBL_DIG__);
@@ -132,8 +178,7 @@ void IndependentDOF::SetValue ( double value, bool update_db)
 		string sql_undo = sql_stream.str();
 		
 		// do the database update
-		char *zErrMsg = 0;
-		int rc = sqlite3_exec(database_, sql_update.c_str(), 0, 0, &zErrMsg);
+		rc = sqlite3_exec(database_, sql_update.c_str(), 0, 0, &zErrMsg);
 		if( rc!=SQLITE_OK ){
 			std::string error_description = "SQL error: " + std::string(zErrMsg);
 			sqlite3_free(zErrMsg);
@@ -151,9 +196,6 @@ void IndependentDOF::SetValue ( double value, bool update_db)
 			throw Ark3DException(error_description);
 		}
 
-	}else{
-		// this is the case where there is not database or the user chose to not update the db
-		value_=value; 
 	} // if(database_ != 0 && update_db)
 }
 
