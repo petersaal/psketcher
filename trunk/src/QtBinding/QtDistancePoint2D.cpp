@@ -20,7 +20,8 @@
 
 QtDistancePoint2D::QtDistancePoint2D (QGraphicsItem * parent, unsigned id, Ark3DModel &ark3d_model):
 QtPrimitiveBase(parent),
-DistancePoint2D(id,ark3d_model)
+DistancePoint2D(id,ark3d_model),
+pending_db_save_(false)
 {
 	SetProperties(Annotation);
 	SetSelectedProperties(SelectedAnnotation);
@@ -36,7 +37,8 @@ DistancePoint2D(id,ark3d_model)
 
 QtDistancePoint2D::QtDistancePoint2D(QGraphicsItem * parent,const Point2DPointer point1, const Point2DPointer point2,double distance):
 QtPrimitiveBase(parent),
-DistancePoint2D(point1,point2,distance)
+DistancePoint2D(point1,point2,distance),
+pending_db_save_(false)
 {
 	SetProperties(Annotation);
 	SetSelectedProperties(SelectedAnnotation);
@@ -166,9 +168,11 @@ void QtDistancePoint2D::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 void QtDistancePoint2D::mouseMoveEvent ( QGraphicsSceneMouseEvent * event )
 {
 	if(event->buttons() & Qt::LeftButton)
-	{		
+	{	
+        pending_db_save_ = true;
+        
 		// move the point to the new global position
-		SetSTTextLocation(event->scenePos().x(),-event->scenePos().y());
+		SetSTTextLocation(event->scenePos().x(),-event->scenePos().y(),false /*update_db*/);
 
 		// force a update of the display so that the drag event is seen interactively
 		scene()->update();
@@ -179,6 +183,20 @@ void QtDistancePoint2D::mouseMoveEvent ( QGraphicsSceneMouseEvent * event )
 		// not handling this event, let the base class do its thing
 		QGraphicsItem::mouseMoveEvent(event);
 	}
+}
+
+void QtDistancePoint2D::mouseReleaseEvent ( QGraphicsSceneMouseEvent * event )
+{
+    if (event->button() & Qt::LeftButton && pending_db_save_) 
+    {
+        // if there is a pending db save, do the save now (this happens at the end of a drag event)
+        SetTextLocation(GetTextPosition(),GetTextOffset());
+
+        pending_db_save_ = false;
+    }
+
+    // let the base class do it's thing
+    QGraphicsItem::mouseReleaseEvent(event);
 }
 
 
