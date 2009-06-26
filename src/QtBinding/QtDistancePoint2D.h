@@ -43,8 +43,10 @@ class QtDistancePoint2D : public QtPrimitiveBase, public DistancePoint2D, public
 		virtual QPainterPath shape() const {return current_shape_;}
 
 		virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * event );
+        virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * event );
 
 	private:
+        bool pending_db_save_;
 		QtDistancePoint2DWidget *distance_widget_;
 		QPainterPath current_shape_;
 
