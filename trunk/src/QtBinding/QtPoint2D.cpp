@@ -20,7 +20,8 @@
 
 QtPoint2D::QtPoint2D (QGraphicsItem * parent, unsigned id, Ark3DModel &ark3d_model):
 QtPrimitiveBase(parent),
-Point2D(id,ark3d_model)
+Point2D(id,ark3d_model),
+pending_db_save_(false)
 {
 	SetProperties(PointPrimitive);
 	SetSelectedProperties(SelectedPointPrimitive);
@@ -39,7 +40,8 @@ Point2D(id,ark3d_model)
 
 QtPoint2D::QtPoint2D (QGraphicsItem * parent,double s, double t, SketchPlanePointer sketch_plane, bool s_free, bool t_free) :
 QtPrimitiveBase(parent),
-Point2D(s,t,sketch_plane,s_free,t_free)
+Point2D(s,t,sketch_plane,s_free,t_free),
+pending_db_save_(false)
 {
 	SetProperties(PointPrimitive);
 	SetSelectedProperties(SelectedPointPrimitive);
@@ -57,7 +59,8 @@ Point2D(s,t,sketch_plane,s_free,t_free)
 
 QtPoint2D::QtPoint2D (QGraphicsItem * parent, DOFPointer s, DOFPointer t, SketchPlanePointer sketch_plane) :
 QtPrimitiveBase(parent),
-Point2D(s,t,sketch_plane)
+Point2D(s,t,sketch_plane),
+pending_db_save_(false)
 {
 	SetProperties(PointPrimitive);
 	SetSelectedProperties(SelectedPointPrimitive);
@@ -160,10 +163,12 @@ void QtPoint2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 void QtPoint2D::mouseMoveEvent ( QGraphicsSceneMouseEvent * event )
 {
 	if(event->buttons() & Qt::LeftButton)
-	{		
+	{
+		pending_db_save_ = true;
+
 		// move the point to the new global position
-		SetSValue(event->scenePos().x());
-		SetTValue(-event->scenePos().y());
+		SetSValue(event->scenePos().x(),false /*update_db*/);
+		SetTValue(-event->scenePos().y(),false /*update_db*/);
 
 		// force a update of the display so that the drag event is seen interactively
 		scene()->update();
@@ -175,4 +180,20 @@ void QtPoint2D::mouseMoveEvent ( QGraphicsSceneMouseEvent * event )
 		QGraphicsItem::mouseMoveEvent(event);
 	}
 }
+
+void QtPoint2D::mouseReleaseEvent ( QGraphicsSceneMouseEvent * event )
+{
+	if (event->button() & Qt::LeftButton && pending_db_save_) 
+	{
+		// if there is a pending db save, do the save now (this happens at the end of a drag event)
+		SetSValue(GetSValue());
+		SetTValue(GetTValue());
+
+		pending_db_save_ = false;
+	}
+
+	// let the base class do it's thing
+	QGraphicsItem::mouseReleaseEvent(event);
+}
+
 

@@ -37,10 +37,13 @@ class QtPoint2D : public QtPrimitiveBase, public Point2D
 
 		virtual QPainterPath shape() const {return current_shape_;}
 
-		virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * event );
+		virtual void mouseMoveEvent    ( QGraphicsSceneMouseEvent * event );
+		virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * event );
 
 	private:
 		QPainterPath current_shape_;
+
+		bool pending_db_save_;
 };
 typedef boost::shared_ptr<QtPoint2D> QtPoint2DPointer;
 
