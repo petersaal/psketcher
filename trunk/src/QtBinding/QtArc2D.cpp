@@ -20,7 +20,8 @@
 
 QtArc2D::QtArc2D (QGraphicsItem * parent, unsigned id, Ark3DModel &ark3d_model):
 QtPrimitiveBase(parent),
-Arc2D(id,ark3d_model)
+Arc2D(id,ark3d_model),
+pending_db_save_(false)
 {
 	SetProperties(Primitive);
 	SetSelectedProperties(SelectedPrimitive);
@@ -38,7 +39,8 @@ QtArc2D::QtArc2D (QGraphicsItem * parent, double s_center, double t_center, doub
 					SketchPlanePointer sketch_plane, bool s_center_free, bool t_center_free, bool theta_1_free, bool theta_2_free, 
 					bool radius_free):
 QtPrimitiveBase(parent),
-Arc2D(s_center,t_center,theta_1,theta_2,radius,sketch_plane, s_center_free, t_center_free, theta_1_free, theta_2_free,radius_free)
+Arc2D(s_center,t_center,theta_1,theta_2,radius,sketch_plane, s_center_free, t_center_free, theta_1_free, theta_2_free,radius_free),
+pending_db_save_(false)
 {
 	SetProperties(Primitive);
 	SetSelectedProperties(SelectedPrimitive);
@@ -55,7 +57,8 @@ Arc2D(s_center,t_center,theta_1,theta_2,radius,sketch_plane, s_center_free, t_ce
 QtArc2D::QtArc2D (QGraphicsItem * parent, double s1, double t1, double s2, double t2, double s3, double t3,
 			SketchPlanePointer sketch_plane, bool s_center_free, bool t_center_free, bool theta_1_free, bool theta_2_free, bool radius_free):
 QtPrimitiveBase(parent),
-Arc2D(s1,t1,s2,t2,s3,t3, sketch_plane, s_center_free, t_center_free, theta_1_free, theta_2_free,radius_free)
+Arc2D(s1,t1,s2,t2,s3,t3, sketch_plane, s_center_free, t_center_free, theta_1_free, theta_2_free,radius_free),
+pending_db_save_(false)
 {
 	SetProperties(Primitive);
 	SetSelectedProperties(SelectedPrimitive);
@@ -72,7 +75,8 @@ Arc2D(s1,t1,s2,t2,s3,t3, sketch_plane, s_center_free, t_center_free, theta_1_fre
 
 QtArc2D::QtArc2D (QGraphicsItem * parent,DOFPointer s_center, DOFPointer t_center, DOFPointer theta_1, DOFPointer theta_2, DOFPointer radius, SketchPlanePointer sketch_plane):
 QtPrimitiveBase(parent),
-Arc2D(s_center,t_center,theta_1,theta_2,radius,sketch_plane)
+Arc2D(s_center,t_center,theta_1,theta_2,radius,sketch_plane),
+pending_db_save_(false)
 {
 	SetProperties(Primitive);
 	SetSelectedProperties(SelectedPrimitive);
@@ -179,8 +183,10 @@ void QtArc2D::mouseMoveEvent ( QGraphicsSceneMouseEvent * event )
 {
 	if(event->buttons() & Qt::LeftButton)
 	{		
+        pending_db_save_ = true;
+        
 		// move the point to the new global position
-		SetSTTextLocation(event->scenePos().x(),-event->scenePos().y());
+		SetSTTextLocation(event->scenePos().x(),-event->scenePos().y(), false /*update_db*/);
 
 		// force a update of the display so that the drag event is seen interactively
 		scene()->update();
@@ -193,6 +199,19 @@ void QtArc2D::mouseMoveEvent ( QGraphicsSceneMouseEvent * event )
 	}
 }
 
+void QtArc2D::mouseReleaseEvent ( QGraphicsSceneMouseEvent * event )
+{
+    if (event->button() & Qt::LeftButton && pending_db_save_) 
+    {
+        // if there is a pending db save, do the save now (this happens at the end of a drag event)
+        SetTextLocation(GetTextRadius(),GetTextAngle());
+
+        pending_db_save_ = false;
+    }
+
+    // let the base class do it's thing
+    QGraphicsItem::mouseReleaseEvent(event);
+}
 
 
 
