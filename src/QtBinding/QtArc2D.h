@@ -49,8 +49,10 @@ class QtArc2D : public QtPrimitiveBase, public Arc2D, public boost::enable_share
 		virtual QPainterPath shape() const {return current_shape_;}
 
 		virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * event );
+        virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * event );
 
 	private:
+        bool pending_db_save_;
 		QtArc2DWidget *radius_widget_;
 		QPainterPath current_shape_;
 

@@ -20,7 +20,8 @@
 
 QtAngleLine2D::QtAngleLine2D(QGraphicsItem * parent, unsigned id, Ark3DModel &ark3d_model):
 QtPrimitiveBase(parent),
-AngleLine2D(id,ark3d_model)
+AngleLine2D(id,ark3d_model),
+pending_db_save_(false)
 {
 	SetProperties(Annotation);
 	SetSelectedProperties(SelectedAnnotation);
@@ -36,7 +37,8 @@ AngleLine2D(id,ark3d_model)
 
 QtAngleLine2D::QtAngleLine2D(QGraphicsItem * parent, const Line2DPointer line1, const Line2DPointer line2, double angle, bool interior_angle):
 QtPrimitiveBase(parent),
-AngleLine2D(line1,line2,angle,interior_angle)
+AngleLine2D(line1,line2,angle,interior_angle),
+pending_db_save_(false)
 {
 	SetProperties(Annotation);
 	SetSelectedProperties(SelectedAnnotation);
@@ -392,8 +394,10 @@ void QtAngleLine2D::mouseMoveEvent ( QGraphicsSceneMouseEvent * event )
 {
 	if(event->buttons() & Qt::LeftButton)
 	{		
+        pending_db_save_ = true;
+
 		// move the point to the new global position
-		SetSTTextLocation(event->scenePos().x(),-event->scenePos().y());
+		SetSTTextLocation(event->scenePos().x(),-event->scenePos().y(),false /*update_db*/);
 
 		// force a update of the display so that the drag event is seen interactively
 		scene()->update();
@@ -406,7 +410,19 @@ void QtAngleLine2D::mouseMoveEvent ( QGraphicsSceneMouseEvent * event )
 	}
 }
 
+void QtAngleLine2D::mouseReleaseEvent ( QGraphicsSceneMouseEvent * event )
+{
+    if (event->button() & Qt::LeftButton && pending_db_save_) 
+    {
+        // if there is a pending db save, do the save now (this happens at the end of a drag event)
+        SetTextLocation(GetTextRadius(),GetTextAngle());
 
+        pending_db_save_ = false;
+    }
+
+    // let the base class do it's thing
+    QGraphicsItem::mouseReleaseEvent(event);
+}
 
 QtAngleLine2DWidget::QtAngleLine2DWidget(QtAngleLine2DPointer arc_primitive, QGraphicsItem *parent) :
 angle_constraint_primitive_(arc_primitive), QGraphicsProxyWidget(parent)

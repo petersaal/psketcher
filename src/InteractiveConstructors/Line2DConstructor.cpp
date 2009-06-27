@@ -74,9 +74,8 @@ bool Line2DConstructor::MouseMove(MotionEventPropertiesPointer event_props)
         // project x,y,z coordinates onto sketch plane
         parent_sketch_->GetSketchPlane()->GetSTLocation(x,y,z,motion_s,motion_t);
 
-        // @fixme  Need to add a method to change DOF values without updating the DB
-        temp_point_->SetSValue(motion_s);
-        temp_point_->SetTValue(motion_t);
+        temp_point_->SetSValue(motion_s, false /*update_db*/);
+        temp_point_->SetTValue(motion_t, false /*update_db*/);
 
         parent_sketch_->UpdateDisplay();
     }
