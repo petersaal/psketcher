@@ -149,6 +149,12 @@ void Ark3DWindow::createActions()
 	makeArcAction->setStatusTip(tr("Create Arc"));
     connect(makeArcAction, SIGNAL(triggered()), view, SLOT(MakeArc()));
 
+    makeCircleAction = new QAction(tr("Circle"), sketchActionGroup);
+    makeCircleAction->setCheckable(true);
+    makeCircleAction->setIcon(QIcon(":/icons/Circle.svg"));
+    makeCircleAction->setStatusTip(tr("Create Circle"));
+    connect(makeCircleAction, SIGNAL(triggered()), view, SLOT(MakeCircle()));
+
 	makeDistanceConstraintAction = new QAction(tr("Distance Constraint"), sketchActionGroup);
 	makeDistanceConstraintAction->setCheckable(true);
 	makeDistanceConstraintAction->setIcon(QIcon(":/icons/distance.svg"));

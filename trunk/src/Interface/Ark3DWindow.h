@@ -84,6 +84,7 @@ private:
 	QAction *makeLineAction;
 	QAction *makePointAction;
 	QAction *makeArcAction;
+    QAction *makeCircleAction;
 	QAction *makeDistanceConstraintAction;
 	QAction *makeAngleConstraintAction;
 	QAction *makeParallelConstraintAction;
