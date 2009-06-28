@@ -345,6 +345,12 @@ void Ark3DWidget::MakeArc()
 	interactive_primitive_ = new Arc2DConstructor(current_sketch_);
 }
 
+void Ark3DWidget::MakeCircle()
+{
+    if(interactive_primitive_ != 0) delete interactive_primitive_;
+    interactive_primitive_ = new Circle2DConstructor(current_sketch_);
+}
+
 void Ark3DWidget::MakePoint() 
 {
 	if(interactive_primitive_ != 0) delete interactive_primitive_;
