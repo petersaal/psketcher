@@ -90,9 +90,9 @@ bool Circle2DConstructor::LeftButtonUp(MouseEventPropertiesPointer event_props)
 
             // project x,y,z coordinates onto sketch plane
             parent_sketch_->GetSketchPlane()->GetSTLocation(x,y,z,center_s_,center_t_);
-
-            temp_circle_ = parent_sketch_->AddCircle2D(center_s_,center_t_,0.0,true,true,false);
         }
+
+        temp_circle_ = parent_sketch_->AddCircle2D(center_s_,center_t_,0.0,true,true,false);
 
         return false;
     } else {

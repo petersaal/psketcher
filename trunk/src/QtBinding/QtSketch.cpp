@@ -334,6 +334,9 @@ PrimitiveBasePointer QtSketch::PrimitiveFactory(unsigned id, Ark3DModel &ark3d_m
 	else if(table_name == "line2d_list"){
 		result.reset(new QtLine2D(0,id,ark3d_model));
 	}
+    else if(table_name == "circle2d_list"){
+        result.reset(new QtCircle2D(0,id,ark3d_model));
+    }
 	else if(table_name == "point_list"){
 		result.reset(new Point(id,ark3d_model));
 	}

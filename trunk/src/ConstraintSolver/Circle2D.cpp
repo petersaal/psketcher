@@ -22,7 +22,7 @@
 // End of includes related to libdime
 
 
-const std::string SQL_arc2d_database_schema = "CREATE TABLE arc2d_list (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, sketch_plane INTEGER NOT NULL, center_point INTEGER NOT NULL, radius_dof INTEGER NOT NULL, s_center_dof INTEGER NOT NULL, t_center_dof INTEGER NOT NULL, text_angle_dof INTEGER NOT NULL, text_radius_dof INTEGER NOT NULL);";
+const std::string SQL_circle2d_database_schema = "CREATE TABLE circle2d_list (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, sketch_plane INTEGER NOT NULL, center_point INTEGER NOT NULL, radius_dof INTEGER NOT NULL, s_center_dof INTEGER NOT NULL, t_center_dof INTEGER NOT NULL, text_angle_dof INTEGER NOT NULL, text_radius_dof INTEGER NOT NULL);";
 
 #include "Circle2D.h"
 
@@ -129,12 +129,14 @@ Primitive2DBase(sketch_plane)
 // Construct from database
 Circle2D::Circle2D(unsigned id, Ark3DModel &ark3d_model)
 {
-	SetID(id);  bool exists = SyncToDatabase(ark3d_model);
+	SetID(id);  
+
+    bool exists = SyncToDatabase(ark3d_model);
 	
 	if(!exists) // this object does not exist in the table
 	{
 		stringstream error_description;
-		error_description << "SQLite rowid " << id << " in table arc2d_list does not exist";
+		error_description << "SQLite rowid " << id << " in table circle2d_list does not exist";
 		throw Ark3DException(error_description.str());
 	}
 }
@@ -204,7 +206,7 @@ void Circle2D::DatabaseAddRemove(bool add_to_database) // Utility method used by
 	stringstream temp_stream;
 	temp_stream.precision(__DBL_DIG__);
 	temp_stream << "BEGIN; "
-                << "INSERT INTO arc2d_list VALUES(" 
+                << "INSERT INTO circle2d_list VALUES(" 
                 << GetID() << ",'" << dof_list_table_name.str() << "','" 
 				<< primitive_list_table_name.str() << "'," << GetSketchPlane()->GetID() 
 				<< "," << center_point_->GetID() << "," << radius_->GetID()
@@ -212,7 +214,7 @@ void Circle2D::DatabaseAddRemove(bool add_to_database) // Utility method used by
 				<< "," << text_angle_->GetID() << "," << text_radius_->GetID()
 				<< "); "
                 << "INSERT INTO primitive_list VALUES("
-                << GetID() << ",'arc2d_list'); "
+                << GetID() << ",'circle2d_list'); "
                 << "COMMIT; ";
 
 	if(add_to_database)
@@ -224,7 +226,7 @@ void Circle2D::DatabaseAddRemove(bool add_to_database) // Utility method used by
 
 	temp_stream << "BEGIN; "
 				<< "DELETE FROM primitive_list WHERE id=" << GetID() 
-				<< "; DELETE FROM arc2d_list WHERE id=" << GetID() 
+				<< "; DELETE FROM circle2d_list WHERE id=" << GetID() 
 				<< "; COMMIT;";
 
 	if(add_to_database)
@@ -242,7 +244,7 @@ void Circle2D::DatabaseAddRemove(bool add_to_database) // Utility method used by
 			sqlite3_free(zErrMsg);
 			
 			// the table "independent_dof_list" may not exist, attempt to create
-			rc = sqlite3_exec(database_, ("ROLLBACK;"+SQL_arc2d_database_schema).c_str(), 0, 0, &zErrMsg);  // need to add ROLLBACK since previous transaction failed
+			rc = sqlite3_exec(database_, ("ROLLBACK;"+SQL_circle2d_database_schema).c_str(), 0, 0, &zErrMsg);  // need to add ROLLBACK since previous transaction failed
 			if( rc!=SQLITE_OK ){
 				std::string error_description = "SQL error: " + std::string(zErrMsg);
 				sqlite3_free(zErrMsg);
@@ -284,7 +286,7 @@ bool Circle2D::SyncToDatabase(Ark3DModel &ark3d_model)
 {
 	database_ = ark3d_model.GetDatabase();
 
-	string table_name = "arc2d_list";
+	string table_name = "circle2d_list";
 
 	char *zErrMsg = 0;
 	int rc;
@@ -314,8 +316,8 @@ bool Circle2D::SyncToDatabase(Ark3DModel &ark3d_model)
 		radius_ = ark3d_model.FetchDOF(sqlite3_column_int(statement,5));
 		s_center_ = ark3d_model.FetchDOF(sqlite3_column_int(statement,6));
 		t_center_ = ark3d_model.FetchDOF(sqlite3_column_int(statement,7));
-		text_angle_ = ark3d_model.FetchDOF(sqlite3_column_int(statement,12));
-		text_radius_ = ark3d_model.FetchDOF(sqlite3_column_int(statement,13));
+		text_angle_ = ark3d_model.FetchDOF(sqlite3_column_int(statement,8));
+		text_radius_ = ark3d_model.FetchDOF(sqlite3_column_int(statement,9));
 
 	} else {
 		// the requested row does not exist in the database
