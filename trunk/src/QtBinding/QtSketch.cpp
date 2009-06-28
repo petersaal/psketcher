@@ -115,6 +115,13 @@ QtCircle2DPointer QtSketch::AddCircle2D (double s_center, double t_center, doubl
     return new_circle;
 }
 
+QtCircle2DPointer QtSketch::AddCircle2D (DOFPointer s_center, DOFPointer t_center, double radius, bool radius_free)
+{
+    DOFPointer radius_dof(new IndependentDOF(radius,radius_free));
+    QtCircle2DPointer new_circle(new QtCircle2D(0,s_center,t_center,radius_dof,GetSketchPlane()));
+    AddPrimitive(new_circle);
+    return new_circle;
+}
 
 QtArc2DPointer QtSketch::AddArc2D (double s1, double t1, double s2, double t2, double s3, double t3, bool s_center_free, bool t_center_free, bool theta_1_free, bool theta_2_free, bool radius_free)
 {
