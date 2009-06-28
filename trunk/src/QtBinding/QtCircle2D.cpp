@@ -1,0 +1,287 @@
+/****************************************************************************
+**
+** This file is part of the pSketcher project.
+**
+** This file may be used under the terms of the GNU General Public
+** License version 2.0 as published by the Free Software Foundation
+** and appearing in the file LICENSE.GPL included in the packaging of
+** this file.
+**
+** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+**
+** Copyright (C) 2006-2008 Michael Greminger. All rights reserved.
+**
+****************************************************************************/
+
+#include <QtGui>
+
+#include "QtCircle2D.h"
+
+QtCircle2D::QtCircle2D (QGraphicsItem * parent, unsigned id, Ark3DModel &ark3d_model):
+QtPrimitiveBase(parent),
+Circle2D(id,ark3d_model),
+pending_db_save_(false)
+{
+	SetProperties(Primitive);
+	SetSelectedProperties(SelectedPrimitive);
+	SetMouseHoverProperties(HoverPrimitive);
+
+	setZValue(GetProperties().GetZ());
+
+	radius_widget_ = 0;
+
+	// Display the newly create ais_object
+	Display();
+}
+
+QtCircle2D::QtCircle2D (QGraphicsItem * parent, double s_center, double t_center, double radius, 
+					SketchPlanePointer sketch_plane, bool s_center_free, bool t_center_free, bool radius_free):
+QtPrimitiveBase(parent),
+Circle2D(s_center,t_center,radius,sketch_plane, s_center_free, t_center_free,radius_free),
+pending_db_save_(false)
+{
+	SetProperties(Primitive);
+	SetSelectedProperties(SelectedPrimitive);
+	SetMouseHoverProperties(HoverPrimitive);
+
+	setZValue(GetProperties().GetZ());
+
+	radius_widget_ = 0;
+
+	// Display the newly create ais_object
+	Display();
+}
+
+QtCircle2D::QtCircle2D (QGraphicsItem * parent, double s1, double t1, double s2, double t2, double s3, double t3,
+			SketchPlanePointer sketch_plane, bool s_center_free, bool t_center_free, bool radius_free):
+QtPrimitiveBase(parent),
+Circle2D(s1,t1,s2,t2,s3,t3, sketch_plane, s_center_free, t_center_free,radius_free),
+pending_db_save_(false)
+{
+	SetProperties(Primitive);
+	SetSelectedProperties(SelectedPrimitive);
+	SetMouseHoverProperties(HoverPrimitive);
+
+	setZValue(GetProperties().GetZ());
+
+	radius_widget_ = 0;
+
+	// Display the newly create ais_object
+	Display();
+}
+
+
+QtCircle2D::QtCircle2D (QGraphicsItem * parent,DOFPointer s_center, DOFPointer t_center, DOFPointer radius, SketchPlanePointer sketch_plane):
+QtPrimitiveBase(parent),
+Circle2D(s_center,t_center,radius,sketch_plane),
+pending_db_save_(false)
+{
+	SetProperties(Primitive);
+	SetSelectedProperties(SelectedPrimitive);
+	SetMouseHoverProperties(HoverPrimitive);
+
+	setZValue(GetProperties().GetZ());
+
+	// Display the newly create ais_object
+	Display();
+}
+
+
+void QtCircle2D::UpdateDisplay()
+{
+	Display();
+
+	QtPrimitiveBase::UpdateDisplay();
+}
+
+QRectF QtCircle2D::boundingRect() const
+{
+	double radius = qMax(GetRadius()->GetValue(),GetTextRadius()) + GetBoundingRectPad();
+	QRectF rect(QPointF(GetSCenter()->GetValue()-radius,-GetTCenter()->GetValue()-radius),
+ 				QPointF(GetSCenter()->GetValue()+radius,-GetTCenter()->GetValue()+radius));
+	return rect;
+}
+
+void QtCircle2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget * /* widget */) 
+{
+	DisplayProperties current_properties;
+
+	// @fixme the way radius_properties is defined in the following if statement block will prevent the user from changing the display properties of the radius dimension or the points at run time since the DisplayProperties constructor is used to set these properties
+	DisplayProperties radius_properties; 
+
+	if(option->state & QStyle::State_MouseOver && IsSelectable())
+	{
+		current_properties = GetMouseHoverProperties();
+		radius_properties = DisplayProperties(HoverAnnotation);
+	} else if (option->state & QStyle::State_Selected) {
+		current_properties = GetSelectedProperties();
+		radius_properties = DisplayProperties(SelectedAnnotation);
+	} else {
+		current_properties = GetProperties();
+		radius_properties = DisplayProperties(Annotation);
+	}
+	
+	double leader_gap = current_properties.GetLeaderGap()/option->levelOfDetail;
+	double leader_extension = current_properties.GetLeaderExtension()/option->levelOfDetail;
+
+	double leader_extension_angle = ((leader_extension/GetRadius()->GetValue())*(180.0/mmcPI))/option->levelOfDetail;
+	double leader_gap_angle = ((leader_gap/GetRadius()->GetValue())*(180.0/mmcPI))/option->levelOfDetail;
+
+	double radius = GetRadius()->GetValue();
+	QRectF rect(QPointF(GetSCenter()->GetValue()-radius,-GetTCenter()->GetValue()-radius),
+ 				QPointF(GetSCenter()->GetValue()+radius,-GetTCenter()->GetValue()+radius));
+
+	double text_angle = GetTextAngle()*((180.0)/(mmcPI));
+
+	// create the radius dimension if necessary
+	// Only display the radius if it is not a free parameter
+	// If it is a free parameter, it is not really a constraint and should not be displayed as such
+	if( ! radius_->IsFree())
+	{
+		painter->setPen(radius_properties.GetPen(option->levelOfDetail));
+		painter->setBrush(radius_properties.GetBrush());
+
+		QPolygonF radius_arrow = GetArrowPolygon(s_center_->GetValue(),-t_center_->GetValue(),s_center_->GetValue()+radius_->GetValue()*cos(GetTextAngle()),
+							   -(t_center_->GetValue()+radius_->GetValue()*sin(GetTextAngle())), 15.0/option->levelOfDetail,12.0/option->levelOfDetail);
+		painter->drawPolygon(radius_arrow);
+
+		// draw a line from the arc center point to the text location in case the text is outside of the arc
+		painter->drawLine(QPointF(s_center_->GetValue(),-t_center_->GetValue()),
+					      QPointF(s_center_->GetValue()+GetTextRadius()*cos(GetTextAngle()),-(t_center_->GetValue()+GetTextRadius()*sin(GetTextAngle()))));
+
+		// create the line edit widget graphics item
+		if(radius_widget_ == 0)
+		{
+			// @fixme need to make sure the following dyname_cast won't create a pointer that is need used even if this shared_ptr class is freed from memory
+			radius_widget_ = new QtCircle2DWidget(shared_from_this(),dynamic_cast<QGraphicsItem*>(const_cast<QtCircle2D*>(this)));
+		}
+		radius_widget_->UpdateGeometry(option->levelOfDetail);
+	}
+
+	painter->setPen(current_properties.GetPen(option->levelOfDetail));
+	painter->setBrush(current_properties.GetBrush());
+
+	// paint the actual arc
+	QPainterPath arc_selection_path;
+	painter->drawPath(GetArcAndSelectionPath(GetSCenter()->GetValue(), -GetTCenter()->GetValue(), radius, 0.0*(mmcPI/180.0), 360.0*(mmcPI/180.0), arc_selection_path, option->levelOfDetail));
+	current_shape_ = arc_selection_path;
+}
+
+void QtCircle2D::mouseMoveEvent ( QGraphicsSceneMouseEvent * event )
+{
+	if(event->buttons() & Qt::LeftButton)
+	{		
+        pending_db_save_ = true;
+        
+		// move the point to the new global position
+		SetSTTextLocation(event->scenePos().x(),-event->scenePos().y(), false /*update_db*/);
+
+		// force a update of the display so that the drag event is seen interactively
+		scene()->update();
+
+		//@fixme After drag operation is finished, need to trigger QtSketch's modelChanged() slot
+
+	} else {
+		// not handling this event, let the base class do its thing
+		QGraphicsItem::mouseMoveEvent(event);
+	}
+}
+
+void QtCircle2D::mouseReleaseEvent ( QGraphicsSceneMouseEvent * event )
+{
+    if (event->button() & Qt::LeftButton && pending_db_save_) 
+    {
+        // if there is a pending db save, do the save now (this happens at the end of a drag event)
+        SetTextLocation(GetTextRadius(),GetTextAngle());
+
+        pending_db_save_ = false;
+    }
+
+    // let the base class do it's thing
+    QGraphicsItem::mouseReleaseEvent(event);
+}
+
+
+
+QtCircle2DWidget::QtCircle2DWidget(QtCircle2DPointer arc_primitive, QGraphicsItem *parent) :
+arc_primitive_(arc_primitive), QGraphicsProxyWidget(parent)
+{
+	//setFlags(ItemIgnoresTransformations);
+
+	// create widget
+	radius_line_edit_ = new QLineEdit;
+	radius_line_edit_->setStyleSheet(LineEditStyleSheet);
+	radius_line_edit_->setValidator(new QDoubleValidator(this));
+	radius_line_edit_->setAlignment(Qt::AlignCenter);
+	radius_line_edit_->setText(QString("%1").arg(arc_primitive_->GetRadiusValue()));
+	textChanged();
+	//radius_line_edit_->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Fixed);
+	radius_line_edit_->resize(radius_line_edit_->minimumSizeHint());
+	connect(radius_line_edit_, SIGNAL(textChanged(const QString &)), this, SLOT(textChanged()));
+	connect(radius_line_edit_, SIGNAL(returnPressed()), this, SLOT(applyChanges()));
+
+	// package widget
+	setWidget(radius_line_edit_);
+}
+
+
+
+// apply the changes if valid values have been entered
+void QtCircle2DWidget::applyChanges()
+{
+	if(radius_line_edit_->hasAcceptableInput())
+	{
+		arc_primitive_->SetRadiusValue(radius_line_edit_->text().toDouble());
+		clearFocus();
+		emit modelChanged();
+	}
+}
+
+
+void QtCircle2DWidget::textChanged()
+{
+	bool acceptable_input;
+
+	acceptable_input = radius_line_edit_->hasAcceptableInput();
+
+	// resize the dialog to automaticall fit all of the text displayed
+	QFontMetrics fm(font());
+	radius_line_edit_->setFixedWidth(fm.width(radius_line_edit_->text() + "  "));
+}
+
+bool QtCircle2DWidget::event(QEvent *event)
+{
+	if(event->type() == QEvent::FocusOut)
+	{
+		radius_line_edit_->setText(QString("%1").arg(arc_primitive_->GetRadiusValue()));
+		textChanged();
+	}
+	
+	return QGraphicsProxyWidget::event(event);
+}
+
+void QtCircle2DWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget * widget)
+{
+
+	QGraphicsProxyWidget::paint(painter, option,widget);	
+}
+
+void QtCircle2DWidget::UpdateGeometry(double scale)
+{
+	double text_s;
+	double text_t;
+
+	text_s = arc_primitive_->GetSCenterValue() + arc_primitive_->GetTextRadius()*cos(arc_primitive_->GetTextAngle());
+	text_t = arc_primitive_->GetTCenterValue() + arc_primitive_->GetTextRadius()*sin(arc_primitive_->GetTextAngle());
+
+	QTransform transform;
+	transform.translate(text_s,-text_t);
+	transform.scale(1.0/scale, 1.0/scale);
+	
+	transform.translate(-radius_line_edit_->width()*0.5,-radius_line_edit_->height()*0.5);
+
+	setTransform(transform);
+}
+
+

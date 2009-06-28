@@ -98,6 +98,24 @@ QtArc2DPointer QtSketch::AddArc2D (double s_center, double t_center, double thet
 	return new_arc;
 }
 
+QtCircle2DPointer QtSketch::AddCircle2D (double s_center, double t_center, double radius, bool s_center_free, bool t_center_free, bool radius_free)
+{
+    QtCircle2DPointer new_circle(new QtCircle2D(0,s_center, t_center, radius, GetSketchPlane(),s_center_free, t_center_free, radius_free));
+    AddPrimitive(new_circle);
+
+    Point2DPointer center_point = new_circle->GetCenterPoint();
+
+    QtPoint2DPointer qt_center_point(new QtPoint2D(0,center_point->GetSDOF(), center_point->GetTDOF(), GetSketchPlane()));
+
+    // need to explicitly make the center point dependent on the circle primitive so that if the circle primitive is ever deleted from the scene, the primitives will be deleted also
+    qt_center_point->AddPrimitive(new_circle);
+
+    AddPrimitive(qt_center_point);
+
+    return new_circle;
+}
+
+
 QtArc2DPointer QtSketch::AddArc2D (double s1, double t1, double s2, double t2, double s3, double t3, bool s_center_free, bool t_center_free, bool theta_1_free, bool theta_2_free, bool radius_free)
 {
 	bool success = true;

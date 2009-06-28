@@ -23,6 +23,7 @@
 #include "QtLine.h"
 #include "QtLine2D.h"
 #include "QtArc2D.h"
+#include "QtCircle2D.h"
 #include "QtParallelLine2D.h"
 #include "QtHoriVertLine2D.h"
 #include "QtDistancePoint2D.h"

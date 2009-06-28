@@ -44,6 +44,7 @@ class QtSketch : public Sketch
 		QtPoint2DPointer AddPoint2D ( double s, double t, bool s_free, bool t_free);
 		QtArc2DPointer AddArc2D (double s_center, double t_center, double theta_1, double theta_2, double radius, bool s_center_free, bool t_center_free, bool theta_1_free, bool theta_2_free, bool radius_free);
 		QtArc2DPointer AddArc2D (double s1, double t1, double s2, double t2, double s3, double t3, bool s_center_free, bool t_center_free, bool theta_1_free, bool theta_2_free, bool radius_free);
+        QtCircle2DPointer AddCircle2D (double s_center, double t_center, double radius, bool s_center_free, bool t_center_free, bool radius_free);
 		QtLine2DPointer AddLine2D (const Point2DPointer point1, const Point2DPointer point2);
 		QtDistancePoint2DPointer AddDistancePoint2D(const Point2DPointer point1, const Point2DPointer point2, double distance);
 		QtDistancePoint2DPointer AddDistancePoint2D(const Point2DPointer point1, const Point2DPointer point2);

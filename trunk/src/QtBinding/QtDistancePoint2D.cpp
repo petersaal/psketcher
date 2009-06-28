@@ -230,17 +230,13 @@ void QtDistancePoint2DWidget::applyChanges()
 	{
 		distance_constraint_->SetValue(distance_line_edit_->text().toDouble());
 		clearFocus();
-		emit modelChanged();
+		emit modelChanged(tr("Distance constraint changed"));
 	}
 }
 
 
 void QtDistancePoint2DWidget::textChanged()
 {
-	bool acceptable_input;
-
-	acceptable_input = distance_line_edit_->hasAcceptableInput();
-
 	// resize the dialog to automaticall fit all of the text displayed
 	QFontMetrics fm(font());
 	distance_line_edit_->setFixedWidth(fm.width(distance_line_edit_->text() + "  "));
