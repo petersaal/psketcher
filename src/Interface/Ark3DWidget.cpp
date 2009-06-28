@@ -483,7 +483,6 @@ void Ark3DWidget::keyReleaseEvent ( QKeyEvent * event )
 		}
 
 		emit sketchActionFinished();
-
 	} else {
 		// not handling the event, call the base class implementation
 		QGraphicsView::keyReleaseEvent(event);

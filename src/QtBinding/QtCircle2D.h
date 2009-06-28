@@ -14,8 +14,8 @@
 **
 ****************************************************************************/
 
-#ifndef QtDistancePoint2DH
-#define QtDistancePoint2DH
+#ifndef QtCircle2DH
+#define QtCircle2DH
 
 #include <boost/enable_shared_from_this.hpp>
 
@@ -23,14 +23,18 @@
 #include "QtPrimitiveBase.h"
 
 class QLineEdit;
-class QtDistancePoint2DWidget;
+class QtCircle2DWidget;
 
-class QtDistancePoint2D : public QtPrimitiveBase, public DistancePoint2D, public boost::enable_shared_from_this<QtDistancePoint2D>
+// line class
+class QtCircle2D : public QtPrimitiveBase, public Circle2D, public boost::enable_shared_from_this<QtCircle2D>
 {
 	public:
-		QtDistancePoint2D (QGraphicsItem * parent, unsigned id, Ark3DModel &ark3d_model);
-		QtDistancePoint2D (QGraphicsItem * parent, const Point2DPointer point1, const Point2DPointer point2, 
-						   double distance);
+		QtCircle2D (QGraphicsItem * parent, double s_center, double t_center, double radius, 
+			      SketchPlanePointer sketch_plane, bool s_center_free = false, bool t_center_free = false, bool radius_free = false);
+		QtCircle2D (QGraphicsItem * parent, double s1, double t1, double s2, double t2, double s3, double t3,
+			      SketchPlanePointer sketch_plane, bool s_center_free = false, bool t_center_free = false, bool radius_free = false);
+		QtCircle2D (QGraphicsItem * parent,DOFPointer s_center, DOFPointer t_center, DOFPointer radius, SketchPlanePointer sketch_plane);
+		QtCircle2D (QGraphicsItem * parent, unsigned id, Ark3DModel &ark3d_model); // Construct from database
 
 		void Display() {return QtPrimitiveBase::Display();}
 		bool IsSelected() {return QtPrimitiveBase::IsSelected();}
@@ -47,20 +51,20 @@ class QtDistancePoint2D : public QtPrimitiveBase, public DistancePoint2D, public
 
 	private:
         bool pending_db_save_;
-		QtDistancePoint2DWidget *distance_widget_;
+		QtCircle2DWidget *radius_widget_;
 		QPainterPath current_shape_;
 
 };
-typedef boost::shared_ptr<QtDistancePoint2D> QtDistancePoint2DPointer;
+typedef boost::shared_ptr<QtCircle2D> QtCircle2DPointer;
 
 
 // class defining the line edit graphics item used by QtDistancePoint2D
-class QtDistancePoint2DWidget : public QGraphicsProxyWidget
+class QtCircle2DWidget : public QGraphicsProxyWidget
 {
 	Q_OBJECT
 
 	public:
-		QtDistancePoint2DWidget(QtDistancePoint2DPointer distance_constraint, QGraphicsItem *parent = 0);
+		QtCircle2DWidget(QtCircle2DPointer arc_primitive, QGraphicsItem *parent = 0);
 		virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget * widget);
 		virtual bool event(QEvent *event);
 
@@ -68,7 +72,7 @@ class QtDistancePoint2DWidget : public QGraphicsProxyWidget
 
 
 	signals:
-		void modelChanged(QString description);  // emitted when changes are applied
+		void modelChanged();  // emitted when changes are applied
 
 	private slots:
 		void textChanged();
@@ -78,10 +82,9 @@ class QtDistancePoint2DWidget : public QGraphicsProxyWidget
 		// methods
 
 		// Parameters
-		QtDistancePoint2DPointer distance_constraint_; 
+		QtCircle2DPointer arc_primitive_; 
 
-		QLineEdit *distance_line_edit_;
+		QLineEdit *radius_line_edit_;
 };
 
-
-#endif //QtDistancePoint2DH
+#endif //QtCircle2DH

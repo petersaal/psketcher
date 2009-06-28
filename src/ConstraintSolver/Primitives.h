@@ -39,6 +39,7 @@
 #include "TangentEdge2D.h"
 #include "AngleLine2D.h"
 #include "Arc2D.h"
+#include "Circle2D.h"
 #include "EdgeLoop2D.h"
 
 #endif //PrimitivesH

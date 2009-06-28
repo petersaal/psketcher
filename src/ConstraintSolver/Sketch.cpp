@@ -122,6 +122,16 @@ Arc2DPointer Sketch::AddArc2D (double s_center, double t_center, double theta_1,
 	return new_arc;
 }
 
+Circle2DPointer Sketch::AddCircle2D (double s_center, double t_center, double radius, bool s_center_free, bool t_center_free, bool radius_free)
+{
+    Circle2DPointer new_circle(new Circle2D(s_center, t_center, radius, sketch_plane_, s_center_free, t_center_free, radius_free));
+    AddPrimitive(new_circle);
+
+    AddPrimitive(new_circle->GetCenterPoint());
+
+    return new_circle;
+}
+
 Arc2DPointer Sketch::AddArc2D (double s1, double t1, double s2, double t2, double s3, double t3, bool s_center_free, bool t_center_free, bool theta_1_free, bool theta_2_free, bool radius_free)
 {
 	bool success = true;
