@@ -82,7 +82,7 @@ class QtCircle2DWidget : public QGraphicsProxyWidget
 		// methods
 
 		// Parameters
-		QtCircle2DPointer arc_primitive_; 
+		QtCircle2DPointer circle_primitive_; 
 
 		QLineEdit *radius_line_edit_;
 };

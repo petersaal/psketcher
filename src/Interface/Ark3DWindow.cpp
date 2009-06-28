@@ -151,7 +151,7 @@ void Ark3DWindow::createActions()
 
     makeCircleAction = new QAction(tr("Circle"), sketchActionGroup);
     makeCircleAction->setCheckable(true);
-    makeCircleAction->setIcon(QIcon(":/icons/Circle.svg"));
+    makeCircleAction->setIcon(QIcon(":/icons/circle.svg"));
     makeCircleAction->setStatusTip(tr("Create Circle"));
     connect(makeCircleAction, SIGNAL(triggered()), view, SLOT(MakeCircle()));
 

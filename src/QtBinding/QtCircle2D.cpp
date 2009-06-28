@@ -146,7 +146,7 @@ void QtCircle2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 							   -(t_center_->GetValue()+radius_->GetValue()*sin(GetTextAngle())), 15.0/option->levelOfDetail,12.0/option->levelOfDetail);
 		painter->drawPolygon(radius_arrow);
 
-		// draw a line from the arc center point to the text location in case the text is outside of the arc
+		// draw a line from the circle center point to the text location in case the text is outside of the circle
 		painter->drawLine(QPointF(s_center_->GetValue(),-t_center_->GetValue()),
 					      QPointF(s_center_->GetValue()+GetTextRadius()*cos(GetTextAngle()),-(t_center_->GetValue()+GetTextRadius()*sin(GetTextAngle()))));
 
@@ -162,10 +162,10 @@ void QtCircle2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 	painter->setPen(current_properties.GetPen(option->levelOfDetail));
 	painter->setBrush(current_properties.GetBrush());
 
-	// paint the actual arc
-	QPainterPath arc_selection_path;
-	painter->drawPath(GetArcAndSelectionPath(GetSCenter()->GetValue(), -GetTCenter()->GetValue(), radius, 0.0*(mmcPI/180.0), 360.0*(mmcPI/180.0), arc_selection_path, option->levelOfDetail));
-	current_shape_ = arc_selection_path;
+	// paint the actual circl
+	QPainterPath circle_selection_path;
+	painter->drawPath(GetArcAndSelectionPath(GetSCenter()->GetValue(), -GetTCenter()->GetValue(), radius, 0.0*(mmcPI/180.0), 360.0*(mmcPI/180.0), circle_selection_path, option->levelOfDetail));
+	current_shape_ = circle_selection_path;
 }
 
 void QtCircle2D::mouseMoveEvent ( QGraphicsSceneMouseEvent * event )
@@ -204,17 +204,17 @@ void QtCircle2D::mouseReleaseEvent ( QGraphicsSceneMouseEvent * event )
 
 
 
-QtCircle2DWidget::QtCircle2DWidget(QtCircle2DPointer arc_primitive, QGraphicsItem *parent) :
-arc_primitive_(arc_primitive), QGraphicsProxyWidget(parent)
+QtCircle2DWidget::QtCircle2DWidget(QtCircle2DPointer circle_primitive, QGraphicsItem *parent) :
+circle_primitive_(circle_primitive), QGraphicsProxyWidget(parent)
 {
 	//setFlags(ItemIgnoresTransformations);
-
+    
 	// create widget
 	radius_line_edit_ = new QLineEdit;
 	radius_line_edit_->setStyleSheet(LineEditStyleSheet);
 	radius_line_edit_->setValidator(new QDoubleValidator(this));
 	radius_line_edit_->setAlignment(Qt::AlignCenter);
-	radius_line_edit_->setText(QString("%1").arg(arc_primitive_->GetRadiusValue()));
+	radius_line_edit_->setText(QString("%1").arg(circle_primitive_->GetRadiusValue()));
 	textChanged();
 	//radius_line_edit_->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Fixed);
 	radius_line_edit_->resize(radius_line_edit_->minimumSizeHint());
@@ -232,7 +232,7 @@ void QtCircle2DWidget::applyChanges()
 {
 	if(radius_line_edit_->hasAcceptableInput())
 	{
-		arc_primitive_->SetRadiusValue(radius_line_edit_->text().toDouble());
+		circle_primitive_->SetRadiusValue(radius_line_edit_->text().toDouble());
 		clearFocus();
 		emit modelChanged();
 	}
@@ -254,7 +254,7 @@ bool QtCircle2DWidget::event(QEvent *event)
 {
 	if(event->type() == QEvent::FocusOut)
 	{
-		radius_line_edit_->setText(QString("%1").arg(arc_primitive_->GetRadiusValue()));
+		radius_line_edit_->setText(QString("%1").arg(circle_primitive_->GetRadiusValue()));
 		textChanged();
 	}
 	
@@ -272,8 +272,8 @@ void QtCircle2DWidget::UpdateGeometry(double scale)
 	double text_s;
 	double text_t;
 
-	text_s = arc_primitive_->GetSCenterValue() + arc_primitive_->GetTextRadius()*cos(arc_primitive_->GetTextAngle());
-	text_t = arc_primitive_->GetTCenterValue() + arc_primitive_->GetTextRadius()*sin(arc_primitive_->GetTextAngle());
+	text_s = circle_primitive_->GetSCenterValue() + circle_primitive_->GetTextRadius()*cos(circle_primitive_->GetTextAngle());
+	text_t = circle_primitive_->GetTCenterValue() + circle_primitive_->GetTextRadius()*sin(circle_primitive_->GetTextAngle());
 
 	QTransform transform;
 	transform.translate(text_s,-text_t);

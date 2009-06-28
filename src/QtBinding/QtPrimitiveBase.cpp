@@ -93,6 +93,12 @@ QPolygonF QtPrimitiveBase::GetArrowPolygon(double x1, double y1, double x2, doub
 	end_point(0,0) = x2;
 	end_point(1,0) = y2;
 	
+    if(end_point.GetDistanceTo(start_point) == 0)
+    {
+        QPolygonF polygon;
+        return polygon;
+    }
+
 	mmcMatrix line_vector = (end_point - start_point).GetNormalized();
 	
 	mmcMatrix normal_vector(2,1);
@@ -317,6 +323,15 @@ QPolygonF QtPrimitiveBase::GetArrowPolygonAndSelectionPath(double x1, double y1,
 	end_point(0,0) = x2;
 	end_point(1,0) = y2;
 	
+    if(end_point.GetDistanceTo(start_point) == 0)
+    {
+        // degenerate case where the arrow has zero length
+        selection_path.addEllipse(QPointF(x1,y1),1.0*selection_diameter_/scale,1.0*selection_diameter_/scale);
+        
+        QPolygonF polygon;
+        return polygon;
+    }
+
 	mmcMatrix line_vector = (end_point - start_point).GetNormalized();
 	
 	mmcMatrix normal_vector(2,1);

@@ -663,6 +663,9 @@ PrimitiveBasePointer Ark3DModel::PrimitiveFactory(unsigned id, Ark3DModel &ark3d
 	else if(table_name == "line2d_list"){
 		result.reset(new Line2D(id,ark3d_model));
 	}
+    else if(table_name == "circle2d_list"){
+        result.reset(new Circle2D(id,ark3d_model));
+    }
 	else if(table_name == "point_list"){
 		result.reset(new Point(id,ark3d_model));
 	}
