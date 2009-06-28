@@ -38,7 +38,7 @@ class Circle2D : public Primitive2DBase
 
 		DOFPointer GetRadius()const {return radius_;}
 		double GetRadiusValue()const {return radius_->GetValue();}
-		void SetRadiusValue(double radius) {radius_->SetValue(radius);}
+		void SetRadiusValue(double radius, bool update_db=true) {radius_->SetValue(radius,update_db);}
 
 		void Get3DLocations(double & x_center, double & y_center, double & z_center) const;
 
