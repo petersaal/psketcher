@@ -129,7 +129,7 @@ Primitive2DBase(sketch_plane)
 // Construct from database
 Circle2D::Circle2D(unsigned id, Ark3DModel &ark3d_model)
 {
-	SetID(id);  
+	SetID(id);
 
     bool exists = SyncToDatabase(ark3d_model);
 	
