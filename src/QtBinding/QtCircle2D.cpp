@@ -73,8 +73,8 @@ pending_db_save_(false)
 
 
 QtCircle2D::QtCircle2D (QGraphicsItem * parent,DOFPointer s_center, DOFPointer t_center, DOFPointer radius, SketchPlanePointer sketch_plane):
-QtPrimitiveBase(parent),
 Circle2D(s_center,t_center,radius,sketch_plane),
+QtPrimitiveBase(parent),
 pending_db_save_(false)
 {
 	SetProperties(Primitive);
@@ -82,6 +82,8 @@ pending_db_save_(false)
 	SetMouseHoverProperties(HoverPrimitive);
 
 	setZValue(GetProperties().GetZ());
+
+    radius_widget_ = 0;
 
 	// Display the newly create ais_object
 	Display();

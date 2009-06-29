@@ -242,6 +242,8 @@ void Ark3DWidget::GenerateTestSketch()
 	Line2DPointer line3 = current_sketch_->AddLine2D(point3,arc1->GetPoint1());
 	Line2DPointer line4 = current_sketch_->AddLine2D(arc1->GetPoint2(),point1);
 
+    Circle2DPointer circle1 = current_sketch_->AddCircle2D(arc1->GetCenterPoint()->GetSDOF(),arc1->GetCenterPoint()->GetTDOF(),1.0,false);
+
 	// These 5 constraints will fully constrain the four free DOF's defined about
 	ConstraintEquationBasePointer constraint1 = current_sketch_->AddDistancePoint2D(point1,point2,6.0);
 	ConstraintEquationBasePointer constraint2 = current_sketch_->AddDistancePoint2D(point2,point3,12.0);

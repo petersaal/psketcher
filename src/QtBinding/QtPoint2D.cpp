@@ -58,8 +58,8 @@ pending_db_save_(false)
 }
 
 QtPoint2D::QtPoint2D (QGraphicsItem * parent, DOFPointer s, DOFPointer t, SketchPlanePointer sketch_plane) :
-QtPrimitiveBase(parent),
 Point2D(s,t,sketch_plane),
+QtPrimitiveBase(parent),
 pending_db_save_(false)
 {
 	SetProperties(PointPrimitive);

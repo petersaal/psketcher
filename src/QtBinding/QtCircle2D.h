@@ -26,7 +26,7 @@ class QLineEdit;
 class QtCircle2DWidget;
 
 // line class
-class QtCircle2D : public QtPrimitiveBase, public Circle2D, public boost::enable_shared_from_this<QtCircle2D>
+class QtCircle2D : public boost::enable_shared_from_this<QtCircle2D>, public QtPrimitiveBase, public Circle2D
 {
 	public:
 		QtCircle2D (QGraphicsItem * parent, double s_center, double t_center, double radius, 
@@ -64,7 +64,7 @@ class QtCircle2DWidget : public QGraphicsProxyWidget
 	Q_OBJECT
 
 	public:
-		QtCircle2DWidget(QtCircle2DPointer arc_primitive, QGraphicsItem *parent = 0);
+		QtCircle2DWidget(QtCircle2DPointer circle_primitive, QGraphicsItem *parent = 0);
 		virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget * widget);
 		virtual bool event(QEvent *event);
 
