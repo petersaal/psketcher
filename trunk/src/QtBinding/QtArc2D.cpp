@@ -137,6 +137,22 @@ void QtArc2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 	double angle2 = GetTheta2()->GetValue()*((180.0)/(mmcPI));
 	double text_angle = GetTextAngle()*((180.0)/(mmcPI));
 
+    // put angle1 and angle2 into a preditable form
+    // angle2 > angle1 and angle2 - angle1 < 360.0
+    if(angle1 > angle2)
+    {
+        double temp;
+        temp = angle1;
+        angle1 = angle2;
+        angle2 = temp;
+    }
+    if(angle2-angle1 >= 360.0)
+        angle2 = angle2 - floor((angle2-angle1)/(360.0))*360.0;
+    if(text_angle-angle1 >= 360.0)
+        text_angle = text_angle - floor((text_angle-angle1)/(360.0))*360.0;
+    else if(angle2 - text_angle >= 360.0)
+        text_angle = text_angle + floor((angle2-text_angle)/(360.0))*360.0;
+
 	// create the radius dimension if necessary
 	// Only display the radius if it is not a free parameter
 	// If it is a free parameter, it is not really a constraint and should not be displayed as such
