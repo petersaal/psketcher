@@ -1,0 +1,1 @@
+distance_point_2d(point1s,point1t,point2s,point2t,distance) = sqrt((point1s-point2s)**2-(point1t-point2t)**2) - distance
