@@ -2,7 +2,7 @@
 GiNaC functions in C++ for each constraint equation. The generated C++ files are 
 ConstraintFunctions.h and ConstraintFunctions.cpp. The existing C++ files are deleted. """
 
-from sympy import sympify
+from sympy import sympify,symbols
 from string import split,strip,rstrip
 
 class ConstraintEquation:
@@ -16,25 +16,25 @@ class ConstraintEquation:
         (lhs,rhs) = split(line,"=")
         (function_name,parameter_list) = split(lhs,"(")
         self.function_name = strip(function_name)
-        parameter_list = rstrip(parameter_list,")")
+        parameter_list = rstrip(strip(parameter_list),")")
         self.parameter_list = [strip(parameter) for parameter in split(parameter_list,",")]
         
         self.parameter_dictionary = dict()
+        for parameter in self.parameter_list:
+            self.parameter_dictionary[parameter] = symbols(parameter,each_char=False)
         
         self.expression = sympify(strip(rhs),locals=self.parameter_dictionary)
         
-    def generate_header_lines(self):
-        lines = list()
-        
-        #add declaration for the constraint equation
-        lines.append("DECLARE_FUNCTION_"+len(self.parameter_list)+"P("+self.function_name+")")
-        
-        #add the declarations for the partials of the constraint equation
-        for index,parameter in enumerate(self.parameter_list):
-            lines.append("DECLARE_FUNCTION_"+len(self.parameter_list)+"P("+self.function_name+"_partial"+index+")")
-        
-        return lines
-        
-    def generate_source_lines(self):
-        pass
-
+if __name__ == "__main__":
+    input_file = open('constraint_equations.txt')
+    
+    constraint_equation_list = list()
+    
+    for line in input_file:
+        if "=" in line:
+            constraint_equation_list.append(ConstraintEquation(line))
+    
+    print constraint_equation_list[0].parameter_list
+    print [(key,value) for key,value in constraint_equation_list[0].parameter_dictionary.iteritems() if not key.startswith("__")] 
+    print constraint_equation_list[0].function_name
+    print constraint_equation_list[0].expression
