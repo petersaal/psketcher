@@ -1,0 +1,9 @@
+#include <ginac/ginac.h>
+
+%for equation in equations:
+DECLARE_FUNCTION_${len(equation.parameter_list)}P(${equation.function_name})
+%for index,parameter in enumerate(equation.parameter_list):
+DECLARE_FUNCTION_${len(equation.parameter_list)}P(${equation.function_name}_partial_${index})
+%endfor
+
+%endfor

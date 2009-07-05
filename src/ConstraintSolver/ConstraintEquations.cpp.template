@@ -1,0 +1,59 @@
+#include "ConstraintEquations.h"
+using namespace GiNaC;
+<%!
+from sympy import ccode
+%>
+
+%for equation in equations:
+REGISTER_FUNCTION(${equation.function_name},evalf_func(${equation.function_name}_evalf).derivative_func(${equation.function_name}_derivative));
+    %for index,parameter in enumerate(equation.parameter_list):
+REGISTER_FUNCTION(${equation.function_name}_partial_${index},evalf_func(${equation.function_name}_partial_${index}_evalf));
+    %endfor
+
+static ex ${equation.function_name}_evalf(${make_parameter_list(equation.parameter_list)})
+{
+    ex equation = ${ccode(equation.expression)};
+    return equation.evalf();
+}
+
+static ex ${equation.function_name}_derivative(${make_parameter_list(equation.parameter_list)}, unsigned diff_parm)
+{
+    ex result;
+    
+    switch(diff_parm){
+    %for index,parameter in enumerate(equation.parameter_list):
+        case ${index}:
+            result = ${equation.function_name}_partial_${index}(${make_bare_parameter_list(equation.parameter_list)});
+            break;
+    %endfor
+    }
+    
+    return result;
+}
+    
+    %for index,parameter in enumerate(equation.parameter_list):
+static ex ${equation.function_name}_partial_${index}_evalf(${make_parameter_list(equation.parameter_list)})
+{
+    ex equation = ${ccode(equation.expression.diff(parameter))};
+    return equation.evalf();
+}
+    %endfor
+    
+%endfor
+
+<%def name="make_parameter_list(parameter_list)">\
+% for index,parameter in enumerate(parameter_list):
+const ex & ${parameter}\
+        % if index < len(parameter_list)-1:
+, \
+        % endif
+    % endfor
+</%def>
+<%def name="make_bare_parameter_list(parameter_list)">\
+% for index,parameter in enumerate(parameter_list):
+${parameter}\
+        % if index < len(parameter_list)-1:
+, \
+        % endif
+    % endfor
+</%def>
