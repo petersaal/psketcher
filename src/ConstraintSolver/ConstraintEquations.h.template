@@ -2,8 +2,22 @@
 
 %for equation in equations:
 DECLARE_FUNCTION_${len(equation.parameter_list)}P(${equation.function_name})
-%for index,parameter in enumerate(equation.parameter_list):
+    %for index,parameter in enumerate(equation.parameter_list):
 DECLARE_FUNCTION_${len(equation.parameter_list)}P(${equation.function_name}_partial_${index})
+    %endfor
+
+static ex ${equation.function_name}_evalf(${make_parameter_list(equation.parameter_list)});
+static ex ${equation.function_name}_derivative(${make_parameter_list(equation.parameter_list)}, unsigned diff_parm);
+    %for index,parameter in enumerate(equation.parameter_list):
+static ex ${equation.function_name}_partial_${index}_evalf(${make_parameter_list(equation.parameter_list)});
+    % endfor
 %endfor
 
-%endfor
+<%def name="make_parameter_list(parameter_list)">\
+% for index,parameter in enumerate(parameter_list):
+const ex & ${parameter}\
+        % if index < len(parameter_list)-1:
+, \
+        % endif
+    % endfor
+</%def>
