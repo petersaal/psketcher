@@ -19,8 +19,6 @@
 #include "ConstraintEquationBase.h"
 #include "Ark3DModel.h"
 
-#include "ConstraintEquations.h"
-
 using namespace std;
 using namespace GiNaC;
 
