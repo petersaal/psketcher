@@ -3,7 +3,7 @@ LINK_DIRECTORIES ("../NumOptimization")
 
 
 # create the ark3d library
-ADD_LIBRARY (Ark3d STATIC ConstraintSolver.cpp Sketch.cpp DOF.cpp IndependentDOF.cpp DependentDOF.cpp PrimitiveBase.cpp Ark3DModel.cpp Point.cpp Vector.cpp SketchPlane.cpp Primitive2DBase.cpp Point2D.cpp Edge2DBase.cpp Line.cpp Line2D.cpp ConstraintEquationBase.cpp DistancePoint2D.cpp DistancePoint.cpp ParallelLine.cpp ParallelLine2D.cpp HoriVertLine2D.cpp TangentEdge2D.cpp AngleLine2D.cpp Arc2D.cpp Circle2D.cpp EdgeLoop2D.cpp DistancePointLine2D.cpp)
+ADD_LIBRARY (Ark3d STATIC ConstraintSolver.cpp Sketch.cpp DOF.cpp IndependentDOF.cpp DependentDOF.cpp PrimitiveBase.cpp Ark3DModel.cpp Point.cpp Vector.cpp SketchPlane.cpp Primitive2DBase.cpp Point2D.cpp Edge2DBase.cpp Line.cpp Line2D.cpp ConstraintEquationBase.cpp ConstraintEquations.cpp DistancePoint2D.cpp DistancePoint.cpp ParallelLine.cpp ParallelLine2D.cpp HoriVertLine2D.cpp TangentEdge2D.cpp AngleLine2D.cpp Arc2D.cpp Circle2D.cpp EdgeLoop2D.cpp DistancePointLine2D.cpp)
 
 # The following module is included so that the pkg_check_modules macro can be used below
 find_package(PkgConfig)
