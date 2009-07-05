@@ -1,0 +1,9 @@
+#include <ginac/ginac.h>
+
+DECLARE_FUNCTION_5P(distance_point_2d)
+DECLARE_FUNCTION_5P(distance_point_2d_partial_0)
+DECLARE_FUNCTION_5P(distance_point_2d_partial_1)
+DECLARE_FUNCTION_5P(distance_point_2d_partial_2)
+DECLARE_FUNCTION_5P(distance_point_2d_partial_3)
+DECLARE_FUNCTION_5P(distance_point_2d_partial_4)
+

@@ -2,8 +2,9 @@
 GiNaC functions in C++ for each constraint equation. The generated C++ files are 
 ConstraintFunctions.h and ConstraintFunctions.cpp. The existing C++ files are deleted. """
 
-from sympy import sympify,symbols
+from sympy import sympify,symbols,ccode
 from string import split,strip,rstrip
+from mako.template import Template
 
 class ConstraintEquation:
     def __init__(self,line):
@@ -33,8 +34,13 @@ if __name__ == "__main__":
     for line in input_file:
         if "=" in line:
             constraint_equation_list.append(ConstraintEquation(line))
-    
-    print constraint_equation_list[0].parameter_list
-    print [(key,value) for key,value in constraint_equation_list[0].parameter_dictionary.iteritems() if not key.startswith("__")] 
-    print constraint_equation_list[0].function_name
-    print constraint_equation_list[0].expression
+
+    header_template = Template(filename='ConstraintEquations.h.template')
+    header_file = open('ConstraintEquations.h','w')
+    header_file.writelines(header_template.render(equations=constraint_equation_list))
+    header_file.close()
+
+    source_template = Template(filename='ConstraintEquations.cpp.template')
+    source_file = open('ConstraintEquations.cpp','w')
+    source_file.writelines(source_template.render(equations=constraint_equation_list))
+    source_file.close()
