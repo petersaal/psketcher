@@ -54,12 +54,12 @@ if __name__ == "__main__":
         elif re.match(r'\S',line):  # warn the user if a line was skipped 
             print "Warning: The following line was ignored: \n" + line  
 
-    header_template = Template(filename='ConstraintEquations.h.template')
-    header_file = open('ConstraintEquations.h','w')
+    header_template = Template(filename='SolverFunctions.h.template')
+    header_file = open('SolverFunctions.h','w')
     header_file.writelines(header_template.render(equations=constraint_equation_list))
     header_file.close()
 
-    source_template = Template(filename='ConstraintEquations.cpp.template')
-    source_file = open('ConstraintEquations.cpp','w')
+    source_template = Template(filename='SolverFunctions.cpp.template')
+    source_file = open('SolverFunctions.cpp','w')
     source_file.writelines(source_template.render(equations=constraint_equation_list))
     source_file.close()
