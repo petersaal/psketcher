@@ -18,7 +18,7 @@
 #define ConstraintEquationBaseH
 
 #include "PrimitiveBase.h"
-#include "ConstraintEquations.h"
+#include "SolverFunctions.h"
 
 // constraint equation class
 class ConstraintEquationBase : virtual public PrimitiveBase

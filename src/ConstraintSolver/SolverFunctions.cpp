@@ -1,4 +1,4 @@
-#include "ConstraintEquations.h"
+#include "SolverFunctions.h"
 using namespace GiNaC;
 
 
@@ -263,6 +263,152 @@ static ex angle_line_2d_exterior_partial_7_evalf(const ex & line1_point1s, const
 static ex angle_line_2d_exterior_partial_8_evalf(const ex & line1_point1s, const ex & line1_point1t, const ex & line1_point2s, const ex & line1_point2t, const ex & line2_point1s, const ex & line2_point1t, const ex & line2_point2s, const ex & line2_point2t, const ex & angle)
 {
     ex equation = -sin(angle);
+    return equation.evalf();
+}
+    
+REGISTER_FUNCTION(tangent_edge_2d,evalf_func(tangent_edge_2d_evalf).derivative_func(tangent_edge_2d_derivative));
+REGISTER_FUNCTION(tangent_edge_2d_partial_0,evalf_func(tangent_edge_2d_partial_0_evalf));
+REGISTER_FUNCTION(tangent_edge_2d_partial_1,evalf_func(tangent_edge_2d_partial_1_evalf));
+REGISTER_FUNCTION(tangent_edge_2d_partial_2,evalf_func(tangent_edge_2d_partial_2_evalf));
+REGISTER_FUNCTION(tangent_edge_2d_partial_3,evalf_func(tangent_edge_2d_partial_3_evalf));
+
+static ex tangent_edge_2d_evalf(const ex & s1, const ex & t1, const ex & s2, const ex & t2)
+{
+    ex equation = -1 + pow((s1*s2 - t1*t2),2);
+    return equation.evalf();
+}
+
+static ex tangent_edge_2d_derivative(const ex & s1, const ex & t1, const ex & s2, const ex & t2, unsigned diff_parm)
+{
+    ex result;
+    
+    switch(diff_parm){
+        case 0:
+            result = tangent_edge_2d_partial_0(s1, t1, s2, t2);
+            break;
+        case 1:
+            result = tangent_edge_2d_partial_1(s1, t1, s2, t2);
+            break;
+        case 2:
+            result = tangent_edge_2d_partial_2(s1, t1, s2, t2);
+            break;
+        case 3:
+            result = tangent_edge_2d_partial_3(s1, t1, s2, t2);
+            break;
+    }
+    
+    return result;
+}
+    
+static ex tangent_edge_2d_partial_0_evalf(const ex & s1, const ex & t1, const ex & s2, const ex & t2)
+{
+    ex equation = 2*s2*(s1*s2 - t1*t2);
+    return equation.evalf();
+}
+static ex tangent_edge_2d_partial_1_evalf(const ex & s1, const ex & t1, const ex & s2, const ex & t2)
+{
+    ex equation = -2*t2*(s1*s2 - t1*t2);
+    return equation.evalf();
+}
+static ex tangent_edge_2d_partial_2_evalf(const ex & s1, const ex & t1, const ex & s2, const ex & t2)
+{
+    ex equation = 2*s1*(s1*s2 - t1*t2);
+    return equation.evalf();
+}
+static ex tangent_edge_2d_partial_3_evalf(const ex & s1, const ex & t1, const ex & s2, const ex & t2)
+{
+    ex equation = -2*t1*(s1*s2 - t1*t2);
+    return equation.evalf();
+}
+    
+REGISTER_FUNCTION(parallel_line_2d,evalf_func(parallel_line_2d_evalf).derivative_func(parallel_line_2d_derivative));
+REGISTER_FUNCTION(parallel_line_2d_partial_0,evalf_func(parallel_line_2d_partial_0_evalf));
+REGISTER_FUNCTION(parallel_line_2d_partial_1,evalf_func(parallel_line_2d_partial_1_evalf));
+REGISTER_FUNCTION(parallel_line_2d_partial_2,evalf_func(parallel_line_2d_partial_2_evalf));
+REGISTER_FUNCTION(parallel_line_2d_partial_3,evalf_func(parallel_line_2d_partial_3_evalf));
+REGISTER_FUNCTION(parallel_line_2d_partial_4,evalf_func(parallel_line_2d_partial_4_evalf));
+REGISTER_FUNCTION(parallel_line_2d_partial_5,evalf_func(parallel_line_2d_partial_5_evalf));
+REGISTER_FUNCTION(parallel_line_2d_partial_6,evalf_func(parallel_line_2d_partial_6_evalf));
+REGISTER_FUNCTION(parallel_line_2d_partial_7,evalf_func(parallel_line_2d_partial_7_evalf));
+
+static ex parallel_line_2d_evalf(const ex & line1_point1s, const ex & line1_point1t, const ex & line1_point2s, const ex & line1_point2t, const ex & line2_point1s, const ex & line2_point1t, const ex & line2_point2s, const ex & line2_point2t)
+{
+    ex equation = -1 + pow(((line1_point1s - line1_point2s)*(line2_point1s - line2_point2s) + (line1_point1t - line1_point2t)*(line2_point1t - line2_point2t)),2)/((pow((line1_point1s - line1_point2s),2) + pow((line1_point1t - line1_point2t),2))*(pow((line2_point1s - line2_point2s),2) + pow((line2_point1t - line2_point2t),2)));
+    return equation.evalf();
+}
+
+static ex parallel_line_2d_derivative(const ex & line1_point1s, const ex & line1_point1t, const ex & line1_point2s, const ex & line1_point2t, const ex & line2_point1s, const ex & line2_point1t, const ex & line2_point2s, const ex & line2_point2t, unsigned diff_parm)
+{
+    ex result;
+    
+    switch(diff_parm){
+        case 0:
+            result = parallel_line_2d_partial_0(line1_point1s, line1_point1t, line1_point2s, line1_point2t, line2_point1s, line2_point1t, line2_point2s, line2_point2t);
+            break;
+        case 1:
+            result = parallel_line_2d_partial_1(line1_point1s, line1_point1t, line1_point2s, line1_point2t, line2_point1s, line2_point1t, line2_point2s, line2_point2t);
+            break;
+        case 2:
+            result = parallel_line_2d_partial_2(line1_point1s, line1_point1t, line1_point2s, line1_point2t, line2_point1s, line2_point1t, line2_point2s, line2_point2t);
+            break;
+        case 3:
+            result = parallel_line_2d_partial_3(line1_point1s, line1_point1t, line1_point2s, line1_point2t, line2_point1s, line2_point1t, line2_point2s, line2_point2t);
+            break;
+        case 4:
+            result = parallel_line_2d_partial_4(line1_point1s, line1_point1t, line1_point2s, line1_point2t, line2_point1s, line2_point1t, line2_point2s, line2_point2t);
+            break;
+        case 5:
+            result = parallel_line_2d_partial_5(line1_point1s, line1_point1t, line1_point2s, line1_point2t, line2_point1s, line2_point1t, line2_point2s, line2_point2t);
+            break;
+        case 6:
+            result = parallel_line_2d_partial_6(line1_point1s, line1_point1t, line1_point2s, line1_point2t, line2_point1s, line2_point1t, line2_point2s, line2_point2t);
+            break;
+        case 7:
+            result = parallel_line_2d_partial_7(line1_point1s, line1_point1t, line1_point2s, line1_point2t, line2_point1s, line2_point1t, line2_point2s, line2_point2t);
+            break;
+    }
+    
+    return result;
+}
+    
+static ex parallel_line_2d_partial_0_evalf(const ex & line1_point1s, const ex & line1_point1t, const ex & line1_point2s, const ex & line1_point2t, const ex & line2_point1s, const ex & line2_point1t, const ex & line2_point2s, const ex & line2_point2t)
+{
+    ex equation = (-2*line2_point2s + 2*line2_point1s)*((line1_point1s - line1_point2s)*(line2_point1s - line2_point2s) + (line1_point1t - line1_point2t)*(line2_point1t - line2_point2t))/((pow((line1_point1s - line1_point2s),2) + pow((line1_point1t - line1_point2t),2))*(pow((line2_point1s - line2_point2s),2) + pow((line2_point1t - line2_point2t),2))) + pow(((line1_point1s - line1_point2s)*(line2_point1s - line2_point2s) + (line1_point1t - line1_point2t)*(line2_point1t - line2_point2t)),2)*(-2*line1_point1s + 2*line1_point2s)/(pow((pow((line1_point1s - line1_point2s),2) + pow((line1_point1t - line1_point2t),2)),2)*(pow((line2_point1s - line2_point2s),2) + pow((line2_point1t - line2_point2t),2)));
+    return equation.evalf();
+}
+static ex parallel_line_2d_partial_1_evalf(const ex & line1_point1s, const ex & line1_point1t, const ex & line1_point2s, const ex & line1_point2t, const ex & line2_point1s, const ex & line2_point1t, const ex & line2_point2s, const ex & line2_point2t)
+{
+    ex equation = (-2*line2_point2t + 2*line2_point1t)*((line1_point1s - line1_point2s)*(line2_point1s - line2_point2s) + (line1_point1t - line1_point2t)*(line2_point1t - line2_point2t))/((pow((line1_point1s - line1_point2s),2) + pow((line1_point1t - line1_point2t),2))*(pow((line2_point1s - line2_point2s),2) + pow((line2_point1t - line2_point2t),2))) + pow(((line1_point1s - line1_point2s)*(line2_point1s - line2_point2s) + (line1_point1t - line1_point2t)*(line2_point1t - line2_point2t)),2)*(-2*line1_point1t + 2*line1_point2t)/(pow((pow((line1_point1s - line1_point2s),2) + pow((line1_point1t - line1_point2t),2)),2)*(pow((line2_point1s - line2_point2s),2) + pow((line2_point1t - line2_point2t),2)));
+    return equation.evalf();
+}
+static ex parallel_line_2d_partial_2_evalf(const ex & line1_point1s, const ex & line1_point1t, const ex & line1_point2s, const ex & line1_point2t, const ex & line2_point1s, const ex & line2_point1t, const ex & line2_point2s, const ex & line2_point2t)
+{
+    ex equation = (-2*line2_point1s + 2*line2_point2s)*((line1_point1s - line1_point2s)*(line2_point1s - line2_point2s) + (line1_point1t - line1_point2t)*(line2_point1t - line2_point2t))/((pow((line1_point1s - line1_point2s),2) + pow((line1_point1t - line1_point2t),2))*(pow((line2_point1s - line2_point2s),2) + pow((line2_point1t - line2_point2t),2))) + pow(((line1_point1s - line1_point2s)*(line2_point1s - line2_point2s) + (line1_point1t - line1_point2t)*(line2_point1t - line2_point2t)),2)*(-2*line1_point2s + 2*line1_point1s)/(pow((pow((line1_point1s - line1_point2s),2) + pow((line1_point1t - line1_point2t),2)),2)*(pow((line2_point1s - line2_point2s),2) + pow((line2_point1t - line2_point2t),2)));
+    return equation.evalf();
+}
+static ex parallel_line_2d_partial_3_evalf(const ex & line1_point1s, const ex & line1_point1t, const ex & line1_point2s, const ex & line1_point2t, const ex & line2_point1s, const ex & line2_point1t, const ex & line2_point2s, const ex & line2_point2t)
+{
+    ex equation = (-2*line2_point1t + 2*line2_point2t)*((line1_point1s - line1_point2s)*(line2_point1s - line2_point2s) + (line1_point1t - line1_point2t)*(line2_point1t - line2_point2t))/((pow((line1_point1s - line1_point2s),2) + pow((line1_point1t - line1_point2t),2))*(pow((line2_point1s - line2_point2s),2) + pow((line2_point1t - line2_point2t),2))) + pow(((line1_point1s - line1_point2s)*(line2_point1s - line2_point2s) + (line1_point1t - line1_point2t)*(line2_point1t - line2_point2t)),2)*(-2*line1_point2t + 2*line1_point1t)/(pow((pow((line1_point1s - line1_point2s),2) + pow((line1_point1t - line1_point2t),2)),2)*(pow((line2_point1s - line2_point2s),2) + pow((line2_point1t - line2_point2t),2)));
+    return equation.evalf();
+}
+static ex parallel_line_2d_partial_4_evalf(const ex & line1_point1s, const ex & line1_point1t, const ex & line1_point2s, const ex & line1_point2t, const ex & line2_point1s, const ex & line2_point1t, const ex & line2_point2s, const ex & line2_point2t)
+{
+    ex equation = (-2*line1_point2s + 2*line1_point1s)*((line1_point1s - line1_point2s)*(line2_point1s - line2_point2s) + (line1_point1t - line1_point2t)*(line2_point1t - line2_point2t))/((pow((line1_point1s - line1_point2s),2) + pow((line1_point1t - line1_point2t),2))*(pow((line2_point1s - line2_point2s),2) + pow((line2_point1t - line2_point2t),2))) + pow(((line1_point1s - line1_point2s)*(line2_point1s - line2_point2s) + (line1_point1t - line1_point2t)*(line2_point1t - line2_point2t)),2)*(-2*line2_point1s + 2*line2_point2s)/((pow((line1_point1s - line1_point2s),2) + pow((line1_point1t - line1_point2t),2))*pow((pow((line2_point1s - line2_point2s),2) + pow((line2_point1t - line2_point2t),2)),2));
+    return equation.evalf();
+}
+static ex parallel_line_2d_partial_5_evalf(const ex & line1_point1s, const ex & line1_point1t, const ex & line1_point2s, const ex & line1_point2t, const ex & line2_point1s, const ex & line2_point1t, const ex & line2_point2s, const ex & line2_point2t)
+{
+    ex equation = (-2*line1_point2t + 2*line1_point1t)*((line1_point1s - line1_point2s)*(line2_point1s - line2_point2s) + (line1_point1t - line1_point2t)*(line2_point1t - line2_point2t))/((pow((line1_point1s - line1_point2s),2) + pow((line1_point1t - line1_point2t),2))*(pow((line2_point1s - line2_point2s),2) + pow((line2_point1t - line2_point2t),2))) + pow(((line1_point1s - line1_point2s)*(line2_point1s - line2_point2s) + (line1_point1t - line1_point2t)*(line2_point1t - line2_point2t)),2)*(-2*line2_point1t + 2*line2_point2t)/((pow((line1_point1s - line1_point2s),2) + pow((line1_point1t - line1_point2t),2))*pow((pow((line2_point1s - line2_point2s),2) + pow((line2_point1t - line2_point2t),2)),2));
+    return equation.evalf();
+}
+static ex parallel_line_2d_partial_6_evalf(const ex & line1_point1s, const ex & line1_point1t, const ex & line1_point2s, const ex & line1_point2t, const ex & line2_point1s, const ex & line2_point1t, const ex & line2_point2s, const ex & line2_point2t)
+{
+    ex equation = (-2*line1_point1s + 2*line1_point2s)*((line1_point1s - line1_point2s)*(line2_point1s - line2_point2s) + (line1_point1t - line1_point2t)*(line2_point1t - line2_point2t))/((pow((line1_point1s - line1_point2s),2) + pow((line1_point1t - line1_point2t),2))*(pow((line2_point1s - line2_point2s),2) + pow((line2_point1t - line2_point2t),2))) + pow(((line1_point1s - line1_point2s)*(line2_point1s - line2_point2s) + (line1_point1t - line1_point2t)*(line2_point1t - line2_point2t)),2)*(-2*line2_point2s + 2*line2_point1s)/((pow((line1_point1s - line1_point2s),2) + pow((line1_point1t - line1_point2t),2))*pow((pow((line2_point1s - line2_point2s),2) + pow((line2_point1t - line2_point2t),2)),2));
+    return equation.evalf();
+}
+static ex parallel_line_2d_partial_7_evalf(const ex & line1_point1s, const ex & line1_point1t, const ex & line1_point2s, const ex & line1_point2t, const ex & line2_point1s, const ex & line2_point1t, const ex & line2_point2s, const ex & line2_point2t)
+{
+    ex equation = (-2*line1_point1t + 2*line1_point2t)*((line1_point1s - line1_point2s)*(line2_point1s - line2_point2s) + (line1_point1t - line1_point2t)*(line2_point1t - line2_point2t))/((pow((line1_point1s - line1_point2s),2) + pow((line1_point1t - line1_point2t),2))*(pow((line2_point1s - line2_point2s),2) + pow((line2_point1t - line2_point2t),2))) + pow(((line1_point1s - line1_point2s)*(line2_point1s - line2_point2s) + (line1_point1t - line1_point2t)*(line2_point1t - line2_point2t)),2)*(-2*line2_point2t + 2*line2_point1t)/((pow((line1_point1s - line1_point2s),2) + pow((line1_point1t - line1_point2t),2))*pow((pow((line2_point1s - line2_point2s),2) + pow((line2_point1t - line2_point2t),2)),2));
     return equation.evalf();
 }
     
