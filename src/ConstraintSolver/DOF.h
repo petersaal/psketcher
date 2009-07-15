@@ -21,6 +21,8 @@
 #include <ginac/ginac.h>
 #include <sqlite3.h>
 
+class SolverFunctionsBase;
+typedef boost::shared_ptr<SolverFunctionsBase> SolverFunctionsBasePointer;
 class Ark3DModel;
 
 // Abstract DOF base class
@@ -41,6 +43,9 @@ class DOF
 		unsigned GetID()const {return id_number_;}
 		void SetID(int id_number) {id_number_ = id_number;}
 		static void SetNextID(int next_id) {next_id_number_ = next_id;}
+
+        // Only used for DependentDOF's
+        SolverFunctionsBasePointer GetSolverFunction() const {return solver_function_;} 
 
 		const GiNaC::symbol & GetVariable()const {return variable_ ;}
 		bool IsFree()const {return free_;}
@@ -77,6 +82,9 @@ class DOF
 
 		// each instance of this class has a unique ID number
 		unsigned id_number_;
+
+        // Only used for DependentDOF's
+        SolverFunctionsBasePointer solver_function_;
 };
 typedef boost::shared_ptr<DOF> DOFPointer;
 
