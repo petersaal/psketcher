@@ -20,8 +20,8 @@ class SolverFunctionsBase
         void DefineInputMap(const std::map<unsigned,unsigned> &input_dof_map);
 
         // pure abstract methods
-        virtual double GetValueSelf(const mmcMatrix &params) = 0;
-        virtual mmcMatrix GetGradientSelf(const mmcMatrix &params) = 0;
+        virtual double GetValueSelf(const mmcMatrix &params) const = 0;
+        virtual mmcMatrix GetGradientSelf(const mmcMatrix &params) const = 0;
 
     private:
         std::vector<DOFPointer> dof_list_;
