@@ -54,12 +54,12 @@ point2_(point2)
 	// create the expression that defines the constraint and add it the the constraint list
 	boost::shared_ptr<ex> new_constraint(new ex);
 	
-    /*
+    
 	*new_constraint = sqrt( pow(point1->GetSDOF()->GetVariable() - point2->GetSDOF()->GetVariable(),2) +
 													pow(point1->GetTDOF()->GetVariable() - point2->GetTDOF()->GetVariable(),2))
 										- distance_->GetVariable();
-    */
-    *new_constraint = distance_point_2d(point1->GetSDOF()->GetVariable(), point1->GetTDOF()->GetVariable(), point2->GetSDOF()->GetVariable(), point2->GetTDOF()->GetVariable(), distance_->GetVariable());
+    
+    //*new_constraint = distance_point_2d(point1->GetSDOF()->GetVariable(), point1->GetTDOF()->GetVariable(), point2->GetSDOF()->GetVariable(), point2->GetTDOF()->GetVariable(), distance_->GetVariable());
 
 	// cout << *new_constraint << endl;
 

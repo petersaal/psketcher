@@ -65,8 +65,8 @@ point_num_2_(point_num_2)
 	// Calculate the dot product between the two tangent vectors
 	// this expression will be zero when the lines are parallel
 	// Ideally, I would use abs() instead of pow() but abs is not differentiable. 
-	//*new_constraint = pow((s_1*s_2 + t_1*t_2),2)-1;
-    *new_constraint = tangent_edge_2d(s_1,t_1,s_2,t_2);
+	*new_constraint = pow((s_1*s_2 + t_1*t_2),2)-1;
+    //*new_constraint = tangent_edge_2d(s_1,t_1,s_2,t_2);
 
 	// populate the lists
 	constraints_.push_back(new_constraint);

@@ -18,8 +18,11 @@ class SolverFunctionsBase
         double GetValue(const mmcMatrix &x) const;
         mmcMatrix GetGradient(const mmcMatrix &x) const;
         void DefineInputMap(const std::map<unsigned,unsigned> &input_dof_map);
+        DOFPointer GetDOF(unsigned index) const {return dof_list_[index];}
+        unsigned GetNumDOFs() const {return dof_list_.size();}
 
         // pure abstract methods
+        virtual double GetValue() const = 0;
         virtual double GetValueSelf(const mmcMatrix &params) const = 0;
         virtual mmcMatrix GetGradientSelf(const mmcMatrix &params) const = 0;
 
@@ -29,8 +32,5 @@ class SolverFunctionsBase
 
 };
 typedef boost::shared_ptr<SolverFunctionsBase> SolverFunctionsBasePointer;
-
-
-
 
 #endif //SolverFunctionsBaseH
