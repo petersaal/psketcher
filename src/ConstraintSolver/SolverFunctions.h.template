@@ -1,23 +1,28 @@
-#include <ginac/ginac.h>
+#ifndef SolverFunctionsH
+#define SolverFunctionsH
+
+#include "SolverFunctionsBase.h"
 
 %for equation in equations:
-DECLARE_FUNCTION_${len(equation.parameter_list)}P(${equation.function_name})
-    %for index,parameter in enumerate(equation.parameter_list):
-DECLARE_FUNCTION_${len(equation.parameter_list)}P(${equation.function_name}_partial_${index})
-    %endfor
 
-static GiNaC::ex ${equation.function_name}_evalf(${make_parameter_list(equation.parameter_list)});
-static GiNaC::ex ${equation.function_name}_derivative(${make_parameter_list(equation.parameter_list)}, unsigned diff_parm);
-    %for index,parameter in enumerate(equation.parameter_list):
-static GiNaC::ex ${equation.function_name}_partial_${index}_evalf(${make_parameter_list(equation.parameter_list)});
-    % endfor
+class ${equation.function_name}: public SolverFunctionsBase
+{
+    public:
+         ${equation.function_name}(${make_parameter_list(equation.parameter_list)});
+
+        double GetValue() const;
+        double GetValueSelf(const mmcMatrix &params) const;
+        mmcMatrix GetGradientSelf(const mmcMatrix &params) const;
+};
 %endfor
 
 <%def name="make_parameter_list(parameter_list)">\
 % for index,parameter in enumerate(parameter_list):
-const GiNaC::ex & ${parameter}\
+DOFPointer ${parameter}\
         % if index < len(parameter_list)-1:
 , \
         % endif
     % endfor
 </%def>
+
+#endif //SolverFunctionsH
