@@ -45,6 +45,11 @@ class TangentEdge2D : public ConstraintEquationBase
 
 		EdgePointNumber point_num_1_;
 		EdgePointNumber point_num_2_;
+
+        DOFPointer s_1_;
+        DOFPointer t_1_;
+        DOFPointer s_2_;
+        DOFPointer t_2_;
 };
 typedef boost::shared_ptr<TangentEdge2D> TangentEdge2DPointer;
 

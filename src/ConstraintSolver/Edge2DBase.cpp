@@ -17,7 +17,6 @@
 #include "Edge2DBase.h"
 
 using namespace std;
-using namespace GiNaC;
 
 Edge2DBase::Edge2DBase(SketchPlanePointer sketch_plane):
 Primitive2DBase(sketch_plane)

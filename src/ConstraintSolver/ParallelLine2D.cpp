@@ -21,10 +21,9 @@
 
 #include "Ark3DModel.h"
 
-const std::string SQL_parallel_line2d_database_schema = "CREATE TABLE parallel_line2d_list (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, constraint_table_name TEXT NOT NULL, line1 INTEGER NOT NULL, line2 INTEGER NOT NULL, marker_position_dof INTEGER NOT NULL);";
+const std::string SQL_parallel_line2d_database_schema = "CREATE TABLE parallel_line2d_list (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, line1 INTEGER NOT NULL, line2 INTEGER NOT NULL, marker_position_dof INTEGER NOT NULL, weight FLOAT NOT NULL);";
 
 using namespace std;
-using namespace GiNaC;
 
 // Create a parallelism constrain between two lines
 ParallelLine2D::ParallelLine2D(const Line2DPointer line1, const Line2DPointer line2):
@@ -47,28 +46,10 @@ marker_position_(new IndependentDOF(0.5,false))   // by default place marker at 
 
 	AddDOF(marker_position_);
 
-	// create the expression that defines the parallel constraint and add it the the constraint list
-	boost::shared_ptr<ex> new_constraint(new ex);
-	
-    
-	ex line1_ds = line1->GetS1()->GetVariable() - line1->GetS2()->GetVariable();
-	ex line1_dt = line1->GetT1()->GetVariable() - line1->GetT2()->GetVariable();
-	ex line1_length = sqrt(pow(line1_ds,2)+pow(line1_dt,2));
+    // Define constraint function
+    solver_function_.reset(new  parallel_line_2d(line1->GetS1(),line1->GetT1(),line1->GetS2(),line1->GetT2(),line2->GetS1(),line2->GetT1(),line2->GetS2(),line2->GetT2()));
 
-	ex line2_ds = line2->GetS1()->GetVariable() - line2->GetS2()->GetVariable();
-	ex line2_dt = line2->GetT1()->GetVariable() - line2->GetT2()->GetVariable();
-	ex line2_length = sqrt(pow(line2_ds,2)+pow(line2_dt,2));
-    
-
-	// Calculate the dot product normalized by the vector lengths and subtract one
-	// this expression will be zero when the lines are parallel
-	// Ideally, I would use abs() instead of pow() but abs is not differentiable. 
-	*new_constraint = pow((1/(line1_length*line2_length))*(line1_ds*line2_ds + line1_dt*line2_dt),2)-1;
-
-    //*new_constraint = parallel_line_2d(line1->GetS1()->GetVariable(),line1->GetT1()->GetVariable(),line1->GetS2()->GetVariable(),line1->GetT2()->GetVariable(),line2->GetS1()->GetVariable(),line2->GetT1()->GetVariable(),line2->GetS2()->GetVariable(),line2->GetT2()->GetVariable());
-
-	constraints_.push_back(new_constraint);
-	weight_list_.push_back(1.0);
+	weight_ = 1.0;
 }
 
 // Construct from database
@@ -103,10 +84,6 @@ void ParallelLine2D::DatabaseAddRemove(bool add_to_database) // Utility method u
 	dof_list_table_name << "dof_table_" << GetID();
 	stringstream primitive_list_table_name;
 	primitive_list_table_name << "primitive_table_" << GetID();
-	stringstream constraint_list_table_name;
-	constraint_list_table_name << "constraint_table_" << GetID();
-
-	//"CREATE TABLE parallel_line2d_list (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, constraint_table_name TEXT NOT NULL, line1 INTEGER NOT NULL, line2 INTEGER NOT NULL, marker_position_dof INTEGER NOT NULL);";
 
 	// First, create the sql statements to undo and redo this operation
 	stringstream temp_stream;
@@ -115,9 +92,9 @@ void ParallelLine2D::DatabaseAddRemove(bool add_to_database) // Utility method u
                 << "INSERT INTO parallel_line2d_list VALUES(" 
                 << GetID() << ",'" << dof_list_table_name.str() << "','" 
 				<< primitive_list_table_name.str() 
-				<< "','" << constraint_list_table_name.str()
 				<< "'," << line1_->GetID() << "," << line2_->GetID()
-				<< "," << marker_position_->GetID() << "); "
+				<< "," << marker_position_->GetID() 
+                << "," << weight_ << "); "
                 << "INSERT INTO constraint_equation_list VALUES("
                 << GetID() << ",'parallel_line2d_list'); "
                 << "COMMIT; ";
@@ -183,9 +160,8 @@ void ParallelLine2D::DatabaseAddRemove(bool add_to_database) // Utility method u
 
 	sqlite3_free(sql_undo_redo);
 
-	// Now use the methods provided by PrimitiveBase and ConstraintEquationBase to create the tables listing the DOF's, the other Primitives that this primitive depends on, and the constraint equations
+	// Now use the method provided by PrimitiveBase to create the tables listing the DOF's and the other Primitives that this primitive depends on.
 	DatabaseAddDeleteLists(add_to_database,dof_list_table_name.str(),primitive_list_table_name.str());
-	DatabaseAddDeleteConstraintList(add_to_database, constraint_list_table_name.str());
 }
 
 
@@ -211,17 +187,20 @@ bool ParallelLine2D::SyncToDatabase(Ark3DModel &ark3d_model)
 
 	rc = sqlite3_step(statement);
 
-	stringstream dof_table_name, primitive_table_name, constraint_table_name;
+	stringstream dof_table_name, primitive_table_name;
 
 	if(rc == SQLITE_ROW) {
 		// row exists, store the values to initialize this object
 		
 		dof_table_name << sqlite3_column_text(statement,1);
 		primitive_table_name << sqlite3_column_text(statement,2);
-		constraint_table_name << sqlite3_column_text(statement,3);
-		line1_ = ark3d_model.FetchPrimitive<Line2D>(sqlite3_column_int(statement,4));
-		line2_ = ark3d_model.FetchPrimitive<Line2D>(sqlite3_column_int(statement,5));
-		marker_position_ = ark3d_model.FetchDOF(sqlite3_column_int(statement,6));
+		line1_ = ark3d_model.FetchPrimitive<Line2D>(sqlite3_column_int(statement,3));
+		line2_ = ark3d_model.FetchPrimitive<Line2D>(sqlite3_column_int(statement,4));
+		marker_position_ = ark3d_model.FetchDOF(sqlite3_column_int(statement,5));
+        weight_ = sqlite3_column_double(statement,6);
+
+        // define constraint function
+        solver_function_.reset(new  parallel_line_2d(line1_->GetS1(),line1_->GetT1(),line1_->GetS2(),line1_->GetT2(),line2_->GetS1(),line2_->GetT1(),line2_->GetS2(),line2_->GetT2()));
 
 	} else {
 		// the requested row does not exist in the database
@@ -247,7 +226,6 @@ bool ParallelLine2D::SyncToDatabase(Ark3DModel &ark3d_model)
 
 	// now sync the lists store in the base classes
 	SyncListsToDatabase(dof_table_name.str(),primitive_table_name.str(),ark3d_model); // PrimitiveBase
-	SyncConstraintListToDatabase(constraint_table_name.str(),ark3d_model); // ConstraintEquationBase 
 
 	return true; // row existed in the database
 }

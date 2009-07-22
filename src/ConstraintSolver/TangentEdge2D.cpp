@@ -20,10 +20,9 @@
 
 #include "Ark3DModel.h"
 
-const std::string SQL_tangent_edge2d_database_schema = "CREATE TABLE tangent_edge2d_list (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, constraint_table_name TEXT NOT NULL, edge1 INTEGER NOT NULL, edge2 INTEGER NOT NULL, point_num_1 INTEGER NOT NULL, point_num_2 INTEGER NOT NULL);";
+const std::string SQL_tangent_edge2d_database_schema = "CREATE TABLE tangent_edge2d_list (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, edge1 INTEGER NOT NULL, edge2 INTEGER NOT NULL, point_num_1 INTEGER NOT NULL, point_num_2 INTEGER NOT NULL, s_1_dof INTEGER NOT NULL, t_1_dof INTEGER NOT NULL, s_2_dof INTEGER NOT NULL, t_2_dof INTEGER NOT NULL, weight FLOAT NOT NULL);";
 
 using namespace std;
-using namespace GiNaC;
 
 TangentEdge2D::TangentEdge2D(Edge2DBasePointer edge1, EdgePointNumber point_num_1, Edge2DBasePointer edge2, EdgePointNumber point_num_2):
 edge1_(edge1),
@@ -34,43 +33,31 @@ point_num_2_(point_num_2)
 	AddPrimitive(edge1);
 	AddPrimitive(edge2);
 
-	ex s_1, t_1, s_2, t_2;	// tangent vector for edge1 (s_1,t_1) and tangent vector for edge2 (s_2,t_2)
-
-	std::vector<DOFPointer> dof_list; // vector container storing all of the DOF's that this constraint depends on
-
 	if(point_num_1 == Point1)
 	{	// use point1 of edge1
-		edge1->GetTangent1(s_1,t_1, dof_list);
+		edge1->GetTangent1(s_1_,t_1_);
 	} else {
 		// use point2 of edge1
-		edge1->GetTangent2(s_1,t_1, dof_list);
+		edge1->GetTangent2(s_1_,t_1_);
 	}
 
 	if(point_num_2 == Point1)
 	{
 		// use point1 of edge2
-		edge2->GetTangent1(s_2,t_2, dof_list);
+		edge2->GetTangent1(s_2_,t_2_);
 	} else {
 		// use point2 of edge2
-		edge2->GetTangent2(s_2,t_2, dof_list);
+		edge2->GetTangent2(s_2_,t_2_);
 	}
 
-	// create the expression object that will store the constraint
-	boost::shared_ptr<ex> new_constraint(new ex);
-
 	// add every DOF that the above expression depends on to the vector dof_list_
-	for(unsigned int current_dof = 0; current_dof < dof_list.size(); current_dof++)
-		AddDOF(dof_list[current_dof]);
+	AddDOF(s_1_);
+    AddDOF(t_1_);
+    AddDOF(s_2_);
+    AddDOF(t_2_);
 
-	// Calculate the dot product between the two tangent vectors
-	// this expression will be zero when the lines are parallel
-	// Ideally, I would use abs() instead of pow() but abs is not differentiable. 
-	*new_constraint = pow((s_1*s_2 + t_1*t_2),2)-1;
-    //*new_constraint = tangent_edge_2d(s_1,t_1,s_2,t_2);
-
-	// populate the lists
-	constraints_.push_back(new_constraint);
-	weight_list_.push_back(1.0);
+    solver_function_.reset(new tangent_edge_2d(s_1_,t_1_,s_2_,t_2_));
+    weight_ = 1.0;
 }
 
 // Construct from database
@@ -105,21 +92,19 @@ void TangentEdge2D::DatabaseAddRemove(bool add_to_database) // Utility method us
 	dof_list_table_name << "dof_table_" << GetID();
 	stringstream primitive_list_table_name;
 	primitive_list_table_name << "primitive_table_" << GetID();
-	stringstream constraint_list_table_name;
-	constraint_list_table_name << "constraint_table_" << GetID();
-
-	//"CREATE TABLE tangent_edge2d_list (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, constraint_table_name TEXT NOT NULL, edge1 INTEGER NOT NULL, edge2 INTEGER NOT NULL, point_num_1 INTEGER NOT NULL, point_num_2 INTEGER NOT NULL);"
 
 	// First, create the sql statements to undo and redo this operation
 	stringstream temp_stream;
 	temp_stream.precision(__DBL_DIG__);
 	temp_stream << "BEGIN; "
-                << "INSERT INTO tangent_edge2d_list VALUES(" 
-                << GetID() << ",'" << dof_list_table_name.str() << "','" 
-				<< primitive_list_table_name.str() 
-				<< "','" << constraint_list_table_name.str()
+                << "INSERT INTO tangent_edge2d_list VALUES("
+                << GetID() << ",'" << dof_list_table_name.str() << "','"
+				<< primitive_list_table_name.str()
 				<< "'," << edge1_->GetID() << "," << edge2_->GetID()
-				<< "," << point_num_1_ << "," << point_num_2_ << "); "
+				<< "," << point_num_1_ << "," << point_num_2_
+                << "," << s_1_->GetID() << "," << t_1_->GetID()
+                << "," << s_2_->GetID() << "," << t_2_->GetID() 
+                << "," << weight_ << "); "
                 << "INSERT INTO constraint_equation_list VALUES("
                 << GetID() << ",'tangent_edge2d_list'); "
                 << "COMMIT; ";
@@ -185,9 +170,8 @@ void TangentEdge2D::DatabaseAddRemove(bool add_to_database) // Utility method us
 
 	sqlite3_free(sql_undo_redo);
 
-	// Now use the methods provided by PrimitiveBase and ConstraintEquationBase to create the tables listing the DOF's, the other Primitives that this primitive depends on, and the constraint equations
+	// Now use the method provided by PrimitiveBase to create the tables listing the DOF's and the other Primitives that this primitive depends on.
 	DatabaseAddDeleteLists(add_to_database,dof_list_table_name.str(),primitive_list_table_name.str());
-	DatabaseAddDeleteConstraintList(add_to_database, constraint_list_table_name.str());
 }
 
 bool TangentEdge2D::SyncToDatabase(Ark3DModel &ark3d_model)
@@ -219,11 +203,18 @@ bool TangentEdge2D::SyncToDatabase(Ark3DModel &ark3d_model)
 		
 		dof_table_name << sqlite3_column_text(statement,1);
 		primitive_table_name << sqlite3_column_text(statement,2);
-		constraint_table_name << sqlite3_column_text(statement,3);
-		edge1_ = ark3d_model.FetchPrimitive<Edge2DBase>(sqlite3_column_int(statement,4));
-		edge2_ = ark3d_model.FetchPrimitive<Edge2DBase>(sqlite3_column_int(statement,5));
-		point_num_1_ = static_cast<EdgePointNumber>(sqlite3_column_int(statement,6));
-		point_num_2_ = static_cast<EdgePointNumber>(sqlite3_column_int(statement,7));
+		edge1_ = ark3d_model.FetchPrimitive<Edge2DBase>(sqlite3_column_int(statement,3));
+		edge2_ = ark3d_model.FetchPrimitive<Edge2DBase>(sqlite3_column_int(statement,4));
+		point_num_1_ = static_cast<EdgePointNumber>(sqlite3_column_int(statement,5));
+		point_num_2_ = static_cast<EdgePointNumber>(sqlite3_column_int(statement,6));
+        s_1_ = ark3d_model.FetchDOF(sqlite3_column_int(statement,7));
+        t_1_ = ark3d_model.FetchDOF(sqlite3_column_int(statement,8));
+        s_2_ = ark3d_model.FetchDOF(sqlite3_column_int(statement,9));
+        t_2_ = ark3d_model.FetchDOF(sqlite3_column_int(statement,10));
+        weight_ = sqlite3_column_double(statement,11);
+
+        // define the constraint equation
+        solver_function_.reset(new tangent_edge_2d(s_1_,t_1_,s_2_,t_2_));
 
 	} else {
 		// the requested row does not exist in the database
@@ -247,9 +238,8 @@ bool TangentEdge2D::SyncToDatabase(Ark3DModel &ark3d_model)
 		throw Ark3DException(error_description.str());
 	}
 
-	// now sync the lists store in the base classes
+	// now sync the lists stored in the base classes
 	SyncListsToDatabase(dof_table_name.str(),primitive_table_name.str(),ark3d_model); // PrimitiveBase
-	SyncConstraintListToDatabase(constraint_table_name.str(),ark3d_model); // ConstraintEquationBase 
 
 	return true; // row existed in the database
 }

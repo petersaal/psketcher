@@ -1,20 +1,44 @@
+/****************************************************************************
+**
+** This file is part of the pSketcher project.
+**
+** This file may be used under the terms of the GNU General Public
+** License version 2.0 as published by the Free Software Foundation
+** and appearing in the file LICENSE.GPL included in the packaging of
+** this file.
+**
+** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+**
+** Copyright (C) 2006-2009 Michael Greminger. All rights reserved.
+**
+****************************************************************************/
+
 #ifndef SolverFunctionsH
 #define SolverFunctionsH
 
+#include <string>
+#include <vector>
 #include "SolverFunctionsBase.h"
+
+SolverFunctionsBasePointer SolverFunctionsFactory(std::string solver_function_name, std::vector<DOFPointer> dof_list);
 
 %for equation in equations:
 
 class ${equation.function_name}: public SolverFunctionsBase
 {
     public:
-         ${equation.function_name}(${make_parameter_list(equation.parameter_list)});
+        ${equation.function_name}(${make_parameter_list(equation.parameter_list)});
+        ${equation.function_name}(std::vector<DOFPointer> dof_list);
 
         double GetValue() const;
         double GetValueSelf(const mmcMatrix &params) const;
         mmcMatrix GetGradientSelf(const mmcMatrix &params) const;
+        std::string GetName() const {return "${equation.function_name}";}
 };
 %endfor
+
+
 
 <%def name="make_parameter_list(parameter_list)">\
 % for index,parameter in enumerate(parameter_list):

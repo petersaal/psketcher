@@ -24,7 +24,6 @@
 const std::string SQL_point_database_schema = "CREATE TABLE point_list (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, x_dof INTEGER NOT NULL, y_dof INTEGER NOT NULL, z_dof INTEGER NOT NULL);";
 
 using namespace std;
-using namespace GiNaC;
 
 Point :: Point ( double x, double y, double z, bool x_free, bool y_free, bool z_free):
 x_(new IndependentDOF(x,x_free)),

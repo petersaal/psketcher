@@ -10,7 +10,7 @@
 ** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 ** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Copyright (C) 2006-2008 Michael Greminger. All rights reserved.
+** Copyright (C) 2006-2009 Michael Greminger. All rights reserved.
 **
 ****************************************************************************/
 
@@ -22,32 +22,27 @@
 #include "Ark3DModel.h"
 
 using namespace std;
-using namespace GiNaC;
 
+const string SQL_dependent_dof_database_schema = "CREATE TABLE dependent_dof_list (id INTEGER PRIMARY KEY, variable_name TEXT NOT NULL, solver_function TEXT NOT NULL, source_dof_table_name TEXT NOT NULL);";
 
-const string SQL_dependent_dof_database_schema = "CREATE TABLE dependent_dof_list (id INTEGER PRIMARY KEY, variable_name TEXT NOT NULL, expression TEXT NOT NULL, source_dof_table_name TEXT NOT NULL);";
-
-DependentDOF :: DependentDOF (ex expression, std::vector<DOFPointer> source_dof_list):
+DependentDOF :: DependentDOF (SolverFunctionsBasePointer solver_function):
 DOF(false /*free*/,true /*dependent*/)
 {
-	// @fixme Need to make sure that all DOF's in expression are included in the DOF list
-	expression_ = expression;
-	source_dof_list_ = source_dof_list;
+	SetSolverFunction(solver_function);
 }
 
-DependentDOF :: DependentDOF ( const char *name, ex expression, std::vector<DOFPointer> source_dof_list):
+DependentDOF :: DependentDOF ( const char *name, SolverFunctionsBasePointer solver_function):
 DOF(name,false /*free*/,true /*dependent*/)
 {
-	// @fixme Need to make sure that all DOF's in expression are included in the DOF list
-	expression_ = expression;
-	source_dof_list_ = source_dof_list;
+	SetSolverFunction(solver_function);
 }
 
 // the following constructor creates the DOF from the database stored in ark3d_model
 DependentDOF :: DependentDOF ( unsigned id, Ark3DModel &ark3d_model ):
 DOF(id,true /* bool dependent */)
 {
-	SetID(id);  bool exists = SyncToDatabase(ark3d_model);
+	SetID(id);
+    bool exists = SyncToDatabase(ark3d_model);
 	
 	if(!exists) // this object does not exist in the table
 	{
@@ -68,9 +63,10 @@ bool DependentDOF :: SyncToDatabase(Ark3DModel &ark3d_model)
 	int rc;
 	sqlite3_stmt *statement;
 	stringstream source_dof_table_name;
-	stringstream expression;
+	stringstream solver_function_name;
+    vector<DOFPointer> solver_function_dof_list;
 
-	// "CREATE TABLE dependent_dof_list (id INTEGER PRIMARY KEY, variable_name TEXT NOT NULL, expression TEXT NOT NULL, source_dof_table_name TEXT NOT NULL);"
+	// "CREATE TABLE dependent_dof_list (id INTEGER PRIMARY KEY, variable_name TEXT NOT NULL, solver_function TEXT NOT NULL, source_dof_table_name TEXT NOT NULL);"
 	
 	stringstream sql_command;
 	sql_command << "SELECT * FROM " << table_name << " WHERE id=" << GetID() << ";";
@@ -89,8 +85,8 @@ bool DependentDOF :: SyncToDatabase(Ark3DModel &ark3d_model)
 		
 		stringstream variable_name;
 		variable_name << sqlite3_column_text(statement,1);
-		variable_.set_name(variable_name.str());
-		expression << sqlite3_column_text(statement,2);
+		SetName(variable_name.str());
+		solver_function_name << sqlite3_column_text(statement,2);
 		source_dof_table_name << sqlite3_column_text(statement,3);
 	} else {
 		// the requested row does not exist in the database
@@ -129,22 +125,19 @@ bool DependentDOF :: SyncToDatabase(Ark3DModel &ark3d_model)
 	
 	int source_dof_id;
 	DOFPointer source_dof;
-	GiNaC::lst variable_list;
-	source_dof_list_.clear(); // clear the contents of this list, will be replaced by the contents of the database
 	while(rc == SQLITE_ROW) {
-		source_dof_id = sqlite3_column_int(statement,0);
+		source_dof_id = sqlite3_column_int(statement,1);
 
 		// get the dof (it will be automatically created if it doesn't already exist)
 		source_dof = ark3d_model.FetchDOF(source_dof_id);
 
-		source_dof_list_.push_back(source_dof);
-		variable_list.append(source_dof->GetVariable());
+		solver_function_dof_list.push_back(source_dof);
 
 		rc = sqlite3_step(statement);
 	}
 
-	// we now have enought information to define the expression_ member variable for this dependent dof
-	expression_ = GiNaC::ex(expression.str(),variable_list);
+	// we now have enought information to define the solver function for this dependent dof
+	SetSolverFunction(SolverFunctionsFactory(solver_function_name.str(),solver_function_dof_list));
 
 	if( rc!=SQLITE_DONE ){
 		// sql statement didn't finish properly, some error must to have occured
@@ -165,44 +158,7 @@ bool DependentDOF :: SyncToDatabase(Ark3DModel &ark3d_model)
 
 double DependentDOF::GetValue()const
 {
-	// For each independent DOF in the list, substitute its value into the expression that defines this dependent DOF
-	GiNaC::ex current_expression = GetExpression();
-	double result;
-
-	for(unsigned int current_dof = 0; current_dof < source_dof_list_.size(); current_dof++)
-	{
-		if(!source_dof_list_[current_dof]->IsDependent())
-		{
-			current_expression = current_expression.subs(source_dof_list_[current_dof]->GetVariable() ==
-														 source_dof_list_[current_dof]->GetValue(),subs_options::no_pattern);
-		}
-	}
-
-	// Now evaluate the expression to a numeric value
-	// check to make sure the expression evaluates to a numeric value
-	if (is_a<numeric>(current_expression)) {
-		result = ex_to<numeric>(current_expression).to_double();
-	} else {
-		throw Ark3DException();
-  	}
-
-	return result;
-}
-
-GiNaC::ex DependentDOF::GetExpression()const
-{
-	// For each dependent DOF in the list, substitute its expression into the overall expression that defines this dependent DOF
-	GiNaC::ex result = expression_;
-
-	for(unsigned int current_dof = 0; current_dof < source_dof_list_.size(); current_dof++)
-	{
-		if(source_dof_list_[current_dof]->IsDependent())
-		{
-			result = result.subs(source_dof_list_[current_dof]->GetVariable() == source_dof_list_[current_dof]->GetExpression(),subs_options::no_pattern);
-		}
-	}
-
-	return result;
+	return GetSolverFunction()->GetValue();
 }
 
 // method for adding this object to the SQLite3 database
@@ -228,16 +184,16 @@ void DependentDOF::DatabaseAddDelete(bool add_to_database) // utility method cal
 	temp_stream.precision(__DBL_DIG__);
 	temp_stream << "BEGIN; "
                 << "INSERT INTO dependent_dof_list VALUES(" 
-                << GetID() << ",'" << GetVariable().get_name() << "','" 
-				<< expression_ << "', 'source_dof_table_" << GetID() <<"'); "
+                << GetID() << ",'" << GetName() << "','" 
+				<< GetSolverFunction()->GetName() << "', 'source_dof_table_" << GetID() <<"'); "
                 << "INSERT INTO dof_list VALUES("
                 << GetID() << ",'dependent_dof_list'); "
-				<< "CREATE TABLE " << "source_dof_table_" << GetID() << " (id INTEGER PRIMARY KEY);";
+				<< "CREATE TABLE " << "source_dof_table_" << GetID() << " (id INTEGER PRIMARY KEY, dof_id INTEGER NOT NULL);";
 
 	// add each source dof to the source_dof table that was just created for this dependent dof	
-	for(unsigned int current_dof = 0; current_dof < source_dof_list_.size(); current_dof++)
+	for(unsigned int current_dof = 0; current_dof < GetSolverFunction()->GetDOFList().size(); current_dof++)
 	{
-			temp_stream << "INSERT INTO " << "source_dof_table_" << GetID() << " VALUES(" << source_dof_list_[current_dof]->GetID() << "); ";
+			temp_stream << "INSERT INTO " << "source_dof_table_" << GetID() << " VALUES(" << current_dof << "," << GetSolverFunction()->GetDOFList()[current_dof]->GetID() << "); ";
 	}
 
 	temp_stream << "COMMIT; ";

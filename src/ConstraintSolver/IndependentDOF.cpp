@@ -21,7 +21,6 @@
 #include "Ark3DModel.h"
 
 using namespace std;
-using namespace GiNaC;
 
 const std::string SQL_independent_dof_database_schema = "CREATE TABLE independent_dof_list (id INTEGER PRIMARY KEY, variable_name TEXT NOT NULL, bool_free INTEGER CHECK (bool_free >= 0 AND bool_free <= 1), value REAL NOT NULL);";
 
@@ -80,7 +79,7 @@ bool IndependentDOF :: SyncToDatabase(Ark3DModel &ark3d_model)
 		
 		stringstream variable_name;
 		variable_name << sqlite3_column_text(statement,1);
-		variable_.set_name(variable_name.str());
+		name_ = variable_name.str();
 		free_ = sqlite3_column_int(statement,2);
 		value_ = sqlite3_column_double(statement,3);
 
@@ -275,7 +274,7 @@ void IndependentDOF::DatabaseAddDelete(bool add_to_database) // utility method c
 	temp_stream.precision(__DBL_DIG__);
 	temp_stream << "BEGIN; "
                 << "INSERT INTO independent_dof_list VALUES(" 
-                << GetID() << ",'" << GetVariable().get_name() << "'," 
+                << GetID() << ",'" << name_ << "'," 
 				<< free_ << "," << value_ <<"); "
                 << "INSERT INTO dof_list VALUES("
                 << GetID() << ",'independent_dof_list'); "

@@ -10,7 +10,7 @@
 ** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 ** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Copyright (C) 2006-2008 Michael Greminger. All rights reserved.
+** Copyright (C) 2006-2009 Michael Greminger. All rights reserved.
 **
 ****************************************************************************/
 
@@ -20,25 +20,22 @@
 #include <vector>
 
 #include "DOF.h"
-
+#include "SolverFunctionsBase.h"
 
 // DependentDOF class
 class DependentDOF : public DOF
 {
 	public:
-		DependentDOF ( GiNaC::ex expression, std::vector<DOFPointer> source_dof_list);
-		DependentDOF ( const char *name, GiNaC::ex expression, std::vector<DOFPointer> source_dof_list);
+		DependentDOF ( SolverFunctionsBasePointer solver_function);
+		DependentDOF ( const char *name, SolverFunctionsBasePointer solver_function);
 		// the following constructor creates the DOF from the database stored in ark3d_model
 		DependentDOF ( unsigned id, Ark3DModel &ark3d_model );
-
-		~DependentDOF () {source_dof_list_.clear();}
 		
 		//Accessor methods
 		void SetValue ( double value, bool update_db = true ) { /* @fixme warn user about an attempt to modify a dependent DOF */;}
 		void SetFree(bool free) { /* @fixme warn user about an attempt to modify a dependent DOF */;}
 		double GetValue()const;
-		GiNaC::ex GetExpression()const;
-		const std::vector<DOFPointer> & GetDOFList() {return source_dof_list_;}
+		const std::vector<DOFPointer> & GetDOFList() {return GetSolverFunction()->GetDOFList();}
 
 		// methods for adding and removing this object to the SQLite3 database
 		virtual void AddToDatabase(sqlite3 *database);
@@ -49,8 +46,7 @@ class DependentDOF : public DOF
 		virtual bool SyncToDatabase(Ark3DModel &ark3d_model);
 
 	private:
-		GiNaC::ex expression_;
-		std::vector<DOFPointer> source_dof_list_;
+
 };
 typedef boost::shared_ptr<DependentDOF> DependentDOFPointer;
 

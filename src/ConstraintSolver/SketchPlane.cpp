@@ -23,7 +23,6 @@
 const std::string SQL_sketch_plane_database_schema = "CREATE TABLE sketch_plane_list (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, base_point INTEGER NOT NULL, normal_vector INTEGER NOT NULL, up_vector INTEGER NOT NULL);";
 
 using namespace std;
-using namespace GiNaC;
 
 // Construct from database
 SketchPlane::SketchPlane(unsigned id, Ark3DModel &ark3d_model)
