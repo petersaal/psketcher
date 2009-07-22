@@ -21,7 +21,6 @@
 #include "Ark3DModel.h"
 
 using namespace std;
-using namespace GiNaC;
 
 // Initialize private static variables for DOF and PrimitiveBase classes
 unsigned PrimitiveBase::next_id_number_ = 1;

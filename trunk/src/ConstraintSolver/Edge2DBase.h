@@ -36,8 +36,8 @@ class Edge2DBase : public Primitive2DBase
 		// virtual methods that must be implemented by child classes
 		virtual Point2DPointer GetPoint1() = 0;		// returns end point of edge (these may include dependentDOF's as is the case of the arc primitive)
 		virtual Point2DPointer GetPoint2() = 0;
-		virtual void GetTangent1(GiNaC::ex & s_component, GiNaC::ex & t_component, std::vector<DOFPointer> & dof_list) = 0;  // returns expression that defines tangent vector for each endpoint of the edge and appends any DOF's that these expression depend onto the vector dof_list
-		virtual void GetTangent2(GiNaC::ex & s_component, GiNaC::ex & t_component, std::vector<DOFPointer> & dof_list) = 0;
+		virtual void GetTangent1(DOFPointer & s_component, DOFPointer & t_component) = 0;  // returns dependent dof's that define the tangent vector for each endpoint of the edge
+		virtual void GetTangent2(DOFPointer & s_component, DOFPointer & t_component) = 0;
 
 		virtual void GetTangent1(double & s_component, double & t_component) = 0;
 		virtual void GetTangent2(double & s_component, double & t_component) = 0;

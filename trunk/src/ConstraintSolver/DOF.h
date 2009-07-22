@@ -10,15 +10,15 @@
 ** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 ** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Copyright (C) 2006-2008 Michael Greminger. All rights reserved.
+** Copyright (C) 2006-2009 Michael Greminger. All rights reserved.
 **
 ****************************************************************************/
 
 #ifndef DOFH
 #define DOFH
 
+#include <string>
 #include <boost/shared_ptr.hpp>
-#include <ginac/ginac.h>
 #include <sqlite3.h>
 
 class SolverFunctionsBase;
@@ -38,16 +38,17 @@ class DOF
 		//Accessor methods
 		virtual void SetValue ( double value, bool update_db = true ) = 0;
 		virtual double GetValue()const = 0;
-		virtual GiNaC::ex GetExpression()const {return variable_;}
+		std::string GetName()const {return name_;}
+        void SetName(std::string name) {name_ = name;}
 
 		unsigned GetID()const {return id_number_;}
 		void SetID(int id_number) {id_number_ = id_number;}
 		static void SetNextID(int next_id) {next_id_number_ = next_id;}
 
         // Only used for DependentDOF's
-        SolverFunctionsBasePointer GetSolverFunction() const {return solver_function_;} 
+        SolverFunctionsBasePointer GetSolverFunction() const {return solver_function_;}
+        void SetSolverFunction(SolverFunctionsBasePointer solver_function) {solver_function_ = solver_function;}
 
-		const GiNaC::symbol & GetVariable()const {return variable_ ;}
 		bool IsFree()const {return free_;}
 		virtual void SetFree(bool free) {free_ = free;}
 
@@ -69,7 +70,7 @@ class DOF
 		// if not zero, this is the database where changes to the value of this DOF are stored
 		sqlite3 *database_;
 
-		GiNaC::symbol variable_;
+		std::string name_;
 		bool free_;
 
 	private:

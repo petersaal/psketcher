@@ -31,7 +31,6 @@
 const std::string SQL_point2d_database_schema = "CREATE TABLE point2d_list (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, sketch_plane INTEGER NOT NULL, s_dof INTEGER NOT NULL, t_dof INTEGER NOT NULL);";
 
 using namespace std;
-using namespace GiNaC;
 
 // Construct from database
 Point2D::Point2D(unsigned id, Ark3DModel &ark3d_model)

@@ -24,28 +24,20 @@
 class ConstraintEquationBase : virtual public PrimitiveBase
 {
 	public:
-		virtual ~ConstraintEquationBase() {constraints_.clear();}
+		virtual ~ConstraintEquationBase() {;}
 	
 		// Accessor methods
-		const std::vector< boost::shared_ptr<GiNaC::ex> > & GetConstraintList() {return constraints_;}
-		const std::vector<double> & GetWeightList() {return weight_list_;}
+		SolverFunctionsBasePointer GetSolverFunction() {return solver_function_;}
+		double GetWeight() const {return weight_;}
 
 		virtual void ApplySelectionMask(SelectionMask mask);
 
-		// Utility method to add the constraints_ list to the database
-		void DatabaseAddDeleteConstraintList(bool add_to_database, const std::string &constraint_list_table_name);
-
-		// utility method to synchronize the contraints_ and weight_list_ vectors to the database
-		// Important: this method assumes that the method PrimitiveBase::SyncListsToDatabase(...) has been called prior to calling this method (needs the dof_list_ vector up to date)
-		void SyncConstraintListToDatabase(const std::string &constraint_list_table_name, Ark3DModel &ark3d_model);
-
 	protected:
-		// constraints and weight_list_ are parallel vectors
-		// stores constraints
-		std::vector< boost::shared_ptr<GiNaC::ex> > constraints_; 
+		// The solver function that defines this constraint
+        SolverFunctionsBasePointer solver_function_;
 
-		// this vector stores the weights for the constraints
-		std::vector< double > weight_list_;
+		// this vector stores the weight for this constraint
+		double weight_;
 };
 typedef boost::shared_ptr<ConstraintEquationBase> ConstraintEquationBasePointer;
 

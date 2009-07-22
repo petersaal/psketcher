@@ -17,7 +17,6 @@
 #include "EdgeLoop2D.h"
 
 using namespace std;
-using namespace GiNaC;
 
 EdgeLoop2D::EdgeLoop2D(std::vector<Edge2DBasePointer> edge_list):
 edge_list_(edge_list)

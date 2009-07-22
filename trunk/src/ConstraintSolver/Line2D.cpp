@@ -29,30 +29,22 @@ const std::string SQL_line2d_database_schema = "CREATE TABLE line2d_list (id INT
 
 using namespace std;
 
-void Line2D::GetTangent1(GiNaC::ex & s_component, GiNaC::ex & t_component, std::vector<DOFPointer> & dof_list)
+void Line2D::GetTangent1(DOFPointer & s_component, DOFPointer & t_component)
 {
-	GiNaC::ex length = sqrt(pow(GetS1()->GetVariable()-GetS2()->GetVariable(),2)+pow(GetT1()->GetVariable()-GetT2()->GetVariable(),2));
-	
-	s_component = (GetS1()->GetVariable() - GetS2()->GetVariable())/length;
-	t_component = (GetT1()->GetVariable() - GetT2()->GetVariable())/length;
+    SolverFunctionsBasePointer s_function(new point2d_tangent1_s(GetS1(),GetT1(),GetS2(),GetT2()));
+    SolverFunctionsBasePointer t_function(new point2d_tangent1_t(GetS1(),GetT1(),GetS2(),GetT2()));
 
-	dof_list.push_back(GetS1());
-	dof_list.push_back(GetS2());
-	dof_list.push_back(GetT1());
-	dof_list.push_back(GetT2());
+	s_component.reset(new DependentDOF(s_function));
+	t_component.reset(new DependentDOF(t_function));
 }
 
-void Line2D::GetTangent2(GiNaC::ex & s_component, GiNaC::ex & t_component, std::vector<DOFPointer> & dof_list)
+void Line2D::GetTangent2(DOFPointer & s_component, DOFPointer & t_component)
 {
-	GiNaC::ex length = sqrt(pow(GetS1()->GetVariable()-GetS2()->GetVariable(),2)+pow(GetT1()->GetVariable()-GetT2()->GetVariable(),2));
-	
-	s_component = (GetS2()->GetVariable() - GetS1()->GetVariable())/length;
-	t_component = (GetT2()->GetVariable() - GetT1()->GetVariable())/length;
+    SolverFunctionsBasePointer s_function(new point2d_tangent2_s(GetS1(),GetT1(),GetS2(),GetT2()));
+    SolverFunctionsBasePointer t_function(new point2d_tangent2_t(GetS1(),GetT1(),GetS2(),GetT2()));
 
-	dof_list.push_back(GetS1());
-	dof_list.push_back(GetS2());
-	dof_list.push_back(GetT1());
-	dof_list.push_back(GetT2());
+    s_component.reset(new DependentDOF(s_function));
+    t_component.reset(new DependentDOF(t_function));
 }
 
 void Line2D::GetTangent1(double & s_component, double & t_component)

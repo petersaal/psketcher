@@ -1,3 +1,5 @@
+#include <sstream>
+
 #include "SolverFunctionsBase.h"
 #include "Ark3DModel.h"
 
@@ -32,20 +34,20 @@ double SolverFunctionsBase::GetValue(const mmcMatrix &x) const
 mmcMatrix SolverFunctionsBase::GetGradient(const mmcMatrix &x) const
 {
     mmcMatrix local_x = transform_*x;
-    mmcMatrix jacobian(dof_list_.size(),dof_list_.size(),0.0);
+    mmcMatrix temp(dof_list_.size(),dof_list_.size());
+    temp.SetIdentity();
+    mmcMatrix jacobian = transform_.GetTranspose()*temp;
 
     for(int i = 0; i < dof_list_.size(); i++)
     {
         if (dof_list_[i]->IsDependent())
         {
             local_x(i,0) = dof_list_[i]->GetSolverFunction()->GetValue(x);
-            jacobian.SetSubmatrix(0,i,transform_*dof_list_[i]->GetSolverFunction()->GetGradient(x));
-        } else {
-            jacobian(i,i) = 1.0;
+            jacobian.SetSubmatrix(0,i,dof_list_[i]->GetSolverFunction()->GetGradient(x));
         }
     }
 
-    return transform_.GetTranspose()*jacobian*GetGradientSelf(local_x);
+    return jacobian*GetGradientSelf(local_x);
 }
 
 void SolverFunctionsBase::DefineInputMap(const std::map<unsigned,unsigned> &input_dof_map)
@@ -64,11 +66,18 @@ void SolverFunctionsBase::DefineInputMap(const std::map<unsigned,unsigned> &inpu
                 // dof found in map
                 new_transform(i,map_it->second) = 1.0;
             } else {
-                // dof not found in map, need to through an exception
-                throw Ark3DException("DOF not found in input map while defining transform_ for a SolverFunction.");
+                // dof not found in map, need to throw an exception
+                stringstream error_message;
+                error_message << "DOF with the ID " << dof_list_[i]->GetID() << " not found in input map while defining transform_ for a SolverFunctionsBase instance.";
+                throw Ark3DException(error_message.str());
             }
         }
     }
 
     transform_ = new_transform;
+
+    // let each dependent dof create its own transform_
+    for(int i=0; i < dof_list_.size(); i++)
+        if(dof_list_[i]->IsDependent())
+            dof_list_[i]->GetSolverFunction()->DefineInputMap(input_dof_map);
 }

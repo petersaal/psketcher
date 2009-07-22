@@ -16,7 +16,7 @@
 
 #include <sstream>
 
-const std::string SQL_distance_pointline2d_database_schema = "CREATE TABLE distance_pointline2d_list (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, constraint_table_name TEXT NOT NULL, distance_dof INTEGER NOT NULL, point INTEGER NOT NULL, line INTEGER NOT NULL, text_offset_dof INTEGER NOT NULL, text_position_dof INTEGER NOT NULL);";
+const std::string SQL_distance_pointline2d_database_schema = "CREATE TABLE distance_pointline2d_list (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, distance_dof INTEGER NOT NULL, point INTEGER NOT NULL, line INTEGER NOT NULL, text_offset_dof INTEGER NOT NULL, text_position_dof INTEGER NOT NULL, weight FLOAT NOT NULL);";
 
 #include "DistancePointLine2D.h"
 #include "IndependentDOF.h"
@@ -24,7 +24,7 @@ const std::string SQL_distance_pointline2d_database_schema = "CREATE TABLE dista
 #include "Ark3DModel.h"
 
 using namespace std;
-using namespace GiNaC;
+
 
 // Create a constraint that defines the distance between two points confined to a sketch plane
 DistancePointLine2D::DistancePointLine2D(const Point2DPointer point, const Line2DPointer line, double distance):
@@ -52,19 +52,11 @@ line_(line)
 	text_position_.reset(new IndependentDOF(0.0,false));
 	AddDOF(text_offset_);
 	AddDOF(text_position_);	
-
-	// create the expression that defines the constraint and add it the the constraint list
-	boost::shared_ptr<ex> new_constraint(new ex);
 	
-	// Using the distance squared rather than the absolute distance to avoid the use of abs() (the constraint must be differentiable).
-	*new_constraint = pow(((line_->GetS2()->GetVariable() - line_->GetS1()->GetVariable())*(line_->GetT1()->GetVariable() - point_->GetTDOF()->GetVariable())
-						- (line_->GetT2()->GetVariable() - line_->GetT1()->GetVariable())*(line_->GetS1()->GetVariable() - point_->GetSDOF()->GetVariable())),2)
-						/ ( pow(line_->GetS2()->GetVariable() - line_->GetS1()->GetVariable(),2) +
-								pow(line_->GetT2()->GetVariable() - line_->GetT1()->GetVariable(),2))
-						- pow(distance_->GetVariable(),2);
+	// Define the constraint function
+    solver_function_.reset(new distance_point_line_2d(point_->GetSDOF(),point_->GetTDOF(),line_->GetS1(),line_->GetT1(),line_->GetS2(),line_->GetT2(),distance_));
 
-	constraints_.push_back(new_constraint);
-	weight_list_.push_back(1.0);
+	weight_ = 1.0;
 
 	// text location was not specified so provide a reasonable default
 	SetDefaultTextLocation();
@@ -193,10 +185,6 @@ void DistancePointLine2D::DatabaseAddRemove(bool add_to_database) // Utility met
 	dof_list_table_name << "dof_table_" << GetID();
 	stringstream primitive_list_table_name;
 	primitive_list_table_name << "primitive_table_" << GetID();
-	stringstream constraint_list_table_name;
-	constraint_list_table_name << "constraint_table_" << GetID();
-
-	//"CREATE TABLE distance_pointline2d_list (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, constraint_table_name TEXT NOT NULL, distance_dof INTEGER NOT NULL, point INTEGER NOT NULL, line INTEGER NOT NULL, text_offset_dof INTEGER NOT NULL, text_position_dof INTEGER NOT NULL);"
 
 	// First, create the sql statements to undo and redo this operation
 	stringstream temp_stream;
@@ -205,10 +193,10 @@ void DistancePointLine2D::DatabaseAddRemove(bool add_to_database) // Utility met
                 << "INSERT INTO distance_pointline2d_list VALUES(" 
                 << GetID() << ",'" << dof_list_table_name.str() << "','" 
 				<< primitive_list_table_name.str() 
-				<< "','" << constraint_list_table_name.str()
 				<< "'," << distance_->GetID() << "," << point_->GetID()
 				<< "," << line_->GetID() << "," << text_offset_->GetID() 
-				<< "," << text_position_->GetID() << "); "
+				<< "," << text_position_->GetID() 
+                << "," << weight_ << "); "
                 << "INSERT INTO constraint_equation_list VALUES("
                 << GetID() << ",'distance_pointline2d_list'); "
                 << "COMMIT; ";
@@ -274,9 +262,8 @@ void DistancePointLine2D::DatabaseAddRemove(bool add_to_database) // Utility met
 
 	sqlite3_free(sql_undo_redo);
 
-	// Now use the methods provided by PrimitiveBase and ConstraintEquationBase to create the tables listing the DOF's, the other Primitives that this primitive depends on, and the constraint equations
+	// Now use the method provided by PrimitiveBase to create the tables listing the DOF's and the other Primitives that this primitive depends on.
 	DatabaseAddDeleteLists(add_to_database,dof_list_table_name.str(),primitive_list_table_name.str());
-	DatabaseAddDeleteConstraintList(add_to_database, constraint_list_table_name.str());
 }
 
 
@@ -302,19 +289,23 @@ bool DistancePointLine2D::SyncToDatabase(Ark3DModel &ark3d_model)
 
 	rc = sqlite3_step(statement);
 
-	stringstream dof_table_name, primitive_table_name, constraint_table_name;
+	stringstream dof_table_name, primitive_table_name;
 
 	if(rc == SQLITE_ROW) {
 		// row exists, store the values to initialize this object
 		
 		dof_table_name << sqlite3_column_text(statement,1);
 		primitive_table_name << sqlite3_column_text(statement,2);
-		constraint_table_name << sqlite3_column_text(statement,3);
-		distance_ = ark3d_model.FetchDOF(sqlite3_column_int(statement,4));
-		point_ = ark3d_model.FetchPrimitive<Point2D>(sqlite3_column_int(statement,5));
-		line_ = ark3d_model.FetchPrimitive<Line2D>(sqlite3_column_int(statement,6));
-		text_offset_ = ark3d_model.FetchDOF(sqlite3_column_int(statement,7));
-		text_position_ = ark3d_model.FetchDOF(sqlite3_column_int(statement,8));
+		distance_ = ark3d_model.FetchDOF(sqlite3_column_int(statement,3));
+		point_ = ark3d_model.FetchPrimitive<Point2D>(sqlite3_column_int(statement,4));
+		line_ = ark3d_model.FetchPrimitive<Line2D>(sqlite3_column_int(statement,5));
+		text_offset_ = ark3d_model.FetchDOF(sqlite3_column_int(statement,6));
+		text_position_ = ark3d_model.FetchDOF(sqlite3_column_int(statement,7));
+        weight_ = sqlite3_column_double(statement,8);
+
+        // Define the constraint function
+        solver_function_.reset(new distance_point_line_2d(point_->GetSDOF(),point_->GetTDOF(),line_->GetS1(),line_->GetT1(),line_->GetS2(),line_->GetT2(),distance_));
+
 	} else {
 		// the requested row does not exist in the database
 		sqlite3_finalize(statement);	
@@ -339,7 +330,6 @@ bool DistancePointLine2D::SyncToDatabase(Ark3DModel &ark3d_model)
 
 	// now sync the lists store in the base classes
 	SyncListsToDatabase(dof_table_name.str(),primitive_table_name.str(),ark3d_model); // PrimitiveBase
-	SyncConstraintListToDatabase(constraint_table_name.str(),ark3d_model); // ConstraintEquationBase 
 
 	return true; // row existed in the database
 }

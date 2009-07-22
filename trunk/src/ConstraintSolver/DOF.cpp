@@ -10,7 +10,7 @@
 ** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 ** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Copyright (C) 2006-2008 Michael Greminger. All rights reserved.
+** Copyright (C) 2006-2009 Michael Greminger. All rights reserved.
 **
 ****************************************************************************/
 
@@ -21,7 +21,6 @@
 #include "DOF.h"
 
 using namespace std;
-using namespace GiNaC;
 
 // Initialize private static variables for DOF and PrimitiveBase classes
 unsigned DOF::next_id_number_ = 1;
@@ -35,7 +34,7 @@ delete_me_(false)
 	stringstream variable_name;
 	variable_name << "dof" << id_number_;
 
-	variable_.set_name(variable_name.str());
+	name_ = variable_name.str();
 }
 
 DOF::DOF ( const char *name, bool free, bool dependent) :
@@ -43,7 +42,7 @@ id_number_(next_id_number_++),free_(free), dependent_(dependent),
 database_(0),
 delete_me_(false)
 {
-	variable_.set_name(name);
+	name_ = name;
 }
 
 DOF::DOF (unsigned id, bool dependent) :

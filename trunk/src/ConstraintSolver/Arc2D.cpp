@@ -21,18 +21,15 @@
 #include <dime/entities/Arc.h>
 // End of includes related to libdime
 
-
 const std::string SQL_arc2d_database_schema = "CREATE TABLE arc2d_list (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, sketch_plane INTEGER NOT NULL, center_point INTEGER NOT NULL, radius_dof INTEGER NOT NULL, s_center_dof INTEGER NOT NULL, t_center_dof INTEGER NOT NULL, theta_1_dof INTEGER NOT NULL, theta_2_dof INTEGER NOT NULL, end1_point INTEGER NOT NULL, end2_point INTEGER NOT NULL, text_angle_dof INTEGER NOT NULL, text_radius_dof INTEGER NOT NULL);";
 
 #include "Arc2D.h"
-
 #include "IndependentDOF.h"
 #include "DependentDOF.h"
-
+#include "SolverFunctions.h"
 #include "Ark3DModel.h"
 
 using namespace std;
-using namespace GiNaC;
 
 // create an arc
 Arc2D::Arc2D (double s_center, double t_center, double theta_1, double theta_2, double radius, SketchPlanePointer sketch_plane,
@@ -182,24 +179,12 @@ void Arc2D::ApplySelectionMask(SelectionMask mask)
 // This point will use dependent DOF's to define its location
 Point2DPointer Arc2D::GeneratePoint1()
 {
-	// Create expressions defining s and t coordinates of the first endpoint of the arc
-	ex s_1 = s_center_->GetVariable() + radius_->GetVariable()*cos(theta_1_->GetVariable());
-	ex t_1 = t_center_->GetVariable() + radius_->GetVariable()*sin(theta_1_->GetVariable());
-
-	// create DOF lists for each DOF
-	std::vector <DOFPointer> s_1_dof_list;
-	s_1_dof_list.push_back(s_center_);
-	s_1_dof_list.push_back(radius_);
-	s_1_dof_list.push_back(theta_1_);
-
-	std::vector <DOFPointer> t_1_dof_list;
-	t_1_dof_list.push_back(t_center_);
-	t_1_dof_list.push_back(radius_);
-	t_1_dof_list.push_back(theta_1_);
+    SolverFunctionsBasePointer s_1(new arc2d_point_s(s_center_,radius_,theta_1_));
+    SolverFunctionsBasePointer t_1(new arc2d_point_t(t_center_,radius_,theta_1_));
 
 	// create dependent DOF's based on the above expressions
-	DOFPointer s_dof(new DependentDOF(s_1, s_1_dof_list));
-	DOFPointer t_dof(new DependentDOF(t_1, t_1_dof_list));
+	DOFPointer s_dof(new DependentDOF(s_1));
+	DOFPointer t_dof(new DependentDOF(t_1));
 
 	// create the actual point object
 	Point2DPointer result(new Point2D(s_dof, t_dof, sketch_plane_));
@@ -210,24 +195,12 @@ Point2DPointer Arc2D::GeneratePoint1()
 // This point will use dependent DOF's to define its location
 Point2DPointer Arc2D::GeneratePoint2()
 {
-	// Create expressions defining s and t coordinates of the second endpoint of the arc
-	ex s_2 = s_center_->GetVariable() + radius_->GetVariable()*cos(theta_2_->GetVariable());
-	ex t_2 = t_center_->GetVariable() + radius_->GetVariable()*sin(theta_2_->GetVariable());
+    SolverFunctionsBasePointer s_2(new arc2d_point_s(s_center_,radius_,theta_2_));
+    SolverFunctionsBasePointer t_2(new arc2d_point_t(t_center_,radius_,theta_2_));
 
-	// create DOF lists for each DOF
-	std::vector <DOFPointer> s_2_dof_list;
-	s_2_dof_list.push_back(s_center_);
-	s_2_dof_list.push_back(radius_);
-	s_2_dof_list.push_back(theta_2_);
-
-	std::vector <DOFPointer> t_2_dof_list;
-	t_2_dof_list.push_back(t_center_);
-	t_2_dof_list.push_back(radius_);
-	t_2_dof_list.push_back(theta_2_);
-
-	// create dependent DOF's based on the above expressions
-	DOFPointer s_dof(new DependentDOF(s_2, s_2_dof_list));
-	DOFPointer t_dof(new DependentDOF(t_2, t_2_dof_list));
+    // create dependent DOF's based on the above expressions
+    DOFPointer s_dof(new DependentDOF(s_2));
+    DOFPointer t_dof(new DependentDOF(t_2));
 
 	// create the actual point object
 	Point2DPointer result(new Point2D(s_dof, t_dof, sketch_plane_));
@@ -241,20 +214,22 @@ Point2DPointer Arc2D::GenerateCenterPoint()
 	return result;
 }
 
-void Arc2D::GetTangent1(GiNaC::ex & s_component, GiNaC::ex & t_component, std::vector<DOFPointer> & dof_list)
+void Arc2D::GetTangent1(DOFPointer & s_component, DOFPointer & t_component)
 {
-	s_component = sin(GetTheta1()->GetVariable());
-	t_component = -cos(GetTheta1()->GetVariable());
-	
-	dof_list.push_back(GetTheta1());
+    SolverFunctionsBasePointer s_function(new arc2d_tangent_s(GetTheta1()));
+    SolverFunctionsBasePointer t_function(new arc2d_tangent_t(GetTheta1())); 
+
+	s_component.reset(new DependentDOF(s_function));
+	t_component.reset(new DependentDOF(t_function));
 }
 
-void Arc2D::GetTangent2(GiNaC::ex & s_component, GiNaC::ex & t_component, std::vector<DOFPointer> & dof_list)
+void Arc2D::GetTangent2(DOFPointer & s_component, DOFPointer & t_component)
 {
-	s_component = -sin(GetTheta2()->GetVariable());
-	t_component = cos(GetTheta2()->GetVariable());
+    SolverFunctionsBasePointer s_function(new arc2d_tangent_s(GetTheta2()));
+    SolverFunctionsBasePointer t_function(new arc2d_tangent_t(GetTheta2())); 
 
-	dof_list.push_back(GetTheta2());
+    s_component.reset(new DependentDOF(s_function));
+    t_component.reset(new DependentDOF(t_function));
 }
 
 

@@ -56,8 +56,8 @@ class Arc2D : public Edge2DBase
 		Point2DPointer GeneratePoint2();
 		Point2DPointer GenerateCenterPoint();
 
-		void GetTangent1(GiNaC::ex & s_component, GiNaC::ex & t_component, std::vector<DOFPointer> & dof_list);  // returns expression that defines tangent vector for each endpoint of the edge and appends any DOF's that the expression depends on onto the vector dof_list
-		void GetTangent2(GiNaC::ex & s_component, GiNaC::ex & t_component, std::vector<DOFPointer> & dof_list);
+		void GetTangent1(DOFPointer & s_component, DOFPointer & t_component);  // returns a dependent that defines tangent vector for each endpoint of the edge
+		void GetTangent2(DOFPointer & s_component, DOFPointer & t_component);
 
 		void GetTangent1(double & s_component, double & t_component);
 		void GetTangent2(double & s_component, double & t_component);

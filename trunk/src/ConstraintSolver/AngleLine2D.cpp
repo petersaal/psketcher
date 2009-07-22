@@ -21,10 +21,9 @@
 
 #include "Ark3DModel.h"
 
-const std::string SQL_angle_line2d_database_schema = "CREATE TABLE angle_line2d_list (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, constraint_table_name TEXT NOT NULL, line1 INTEGER NOT NULL, line2 INTEGER NOT NULL, angle_dof INTEGER NOT NULL, interior_angle_bool INTEGER NOT NULL, text_angle_dof INTEGER NOT NULL, text_radius_dof INTEGER NOT NULL, text_s_dof INTEGER NOT NULL, text_t_dof INTEGER NOT NULL);";
+const std::string SQL_angle_line2d_database_schema = "CREATE TABLE angle_line2d_list (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, line1 INTEGER NOT NULL, line2 INTEGER NOT NULL, angle_dof INTEGER NOT NULL, interior_angle_bool INTEGER NOT NULL, text_angle_dof INTEGER NOT NULL, text_radius_dof INTEGER NOT NULL, text_s_dof INTEGER NOT NULL, text_t_dof INTEGER NOT NULL, weight FLOAT NOT NULL);";
 
 using namespace std;
-using namespace GiNaC;
 
 // Create an angle constraint between two lines
 AngleLine2D::AngleLine2D(const Line2DPointer line1, const Line2DPointer line2, double angle /* radians */, bool interior_angle):
@@ -63,34 +62,15 @@ text_t_(new IndependentDOF(0.0,false))
 
 	AddDOF(angle_);
 
-	// create the expression that defines the parallel constraint and add it the the constraint list
-	boost::shared_ptr<ex> new_constraint(new ex);
-	
-	ex line1_ds = line1->GetS2()->GetVariable() - line1->GetS1()->GetVariable();
-	ex line1_dt = line1->GetT2()->GetVariable() - line1->GetT1()->GetVariable();
-	ex line1_length = sqrt(pow(line1_ds,2)+pow(line1_dt,2));
-
-	ex line2_ds = line2->GetS2()->GetVariable() - line2->GetS1()->GetVariable();
-	ex line2_dt = line2->GetT2()->GetVariable() - line2->GetT1()->GetVariable();
-	ex line2_length = sqrt(pow(line2_ds,2)+pow(line2_dt,2));
-
-	ex desired_angle = angle_->GetVariable();
-
-	// Calculate the dot product normalized by the vector lengths and subtract the cos of the desired angle
-	// this expression will be zero when the lines are at the desired angle
+	// define the constraint equation
 	if(interior_angle_)
     {
-		*new_constraint = (1/(line1_length*line2_length))*(line1_ds*line2_ds + line1_dt*line2_dt)-cos(desired_angle);
-
-        //*new_constraint = angle_line_2d_interior(line1->GetS1()->GetVariable(),line1->GetT1()->GetVariable(),line1->GetS2()->GetVariable(),line1->GetT2()->GetVariable(),line2->GetS1()->GetVariable(),line2->GetT1()->GetVariable(),line2->GetS2()->GetVariable(),line2->GetT2()->GetVariable(),angle_->GetVariable());
+        solver_function_.reset(new  angle_line_2d_interior(line1_->GetS1(),line1_->GetT1(),line1_->GetS2(),line1_->GetT2(),line2_->GetS1(),line2_->GetT1(),line2_->GetS2(),line2_->GetT2(),angle_));
 	} else {
-		*new_constraint = (1/(line1_length*line2_length))*(line1_ds*line2_ds + line1_dt*line2_dt)-cos(mmcPI-desired_angle);
-
-        //*new_constraint = angle_line_2d_exterior(line1->GetS1()->GetVariable(),line1->GetT1()->GetVariable(),line1->GetS2()->GetVariable(),line1->GetT2()->GetVariable(),line2->GetS1()->GetVariable(),line2->GetT1()->GetVariable(),line2->GetS2()->GetVariable(),line2->GetT2()->GetVariable(),angle_->GetVariable());
+        solver_function_.reset(new  angle_line_2d_exterior(line1_->GetS1(),line1_->GetT1(),line1_->GetS2(),line1_->GetT2(),line2_->GetS1(),line2_->GetT1(),line2_->GetS2(),line2_->GetT2(),angle_));
     }
 
-	constraints_.push_back(new_constraint);
-	weight_list_.push_back(1.0);
+    weight_ = 1.0;
 }
 
 // Construct from database
@@ -222,8 +202,6 @@ void AngleLine2D::SetSTTextLocation(double text_s, double text_t, bool update_db
 
 double AngleLine2D::GetActualAngle() const
 {	
-	boost::shared_ptr<ex> new_constraint(new ex);
-	
 	double line1_ds = line1_->GetS2()->GetValue() - line1_->GetS1()->GetValue();
 	double line1_dt = line1_->GetT2()->GetValue() - line1_->GetT1()->GetValue();
 	double line1_length = sqrt(line1_ds*line1_ds+line1_dt*line1_dt);
@@ -262,9 +240,6 @@ void AngleLine2D::DatabaseAddRemove(bool add_to_database) // Utility method used
 	stringstream primitive_list_table_name;
 	primitive_list_table_name << "primitive_table_" << GetID();
 	stringstream constraint_list_table_name;
-	constraint_list_table_name << "constraint_table_" << GetID();
-
-	//"CREATE TABLE angle_line2d_list (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, constraint_table_name TEXT NOT NULL, line1 INTEGER NOT NULL, line2 INTEGER NOT NULL, angle_dof INTEGER NOT NULL, interior_angle_bool INTEGER NOT NULL, text_angle_dof INTEGER NOT NULL, text_radius_dof INTEGER NOT NULL, text_s_dof INTEGER NOT NULL, text_t_dof INTEGER NOT NULL);"
 
 	// First, create the sql statements to undo and redo this operation
 	stringstream temp_stream;
@@ -273,11 +248,11 @@ void AngleLine2D::DatabaseAddRemove(bool add_to_database) // Utility method used
                 << "INSERT INTO angle_line2d_list VALUES(" 
                 << GetID() << ",'" << dof_list_table_name.str() << "','" 
 				<< primitive_list_table_name.str() 
-				<< "','" << constraint_list_table_name.str()
 				<< "'," << line1_->GetID() << "," << line2_->GetID()
 				<< "," << angle_->GetID() << "," << interior_angle_
 				<< "," << text_angle_->GetID() << "," << text_radius_->GetID()
 				<< "," << text_s_->GetID() << "," << text_t_->GetID()
+                << "," << weight_
 				<< "); "
                 << "INSERT INTO constraint_equation_list VALUES("
                 << GetID() << ",'angle_line2d_list'); "
@@ -346,7 +321,6 @@ void AngleLine2D::DatabaseAddRemove(bool add_to_database) // Utility method used
 
 	// Now use the methods provided by PrimitiveBase and ConstraintEquationBase to create the tables listing the DOF's, the other Primitives that this primitive depends on, and the constraint equations
 	DatabaseAddDeleteLists(add_to_database,dof_list_table_name.str(),primitive_list_table_name.str());
-	DatabaseAddDeleteConstraintList(add_to_database, constraint_list_table_name.str());
 }
 
 bool AngleLine2D::SyncToDatabase(Ark3DModel &ark3d_model)
@@ -371,22 +345,29 @@ bool AngleLine2D::SyncToDatabase(Ark3DModel &ark3d_model)
 
 	rc = sqlite3_step(statement);
 
-	stringstream dof_table_name, primitive_table_name, constraint_table_name;
+	stringstream dof_table_name, primitive_table_name;
 
 	if(rc == SQLITE_ROW) {
 		// row exists, store the values to initialize this object
 		
 		dof_table_name << sqlite3_column_text(statement,1);
 		primitive_table_name << sqlite3_column_text(statement,2);
-		constraint_table_name << sqlite3_column_text(statement,3);
-		line1_ = ark3d_model.FetchPrimitive<Line2D>(sqlite3_column_int(statement,4));
-		line2_ = ark3d_model.FetchPrimitive<Line2D>(sqlite3_column_int(statement,5));
-		angle_ = ark3d_model.FetchDOF(sqlite3_column_int(statement,6));
-		interior_angle_ = sqlite3_column_int(statement,7);
-		text_angle_ = ark3d_model.FetchDOF(sqlite3_column_int(statement,8));
-		text_radius_ = ark3d_model.FetchDOF(sqlite3_column_int(statement,9));
-		text_s_ = ark3d_model.FetchDOF(sqlite3_column_int(statement,10));
-		text_t_ = ark3d_model.FetchDOF(sqlite3_column_int(statement,11));
+		line1_ = ark3d_model.FetchPrimitive<Line2D>(sqlite3_column_int(statement,3));
+		line2_ = ark3d_model.FetchPrimitive<Line2D>(sqlite3_column_int(statement,4));
+		angle_ = ark3d_model.FetchDOF(sqlite3_column_int(statement,5));
+		interior_angle_ = sqlite3_column_int(statement,6);
+		text_angle_ = ark3d_model.FetchDOF(sqlite3_column_int(statement,7));
+		text_radius_ = ark3d_model.FetchDOF(sqlite3_column_int(statement,8));
+		text_s_ = ark3d_model.FetchDOF(sqlite3_column_int(statement,9));
+		text_t_ = ark3d_model.FetchDOF(sqlite3_column_int(statement,10));
+        weight_ = sqlite3_column_double(statement,11);
+
+        if(interior_angle_)
+        {
+            solver_function_.reset(new  angle_line_2d_interior(line1_->GetS1(),line1_->GetT1(),line1_->GetS2(),line1_->GetT2(),line2_->GetS1(),line2_->GetT1(),line2_->GetS2(),line2_->GetT2(),angle_));
+        } else {
+            solver_function_.reset(new  angle_line_2d_exterior(line1_->GetS1(),line1_->GetT1(),line1_->GetS2(),line1_->GetT2(),line2_->GetS1(),line2_->GetT1(),line2_->GetS2(),line2_->GetT2(),angle_));
+        }
 
 	} else {
 		// the requested row does not exist in the database
@@ -412,7 +393,6 @@ bool AngleLine2D::SyncToDatabase(Ark3DModel &ark3d_model)
 
 	// now sync the lists store in the base classes
 	SyncListsToDatabase(dof_table_name.str(),primitive_table_name.str(),ark3d_model); // PrimitiveBase
-	SyncConstraintListToDatabase(constraint_table_name.str(),ark3d_model); // ConstraintEquationBase 
 
 	return true; // row existed in the database
 }

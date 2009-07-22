@@ -17,31 +17,27 @@
 #ifndef ConstraintSolverH
 #define ConstraintSolverH
 
-#include <vector>
+#include <map>
+#include "SolverFunctions.h"
 #include "../mmcMatrix/mmcMatrix.h"
 #include "../NumOptimization/bfgs.h"
-#include <ginac/ginac.h>
 
 /* Now will define the merit function derived class used in the template matching */
 class ConstraintSolver : public MeritFunction
 {
 public:
-	ConstraintSolver(const std::vector<GiNaC::ex> &constraints_, const std::vector<double> & weights_, const std::vector<GiNaC::symbol> & free_parameters_, const std::vector<GiNaC::symbol> & fixed_parameters_, const std::vector<double> & fixed_values_);
+	ConstraintSolver(const std::vector<SolverFunctionsBasePointer> &constraints, const std::vector<double> & weights, const std::vector<DOFPointer> & free_parameters, const std::vector<DOFPointer> & fixed_parameters, const std::vector<double> & fixed_values);
 	virtual ~ConstraintSolver() {;}
 
 	virtual double GetMeritValue(const mmcMatrix & x);
 	virtual mmcMatrix GetMeritGradient(const mmcMatrix & x);
-	virtual void GetMeritValuePlusGradient(const mmcMatrix & x, double &value, mmcMatrix &gradient);
 
 private:
-	std::vector<GiNaC::symbol> free_parameters;
-	std::vector<GiNaC::symbol> fixed_parameters;
-	std::vector<double> fixed_values;
-	std::vector<double> weights;
-	std::vector<GiNaC::ex> constraints;
-	std::vector<GiNaC::ex> grad_expressions;
-
-	GiNaC::ex error_function;
+	std::vector<DOFPointer> free_parameters_;
+	std::vector<DOFPointer> fixed_parameters_;
+	mmcMatrix fixed_values_;
+	std::vector<double> weights_;
+	std::vector<SolverFunctionsBasePointer> constraints_;
 };
 
 #endif //ConstraintSolverH

@@ -297,53 +297,31 @@ void Ark3DModel::SolveConstraints()
 		unsigned int num_fixed_values; 
 		
 		// create constraint equation and constraint equation weight vectors
-		std::vector<GiNaC::ex> constraints;
+		std::vector<SolverFunctionsBasePointer> constraints;
 		std::vector<double> weights;
 	
 		for(map<unsigned,ConstraintEquationBasePointer>::iterator constraint_it=constraint_equation_list_.begin() ; constraint_it != constraint_equation_list_.end(); constraint_it++ )
 		{
-				std::vector< boost::shared_ptr<GiNaC::ex> > current_constraint_list = constraint_it->second->GetConstraintList();
-				
-				std::vector<double> current_weight_list = constraint_it->second->GetWeightList();
-	
-				// loop over each expression in the constraint equation class
-				for(unsigned int current_sub_equation = 0; current_sub_equation < current_constraint_list.size(); current_sub_equation++)
-				{
-					constraints.push_back(*(current_constraint_list[current_sub_equation]));
-					weights.push_back(current_weight_list[current_sub_equation]);
-				}
+                constraints.push_back(constraint_it->second->GetSolverFunction());
+                weights.push_back(constraint_it->second->GetWeight());
 		}
 	
-		// For each dependent DOF, substitute its defining expression into all of the constraint equations that reference it
-		for (map<unsigned,DOFPointer>::iterator dof_it=dof_list_.begin() ; dof_it != dof_list_.end(); dof_it++ )
-		{
-			if((*dof_it).second->IsDependent())
-			{
-				// loop over each constraint equation and substitute the dependent DOF
-				for(unsigned int current_equation = 0; current_equation < constraints.size(); current_equation++)
-				{
-					constraints[current_equation] = constraints[current_equation].subs((*dof_it).second->GetVariable() == (*dof_it).second->GetExpression(),GiNaC::subs_options::no_pattern);
-				}
-			}
-		}
 
 		// create the free parameters, free_values, fixed_parameters, and fixed_values lists
-		std::vector<GiNaC::symbol> free_parameters;
-		std::vector<DOFPointer> free_dof_list;   // This vector will be used to update the DOF's after solving the constraint equations
+		std::vector<DOFPointer> free_parameters;
 		std::vector<double> free_values;
-		std::vector<GiNaC::symbol> fixed_parameters;
+		std::vector<DOFPointer> fixed_parameters;
 		std::vector<double> fixed_values;
 		
 		for (map<unsigned,DOFPointer>::iterator dof_it=dof_list_.begin() ; dof_it != dof_list_.end(); dof_it++ )
 		{
 			if((*dof_it).second->IsFree())
 			{	// free parameter
-				free_parameters.push_back((*dof_it).second->GetVariable());
-				free_dof_list.push_back((*dof_it).second);
+				free_parameters.push_back((*dof_it).second);
 				free_values.push_back((*dof_it).second->GetValue());
 			} else if( ! (*dof_it).second->IsDependent()) 
 			{	// fixed, independent parameter
-				fixed_parameters.push_back((*dof_it).second->GetVariable());
+				fixed_parameters.push_back((*dof_it).second);
 				fixed_values.push_back((*dof_it).second->GetValue());
 			}
 		}
@@ -356,15 +334,13 @@ void Ark3DModel::SolveConstraints()
 			for(unsigned int current_free_value = 0; current_free_value < free_values.size(); current_free_value++)
 				initial_free_values(current_free_value,0) = free_values[current_free_value];
 		
-		
-			ConstraintSolver my_constraint_solver(constraints, weights, free_parameters,
-																				fixed_parameters, fixed_values);
+			ConstraintSolver my_constraint_solver(constraints, weights, free_parameters, fixed_parameters, fixed_values);
 		
 			mmcMatrix computed_free_values = my_constraint_solver.MinimizeMeritFunction(initial_free_values, 1000, 1e-10, 1e-15, 100, 1, &std::cerr);
 		
 			// Update the free DOF's with the solution
-			for(unsigned int current_dof = 0; current_dof < free_dof_list.size(); current_dof++)
-				free_dof_list[current_dof]->SetValue(computed_free_values(current_dof,0));
+			for(unsigned int current_dof = 0; current_dof < free_parameters.size(); current_dof++)
+				free_parameters[current_dof]->SetValue(computed_free_values(current_dof,0));
 		}
 	}
 }

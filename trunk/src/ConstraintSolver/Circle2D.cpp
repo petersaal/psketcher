@@ -32,7 +32,6 @@ const std::string SQL_circle2d_database_schema = "CREATE TABLE circle2d_list (id
 #include "Ark3DModel.h"
 
 using namespace std;
-using namespace GiNaC;
 
 // create an arc
 Circle2D::Circle2D (double s_center, double t_center, double radius, SketchPlanePointer sketch_plane,
