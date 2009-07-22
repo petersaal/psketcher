@@ -17,7 +17,6 @@
 #include <sstream>
 
 // Begining of includes related to libdime (used for dxf import and export)
-#include "../dime/Basic.h"  // force the inclusion of my own version of this libdime header (the default version creates a conflicting decleration of uint32 as compared to GiNaC)
 #include <dime/entities/Circle.h>
 // End of includes related to libdime
 
