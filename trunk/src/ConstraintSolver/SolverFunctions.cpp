@@ -307,7 +307,7 @@ double tangent_edge_2d::GetValue() const
     double s2 = GetDOF(2)->GetValue();
     double t2 = GetDOF(3)->GetValue();
 
-    return -1 + pow((s1*s2 - t1*t2),2);
+    return -1 + pow((s1*s2 + t1*t2),2);
 }
 
 double tangent_edge_2d::GetValueSelf(const mmcMatrix &params) const
@@ -317,7 +317,7 @@ double tangent_edge_2d::GetValueSelf(const mmcMatrix &params) const
     double s2 = params(2,0);
     double t2 = params(3,0);
 
-    return -1 + pow((s1*s2 - t1*t2),2);
+    return -1 + pow((s1*s2 + t1*t2),2);
 }
 
 mmcMatrix tangent_edge_2d::GetGradientSelf(const mmcMatrix &params) const
@@ -329,10 +329,10 @@ mmcMatrix tangent_edge_2d::GetGradientSelf(const mmcMatrix &params) const
     double s2 = params(2,0);
     double t2 = params(3,0);
 
-    result(0,0) = 2*s2*(s1*s2 - t1*t2);
-    result(1,0) = -2*t2*(s1*s2 - t1*t2);
-    result(2,0) = 2*s1*(s1*s2 - t1*t2);
-    result(3,0) = -2*t1*(s1*s2 - t1*t2);
+    result(0,0) = 2*s2*(s1*s2 + t1*t2);
+    result(1,0) = 2*t2*(s1*s2 + t1*t2);
+    result(2,0) = 2*s1*(s1*s2 + t1*t2);
+    result(3,0) = 2*t1*(s1*s2 + t1*t2);
 
     return result;
 }
