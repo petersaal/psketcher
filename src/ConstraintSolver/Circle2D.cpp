@@ -28,7 +28,7 @@ const std::string SQL_circle2d_database_schema = "CREATE TABLE circle2d_list (id
 #include "IndependentDOF.h"
 #include "DependentDOF.h"
 
-#include "Ark3DModel.h"
+#include "pSketcherModel.h"
 
 using namespace std;
 
@@ -69,7 +69,7 @@ Primitive2DBase(sketch_plane)
 	if(m11 == 0.0)
 	{	
 		// lines are colinear, throw an exception
-		throw Ark3DException();
+		throw pSketcherException();
 	} else {
 		double s_center = 0.5*(m12/m11);
 		double t_center = -0.5*(m13/m11);
@@ -125,17 +125,17 @@ Primitive2DBase(sketch_plane)
 }
 
 // Construct from database
-Circle2D::Circle2D(unsigned id, Ark3DModel &ark3d_model)
+Circle2D::Circle2D(unsigned id, pSketcherModel &psketcher_model)
 {
 	SetID(id);
 
-    bool exists = SyncToDatabase(ark3d_model);
+    bool exists = SyncToDatabase(psketcher_model);
 	
 	if(!exists) // this object does not exist in the table
 	{
 		stringstream error_description;
 		error_description << "SQLite rowid " << id << " in table circle2d_list does not exist";
-		throw Ark3DException(error_description.str());
+		throw pSketcherException(error_description.str());
 	}
 }
 
@@ -246,7 +246,7 @@ void Circle2D::DatabaseAddRemove(bool add_to_database) // Utility method used by
 			if( rc!=SQLITE_OK ){
 				std::string error_description = "SQL error: " + std::string(zErrMsg);
 				sqlite3_free(zErrMsg);
-				throw Ark3DException(error_description);
+				throw pSketcherException(error_description);
 			}
 	
 			// now that the table has been created, attempt the insert one last time
@@ -254,12 +254,12 @@ void Circle2D::DatabaseAddRemove(bool add_to_database) // Utility method used by
 			if( rc!=SQLITE_OK ){
 				std::string error_description = "SQL error: " + std::string(zErrMsg);
 				sqlite3_free(zErrMsg);
-				throw Ark3DException(error_description);
+				throw pSketcherException(error_description);
 			}
 		} else {
 			std::string error_description = "SQL error: " + std::string(zErrMsg);
 			sqlite3_free(zErrMsg);
-			throw Ark3DException(error_description);
+			throw pSketcherException(error_description);
 		}
 	}
 
@@ -271,7 +271,7 @@ void Circle2D::DatabaseAddRemove(bool add_to_database) // Utility method used by
 	if( rc!=SQLITE_OK ){
 		std::string error_description = "SQL error: " + std::string(zErrMsg);
 		sqlite3_free(zErrMsg);
-		throw Ark3DException(error_description);
+		throw pSketcherException(error_description);
 	}
 
 	sqlite3_free(sql_undo_redo);
@@ -280,9 +280,9 @@ void Circle2D::DatabaseAddRemove(bool add_to_database) // Utility method used by
 	DatabaseAddDeleteLists(add_to_database,dof_list_table_name.str(),primitive_list_table_name.str());
 }
 
-bool Circle2D::SyncToDatabase(Ark3DModel &ark3d_model)
+bool Circle2D::SyncToDatabase(pSketcherModel &psketcher_model)
 {
-	database_ = ark3d_model.GetDatabase();
+	database_ = psketcher_model.GetDatabase();
 
 	string table_name = "circle2d_list";
 
@@ -293,11 +293,11 @@ bool Circle2D::SyncToDatabase(Ark3DModel &ark3d_model)
 	stringstream sql_command;
 	sql_command << "SELECT * FROM " << table_name << " WHERE id=" << GetID() << ";";
 
-	rc = sqlite3_prepare(ark3d_model.GetDatabase(), sql_command.str().c_str(), -1, &statement, 0);
+	rc = sqlite3_prepare(psketcher_model.GetDatabase(), sql_command.str().c_str(), -1, &statement, 0);
 	if( rc!=SQLITE_OK ){
 		stringstream error_description;
-		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
-		throw Ark3DException(error_description.str());
+		error_description << "SQL error: " << sqlite3_errmsg(psketcher_model.GetDatabase());
+		throw pSketcherException(error_description.str());
 	}
 
 	rc = sqlite3_step(statement);
@@ -309,13 +309,13 @@ bool Circle2D::SyncToDatabase(Ark3DModel &ark3d_model)
 		
 		dof_table_name << sqlite3_column_text(statement,1);
 		primitive_table_name << sqlite3_column_text(statement,2);
-		SetSketchPlane(ark3d_model.FetchPrimitive<SketchPlane>(sqlite3_column_int(statement,3)));
-		center_point_ = ark3d_model.FetchPrimitive<Point2D>(sqlite3_column_int(statement,4));
-		radius_ = ark3d_model.FetchDOF(sqlite3_column_int(statement,5));
-		s_center_ = ark3d_model.FetchDOF(sqlite3_column_int(statement,6));
-		t_center_ = ark3d_model.FetchDOF(sqlite3_column_int(statement,7));
-		text_angle_ = ark3d_model.FetchDOF(sqlite3_column_int(statement,8));
-		text_radius_ = ark3d_model.FetchDOF(sqlite3_column_int(statement,9));
+		SetSketchPlane(psketcher_model.FetchPrimitive<SketchPlane>(sqlite3_column_int(statement,3)));
+		center_point_ = psketcher_model.FetchPrimitive<Point2D>(sqlite3_column_int(statement,4));
+		radius_ = psketcher_model.FetchDOF(sqlite3_column_int(statement,5));
+		s_center_ = psketcher_model.FetchDOF(sqlite3_column_int(statement,6));
+		t_center_ = psketcher_model.FetchDOF(sqlite3_column_int(statement,7));
+		text_angle_ = psketcher_model.FetchDOF(sqlite3_column_int(statement,8));
+		text_radius_ = psketcher_model.FetchDOF(sqlite3_column_int(statement,9));
 
 	} else {
 		// the requested row does not exist in the database
@@ -328,19 +328,19 @@ bool Circle2D::SyncToDatabase(Ark3DModel &ark3d_model)
 	if( rc!=SQLITE_DONE ){
 		// sql statement didn't finish properly, some error must to have occured
 		stringstream error_description;
-		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
-		throw Ark3DException(error_description.str());
+		error_description << "SQL error: " << sqlite3_errmsg(psketcher_model.GetDatabase());
+		throw pSketcherException(error_description.str());
 	}
 	
 	rc = sqlite3_finalize(statement);
 	if( rc!=SQLITE_OK ){
 		stringstream error_description;
-		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
-		throw Ark3DException(error_description.str());
+		error_description << "SQL error: " << sqlite3_errmsg(psketcher_model.GetDatabase());
+		throw pSketcherException(error_description.str());
 	}
 
 	// now sync the lists store in the base classes
-	SyncListsToDatabase(dof_table_name.str(),primitive_table_name.str(),ark3d_model); // PrimitiveBase
+	SyncListsToDatabase(dof_table_name.str(),primitive_table_name.str(),psketcher_model); // PrimitiveBase
 
 	return true; // row existed in the database
 }

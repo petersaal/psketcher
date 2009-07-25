@@ -19,7 +19,7 @@
 #include <time.h>
 #include <math.h>
 #include "../QtBinding/QtPrimitives.h"
-#include "../ConstraintSolver/Ark3DModel.h"
+#include "../ConstraintSolver/pSketcherModel.h"
 #include "../mmcMatrix/mmcMatrix.h"
 
 using namespace std;
@@ -51,7 +51,7 @@ void constraint_solver_test_2(QGraphicsItem * parent)
 	ConstraintEquationBasePointer constraint5(new QtAngleLine2D(ais_context,line1,line2,mmcPI/2.0));
 
 	// Create the ark 3d model object
-	Ark3DModel my_model;
+	pSketcherModel my_model;
 	
 	// Add the primitives to the 3d model object
 	my_model.AddPrimitive(point1);

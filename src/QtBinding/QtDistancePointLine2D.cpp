@@ -18,9 +18,9 @@
 
 #include "QtDistancePointLine2D.h"
 
-QtDistancePointLine2D::QtDistancePointLine2D (QGraphicsItem * parent, unsigned id, Ark3DModel &ark3d_model):
+QtDistancePointLine2D::QtDistancePointLine2D (QGraphicsItem * parent, unsigned id, pSketcherModel &psketcher_model):
 QtPrimitiveBase(parent),
-DistancePointLine2D(id,ark3d_model),
+DistancePointLine2D(id,psketcher_model),
 pending_db_save_(false)
 {
 	SetProperties(Annotation);

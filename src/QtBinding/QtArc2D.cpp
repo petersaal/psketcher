@@ -18,9 +18,9 @@
 
 #include "QtArc2D.h"
 
-QtArc2D::QtArc2D (QGraphicsItem * parent, unsigned id, Ark3DModel &ark3d_model):
+QtArc2D::QtArc2D (QGraphicsItem * parent, unsigned id, pSketcherModel &psketcher_model):
 QtPrimitiveBase(parent),
-Arc2D(id,ark3d_model),
+Arc2D(id,psketcher_model),
 pending_db_save_(false)
 {
 	SetProperties(Primitive);

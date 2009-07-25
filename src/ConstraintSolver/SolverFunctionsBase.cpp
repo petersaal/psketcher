@@ -1,7 +1,7 @@
 #include <sstream>
 
 #include "SolverFunctionsBase.h"
-#include "Ark3DModel.h"
+#include "pSketcherModel.h"
 
 using namespace std;
 
@@ -69,7 +69,7 @@ void SolverFunctionsBase::DefineInputMap(const std::map<unsigned,unsigned> &inpu
                 // dof not found in map, need to throw an exception
                 stringstream error_message;
                 error_message << "DOF with the ID " << dof_list_[i]->GetID() << " not found in input map while defining transform_ for a SolverFunctionsBase instance.";
-                throw Ark3DException(error_message.str());
+                throw pSketcherException(error_message.str());
             }
         }
     }

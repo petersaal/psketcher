@@ -18,9 +18,9 @@
 
 #include "QtLine2D.h"
 
-QtLine2D::QtLine2D (QGraphicsItem * parent, unsigned id, Ark3DModel &ark3d_model):
+QtLine2D::QtLine2D (QGraphicsItem * parent, unsigned id, pSketcherModel &psketcher_model):
 QtPrimitiveBase(parent),
-Line2D(id,ark3d_model)
+Line2D(id,psketcher_model)
 {
 	double x1, y1, z1, x2, y2, z2;	
 

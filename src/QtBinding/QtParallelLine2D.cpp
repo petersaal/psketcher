@@ -18,9 +18,9 @@
 
 #include "QtParallelLine2D.h"
 
-QtParallelLine2D::QtParallelLine2D (QGraphicsItem * parent, unsigned id, Ark3DModel &ark3d_model):
+QtParallelLine2D::QtParallelLine2D (QGraphicsItem * parent, unsigned id, pSketcherModel &psketcher_model):
 QtPrimitiveBase(parent),
-ParallelLine2D(id,ark3d_model)
+ParallelLine2D(id,psketcher_model)
 {
 	SetProperties(Annotation);
 	SetSelectedProperties(SelectedAnnotation);

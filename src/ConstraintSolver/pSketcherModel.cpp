@@ -25,11 +25,11 @@
 #include <dime/sections/EntitiesSection.h>
 // End of includes related to libdime
 
-#include "Ark3DModel.h"
+#include "pSketcherModel.h"
 
 using namespace std;
 
-const std::string SQL_ark3d_database_schema = 
+const std::string SQL_psketcher_database_schema = 
 "BEGIN;"
 	"CREATE TABLE dof_list (id INTEGER PRIMARY KEY, table_name TEXT NOT NULL);"
 	"CREATE TABLE primitive_list (id INTEGER PRIMARY KEY, table_name TEXT NOT NULL);"
@@ -50,12 +50,12 @@ const std::string SQL_ark3d_database_schema =
 	"END;"
 "COMMIT;";
 
-const std::string ark3d_current_database_file = "ark3d_working_db.current";
-const std::string ark3d_previous_database_file = "ark3d_working_db.previous";
+const std::string psketcher_current_database_file = "psketcher_working_db.current";
+const std::string psketcher_previous_database_file = "psketcher_working_db.previous";
 
 
 // construct empty model
-Ark3DModel::Ark3DModel(PrimitiveBasePointer (*current_primitive_factory)(unsigned, Ark3DModel &), ConstraintEquationBasePointer (*current_constraint_factory)(unsigned, Ark3DModel &)):
+pSketcherModel::pSketcherModel(PrimitiveBasePointer (*current_primitive_factory)(unsigned, pSketcherModel &), ConstraintEquationBasePointer (*current_constraint_factory)(unsigned, pSketcherModel &)):
 CurrentPrimitiveFactory(current_primitive_factory),
 CurrentConstraintFactory(current_constraint_factory),
 current_selection_mask_(All),
@@ -67,7 +67,7 @@ current_file_name_("")
 }
 
 // construct existing model from file
-Ark3DModel::Ark3DModel(const std::string &file_name,PrimitiveBasePointer (*current_primitive_factory)(unsigned, Ark3DModel &), ConstraintEquationBasePointer (*current_constraint_factory)(unsigned, Ark3DModel &)):
+pSketcherModel::pSketcherModel(const std::string &file_name,PrimitiveBasePointer (*current_primitive_factory)(unsigned, pSketcherModel &), ConstraintEquationBasePointer (*current_constraint_factory)(unsigned, pSketcherModel &)):
 CurrentPrimitiveFactory(current_primitive_factory),
 CurrentConstraintFactory(current_constraint_factory),
 current_selection_mask_(All),
@@ -75,30 +75,30 @@ database_(0),
 current_file_name_(file_name)
 {
 	// delete the previous database file if it already exists
-	if(boost::filesystem::exists(ark3d_previous_database_file))
-		boost::filesystem::remove(ark3d_previous_database_file);
+	if(boost::filesystem::exists(psketcher_previous_database_file))
+		boost::filesystem::remove(psketcher_previous_database_file);
 
 	// move the current database file to the previous database file if it exists
-	if(boost::filesystem::exists(ark3d_current_database_file))
-		boost::filesystem::rename(ark3d_current_database_file,ark3d_previous_database_file);
+	if(boost::filesystem::exists(psketcher_current_database_file))
+		boost::filesystem::rename(psketcher_current_database_file,psketcher_previous_database_file);
 
 	// replace the working database file with the file to be opened
-	boost::filesystem::copy_file(current_file_name_,ark3d_current_database_file);
+	boost::filesystem::copy_file(current_file_name_,psketcher_current_database_file);
 
 	// open the working database file
-	int rc = sqlite3_open(ark3d_current_database_file.c_str(), &database_);
+	int rc = sqlite3_open(psketcher_current_database_file.c_str(), &database_);
 	if( rc ){
 		// an error occurred when trying to open the database
 		std::string error_description = "Can't open database: " + std::string(sqlite3_errmsg(database_));
 		sqlite3_close(database_);
-		throw Ark3DException(error_description);
+		throw pSketcherException(error_description);
 	}
 
 	// synchronize memory to the newly opened database
 	SyncToDatabase();
 }
 
-Ark3DModel::~Ark3DModel() 
+pSketcherModel::~pSketcherModel() 
 {
 	// close the database
 	int rc = sqlite3_close(database_);
@@ -130,36 +130,36 @@ Ark3DModel::~Ark3DModel()
 	primitive_list_.clear();
 }
 
-void Ark3DModel::InitializeDatabase()
+void pSketcherModel::InitializeDatabase()
 {
 	// delete the previous database file if it already exists
-	if(boost::filesystem::exists(ark3d_previous_database_file))
-		boost::filesystem::remove(ark3d_previous_database_file);
+	if(boost::filesystem::exists(psketcher_previous_database_file))
+		boost::filesystem::remove(psketcher_previous_database_file);
 
 	// move the current database file to the previous database file if it exists
-	if(boost::filesystem::exists(ark3d_current_database_file))
-		boost::filesystem::rename(ark3d_current_database_file,ark3d_previous_database_file);
+	if(boost::filesystem::exists(psketcher_current_database_file))
+		boost::filesystem::rename(psketcher_current_database_file,psketcher_previous_database_file);
 
-	int rc = sqlite3_open(ark3d_current_database_file.c_str(), &database_);
+	int rc = sqlite3_open(psketcher_current_database_file.c_str(), &database_);
 	if( rc ){
 		// an error occurred when trying to open the database
 		std::string error_description = "Can't open database: " + std::string(sqlite3_errmsg(database_));
 		sqlite3_close(database_);
-		throw Ark3DException(error_description);
+		throw pSketcherException(error_description);
 	}
 
 	// initialize the database schema
 	char *zErrMsg = 0;
-	rc = sqlite3_exec(database_, SQL_ark3d_database_schema.c_str(), 0, 0, &zErrMsg);
+	rc = sqlite3_exec(database_, SQL_psketcher_database_schema.c_str(), 0, 0, &zErrMsg);
 	if( rc!=SQLITE_OK ){
 		std::string error_description = "SQL error: " + std::string(zErrMsg);
 		sqlite3_free(zErrMsg);
-		throw Ark3DException(error_description);
+		throw pSketcherException(error_description);
 	}
 	
 }
 
-bool Ark3DModel::Save(const std::string &file_name, bool save_copy)
+bool pSketcherModel::Save(const std::string &file_name, bool save_copy)
 {
 	if(file_name != "" && !save_copy)
 		current_file_name_ = file_name;
@@ -173,7 +173,7 @@ bool Ark3DModel::Save(const std::string &file_name, bool save_copy)
 		// error occured when attempting to close the database
 		std::stringstream error_description;
 		error_description << "Error closing SQL Database: " << sqlite3_errmsg(database_) << std::endl;	
-		throw Ark3DException(error_description.str());
+		throw pSketcherException(error_description.str());
 	}
 	database_ = 0;
 
@@ -183,11 +183,11 @@ bool Ark3DModel::Save(const std::string &file_name, bool save_copy)
 		{
 			if(boost::filesystem::exists(current_file_name_))
 				boost::filesystem::remove(current_file_name_); // delete file if it already exists
-			boost::filesystem::copy_file(ark3d_current_database_file,current_file_name_);
+			boost::filesystem::copy_file(psketcher_current_database_file,current_file_name_);
 		} else {
 			if(boost::filesystem::exists(file_name))
 				boost::filesystem::remove(file_name); // delete file if it already exists
-			boost::filesystem::copy_file(ark3d_current_database_file,file_name);
+			boost::filesystem::copy_file(psketcher_current_database_file,file_name);
 		}
 	}
 	catch (boost::filesystem::basic_filesystem_error<string> e) {
@@ -195,18 +195,18 @@ bool Ark3DModel::Save(const std::string &file_name, bool save_copy)
 	}
 
 	// finally, reopen the working database so that it can continue to be used
-	rc = sqlite3_open(ark3d_current_database_file.c_str(), &database_);
+	rc = sqlite3_open(psketcher_current_database_file.c_str(), &database_);
 	if( rc ){
 		// an error occurred when trying to open the database
 		std::string error_description = "Can't open database: " + std::string(sqlite3_errmsg(database_));
 		sqlite3_close(database_);
-		throw Ark3DException(error_description);
+		throw pSketcherException(error_description);
 	}
 
 	return success;
 }
 
-void Ark3DModel::AddConstraintEquation(const ConstraintEquationBasePointer &new_constraint_equation, bool update_database)
+void pSketcherModel::AddConstraintEquation(const ConstraintEquationBasePointer &new_constraint_equation, bool update_database)
 {
 	// Add constraint equation to constraint equation vector container
 	pair<map<unsigned,ConstraintEquationBasePointer>::iterator,bool> constraint_ret;
@@ -239,14 +239,14 @@ void Ark3DModel::AddConstraintEquation(const ConstraintEquationBasePointer &new_
 }
 
 /*
-void Ark3DModel::AddConstraintEquations(const std::vector<ConstraintEquationBasePointer> &new_constraint_equations)
+void pSketcherModel::AddConstraintEquations(const std::vector<ConstraintEquationBasePointer> &new_constraint_equations)
 {
 	for(unsigned int current_equation = 0; current_equation < new_constraint_equations.size(); current_equation++)
 		AddConstraintEquation(new_constraint_equations[current_equation]);
 }
 */
 
-void Ark3DModel::AddPrimitive(const PrimitiveBasePointer &new_primitive, bool update_database)
+void pSketcherModel::AddPrimitive(const PrimitiveBasePointer &new_primitive, bool update_database)
 {
 	// Add primitive to the primitive vector container
 	pair<map<unsigned,PrimitiveBasePointer>::iterator,bool> primitive_ret;
@@ -279,7 +279,7 @@ void Ark3DModel::AddPrimitive(const PrimitiveBasePointer &new_primitive, bool up
 }
 
 /*
-void Ark3DModel::AddPrimitives(const std::vector<PrimitiveBasePointer> &new_primitives)
+void pSketcherModel::AddPrimitives(const std::vector<PrimitiveBasePointer> &new_primitives)
 {
 	for(unsigned int current_primitive = 0; current_primitive < new_primitives.size(); current_primitive++)
 		AddPrimitive(new_primitives[current_primitive]);
@@ -287,7 +287,7 @@ void Ark3DModel::AddPrimitives(const std::vector<PrimitiveBasePointer> &new_prim
 */
 
 // This method solves the system of constraint equations for this model
-void Ark3DModel::SolveConstraints()
+void pSketcherModel::SolveConstraints()
 {
 	// only procedd if at least one constraint equation exists
 	if(constraint_equation_list_.size() > 0)
@@ -345,7 +345,7 @@ void Ark3DModel::SolveConstraints()
 }
 
 
-void Ark3DModel::UpdateDisplay()
+void pSketcherModel::UpdateDisplay()
 {
 	// Update display for all of the constraint equations
 	for(map<unsigned,ConstraintEquationBasePointer>::iterator constraint_it=constraint_equation_list_.begin() ; constraint_it != constraint_equation_list_.end(); constraint_it++ )
@@ -356,7 +356,7 @@ void Ark3DModel::UpdateDisplay()
 		primitive_it->second->UpdateDisplay();
 }
 
-void Ark3DModel::ApplySelectionMask(SelectionMask mask)
+void pSketcherModel::ApplySelectionMask(SelectionMask mask)
 {
 	current_selection_mask_ = mask;
 
@@ -370,7 +370,7 @@ void Ark3DModel::ApplySelectionMask(SelectionMask mask)
 
 }
 
-std::vector<PrimitiveBasePointer> Ark3DModel::GetSelectedPrimitives()
+std::vector<PrimitiveBasePointer> pSketcherModel::GetSelectedPrimitives()
 {
 	std::vector<PrimitiveBasePointer> selected_primitives;
 
@@ -383,7 +383,7 @@ std::vector<PrimitiveBasePointer> Ark3DModel::GetSelectedPrimitives()
 	return selected_primitives;
 }
 
-std::vector<ConstraintEquationBasePointer> Ark3DModel::GetConstraintEquations()
+std::vector<ConstraintEquationBasePointer> pSketcherModel::GetConstraintEquations()
 {
 	std::vector<ConstraintEquationBasePointer> selected_constraint_equations;
 
@@ -396,21 +396,21 @@ std::vector<ConstraintEquationBasePointer> Ark3DModel::GetConstraintEquations()
 	return selected_constraint_equations;
 }
 
-void Ark3DModel::DeletePrimitive(PrimitiveBasePointer primitive_to_delete)
+void pSketcherModel::DeletePrimitive(PrimitiveBasePointer primitive_to_delete)
 {
 	primitive_to_delete->FlagForDeletion();
 	FlagDependentsForDeletion(primitive_to_delete);
 	DeleteFlagged();
 }
 
-void Ark3DModel::DeletePrimitiveNoDependancyCheck(PrimitiveBasePointer primitive_to_delete)
+void pSketcherModel::DeletePrimitiveNoDependancyCheck(PrimitiveBasePointer primitive_to_delete)
 {
     primitive_to_delete->FlagForDeletion();
     DeleteFlagged();
 }
 
 // Flag any primitives or constraint equations for deletion that depend on this primitive
-void Ark3DModel::FlagDependentsForDeletion(PrimitiveBasePointer primitive_to_delete)
+void pSketcherModel::FlagDependentsForDeletion(PrimitiveBasePointer primitive_to_delete)
 {
 	bool status_changed;
 
@@ -434,7 +434,7 @@ void Ark3DModel::FlagDependentsForDeletion(PrimitiveBasePointer primitive_to_del
 }
 
 // delete all of the primitives that have been flagged for deletion
-void Ark3DModel::DeleteFlagged(bool remove_from_db)
+void pSketcherModel::DeleteFlagged(bool remove_from_db)
 {
 	map<unsigned,PrimitiveBasePointer>::iterator iter1 = primitive_list_.begin();
 
@@ -470,7 +470,7 @@ void Ark3DModel::DeleteFlagged(bool remove_from_db)
 	DeleteUnusedDOFs(false /* don't attempt to remove from the database */);
 }
 
-void Ark3DModel::DeleteSelected()
+void pSketcherModel::DeleteSelected()
 {
 	// loop through all of the primitives
 	for(map<unsigned,PrimitiveBasePointer>::iterator primitive_it=primitive_list_.begin() ; primitive_it != primitive_list_.end(); primitive_it++ )
@@ -495,7 +495,7 @@ void Ark3DModel::DeleteSelected()
 	DeleteFlagged();
 }
 
-DOFPointer Ark3DModel::FetchDOF(unsigned id)
+DOFPointer pSketcherModel::FetchDOF(unsigned id)
 {
 	map<unsigned,DOFPointer>::iterator dof_it = dof_list_.find(id);
 	if(dof_it != dof_list_.end())
@@ -515,7 +515,7 @@ DOFPointer Ark3DModel::FetchDOF(unsigned id)
 	}
 }
 
-DOFPointer Ark3DModel::DOFFactory(unsigned id)
+DOFPointer pSketcherModel::DOFFactory(unsigned id)
 {
 	// grab the table name from the database so we now exactly which class needs to be created
 	int rc;
@@ -530,7 +530,7 @@ DOFPointer Ark3DModel::DOFFactory(unsigned id)
 	if( rc!=SQLITE_OK ){
 		stringstream error_description;
 		error_description << "SQL error: " << sqlite3_errmsg(database_);
-		throw Ark3DException(error_description.str());
+		throw pSketcherException(error_description.str());
 	}
 
 	rc = sqlite3_step(statement);
@@ -545,7 +545,7 @@ DOFPointer Ark3DModel::DOFFactory(unsigned id)
 
 		stringstream error_description;
 		error_description << "SQLite rowid " << id << " in table dof_list does not exist";
-		throw Ark3DException(error_description.str());
+		throw pSketcherException(error_description.str());
 	}
 
 	rc = sqlite3_step(statement);
@@ -553,14 +553,14 @@ DOFPointer Ark3DModel::DOFFactory(unsigned id)
 		// sql statement didn't finish properly, some error must to have occured
 		stringstream error_description;
 		error_description << "SQL error: " << sqlite3_errmsg(database_);
-		throw Ark3DException(error_description.str());
+		throw pSketcherException(error_description.str());
 	}
 	
 	rc = sqlite3_finalize(statement);
 	if( rc!=SQLITE_OK ){
 		stringstream error_description;
 		error_description << "SQL error: " << sqlite3_errmsg(database_);
-		throw Ark3DException(error_description.str());
+		throw pSketcherException(error_description.str());
 	}
 
 	// now generate the object based on the table name
@@ -574,13 +574,13 @@ DOFPointer Ark3DModel::DOFFactory(unsigned id)
 		result.reset(new DependentDOF(id,*this));
 	}
 	else {
-		throw Ark3DException("Ark3D::DOFFactory: Unable to determine type based on database table name " + table_name);
+		throw pSketcherException("pSketcher::DOFFactory: Unable to determine type based on database table name " + table_name);
 	}
 
 	return result;
 }
 
-PrimitiveBasePointer Ark3DModel::PrimitiveFactory(unsigned id, Ark3DModel &ark3d_model)
+PrimitiveBasePointer pSketcherModel::PrimitiveFactory(unsigned id, pSketcherModel &psketcher_model)
 {
 	// grab the table name from the database so we now exactly which class needs to be created
 	int rc;
@@ -591,11 +591,11 @@ PrimitiveBasePointer Ark3DModel::PrimitiveFactory(unsigned id, Ark3DModel &ark3d
 	stringstream sql_command;
 	sql_command << "SELECT * FROM primitive_list WHERE id=" << id << ";";
 
-	rc = sqlite3_prepare(ark3d_model.GetDatabase(), sql_command.str().c_str(), -1, &statement, 0);
+	rc = sqlite3_prepare(psketcher_model.GetDatabase(), sql_command.str().c_str(), -1, &statement, 0);
 	if( rc!=SQLITE_OK ){
 		stringstream error_description;
-		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
-		throw Ark3DException(error_description.str());
+		error_description << "SQL error: " << sqlite3_errmsg(psketcher_model.GetDatabase());
+		throw pSketcherException(error_description.str());
 	}
 
 	rc = sqlite3_step(statement);
@@ -610,22 +610,22 @@ PrimitiveBasePointer Ark3DModel::PrimitiveFactory(unsigned id, Ark3DModel &ark3d
 
 		stringstream error_description;
 		error_description << "SQLite rowid " << id << " in table " << table_name << " does not exist";
-		throw Ark3DException(error_description.str());
+		throw pSketcherException(error_description.str());
 	}
 
 	rc = sqlite3_step(statement);
 	if( rc!=SQLITE_DONE ){
 		// sql statement didn't finish properly, some error must to have occured
 		stringstream error_description;
-		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
-		throw Ark3DException(error_description.str());
+		error_description << "SQL error: " << sqlite3_errmsg(psketcher_model.GetDatabase());
+		throw pSketcherException(error_description.str());
 	}
 	
 	rc = sqlite3_finalize(statement);
 	if( rc!=SQLITE_OK ){
 		stringstream error_description;
-		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
-		throw Ark3DException(error_description.str());
+		error_description << "SQL error: " << sqlite3_errmsg(psketcher_model.GetDatabase());
+		throw pSketcherException(error_description.str());
 	}
 
 	// now generate the object based on the table name
@@ -633,34 +633,34 @@ PrimitiveBasePointer Ark3DModel::PrimitiveFactory(unsigned id, Ark3DModel &ark3d
 
 	if(table_name == "arc2d_list")
 	{
-		result.reset(new Arc2D(id,ark3d_model));
+		result.reset(new Arc2D(id,psketcher_model));
 	}
 	else if(table_name == "line2d_list"){
-		result.reset(new Line2D(id,ark3d_model));
+		result.reset(new Line2D(id,psketcher_model));
 	}
     else if(table_name == "circle2d_list"){
-        result.reset(new Circle2D(id,ark3d_model));
+        result.reset(new Circle2D(id,psketcher_model));
     }
 	else if(table_name == "point_list"){
-		result.reset(new Point(id,ark3d_model));
+		result.reset(new Point(id,psketcher_model));
 	}
 	else if(table_name == "point2d_list"){
-		result.reset(new Point2D(id,ark3d_model));
+		result.reset(new Point2D(id,psketcher_model));
 	}
 	else if(table_name == "sketch_plane_list"){
-		result.reset(new SketchPlane(id,ark3d_model));
+		result.reset(new SketchPlane(id,psketcher_model));
 	}
 	else if(table_name == "vector_list"){
-		result.reset(new Vector(id,ark3d_model));
+		result.reset(new Vector(id,psketcher_model));
 	}
 	else {
-		throw Ark3DException("Ark3D::PrimitiveFactory: Unable to determine type based on database table name " + table_name);	
+		throw pSketcherException("pSketcher::PrimitiveFactory: Unable to determine type based on database table name " + table_name);	
 	}
 
 	return result;
 }
 
-ConstraintEquationBasePointer Ark3DModel::ConstraintFactory(unsigned id, Ark3DModel &ark3d_model)
+ConstraintEquationBasePointer pSketcherModel::ConstraintFactory(unsigned id, pSketcherModel &psketcher_model)
 {
 
 	// grab the table name from the database so we now exactly which class needs to be created
@@ -672,11 +672,11 @@ ConstraintEquationBasePointer Ark3DModel::ConstraintFactory(unsigned id, Ark3DMo
 	stringstream sql_command;
 	sql_command << "SELECT * FROM constraint_equation_list WHERE id=" << id << ";";
 
-	rc = sqlite3_prepare(ark3d_model.GetDatabase(), sql_command.str().c_str(), -1, &statement, 0);
+	rc = sqlite3_prepare(psketcher_model.GetDatabase(), sql_command.str().c_str(), -1, &statement, 0);
 	if( rc!=SQLITE_OK ){
 		stringstream error_description;
-		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
-		throw Ark3DException(error_description.str());
+		error_description << "SQL error: " << sqlite3_errmsg(psketcher_model.GetDatabase());
+		throw pSketcherException(error_description.str());
 	}
 
 	rc = sqlite3_step(statement);
@@ -691,57 +691,57 @@ ConstraintEquationBasePointer Ark3DModel::ConstraintFactory(unsigned id, Ark3DMo
 
 		stringstream error_description;
 		error_description << "SQLite rowid " << id << " in table " << table_name << " does not exist";
-		throw Ark3DException(error_description.str());
+		throw pSketcherException(error_description.str());
 	}
 
 	rc = sqlite3_step(statement);
 	if( rc!=SQLITE_DONE ){
 		// sql statement didn't finish properly, some error must to have occured
 		stringstream error_description;
-		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
-		throw Ark3DException(error_description.str());
+		error_description << "SQL error: " << sqlite3_errmsg(psketcher_model.GetDatabase());
+		throw pSketcherException(error_description.str());
 	}
 	
 	rc = sqlite3_finalize(statement);
 	if( rc!=SQLITE_OK ){
 		stringstream error_description;
-		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
-		throw Ark3DException(error_description.str());
+		error_description << "SQL error: " << sqlite3_errmsg(psketcher_model.GetDatabase());
+		throw pSketcherException(error_description.str());
 	}
 
 	// now generate the object based on the table name
 	ConstraintEquationBasePointer result;
 
 	if(table_name == "angle_line2d_list"){
-		result.reset(new AngleLine2D(id,ark3d_model));
+		result.reset(new AngleLine2D(id,psketcher_model));
 	}
 	else if(table_name == "distance_point2d_list"){
-		result.reset(new DistancePoint2D(id,ark3d_model));
+		result.reset(new DistancePoint2D(id,psketcher_model));
 	}
 	else if(table_name == "distance_pointline2d_list"){
-		result.reset(new DistancePointLine2D(id,ark3d_model));
+		result.reset(new DistancePointLine2D(id,psketcher_model));
 	}
 	else if(table_name == "parallel_line2d_list"){
-		result.reset(new ParallelLine2D(id,ark3d_model));
+		result.reset(new ParallelLine2D(id,psketcher_model));
 	}
 	else if(table_name == "horivert_line2d_list"){
-		result.reset(new HoriVertLine2D(id,ark3d_model));
+		result.reset(new HoriVertLine2D(id,psketcher_model));
 	}
 	else if(table_name == "tangent_edge2d_list"){
-		result.reset(new TangentEdge2D(id,ark3d_model));
+		result.reset(new TangentEdge2D(id,psketcher_model));
 	}
     else if(table_name == "distance_pointline2d_list"){
-        result.reset(new DistancePointLine2D(id,ark3d_model));
+        result.reset(new DistancePointLine2D(id,psketcher_model));
     }
 	else {
-		throw Ark3DException("Ark3D::ConstraintFactory: Unable to determine type based on database table name " + table_name);
+		throw pSketcherException("pSketcher::ConstraintFactory: Unable to determine type based on database table name " + table_name);
 	}
 
 	return result;
 }
 
 // delete all unneeded DOF's in the dof_list_ container
-void Ark3DModel::DeleteUnusedDOFs(bool remove_from_db)
+void pSketcherModel::DeleteUnusedDOFs(bool remove_from_db)
 {
 	// first flag all of the DOF's for deletion
 	for (map<unsigned,DOFPointer>::iterator dof_it=dof_list_.begin() ; dof_it != dof_list_.end(); dof_it++ )
@@ -762,7 +762,7 @@ void Ark3DModel::DeleteUnusedDOFs(bool remove_from_db)
 				find_dof_it->second->UnflagForDeletion();
 			} else {
 				// dof does not exist, throw an exception
-				throw Ark3DException("Expected DOF does not exist in dof_list_ container.");
+				throw pSketcherException("Expected DOF does not exist in dof_list_ container.");
 			}
 		}
 	}
@@ -781,7 +781,7 @@ void Ark3DModel::DeleteUnusedDOFs(bool remove_from_db)
 				find_dof_it->second->UnflagForDeletion();
 			} else {
 				// dof does not exist, throw an exception
-				throw Ark3DException("Expected DOF does not exist in dof_list_ container.");
+				throw pSketcherException("Expected DOF does not exist in dof_list_ container.");
 			}
 		}
 	}
@@ -802,7 +802,7 @@ void Ark3DModel::DeleteUnusedDOFs(bool remove_from_db)
 }
 
 // synchronize the primitive, constraint, and DOF lists to the database (used to implement file open and undo/redo)
-void Ark3DModel::SyncToDatabase()
+void pSketcherModel::SyncToDatabase()
 {
 	// set the next_id_number_ variables for the PrimitiveBase and DOF classes (this is a static member)
 	SetMaxIDNumbers();
@@ -829,7 +829,7 @@ void Ark3DModel::SyncToDatabase()
 	if( rc!=SQLITE_OK ){
 		stringstream error_description;
 		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
-		throw Ark3DException(error_description.str());
+		throw pSketcherException(error_description.str());
 	}
 
 	rc = sqlite3_step(statement);
@@ -860,14 +860,14 @@ void Ark3DModel::SyncToDatabase()
 		// sql statement didn't finish properly, some error must to have occured
 		stringstream error_description;
 		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
-		throw Ark3DException(error_description.str());
+		throw pSketcherException(error_description.str());
 	}
 
 	rc = sqlite3_finalize(statement);
 	if( rc!=SQLITE_OK ){
 		stringstream error_description;
 		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
-		throw Ark3DException(error_description.str());
+		throw pSketcherException(error_description.str());
 	}
 
 
@@ -879,7 +879,7 @@ void Ark3DModel::SyncToDatabase()
 	if( rc!=SQLITE_OK ){
 		stringstream error_description;
 		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
-		throw Ark3DException(error_description.str());
+		throw pSketcherException(error_description.str());
 	}
 
 	rc = sqlite3_step(statement);
@@ -910,14 +910,14 @@ void Ark3DModel::SyncToDatabase()
 		// sql statement didn't finish properly, some error must to have occured
 		stringstream error_description;
 		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
-		throw Ark3DException(error_description.str());
+		throw pSketcherException(error_description.str());
 	}
 
 	rc = sqlite3_finalize(statement);
 	if( rc!=SQLITE_OK ){
 		stringstream error_description;
 		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
-		throw Ark3DException(error_description.str());
+		throw pSketcherException(error_description.str());
 	}
 
 
@@ -925,7 +925,7 @@ void Ark3DModel::SyncToDatabase()
 	DeleteFlagged(false /* delete_from_db */);
 }
 
-void Ark3DModel::SetMaxIDNumbers()
+void pSketcherModel::SetMaxIDNumbers()
 {
 	// need to set the next_id_number_ members of the PrimitiveBase and DOF classes
 	char *zErrMsg = 0;
@@ -942,7 +942,7 @@ void Ark3DModel::SetMaxIDNumbers()
 	if( rc!=SQLITE_OK ){
 		std::stringstream error_description;
 		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
-		throw Ark3DException(error_description.str());
+		throw pSketcherException(error_description.str());
 	}
 
 	rc = sqlite3_step(statement);
@@ -962,14 +962,14 @@ void Ark3DModel::SetMaxIDNumbers()
 	if( rc!=SQLITE_OK ){
 		std::stringstream error_description;
 		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
-		throw Ark3DException(error_description.str());
+		throw pSketcherException(error_description.str());
 	}
 
 	rc = sqlite3_prepare(GetDatabase(), sql_command_constraint.c_str(), -1, &statement, 0);
 	if( rc!=SQLITE_OK ){
 		std::stringstream error_description;
 		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
-		throw Ark3DException(error_description.str());
+		throw pSketcherException(error_description.str());
 	}
 
 	rc = sqlite3_step(statement);
@@ -989,7 +989,7 @@ void Ark3DModel::SetMaxIDNumbers()
 	if( rc!=SQLITE_OK ){
 		std::stringstream error_description;
 		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
-		throw Ark3DException(error_description.str());
+		throw pSketcherException(error_description.str());
 	}
 
 	next_primitive = max_constraint > max_primitive ? max_constraint+1 : max_primitive+1;
@@ -1001,7 +1001,7 @@ void Ark3DModel::SetMaxIDNumbers()
 	if( rc!=SQLITE_OK ){
 		std::stringstream error_description;
 		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
-		throw Ark3DException(error_description.str());
+		throw pSketcherException(error_description.str());
 	}
 
 	rc = sqlite3_step(statement);
@@ -1025,12 +1025,12 @@ void Ark3DModel::SetMaxIDNumbers()
 	if( rc!=SQLITE_OK ){
 		std::stringstream error_description;
 		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
-		throw Ark3DException(error_description.str());
+		throw pSketcherException(error_description.str());
 	}
 }
 
 
-void Ark3DModel::MarkStablePoint(const std::string &description)
+void pSketcherModel::MarkStablePoint(const std::string &description)
 {
 	// Add a new stable point, use the maximum id from the undo_redo_list table as the stable id
 	// Do add a stable point if the undo_redo_list table is empty or if this stable point has has already been defined
@@ -1052,7 +1052,7 @@ void Ark3DModel::MarkStablePoint(const std::string &description)
 	if( rc!=SQLITE_OK ){
 		std::stringstream error_description;
 		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
-		throw Ark3DException(error_description.str());
+		throw pSketcherException(error_description.str());
 	}
 
 	rc = sqlite3_step(statement);
@@ -1071,7 +1071,7 @@ void Ark3DModel::MarkStablePoint(const std::string &description)
 	if( rc!=SQLITE_OK ){
 		std::stringstream error_description;
 		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
-		throw Ark3DException(error_description.str());
+		throw pSketcherException(error_description.str());
 	}
 
 
@@ -1079,7 +1079,7 @@ void Ark3DModel::MarkStablePoint(const std::string &description)
 	if( rc!=SQLITE_OK ){
 		std::stringstream error_description;
 		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
-		throw Ark3DException(error_description.str());
+		throw pSketcherException(error_description.str());
 	}
 
 	rc = sqlite3_step(statement);
@@ -1103,7 +1103,7 @@ void Ark3DModel::MarkStablePoint(const std::string &description)
 	if( rc!=SQLITE_OK ){
 		std::stringstream error_description;
 		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
-		throw Ark3DException(error_description.str());
+		throw pSketcherException(error_description.str());
 	}
  
 	// now add the row for this new stable point if it doesn't already exist and the unde/redo list is not empty
@@ -1118,26 +1118,26 @@ void Ark3DModel::MarkStablePoint(const std::string &description)
 		if( rc!=SQLITE_OK ){
 			std::string error_description = "SQL error: " + std::string(zErrMsg);
 			sqlite3_free(zErrMsg);
-			throw Ark3DException(error_description);
+			throw pSketcherException(error_description);
 		}
 
 		sqlite3_free(sql_statement);
 	}
 }
 
-bool Ark3DModel::IsUndoAvailable(string &description)
+bool pSketcherModel::IsUndoAvailable(string &description)
 {
 	int current_stable_point, new_stable_point, current_row_id;
 	return IsUndoAvailable(current_stable_point, new_stable_point, current_row_id, description);
 }
 
-bool Ark3DModel::IsRedoAvailable(string &description)
+bool pSketcherModel::IsRedoAvailable(string &description)
 {
 	int current_stable_point, new_stable_point, current_row_id;
 	return IsRedoAvailable(current_stable_point, new_stable_point, current_row_id, description);
 }
 
-bool Ark3DModel::IsUndoAvailable(int &current_stable_point, int &new_stable_point, int &current_row_id /* current row id of table undo_stable_points */, string &description)
+bool pSketcherModel::IsUndoAvailable(int &current_stable_point, int &new_stable_point, int &current_row_id /* current row id of table undo_stable_points */, string &description)
 {
 	stringstream temp_stream;
 
@@ -1151,7 +1151,7 @@ bool Ark3DModel::IsUndoAvailable(int &current_stable_point, int &new_stable_poin
 	if( rc!=SQLITE_OK ){
 		stringstream error_description;
 		error_description << "SQL error: " << sqlite3_errmsg(database_);
-		throw Ark3DException(error_description.str());
+		throw pSketcherException(error_description.str());
 	}
 
 	rc = sqlite3_step(statement);
@@ -1169,7 +1169,7 @@ bool Ark3DModel::IsUndoAvailable(int &current_stable_point, int &new_stable_poin
 		if( rc!=SQLITE_OK ){
 			stringstream error_description;
 			error_description << "SQL error: " << sqlite3_errmsg(database_);
-			throw Ark3DException(error_description.str());
+			throw pSketcherException(error_description.str());
 		}
 
 	} else {
@@ -1181,7 +1181,7 @@ bool Ark3DModel::IsUndoAvailable(int &current_stable_point, int &new_stable_poin
 		if( rc!=SQLITE_OK ){
 			stringstream error_description;
 			error_description << "SQL error: " << sqlite3_errmsg(database_);
-			throw Ark3DException(error_description.str());
+			throw pSketcherException(error_description.str());
 		}
 		
 		// Check to insure that the last stable point int the table undo_stable_points matches the last id in the undo_redo_table
@@ -1191,7 +1191,7 @@ bool Ark3DModel::IsUndoAvailable(int &current_stable_point, int &new_stable_poin
 		if( rc!=SQLITE_OK ){
 			stringstream error_description;
 			error_description << "SQL error: " << sqlite3_errmsg(database_);
-			throw Ark3DException(error_description.str());
+			throw pSketcherException(error_description.str());
 		}
 	
 		rc = sqlite3_step(statement);
@@ -1209,7 +1209,7 @@ bool Ark3DModel::IsUndoAvailable(int &current_stable_point, int &new_stable_poin
 			if( rc!=SQLITE_OK ){
 				stringstream error_description;
 				error_description << "SQL error: " << sqlite3_errmsg(database_);
-				throw Ark3DException(error_description.str());
+				throw pSketcherException(error_description.str());
 			}
 
 			// make sure that current_row_id matches the largest id in the undo_redo_table
@@ -1218,7 +1218,7 @@ bool Ark3DModel::IsUndoAvailable(int &current_stable_point, int &new_stable_poin
 			if( rc!=SQLITE_OK ){
 				stringstream error_description;
 				error_description << "SQL error: " << sqlite3_errmsg(database_);
-				throw Ark3DException(error_description.str());
+				throw pSketcherException(error_description.str());
 			}
 		
 			rc = sqlite3_step(statement);
@@ -1232,7 +1232,7 @@ bool Ark3DModel::IsUndoAvailable(int &current_stable_point, int &new_stable_poin
 				if( rc!=SQLITE_OK ){
 					stringstream error_description;
 					error_description << "SQL error: " << sqlite3_errmsg(database_);
-					throw Ark3DException(error_description.str());
+					throw pSketcherException(error_description.str());
 				}
 	
 				if(max_undo_redo_table_id != current_stable_point)
@@ -1244,7 +1244,7 @@ bool Ark3DModel::IsUndoAvailable(int &current_stable_point, int &new_stable_poin
 			} else {
 				// row doesn't exist (the undo_redo_table is emtpy), this is an error condition since there is a stable point defined
 				rc = sqlite3_finalize(statement);
-				throw Ark3DException("Ark3DModel Error: The undo_redo_table is empty while a stable point is defined.);");	
+				throw pSketcherException("pSketcherModel Error: The undo_redo_table is empty while a stable point is defined.);");	
 				return false;
 			}
 
@@ -1257,7 +1257,7 @@ bool Ark3DModel::IsUndoAvailable(int &current_stable_point, int &new_stable_poin
 			if( rc!=SQLITE_OK ){
 				stringstream error_description;
 				error_description << "SQL error: " << sqlite3_errmsg(database_);
-				throw Ark3DException(error_description.str());
+				throw pSketcherException(error_description.str());
 			}
 			return false;
 		}
@@ -1276,7 +1276,7 @@ bool Ark3DModel::IsUndoAvailable(int &current_stable_point, int &new_stable_poin
 		if( rc!=SQLITE_OK ){
 			stringstream error_description;
 			error_description << "SQL error: " << sqlite3_errmsg(database_);
-			throw Ark3DException(error_description.str());
+			throw pSketcherException(error_description.str());
 		}
 	
 		rc = sqlite3_step(statement);
@@ -1290,7 +1290,7 @@ bool Ark3DModel::IsUndoAvailable(int &current_stable_point, int &new_stable_poin
 			if( rc!=SQLITE_OK ){
 				stringstream error_description;
 				error_description << "SQL error: " << sqlite3_errmsg(database_);
-				throw Ark3DException(error_description.str());
+				throw pSketcherException(error_description.str());
 			}
 	
 			// undo exists and has been fully defined
@@ -1299,13 +1299,13 @@ bool Ark3DModel::IsUndoAvailable(int &current_stable_point, int &new_stable_poin
 		} else {
 			// value doesn't exist, this is an error condition 
 			rc = sqlite3_finalize(statement);
-			throw Ark3DException("Ark3DModel Error: Inconsistant undo_stable_points table.");
+			throw pSketcherException("pSketcherModel Error: Inconsistant undo_stable_points table.");
 			return false;
 		}
 	}
 }
 
-bool Ark3DModel::IsRedoAvailable(int &current_stable_point, int &new_stable_point, int &current_row_id /* current row id of table undo_stable_points */, string &description)
+bool pSketcherModel::IsRedoAvailable(int &current_stable_point, int &new_stable_point, int &current_row_id /* current row id of table undo_stable_points */, string &description)
 {
 	stringstream temp_stream;
 
@@ -1319,7 +1319,7 @@ bool Ark3DModel::IsRedoAvailable(int &current_stable_point, int &new_stable_poin
 	if( rc!=SQLITE_OK ){
 		stringstream error_description;
 		error_description << "SQL error: " << sqlite3_errmsg(database_);
-		throw Ark3DException(error_description.str());
+		throw pSketcherException(error_description.str());
 	}
 
 	rc = sqlite3_step(statement);
@@ -1334,7 +1334,7 @@ bool Ark3DModel::IsRedoAvailable(int &current_stable_point, int &new_stable_poin
 		if( rc!=SQLITE_OK ){
 			stringstream error_description;
 			error_description << "SQL error: " << sqlite3_errmsg(database_);
-			throw Ark3DException(error_description.str());
+			throw pSketcherException(error_description.str());
 		}
 
 	} else {
@@ -1346,7 +1346,7 @@ bool Ark3DModel::IsRedoAvailable(int &current_stable_point, int &new_stable_poin
 		if( rc!=SQLITE_OK ){
 			stringstream error_description;
 			error_description << "SQL error: " << sqlite3_errmsg(database_);
-			throw Ark3DException(error_description.str());
+			throw pSketcherException(error_description.str());
 		}
 		
 		return false;
@@ -1360,7 +1360,7 @@ bool Ark3DModel::IsRedoAvailable(int &current_stable_point, int &new_stable_poin
 	if( rc!=SQLITE_OK ){
 		stringstream error_description;
 		error_description << "SQL error: " << sqlite3_errmsg(database_);
-		throw Ark3DException(error_description.str());
+		throw pSketcherException(error_description.str());
 	}
 
 	rc = sqlite3_step(statement);
@@ -1376,7 +1376,7 @@ bool Ark3DModel::IsRedoAvailable(int &current_stable_point, int &new_stable_poin
 		if( rc!=SQLITE_OK ){
 			stringstream error_description;
 			error_description << "SQL error: " << sqlite3_errmsg(database_);
-			throw Ark3DException(error_description.str());
+			throw pSketcherException(error_description.str());
 		}
 
 		// undo exists and has been fully defined
@@ -1388,14 +1388,14 @@ bool Ark3DModel::IsRedoAvailable(int &current_stable_point, int &new_stable_poin
 		if( rc!=SQLITE_OK ){
 			stringstream error_description;
 			error_description << "SQL error: " << sqlite3_errmsg(database_);
-			throw Ark3DException(error_description.str());
+			throw pSketcherException(error_description.str());
 		}
 
 		return false;
 	}
 }
 
-bool Ark3DModel::Undo()
+bool pSketcherModel::Undo()
 {
 	// first use the IsUndoAvailable(..) method to get some necessary information
 	int current_stable_point, new_stable_point, current_row_id;
@@ -1419,7 +1419,7 @@ bool Ark3DModel::Undo()
 		if( rc!=SQLITE_OK ){
 			stringstream error_description;
 			error_description << "SQL error: " << sqlite3_errmsg(database_);
-			throw Ark3DException(error_description.str());
+			throw pSketcherException(error_description.str());
 		}
 	
 		rc = sqlite3_step(statement);
@@ -1442,14 +1442,14 @@ bool Ark3DModel::Undo()
 			// sql statement didn't finish properly, some error must to have occured
 			stringstream error_description;
 			error_description << "SQL error: " << sqlite3_errmsg(database_);
-			throw Ark3DException(error_description.str());
+			throw pSketcherException(error_description.str());
 		}
 	
 		rc = sqlite3_finalize(statement);
 		if( rc!=SQLITE_OK ){
 			stringstream error_description;
 			error_description << "SQL error: " << sqlite3_errmsg(database_);
-			throw Ark3DException(error_description.str());
+			throw pSketcherException(error_description.str());
 		}
 	
 		// loop through all of the undo commands and excecute each one
@@ -1461,9 +1461,9 @@ bool Ark3DModel::Undo()
 			// execute the redo command
 			rc = sqlite3_exec(database_, it_undo->c_str(), 0, 0, &zErrMsg);
 			if( rc!=SQLITE_OK ){
-				std::string error_description = "Ark3DModel error: SQL error in replaying redo commands. SQL error: " + std::string(zErrMsg);
+				std::string error_description = "pSketcherModel error: SQL error in replaying redo commands. SQL error: " + std::string(zErrMsg);
 				sqlite3_free(zErrMsg);
-				throw Ark3DException(error_description);
+				throw pSketcherException(error_description);
 			}
 			
 			it_undo++;
@@ -1476,7 +1476,7 @@ bool Ark3DModel::Undo()
 		if( rc!=SQLITE_OK ){
 			std::string error_description = "SQL error: " + std::string(zErrMsg);
 			sqlite3_free(zErrMsg);
-			throw Ark3DException(error_description);
+			throw pSketcherException(error_description);
 		}
 
 		// the final step is to synchronize the model to the current database
@@ -1489,7 +1489,7 @@ bool Ark3DModel::Undo()
 	}
 }
 
-bool Ark3DModel::Redo()
+bool pSketcherModel::Redo()
 {
 	// first use the IsRedoAvailable(..) method to get some necessary information
 	int current_stable_point, new_stable_point, current_row_id;
@@ -1510,7 +1510,7 @@ bool Ark3DModel::Redo()
 		if( rc!=SQLITE_OK ){
 			stringstream error_description;
 			error_description << "SQL error: " << sqlite3_errmsg(database_);
-			throw Ark3DException(error_description.str());
+			throw pSketcherException(error_description.str());
 		}
 	
 		rc = sqlite3_step(statement);
@@ -1532,14 +1532,14 @@ bool Ark3DModel::Redo()
 			// sql statement didn't finish properly, some error must to have occured
 			stringstream error_description;
 			error_description << "SQL error: " << sqlite3_errmsg(database_);
-			throw Ark3DException(error_description.str());
+			throw pSketcherException(error_description.str());
 		}
 	
 		rc = sqlite3_finalize(statement);
 		if( rc!=SQLITE_OK ){
 			stringstream error_description;
 			error_description << "SQL error: " << sqlite3_errmsg(database_);
-			throw Ark3DException(error_description.str());
+			throw pSketcherException(error_description.str());
 		}
 
 		// loop through all of the redo commands and excecute each one
@@ -1551,9 +1551,9 @@ bool Ark3DModel::Redo()
 			// execute the redo command
 			rc = sqlite3_exec(database_, it_redo->c_str(), 0, 0, &zErrMsg);
 			if( rc!=SQLITE_OK ){
-				std::string error_description = "Ark3DModel error: SQL error in replaying redo commands. SQL error: " + std::string(zErrMsg);
+				std::string error_description = "pSketcherModel error: SQL error in replaying redo commands. SQL error: " + std::string(zErrMsg);
 				sqlite3_free(zErrMsg);
-				throw Ark3DException(error_description);
+				throw pSketcherException(error_description);
 			}
 			
 			it_redo++;
@@ -1566,7 +1566,7 @@ bool Ark3DModel::Redo()
 		if( rc!=SQLITE_OK ){
 			std::string error_description = "SQL error: " + std::string(zErrMsg);
 			sqlite3_free(zErrMsg);
-			throw Ark3DException(error_description);
+			throw pSketcherException(error_description);
 		}
 
 		// the final step is to synchronize the model to the current database
@@ -1579,7 +1579,7 @@ bool Ark3DModel::Redo()
 	}
 }
 
-bool Ark3DModel::ExportDXF(const std::string &file_name)
+bool pSketcherModel::ExportDXF(const std::string &file_name)
 {
 	bool success = true;
 	dimeOutput dime_output;

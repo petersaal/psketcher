@@ -18,9 +18,9 @@
 
 #include "QtAngleLine2D.h"
 
-QtAngleLine2D::QtAngleLine2D(QGraphicsItem * parent, unsigned id, Ark3DModel &ark3d_model):
+QtAngleLine2D::QtAngleLine2D(QGraphicsItem * parent, unsigned id, pSketcherModel &psketcher_model):
 QtPrimitiveBase(parent),
-AngleLine2D(id,ark3d_model),
+AngleLine2D(id,psketcher_model),
 pending_db_save_(false)
 {
 	SetProperties(Annotation);

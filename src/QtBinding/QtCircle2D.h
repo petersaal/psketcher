@@ -34,7 +34,7 @@ class QtCircle2D : public boost::enable_shared_from_this<QtCircle2D>, public QtP
 		QtCircle2D (QGraphicsItem * parent, double s1, double t1, double s2, double t2, double s3, double t3,
 			      SketchPlanePointer sketch_plane, bool s_center_free = false, bool t_center_free = false, bool radius_free = false);
 		QtCircle2D (QGraphicsItem * parent,DOFPointer s_center, DOFPointer t_center, DOFPointer radius, SketchPlanePointer sketch_plane);
-		QtCircle2D (QGraphicsItem * parent, unsigned id, Ark3DModel &ark3d_model); // Construct from database
+		QtCircle2D (QGraphicsItem * parent, unsigned id, pSketcherModel &psketcher_model); // Construct from database
 
 		void Display() {return QtPrimitiveBase::Display();}
 		bool IsSelected() {return QtPrimitiveBase::IsSelected();}

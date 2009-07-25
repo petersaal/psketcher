@@ -14,8 +14,8 @@
 **
 ****************************************************************************/
 
-#ifndef Ark3DModelH
-#define Ark3DModelH
+#ifndef pSketcherModelH
+#define pSketcherModelH
 
 #include <string>
 #include <map>
@@ -25,15 +25,15 @@
 #include "Primitives.h"
 #include "ConstraintSolver.h"
 
-class Ark3DModel
+class pSketcherModel
 {
 public:
 	// Constructors
-	Ark3DModel(PrimitiveBasePointer (*current_primitive_factory)(unsigned, Ark3DModel &) = Ark3DModel::PrimitiveFactory, ConstraintEquationBasePointer (*current_constraint_factory)(unsigned, Ark3DModel &) = Ark3DModel::ConstraintFactory);
+	pSketcherModel(PrimitiveBasePointer (*current_primitive_factory)(unsigned, pSketcherModel &) = pSketcherModel::PrimitiveFactory, ConstraintEquationBasePointer (*current_constraint_factory)(unsigned, pSketcherModel &) = pSketcherModel::ConstraintFactory);
 
-	Ark3DModel(const std::string &file_name, PrimitiveBasePointer (*current_primitive_factory)(unsigned, Ark3DModel &) = Ark3DModel::PrimitiveFactory, ConstraintEquationBasePointer (*current_constraint_factory)(unsigned, Ark3DModel &) = Ark3DModel::ConstraintFactory);  // construct from file
+	pSketcherModel(const std::string &file_name, PrimitiveBasePointer (*current_primitive_factory)(unsigned, pSketcherModel &) = pSketcherModel::PrimitiveFactory, ConstraintEquationBasePointer (*current_constraint_factory)(unsigned, pSketcherModel &) = pSketcherModel::ConstraintFactory);  // construct from file
 
-	~Ark3DModel();
+	~pSketcherModel();
 	
 	// methods used to manage the sqlite3 database, this database is used to implement saving to file and undo/redo functionality
 	void InitializeDatabase();
@@ -92,17 +92,17 @@ public:
 protected:
 	// methods for generating objects directly from the database
 	DOFPointer DOFFactory(unsigned id);
-	static PrimitiveBasePointer PrimitiveFactory(unsigned id, Ark3DModel &ark3d_model);
-	static ConstraintEquationBasePointer ConstraintFactory(unsigned id, Ark3DModel &ark3d_model);
+	static PrimitiveBasePointer PrimitiveFactory(unsigned id, pSketcherModel &psketcher_model);
+	static ConstraintEquationBasePointer ConstraintFactory(unsigned id, pSketcherModel &psketcher_model);
 
 	std::map<unsigned,DOFPointer> dof_list_;
 	std::map<unsigned,ConstraintEquationBasePointer> constraint_equation_list_;
 	std::map<unsigned,PrimitiveBasePointer> primitive_list_;
 
 private:
-	// function pointers so that child classes can implement their own factory methods for use within the constructor of Ark3DModel (virtual methods won't work in the constructor) 
-	PrimitiveBasePointer (*CurrentPrimitiveFactory)(unsigned, Ark3DModel &);
-	ConstraintEquationBasePointer (*CurrentConstraintFactory)(unsigned, Ark3DModel &);
+	// function pointers so that child classes can implement their own factory methods for use within the constructor of pSketcherModel (virtual methods won't work in the constructor) 
+	PrimitiveBasePointer (*CurrentPrimitiveFactory)(unsigned, pSketcherModel &);
+	ConstraintEquationBasePointer (*CurrentConstraintFactory)(unsigned, pSketcherModel &);
 
 	void FlagDependentsForDeletion(PrimitiveBasePointer primitive_to_delete); // Flag any primitives or constraint equations for deletion that depend on this primitive
 	void DeleteFlagged(bool remove_from_db = true); // delete all of the primitives that have been flagged for deletion
@@ -118,8 +118,8 @@ private:
 };
 
 
-// Must define the template member functions in the header file since it won't work to define them in Ark3DModel.cpp
-template <class data_t> boost::shared_ptr<data_t> Ark3DModel::FetchPrimitive(unsigned id)
+// Must define the template member functions in the header file since it won't work to define them in pSketcherModel.cpp
+template <class data_t> boost::shared_ptr<data_t> pSketcherModel::FetchPrimitive(unsigned id)
 {
 	PrimitiveBasePointer temp;
 	boost::shared_ptr<data_t> result;
@@ -140,13 +140,13 @@ template <class data_t> boost::shared_ptr<data_t> Ark3DModel::FetchPrimitive(uns
 	if(dynamic_cast<data_t *>(temp.get()) != 0){
 		result = boost::dynamic_pointer_cast<data_t>(temp);
 	} else {
-		throw Ark3DException("Requested data type does not match database data type.");
+		throw pSketcherException("Requested data type does not match database data type.");
 	}
 	
 	return result;
 }
 
-template <class data_t> boost::shared_ptr<data_t> Ark3DModel::FetchConstraint(unsigned id)
+template <class data_t> boost::shared_ptr<data_t> pSketcherModel::FetchConstraint(unsigned id)
 {
 	ConstraintEquationBasePointer temp;
 	boost::shared_ptr<data_t> result;
@@ -167,11 +167,11 @@ template <class data_t> boost::shared_ptr<data_t> Ark3DModel::FetchConstraint(un
 	if(dynamic_cast<data_t *>(temp.get()) != 0){
 		result = boost::dynamic_pointer_cast<data_t>(temp);
 	} else {
-		throw Ark3DException("Requested data type does not match database data type.");
+		throw pSketcherException("Requested data type does not match database data type.");
 	}
 	
 	return result;
 }
 
 
-#endif //Ark3DModelH
+#endif //pSketcherModelH

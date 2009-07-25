@@ -28,7 +28,7 @@ class QtAngleLine2DWidget;
 class QtAngleLine2D : public QtPrimitiveBase, public AngleLine2D, public boost::enable_shared_from_this<QtAngleLine2D>
 {
 	public:
-		QtAngleLine2D (QGraphicsItem * parent, unsigned id, Ark3DModel &ark3d_model);
+		QtAngleLine2D (QGraphicsItem * parent, unsigned id, pSketcherModel &psketcher_model);
 		QtAngleLine2D (QGraphicsItem * parent, const Line2DPointer line1, const Line2DPointer line2, double angle, bool interior_angle);
 
 		void Display() {return QtPrimitiveBase::Display();}

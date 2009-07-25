@@ -28,8 +28,8 @@ class DependentDOF : public DOF
 	public:
 		DependentDOF ( SolverFunctionsBasePointer solver_function);
 		DependentDOF ( const char *name, SolverFunctionsBasePointer solver_function);
-		// the following constructor creates the DOF from the database stored in ark3d_model
-		DependentDOF ( unsigned id, Ark3DModel &ark3d_model );
+		// the following constructor creates the DOF from the database stored in psketcher_model
+		DependentDOF ( unsigned id, pSketcherModel &psketcher_model );
 		
 		//Accessor methods
 		void SetValue ( double value, bool update_db = true ) { /* @fixme warn user about an attempt to modify a dependent DOF */;}
@@ -43,7 +43,7 @@ class DependentDOF : public DOF
 		void DatabaseAddDelete(bool add_to_database); // utility method called by AddToDatabase and DeleteFromDatabase since they both do similar things
 
 		// method to synchronize this object to the database
-		virtual bool SyncToDatabase(Ark3DModel &ark3d_model);
+		virtual bool SyncToDatabase(pSketcherModel &psketcher_model);
 
 	private:
 

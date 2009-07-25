@@ -23,7 +23,7 @@
 class QtPoint2D : public QtPrimitiveBase, public Point2D
 {
 	public:
-		QtPoint2D (QGraphicsItem * parent, unsigned id, Ark3DModel &ark3d_model);
+		QtPoint2D (QGraphicsItem * parent, unsigned id, pSketcherModel &psketcher_model);
 		QtPoint2D (QGraphicsItem * parent,double s, double t, SketchPlanePointer sketch_plane, bool s_free = false, bool t_free = false);
 		QtPoint2D (QGraphicsItem * parent, DOFPointer s, DOFPointer t, SketchPlanePointer sketch_plane);
 

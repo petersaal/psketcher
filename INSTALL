@@ -22,7 +22,7 @@ Build and run instructions
 
 1. run cmake
 2. run make
-3. execute ark3d
+3. execute psketcher
 
 
 Example build and run process
@@ -30,7 +30,7 @@ Example build and run process
 
 cmake .
 make
-./src/Interface/ark3d
+./src/Interface/psketcher
 
 
 

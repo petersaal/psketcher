@@ -22,7 +22,7 @@
 class QtHoriVertLine2D : public QtPrimitiveBase, public HoriVertLine2D
 {
 	public:
-		QtHoriVertLine2D (QGraphicsItem * parent, unsigned id, Ark3DModel &ark3d_model);
+		QtHoriVertLine2D (QGraphicsItem * parent, unsigned id, pSketcherModel &psketcher_model);
 		QtHoriVertLine2D (QGraphicsItem * parent, const Line2DPointer line, bool vertical_constraint);
 
 		void Display() {return QtPrimitiveBase::Display();}

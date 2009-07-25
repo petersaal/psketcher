@@ -16,9 +16,9 @@
 
 #include "QtPoint.h"
 
-QtPoint::QtPoint (QGraphicsItem * parent, unsigned id, Ark3DModel &ark3d_model):
+QtPoint::QtPoint (QGraphicsItem * parent, unsigned id, pSketcherModel &psketcher_model):
 QtPrimitiveBase(parent),
-Point(id,ark3d_model)
+Point(id,psketcher_model)
 {
 	SetProperties(PointPrimitive);
 	SetSelectedProperties(SelectedPointPrimitive);
