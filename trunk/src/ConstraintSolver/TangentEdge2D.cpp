@@ -18,7 +18,7 @@
 
 #include "TangentEdge2D.h"
 
-#include "Ark3DModel.h"
+#include "pSketcherModel.h"
 
 const std::string SQL_tangent_edge2d_database_schema = "CREATE TABLE tangent_edge2d_list (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, edge1 INTEGER NOT NULL, edge2 INTEGER NOT NULL, point_num_1 INTEGER NOT NULL, point_num_2 INTEGER NOT NULL, s_1_dof INTEGER NOT NULL, t_1_dof INTEGER NOT NULL, s_2_dof INTEGER NOT NULL, t_2_dof INTEGER NOT NULL, weight FLOAT NOT NULL);";
 
@@ -61,15 +61,15 @@ point_num_2_(point_num_2)
 }
 
 // Construct from database
-TangentEdge2D::TangentEdge2D(unsigned id, Ark3DModel &ark3d_model)
+TangentEdge2D::TangentEdge2D(unsigned id, pSketcherModel &psketcher_model)
 {
-	SetID(id);  bool exists = SyncToDatabase(ark3d_model);
+	SetID(id);  bool exists = SyncToDatabase(psketcher_model);
 	
 	if(!exists) // this object does not exist in the table
 	{
 		stringstream error_description;
 		error_description << "SQLite rowid " << id << " in table tangent_edge2d_list does not exist";
-		throw Ark3DException(error_description.str());
+		throw pSketcherException(error_description.str());
 	}
 }
 
@@ -140,7 +140,7 @@ void TangentEdge2D::DatabaseAddRemove(bool add_to_database) // Utility method us
 			if( rc!=SQLITE_OK ){
 				std::string error_description = "SQL error: " + std::string(zErrMsg);
 				sqlite3_free(zErrMsg);
-				throw Ark3DException(error_description);
+				throw pSketcherException(error_description);
 			}
 	
 			// now that the table has been created, attempt the insert one last time
@@ -148,12 +148,12 @@ void TangentEdge2D::DatabaseAddRemove(bool add_to_database) // Utility method us
 			if( rc!=SQLITE_OK ){
 				std::string error_description = "SQL error: " + std::string(zErrMsg);
 				sqlite3_free(zErrMsg);
-				throw Ark3DException(error_description);
+				throw pSketcherException(error_description);
 			}
 		} else {
 			std::string error_description = "SQL error: " + std::string(zErrMsg);
 			sqlite3_free(zErrMsg);
-			throw Ark3DException(error_description);
+			throw pSketcherException(error_description);
 		}
 	}
 
@@ -165,7 +165,7 @@ void TangentEdge2D::DatabaseAddRemove(bool add_to_database) // Utility method us
 	if( rc!=SQLITE_OK ){
 		std::string error_description = "SQL error: " + std::string(zErrMsg);
 		sqlite3_free(zErrMsg);
-		throw Ark3DException(error_description);
+		throw pSketcherException(error_description);
 	}
 
 	sqlite3_free(sql_undo_redo);
@@ -174,9 +174,9 @@ void TangentEdge2D::DatabaseAddRemove(bool add_to_database) // Utility method us
 	DatabaseAddDeleteLists(add_to_database,dof_list_table_name.str(),primitive_list_table_name.str());
 }
 
-bool TangentEdge2D::SyncToDatabase(Ark3DModel &ark3d_model)
+bool TangentEdge2D::SyncToDatabase(pSketcherModel &psketcher_model)
 {
-	database_ = ark3d_model.GetDatabase();
+	database_ = psketcher_model.GetDatabase();
 
 	string table_name = "tangent_edge2d_list";
 
@@ -187,11 +187,11 @@ bool TangentEdge2D::SyncToDatabase(Ark3DModel &ark3d_model)
 	stringstream sql_command;
 	sql_command << "SELECT * FROM " << table_name << " WHERE id=" << GetID() << ";";
 
-	rc = sqlite3_prepare(ark3d_model.GetDatabase(), sql_command.str().c_str(), -1, &statement, 0);
+	rc = sqlite3_prepare(psketcher_model.GetDatabase(), sql_command.str().c_str(), -1, &statement, 0);
 	if( rc!=SQLITE_OK ){
 		stringstream error_description;
-		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
-		throw Ark3DException(error_description.str());
+		error_description << "SQL error: " << sqlite3_errmsg(psketcher_model.GetDatabase());
+		throw pSketcherException(error_description.str());
 	}
 
 	rc = sqlite3_step(statement);
@@ -203,14 +203,14 @@ bool TangentEdge2D::SyncToDatabase(Ark3DModel &ark3d_model)
 		
 		dof_table_name << sqlite3_column_text(statement,1);
 		primitive_table_name << sqlite3_column_text(statement,2);
-		edge1_ = ark3d_model.FetchPrimitive<Edge2DBase>(sqlite3_column_int(statement,3));
-		edge2_ = ark3d_model.FetchPrimitive<Edge2DBase>(sqlite3_column_int(statement,4));
+		edge1_ = psketcher_model.FetchPrimitive<Edge2DBase>(sqlite3_column_int(statement,3));
+		edge2_ = psketcher_model.FetchPrimitive<Edge2DBase>(sqlite3_column_int(statement,4));
 		point_num_1_ = static_cast<EdgePointNumber>(sqlite3_column_int(statement,5));
 		point_num_2_ = static_cast<EdgePointNumber>(sqlite3_column_int(statement,6));
-        s_1_ = ark3d_model.FetchDOF(sqlite3_column_int(statement,7));
-        t_1_ = ark3d_model.FetchDOF(sqlite3_column_int(statement,8));
-        s_2_ = ark3d_model.FetchDOF(sqlite3_column_int(statement,9));
-        t_2_ = ark3d_model.FetchDOF(sqlite3_column_int(statement,10));
+        s_1_ = psketcher_model.FetchDOF(sqlite3_column_int(statement,7));
+        t_1_ = psketcher_model.FetchDOF(sqlite3_column_int(statement,8));
+        s_2_ = psketcher_model.FetchDOF(sqlite3_column_int(statement,9));
+        t_2_ = psketcher_model.FetchDOF(sqlite3_column_int(statement,10));
         weight_ = sqlite3_column_double(statement,11);
 
         // define the constraint equation
@@ -227,19 +227,19 @@ bool TangentEdge2D::SyncToDatabase(Ark3DModel &ark3d_model)
 	if( rc!=SQLITE_DONE ){
 		// sql statement didn't finish properly, some error must to have occured
 		stringstream error_description;
-		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
-		throw Ark3DException(error_description.str());
+		error_description << "SQL error: " << sqlite3_errmsg(psketcher_model.GetDatabase());
+		throw pSketcherException(error_description.str());
 	}
 	
 	rc = sqlite3_finalize(statement);
 	if( rc!=SQLITE_OK ){
 		stringstream error_description;
-		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
-		throw Ark3DException(error_description.str());
+		error_description << "SQL error: " << sqlite3_errmsg(psketcher_model.GetDatabase());
+		throw pSketcherException(error_description.str());
 	}
 
 	// now sync the lists stored in the base classes
-	SyncListsToDatabase(dof_table_name.str(),primitive_table_name.str(),ark3d_model); // PrimitiveBase
+	SyncListsToDatabase(dof_table_name.str(),primitive_table_name.str(),psketcher_model); // PrimitiveBase
 
 	return true; // row existed in the database
 }

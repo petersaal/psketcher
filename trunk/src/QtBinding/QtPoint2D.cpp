@@ -18,9 +18,9 @@
 
 #include "QtPoint2D.h"
 
-QtPoint2D::QtPoint2D (QGraphicsItem * parent, unsigned id, Ark3DModel &ark3d_model):
+QtPoint2D::QtPoint2D (QGraphicsItem * parent, unsigned id, pSketcherModel &psketcher_model):
 QtPrimitiveBase(parent),
-Point2D(id,ark3d_model),
+Point2D(id,psketcher_model),
 pending_db_save_(false)
 {
 	SetProperties(PointPrimitive);

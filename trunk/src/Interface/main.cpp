@@ -15,12 +15,12 @@
 ****************************************************************************/
 
 #include <QApplication>
-#include "Ark3DWindow.h"
+#include "pSketcherWindow.h"
 
 int main(int argc, char *argv[])
 {
 	QApplication app( argc, argv );
-	Ark3DWindow mainWin;
+	pSketcherWindow mainWin;
 
     mainWin.show();
 	return app.exec();

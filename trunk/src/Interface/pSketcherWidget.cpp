@@ -19,14 +19,14 @@
 #include <cmath>
 #include <QtGui>
 
-#include "Ark3DWidget.h"
+#include "pSketcherWidget.h"
 #include "../QtBinding/QtPrimitives.h"
 #include "../InteractiveConstructors/QtEventProperties.h"
 #include "Point2DEditDialog.h"
 
 using namespace std;
 
-Ark3DWidget::Ark3DWidget(QGraphicsScene * scene, QWidget * parent) :
+pSketcherWidget::pSketcherWidget(QGraphicsScene * scene, QWidget * parent) :
 QGraphicsView(scene, parent)
 {
 	interactive_primitive_ = 0;
@@ -47,20 +47,20 @@ QGraphicsView(scene, parent)
 
 /*
 	// create the python interpretor instance
-	PyImport_AppendInittab( "ark3d_module", &initark3d_module );
+	PyImport_AppendInittab( "psketcher_module", &initpsketcher_module );
 	Py_Initialize();
-	//init_ark3d_module();
-	PyRun_SimpleString("import ark3d_module \n");
+	//init_psketcher_module();
+	PyRun_SimpleString("import psketcher_module \n");
 	PyRun_SimpleString("import sys \n");
 	PyRun_SimpleString("sys.path.append('./src/PythonBinding/') \n");
-	PyRun_SimpleString("import ark3d_module \n");
+	PyRun_SimpleString("import psketcher_module \n");
 	
-	PyRun_SimpleString("point1 =  ark3d_module.CreatePoint(0.0,1.0,2.0) \n");
+	PyRun_SimpleString("point1 =  psketcher_module.CreatePoint(0.0,1.0,2.0) \n");
 	PyRun_SimpleString("print point1.GetYDOF().GetValue() \n");
 */
 }
 
-Ark3DWidget::~Ark3DWidget()
+pSketcherWidget::~pSketcherWidget()
 {
 	if(interactive_primitive_ != 0)
 		delete interactive_primitive_;
@@ -69,7 +69,7 @@ Ark3DWidget::~Ark3DWidget()
 		delete current_sketch_;	
 }
 
-void Ark3DWidget::select()
+void pSketcherWidget::select()
 {
 	if(current_sketch_ != 0)
 		current_sketch_->ApplySelectionMask(All);
@@ -79,17 +79,17 @@ void Ark3DWidget::select()
 	interactive_primitive_ = 0;
 }
 
-void Ark3DWidget::paintEvent        ( QPaintEvent* e )
+void pSketcherWidget::paintEvent        ( QPaintEvent* e )
 {
 	QGraphicsView::paintEvent(e);
 }
 
-void Ark3DWidget::resizeEvent       ( QResizeEvent* e )
+void pSketcherWidget::resizeEvent       ( QResizeEvent* e )
 {
 	QGraphicsView::resizeEvent(e);
 }
 
-void Ark3DWidget::mousePressEvent   ( QMouseEvent* e )
+void pSketcherWidget::mousePressEvent   ( QMouseEvent* e )
 {
 	if(interactive_primitive_ != 0 && !(e->button() & Qt::MidButton))
 	{
@@ -127,7 +127,7 @@ void Ark3DWidget::mousePressEvent   ( QMouseEvent* e )
 	previous_mouse_position_ = e->pos();
 }
 
-void Ark3DWidget::mouseReleaseEvent ( QMouseEvent* e )
+void pSketcherWidget::mouseReleaseEvent ( QMouseEvent* e )
 {
 	
 	if(interactive_primitive_ != 0 && !((e->button() & Qt::MidButton)))
@@ -165,7 +165,7 @@ void Ark3DWidget::mouseReleaseEvent ( QMouseEvent* e )
 
 }
 
-void Ark3DWidget::mouseMoveEvent    ( QMouseEvent* e )
+void pSketcherWidget::mouseMoveEvent    ( QMouseEvent* e )
 {	
 	if(interactive_primitive_ != 0 && !(e->buttons() & Qt::MidButton))
 	{
@@ -202,7 +202,7 @@ void Ark3DWidget::mouseMoveEvent    ( QMouseEvent* e )
 }
 
 // Wheel event causes the scene to zoon in or out
-void Ark3DWidget::wheelEvent        ( QWheelEvent* e )
+void pSketcherWidget::wheelEvent        ( QWheelEvent* e )
 {
 	double numDegrees = -e->delta()/8.0;
 	double numSteps = numDegrees / 15.0;
@@ -210,14 +210,14 @@ void Ark3DWidget::wheelEvent        ( QWheelEvent* e )
 	scale(factor, factor);
 }
 
-void Ark3DWidget::leaveEvent		   ( QEvent * e)
+void pSketcherWidget::leaveEvent		   ( QEvent * e)
 {
 	QGraphicsView::leaveEvent(e);
 }
 
-void Ark3DWidget::GenerateDefaultSketch()
+void pSketcherWidget::GenerateDefaultSketch()
 {
-	// create the current Ark3D sketch
+	// create the current pSketcher sketch
 	VectorPointer normal( new Vector(0.0,0.0,1.0));
 	VectorPointer up( new Vector(0.0,1.0,0.0));
 	PointPointer base( new Point(0.0,0.0,0.0));
@@ -226,7 +226,7 @@ void Ark3DWidget::GenerateDefaultSketch()
 	modelChanged(tr("Initialize Sketch"));
 }
 
-void Ark3DWidget::GenerateTestSketch()
+void pSketcherWidget::GenerateTestSketch()
 {
 	string description;
 	bool temp_bool;
@@ -313,7 +313,7 @@ void Ark3DWidget::GenerateTestSketch()
 	fitExtents();
 }
 
-void Ark3DWidget::SolveConstraints() 
+void pSketcherWidget::SolveConstraints() 
 {
 	if(current_sketch_ != 0)
 	{
@@ -324,7 +324,7 @@ void Ark3DWidget::SolveConstraints()
 	}
 }
 
-void Ark3DWidget::ExecutePythonScript()
+void pSketcherWidget::ExecutePythonScript()
 {
 /*
     FILE *fp = fopen ("./src/PythonScripts/test_sketch.py", "r+");
@@ -333,71 +333,71 @@ void Ark3DWidget::ExecutePythonScript()
 */
 }
 
-void Ark3DWidget::MakeLine() 
+void pSketcherWidget::MakeLine() 
 {
 	if(interactive_primitive_ != 0) delete interactive_primitive_;
 	interactive_primitive_ = new Line2DConstructor(current_sketch_);
 }
 
-void Ark3DWidget::MakePolyLine() {;}
+void pSketcherWidget::MakePolyLine() {;}
 
-void Ark3DWidget::MakeArc()
+void pSketcherWidget::MakeArc()
 {
 	if(interactive_primitive_ != 0) delete interactive_primitive_;
 	interactive_primitive_ = new Arc2DConstructor(current_sketch_);
 }
 
-void Ark3DWidget::MakeCircle()
+void pSketcherWidget::MakeCircle()
 {
     if(interactive_primitive_ != 0) delete interactive_primitive_;
     interactive_primitive_ = new Circle2DConstructor(current_sketch_);
 }
 
-void Ark3DWidget::MakePoint() 
+void pSketcherWidget::MakePoint() 
 {
 	if(interactive_primitive_ != 0) delete interactive_primitive_;
 	interactive_primitive_ = new Point2DConstructor(current_sketch_);
 }
 
-void Ark3DWidget::MakeVerticalConstraint() 
+void pSketcherWidget::MakeVerticalConstraint() 
 {
 	if(interactive_primitive_ != 0) delete interactive_primitive_;
 	interactive_primitive_ = new HoriVertLine2DConstructor(current_sketch_,true);
 }
 
-void Ark3DWidget::MakeHorizontalConstraint() 
+void pSketcherWidget::MakeHorizontalConstraint() 
 {
 	if(interactive_primitive_ != 0) delete interactive_primitive_;
 	interactive_primitive_ = new HoriVertLine2DConstructor(current_sketch_,false);
 }
 
-void Ark3DWidget::MakeDistanceConstraint() 
+void pSketcherWidget::MakeDistanceConstraint() 
 {
 	if(interactive_primitive_ != 0) delete interactive_primitive_;
 	interactive_primitive_ = new Distance2DConstructor(current_sketch_);
 }
 
-void Ark3DWidget::MakeAngleConstraint() 
+void pSketcherWidget::MakeAngleConstraint() 
 {
 	if(interactive_primitive_ != 0) delete interactive_primitive_;
 	interactive_primitive_ = new AngleLine2DConstructor(current_sketch_);
 }
 
-void Ark3DWidget::MakeTangentConstraint()
+void pSketcherWidget::MakeTangentConstraint()
 {
 	if(interactive_primitive_ != 0) delete interactive_primitive_;
 	interactive_primitive_ = new TangentEdge2DConstructor(current_sketch_);
 }
 
 
-void Ark3DWidget::MakeParallelConstraint()
+void pSketcherWidget::MakeParallelConstraint()
 {
 	if(interactive_primitive_ != 0) delete interactive_primitive_;
 	interactive_primitive_ = new ParallelLine2DConstructor(current_sketch_);
 }
 
 // double clicking causes the currently selected item to span its edit dialog
-void Ark3DWidget::mouseDoubleClickEvent ( QMouseEvent * event )
+void pSketcherWidget::mouseDoubleClickEvent ( QMouseEvent * event )
 {
 	if(interactive_primitive_ == 0 && !(event->modifiers() & Qt::ShiftModifier))
 	{
@@ -425,32 +425,32 @@ void Ark3DWidget::mouseDoubleClickEvent ( QMouseEvent * event )
 
 // This slot is called whenever the model changes
 // This slot will handle updating the display and the undo history
-void Ark3DWidget::modelChanged(QString description)
+void pSketcherWidget::modelChanged(QString description)
 {
 	current_sketch_->MarkStablePoint(description.toStdString());
 	current_sketch_->UpdateDisplay();
 }
 
-void Ark3DWidget::undo()
+void pSketcherWidget::undo()
 {
 	current_sketch_->Undo();
 	current_sketch_->UpdateDisplay();
 }
 
-void Ark3DWidget::redo()
+void pSketcherWidget::redo()
 {
 	current_sketch_->Redo();
 	current_sketch_->UpdateDisplay();
 }
 
-void Ark3DWidget::fitExtents()
+void pSketcherWidget::fitExtents()
 {
 	QRectF rect = scene()->itemsBoundingRect();
 	//std::cout << "bounding rect " << rect.x() << ", " << rect.y() << ", " << rect.width() << ", " << rect.height() << std::endl;
 	fitInView(rect,Qt::KeepAspectRatio);
 }
 
-void Ark3DWidget::drawBackground ( QPainter * painter, const QRectF & rect )
+void pSketcherWidget::drawBackground ( QPainter * painter, const QRectF & rect )
 {
 	// resize the scene rectangle to twice the visible rectangle which is passed to this function
 	QRectF scene_rect;
@@ -469,13 +469,13 @@ void Ark3DWidget::drawBackground ( QPainter * painter, const QRectF & rect )
 	QGraphicsView::drawBackground(painter, rect);
 }
 
-void Ark3DWidget::SelectUnderMouse(QMouseEvent *e, bool multi_select)
+void pSketcherWidget::SelectUnderMouse(QMouseEvent *e, bool multi_select)
 {
 
 
 }
 
-void Ark3DWidget::keyReleaseEvent ( QKeyEvent * event )
+void pSketcherWidget::keyReleaseEvent ( QKeyEvent * event )
 {
 	if(event->key() == Qt::Key_Delete)
 	{
@@ -497,7 +497,7 @@ void Ark3DWidget::keyReleaseEvent ( QKeyEvent * event )
 	}
 }
 
-void Ark3DWidget::open()
+void pSketcherWidget::open()
 {
     // delete any interactive constructors in use
     if(interactive_primitive_ != 0)
@@ -516,7 +516,7 @@ void Ark3DWidget::open()
 	}
 }
 
-void Ark3DWidget::newFile()
+void pSketcherWidget::newFile()
 {
 	// @fixme Need to add a check to make sure that there are no unsaved changes before loading a new file
 
@@ -529,7 +529,7 @@ void Ark3DWidget::newFile()
 
 	delete current_sketch_;
 
-	// create a new Ark3D sketch
+	// create a new pSketcher sketch
 	VectorPointer normal( new Vector(0.0,0.0,1.0));
 	VectorPointer up( new Vector(0.0,1.0,0.0));
 	PointPointer base( new Point(0.0,0.0,0.0));
@@ -538,7 +538,7 @@ void Ark3DWidget::newFile()
 	modelChanged(tr("Intialize sketch"));
 }
 
-bool Ark3DWidget::save()
+bool pSketcherWidget::save()
 {
     // delete any interactive constructors in use
     if(interactive_primitive_ != 0)
@@ -555,7 +555,7 @@ bool Ark3DWidget::save()
 	}
 }
 
-bool Ark3DWidget::saveAs()
+bool pSketcherWidget::saveAs()
 {
 	QString file_name = QFileDialog::getSaveFileName(this,tr("Save Sketch"), ".", tr("pSketcher sketch files (*.pSketch)"));
 
@@ -565,7 +565,7 @@ bool Ark3DWidget::saveAs()
 	return current_sketch_->Save(file_name.toStdString());
 }
 
-bool Ark3DWidget::exportDXF()
+bool pSketcherWidget::exportDXF()
 {
 	QString file_name = QFileDialog::getSaveFileName(this,tr("Export DXF File"), ".", tr("dxf files (*.dxf)"));
 

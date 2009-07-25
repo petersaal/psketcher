@@ -19,7 +19,7 @@
 
 #include "DependentDOF.h"
 #include "PrimitiveBase.h"
-#include "Ark3DModel.h"
+#include "pSketcherModel.h"
 
 using namespace std;
 
@@ -37,24 +37,24 @@ DOF(name,false /*free*/,true /*dependent*/)
 	SetSolverFunction(solver_function);
 }
 
-// the following constructor creates the DOF from the database stored in ark3d_model
-DependentDOF :: DependentDOF ( unsigned id, Ark3DModel &ark3d_model ):
+// the following constructor creates the DOF from the database stored in psketcher_model
+DependentDOF :: DependentDOF ( unsigned id, pSketcherModel &psketcher_model ):
 DOF(id,true /* bool dependent */)
 {
 	SetID(id);
-    bool exists = SyncToDatabase(ark3d_model);
+    bool exists = SyncToDatabase(psketcher_model);
 	
 	if(!exists) // this object does not exist in the table
 	{
 		stringstream error_description;
 		error_description << "SQLite rowid " << id << " in table dependent_dof_list does not exist";
-		throw Ark3DException(error_description.str());
+		throw pSketcherException(error_description.str());
 	}
 }
 
-bool DependentDOF :: SyncToDatabase(Ark3DModel &ark3d_model)
+bool DependentDOF :: SyncToDatabase(pSketcherModel &psketcher_model)
 {
-	database_ = ark3d_model.GetDatabase();
+	database_ = psketcher_model.GetDatabase();
 	free_ =false;
 
 	string table_name = "dependent_dof_list";
@@ -71,11 +71,11 @@ bool DependentDOF :: SyncToDatabase(Ark3DModel &ark3d_model)
 	stringstream sql_command;
 	sql_command << "SELECT * FROM " << table_name << " WHERE id=" << GetID() << ";";
 
-	rc = sqlite3_prepare(ark3d_model.GetDatabase(), sql_command.str().c_str(), -1, &statement, 0);
+	rc = sqlite3_prepare(psketcher_model.GetDatabase(), sql_command.str().c_str(), -1, &statement, 0);
 	if( rc!=SQLITE_OK ){
 		stringstream error_description;
-		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
-		throw Ark3DException(error_description.str());
+		error_description << "SQL error: " << sqlite3_errmsg(psketcher_model.GetDatabase());
+		throw pSketcherException(error_description.str());
 	}
 
 	rc = sqlite3_step(statement);
@@ -99,26 +99,26 @@ bool DependentDOF :: SyncToDatabase(Ark3DModel &ark3d_model)
 	if( rc!=SQLITE_DONE ){
 		// sql statement didn't finish properly, some error must to have occured
 		stringstream error_description;
-		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
-		throw Ark3DException(error_description.str());
+		error_description << "SQL error: " << sqlite3_errmsg(psketcher_model.GetDatabase());
+		throw pSketcherException(error_description.str());
 	}
 	
 	rc = sqlite3_finalize(statement);
 	if( rc!=SQLITE_OK ){
 		stringstream error_description;
-		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
-		throw Ark3DException(error_description.str());
+		error_description << "SQL error: " << sqlite3_errmsg(psketcher_model.GetDatabase());
+		throw pSketcherException(error_description.str());
 	}
 
 	// next read the source dof table that lists the DOF's that this DependentDOF depends on
 	sql_command.str("");
 	sql_command << "SELECT * FROM " << source_dof_table_name.str() << ";";
 
-	rc = sqlite3_prepare(ark3d_model.GetDatabase(), sql_command.str().c_str(), -1, &statement, 0);
+	rc = sqlite3_prepare(psketcher_model.GetDatabase(), sql_command.str().c_str(), -1, &statement, 0);
 	if( rc!=SQLITE_OK ){
 		stringstream error_description;
-		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
-		throw Ark3DException(error_description.str());
+		error_description << "SQL error: " << sqlite3_errmsg(psketcher_model.GetDatabase());
+		throw pSketcherException(error_description.str());
 	}
 
 	rc = sqlite3_step(statement);
@@ -129,7 +129,7 @@ bool DependentDOF :: SyncToDatabase(Ark3DModel &ark3d_model)
 		source_dof_id = sqlite3_column_int(statement,1);
 
 		// get the dof (it will be automatically created if it doesn't already exist)
-		source_dof = ark3d_model.FetchDOF(source_dof_id);
+		source_dof = psketcher_model.FetchDOF(source_dof_id);
 
 		solver_function_dof_list.push_back(source_dof);
 
@@ -142,15 +142,15 @@ bool DependentDOF :: SyncToDatabase(Ark3DModel &ark3d_model)
 	if( rc!=SQLITE_DONE ){
 		// sql statement didn't finish properly, some error must to have occured
 		stringstream error_description;
-		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
-		throw Ark3DException(error_description.str());
+		error_description << "SQL error: " << sqlite3_errmsg(psketcher_model.GetDatabase());
+		throw pSketcherException(error_description.str());
 	}
 
 	rc = sqlite3_finalize(statement);
 	if( rc!=SQLITE_OK ){
 		stringstream error_description;
-		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
-		throw Ark3DException(error_description.str());
+		error_description << "SQL error: " << sqlite3_errmsg(psketcher_model.GetDatabase());
+		throw pSketcherException(error_description.str());
 	}
 	
 	return true; // object exists in table and was defined successfully
@@ -230,7 +230,7 @@ void DependentDOF::DatabaseAddDelete(bool add_to_database) // utility method cal
 			if( rc!=SQLITE_OK ){
 				std::string error_description = "SQL error: " + std::string(zErrMsg);
 				sqlite3_free(zErrMsg);
-				throw Ark3DException(error_description);
+				throw pSketcherException(error_description);
 			}
 	
 			// now that the table has been created, attempt the insert one last time
@@ -238,12 +238,12 @@ void DependentDOF::DatabaseAddDelete(bool add_to_database) // utility method cal
 			if( rc!=SQLITE_OK ){
 				std::string error_description = "SQL error: " + std::string(zErrMsg);
 				sqlite3_free(zErrMsg);
-				throw Ark3DException(error_description);
+				throw pSketcherException(error_description);
 			}
 		} else {
 			std::string error_description = "SQL error: " + std::string(zErrMsg);
 			sqlite3_free(zErrMsg);
-			throw Ark3DException(error_description);
+			throw pSketcherException(error_description);
 		} 
 	}
 
@@ -255,7 +255,7 @@ void DependentDOF::DatabaseAddDelete(bool add_to_database) // utility method cal
 	if( rc!=SQLITE_OK ){
 		std::string error_description = "SQL error: " + std::string(zErrMsg);
 		sqlite3_free(zErrMsg);
-		throw Ark3DException(error_description);
+		throw pSketcherException(error_description);
 	}
 
 	sqlite3_free(sql_undo_redo);

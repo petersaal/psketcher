@@ -24,7 +24,7 @@ class QtLine2D : public QtPrimitiveBase, public Line2D
 {
 	public:
 		QtLine2D (QGraphicsItem * parent, const Point2DPointer point1, const Point2DPointer point2, SketchPlanePointer sketch_plane);
-		QtLine2D (QGraphicsItem * parent, unsigned id, Ark3DModel &ark3d_model); // Construct from database
+		QtLine2D (QGraphicsItem * parent, unsigned id, pSketcherModel &psketcher_model); // Construct from database
 
 		void Display() {return QtPrimitiveBase::Display();}
 		bool IsSelected() {return QtPrimitiveBase::IsSelected();}

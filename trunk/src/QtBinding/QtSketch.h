@@ -35,8 +35,8 @@ class QtSketch : public Sketch
 		bool GetGridSnap() {return grid_snap_;}
 		void SetGridSnap(bool grid_snap) {grid_snap_ = grid_snap;}
 
-		// override some of the Ark3DModel methods
-		void ClearSelected() {scene_->clearSelection(); Ark3DModel::ClearSelected();}
+		// override some of the pSketcherModel methods
+		void ClearSelected() {scene_->clearSelection(); pSketcherModel::ClearSelected();}
 		virtual void AddConstraintEquation(const ConstraintEquationBasePointer &new_constraint_equation, bool update_database = true);
 		virtual void AddPrimitive(const PrimitiveBasePointer &new_primitive, bool update_database = true);
 
@@ -59,8 +59,8 @@ class QtSketch : public Sketch
 	private:
 		// methods for generating objects directly from the database
 		// These methods are private since the Fetch methods should be used to access the DOF's primitives and constraints and they will call these methods if necessary
-		static PrimitiveBasePointer PrimitiveFactory(unsigned id, Ark3DModel &ark3d_model);
-		static ConstraintEquationBasePointer ConstraintFactory(unsigned id, Ark3DModel &ark3d_model);
+		static PrimitiveBasePointer PrimitiveFactory(unsigned id, pSketcherModel &psketcher_model);
+		static ConstraintEquationBasePointer ConstraintFactory(unsigned id, pSketcherModel &psketcher_model);
 
 		QGraphicsScene *scene_;
 		bool grid_snap_;

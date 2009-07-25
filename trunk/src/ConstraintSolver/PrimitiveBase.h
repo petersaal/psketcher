@@ -28,11 +28,11 @@
 class dimeEntity;
 
 //Exception class
-class Ark3DException
+class pSketcherException
 {
 	public:
-		Ark3DException() {std::cerr << "Ark3D exception thrown: No description available." << std::endl;}
-		Ark3DException(std::string error_description) {std::cerr << "Ark3D exception thrown: " << error_description << std::endl;}
+		pSketcherException() {std::cerr << "pSketcher exception thrown: No description available." << std::endl;}
+		pSketcherException(std::string error_description) {std::cerr << "pSketcher exception thrown: " << error_description << std::endl;}
 
 	private:
 	
@@ -84,11 +84,11 @@ class PrimitiveBase
 		virtual void RemoveFromDatabase() {;} // @fixme: change to abstract (=0) 
 
 		// Utility method to sync dof_list_ and primitive_list_ to the database
-		void SyncListsToDatabase(const std::string &dof_list_table_name, const std::string &primitive_list_table_name, Ark3DModel &ark3d_model);
+		void SyncListsToDatabase(const std::string &dof_list_table_name, const std::string &primitive_list_table_name, pSketcherModel &psketcher_model);
 
 		// method to synchronize this object to the database, needs to be implemented by each child class
 		// returns true on success, returns false if row does not exist in the database
-		virtual bool SyncToDatabase(Ark3DModel &ark3d_model) {;} // @fixme This method should be abstract to insure that all child classes implement it
+		virtual bool SyncToDatabase(pSketcherModel &psketcher_model) {;} // @fixme This method should be abstract to insure that all child classes implement it
 
 		virtual dimeEntity *GenerateDimeEntity() const {return 0;}  // used for DXF export
 

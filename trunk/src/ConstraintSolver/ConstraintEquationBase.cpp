@@ -17,7 +17,7 @@
 #include <sstream>
 
 #include "ConstraintEquationBase.h"
-#include "Ark3DModel.h"
+#include "pSketcherModel.h"
 
 using namespace std;
 

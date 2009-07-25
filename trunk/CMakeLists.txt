@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 2.6)
 
-PROJECT (ark3d)
+PROJECT (psketcher)
 
-set (ARK3D_VERSION 0.1)
-ADD_DEFINITIONS (-DVERSION="\\"${ARK3D_VERSION}\\"")
+set (PSKETCHER_VERSION 0.1)
+ADD_DEFINITIONS (-DVERSION="\\"${PSKETCHER_VERSION}\\"")
 
 add_subdirectory (src/Interface)
 add_subdirectory (src/NumOptimization)

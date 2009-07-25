@@ -21,9 +21,9 @@
 #include "QtLine2D.h"
 #include "QtArc2D.h"
 
-QtTangentEdge2D::QtTangentEdge2D (QGraphicsItem * parent, unsigned id, Ark3DModel &ark3d_model):
+QtTangentEdge2D::QtTangentEdge2D (QGraphicsItem * parent, unsigned id, pSketcherModel &psketcher_model):
 QtPrimitiveBase(parent),
-TangentEdge2D(id,ark3d_model)
+TangentEdge2D(id,psketcher_model)
 {
 	SetProperties(Annotation);
 	SetSelectedProperties(SelectedAnnotation);

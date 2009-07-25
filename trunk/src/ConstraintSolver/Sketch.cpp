@@ -19,16 +19,16 @@
 
 const std::string SQL_sketch_database_schema = "CREATE TABLE sketch (sketch_plane INTEGER NOT NULL);";
 
-Sketch::Sketch(VectorPointer normal, VectorPointer up, PointPointer base,PrimitiveBasePointer (*current_primitive_factory)(unsigned, Ark3DModel &), ConstraintEquationBasePointer (*current_constraint_factory)(unsigned, Ark3DModel &)):
-Ark3DModel(current_primitive_factory, current_constraint_factory),
+Sketch::Sketch(VectorPointer normal, VectorPointer up, PointPointer base,PrimitiveBasePointer (*current_primitive_factory)(unsigned, pSketcherModel &), ConstraintEquationBasePointer (*current_constraint_factory)(unsigned, pSketcherModel &)):
+pSketcherModel(current_primitive_factory, current_constraint_factory),
 sketch_plane_(new SketchPlane(normal,up,base))
 {
 	AddPrimitive(sketch_plane_);
 	AddToDatabase();
 }
 
-Sketch::Sketch(const std::string &file_name, PrimitiveBasePointer (*current_primitive_factory)(unsigned, Ark3DModel &), ConstraintEquationBasePointer (*current_constraint_factory)(unsigned, Ark3DModel &)):
-Ark3DModel(file_name, current_primitive_factory, current_constraint_factory)
+Sketch::Sketch(const std::string &file_name, PrimitiveBasePointer (*current_primitive_factory)(unsigned, pSketcherModel &), ConstraintEquationBasePointer (*current_constraint_factory)(unsigned, pSketcherModel &)):
+pSketcherModel(file_name, current_primitive_factory, current_constraint_factory)
 {
 	// need to set the value for sketch_plane_ from the database
 	char *zErrMsg = 0;
@@ -41,7 +41,7 @@ Ark3DModel(file_name, current_primitive_factory, current_constraint_factory)
 	if( rc!=SQLITE_OK ){
 		std::stringstream error_description;
 		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
-		throw Ark3DException(error_description.str());
+		throw pSketcherException(error_description.str());
 	}
 
 	rc = sqlite3_step(statement);
@@ -54,7 +54,7 @@ Ark3DModel(file_name, current_primitive_factory, current_constraint_factory)
 		// the requested row does not exist in the database
 		sqlite3_finalize(statement);	
 
-		throw Ark3DException("SketchPlane ID not stored in database, cannot initialize Sketch Object");
+		throw pSketcherException("SketchPlane ID not stored in database, cannot initialize Sketch Object");
 	}
 
 	rc = sqlite3_step(statement);
@@ -62,14 +62,14 @@ Ark3DModel(file_name, current_primitive_factory, current_constraint_factory)
 		// sql statement didn't finish properly, some error must to have occured
 		std::stringstream error_description;
 		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
-		throw Ark3DException(error_description.str());
+		throw pSketcherException(error_description.str());
 	}
 	
 	rc = sqlite3_finalize(statement);
 	if( rc!=SQLITE_OK ){
 		std::stringstream error_description;
 		error_description << "SQL error: " << sqlite3_errmsg(GetDatabase());
-		throw Ark3DException(error_description.str());
+		throw pSketcherException(error_description.str());
 	}
 
 }
@@ -84,7 +84,7 @@ void Sketch::AddToDatabase()
 	if( rc!=SQLITE_OK ){
 		std::string error_description = "SQL error: " + std::string(zErrMsg);
 		sqlite3_free(zErrMsg);
-		throw Ark3DException(error_description);
+		throw pSketcherException(error_description);
 	}
 
 	// Add the database row for this class
@@ -95,7 +95,7 @@ void Sketch::AddToDatabase()
 	if( rc!=SQLITE_OK ){
 		std::string error_description = "SQL error: " + std::string(zErrMsg);
 		sqlite3_free(zErrMsg);
-		throw Ark3DException(error_description);
+		throw pSketcherException(error_description);
 	}
 
 }
@@ -141,7 +141,7 @@ Arc2DPointer Sketch::AddArc2D (double s1, double t1, double s2, double t2, doubl
 	try{
 		new_arc.reset(new Arc2D(s1,t1,s2,t2,s3,t3, sketch_plane_,s_center_free, t_center_free, theta_1_free, theta_2_free, radius_free));
 	}
-	catch (Ark3DException e)
+	catch (pSketcherException e)
 	{
 		// all three points were on a straight line so no arc could be made
 		success = false;

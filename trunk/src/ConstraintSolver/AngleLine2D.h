@@ -24,7 +24,7 @@ class AngleLine2D : public ConstraintEquationBase
 {
 	public:
 		AngleLine2D(const Line2DPointer line1, const Line2DPointer line2, double angle /* radians */, bool interior_angle);
-		AngleLine2D(unsigned id, Ark3DModel &ark3d_model); // Construct from database
+		AngleLine2D(unsigned id, pSketcherModel &psketcher_model); // Construct from database
 	
 		void SetTextLocation(double text_radius, double text_angle) {text_radius_->SetValue(text_radius); text_angle_->SetValue(text_angle);}
 		void SetSTTextLocation(double text_s, double text_t, bool update_db=true);
@@ -46,7 +46,7 @@ class AngleLine2D : public ConstraintEquationBase
 		virtual void AddToDatabase(sqlite3 *database);
 		virtual void RemoveFromDatabase();
 		void DatabaseAddRemove(bool add_to_database); // Utility method used by AddToDatabase and RemoveFromDatabase
-		virtual bool SyncToDatabase(Ark3DModel &ark3d_model);
+		virtual bool SyncToDatabase(pSketcherModel &psketcher_model);
 		
 	protected:
 		Line2DPointer line1_;

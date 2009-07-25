@@ -18,7 +18,7 @@
 #include <sstream>
 #include "IndependentDOF.h"
 #include "PrimitiveBase.h"
-#include "Ark3DModel.h"
+#include "pSketcherModel.h"
 
 using namespace std;
 
@@ -36,23 +36,23 @@ DOF(name,free,false /*dependent*/)
 	value_ = value;
 }
 
-// the following constructor creates the DOF from the database stored in ark3d_model
-IndependentDOF :: IndependentDOF ( unsigned id, Ark3DModel &ark3d_model ):
+// the following constructor creates the DOF from the database stored in psketcher_model
+IndependentDOF :: IndependentDOF ( unsigned id, pSketcherModel &psketcher_model ):
 DOF(id,false /* bool dependent */)
 {
-	SetID(id);  bool exists = SyncToDatabase(ark3d_model);
+	SetID(id);  bool exists = SyncToDatabase(psketcher_model);
 	
 	if(!exists) // this object does not exist in the table
 	{
 		stringstream error_description;
 		error_description << "SQLite rowid " << id << " in table independent_dof_list does not exist";
-		throw Ark3DException(error_description.str());
+		throw pSketcherException(error_description.str());
 	}
 }
 
-bool IndependentDOF :: SyncToDatabase(Ark3DModel &ark3d_model)
+bool IndependentDOF :: SyncToDatabase(pSketcherModel &psketcher_model)
 {
-	database_ = ark3d_model.GetDatabase();
+	database_ = psketcher_model.GetDatabase();
 
 	string table_name = "independent_dof_list";
 
@@ -65,11 +65,11 @@ bool IndependentDOF :: SyncToDatabase(Ark3DModel &ark3d_model)
 	stringstream sql_command;
 	sql_command << "SELECT * FROM " << table_name << " WHERE id=" << GetID() << ";";
 
-	rc = sqlite3_prepare(ark3d_model.GetDatabase(), sql_command.str().c_str(), -1, &statement, 0);
+	rc = sqlite3_prepare(psketcher_model.GetDatabase(), sql_command.str().c_str(), -1, &statement, 0);
 	if( rc!=SQLITE_OK ){
 		stringstream error_description;
-		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
-		throw Ark3DException(error_description.str());
+		error_description << "SQL error: " << sqlite3_errmsg(psketcher_model.GetDatabase());
+		throw pSketcherException(error_description.str());
 	}
 
 	rc = sqlite3_step(statement);
@@ -94,15 +94,15 @@ bool IndependentDOF :: SyncToDatabase(Ark3DModel &ark3d_model)
 	if( rc!=SQLITE_DONE ){
 		// sql statement didn't finish properly, some error must to have occured
 		stringstream error_description;
-		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
-		throw Ark3DException(error_description.str());
+		error_description << "SQL error: " << sqlite3_errmsg(psketcher_model.GetDatabase());
+		throw pSketcherException(error_description.str());
 	}
 	
 	rc = sqlite3_finalize(statement);
 	if( rc!=SQLITE_OK ){
 		stringstream error_description;
-		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
-		throw Ark3DException(error_description.str());
+		error_description << "SQL error: " << sqlite3_errmsg(psketcher_model.GetDatabase());
+		throw pSketcherException(error_description.str());
 	}
 
 	return true; // row existed in the database
@@ -130,7 +130,7 @@ void IndependentDOF::SetValue ( double value, bool update_db)
         if( rc!=SQLITE_OK ){
             stringstream error_description;
             error_description << "SQL error: " << sqlite3_errmsg(database_);
-            throw Ark3DException(error_description.str());
+            throw pSketcherException(error_description.str());
         }
     
         rc = sqlite3_step(statement);
@@ -142,7 +142,7 @@ void IndependentDOF::SetValue ( double value, bool update_db)
         } else {
             // the requested row does not exist in the database
             sqlite3_finalize(statement);    
-            throw Ark3DException("DOF value is being updated for a DOF that is not currently stored in the database.");
+            throw pSketcherException("DOF value is being updated for a DOF that is not currently stored in the database.");
         }
     
         rc = sqlite3_step(statement);
@@ -150,14 +150,14 @@ void IndependentDOF::SetValue ( double value, bool update_db)
             // sql statement didn't finish properly, some error must to have occured
             stringstream error_description;
             error_description << "SQL error: " << sqlite3_errmsg(database_);
-            throw Ark3DException(error_description.str());
+            throw pSketcherException(error_description.str());
         }
         
         rc = sqlite3_finalize(statement);
         if( rc!=SQLITE_OK ){
             stringstream error_description;
             error_description << "SQL error: " << sqlite3_errmsg(database_);
-            throw Ark3DException(error_description.str());
+            throw pSketcherException(error_description.str());
         }
 
         // Now that the prevoius value is know, update the database
@@ -181,7 +181,7 @@ void IndependentDOF::SetValue ( double value, bool update_db)
 		if( rc!=SQLITE_OK ){
 			std::string error_description = "SQL error: " + std::string(zErrMsg);
 			sqlite3_free(zErrMsg);
-			throw Ark3DException(error_description);
+			throw pSketcherException(error_description);
 		}
 
 		// store the undo/redo information in the database
@@ -192,7 +192,7 @@ void IndependentDOF::SetValue ( double value, bool update_db)
 		if( rc!=SQLITE_OK ){
 			std::string error_description = "SQL error: " + std::string(zErrMsg);
 			sqlite3_free(zErrMsg);
-			throw Ark3DException(error_description);
+			throw pSketcherException(error_description);
 		}
 
 	} // if(database_ != 0 && update_db)
@@ -228,7 +228,7 @@ void IndependentDOF::SetFree(bool free)
 			if( rc!=SQLITE_OK ){
 				std::string error_description = "SQL error: " + std::string(zErrMsg);
 				sqlite3_free(zErrMsg);
-				throw Ark3DException(error_description);
+				throw pSketcherException(error_description);
 			}
 	
 			// store the undo/redo information in the database
@@ -239,7 +239,7 @@ void IndependentDOF::SetFree(bool free)
 			if( rc!=SQLITE_OK ){
 				std::string error_description = "SQL error: " + std::string(zErrMsg);
 				sqlite3_free(zErrMsg);
-				throw Ark3DException(error_description);
+				throw pSketcherException(error_description);
 			}
 
 			sqlite3_free(sql_undo_redo);
@@ -311,7 +311,7 @@ void IndependentDOF::DatabaseAddDelete(bool add_to_database) // utility method c
 			if( rc!=SQLITE_OK ){
 				std::string error_description = "SQL error: " + std::string(zErrMsg);
 				sqlite3_free(zErrMsg);
-				throw Ark3DException(error_description);
+				throw pSketcherException(error_description);
 			}
 	
 			// now that the table has been created, attempt the insert one last time
@@ -319,12 +319,12 @@ void IndependentDOF::DatabaseAddDelete(bool add_to_database) // utility method c
 			if( rc!=SQLITE_OK ){
 				std::string error_description = "SQL error: " + std::string(zErrMsg);
 				sqlite3_free(zErrMsg);
-				throw Ark3DException(error_description);
+				throw pSketcherException(error_description);
 			}
 		} else {
 			std::string error_description = "SQL error: " + std::string(zErrMsg);
 			sqlite3_free(zErrMsg);
-			throw Ark3DException(error_description);
+			throw pSketcherException(error_description);
 		}
 	}
 
@@ -336,7 +336,7 @@ void IndependentDOF::DatabaseAddDelete(bool add_to_database) // utility method c
 	if( rc!=SQLITE_OK ){
 		std::string error_description = "SQL error: " + std::string(zErrMsg);
 		sqlite3_free(zErrMsg);
-		throw Ark3DException(error_description);
+		throw pSketcherException(error_description);
 	}
 
 	sqlite3_free(sql_undo_redo);

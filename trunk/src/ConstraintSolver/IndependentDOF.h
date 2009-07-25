@@ -26,8 +26,8 @@ class IndependentDOF : public DOF
 	public:
 		IndependentDOF ( double value = 0.0, bool free = false );
 		IndependentDOF ( const char *name, double value = 0.0, bool free = false );
-		// the following constructor creates the DOF from the database stored in ark3d_model
-		IndependentDOF ( unsigned id, Ark3DModel &ark3d_model );
+		// the following constructor creates the DOF from the database stored in psketcher_model
+		IndependentDOF ( unsigned id, pSketcherModel &psketcher_model );
 
 		//Accessor methods
 		void SetValue ( double value, bool update_db = true );
@@ -40,7 +40,7 @@ class IndependentDOF : public DOF
 		void DatabaseAddDelete(bool add_to_database); // utility method called by AddToDatabase and DeleteFromDatabase since they both do similar things
 
 		// method to synchronize this object to the database, returns false if the object does not exist in the database
-		virtual bool SyncToDatabase(Ark3DModel &ark3d_model);
+		virtual bool SyncToDatabase(pSketcherModel &psketcher_model);
 
 	private:
 		double value_;

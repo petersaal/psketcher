@@ -18,9 +18,9 @@
 
 #include "QtCircle2D.h"
 
-QtCircle2D::QtCircle2D (QGraphicsItem * parent, unsigned id, Ark3DModel &ark3d_model):
+QtCircle2D::QtCircle2D (QGraphicsItem * parent, unsigned id, pSketcherModel &psketcher_model):
 QtPrimitiveBase(parent),
-Circle2D(id,ark3d_model),
+Circle2D(id,psketcher_model),
 pending_db_save_(false)
 {
 	SetProperties(Primitive);

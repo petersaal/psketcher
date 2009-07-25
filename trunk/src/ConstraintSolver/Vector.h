@@ -25,7 +25,7 @@ class Vector : virtual public PrimitiveBase
 	public:
 		Vector ( double x, double y, double z, bool x_free = false, bool y_free = false, bool z_free = false);
 		//Vector ( DOFPointer x, DOFPointer y, DOFPointer z );
-		Vector (unsigned id, Ark3DModel &ark3d_model); // Construct from database
+		Vector (unsigned id, pSketcherModel &psketcher_model); // Construct from database
 
 		double GetXValue()const {return x_->GetValue();}
 		double GetYValue()const {return y_->GetValue();}
@@ -39,7 +39,7 @@ class Vector : virtual public PrimitiveBase
 		virtual void AddToDatabase(sqlite3 *database);
 		virtual void RemoveFromDatabase();
 		void DatabaseAddRemove(bool add_to_database); // Utility method used by AddToDatabase and RemoveFromDatabase
-		virtual bool SyncToDatabase(Ark3DModel &ark3d_model);
+		virtual bool SyncToDatabase(pSketcherModel &psketcher_model);
 
 	private:
 		DOFPointer x_;

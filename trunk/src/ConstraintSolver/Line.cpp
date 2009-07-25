@@ -116,7 +116,7 @@ void Line::DatabaseAddRemove(bool add_to_database) // Utility method used by Add
 			if( rc!=SQLITE_OK ){
 				std::string error_description = "SQL error: " + std::string(zErrMsg);
 				sqlite3_free(zErrMsg);
-				throw Ark3DException(error_description);
+				throw pSketcherException(error_description);
 			}
 	
 			// now that the table has been created, attempt the insert one last time
@@ -124,12 +124,12 @@ void Line::DatabaseAddRemove(bool add_to_database) // Utility method used by Add
 			if( rc!=SQLITE_OK ){
 				std::string error_description = "SQL error: " + std::string(zErrMsg);
 				sqlite3_free(zErrMsg);
-				throw Ark3DException(error_description);
+				throw pSketcherException(error_description);
 			}
 		} else {
 			std::string error_description = "SQL error: " + std::string(zErrMsg);
 			sqlite3_free(zErrMsg);
-			throw Ark3DException(error_description);
+			throw pSketcherException(error_description);
 		}
 	}
 
@@ -141,7 +141,7 @@ void Line::DatabaseAddRemove(bool add_to_database) // Utility method used by Add
 	if( rc!=SQLITE_OK ){
 		std::string error_description = "SQL error: " + std::string(zErrMsg);
 		sqlite3_free(zErrMsg);
-		throw Ark3DException(error_description);
+		throw pSketcherException(error_description);
 	}
 
 	sqlite3_free(sql_undo_redo);

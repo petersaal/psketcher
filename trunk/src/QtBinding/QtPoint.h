@@ -24,7 +24,7 @@ class QtPoint : public QtPrimitiveBase, public Point
 {
 	public:
 		QtPoint (QGraphicsItem * parent, double x, double y, double z, bool x_free = false, bool y_free = false, bool z_free = false);
-		QtPoint (QGraphicsItem * parent, unsigned id, Ark3DModel &ark3d_model);
+		QtPoint (QGraphicsItem * parent, unsigned id, pSketcherModel &psketcher_model);
 
 		void Display() {return QtPrimitiveBase::Display();}
 		bool IsSelected() {return QtPrimitiveBase::IsSelected();}

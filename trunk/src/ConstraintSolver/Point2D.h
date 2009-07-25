@@ -27,7 +27,7 @@ class Point2D : public Primitive2DBase
 
 		Point2D ( double s, double t, SketchPlanePointer sketch_plane, bool s_free = false, bool t_free = false);
 		Point2D ( DOFPointer s, DOFPointer t, SketchPlanePointer sketch_plane);
-		Point2D (unsigned id, Ark3DModel &ark3d_model); // Construct from database
+		Point2D (unsigned id, pSketcherModel &psketcher_model); // Construct from database
 
 		DOFPointer GetSDOF()const {return s_;}
 		DOFPointer GetTDOF()const {return t_;}
@@ -49,7 +49,7 @@ class Point2D : public Primitive2DBase
 		virtual void AddToDatabase(sqlite3 *database);
 		virtual void RemoveFromDatabase();
 		void DatabaseAddRemove(bool add_to_database); // Utility method used by AddToDatabase and RemoveFromDatabase
-		virtual bool SyncToDatabase(Ark3DModel &ark3d_model);
+		virtual bool SyncToDatabase(pSketcherModel &psketcher_model);
 
 		dimeEntity *GenerateDimeEntity() const;
 

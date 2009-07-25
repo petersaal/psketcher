@@ -19,7 +19,7 @@
 #include "AngleLine2D.h"
 #include "IndependentDOF.h"
 
-#include "Ark3DModel.h"
+#include "pSketcherModel.h"
 
 const std::string SQL_angle_line2d_database_schema = "CREATE TABLE angle_line2d_list (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, line1 INTEGER NOT NULL, line2 INTEGER NOT NULL, angle_dof INTEGER NOT NULL, interior_angle_bool INTEGER NOT NULL, text_angle_dof INTEGER NOT NULL, text_radius_dof INTEGER NOT NULL, text_s_dof INTEGER NOT NULL, text_t_dof INTEGER NOT NULL, weight FLOAT NOT NULL);";
 
@@ -74,15 +74,15 @@ text_t_(new IndependentDOF(0.0,false))
 }
 
 // Construct from database
-AngleLine2D::AngleLine2D(unsigned id, Ark3DModel &ark3d_model)
+AngleLine2D::AngleLine2D(unsigned id, pSketcherModel &psketcher_model)
 {
-	SetID(id);  bool exists = SyncToDatabase(ark3d_model);
+	SetID(id);  bool exists = SyncToDatabase(psketcher_model);
 	
 	if(!exists) // this object does not exist in the table
 	{
 		stringstream error_description;
 		error_description << "SQLite rowid " << id << " in table angle_line2d_list does not exist";
-		throw Ark3DException(error_description.str());
+		throw pSketcherException(error_description.str());
 	}
 }
 
@@ -289,7 +289,7 @@ void AngleLine2D::DatabaseAddRemove(bool add_to_database) // Utility method used
 			if( rc!=SQLITE_OK ){
 				std::string error_description = "SQL error: " + std::string(zErrMsg);
 				sqlite3_free(zErrMsg);
-				throw Ark3DException(error_description);
+				throw pSketcherException(error_description);
 			}
 	
 			// now that the table has been created, attempt the insert one last time
@@ -297,12 +297,12 @@ void AngleLine2D::DatabaseAddRemove(bool add_to_database) // Utility method used
 			if( rc!=SQLITE_OK ){
 				std::string error_description = "SQL error: " + std::string(zErrMsg);
 				sqlite3_free(zErrMsg);
-				throw Ark3DException(error_description);
+				throw pSketcherException(error_description);
 			}
 		} else {
 			std::string error_description = "SQL error: " + std::string(zErrMsg);
 			sqlite3_free(zErrMsg);
-			throw Ark3DException(error_description);
+			throw pSketcherException(error_description);
 		}
 	}
 
@@ -314,7 +314,7 @@ void AngleLine2D::DatabaseAddRemove(bool add_to_database) // Utility method used
 	if( rc!=SQLITE_OK ){
 		std::string error_description = "SQL error: " + std::string(zErrMsg);
 		sqlite3_free(zErrMsg);
-		throw Ark3DException(error_description);
+		throw pSketcherException(error_description);
 	}
 
 	sqlite3_free(sql_undo_redo);
@@ -323,9 +323,9 @@ void AngleLine2D::DatabaseAddRemove(bool add_to_database) // Utility method used
 	DatabaseAddDeleteLists(add_to_database,dof_list_table_name.str(),primitive_list_table_name.str());
 }
 
-bool AngleLine2D::SyncToDatabase(Ark3DModel &ark3d_model)
+bool AngleLine2D::SyncToDatabase(pSketcherModel &psketcher_model)
 {
-	database_ = ark3d_model.GetDatabase();
+	database_ = psketcher_model.GetDatabase();
 
 	string table_name = "angle_line2d_list";
 
@@ -336,11 +336,11 @@ bool AngleLine2D::SyncToDatabase(Ark3DModel &ark3d_model)
 	stringstream sql_command;
 	sql_command << "SELECT * FROM " << table_name << " WHERE id=" << GetID() << ";";
 
-	rc = sqlite3_prepare(ark3d_model.GetDatabase(), sql_command.str().c_str(), -1, &statement, 0);
+	rc = sqlite3_prepare(psketcher_model.GetDatabase(), sql_command.str().c_str(), -1, &statement, 0);
 	if( rc!=SQLITE_OK ){
 		stringstream error_description;
-		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
-		throw Ark3DException(error_description.str());
+		error_description << "SQL error: " << sqlite3_errmsg(psketcher_model.GetDatabase());
+		throw pSketcherException(error_description.str());
 	}
 
 	rc = sqlite3_step(statement);
@@ -352,14 +352,14 @@ bool AngleLine2D::SyncToDatabase(Ark3DModel &ark3d_model)
 		
 		dof_table_name << sqlite3_column_text(statement,1);
 		primitive_table_name << sqlite3_column_text(statement,2);
-		line1_ = ark3d_model.FetchPrimitive<Line2D>(sqlite3_column_int(statement,3));
-		line2_ = ark3d_model.FetchPrimitive<Line2D>(sqlite3_column_int(statement,4));
-		angle_ = ark3d_model.FetchDOF(sqlite3_column_int(statement,5));
+		line1_ = psketcher_model.FetchPrimitive<Line2D>(sqlite3_column_int(statement,3));
+		line2_ = psketcher_model.FetchPrimitive<Line2D>(sqlite3_column_int(statement,4));
+		angle_ = psketcher_model.FetchDOF(sqlite3_column_int(statement,5));
 		interior_angle_ = sqlite3_column_int(statement,6);
-		text_angle_ = ark3d_model.FetchDOF(sqlite3_column_int(statement,7));
-		text_radius_ = ark3d_model.FetchDOF(sqlite3_column_int(statement,8));
-		text_s_ = ark3d_model.FetchDOF(sqlite3_column_int(statement,9));
-		text_t_ = ark3d_model.FetchDOF(sqlite3_column_int(statement,10));
+		text_angle_ = psketcher_model.FetchDOF(sqlite3_column_int(statement,7));
+		text_radius_ = psketcher_model.FetchDOF(sqlite3_column_int(statement,8));
+		text_s_ = psketcher_model.FetchDOF(sqlite3_column_int(statement,9));
+		text_t_ = psketcher_model.FetchDOF(sqlite3_column_int(statement,10));
         weight_ = sqlite3_column_double(statement,11);
 
         if(interior_angle_)
@@ -380,19 +380,19 @@ bool AngleLine2D::SyncToDatabase(Ark3DModel &ark3d_model)
 	if( rc!=SQLITE_DONE ){
 		// sql statement didn't finish properly, some error must to have occured
 		stringstream error_description;
-		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
-		throw Ark3DException(error_description.str());
+		error_description << "SQL error: " << sqlite3_errmsg(psketcher_model.GetDatabase());
+		throw pSketcherException(error_description.str());
 	}
 	
 	rc = sqlite3_finalize(statement);
 	if( rc!=SQLITE_OK ){
 		stringstream error_description;
-		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
-		throw Ark3DException(error_description.str());
+		error_description << "SQL error: " << sqlite3_errmsg(psketcher_model.GetDatabase());
+		throw pSketcherException(error_description.str());
 	}
 
 	// now sync the lists store in the base classes
-	SyncListsToDatabase(dof_table_name.str(),primitive_table_name.str(),ark3d_model); // PrimitiveBase
+	SyncListsToDatabase(dof_table_name.str(),primitive_table_name.str(),psketcher_model); // PrimitiveBase
 
 	return true; // row existed in the database
 }

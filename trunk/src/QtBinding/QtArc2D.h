@@ -36,7 +36,7 @@ class QtArc2D : public QtPrimitiveBase, public Arc2D, public boost::enable_share
 			      SketchPlanePointer sketch_plane, bool s_center_free = false, bool t_center_free = false, bool theta_1_free = false, bool theta_2_free = false, 
 			      bool radius_free = false);
 		QtArc2D (QGraphicsItem * parent,DOFPointer s_center, DOFPointer t_center, DOFPointer theta_1, DOFPointer theta_2, DOFPointer radius, SketchPlanePointer sketch_plane);
-		QtArc2D (QGraphicsItem * parent, unsigned id, Ark3DModel &ark3d_model); // Construct from database
+		QtArc2D (QGraphicsItem * parent, unsigned id, pSketcherModel &psketcher_model); // Construct from database
 
 		void Display() {return QtPrimitiveBase::Display();}
 		bool IsSelected() {return QtPrimitiveBase::IsSelected();}

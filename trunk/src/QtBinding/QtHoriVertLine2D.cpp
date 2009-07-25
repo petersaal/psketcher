@@ -18,9 +18,9 @@
 
 #include "QtHoriVertLine2D.h"
 
-QtHoriVertLine2D::QtHoriVertLine2D (QGraphicsItem * parent, unsigned id, Ark3DModel &ark3d_model):
+QtHoriVertLine2D::QtHoriVertLine2D (QGraphicsItem * parent, unsigned id, pSketcherModel &psketcher_model):
 QtPrimitiveBase(parent),
-HoriVertLine2D(id,ark3d_model)
+HoriVertLine2D(id,psketcher_model)
 {
 	SetProperties(Annotation);
 	SetSelectedProperties(SelectedAnnotation);

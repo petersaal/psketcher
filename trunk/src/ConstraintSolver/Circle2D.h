@@ -28,7 +28,7 @@ class Circle2D : public Primitive2DBase
 		Circle2D (double s1, double t1, double s2, double t2, double s3, double t3, SketchPlanePointer sketch_plane,
                bool s_center_free = false, bool t_center_free = false, bool radius_free = false);
 		Circle2D (DOFPointer s_center, DOFPointer t_center, DOFPointer radius, SketchPlanePointer sketch_plane);
-		Circle2D (unsigned id, Ark3DModel &ark3d_model); // Construct from database
+		Circle2D (unsigned id, pSketcherModel &psketcher_model); // Construct from database
 
 		DOFPointer GetSCenter()const {return s_center_;}
 		DOFPointer GetTCenter()const {return t_center_;}
@@ -58,7 +58,7 @@ class Circle2D : public Primitive2DBase
 		virtual void AddToDatabase(sqlite3 *database);
 		virtual void RemoveFromDatabase();
 		void DatabaseAddRemove(bool add_to_database); // Utility method used by AddToDatabase and RemoveFromDatabase
-		virtual bool SyncToDatabase(Ark3DModel &ark3d_model);
+		virtual bool SyncToDatabase(pSketcherModel &psketcher_model);
 
 		dimeEntity *GenerateDimeEntity() const; // used for DXF export
 

@@ -24,7 +24,7 @@ class DistancePoint2D : public ConstraintEquationBase
 {
 	public:
 		DistancePoint2D(const Point2DPointer point1, const Point2DPointer point2, double distance);
-		DistancePoint2D(unsigned id, Ark3DModel &ark3d_model); // Construct from database
+		DistancePoint2D(unsigned id, pSketcherModel &psketcher_model); // Construct from database
 
 		double GetActualDistance();
 		double GetValue()const {return distance_->GetValue();}
@@ -42,7 +42,7 @@ class DistancePoint2D : public ConstraintEquationBase
 		virtual void AddToDatabase(sqlite3 *database);
 		virtual void RemoveFromDatabase();
 		void DatabaseAddRemove(bool add_to_database); // Utility method used by AddToDatabase and RemoveFromDatabase
-		virtual bool SyncToDatabase(Ark3DModel &ark3d_model);
+		virtual bool SyncToDatabase(pSketcherModel &psketcher_model);
 
 	protected:
 		Point2DPointer point1_;

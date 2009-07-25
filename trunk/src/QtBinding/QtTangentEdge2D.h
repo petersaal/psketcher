@@ -22,7 +22,7 @@
 class QtTangentEdge2D : public QtPrimitiveBase, public TangentEdge2D
 {
 	public:
-		QtTangentEdge2D (QGraphicsItem * parent, unsigned id, Ark3DModel &ark3d_model);
+		QtTangentEdge2D (QGraphicsItem * parent, unsigned id, pSketcherModel &psketcher_model);
 		QtTangentEdge2D (QGraphicsItem * parent,
                        Edge2DBasePointer edge1, EdgePointNumber point_num_1, 
                        Edge2DBasePointer edge2, EdgePointNumber point_num_2);

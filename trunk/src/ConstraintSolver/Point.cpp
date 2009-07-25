@@ -19,7 +19,7 @@
 #include "Point.h"
 #include "IndependentDOF.h"
 
-#include "Ark3DModel.h"
+#include "pSketcherModel.h"
 
 const std::string SQL_point_database_schema = "CREATE TABLE point_list (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, x_dof INTEGER NOT NULL, y_dof INTEGER NOT NULL, z_dof INTEGER NOT NULL);";
 
@@ -36,15 +36,15 @@ z_(new IndependentDOF(z,z_free))
 }
 
 // Construct from database
-Point::Point(unsigned id, Ark3DModel &ark3d_model)
+Point::Point(unsigned id, pSketcherModel &psketcher_model)
 {
-	SetID(id);  bool exists = SyncToDatabase(ark3d_model);
+	SetID(id);  bool exists = SyncToDatabase(psketcher_model);
 	
 	if(!exists) // this object does not exist in the table
 	{
 		stringstream error_description;
 		error_description << "SQLite rowid " << id << " in table point_list does not exist";
-		throw Ark3DException(error_description.str());
+		throw pSketcherException(error_description.str());
 	}
 }
 
@@ -134,7 +134,7 @@ void Point::DatabaseAddRemove(bool add_to_database) // Utility method used by Ad
 			if( rc!=SQLITE_OK ){
 				std::string error_description = "SQL error: " + std::string(zErrMsg);
 				sqlite3_free(zErrMsg);
-				throw Ark3DException(error_description);
+				throw pSketcherException(error_description);
 			}
 	
 			// now that the table has been created, attempt the insert one last time
@@ -142,12 +142,12 @@ void Point::DatabaseAddRemove(bool add_to_database) // Utility method used by Ad
 			if( rc!=SQLITE_OK ){
 				std::string error_description = "SQL error: " + std::string(zErrMsg);
 				sqlite3_free(zErrMsg);
-				throw Ark3DException(error_description);
+				throw pSketcherException(error_description);
 			}
 		} else {
 			std::string error_description = "SQL error: " + std::string(zErrMsg);
 			sqlite3_free(zErrMsg);
-			throw Ark3DException(error_description);
+			throw pSketcherException(error_description);
 		}
 	}
 
@@ -159,7 +159,7 @@ void Point::DatabaseAddRemove(bool add_to_database) // Utility method used by Ad
 	if( rc!=SQLITE_OK ){
 		std::string error_description = "SQL error: " + std::string(zErrMsg);
 		sqlite3_free(zErrMsg);
-		throw Ark3DException(error_description);
+		throw pSketcherException(error_description);
 	}
 
 	sqlite3_free(sql_undo_redo);
@@ -169,9 +169,9 @@ void Point::DatabaseAddRemove(bool add_to_database) // Utility method used by Ad
 }
 
 
-bool Point::SyncToDatabase(Ark3DModel &ark3d_model)
+bool Point::SyncToDatabase(pSketcherModel &psketcher_model)
 {
-	database_ = ark3d_model.GetDatabase();
+	database_ = psketcher_model.GetDatabase();
 
 	string table_name = "point_list";
 
@@ -182,11 +182,11 @@ bool Point::SyncToDatabase(Ark3DModel &ark3d_model)
 	stringstream sql_command;
 	sql_command << "SELECT * FROM " << table_name << " WHERE id=" << GetID() << ";";
 
-	rc = sqlite3_prepare(ark3d_model.GetDatabase(), sql_command.str().c_str(), -1, &statement, 0);
+	rc = sqlite3_prepare(psketcher_model.GetDatabase(), sql_command.str().c_str(), -1, &statement, 0);
 	if( rc!=SQLITE_OK ){
 		stringstream error_description;
-		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
-		throw Ark3DException(error_description.str());
+		error_description << "SQL error: " << sqlite3_errmsg(psketcher_model.GetDatabase());
+		throw pSketcherException(error_description.str());
 	}
 
 	rc = sqlite3_step(statement);
@@ -198,9 +198,9 @@ bool Point::SyncToDatabase(Ark3DModel &ark3d_model)
 		
 		dof_table_name << sqlite3_column_text(statement,1);
 		primitive_table_name << sqlite3_column_text(statement,2);
-		x_ = ark3d_model.FetchDOF(sqlite3_column_int(statement,3));
-		y_ = ark3d_model.FetchDOF(sqlite3_column_int(statement,4));
-		z_ = ark3d_model.FetchDOF(sqlite3_column_int(statement,5));
+		x_ = psketcher_model.FetchDOF(sqlite3_column_int(statement,3));
+		y_ = psketcher_model.FetchDOF(sqlite3_column_int(statement,4));
+		z_ = psketcher_model.FetchDOF(sqlite3_column_int(statement,5));
 
 	} else {
 		// the requested row does not exist in the database
@@ -213,19 +213,19 @@ bool Point::SyncToDatabase(Ark3DModel &ark3d_model)
 	if( rc!=SQLITE_DONE ){
 		// sql statement didn't finish properly, some error must to have occured
 		stringstream error_description;
-		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
-		throw Ark3DException(error_description.str());
+		error_description << "SQL error: " << sqlite3_errmsg(psketcher_model.GetDatabase());
+		throw pSketcherException(error_description.str());
 	}
 	
 	rc = sqlite3_finalize(statement);
 	if( rc!=SQLITE_OK ){
 		stringstream error_description;
-		error_description << "SQL error: " << sqlite3_errmsg(ark3d_model.GetDatabase());
-		throw Ark3DException(error_description.str());
+		error_description << "SQL error: " << sqlite3_errmsg(psketcher_model.GetDatabase());
+		throw pSketcherException(error_description.str());
 	}
 
 	// now sync the lists store in the base classes
-	SyncListsToDatabase(dof_table_name.str(),primitive_table_name.str(),ark3d_model); // PrimitiveBase
+	SyncListsToDatabase(dof_table_name.str(),primitive_table_name.str(),psketcher_model); // PrimitiveBase
 
 	return true; // row existed in the database
 }

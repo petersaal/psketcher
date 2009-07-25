@@ -23,7 +23,7 @@
 
 class SolverFunctionsBase;
 typedef boost::shared_ptr<SolverFunctionsBase> SolverFunctionsBasePointer;
-class Ark3DModel;
+class pSketcherModel;
 
 // Abstract DOF base class
 class DOF
@@ -64,7 +64,7 @@ class DOF
 
 		// method to synchronize this object to the database, needs to be implemented by each child class
 		// returns true on success, returns false if row does not exist in the database
-		virtual bool SyncToDatabase(Ark3DModel &ark3d_model) = 0;
+		virtual bool SyncToDatabase(pSketcherModel &psketcher_model) = 0;
 
 	protected:
 		// if not zero, this is the database where changes to the value of this DOF are stored

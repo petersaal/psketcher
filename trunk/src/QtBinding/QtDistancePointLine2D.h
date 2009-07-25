@@ -28,7 +28,7 @@ class QtDistancePointLine2DWidget;
 class QtDistancePointLine2D : public QtPrimitiveBase, public DistancePointLine2D, public boost::enable_shared_from_this<QtDistancePointLine2D>
 {
 	public:
-		QtDistancePointLine2D (QGraphicsItem * parent, unsigned id, Ark3DModel &ark3d_model);
+		QtDistancePointLine2D (QGraphicsItem * parent, unsigned id, pSketcherModel &psketcher_model);
 		QtDistancePointLine2D (QGraphicsItem * parent, const Point2DPointer point, const Line2DPointer line, 
 								double distance);
 
