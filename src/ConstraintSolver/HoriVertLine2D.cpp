@@ -45,6 +45,11 @@ marker_position_(new IndependentDOF(0.5,false))   // by default place marker at 
 	else
 		solver_function_.reset(new hori_vert_2d(line_->GetT1(), line_->GetT2()));
 
+    // randomize the marker position to try to prevent multiple markers from overlapping each other
+    double min_marker_pos = 0.10;
+    double max_marker_pos = 0.90;
+    marker_position_->SetValue(min_marker_pos + (double)rand() * ((max_marker_pos - min_marker_pos) / (double)RAND_MAX));
+
 	weight_ = 1.0;
 }
 

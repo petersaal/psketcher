@@ -49,6 +49,11 @@ marker_position_(new IndependentDOF(0.5,false))   // by default place marker at 
     // Define constraint function
     solver_function_.reset(new  parallel_line_2d(line1->GetS1(),line1->GetT1(),line1->GetS2(),line1->GetT2(),line2->GetS1(),line2->GetT1(),line2->GetS2(),line2->GetT2()));
 
+    // randomize the marker position to try to prevent multiple markers from overlapping each other
+    double min_marker_pos = 0.10;
+    double max_marker_pos = 0.90;
+    marker_position_->SetValue(min_marker_pos + (double)rand() * ((max_marker_pos - min_marker_pos) / (double)RAND_MAX));
+
 	weight_ = 1.0;
 }
 
