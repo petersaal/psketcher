@@ -166,16 +166,14 @@ bool pSketcherModel::Save(const std::string &file_name, bool save_copy)
 
 	bool success = true;
 
-	// first close the working database so that it is in a stable state
-	int rc = sqlite3_close(database_);
-	if(rc)
-	{
-		// error occured when attempting to close the database
-		std::stringstream error_description;
-		error_description << "Error closing SQL Database: " << sqlite3_errmsg(database_) << std::endl;	
-		throw pSketcherException(error_description.str());
-	}
-	database_ = 0;
+	// first lock the database in a read only state so that it can be safely coppied
+    char *zErrMsg = 0;
+    int rc = sqlite3_exec(database_, "BEGIN IMMEDIATE;", 0, 0, &zErrMsg);
+    if( rc!=SQLITE_OK ){
+        std::string error_description = "SQL error: " + std::string(zErrMsg);
+        sqlite3_free(zErrMsg);
+        throw pSketcherException(error_description);
+    }
 
 	// now copy the working database to the location of current_file_name_
 	try{
@@ -194,14 +192,13 @@ bool pSketcherModel::Save(const std::string &file_name, bool save_copy)
 		success = false;
 	}
 
-	// finally, reopen the working database so that it can continue to be used
-	rc = sqlite3_open(psketcher_current_database_file.c_str(), &database_);
-	if( rc ){
-		// an error occurred when trying to open the database
-		std::string error_description = "Can't open database: " + std::string(sqlite3_errmsg(database_));
-		sqlite3_close(database_);
-		throw pSketcherException(error_description);
-	}
+	// finally, remove the lock from the database
+    rc = sqlite3_exec(database_, "ROLLBACK;", 0, 0, &zErrMsg);
+    if( rc!=SQLITE_OK ){
+        std::string error_description = "SQL error: " + std::string(zErrMsg);
+        sqlite3_free(zErrMsg);
+        throw pSketcherException(error_description);
+    }
 
 	return success;
 }
