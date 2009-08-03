@@ -187,8 +187,7 @@ bool pSketcherModel::Save(const std::string &file_name, bool save_copy)
 				boost::filesystem::remove(file_name); // delete file if it already exists
 			boost::filesystem::copy_file(psketcher_current_database_file,file_name);
 		}
-	}
-	catch (boost::filesystem::basic_filesystem_error<string> e) {
+	} catch (boost::filesystem::basic_filesystem_error<string> e) {
 		success = false;
 	}
 
@@ -628,14 +627,14 @@ PrimitiveBasePointer pSketcherModel::PrimitiveFactory(unsigned id, pSketcherMode
 	// now generate the object based on the table name
 	PrimitiveBasePointer result;
 
-	if(table_name == "arc2d_list")
+	if(table_name == SQL_arc2d_database_table_name)
 	{
 		result.reset(new Arc2D(id,psketcher_model));
 	}
 	else if(table_name == "line2d_list"){
 		result.reset(new Line2D(id,psketcher_model));
 	}
-    else if(table_name == "circle2d_list"){
+    else if(table_name == SQL_circle2d_database_table_name){
         result.reset(new Circle2D(id,psketcher_model));
     }
 	else if(table_name == "point_list"){
@@ -709,7 +708,7 @@ ConstraintEquationBasePointer pSketcherModel::ConstraintFactory(unsigned id, pSk
 	// now generate the object based on the table name
 	ConstraintEquationBasePointer result;
 
-	if(table_name == "angle_line2d_list"){
+	if(table_name == SQL_angle_line2d_database_table_name){
 		result.reset(new AngleLine2D(id,psketcher_model));
 	}
 	else if(table_name == "distance_point2d_list"){
