@@ -19,6 +19,10 @@
 
 #include "Edge2DBase.h"
 
+const std::string SQL_circle2d_database_table_name = "circle2d_list";
+
+const std::string SQL_circle2d_database_schema = "CREATE TABLE " + SQL_circle2d_database_table_name + " (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, sketch_plane INTEGER NOT NULL, center_point INTEGER NOT NULL, radius_dof INTEGER NOT NULL, s_center_dof INTEGER NOT NULL, t_center_dof INTEGER NOT NULL, text_angle_dof INTEGER NOT NULL, text_radius_dof INTEGER NOT NULL, FOREIGN KEY(id) REFERENCES primitive_list(id), FOREIGN KEY(sketch_plane) REFERENCES primitive_list(id), FOREIGN KEY(center_point) REFERENCES primitive_list(id), FOREIGN KEY(radius_dof) REFERENCES dof_list(id), FOREIGN KEY(s_center_dof) REFERENCES dof_list(id), FOREIGN KEY(t_center_dof) REFERENCES dof_list(id), FOREIGN KEY(text_angle_dof) REFERENCES dof_list(id), FOREIGN KEY(text_radius_dof) REFERENCES dof_list(id));";
+
 // Line2D class
 class Circle2D : public Primitive2DBase
 {

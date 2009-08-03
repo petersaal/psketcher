@@ -20,8 +20,6 @@
 #include <dime/entities/Arc.h>
 // End of includes related to libdime
 
-const std::string SQL_arc2d_database_schema = "CREATE TABLE arc2d_list (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, sketch_plane INTEGER NOT NULL, center_point INTEGER NOT NULL, radius_dof INTEGER NOT NULL, s_center_dof INTEGER NOT NULL, t_center_dof INTEGER NOT NULL, theta_1_dof INTEGER NOT NULL, theta_2_dof INTEGER NOT NULL, end1_point INTEGER NOT NULL, end2_point INTEGER NOT NULL, text_angle_dof INTEGER NOT NULL, text_radius_dof INTEGER NOT NULL);";
-
 #include "Arc2D.h"
 #include "IndependentDOF.h"
 #include "DependentDOF.h"
@@ -154,7 +152,7 @@ Arc2D::Arc2D(unsigned id, pSketcherModel &psketcher_model)
     if(!exists) // this object does not exist in the table
     {
         stringstream error_description;
-        error_description << "SQLite rowid " << id << " in table arc2d_list does not exist";
+        error_description << "SQLite rowid " << id << " in table " << SQL_arc2d_database_table_name << " does not exist";
         throw pSketcherException(error_description.str());
     }
 }
@@ -289,7 +287,7 @@ void Arc2D::DatabaseAddRemove(bool add_to_database) // Utility method used by Ad
     stringstream temp_stream;
     temp_stream.precision(__DBL_DIG__);
     temp_stream << "BEGIN; "
-                << "INSERT INTO arc2d_list VALUES(" 
+                << "INSERT INTO " << SQL_arc2d_database_table_name << " VALUES(" 
                 << GetID() << ",'" << dof_list_table_name.str() << "','" 
                 << primitive_list_table_name.str() << "'," << GetSketchPlane()->GetID() 
                 << "," << center_point_->GetID() << "," << radius_->GetID()
@@ -299,7 +297,7 @@ void Arc2D::DatabaseAddRemove(bool add_to_database) // Utility method used by Ad
                 << "," << text_angle_->GetID() << "," << text_radius_->GetID()
                 << "); "
                 << "INSERT INTO primitive_list VALUES("
-                << GetID() << ",'arc2d_list'); "
+                << GetID() << ",'" << SQL_arc2d_database_table_name << "'); "
                 << "COMMIT; ";
 
     if(add_to_database)
@@ -311,7 +309,7 @@ void Arc2D::DatabaseAddRemove(bool add_to_database) // Utility method used by Ad
 
     temp_stream << "BEGIN; "
                 << "DELETE FROM primitive_list WHERE id=" << GetID() 
-                << "; DELETE FROM arc2d_list WHERE id=" << GetID() 
+                << "; DELETE FROM " << SQL_arc2d_database_table_name << " WHERE id=" << GetID() 
                 << "; COMMIT;";
 
     if(add_to_database)
@@ -371,7 +369,7 @@ bool Arc2D::SyncToDatabase(pSketcherModel &psketcher_model)
 {
     database_ = psketcher_model.GetDatabase();
 
-    string table_name = "arc2d_list";
+    string table_name = SQL_arc2d_database_table_name;
 
     char *zErrMsg = 0;
     int rc;

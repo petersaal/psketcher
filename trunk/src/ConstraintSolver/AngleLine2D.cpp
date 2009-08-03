@@ -21,8 +21,6 @@
 
 #include "pSketcherModel.h"
 
-const std::string SQL_angle_line2d_database_schema = "CREATE TABLE angle_line2d_list (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, line1 INTEGER NOT NULL, line2 INTEGER NOT NULL, angle_dof INTEGER NOT NULL, interior_angle_bool INTEGER NOT NULL, text_angle_dof INTEGER NOT NULL, text_radius_dof INTEGER NOT NULL, text_s_dof INTEGER NOT NULL, text_t_dof INTEGER NOT NULL, weight FLOAT NOT NULL);";
-
 using namespace std;
 
 // Create an angle constraint between two lines
@@ -81,7 +79,7 @@ AngleLine2D::AngleLine2D(unsigned id, pSketcherModel &psketcher_model)
 	if(!exists) // this object does not exist in the table
 	{
 		stringstream error_description;
-		error_description << "SQLite rowid " << id << " in table angle_line2d_list does not exist";
+		error_description << "SQLite rowid " << id << " in table " << SQL_angle_line2d_database_table_name << " does not exist";
 		throw pSketcherException(error_description.str());
 	}
 }
@@ -245,7 +243,7 @@ void AngleLine2D::DatabaseAddRemove(bool add_to_database) // Utility method used
 	stringstream temp_stream;
 	temp_stream.precision(__DBL_DIG__);
 	temp_stream << "BEGIN; "
-                << "INSERT INTO angle_line2d_list VALUES(" 
+                << "INSERT INTO " << SQL_angle_line2d_database_table_name << " VALUES(" 
                 << GetID() << ",'" << dof_list_table_name.str() << "','" 
 				<< primitive_list_table_name.str() 
 				<< "'," << line1_->GetID() << "," << line2_->GetID()
@@ -255,7 +253,7 @@ void AngleLine2D::DatabaseAddRemove(bool add_to_database) // Utility method used
                 << "," << weight_
 				<< "); "
                 << "INSERT INTO constraint_equation_list VALUES("
-                << GetID() << ",'angle_line2d_list'); "
+                << GetID() << ",'" << SQL_angle_line2d_database_table_name << "'); "
                 << "COMMIT; ";
 
 	if(add_to_database)
@@ -267,7 +265,7 @@ void AngleLine2D::DatabaseAddRemove(bool add_to_database) // Utility method used
 
 	temp_stream << "BEGIN; "
 				<< "DELETE FROM constraint_equation_list WHERE id=" << GetID() 
-				<< "; DELETE FROM angle_line2d_list WHERE id=" << GetID() 
+				<< "; DELETE FROM " << SQL_angle_line2d_database_table_name << " WHERE id=" << GetID() 
 				<< "; COMMIT;";
 
 	if(add_to_database)
@@ -327,7 +325,7 @@ bool AngleLine2D::SyncToDatabase(pSketcherModel &psketcher_model)
 {
 	database_ = psketcher_model.GetDatabase();
 
-	string table_name = "angle_line2d_list";
+	string table_name = SQL_angle_line2d_database_table_name;
 
 	char *zErrMsg = 0;
 	int rc;

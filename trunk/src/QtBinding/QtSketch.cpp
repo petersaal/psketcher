@@ -327,14 +327,14 @@ PrimitiveBasePointer QtSketch::PrimitiveFactory(unsigned id, pSketcherModel &psk
 	// now generate the object based on the table name
 	PrimitiveBasePointer result;
 
-	if(table_name == "arc2d_list")
+	if(table_name == SQL_arc2d_database_table_name)
 	{
 		result.reset(new QtArc2D(0,id,psketcher_model));
 	}
 	else if(table_name == "line2d_list"){
 		result.reset(new QtLine2D(0,id,psketcher_model));
 	}
-    else if(table_name == "circle2d_list"){
+    else if(table_name == SQL_circle2d_database_table_name){
         result.reset(new QtCircle2D(0,id,psketcher_model));
     }
 	else if(table_name == "point_list"){
@@ -408,7 +408,7 @@ ConstraintEquationBasePointer QtSketch::ConstraintFactory(unsigned id, pSketcher
 	// now generate the object based on the table name
 	ConstraintEquationBasePointer result;
 
-	if(table_name == "angle_line2d_list"){
+	if(table_name == SQL_angle_line2d_database_table_name){
 		result.reset(new QtAngleLine2D(0,id,psketcher_model));
 	}
 	else if(table_name == "distance_point2d_list"){
