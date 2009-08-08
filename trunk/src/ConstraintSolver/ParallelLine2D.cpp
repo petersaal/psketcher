@@ -21,8 +21,6 @@
 
 #include "pSketcherModel.h"
 
-const std::string SQL_parallel_line2d_database_schema = "CREATE TABLE parallel_line2d_list (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, line1 INTEGER NOT NULL, line2 INTEGER NOT NULL, marker_position_dof INTEGER NOT NULL, weight FLOAT NOT NULL);";
-
 using namespace std;
 
 // Create a parallelism constrain between two lines
@@ -65,7 +63,7 @@ ParallelLine2D::ParallelLine2D(unsigned id, pSketcherModel &psketcher_model)
 	if(!exists) // this object does not exist in the table
 	{
 		stringstream error_description;
-		error_description << "SQLite rowid " << id << " in table parallel_line2d_list does not exist";
+		error_description << "SQLite rowid " << id << " in table " << SQL_parallel_line2d_database_table_name << " does not exist";
 		throw pSketcherException(error_description.str());
 	}
 }
@@ -94,14 +92,14 @@ void ParallelLine2D::DatabaseAddRemove(bool add_to_database) // Utility method u
 	stringstream temp_stream;
 	temp_stream.precision(__DBL_DIG__);
 	temp_stream << "BEGIN; "
-                << "INSERT INTO parallel_line2d_list VALUES(" 
+                << "INSERT INTO " << SQL_parallel_line2d_database_table_name << " VALUES(" 
                 << GetID() << ",'" << dof_list_table_name.str() << "','" 
 				<< primitive_list_table_name.str() 
 				<< "'," << line1_->GetID() << "," << line2_->GetID()
 				<< "," << marker_position_->GetID() 
                 << "," << weight_ << "); "
                 << "INSERT INTO constraint_equation_list VALUES("
-                << GetID() << ",'parallel_line2d_list'); "
+                << GetID() << ",'" << SQL_parallel_line2d_database_table_name << "'); "
                 << "COMMIT; ";
 
 	if(add_to_database)
@@ -113,7 +111,7 @@ void ParallelLine2D::DatabaseAddRemove(bool add_to_database) // Utility method u
 
 	temp_stream << "BEGIN; "
 				<< "DELETE FROM constraint_equation_list WHERE id=" << GetID() 
-				<< "; DELETE FROM parallel_line2d_list WHERE id=" << GetID() 
+				<< "; DELETE FROM " << SQL_parallel_line2d_database_table_name << " WHERE id=" << GetID() 
 				<< "; COMMIT;";
 
 	if(add_to_database)
@@ -174,7 +172,7 @@ bool ParallelLine2D::SyncToDatabase(pSketcherModel &psketcher_model)
 {
 	database_ = psketcher_model.GetDatabase();
 
-	string table_name = "parallel_line2d_list";
+	string table_name = SQL_parallel_line2d_database_table_name;
 
 	char *zErrMsg = 0;
 	int rc;

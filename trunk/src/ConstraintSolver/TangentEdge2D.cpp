@@ -20,8 +20,6 @@
 
 #include "pSketcherModel.h"
 
-const std::string SQL_tangent_edge2d_database_schema = "CREATE TABLE tangent_edge2d_list (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, edge1 INTEGER NOT NULL, edge2 INTEGER NOT NULL, point_num_1 INTEGER NOT NULL, point_num_2 INTEGER NOT NULL, s_1_dof INTEGER NOT NULL, t_1_dof INTEGER NOT NULL, s_2_dof INTEGER NOT NULL, t_2_dof INTEGER NOT NULL, weight FLOAT NOT NULL);";
-
 using namespace std;
 
 TangentEdge2D::TangentEdge2D(Edge2DBasePointer edge1, EdgePointNumber point_num_1, Edge2DBasePointer edge2, EdgePointNumber point_num_2):
@@ -68,7 +66,7 @@ TangentEdge2D::TangentEdge2D(unsigned id, pSketcherModel &psketcher_model)
 	if(!exists) // this object does not exist in the table
 	{
 		stringstream error_description;
-		error_description << "SQLite rowid " << id << " in table tangent_edge2d_list does not exist";
+		error_description << "SQLite rowid " << id << " in table " << SQL_tangent_edge2d_database_table_name << " does not exist";
 		throw pSketcherException(error_description.str());
 	}
 }
@@ -97,7 +95,7 @@ void TangentEdge2D::DatabaseAddRemove(bool add_to_database) // Utility method us
 	stringstream temp_stream;
 	temp_stream.precision(__DBL_DIG__);
 	temp_stream << "BEGIN; "
-                << "INSERT INTO tangent_edge2d_list VALUES("
+                << "INSERT INTO " << SQL_tangent_edge2d_database_table_name << " VALUES("
                 << GetID() << ",'" << dof_list_table_name.str() << "','"
 				<< primitive_list_table_name.str()
 				<< "'," << edge1_->GetID() << "," << edge2_->GetID()
@@ -106,7 +104,7 @@ void TangentEdge2D::DatabaseAddRemove(bool add_to_database) // Utility method us
                 << "," << s_2_->GetID() << "," << t_2_->GetID() 
                 << "," << weight_ << "); "
                 << "INSERT INTO constraint_equation_list VALUES("
-                << GetID() << ",'tangent_edge2d_list'); "
+                << GetID() << ",'" << SQL_tangent_edge2d_database_table_name << "'); "
                 << "COMMIT; ";
 
 	if(add_to_database)
@@ -118,7 +116,7 @@ void TangentEdge2D::DatabaseAddRemove(bool add_to_database) // Utility method us
 
 	temp_stream << "BEGIN; "
 				<< "DELETE FROM constraint_equation_list WHERE id=" << GetID() 
-				<< "; DELETE FROM tangent_edge2d_list WHERE id=" << GetID() 
+				<< "; DELETE FROM " << SQL_tangent_edge2d_database_table_name << " WHERE id=" << GetID() 
 				<< "; COMMIT;";
 
 	if(add_to_database)
@@ -178,7 +176,7 @@ bool TangentEdge2D::SyncToDatabase(pSketcherModel &psketcher_model)
 {
 	database_ = psketcher_model.GetDatabase();
 
-	string table_name = "tangent_edge2d_list";
+	string table_name = SQL_tangent_edge2d_database_table_name;
 
 	char *zErrMsg = 0;
 	int rc;

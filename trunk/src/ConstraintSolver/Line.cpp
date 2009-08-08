@@ -15,8 +15,6 @@
 ****************************************************************************/
 #include <sstream>
 
-const std::string SQL_line_database_schema = "CREATE TABLE line_list (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, x1_dof INTEGER NOT NULL, y1_dof INTEGER NOT NULL, z1_dof INTEGER NOT NULL, x2_dof INTEGER NOT NULL, y2_dof INTEGER NOT NULL, z2_dof INTEGER NOT NULL);";
-
 #include "Line.h"
 
 using namespace std;
@@ -75,14 +73,14 @@ void Line::DatabaseAddRemove(bool add_to_database) // Utility method used by Add
 	stringstream temp_stream;
 	temp_stream.precision(__DBL_DIG__);
 	temp_stream << "BEGIN; "
-                << "INSERT INTO line_list VALUES(" 
+                << "INSERT INTO " << SQL_line_database_table_name << " VALUES(" 
                 << GetID() << ",'" << dof_list_table_name.str() << "','" 
 				<< primitive_list_table_name.str() << "'," 
 				<< x1_->GetID() << "," << y1_->GetID()
 				<< "," << z1_->GetID() << "," << x2_->GetID()
 				<< "," << y2_->GetID() << "," << z2_->GetID() << "); "
                 << "INSERT INTO primitive_list VALUES("
-                << GetID() << ",'line_list'); "
+                << GetID() << ",'" << SQL_line_database_table_name << "'); "
                 << "COMMIT; ";
 
 	if(add_to_database)
@@ -94,7 +92,7 @@ void Line::DatabaseAddRemove(bool add_to_database) // Utility method used by Add
 
 	temp_stream << "BEGIN; "
 				<< "DELETE FROM primitive_list WHERE id=" << GetID() 
-				<< "; DELETE FROM line_list WHERE id=" << GetID() 
+				<< "; DELETE FROM " << SQL_line_database_table_name << " WHERE id=" << GetID() 
 				<< "; COMMIT;";
 
 	if(add_to_database)

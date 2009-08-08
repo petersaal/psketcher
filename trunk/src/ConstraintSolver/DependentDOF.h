@@ -22,6 +22,10 @@
 #include "DOF.h"
 #include "SolverFunctionsBase.h"
 
+const std::string SQL_dependent_dof_database_table_name = "dependent_dof_list";
+
+const std::string SQL_dependent_dof_database_schema = "CREATE TABLE " + SQL_dependent_dof_database_table_name + " (id INTEGER PRIMARY KEY, variable_name TEXT NOT NULL, solver_function TEXT NOT NULL, source_dof_table_name TEXT NOT NULL, FOREIGN KEY(id) REFERENCES dof_list(id));";
+
 // DependentDOF class
 class DependentDOF : public DOF
 {

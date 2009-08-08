@@ -21,6 +21,10 @@
 #include "Point2D.h"
 #include "Line2D.h"
 
+const std::string SQL_distance_pointline2d_database_table_name = "distance_pointline2d_list";
+
+const std::string SQL_distance_pointline2d_database_schema = "CREATE TABLE " + SQL_distance_pointline2d_database_table_name + " (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, distance_dof INTEGER NOT NULL, point INTEGER NOT NULL, line INTEGER NOT NULL, text_offset_dof INTEGER NOT NULL, text_position_dof INTEGER NOT NULL, weight FLOAT NOT NULL, FOREIGN KEY(id) REFERENCES constraint_equation_list(id), FOREIGN KEY(distance_dof) REFERENCES dof_list(id), FOREIGN KEY(point) REFERENCES primitive_list(id), FOREIGN KEY(line) REFERENCES primitive_list(id), FOREIGN KEY(text_offset_dof) REFERENCES dof_list(id), FOREIGN KEY(text_position_dof) REFERENCES dof_list(id));";
+
 class DistancePointLine2D : public ConstraintEquationBase
 {
 	public:

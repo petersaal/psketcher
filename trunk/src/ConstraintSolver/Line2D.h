@@ -20,6 +20,10 @@
 #include "Edge2DBase.h"
 #include "Point2D.h"
 
+const std::string SQL_line2d_database_table_name = "line2d_list";
+
+const std::string SQL_line2d_database_schema = "CREATE TABLE " + SQL_line2d_database_table_name + " (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, sketch_plane INTEGER NOT NULL, s1_dof INTEGER NOT NULL, t1_dof INTEGER NOT NULL, s2_dof INTEGER NOT NULL, t2_dof INTEGER NOT NULL, FOREIGN KEY(id) REFERENCES primitive_list(id), FOREIGN KEY(sketch_plane) REFERENCES primitive_list(id), FOREIGN KEY(s1_dof) REFERENCES dof_list(id), FOREIGN KEY(t1_dof) REFERENCES dof_list(id), FOREIGN KEY(s2_dof) REFERENCES dof_list(id), FOREIGN KEY(t2_dof) REFERENCES dof_list(id));";
+
 // Line2D class
 class Line2D : public Edge2DBase
 {

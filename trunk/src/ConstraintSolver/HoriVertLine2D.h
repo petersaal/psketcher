@@ -20,6 +20,10 @@
 #include "ConstraintEquationBase.h"
 #include "Line2D.h"
 
+const std::string SQL_horivert_line2d_database_table_name = "horivert_line2d_list";
+
+const std::string SQL_horivert_line2d_database_schema = "CREATE TABLE " + SQL_horivert_line2d_database_table_name + " (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, line INTEGER NOT NULL, bool_vertical_constraint INTEGER INTEGER CHECK (bool_vertical_constraint >= 0 AND bool_vertical_constraint <= 1), marker_position_dof INTEGER NOT NULL, weight FLOAT NOT NULL, FOREIGN KEY(id) REFERENCES constraint_equation_list(id), FOREIGN KEY(line) REFERENCES primitive_list(id), FOREIGN KEY(marker_position_dof) REFERENCES dof_list(id));";
+
 class HoriVertLine2D : public ConstraintEquationBase
 {
 	public:

@@ -19,6 +19,10 @@
 
 #include "Primitive2DBase.h"
 
+const std::string SQL_point2d_database_table_name = "point2d_list";
+
+const std::string SQL_point2d_database_schema = "CREATE TABLE " + SQL_point2d_database_table_name + " (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, sketch_plane INTEGER NOT NULL, s_dof INTEGER NOT NULL, t_dof INTEGER NOT NULL, FOREIGN KEY(id) REFERENCES primitive_list(id), FOREIGN KEY(sketch_plane) REFERENCES primitive_list(id), FOREIGN KEY(s_dof) REFERENCES dof_list(id), FOREIGN KEY(t_dof) REFERENCES dof_list(id));";
+
 // Point2D class (a point constrained to a sketch plane)
 class Point2D : public Primitive2DBase
 {

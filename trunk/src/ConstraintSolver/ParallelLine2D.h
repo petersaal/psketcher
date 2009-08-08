@@ -20,6 +20,10 @@
 #include "ConstraintEquationBase.h"
 #include "Line2D.h"
 
+const std::string SQL_parallel_line2d_database_table_name = "parallel_line2d_list";
+
+const std::string SQL_parallel_line2d_database_schema = "CREATE TABLE " + SQL_parallel_line2d_database_table_name + " (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, line1 INTEGER NOT NULL, line2 INTEGER NOT NULL, marker_position_dof INTEGER NOT NULL, weight FLOAT NOT NULL, FOREIGN KEY(id) REFERENCES constraint_equation_list(id), FOREIGN KEY(line1) REFERENCES primitive_list(id), FOREIGN KEY(line2) REFERENCES primitive_list(id), FOREIGN KEY(marker_position_dof) REFERENCES dof_list(id));";
+
 class ParallelLine2D : public ConstraintEquationBase
 {
 	public:

@@ -331,22 +331,22 @@ PrimitiveBasePointer QtSketch::PrimitiveFactory(unsigned id, pSketcherModel &psk
 	{
 		result.reset(new QtArc2D(0,id,psketcher_model));
 	}
-	else if(table_name == "line2d_list"){
+	else if(table_name == SQL_line2d_database_table_name){
 		result.reset(new QtLine2D(0,id,psketcher_model));
 	}
     else if(table_name == SQL_circle2d_database_table_name){
         result.reset(new QtCircle2D(0,id,psketcher_model));
     }
-	else if(table_name == "point_list"){
+	else if(table_name == SQL_point_database_table_name){
 		result.reset(new Point(id,psketcher_model));
 	}
-	else if(table_name == "point2d_list"){
+	else if(table_name == SQL_point2d_database_table_name){
 		result.reset(new QtPoint2D(0,id,psketcher_model));
 	}
-	else if(table_name == "sketch_plane_list"){
+	else if(table_name == SQL_sketch_plane_database_table_name){
 		result.reset(new SketchPlane(id,psketcher_model));
 	}
-	else if(table_name == "vector_list"){
+	else if(table_name == SQL_vector_database_table_name){
 		result.reset(new Vector(id,psketcher_model));
 	}
 	else {
@@ -411,19 +411,19 @@ ConstraintEquationBasePointer QtSketch::ConstraintFactory(unsigned id, pSketcher
 	if(table_name == SQL_angle_line2d_database_table_name){
 		result.reset(new QtAngleLine2D(0,id,psketcher_model));
 	}
-	else if(table_name == "distance_point2d_list"){
+	else if(table_name == SQL_distance_point2d_database_table_name){
 		result.reset(new QtDistancePoint2D(0,id,psketcher_model));
 	}
-	else if(table_name == "parallel_line2d_list"){
+	else if(table_name == SQL_parallel_line2d_database_table_name){
 		result.reset(new QtParallelLine2D(0,id,psketcher_model));
 	}
-	else if(table_name == "horivert_line2d_list"){
+	else if(table_name == SQL_horivert_line2d_database_table_name){
 		result.reset(new QtHoriVertLine2D(0,id,psketcher_model));
 	}
-	else if(table_name == "tangent_edge2d_list"){
+	else if(table_name == SQL_tangent_edge2d_database_table_name){
 		result.reset(new QtTangentEdge2D(0,id,psketcher_model));
 	}
-    else if(table_name == "distance_pointline2d_list"){
+    else if(table_name == SQL_distance_pointline2d_database_table_name){
         result.reset(new QtDistancePointLine2D(0,id,psketcher_model));
     }
 	else {
