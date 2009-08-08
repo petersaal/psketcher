@@ -20,6 +20,10 @@
 #include "ConstraintEquationBase.h"
 #include "Edge2DBase.h"
 
+const std::string SQL_tangent_edge2d_database_table_name = "tangent_edge2d_list";
+
+const std::string SQL_tangent_edge2d_database_schema = "CREATE TABLE " + SQL_tangent_edge2d_database_table_name + " (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, edge1 INTEGER NOT NULL, edge2 INTEGER NOT NULL, point_num_1 INTEGER NOT NULL, point_num_2 INTEGER NOT NULL, s_1_dof INTEGER NOT NULL, t_1_dof INTEGER NOT NULL, s_2_dof INTEGER NOT NULL, t_2_dof INTEGER NOT NULL, weight FLOAT NOT NULL, FOREIGN KEY(id) REFERENCES constraint_equation_list(id), FOREIGN KEY(edge1) REFERENCES primitive_list(id), FOREIGN KEY(edge2) REFERENCES primitive_list(id), FOREIGN KEY(s_1_dof) REFERENCES dof_list(id), FOREIGN KEY(t_1_dof) REFERENCES dof_list(id), FOREIGN KEY(s_2_dof) REFERENCES dof_list(id), FOREIGN KEY(t_2_dof) REFERENCES dof_list(id));";
+
 class TangentEdge2D : public ConstraintEquationBase
 {
 	public:

@@ -24,8 +24,6 @@
 
 #include "pSketcherModel.h"
 
-const std::string SQL_line2d_database_schema = "CREATE TABLE line2d_list (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, sketch_plane INTEGER NOT NULL, s1_dof INTEGER NOT NULL, t1_dof INTEGER NOT NULL, s2_dof INTEGER NOT NULL, t2_dof INTEGER NOT NULL);";
-
 using namespace std;
 
 void Line2D::GetTangent1(DOFPointer & s_component, DOFPointer & t_component)
@@ -128,7 +126,7 @@ Line2D::Line2D(unsigned id, pSketcherModel &psketcher_model)
 	if(!exists) // this object does not exist in the table
 	{
 		stringstream error_description;
-		error_description << "SQLite rowid " << id << " in table line2d_list does not exist";
+		error_description << "SQLite rowid " << id << " in table " << SQL_line2d_database_table_name << " does not exist";
 		throw pSketcherException(error_description.str());
 	}
 }
@@ -157,13 +155,13 @@ void Line2D::DatabaseAddRemove(bool add_to_database) // Utility method used by A
 	stringstream temp_stream;
 	temp_stream.precision(__DBL_DIG__);
 	temp_stream << "BEGIN; "
-                << "INSERT INTO line2d_list VALUES(" 
+                << "INSERT INTO " << SQL_line2d_database_table_name << " VALUES(" 
                 << GetID() << ",'" << dof_list_table_name.str() << "','" 
 				<< primitive_list_table_name.str() << "'," << GetSketchPlane()->GetID() 
 				<< "," << s1_->GetID() << "," << t1_->GetID()
 				<< "," << s2_->GetID() << "," << t2_->GetID() << "); "
                 << "INSERT INTO primitive_list VALUES("
-                << GetID() << ",'line2d_list'); "
+                << GetID() << ",'" << SQL_line2d_database_table_name << "'); "
                 << "COMMIT; ";
 
 	if(add_to_database)
@@ -175,7 +173,7 @@ void Line2D::DatabaseAddRemove(bool add_to_database) // Utility method used by A
 
 	temp_stream << "BEGIN; "
 				<< "DELETE FROM primitive_list WHERE id=" << GetID() 
-				<< "; DELETE FROM line2d_list WHERE id=" << GetID() 
+				<< "; DELETE FROM " << SQL_line2d_database_table_name << " WHERE id=" << GetID() 
 				<< "; COMMIT;";
 
 	if(add_to_database)
@@ -236,7 +234,7 @@ bool Line2D::SyncToDatabase(pSketcherModel &psketcher_model)
 {
 	database_ = psketcher_model.GetDatabase();
 
-	string table_name = "line2d_list";
+	string table_name = SQL_line2d_database_table_name;
 
 	char *zErrMsg = 0;
 	int rc;

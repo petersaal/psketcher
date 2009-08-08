@@ -21,8 +21,6 @@
 
 #include "pSketcherModel.h"
 
-const std::string SQL_horivert_line2d_database_schema = "CREATE TABLE horivert_line2d_list (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, line INTEGER NOT NULL, bool_vertical_constraint INTEGER INTEGER CHECK (bool_vertical_constraint >= 0 AND bool_vertical_constraint <= 1), marker_position_dof INTEGER NOT NULL, weight FLOAT NOT NULL);";
-
 using namespace std;
 
 // Create a parallelism constrain between two lines
@@ -62,7 +60,7 @@ HoriVertLine2D::HoriVertLine2D(unsigned id, pSketcherModel &psketcher_model)
 	if(!exists) // this object does not exist in the table
 	{
 		stringstream error_description;
-		error_description << "SQLite rowid " << id << " in table horivert_line2d_list does not exist";
+		error_description << "SQLite rowid " << id << " in table " << SQL_horivert_line2d_database_table_name << " does not exist";
 		throw pSketcherException(error_description.str());
 	}
 }
@@ -91,14 +89,14 @@ void HoriVertLine2D::DatabaseAddRemove(bool add_to_database) // Utility method u
 	stringstream temp_stream;
 	temp_stream.precision(__DBL_DIG__);
 	temp_stream << "BEGIN; "
-                << "INSERT INTO horivert_line2d_list VALUES(" 
+                << "INSERT INTO " << SQL_horivert_line2d_database_table_name << " VALUES(" 
                 << GetID() << ",'" << dof_list_table_name.str() << "','" 
 				<< primitive_list_table_name.str() 
 				<< "'," << line_->GetID() << "," << vertical_constraint_
 				<< "," << marker_position_->GetID() 
                 << "," << weight_ << "); "
                 << "INSERT INTO constraint_equation_list VALUES("
-                << GetID() << ",'horivert_line2d_list'); "
+                << GetID() << ",'" << SQL_horivert_line2d_database_table_name << "'); "
                 << "COMMIT; ";
 
 	if(add_to_database)
@@ -110,7 +108,7 @@ void HoriVertLine2D::DatabaseAddRemove(bool add_to_database) // Utility method u
 
 	temp_stream << "BEGIN; "
 				<< "DELETE FROM constraint_equation_list WHERE id=" << GetID() 
-				<< "; DELETE FROM horivert_line2d_list WHERE id=" << GetID() 
+				<< "; DELETE FROM " << SQL_horivert_line2d_database_table_name << " WHERE id=" << GetID() 
 				<< "; COMMIT;";
 
 	if(add_to_database)
@@ -171,7 +169,7 @@ bool HoriVertLine2D::SyncToDatabase(pSketcherModel &psketcher_model)
 {
 	database_ = psketcher_model.GetDatabase();
 
-	string table_name = "horivert_line2d_list";
+	string table_name = SQL_horivert_line2d_database_table_name;
 
 	char *zErrMsg = 0;
 	int rc;

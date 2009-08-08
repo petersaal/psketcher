@@ -566,7 +566,7 @@ DOFPointer pSketcherModel::DOFFactory(unsigned id)
 	{
 		result.reset(new IndependentDOF(id,*this));
 	}
-	else if(table_name == "dependent_dof_list"){
+	else if(table_name == SQL_dependent_dof_database_table_name){
 		result.reset(new DependentDOF(id,*this));
 	}
 	else {
@@ -631,22 +631,22 @@ PrimitiveBasePointer pSketcherModel::PrimitiveFactory(unsigned id, pSketcherMode
 	{
 		result.reset(new Arc2D(id,psketcher_model));
 	}
-	else if(table_name == "line2d_list"){
+	else if(table_name == SQL_line2d_database_table_name){
 		result.reset(new Line2D(id,psketcher_model));
 	}
     else if(table_name == SQL_circle2d_database_table_name){
         result.reset(new Circle2D(id,psketcher_model));
     }
-	else if(table_name == "point_list"){
+	else if(table_name == SQL_point_database_table_name){
 		result.reset(new Point(id,psketcher_model));
 	}
-	else if(table_name == "point2d_list"){
+	else if(table_name == SQL_point2d_database_table_name){
 		result.reset(new Point2D(id,psketcher_model));
 	}
-	else if(table_name == "sketch_plane_list"){
+	else if(table_name == SQL_sketch_plane_database_table_name){
 		result.reset(new SketchPlane(id,psketcher_model));
 	}
-	else if(table_name == "vector_list"){
+	else if(table_name == SQL_vector_database_table_name){
 		result.reset(new Vector(id,psketcher_model));
 	}
 	else {
@@ -711,24 +711,21 @@ ConstraintEquationBasePointer pSketcherModel::ConstraintFactory(unsigned id, pSk
 	if(table_name == SQL_angle_line2d_database_table_name){
 		result.reset(new AngleLine2D(id,psketcher_model));
 	}
-	else if(table_name == "distance_point2d_list"){
+	else if(table_name == SQL_distance_point2d_database_table_name){
 		result.reset(new DistancePoint2D(id,psketcher_model));
 	}
-	else if(table_name == "distance_pointline2d_list"){
+	else if(table_name == SQL_distance_pointline2d_database_table_name){
 		result.reset(new DistancePointLine2D(id,psketcher_model));
 	}
-	else if(table_name == "parallel_line2d_list"){
+	else if(table_name == SQL_parallel_line2d_database_table_name){
 		result.reset(new ParallelLine2D(id,psketcher_model));
 	}
-	else if(table_name == "horivert_line2d_list"){
+	else if(table_name == SQL_horivert_line2d_database_table_name){
 		result.reset(new HoriVertLine2D(id,psketcher_model));
 	}
-	else if(table_name == "tangent_edge2d_list"){
+	else if(table_name == SQL_tangent_edge2d_database_table_name){
 		result.reset(new TangentEdge2D(id,psketcher_model));
 	}
-    else if(table_name == "distance_pointline2d_list"){
-        result.reset(new DistancePointLine2D(id,psketcher_model));
-    }
 	else {
 		throw pSketcherException("pSketcher::ConstraintFactory: Unable to determine type based on database table name " + table_name);
 	}

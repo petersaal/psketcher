@@ -22,8 +22,6 @@
 
 using namespace std;
 
-const std::string SQL_independent_dof_database_schema = "CREATE TABLE independent_dof_list (id INTEGER PRIMARY KEY, variable_name TEXT NOT NULL, bool_free INTEGER CHECK (bool_free >= 0 AND bool_free <= 1), value REAL NOT NULL);";
-
 IndependentDOF ::IndependentDOF ( double value, bool free):
 DOF(free,false /*dependent*/)
 {
@@ -45,7 +43,7 @@ DOF(id,false /* bool dependent */)
 	if(!exists) // this object does not exist in the table
 	{
 		stringstream error_description;
-		error_description << "SQLite rowid " << id << " in table independent_dof_list does not exist";
+		error_description << "SQLite rowid " << id << " in table " << SQL_independent_dof_database_table_name << " does not exist";
 		throw pSketcherException(error_description.str());
 	}
 }
@@ -54,7 +52,7 @@ bool IndependentDOF :: SyncToDatabase(pSketcherModel &psketcher_model)
 {
 	database_ = psketcher_model.GetDatabase();
 
-	string table_name = "independent_dof_list";
+	string table_name = SQL_independent_dof_database_table_name;
 
 	char *zErrMsg = 0;
 	int rc;
@@ -117,7 +115,7 @@ void IndependentDOF::SetValue ( double value, bool update_db)
 		double old_value;
 
         // first retrieve the current value in the database so that the undo command can be set properly
-        string table_name = "independent_dof_list";
+        string table_name = SQL_independent_dof_database_table_name;
     
         char *zErrMsg = 0;
         int rc;
@@ -164,14 +162,14 @@ void IndependentDOF::SetValue ( double value, bool update_db)
 		// define the update statement
 		stringstream sql_stream;
 		sql_stream.precision(__DBL_DIG__);
-		sql_stream << "UPDATE independent_dof_list SET value=" 
+		sql_stream << "UPDATE " << SQL_independent_dof_database_table_name << " SET value=" 
 					<< value_ << " WHERE id=" << GetID() << ";";
 
 		string sql_update = sql_stream.str();
 		
 		// define the undo statement
 		sql_stream.str("");
-		sql_stream << "UPDATE independent_dof_list SET value=" 
+		sql_stream << "UPDATE " << SQL_independent_dof_database_table_name << " SET value=" 
 					<< old_value << " WHERE id=" << GetID() << ";";
 	
 		string sql_undo = sql_stream.str();
@@ -210,14 +208,14 @@ void IndependentDOF::SetFree(bool free)
 			// define the update statement
 			stringstream sql_stream;
 			sql_stream.precision(__DBL_DIG__);
-			sql_stream << "UPDATE independent_dof_list SET bool_free=" 
+			sql_stream << "UPDATE " << SQL_independent_dof_database_table_name << " SET bool_free=" 
 						<< free_ << " WHERE id=" << GetID() << ";";
 	
 			string sql_update = sql_stream.str();
 			
 			// define the undo statement
 			sql_stream.str("");
-			sql_stream << "UPDATE independent_dof_list SET bool_free=" 
+			sql_stream << "UPDATE " << SQL_independent_dof_database_table_name << " SET bool_free=" 
 						<< old_value << " WHERE id=" << GetID() << ";";
 		
 			string sql_undo = sql_stream.str();
@@ -273,11 +271,11 @@ void IndependentDOF::DatabaseAddDelete(bool add_to_database) // utility method c
 	stringstream temp_stream;
 	temp_stream.precision(__DBL_DIG__);
 	temp_stream << "BEGIN; "
-                << "INSERT INTO independent_dof_list VALUES(" 
+                << "INSERT INTO " << SQL_independent_dof_database_table_name << " VALUES(" 
                 << GetID() << ",'" << name_ << "'," 
 				<< free_ << "," << value_ <<"); "
                 << "INSERT INTO dof_list VALUES("
-                << GetID() << ",'independent_dof_list'); "
+                << GetID() << ",'" << SQL_independent_dof_database_table_name << "'); "
                 << "COMMIT; ";
 
 	if(add_to_database)
@@ -289,7 +287,7 @@ void IndependentDOF::DatabaseAddDelete(bool add_to_database) // utility method c
 
 	temp_stream << "BEGIN; "
 				<< "DELETE FROM dof_list WHERE id=" << GetID() 
-				<< "; DELETE FROM independent_dof_list WHERE id=" << GetID() 
+				<< "; DELETE FROM " << SQL_independent_dof_database_table_name << " WHERE id=" << GetID() 
 				<< "; COMMIT;";
 
 	if(add_to_database)

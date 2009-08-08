@@ -23,8 +23,6 @@
 
 using namespace std;
 
-const string SQL_dependent_dof_database_schema = "CREATE TABLE dependent_dof_list (id INTEGER PRIMARY KEY, variable_name TEXT NOT NULL, solver_function TEXT NOT NULL, source_dof_table_name TEXT NOT NULL);";
-
 DependentDOF :: DependentDOF (SolverFunctionsBasePointer solver_function):
 DOF(false /*free*/,true /*dependent*/)
 {
@@ -47,7 +45,7 @@ DOF(id,true /* bool dependent */)
 	if(!exists) // this object does not exist in the table
 	{
 		stringstream error_description;
-		error_description << "SQLite rowid " << id << " in table dependent_dof_list does not exist";
+		error_description << "SQLite rowid " << id << " in table " << SQL_dependent_dof_database_table_name << " does not exist";
 		throw pSketcherException(error_description.str());
 	}
 }
@@ -57,7 +55,7 @@ bool DependentDOF :: SyncToDatabase(pSketcherModel &psketcher_model)
 	database_ = psketcher_model.GetDatabase();
 	free_ =false;
 
-	string table_name = "dependent_dof_list";
+	string table_name = SQL_dependent_dof_database_table_name;
 
 	char *zErrMsg = 0;
 	int rc;
@@ -183,11 +181,11 @@ void DependentDOF::DatabaseAddDelete(bool add_to_database) // utility method cal
 	stringstream temp_stream;
 	temp_stream.precision(__DBL_DIG__);
 	temp_stream << "BEGIN; "
-                << "INSERT INTO dependent_dof_list VALUES(" 
+                << "INSERT INTO " << SQL_dependent_dof_database_table_name << " VALUES(" 
                 << GetID() << ",'" << GetName() << "','" 
 				<< GetSolverFunction()->GetName() << "', 'source_dof_table_" << GetID() <<"'); "
                 << "INSERT INTO dof_list VALUES("
-                << GetID() << ",'dependent_dof_list'); "
+                << GetID() << ",'" << SQL_dependent_dof_database_table_name << "'); "
 				<< "CREATE TABLE " << "source_dof_table_" << GetID() << " (id INTEGER PRIMARY KEY, dof_id INTEGER NOT NULL);";
 
 	// add each source dof to the source_dof table that was just created for this dependent dof	
@@ -207,7 +205,7 @@ void DependentDOF::DatabaseAddDelete(bool add_to_database) // utility method cal
 
 	temp_stream << "BEGIN; "
 				<< "DELETE FROM dof_list WHERE id=" << GetID() 
-				<< "; DELETE FROM dependent_dof_list WHERE id=" << GetID() 
+				<< "; DELETE FROM " << SQL_dependent_dof_database_table_name << " WHERE id=" << GetID() 
 				<< "; DROP TABLE " << "source_dof_table_" << GetID()
 				<< "; COMMIT;";
 

@@ -21,8 +21,6 @@
 
 #include "pSketcherModel.h"
 
-const std::string SQL_point_database_schema = "CREATE TABLE point_list (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, x_dof INTEGER NOT NULL, y_dof INTEGER NOT NULL, z_dof INTEGER NOT NULL);";
-
 using namespace std;
 
 Point :: Point ( double x, double y, double z, bool x_free, bool y_free, bool z_free):
@@ -43,7 +41,7 @@ Point::Point(unsigned id, pSketcherModel &psketcher_model)
 	if(!exists) // this object does not exist in the table
 	{
 		stringstream error_description;
-		error_description << "SQLite rowid " << id << " in table point_list does not exist";
+		error_description << "SQLite rowid " << id << " in table " << SQL_point_database_table_name << " does not exist";
 		throw pSketcherException(error_description.str());
 	}
 }
@@ -95,12 +93,12 @@ void Point::DatabaseAddRemove(bool add_to_database) // Utility method used by Ad
 	stringstream temp_stream;
 	temp_stream.precision(__DBL_DIG__);
 	temp_stream << "BEGIN; "
-                << "INSERT INTO point_list VALUES(" 
+                << "INSERT INTO " << SQL_point_database_table_name << " VALUES(" 
                 << GetID() << ",'" << dof_list_table_name.str() << "','" 
 				<< primitive_list_table_name.str() << "'," << x_->GetID() 
 				<< "," << y_->GetID() << "," << z_->GetID() << "); "
                 << "INSERT INTO primitive_list VALUES("
-                << GetID() << ",'point_list'); "
+                << GetID() << ",'" << SQL_point_database_table_name << "'); "
                 << "COMMIT; ";
 
 	if(add_to_database)
@@ -112,7 +110,7 @@ void Point::DatabaseAddRemove(bool add_to_database) // Utility method used by Ad
 
 	temp_stream << "BEGIN; "
 				<< "DELETE FROM primitive_list WHERE id=" << GetID() 
-				<< "; DELETE FROM point_list WHERE id=" << GetID() 
+				<< "; DELETE FROM " << SQL_point_database_table_name << " WHERE id=" << GetID() 
 				<< "; COMMIT;";
 
 	if(add_to_database)
@@ -173,7 +171,7 @@ bool Point::SyncToDatabase(pSketcherModel &psketcher_model)
 {
 	database_ = psketcher_model.GetDatabase();
 
-	string table_name = "point_list";
+	string table_name = SQL_point_database_table_name;
 
 	char *zErrMsg = 0;
 	int rc;
