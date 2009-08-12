@@ -43,6 +43,10 @@ public:
 	
 	// Primitive management
 	virtual void AddPrimitive(const PrimitiveBasePointer &new_primitive, bool update_database = true);
+
+    // DOF management
+    // This method swaps one dof in the model for another
+    void SwapDOF(DOFPointer old_dof, DOFPointer new_dof);
 	
 	// method for deleting primitives (either a primitive or a constraint equation)
 	void DeletePrimitive(PrimitiveBasePointer primitive_to_delete);
@@ -107,6 +111,9 @@ private:
 	void FlagDependentsForDeletion(PrimitiveBasePointer primitive_to_delete); // Flag any primitives or constraint equations for deletion that depend on this primitive
 	void DeleteFlagged(bool remove_from_db = true); // delete all of the primitives that have been flagged for deletion
 	void DeleteUnusedDOFs(bool remove_from_db = true); // delete all unused DOF's in the dof_list_ container
+
+    // utility methods used by SwapDOF
+    void GetSwapDOFSQLCommands(const std::string &table_name, DOFPointer old_dof, DOFPointer new_dof, std::string redo_command, std::string undo_command);
 
 	SelectionMask current_selection_mask_;
 

@@ -1619,3 +1619,126 @@ bool pSketcherModel::ExportDXF(const std::string &file_name)
 
 	return success;
 }
+
+// This method swaps one dof in the model for another
+// old_dof must exist in the database and new_dof must not be already used by the model
+void pSketcherModel::SwapDOF(DOFPointer old_dof, DOFPointer new_dof)
+{
+    string undo_commands = "";
+    string redo_commands = "";
+
+    // delete the existing old_dof entry in the database
+    // first, make sure that old_dof is actually part of this model
+    map<unsigned,DOFPointer>::iterator dof_it = dof_list_.find(old_dof->GetID());
+    if(dof_it != dof_list_.end())
+    {
+        // old_dof exists, remove it from the database
+        old_dof->RemoveFromDatabase();
+    } else {
+        // old_dof does not exist, this is an error condition since dof swap cannot be completed
+        throw pSketcherException("Attempt to swap out a DOF that is not in the dof_list_ map");
+    }
+
+    // Find all occurences of old_dof and the database and replace with new_dof
+    // The foreign key relationships in the database schema are used to locate the
+    // orcurrances of old_dof
+    char *zErrMsg = 0;
+    int rc;
+    sqlite3_stmt *statement;
+    string table_list_sql_command = "SELECT name FROM sqlite_master WHERE type='table';";
+
+    rc = sqlite3_prepare(database_, table_list_sql_command.c_str(), -1, &statement, 0);
+    if( rc!=SQLITE_OK ){
+        stringstream error_description;
+        error_description << "SQL error: " << sqlite3_errmsg(database_);
+        throw pSketcherException(error_description.str());
+    }
+
+    rc = sqlite3_step(statement);
+    stringstream current_table_name;
+    while(rc == SQLITE_ROW) {
+        current_table_name.str("");
+        current_table_name << sqlite3_column_text(statement,0);
+
+        // use the following utility function the generate the required SQL commands
+        // this method appends redo_commands and undo_commands string with the commands needed for the particular table
+        GetSwapDOFSQLCommands(current_table_name.str(), old_dof, new_dof, redo_commands, undo_commands);
+
+        rc = sqlite3_step(statement);
+    }
+
+    if( rc!=SQLITE_DONE ){
+        // sql statement didn't finish properly, some error must to have occured
+        stringstream error_description;
+        error_description << "SQL error: " << sqlite3_errmsg(database_);
+        throw pSketcherException(error_description.str());
+    }
+
+    rc = sqlite3_finalize(statement);
+    if( rc!=SQLITE_OK ){
+        stringstream error_description;
+        error_description << "SQL error: " << sqlite3_errmsg(database_);
+        throw pSketcherException(error_description.str());
+    }
+
+    // Now execute the the SQL commands to modify the database
+    rc = sqlite3_exec(database_, redo_commands.c_str(), 0, 0, &zErrMsg);
+    if( rc!=SQLITE_OK ){
+        std::string error_description = "SQL error: " + std::string(zErrMsg);
+        sqlite3_free(zErrMsg);
+        throw pSketcherException(error_description);
+    }
+
+    // finally, update the undo_redo_list in the database with the database changes that have just been made
+    // need to use sqlite3_mprintf to make sure the single quotes in the sql statements get escaped where needed
+    char *sql_undo_redo = sqlite3_mprintf("INSERT INTO undo_redo_list(undo,redo) VALUES('%q','%q')",undo_commands.c_str(),redo_commands.c_str());
+
+    rc = sqlite3_exec(database_, sql_undo_redo, 0, 0, &zErrMsg);
+    if( rc!=SQLITE_OK ){
+        std::string error_description = "SQL error: " + std::string(zErrMsg);
+        sqlite3_free(zErrMsg);
+        throw pSketcherException(error_description);
+    }
+}
+
+void pSketcherModel::GetSwapDOFSQLCommands(const std::string &table_name, DOFPointer old_dof, DOFPointer new_dof, std::string redo_command, std::string undo_command)
+{
+    // Query this table for columns that relate to the column id of the table dof_lsit
+    char *zErrMsg = 0;
+    int rc;
+    sqlite3_stmt *statement;
+    stringstream sql_command;
+    sql_command << "PRAGMA foreign_key_list(" << table_name << ");";
+
+    rc = sqlite3_prepare(database_, sql_command.str().c_str(), -1, &statement, 0);
+    if( rc!=SQLITE_OK ){
+        stringstream error_description;
+        error_description << "SQL error: " << sqlite3_errmsg(database_);
+        throw pSketcherException(error_description.str());
+    }
+
+    rc = sqlite3_step(statement);
+    while(rc == SQLITE_ROW) {
+
+        sqlite3_column_text(statement,2); // relates to table
+        sqlite3_column_text(statement,3); // column in table that has the foreign key
+        sqlite3_column_text(statement,4); // relates to column
+
+        rc = sqlite3_step(statement);
+    }
+
+    if( rc!=SQLITE_DONE ){
+        // sql statement didn't finish properly, some error must to have occured
+        stringstream error_description;
+        error_description << "SQL error: " << sqlite3_errmsg(database_);
+        throw pSketcherException(error_description.str());
+    }
+
+    rc = sqlite3_finalize(statement);
+    if( rc!=SQLITE_OK ){
+        stringstream error_description;
+        error_description << "SQL error: " << sqlite3_errmsg(database_);
+        throw pSketcherException(error_description.str());
+    }
+
+}
