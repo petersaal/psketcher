@@ -1639,8 +1639,13 @@ void pSketcherModel::SwapDOF(DOFPointer old_dof, DOFPointer new_dof)
         throw pSketcherException("Attempt to swap out a DOF that is not in the dof_list_ map");
     }
 
-    // Now add the new dof to the database
-    new_dof->AddToDatabase(database_);
+    // Now add the new dof to the database if it is not already in the database
+    dof_it = dof_list_.find(old_dof->GetID());
+    if(dof_it == dof_list_.end())
+    {
+        // new_dof does not exist, add it to the database
+        new_dof->AddToDatabase(database_);
+    }
 
     // Find all occurences of old_dof and the database and replace with new_dof
     // The foreign key relationships in the database schema are used to locate the
