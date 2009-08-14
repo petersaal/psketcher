@@ -113,7 +113,7 @@ private:
 	void DeleteUnusedDOFs(bool remove_from_db = true); // delete all unused DOF's in the dof_list_ container
 
     // utility methods used by SwapDOF
-    void GetSwapDOFSQLCommands(const std::string &table_name, DOFPointer old_dof, DOFPointer new_dof, std::string redo_command, std::string undo_command);
+    void GetSwapDOFSQLCommands(const std::string &table_name, DOFPointer old_dof, DOFPointer new_dof, std::stringstream &redo_command, std::stringstream &undo_command);
 
 	SelectionMask current_selection_mask_;
 
