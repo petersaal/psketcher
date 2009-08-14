@@ -1624,8 +1624,8 @@ bool pSketcherModel::ExportDXF(const std::string &file_name)
 // old_dof must exist in the database and new_dof must not be already used by the model
 void pSketcherModel::SwapDOF(DOFPointer old_dof, DOFPointer new_dof)
 {
-    string undo_commands = "";
-    string redo_commands = "";
+    stringstream undo_commands;
+    stringstream redo_commands;
 
     // delete the existing old_dof entry in the database
     // first, make sure that old_dof is actually part of this model
@@ -1638,6 +1638,9 @@ void pSketcherModel::SwapDOF(DOFPointer old_dof, DOFPointer new_dof)
         // old_dof does not exist, this is an error condition since dof swap cannot be completed
         throw pSketcherException("Attempt to swap out a DOF that is not in the dof_list_ map");
     }
+
+    // Now add the new dof to the database
+    new_dof->AddToDatabase(database_);
 
     // Find all occurences of old_dof and the database and replace with new_dof
     // The foreign key relationships in the database schema are used to locate the
@@ -1682,16 +1685,16 @@ void pSketcherModel::SwapDOF(DOFPointer old_dof, DOFPointer new_dof)
     }
 
     // Now execute the the SQL commands to modify the database
-    rc = sqlite3_exec(database_, redo_commands.c_str(), 0, 0, &zErrMsg);
+    rc = sqlite3_exec(database_, redo_commands.str().c_str(), 0, 0, &zErrMsg);
     if( rc!=SQLITE_OK ){
         std::string error_description = "SQL error: " + std::string(zErrMsg);
         sqlite3_free(zErrMsg);
         throw pSketcherException(error_description);
     }
 
-    // finally, update the undo_redo_list in the database with the database changes that have just been made
+    // Update the undo_redo_list in the database with the database changes that have just been made
     // need to use sqlite3_mprintf to make sure the single quotes in the sql statements get escaped where needed
-    char *sql_undo_redo = sqlite3_mprintf("INSERT INTO undo_redo_list(undo,redo) VALUES('%q','%q')",undo_commands.c_str(),redo_commands.c_str());
+    char *sql_undo_redo = sqlite3_mprintf("INSERT INTO undo_redo_list(undo,redo) VALUES('%q','%q')",undo_commands.str().c_str(),redo_commands.str().c_str());
 
     rc = sqlite3_exec(database_, sql_undo_redo, 0, 0, &zErrMsg);
     if( rc!=SQLITE_OK ){
@@ -1699,9 +1702,12 @@ void pSketcherModel::SwapDOF(DOFPointer old_dof, DOFPointer new_dof)
         sqlite3_free(zErrMsg);
         throw pSketcherException(error_description);
     }
+
+    // Finally, synchronize the model to the database that has just been modified
+    SyncToDatabase();
 }
 
-void pSketcherModel::GetSwapDOFSQLCommands(const std::string &table_name, DOFPointer old_dof, DOFPointer new_dof, std::string redo_command, std::string undo_command)
+void pSketcherModel::GetSwapDOFSQLCommands(const std::string &table_name, DOFPointer old_dof, DOFPointer new_dof, std::stringstream &redo_command, std::stringstream &undo_command)
 {
     // Query this table for columns that relate to the column id of the table dof_lsit
     char *zErrMsg = 0;
@@ -1718,11 +1724,21 @@ void pSketcherModel::GetSwapDOFSQLCommands(const std::string &table_name, DOFPoi
     }
 
     rc = sqlite3_step(statement);
+    const char* foreign_table;
+    const char* foreign_column;
+    const char* local_column;
     while(rc == SQLITE_ROW) {
 
-        sqlite3_column_text(statement,2); // relates to table
-        sqlite3_column_text(statement,3); // column in table that has the foreign key
-        sqlite3_column_text(statement,4); // relates to column
+        foreign_table = reinterpret_cast<const char*>(sqlite3_column_text(statement,2)); // table that foreign key relates to
+        local_column = reinterpret_cast<const char*>(sqlite3_column_text(statement,3)); // column in table that has the foreign key
+        foreign_column = reinterpret_cast<const char*>(sqlite3_column_text(statement,4)); // column that foreign key relates to
+
+        if(strcmp(foreign_table,"dof_list") == 0)
+        {
+            redo_command << " UPDATE " << table_name << " SET " << local_column << "=" << new_dof->GetID() << " WHERE " << local_column << "=" << old_dof->GetID() << ";";
+
+            undo_command << " UPDATE " << table_name << " SET " << local_column << "=" << old_dof->GetID() << " WHERE " << local_column << "=" << new_dof->GetID() << ";";
+        }
 
         rc = sqlite3_step(statement);
     }
