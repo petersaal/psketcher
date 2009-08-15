@@ -1622,7 +1622,7 @@ bool pSketcherModel::ExportDXF(const std::string &file_name)
 
 // This method swaps one dof in the model for another
 // old_dof must exist in the database and new_dof must not be already used by the model
-void pSketcherModel::SwapDOF(DOFPointer old_dof, DOFPointer new_dof)
+void pSketcherModel::ReplaceDOF(DOFPointer old_dof, DOFPointer new_dof)
 {
     stringstream undo_commands;
     stringstream redo_commands;
@@ -1635,8 +1635,8 @@ void pSketcherModel::SwapDOF(DOFPointer old_dof, DOFPointer new_dof)
         // old_dof exists, remove it from the database
         old_dof->RemoveFromDatabase();
     } else {
-        // old_dof does not exist, this is an error condition since dof swap cannot be completed
-        throw pSketcherException("Attempt to swap out a DOF that is not in the dof_list_ map");
+        // old_dof does not exist, this is an error condition since dof replace cannot be completed
+        throw pSketcherException("Attempt to replace a DOF that is not in the dof_list_ map");
     }
 
     // Now add the new dof to the database if it is not already in the database
@@ -1668,9 +1668,9 @@ void pSketcherModel::SwapDOF(DOFPointer old_dof, DOFPointer new_dof)
         current_table_name.str("");
         current_table_name << sqlite3_column_text(statement,0);
 
-        // use the following utility function the generate the required SQL commands
+        // use the following utility function to generate the required SQL commands
         // this method appends redo_commands and undo_commands string with the commands needed for the particular table
-        GetSwapDOFSQLCommands(current_table_name.str(), old_dof, new_dof, redo_commands, undo_commands);
+        GetReplaceDOFSQLCommands(current_table_name.str(), old_dof, new_dof, redo_commands, undo_commands);
 
         rc = sqlite3_step(statement);
     }
@@ -1712,7 +1712,7 @@ void pSketcherModel::SwapDOF(DOFPointer old_dof, DOFPointer new_dof)
     SyncToDatabase();
 }
 
-void pSketcherModel::GetSwapDOFSQLCommands(const std::string &table_name, DOFPointer old_dof, DOFPointer new_dof, std::stringstream &redo_command, std::stringstream &undo_command)
+void pSketcherModel::GetReplaceDOFSQLCommands(const std::string &table_name, DOFPointer old_dof, DOFPointer new_dof, std::stringstream &redo_command, std::stringstream &undo_command)
 {
     // Query this table for columns that relate to the column id of the table dof_lsit
     char *zErrMsg = 0;
@@ -1732,6 +1732,7 @@ void pSketcherModel::GetSwapDOFSQLCommands(const std::string &table_name, DOFPoi
     const char* foreign_table;
     const char* foreign_column;
     const char* local_column;
+    vector<unsigned> rowid_list;
     while(rc == SQLITE_ROW) {
 
         foreign_table = reinterpret_cast<const char*>(sqlite3_column_text(statement,2)); // table that foreign key relates to
@@ -1740,9 +1741,15 @@ void pSketcherModel::GetSwapDOFSQLCommands(const std::string &table_name, DOFPoi
 
         if(strcmp(foreign_table,"dof_list") == 0)
         {
-            redo_command << " UPDATE " << table_name << " SET " << local_column << "=" << new_dof->GetID() << " WHERE " << local_column << "=" << old_dof->GetID() << ";";
+            // Get the ROWID values for the rows, if any, that contain old_dof
+            GetROWIDList(table_name.c_str(),local_column,old_dof->GetID(),rowid_list);
 
-            undo_command << " UPDATE " << table_name << " SET " << local_column << "=" << old_dof->GetID() << " WHERE " << local_column << "=" << new_dof->GetID() << ";";
+            // now define the SQL commands to replace any occurances of old_dof
+            for(int i = 0; i < rowid_list.size(); i++)
+            {
+                redo_command << " UPDATE " << table_name << " SET " << local_column << "=" << new_dof->GetID() << " WHERE ROWID=" << rowid_list[i] << ";";
+                redo_command << " UPDATE " << table_name << " SET " << local_column << "=" << old_dof->GetID() << " WHERE ROWID=" << rowid_list[i] << ";";
+            }
         }
 
         rc = sqlite3_step(statement);
@@ -1761,5 +1768,46 @@ void pSketcherModel::GetSwapDOFSQLCommands(const std::string &table_name, DOFPoi
         error_description << "SQL error: " << sqlite3_errmsg(database_);
         throw pSketcherException(error_description.str());
     }
+}
 
+// Query the table table_name for rows that contain id_to_be_replaced in the column col_name
+// Store the ROWID for the rows found in the vector rowid_list
+void pSketcherModel::GetROWIDList(const char *table_name, const char *col_name, const unsigned id_to_be_replaced, std::vector<unsigned> &rowid_list)
+{
+    // clear the contents of the rowid vector
+    rowid_list.clear();
+
+    char *zErrMsg = 0;
+    int rc;
+    sqlite3_stmt *statement;
+    stringstream sql_command;
+    sql_command << "SELECT ROWID FROM " << table_name << " WHERE " << col_name << "=" << id_to_be_replaced << ";";
+
+    rc = sqlite3_prepare(database_, sql_command.str().c_str(), -1, &statement, 0);
+    if( rc!=SQLITE_OK ){
+        stringstream error_description;
+        error_description << "SQL error: " << sqlite3_errmsg(database_);
+        throw pSketcherException(error_description.str());
+    }
+
+    rc = sqlite3_step(statement);
+    while(rc == SQLITE_ROW) {
+        rowid_list.push_back(sqlite3_column_int(statement,0));
+
+        rc = sqlite3_step(statement);
+    }
+
+    if( rc!=SQLITE_DONE ){
+        // sql statement didn't finish properly, some error must to have occured
+        stringstream error_description;
+        error_description << "SQL error: " << sqlite3_errmsg(database_);
+        throw pSketcherException(error_description.str());
+    }
+
+    rc = sqlite3_finalize(statement);
+    if( rc!=SQLITE_OK ){
+        stringstream error_description;
+        error_description << "SQL error: " << sqlite3_errmsg(database_);
+        throw pSketcherException(error_description.str());
+    }
 }
