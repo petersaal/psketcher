@@ -42,7 +42,7 @@
     <Reference Include="Mono.Cairo, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756" />
     <Reference Include="dnAnalytics, Version=2009.8.0.0, Culture=neutral, PublicKeyToken=47f8433cf19ffb12">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\download\dnanalytics\bin\dnAnalytics.dll</HintPath>
+      <HintPath>dnAnalytics.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
