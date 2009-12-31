@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DEAC0CFC-B4AE-491B-8F14-C8064DEB5EAD}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>pSketcher</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <RootNamespace>pSketcher</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="Mono.Posix" />
+    <Reference Include="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="gdk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="glib-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="pango-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="atk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="Mono.Cairo, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756" />
+    <Reference Include="dnAnalytics, Version=2009.8.0.0, Culture=neutral, PublicKeyToken=47f8433cf19ffb12">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\download\dnanalytics\bin\dnAnalytics.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="gtk-gui\gui.stetic">
+      <LogicalName>gui.stetic</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="gtk-gui\generated.cs" />
+    <Compile Include="MainWindow.cs" />
+    <Compile Include="Main.cs" />
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="ConstraintSolver\DOF.cs" />
+    <Compile Include="ConstraintSolver\Primitive.cs" />
+    <Compile Include="ConstraintSolver\SolverFunctions\SolverFunctions.cs" />
+    <Compile Include="ConstraintSolver\SolverFunctions\SolverFunctionBase.cs" />
+    <Compile Include="ConstraintSolver\DependentDOF.cs" />
+    <Compile Include="ConstraintSolver\IndependentDOF.cs" />
+    <Compile Include="ConstraintSolver\Point.cs" />
+    <Compile Include="ConstraintSolver\Vector3D.cs" />
+    <Compile Include="ConstraintSolver\SketchPlane.cs" />
+    <Compile Include="ConstraintSolver\Primitive2D.cs" />
+    <Compile Include="ConstraintSolver\Point2D.cs" />
+    <Compile Include="ConstraintSolver\Edge2D.cs" />
+    <Compile Include="ConstraintSolver\Vector2D.cs" />
+    <Compile Include="ConstraintSolver\Line2D.cs" />
+    <Compile Include="ConstraintSolver\Arc2D.cs" />
+    <Compile Include="ConstraintSolver\Circle2D.cs" />
+    <Compile Include="ConstraintSolver\ConstraintEquation.cs" />
+    <Compile Include="ConstraintSolver\DistancePoint2D.cs" />
+    <Compile Include="ConstraintSolver\DistancePointLine2D.cs" />
+    <Compile Include="ConstraintSolver\AngleLine2D.cs" />
+    <Compile Include="ConstraintSolver\ParallelLine2D.cs" />
+    <Compile Include="ConstraintSolver\HorizontalLine2D.cs" />
+    <Compile Include="ConstraintSolver\TangentEdge2D.cs" />
+    <Compile Include="ConstraintSolver\VerticalLine2D.cs" />
+    <Compile Include="NumericalOptimization\MeritFunction.cs" />
+    <Compile Include="ConstraintSolver\ConstraintSolver.cs" />
+    <Compile Include="ConstraintSolver\Model.cs" />
+    <Compile Include="CairoBinding\IGraphicsItem.cs" />
+    <Compile Include="CairoBinding\ModelViewer.cs" />
+    <Compile Include="gtk-gui\MainWindow.cs" />
+    <Compile Include="CairoBinding\Line2D.cs" />
+    <Compile Include="CairoBinding\DisplayProperties.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="ConstraintSolver\" />
+    <Folder Include="NumericalOptimization\" />
+  </ItemGroup>
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties>
+        <Policies>
+          <DotNetNamingPolicy DirectoryNamespaceAssociation="PrefixedHierarchical" ResourceNamePolicy="FileFormatDefault" />
+          <TextStylePolicy inheritsSet="null" scope="text/x-csharp" />
+          <CSharpFormattingPolicy inheritsSet="Mono" inheritsScope="text/x-csharp" scope="text/x-csharp" />
+        </Policies>
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
+</Project>
