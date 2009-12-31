@@ -5,7 +5,7 @@ from math import fabs
 
 model = Model()
 
-for i in range(1):
+for i in range(10):
     point1 = Point2D(0.0,0.0,False,False)
     point2 = Point2D(10.0,0.0,True,False)
     point3 = Point2D(10.0,10.0,True,True)
