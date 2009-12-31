@@ -1748,7 +1748,7 @@ void pSketcherModel::GetReplaceDOFSQLCommands(const std::string &table_name, DOF
             for(int i = 0; i < rowid_list.size(); i++)
             {
                 redo_command << " UPDATE " << table_name << " SET " << local_column << "=" << new_dof->GetID() << " WHERE ROWID=" << rowid_list[i] << ";";
-                redo_command << " UPDATE " << table_name << " SET " << local_column << "=" << old_dof->GetID() << " WHERE ROWID=" << rowid_list[i] << ";";
+                undo_command << " UPDATE " << table_name << " SET " << local_column << "=" << old_dof->GetID() << " WHERE ROWID=" << rowid_list[i] << ";";
             }
         }
 
