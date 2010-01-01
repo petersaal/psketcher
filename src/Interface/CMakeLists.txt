@@ -46,10 +46,6 @@ find_package( Boost 1.34 COMPONENTS filesystem )
 link_directories ( ${Boost_LIBRARY_DIRS} )
 include_directories ( ${Boost_INCLUDE_DIRS} )
 
-#SQLite3
-pkg_check_modules(sqlite3 sqlite3)
-LINK_DIRECTORIES (${sqlite3_LIBRARY_DIRS})
-
 #gsl
 pkg_check_modules(GSL gsl)
 LINK_DIRECTORIES (${GSL_LIBRARY_DIRS})
@@ -65,7 +61,6 @@ add_executable(psketcher
     ${psketcher_RCC_SRCS})
 
 TARGET_LINK_LIBRARIES (psketcher ${Boost_LIBRARIES})
-TARGET_LINK_LIBRARIES (psketcher ${sqlite3_LIBRARIES})
 TARGET_LINK_LIBRARIES(psketcher ${OPENGL_LIBRARIES})
 TARGET_LINK_LIBRARIES(psketcher ${GLUT_Xmu_LIBRARY})
 target_link_libraries(psketcher ${QT_LIBRARIES})
@@ -77,21 +72,6 @@ TARGET_LINK_LIBRARIES (psketcher mmcMatrix)
 TARGET_LINK_LIBRARIES (psketcher InteractiveConstructors)
 TARGET_LINK_LIBRARIES (psketcher ${GSL_LIBRARIES})
 TARGET_LINK_LIBRARIES (psketcher bfgs)
+TARGET_LINK_LIBRARIES (psketcher sqlite3)
 #TARGET_LINK_LIBRARIES (psketcher ${PYTHON_LIBRARIES})
 
-
-
-add_executable(test_sketch test.cpp)
-
-TARGET_LINK_LIBRARIES (test_sketch ${Boost_LIBRARIES})
-TARGET_LINK_LIBRARIES (test_sketch ${sqlite3_LIBRARIES})
-#TARGET_LINK_LIBRARIES(test_sketch ${OPENGL_LIBRARIES})
-#TARGET_LINK_LIBRARIES(test_sketch ${GLUT_Xmu_LIBRARY})
-#target_link_libraries(test_sketch ${QT_LIBRARIES})
-TARGET_LINK_LIBRARIES(test_sketch dime)
-#TARGET_LINK_LIBRARIES (test_sketch Ark3dQtBinding)
-TARGET_LINK_LIBRARIES (test_sketch Ark3d)
-TARGET_LINK_LIBRARIES (test_sketch mmcMatrix)
-TARGET_LINK_LIBRARIES (test_sketch InteractiveConstructors)
-TARGET_LINK_LIBRARIES (test_sketch ${GSL_LIBRARIES})
-TARGET_LINK_LIBRARIES (test_sketch bfgs)

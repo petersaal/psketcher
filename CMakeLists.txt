@@ -12,4 +12,5 @@ add_subdirectory (src/ConstraintSolver)
 add_subdirectory (src/QtBinding)
 #add_subdirectory (src/PythonBinding)
 add_subdirectory (src/InteractiveConstructors)
+add_subdirectory (src/sqlite3)
 

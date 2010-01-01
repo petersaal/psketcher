@@ -20,8 +20,7 @@
 #include <string>
 #include <map>
 
-#include <sqlite3.h>
-
+#include "../sqlite3/sqlite3.h"
 #include "Primitives.h"
 #include "ConstraintSolver.h"
 

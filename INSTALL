@@ -6,7 +6,6 @@ Dependencies (the Ubuntu package names are used below)
 -----------------------
 
 libqt4-dev (must have qt version 4.4 or greater)
-libsqlite3-dev
 cmake (this is the build system used, verion 2.6 or greater)
 libgsl0-dev (version 1.9 or greater)
 libboost-dev C++ libraries 
