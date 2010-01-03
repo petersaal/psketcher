@@ -47,7 +47,7 @@ Line2DConstructor::~Line2DConstructor()
 
     parent_sketch_->ApplySelectionMask(All); 
     parent_sketch_->ClearSelected();
-}  
+}
 
 void Line2DConstructor::CreateObject()
 {

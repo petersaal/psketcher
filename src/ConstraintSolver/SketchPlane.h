@@ -23,7 +23,7 @@
 
 const std::string SQL_sketch_plane_database_table_name = "sketch_plane_list";
 
-const std::string SQL_sketch_plane_database_schema = "CREATE TABLE " + SQL_sketch_plane_database_table_name + " (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, base_point INTEGER NOT NULL, normal_vector INTEGER NOT NULL, up_vector INTEGER NOT NULL, FOREIGN KEY(id) REFERENCES primitive_list(id), FOREIGN KEY(base_point) REFERENCES primitive_list(id), FOREIGN KEY(normal_vector) REFERENCES primitive_list(id), FOREIGN KEY(up_vector) REFERENCES primitive_list(id));";
+const std::string SQL_sketch_plane_database_schema = "CREATE TABLE " + SQL_sketch_plane_database_table_name + " (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, base_point INTEGER NOT NULL, normal_vector INTEGER NOT NULL, up_vector INTEGER NOT NULL, FOREIGN KEY(id) REFERENCES primitive_list(id) ON UPDATE CASCADE DEFERRABLE INITIALLY DEFERRED, FOREIGN KEY(base_point) REFERENCES primitive_list(id) ON UPDATE CASCADE DEFERRABLE INITIALLY DEFERRED, FOREIGN KEY(normal_vector) REFERENCES primitive_list(id) ON UPDATE CASCADE DEFERRABLE INITIALLY DEFERRED, FOREIGN KEY(up_vector) REFERENCES primitive_list(id) ON UPDATE CASCADE DEFERRABLE INITIALLY DEFERRED);";
 
 // sketch plane class (includes up vector)
 class SketchPlane : virtual public PrimitiveBase

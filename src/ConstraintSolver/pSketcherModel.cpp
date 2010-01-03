@@ -94,6 +94,15 @@ current_file_name_(file_name)
 		throw pSketcherException(error_description);
 	}
 
+    // Turn on foreign key enforcement
+    char *zErrMsg = 0;
+    rc = sqlite3_exec(database_, "PRAGMA foreign_keys = ON;", 0, 0, &zErrMsg);
+    if( rc!=SQLITE_OK ){
+        std::string error_description = "SQL error: " + std::string(zErrMsg);
+        sqlite3_free(zErrMsg);
+        throw pSketcherException(error_description);
+    }
+
 	// synchronize memory to the newly opened database
 	SyncToDatabase();
 }
@@ -156,6 +165,13 @@ void pSketcherModel::InitializeDatabase()
 		sqlite3_free(zErrMsg);
 		throw pSketcherException(error_description);
 	}
+    // Turn on foreign key enforcement
+    rc = sqlite3_exec(database_, "PRAGMA foreign_keys = ON;", 0, 0, &zErrMsg);
+    if( rc!=SQLITE_OK ){
+        std::string error_description = "SQL error: " + std::string(zErrMsg);
+        sqlite3_free(zErrMsg);
+        throw pSketcherException(error_description);
+    }
 	
 }
 
@@ -204,33 +220,34 @@ bool pSketcherModel::Save(const std::string &file_name, bool save_copy)
 
 void pSketcherModel::AddConstraintEquation(const ConstraintEquationBasePointer &new_constraint_equation, bool update_database)
 {
-	// Add constraint equation to constraint equation vector container
-	pair<map<unsigned,ConstraintEquationBasePointer>::iterator,bool> constraint_ret;
-	constraint_ret = constraint_equation_list_.insert(pair<unsigned,ConstraintEquationBasePointer>(new_constraint_equation->GetID(),new_constraint_equation));
-	if(constraint_ret.second && update_database) // constraint_ret.second is true if this constraint is not already in the map
-		new_constraint_equation->AddToDatabase(database_);		
+    // Add DOF's to DOF map containter
+    vector<DOFPointer>::const_iterator dof_it;
+    vector<DOFPointer>::const_iterator dof_end = new_constraint_equation->GetDOFList().end();
+    pair<map<unsigned,DOFPointer>::iterator,bool> ret;
+    for ( dof_it=new_constraint_equation->GetDOFList().begin() ; dof_it != dof_end; dof_it++ )
+    {
+        ret = dof_list_.insert(pair<unsigned,DOFPointer>((*dof_it)->GetID(),(*dof_it)));
+        if(ret.second && update_database) // ret.second is true if this DOFPointer is not already in the map
+            (*dof_it)->AddToDatabase(database_); // this DOF is new to this model and needs to be added to the database
+    }
 
 	// Add the primitives that this constraint depends on to the primitive map container
+    map<unsigned,PrimitiveBasePointer>::iterator primitive_map_it;
 	vector<PrimitiveBasePointer>::const_iterator primitive_it;
 	vector<PrimitiveBasePointer>::const_iterator primitive_end = new_constraint_equation->GetPrimitiveList().end();
 	for ( primitive_it=new_constraint_equation->GetPrimitiveList().begin() ; primitive_it != primitive_end; primitive_it++ )
 	{
-		pair<map<unsigned,PrimitiveBasePointer>::iterator,bool> primitive_ret = primitive_list_.insert(pair<unsigned,PrimitiveBasePointer>((*primitive_it)->GetID(),(*primitive_it)));
-		if(primitive_ret.second && update_database) // ret.second is true if this PrimitivePointer is not already in the map
-			(*primitive_it)->AddToDatabase(database_); // this primitive is new to this model and needs to be added to the database
+        primitive_map_it = primitive_list_.find((*primitive_it)->GetID());
+        if(primitive_map_it == primitive_list_.end()) // if end is returned, the primitive is not in the map
+            AddPrimitive(*primitive_it,update_database);
 	}
 
-	// Add DOF's to DOF map containter
-	vector<DOFPointer>::const_iterator dof_it;
-	vector<DOFPointer>::const_iterator dof_end = new_constraint_equation->GetDOFList().end();
-	pair<map<unsigned,DOFPointer>::iterator,bool> ret;
-	for ( dof_it=new_constraint_equation->GetDOFList().begin() ; dof_it != dof_end; dof_it++ )
-	{
-		ret = dof_list_.insert(pair<unsigned,DOFPointer>((*dof_it)->GetID(),(*dof_it)));
-		if(ret.second && update_database) // ret.second is true if this DOFPointer is not already in the map
-			(*dof_it)->AddToDatabase(database_); // this DOF is new to this model and needs to be added to the database
-	}
-	
+    // Add constraint equation to constraint equation vector container
+    pair<map<unsigned,ConstraintEquationBasePointer>::iterator,bool> constraint_ret;
+    constraint_ret = constraint_equation_list_.insert(pair<unsigned,ConstraintEquationBasePointer>(new_constraint_equation->GetID(),new_constraint_equation));
+    if(constraint_ret.second && update_database) // constraint_ret.second is true if this constraint is not already in the map
+        new_constraint_equation->AddToDatabase(database_);
+
 	ApplySelectionMask(current_selection_mask_);
 }
 
@@ -244,32 +261,33 @@ void pSketcherModel::AddConstraintEquations(const std::vector<ConstraintEquation
 
 void pSketcherModel::AddPrimitive(const PrimitiveBasePointer &new_primitive, bool update_database)
 {
-	// Add primitive to the primitive vector container
-	pair<map<unsigned,PrimitiveBasePointer>::iterator,bool> primitive_ret;
-	primitive_ret = primitive_list_.insert(pair<unsigned,PrimitiveBasePointer>(new_primitive->GetID(),new_primitive));
-	if(primitive_ret.second && update_database) // primitive_ret.second is true if this primitive is not already in the map
-		new_primitive->AddToDatabase(database_);
+    // Add DOF's that this primitive depends on to DOF map containter
+    vector<DOFPointer>::const_iterator dof_it;
+    vector<DOFPointer>::const_iterator dof_end = new_primitive->GetDOFList().end();
+    pair<map<unsigned,DOFPointer>::iterator,bool> ret;
+    for ( dof_it=new_primitive->GetDOFList().begin() ; dof_it != dof_end; dof_it++ )
+    {
+        ret = dof_list_.insert(pair<unsigned,DOFPointer>((*dof_it)->GetID(),(*dof_it)));
+        if(ret.second && update_database) // ret.second is true if this DOFPointer is not already in the map
+            (*dof_it)->AddToDatabase(database_); // this DOF is new to this model and needs to be added to the database
+    }
 
 	// Add the primitives that this primitive depends on to the primitive map container
+    map<unsigned,PrimitiveBasePointer>::iterator primitive_map_it;
 	vector<PrimitiveBasePointer>::const_iterator primitive_it;
 	vector<PrimitiveBasePointer>::const_iterator primitive_end = new_primitive->GetPrimitiveList().end();
 	for ( primitive_it=new_primitive->GetPrimitiveList().begin() ; primitive_it != primitive_end; primitive_it++ )
 	{
-		primitive_ret = primitive_list_.insert(pair<unsigned,PrimitiveBasePointer>((*primitive_it)->GetID(),(*primitive_it)));
-		if(primitive_ret.second && update_database) // ret.second is true if this PrimitivePointer is not already in the map
-			(*primitive_it)->AddToDatabase(database_); // this primitive is new to this model and needs to be added to the database
+		primitive_map_it = primitive_list_.find((*primitive_it)->GetID());
+		if(primitive_map_it == primitive_list_.end()) // if end is returned, the primitive is not in the map
+			AddPrimitive(*primitive_it,update_database);
 	}
 
-	// Add DOF's that this primitive depends on to DOF map containter
-	vector<DOFPointer>::const_iterator dof_it;
-	vector<DOFPointer>::const_iterator dof_end = new_primitive->GetDOFList().end();
-	pair<map<unsigned,DOFPointer>::iterator,bool> ret;
-	for ( dof_it=new_primitive->GetDOFList().begin() ; dof_it != dof_end; dof_it++ )
-	{
-		ret = dof_list_.insert(pair<unsigned,DOFPointer>((*dof_it)->GetID(),(*dof_it)));
-		if(ret.second && update_database) // ret.second is true if this DOFPointer is not already in the map
-			(*dof_it)->AddToDatabase(database_); // this DOF is new to this model and needs to be added to the database
-	}
+    // Add primitive to the primitive vector container
+    pair<map<unsigned,PrimitiveBasePointer>::iterator,bool> primitive_ret;
+    primitive_ret = primitive_list_.insert(pair<unsigned,PrimitiveBasePointer>(new_primitive->GetID(),new_primitive));
+    if(primitive_ret.second && update_database) // primitive_ret.second is true if this primitive is not already in the map
+        new_primitive->AddToDatabase(database_);
 
 	ApplySelectionMask(current_selection_mask_);
 }
@@ -432,6 +450,17 @@ void pSketcherModel::FlagDependentsForDeletion(PrimitiveBasePointer primitive_to
 // delete all of the primitives that have been flagged for deletion
 void pSketcherModel::DeleteFlagged(bool remove_from_db)
 {
+    // Turn off foreign key enforcement until the end of this method since we
+    // don't know the order in which the primitives will be deleted
+    char *zErrMsg = 0;
+    int rc;
+    rc = sqlite3_exec(database_, "PRAGMA foreign_keys = OFF;", 0, 0, &zErrMsg);
+    if( rc!=SQLITE_OK ){
+        std::string error_description = "SQL error: " + std::string(zErrMsg);
+        sqlite3_free(zErrMsg);
+        throw pSketcherException(error_description);
+    }
+
 	map<unsigned,PrimitiveBasePointer>::iterator iter1 = primitive_list_.begin();
 
 	while(iter1 != primitive_list_.end())
@@ -461,6 +490,14 @@ void pSketcherModel::DeleteFlagged(bool remove_from_db)
 			iter2++;
 		}
 	}
+
+    // Turn foreign key enforcement back on
+    rc = sqlite3_exec(database_, "PRAGMA foreign_keys = ON;", 0, 0, &zErrMsg);
+    if( rc!=SQLITE_OK ){
+        std::string error_description = "SQL error: " + std::string(zErrMsg);
+        sqlite3_free(zErrMsg);
+        throw pSketcherException(error_description);
+    }
 
 	// there may now be some DOF's that are not needed, go ahead and delete them
 	DeleteUnusedDOFs(false /* don't attempt to remove from the database */);
@@ -1397,12 +1434,20 @@ bool pSketcherModel::Undo()
 
 	if(undo_available)
 	{
+        // Turn off foreign key enforcement until the end of this method since their
+        // is no garuntee that the foreign key constraints will be satisfied until the undo is completed
+        char *zErrMsg = 0;
+        int rc;
+        rc = sqlite3_exec(database_, "PRAGMA foreign_keys = OFF;", 0, 0, &zErrMsg);
+        if( rc!=SQLITE_OK ){
+            std::string error_description = "SQL error: " + std::string(zErrMsg);
+            sqlite3_free(zErrMsg);
+            throw pSketcherException(error_description);
+        }
 
 		cerr << "new_stable_point = " << new_stable_point << ", current_stable_point = " << current_stable_point << endl;
 	
-		// retrieve the appropriate SQL commands to undo from the database and execute each one
-		char *zErrMsg = 0;
-		int rc;
+		// retrieve the appropriate SQL commands to undo from the database and execute each on
 		sqlite3_stmt *statement;
 		
 		stringstream sql_command;
@@ -1472,6 +1517,14 @@ bool pSketcherModel::Undo()
 			throw pSketcherException(error_description);
 		}
 
+        // Turn foreign key enforcement back on
+        rc = sqlite3_exec(database_, "PRAGMA foreign_keys = ON;", 0, 0, &zErrMsg);
+        if( rc!=SQLITE_OK ){
+            std::string error_description = "SQL error: " + std::string(zErrMsg);
+            sqlite3_free(zErrMsg);
+            throw pSketcherException(error_description);
+        }
+
 		// the final step is to synchronize the model to the current database
 		SyncToDatabase();
 
@@ -1491,9 +1544,18 @@ bool pSketcherModel::Redo()
 
 	if(redo_available)
 	{
+        // Turn off foreign key enforcement until the end of this method since their
+        // is no garuntee that the foreign key constraints will be satisfied until the undo is completed
+        char *zErrMsg = 0;
+        int rc;
+        rc = sqlite3_exec(database_, "PRAGMA foreign_keys = OFF;", 0, 0, &zErrMsg);
+        if( rc!=SQLITE_OK ){
+            std::string error_description = "SQL error: " + std::string(zErrMsg);
+            sqlite3_free(zErrMsg);
+            throw pSketcherException(error_description);
+        }
+
 		// retrieve the appropriate SQL commands to redo from the database and execute each one
-		char *zErrMsg = 0;
-		int rc;
 		sqlite3_stmt *statement;
 		
 		stringstream sql_command;
@@ -1564,6 +1626,14 @@ bool pSketcherModel::Redo()
 
 		// the final step is to synchronize the model to the current database
 		SyncToDatabase();
+
+        // Turn foreign key enforcement back on
+        rc = sqlite3_exec(database_, "PRAGMA foreign_keys = ON;", 0, 0, &zErrMsg);
+        if( rc!=SQLITE_OK ){
+            std::string error_description = "SQL error: " + std::string(zErrMsg);
+            sqlite3_free(zErrMsg);
+            throw pSketcherException(error_description);
+        }
 
 		return true;
 	} else {
