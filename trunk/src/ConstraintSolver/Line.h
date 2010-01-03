@@ -22,7 +22,7 @@
 
 const std::string SQL_line_database_table_name = "line_list";
 
-const std::string SQL_line_database_schema = "CREATE TABLE " + SQL_line_database_table_name + " (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, x1_dof INTEGER NOT NULL, y1_dof INTEGER NOT NULL, z1_dof INTEGER NOT NULL, x2_dof INTEGER NOT NULL, y2_dof INTEGER NOT NULL, z2_dof INTEGER NOT NULL, FOREIGN KEY(id) REFERENCES primitive_list(id), FOREIGN KEY(x1_dof) REFERENCES dof_list(id), FOREIGN KEY(y1_dof) REFERENCES dof_list(id), FOREIGN KEY(x2_dof) REFERENCES dof_list(id), FOREIGN KEY(y2_dof) REFERENCES dof_list(id), FOREIGN KEY(z2_dof) REFERENCES dof_list(id));";
+const std::string SQL_line_database_schema = "CREATE TABLE " + SQL_line_database_table_name + " (id INTEGER PRIMARY KEY, dof_table_name TEXT NOT NULL, primitive_table_name TEXT NOT NULL, x1_dof INTEGER NOT NULL, y1_dof INTEGER NOT NULL, z1_dof INTEGER NOT NULL, x2_dof INTEGER NOT NULL, y2_dof INTEGER NOT NULL, z2_dof INTEGER NOT NULL, FOREIGN KEY(id) REFERENCES primitive_list(id) ON UPDATE CASCADE DEFERRABLE INITIALLY DEFERRED, FOREIGN KEY(x1_dof) REFERENCES dof_list(id) ON UPDATE CASCADE DEFERRABLE INITIALLY DEFERRED, FOREIGN KEY(y1_dof) REFERENCES dof_list(id) ON UPDATE CASCADE DEFERRABLE INITIALLY DEFERRED, FOREIGN KEY(x2_dof) REFERENCES dof_list(id) ON UPDATE CASCADE DEFERRABLE INITIALLY DEFERRED, FOREIGN KEY(y2_dof) REFERENCES dof_list(id) ON UPDATE CASCADE DEFERRABLE INITIALLY DEFERRED, FOREIGN KEY(z2_dof) REFERENCES dof_list(id) ON UPDATE CASCADE DEFERRABLE INITIALLY DEFERRED);";
 
 // line class
 class Line : virtual public PrimitiveBase

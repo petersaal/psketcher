@@ -108,8 +108,8 @@ void PrimitiveBase::DatabaseAddDeleteLists(bool add_to_database, const string &d
 	stringstream temp_stream;
 
 	temp_stream << "BEGIN;"
-				<< "CREATE TABLE " << dof_list_table_name << " (id INTEGER PRIMARY KEY, FOREIGN KEY(id) REFERENCES dof_list(id));"
-				<< "CREATE TABLE " << primitive_list_table_name << " (id INTEGER PRIMARY KEY, FOREIGN KEY(id) REFERENCES primitive_list(id));";
+				<< "CREATE TABLE " << dof_list_table_name << " (id INTEGER PRIMARY KEY, FOREIGN KEY(id) REFERENCES dof_list(id) ON UPDATE CASCADE DEFERRABLE INITIALLY DEFERRED);"
+				<< "CREATE TABLE " << primitive_list_table_name << " (id INTEGER PRIMARY KEY, FOREIGN KEY(id) REFERENCES primitive_list(id) ON UPDATE CASCADE DEFERRABLE INITIALLY DEFERRED);";
 
 	// add the insert statements for each dof in dof_list_	
 	for(unsigned int current_dof = 0; current_dof < dof_list_.size(); current_dof++)

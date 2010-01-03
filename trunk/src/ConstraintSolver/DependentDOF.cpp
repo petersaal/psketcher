@@ -186,7 +186,7 @@ void DependentDOF::DatabaseAddDelete(bool add_to_database) // utility method cal
 				<< GetSolverFunction()->GetName() << "', 'source_dof_table_" << GetID() <<"'); "
                 << "INSERT INTO dof_list VALUES("
                 << GetID() << ",'" << SQL_dependent_dof_database_table_name << "'); "
-				<< "CREATE TABLE " << "source_dof_table_" << GetID() << " (id INTEGER PRIMARY KEY, dof_id INTEGER NOT NULL, FOREIGN KEY(dof_id) REFERENCES dof_list(id));";
+				<< "CREATE TABLE " << "source_dof_table_" << GetID() << " (id INTEGER PRIMARY KEY, dof_id INTEGER NOT NULL, FOREIGN KEY(dof_id) REFERENCES dof_list(id) ON UPDATE CASCADE DEFERRABLE INITIALLY DEFERRED);";
 
 	// add each source dof to the source_dof table that was just created for this dependent dof	
 	for(unsigned int current_dof = 0; current_dof < GetSolverFunction()->GetDOFList().size(); current_dof++)
