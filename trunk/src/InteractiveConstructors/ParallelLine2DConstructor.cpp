@@ -29,7 +29,6 @@ void ParallelLine2DConstructor::CreateObject()
 {
 	if(primitive_finished_)
 	{		
-		// @fixme need to determine if user intended an interior angle or an exterior angle
 		parent_sketch_->AddParallelLine2D(line1_, line2_);
 	}
 }

@@ -1690,26 +1690,22 @@ bool pSketcherModel::ExportDXF(const std::string &file_name)
 	return success;
 }
 
-// This method swaps one dof in the model for another
-// old_dof must exist in the database and new_dof must not be already used by the model
+// This method replaces one dof in the model with another
+// old_dof must exist in the database
 void pSketcherModel::ReplaceDOF(DOFPointer old_dof, DOFPointer new_dof)
 {
     stringstream undo_commands;
     stringstream redo_commands;
 
-    // delete the existing old_dof entry in the database
-    // first, make sure that old_dof is actually part of this model
+    // Make sure the old_dof exists in the model
     map<unsigned,DOFPointer>::iterator dof_it = dof_list_.find(old_dof->GetID());
-    if(dof_it != dof_list_.end())
+    if(dof_it == dof_list_.end())
     {
-        // old_dof exists, remove it from the database
-        old_dof->RemoveFromDatabase();
-    } else {
         // old_dof does not exist, this is an error condition since dof replace cannot be completed
         throw pSketcherException("Attempt to replace a DOF that is not in the dof_list_ map");
     }
 
-    // Now add the new dof to the database if it is not already in the database
+    // Add the new dof to the database if it is not already in the database
     dof_it = dof_list_.find(old_dof->GetID());
     if(dof_it == dof_list_.end())
     {
@@ -1759,24 +1755,30 @@ void pSketcherModel::ReplaceDOF(DOFPointer old_dof, DOFPointer new_dof)
         throw pSketcherException(error_description.str());
     }
 
-    // Now execute the the SQL commands to modify the database
-    rc = sqlite3_exec(database_, redo_commands.str().c_str(), 0, 0, &zErrMsg);
-    if( rc!=SQLITE_OK ){
-        std::string error_description = "SQL error: " + std::string(zErrMsg);
-        sqlite3_free(zErrMsg);
-        throw pSketcherException(error_description);
+   if(redo_commands.str().size() > 0)  // There are changes that need to be made so go ahead and do those changes
+    { 
+        // Now execute the the SQL commands to modify the database
+        rc = sqlite3_exec(database_, redo_commands.str().c_str(), 0, 0, &zErrMsg);
+        if( rc!=SQLITE_OK ){
+            std::string error_description = "SQL error: " + std::string(zErrMsg);
+            sqlite3_free(zErrMsg);
+            throw pSketcherException(error_description);
+        }
+    
+        // Update the undo_redo_list in the database with the database changes that have just been made
+        // need to use sqlite3_mprintf to make sure the single quotes in the sql statements get escaped where needed
+        char *sql_undo_redo = sqlite3_mprintf("INSERT INTO undo_redo_list(undo,redo) VALUES('%q','%q')",undo_commands.str().c_str(),redo_commands.str().c_str());
+    
+        rc = sqlite3_exec(database_, sql_undo_redo, 0, 0, &zErrMsg);
+        if( rc!=SQLITE_OK ){
+            std::string error_description = "SQL error: " + std::string(zErrMsg);
+            sqlite3_free(zErrMsg);
+            throw pSketcherException(error_description);
+        }
     }
 
-    // Update the undo_redo_list in the database with the database changes that have just been made
-    // need to use sqlite3_mprintf to make sure the single quotes in the sql statements get escaped where needed
-    char *sql_undo_redo = sqlite3_mprintf("INSERT INTO undo_redo_list(undo,redo) VALUES('%q','%q')",undo_commands.str().c_str(),redo_commands.str().c_str());
-
-    rc = sqlite3_exec(database_, sql_undo_redo, 0, 0, &zErrMsg);
-    if( rc!=SQLITE_OK ){
-        std::string error_description = "SQL error: " + std::string(zErrMsg);
-        sqlite3_free(zErrMsg);
-        throw pSketcherException(error_description);
-    }
+    // delete the existing old_dof entry in the database
+    old_dof->RemoveFromDatabase();
 
     // Finally, synchronize the model to the database that has just been modified
     SyncToDatabase();

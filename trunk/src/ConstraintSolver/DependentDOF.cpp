@@ -170,7 +170,10 @@ void DependentDOF::AddToDatabase(sqlite3 *database)
 
 void DependentDOF::RemoveFromDatabase()
 {
-	DatabaseAddDelete(false);
+    if(database_ != 0)
+        DatabaseAddDelete(false);
+    else
+        throw pSketcherException("Attempt to remove a DependentDOF from the database that was never added to the database.");
 }
 
 void DependentDOF::DatabaseAddDelete(bool add_to_database) // utility method called by AddToDatabase and DeleteFromDatabase since they both do similar things

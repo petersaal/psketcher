@@ -260,7 +260,10 @@ void IndependentDOF::AddToDatabase(sqlite3 *database)
 
 void IndependentDOF::RemoveFromDatabase()
 {
-	DatabaseAddDelete(false);
+	if(database_ != 0)
+        DatabaseAddDelete(false);
+    else
+        throw pSketcherException("Attempt to remove a IndependentDOF from the database that was never added to the database.");
 }
 
 void IndependentDOF::DatabaseAddDelete(bool add_to_database) // utility method called by AddToDatabase and DeleteFromDatabase since they both do similar things
