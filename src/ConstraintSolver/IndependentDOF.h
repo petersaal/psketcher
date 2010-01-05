@@ -21,7 +21,7 @@
 
 const std::string SQL_independent_dof_database_table_name = "independent_dof_list";
 
-const std::string SQL_independent_dof_database_schema = "CREATE TABLE " + SQL_independent_dof_database_table_name + " (id INTEGER PRIMARY KEY, variable_name TEXT NOT NULL, bool_free INTEGER CHECK (bool_free >= 0 AND bool_free <= 1), value REAL NOT NULL, FOREIGN KEY(id) REFERENCES dof_list(id) ON UPDATE CASCADE DEFERRABLE INITIALLY DEFERRED);";
+const std::string SQL_independent_dof_database_schema = "CREATE TABLE " + SQL_independent_dof_database_table_name + " (id INTEGER PRIMARY KEY, variable_name TEXT NOT NULL, bool_free INTEGER CHECK (bool_free >= 0 AND bool_free <= 1), value REAL NOT NULL);";
 
 // IndependentDOF class
 class IndependentDOF : public DOF
