@@ -307,8 +307,24 @@ void pSketcherWidget::GenerateTestSketch()
 	*/
 
 	//current_sketch_->SyncToDatabase();
+    
+    /*
+    Point2DPointer point4 = current_sketch_->AddPoint2D(0.0,-10.0,true,false);  // only x dof can vary
+    Point2DPointer point5 = current_sketch_->AddPoint2D(10.0,-10.0,true,true);  // x and y dof's can vary
+    Point2DPointer point6 = current_sketch_->AddPoint2D(12.0,-10.0,true,true);  // x and y dof's can vary
+    Point2DPointer point7 = current_sketch_->AddPoint2D(10.0,-2.0,true,true);  // x and y dof's can vary
+    Line2DPointer line5 = current_sketch_->AddLine2D(point4,point5);
+    Line2DPointer line6 = current_sketch_->AddLine2D(point6,point7);
+    */
 
-	modelChanged("Create test sketch");
+    modelChanged("Create test sketch");
+
+    /*
+    current_sketch_->ReplaceDOF(point5->GetSDOF(),point6->GetSDOF());
+    current_sketch_->ReplaceDOF(point5->GetTDOF(),point6->GetTDOF());
+
+    modelChanged("Merge points");
+    */
 
 	fitExtents();
 }
