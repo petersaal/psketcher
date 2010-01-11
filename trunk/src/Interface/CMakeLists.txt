@@ -46,6 +46,10 @@ find_package( Boost 1.34 COMPONENTS filesystem )
 link_directories ( ${Boost_LIBRARY_DIRS} )
 include_directories ( ${Boost_INCLUDE_DIRS} )
 
+#SQLite3
+pkg_check_modules(sqlite3 sqlite3)
+LINK_DIRECTORIES (${sqlite3_LIBRARY_DIRS})
+
 #gsl
 pkg_check_modules(GSL gsl)
 LINK_DIRECTORIES (${GSL_LIBRARY_DIRS})
@@ -61,9 +65,11 @@ add_executable(psketcher
     ${psketcher_RCC_SRCS})
 
 TARGET_LINK_LIBRARIES (psketcher ${Boost_LIBRARIES})
+TARGET_LINK_LIBRARIES (psketcher ${sqlite3_LIBRARIES})
 TARGET_LINK_LIBRARIES(psketcher ${OPENGL_LIBRARIES})
 TARGET_LINK_LIBRARIES(psketcher ${GLUT_Xmu_LIBRARY})
 target_link_libraries(psketcher ${QT_LIBRARIES})
+target_link_libraries(psketcher ${QT_QTSQL_LIBRARY_RELEASE})
 TARGET_LINK_LIBRARIES(psketcher dime)
 #TARGET_LINK_LIBRARIES (psketcher psketcher_module)
 TARGET_LINK_LIBRARIES (psketcher Ark3dQtBinding)
@@ -72,6 +78,5 @@ TARGET_LINK_LIBRARIES (psketcher mmcMatrix)
 TARGET_LINK_LIBRARIES (psketcher InteractiveConstructors)
 TARGET_LINK_LIBRARIES (psketcher ${GSL_LIBRARIES})
 TARGET_LINK_LIBRARIES (psketcher bfgs)
-TARGET_LINK_LIBRARIES (psketcher sqlite3)
 #TARGET_LINK_LIBRARIES (psketcher ${PYTHON_LIBRARIES})
 
