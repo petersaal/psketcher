@@ -173,10 +173,15 @@ void pSketcherModel::InitializeDatabase()
         throw pSketcherException("Error getting sqlite handle from QtSql database connection (Null Pointer)");
 
     // initialize the database schema
-    QSqlQuery query(qt_db_);
-    if( !query.exec(SQL_psketcher_database_schema.c_str()))
-        throw pSketcherException("SQL error: " + query.lastError().text().toStdString());
+    char *zErrMsg = 0;
+    rc = sqlite3_exec(database_, SQL_psketcher_database_schema.c_str(), 0, 0, &zErrMsg);
+    if( rc!=SQLITE_OK ){
+        std::string error_description = "SQL error: " + std::string(zErrMsg);
+        sqlite3_free(zErrMsg);
+        throw pSketcherException(error_description);
+    }
 
+    QSqlQuery query(qt_db_);
     // Turn on foreign key enforcement
     if( !query.exec("PRAGMA foreign_keys = ON;") )
         throw pSketcherException("SQL error: " + query.lastError().text().toStdString());
