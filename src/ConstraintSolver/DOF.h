@@ -19,7 +19,7 @@
 
 #include <string>
 #include <boost/shared_ptr.hpp>
-#include <sqlite3.h>
+#include "../sqlite3/sqlite3.h"
 class SolverFunctionsBase;
 typedef boost::shared_ptr<SolverFunctionsBase> SolverFunctionsBasePointer;
 class pSketcherModel;
