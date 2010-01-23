@@ -20,9 +20,7 @@
 #include <string>
 #include <map>
 
-#include <QtSql/QtSql>
-
-#include <sqlite3.h>
+#include "../sqlite3/sqlite3.h"
 #include "Primitives.h"
 #include "ConstraintSolver.h"
 
@@ -93,7 +91,6 @@ public:
 
 	// methods for importing and exporting geometry
 	bool ExportDXF(const std::string &file_name);
-    int rc;
 
 protected:
 	// methods for generating objects directly from the database
@@ -122,7 +119,6 @@ private:
 
 	// SQLite3 database that will be used to implement file save and undo/redo
 	sqlite3 *database_;
-    QSqlDatabase qt_db_;
 
 	// current file name
 	std::string current_file_name_;

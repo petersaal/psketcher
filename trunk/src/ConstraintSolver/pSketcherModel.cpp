@@ -86,30 +86,17 @@ current_file_name_(file_name)
 	boost::filesystem::copy_file(current_file_name_,psketcher_current_database_file);
 
 	// open the working database file
-// 	int rc = sqlite3_open(psketcher_current_database_file.c_str(), &database_);
-// 	if( rc ){
-// 		// an error occurred when trying to open the database
-// 		std::string error_description = "Can't open database: " + std::string(sqlite3_errmsg(database_));
-// 		sqlite3_close(database_);
-// 		throw pSketcherException(error_description);
-// 	}
-    qt_db_ = QSqlDatabase::addDatabase("QSQLITE");
-    qt_db_.setDatabaseName(psketcher_current_database_file.c_str());
-    if (!qt_db_.open())
-        throw pSketcherException(qt_db_.lastError().text().toStdString());
-    QVariant handle_variant = qt_db_.driver()->handle();
-    if (handle_variant.isValid() && qstrcmp(handle_variant.typeName(), "sqlite3*")==0) {
-        // v.data() returns a pointer to the handle
-        database_ = *static_cast<sqlite3 **>(handle_variant.data());
-    } else {
-        throw pSketcherException("Error getting sqlite handle from QtSql database connection");
-    }
-    if (database_ == 0)
-        throw pSketcherException("Error getting sqlite handle from QtSql database connection (NULL Pointer)");
-    
+	int rc = sqlite3_open(psketcher_current_database_file.c_str(), &database_);
+	if( rc ){
+		// an error occurred when trying to open the database
+		std::string error_description = "Can't open database: " + std::string(sqlite3_errmsg(database_));
+		sqlite3_close(database_);
+		throw pSketcherException(error_description);
+	}
+
     // Turn on foreign key enforcement
     char *zErrMsg = 0;
-    int rc = sqlite3_exec(database_, "PRAGMA foreign_keys = ON;", 0, 0, &zErrMsg);
+    rc = sqlite3_exec(database_, "PRAGMA foreign_keys = ON;", 0, 0, &zErrMsg);
     if( rc!=SQLITE_OK ){
         std::string error_description = "SQL error: " + std::string(zErrMsg);
         sqlite3_free(zErrMsg);
@@ -123,8 +110,13 @@ current_file_name_(file_name)
 pSketcherModel::~pSketcherModel() 
 {
 	// close the database
-    qt_db_.close();
-    database_ = 0;  // sqlite3* handle to the database
+	int rc = sqlite3_close(database_);
+	if(rc)
+	{
+		// error occured when attempting to close the database
+		std::cerr << "Error closing SQL Database: " << sqlite3_errmsg(database_) << std::endl;
+	}
+	database_ = 0;
 
 	// let all of the primitives and constraints do some cleanup if needed before they are deleted
 	map<unsigned,PrimitiveBasePointer>::iterator iter1 = primitive_list_.begin();
@@ -157,34 +149,30 @@ void pSketcherModel::InitializeDatabase()
 	if(boost::filesystem::exists(psketcher_current_database_file))
 		boost::filesystem::rename(psketcher_current_database_file,psketcher_previous_database_file);
 
-    // Open the database
-    qt_db_ = QSqlDatabase::addDatabase("QSQLITE");
-    qt_db_.setDatabaseName(psketcher_current_database_file.c_str());
-    if (!qt_db_.open())
-        throw pSketcherException(qt_db_.lastError().text().toStdString());
-    QVariant handle_variant = qt_db_.driver()->handle();
-    if (handle_variant.isValid() && qstrcmp(handle_variant.typeName(), "sqlite3*")==0) {
-        // v.data() returns a pointer to the handle
-        database_ = *static_cast<sqlite3 **>(handle_variant.data());
-    } else {
-        throw pSketcherException("Error getting sqlite handle from QtSql database connection");
-    }
-    if (database_ == 0)
-        throw pSketcherException("Error getting sqlite handle from QtSql database connection (Null Pointer)");
+	int rc = sqlite3_open(psketcher_current_database_file.c_str(), &database_);
+	if( rc ){
+		// an error occurred when trying to open the database
+		std::string error_description = "Can't open database: " + std::string(sqlite3_errmsg(database_));
+		sqlite3_close(database_);
+		throw pSketcherException(error_description);
+	}
 
-    // initialize the database schema
-    char *zErrMsg = 0;
-    rc = sqlite3_exec(database_, SQL_psketcher_database_schema.c_str(), 0, 0, &zErrMsg);
+	// initialize the database schema
+	char *zErrMsg = 0;
+	rc = sqlite3_exec(database_, SQL_psketcher_database_schema.c_str(), 0, 0, &zErrMsg);
+	if( rc!=SQLITE_OK ){
+		std::string error_description = "SQL error: " + std::string(zErrMsg);
+		sqlite3_free(zErrMsg);
+		throw pSketcherException(error_description);
+	}
+    // Turn on foreign key enforcement
+    rc = sqlite3_exec(database_, "PRAGMA foreign_keys = ON;", 0, 0, &zErrMsg);
     if( rc!=SQLITE_OK ){
         std::string error_description = "SQL error: " + std::string(zErrMsg);
         sqlite3_free(zErrMsg);
         throw pSketcherException(error_description);
     }
-
-    QSqlQuery query(qt_db_);
-    // Turn on foreign key enforcement
-    if( !query.exec("PRAGMA foreign_keys = ON;") )
-        throw pSketcherException("SQL error: " + query.lastError().text().toStdString());
+	
 }
 
 bool pSketcherModel::Save(const std::string &file_name, bool save_copy)
@@ -829,18 +817,6 @@ void pSketcherModel::DeleteUnusedDOFs(bool remove_from_db)
 	}
 
 	// Finally, delete any DOF's that are still flagged for deletion
-
-    // Turn off foreign key enforcement until all of the unused DOF's are deleted since we
-    // don't know the order in which the DOF's will be deleted and some DOF's depend on others
-    char *zErrMsg = 0;
-    int rc;
-    rc = sqlite3_exec(database_, "PRAGMA foreign_keys = OFF;", 0, 0, &zErrMsg);
-    if( rc!=SQLITE_OK ){
-        std::string error_description = "SQL error: " + std::string(zErrMsg);
-        sqlite3_free(zErrMsg);
-        throw pSketcherException(error_description);
-    }
-
 	map<unsigned,DOFPointer>::iterator dof_it = dof_list_.begin();
 	while(dof_it != dof_list_.end())
 	{
@@ -853,14 +829,6 @@ void pSketcherModel::DeleteUnusedDOFs(bool remove_from_db)
 			dof_it++;
 		}
 	}
-
-    // Turn foreign key enforcement back on
-    rc = sqlite3_exec(database_, "PRAGMA foreign_keys = ON;", 0, 0, &zErrMsg);
-    if( rc!=SQLITE_OK ){
-        std::string error_description = "SQL error: " + std::string(zErrMsg);
-        sqlite3_free(zErrMsg);
-        throw pSketcherException(error_description);
-    }
 }
 
 // synchronize the primitive, constraint, and DOF lists to the database (used to implement file open and undo/redo)

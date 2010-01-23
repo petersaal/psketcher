@@ -5,10 +5,6 @@ LINK_DIRECTORIES ("../NumOptimization")
 # create the psketcher library
 ADD_LIBRARY (Ark3d STATIC ConstraintSolver.cpp Sketch.cpp DOF.cpp IndependentDOF.cpp DependentDOF.cpp PrimitiveBase.cpp pSketcherModel.cpp Point.cpp Vector.cpp SketchPlane.cpp Primitive2DBase.cpp Point2D.cpp Edge2DBase.cpp Line.cpp Line2D.cpp ConstraintEquationBase.cpp SolverFunctions.cpp SolverFunctionsBase.cpp DistancePoint2D.cpp  ParallelLine2D.cpp HoriVertLine2D.cpp TangentEdge2D.cpp AngleLine2D.cpp Arc2D.cpp Circle2D.cpp EdgeLoop2D.cpp DistancePointLine2D.cpp)
 
-# Qt Includes
-find_package(Qt4 REQUIRED)
-include(${QT_USE_FILE})
-
 # The following module is included so that the pkg_check_modules macro can be used below
 find_package(PkgConfig)
 
@@ -21,9 +17,4 @@ include_directories ( ${Boost_INCLUDE_DIRS} )
 pkg_check_modules(GSL gsl)
 LINK_DIRECTORIES (${GSL_LIBRARY_DIRS})
 INCLUDE_DIRECTORIES (${GSL_INCLUDE_DIRS})
-
-#SQLite3
-pkg_check_modules(SQLITE3 sqlite3)
-LINK_DIRECTORIES (${SQLITE3_LIBRARY_DIRS})
-INCLUDE_DIRECTORIES (${SQLITE3_INCLUDE_DIRS})
 
