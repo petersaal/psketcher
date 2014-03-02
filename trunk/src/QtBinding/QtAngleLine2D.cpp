@@ -149,6 +149,8 @@ void QtAngleLine2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 {
 	// @fixme need to handle the case where one of the lines has zero length (make sure there are no divide by zeros)
 
+	double level_of_detail = QStyleOptionGraphicsItem::levelOfDetailFromTransform(painter->worldTransform());
+  
 	DisplayProperties current_properties;
 
 	if(option->state & QStyle::State_MouseOver && IsSelectable())
@@ -160,11 +162,11 @@ void QtAngleLine2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 		current_properties = GetProperties();
 	}
 
-	painter->setPen(current_properties.GetPen(option->levelOfDetail));
+	painter->setPen(current_properties.GetPen(level_of_detail));
 	painter->setBrush(current_properties.GetBrush());
 	
-	double leader_gap = current_properties.GetLeaderGap()/option->levelOfDetail;
-	double leader_extension = current_properties.GetLeaderExtension()/option->levelOfDetail;
+	double leader_gap = current_properties.GetLeaderGap()/level_of_detail;
+	double leader_extension = current_properties.GetLeaderExtension()/level_of_detail;
 
 	// first determine the intersection point of the two lines
 	double x1 = GetLine1()->GetPoint1()->GetSValue();
@@ -295,7 +297,7 @@ void QtAngleLine2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 
 		// display the arrow arc
 		QPainterPath selection_path;
-		QPainterPath arrow_arc = GetArcArrowPathAndSelectionPath(x_center, -y_center, GetTextRadius(),arrow_arc_theta1,arrow_arc_theta2,15.0/option->levelOfDetail,12.0/option->levelOfDetail,selection_path,option->levelOfDetail);
+		QPainterPath arrow_arc = GetArcArrowPathAndSelectionPath(x_center, -y_center, GetTextRadius(),arrow_arc_theta1,arrow_arc_theta2,15.0/level_of_detail,12.0/level_of_detail,selection_path,level_of_detail);
 		painter->drawPath(arrow_arc);
 		current_shape_ = selection_path;
 		
@@ -314,7 +316,7 @@ void QtAngleLine2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 			// @fixme need to make sure the following dyname_cast won't create a pointer that is need used even if this shared_ptr class is freed from memory
 			angle_widget_ = new QtAngleLine2DWidget(shared_from_this(),dynamic_cast<QGraphicsItem*>(const_cast<QtAngleLine2D*>(this)));
 		}
-		angle_widget_->UpdateGeometry(text_x, text_y, option->levelOfDetail);
+		angle_widget_->UpdateGeometry(text_x, text_y, level_of_detail);
 
 		// create leader for line1 if necessary
 		double delta1, delta2;
@@ -373,11 +375,11 @@ void QtAngleLine2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 		// display an arrow to the center point of each of the lines
 		QPainterPath selection_path;
 
-		QPolygonF arrow1 = GetArrowPolygonAndSelectionPath(text_x, -text_y, 0.5*(x1+x2), -0.5*(y1+y2),15.0/option->levelOfDetail,12.0/option->levelOfDetail,selection_path,option->levelOfDetail);
+		QPolygonF arrow1 = GetArrowPolygonAndSelectionPath(text_x, -text_y, 0.5*(x1+x2), -0.5*(y1+y2),15.0/level_of_detail,12.0/level_of_detail,selection_path,level_of_detail);
 		painter->drawPolygon(arrow1);
 		current_shape_ = selection_path;
 
-		QPolygonF arrow2 = GetArrowPolygonAndSelectionPath(text_x, -text_y, 0.5*(x3+x4), -0.5*(y3+y4),15.0/option->levelOfDetail,12.0/option->levelOfDetail,selection_path,option->levelOfDetail);
+		QPolygonF arrow2 = GetArrowPolygonAndSelectionPath(text_x, -text_y, 0.5*(x3+x4), -0.5*(y3+y4),15.0/level_of_detail,12.0/level_of_detail,selection_path,level_of_detail);
 		painter->drawPolygon(arrow2);
 		current_shape_.addPath(selection_path);
 
@@ -388,7 +390,7 @@ void QtAngleLine2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 			// @fixme need to make sure the following dyname_cast won't create a pointer that is need used even if this shared_ptr class is freed from memory
 			angle_widget_ = new QtAngleLine2DWidget(shared_from_this(),dynamic_cast<QGraphicsItem*>(const_cast<QtAngleLine2D*>(this)));
 		}
-		angle_widget_->UpdateGeometry(text_x, text_y, option->levelOfDetail);
+		angle_widget_->UpdateGeometry(text_x, text_y, level_of_detail);
 		
 	} // if(!lines_parallel)
 	

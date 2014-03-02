@@ -105,6 +105,8 @@ QRectF QtPoint2D::boundingRect() const
 
 void QtPoint2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget * /* widget */) 
 {
+	double level_of_detail = QStyleOptionGraphicsItem::levelOfDetailFromTransform(painter->worldTransform());
+	
 	DisplayProperties current_properties;
 
 	// @fixme the way constraint_properties is defined in the following if statement block will prevent the user from changing the display properties of the point constraints at run time since the DisplayProperties constructor is used to set these properties
@@ -122,7 +124,7 @@ void QtPoint2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 		constraint_properties = DisplayProperties(Annotation);
 	}
 
-	painter->setPen(current_properties.GetPen(option->levelOfDetail));
+	painter->setPen(current_properties.GetPen(level_of_detail));
 	painter->setBrush(current_properties.GetBrush());	
 
 	QPainterPath point_path;
@@ -131,10 +133,10 @@ void QtPoint2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 	// if point is constrained, draw the constraints
 	if(! SIsFree() || ! TIsFree())
 	{
-		painter->setPen(constraint_properties.GetPen(option->levelOfDetail));
+		painter->setPen(constraint_properties.GetPen(level_of_detail));
 		painter->setBrush(constraint_properties.GetBrush());
 		
-		double radius = 5.0/option->levelOfDetail;
+		double radius = 5.0/level_of_detail;
 
 		if((! SIsFree() && ! GetSDOF()->IsDependent() )  && (! TIsFree() && ! GetTDOF()->IsDependent() ))
 		{

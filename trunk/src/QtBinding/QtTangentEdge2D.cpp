@@ -91,6 +91,8 @@ QRectF QtTangentEdge2D::boundingRect() const
 
 void QtTangentEdge2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget * /* widget */) 
 {
+	double level_of_detail = QStyleOptionGraphicsItem::levelOfDetailFromTransform(painter->worldTransform());
+	
 	DisplayProperties current_properties;
 
 	if(option->state & QStyle::State_MouseOver && IsSelectable())
@@ -102,10 +104,10 @@ void QtTangentEdge2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
 		current_properties = GetProperties();
 	}
 
-	double arrow_head_length = current_properties.GetArrowHeadLength()/option->levelOfDetail;
-	double arrow_head_width = current_properties.GetArrowHeadWidth()/option->levelOfDetail;
+	double arrow_head_length = current_properties.GetArrowHeadLength()/level_of_detail;
+	double arrow_head_width = current_properties.GetArrowHeadWidth()/level_of_detail;
 
-	painter->setPen(current_properties.GetPen(option->levelOfDetail));
+	painter->setPen(current_properties.GetPen(level_of_detail));
 	painter->setBrush(current_properties.GetBrush());	
 	
 	Edge2DBasePointer edge1 = GetEdge1();
@@ -141,7 +143,7 @@ void QtTangentEdge2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
 	// draw the arrow
 	QPainterPath arrow_selection_path;
 
-	QPolygonF arrow = GetArrowPolygonAndSelectionPath(arrow_s1,-arrow_t1,arrow_s2,-arrow_t2,arrow_head_length,arrow_head_width,arrow_selection_path,option->levelOfDetail);
+	QPolygonF arrow = GetArrowPolygonAndSelectionPath(arrow_s1,-arrow_t1,arrow_s2,-arrow_t2,arrow_head_length,arrow_head_width,arrow_selection_path,level_of_detail);
 	current_shape_ = arrow_selection_path;
 
 	painter->drawPolygon(arrow);

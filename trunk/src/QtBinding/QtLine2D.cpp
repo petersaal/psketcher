@@ -69,6 +69,8 @@ QRectF QtLine2D::boundingRect() const
 
 void QtLine2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget * /* widget */)
 {
+	double level_of_detail = QStyleOptionGraphicsItem::levelOfDetailFromTransform(painter->worldTransform());
+  
 	DisplayProperties current_properties;
 
 	if(option->state & QStyle::State_MouseOver && IsSelectable())
@@ -80,12 +82,12 @@ void QtLine2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 		current_properties = GetProperties();
 	}
 
-	painter->setPen(current_properties.GetPen(option->levelOfDetail));
+	painter->setPen(current_properties.GetPen(level_of_detail));
 	painter->setBrush(current_properties.GetBrush());
 
 	// draw the line
 	QPainterPath line_path;
-	painter->drawLine(GetLineAndSelectionPath(GetS1()->GetValue(),-GetT1()->GetValue(),GetS2()->GetValue(),-GetT2()->GetValue(),line_path, option->levelOfDetail));
+	painter->drawLine(GetLineAndSelectionPath(GetS1()->GetValue(),-GetT1()->GetValue(),GetS2()->GetValue(),-GetT2()->GetValue(),line_path, level_of_detail));
 
 	// update the shape that will be used for mouse selection
 	current_shape_ = line_path;
