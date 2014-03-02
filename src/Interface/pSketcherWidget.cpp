@@ -1,18 +1,22 @@
-/****************************************************************************
-**
-** This file is part of the pSketcher project.
-**
-** This file may be used under the terms of the GNU General Public
-** License version 2.0 as published by the Free Software Foundation
-** and appearing in the file LICENSE.GPL included in the packaging of
-** this file.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-**
-** Copyright (C) 2006-2008 Michael Greminger. All rights reserved.
-**
-****************************************************************************/
+/*
+Copyright (c) 2006-2014, Michael Greminger
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation 
+and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
+STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF A
+DVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
 
 #include <QMouseEvent>
 
@@ -29,6 +33,8 @@ using namespace std;
 pSketcherWidget::pSketcherWidget(QGraphicsScene * scene, QWidget * parent) :
 QGraphicsView(scene, parent)
 {
+	//setOptimizationFlag( QGraphicsView::IndirectPainting );
+	
 	interactive_primitive_ = 0;
 
 	GenerateDefaultSketch();
@@ -41,7 +47,7 @@ QGraphicsView(scene, parent)
 
 	// turn off scroll bars (the mouse will be used to pan the scene)
 	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);	
 
 	//setMouseTracking(true);
 
@@ -232,21 +238,21 @@ void pSketcherWidget::GenerateTestSketch()
 	bool temp_bool;
 
 	Point2DPointer point1 = current_sketch_->AddPoint2D(0.0,0.0,false,false);  // none of the dof's can vary
-	Point2DPointer point2 = current_sketch_->AddPoint2D(10.0,0.0,true,false);  // only x dof can vary
-	Point2DPointer point3 = current_sketch_->AddPoint2D(10.0,10.0,true,true);  // x and y dof's can vary
+	Point2DPointer point2 = current_sketch_->AddPoint2D(400.0,0.0,true,false);  // only x dof can vary
+	Point2DPointer point3 = current_sketch_->AddPoint2D(400.0,400.0,true,true);  // x and y dof's can vary
 
-	Arc2DPointer arc1 = current_sketch_->AddArc2D(1.5,6.0,(mmcPI/2.0)*.8,(mmcPI)*1.2,2.0,true,true,true,true,false);
+	Arc2DPointer arc1 = current_sketch_->AddArc2D(60.0,240.0,(mmcPI/2.0)*.8,(mmcPI)*1.2,80.0,true,true,true,true,false);
 
 	Line2DPointer line1 = current_sketch_->AddLine2D(point1,point2);
 	Line2DPointer line2 = current_sketch_->AddLine2D(point2,point3);
 	Line2DPointer line3 = current_sketch_->AddLine2D(point3,arc1->GetPoint1());
 	Line2DPointer line4 = current_sketch_->AddLine2D(arc1->GetPoint2(),point1);
 
-    Circle2DPointer circle1 = current_sketch_->AddCircle2D(arc1->GetCenterPoint()->GetSDOF(),arc1->GetCenterPoint()->GetTDOF(),1.0,false);
+    Circle2DPointer circle1 = current_sketch_->AddCircle2D(arc1->GetCenterPoint()->GetSDOF(),arc1->GetCenterPoint()->GetTDOF(),40.0,false);
 
 	// These 5 constraints will fully constrain the four free DOF's defined about
-	ConstraintEquationBasePointer constraint1 = current_sketch_->AddDistancePoint2D(point1,point2,6.0);
-	ConstraintEquationBasePointer constraint2 = current_sketch_->AddDistancePoint2D(point2,point3,12.0);
+	ConstraintEquationBasePointer constraint1 = current_sketch_->AddDistancePoint2D(point1,point2,240.0);
+	ConstraintEquationBasePointer constraint2 = current_sketch_->AddDistancePoint2D(point2,point3,480.0);
 	ConstraintEquationBasePointer constraint3 = current_sketch_->AddParallelLine2D(line1,line3);
 	ConstraintEquationBasePointer constraint4 = current_sketch_->AddParallelLine2D(line2,line4);
 	ConstraintEquationBasePointer constraint5 = current_sketch_->AddAngleLine2D(line1,line2,mmcPI/2.0,false);

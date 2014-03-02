@@ -1,18 +1,23 @@
-/****************************************************************************
-**
-** This file is part of the pSketcher project.
-**
-** This file may be used under the terms of the GNU General Public
-** License version 2.0 as published by the Free Software Foundation
-** and appearing in the file LICENSE.GPL included in the packaging of
-** this file.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-**
-** Copyright (C) 2006-2008 Michael Greminger. All rights reserved.
-**
-****************************************************************************/
+/*
+Copyright (c) 2006-2014, Michael Greminger
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation 
+and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
+STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF A
+DVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
 
 #include <iostream>
 #include <sstream>
@@ -102,6 +107,15 @@ current_file_name_(file_name)
         sqlite3_free(zErrMsg);
         throw pSketcherException(error_description);
     }
+    
+    // Allow program to continue before db writes are complete 
+    // provides dramatic improvement in performance
+    rc = sqlite3_exec(database_, "PRAGMA synchronous=OFF;", 0, 0, &zErrMsg);
+    if( rc!=SQLITE_OK ){
+        std::string error_description = "SQL error: " + std::string(zErrMsg);
+        sqlite3_free(zErrMsg);
+        throw pSketcherException(error_description);
+    }
 
 	// synchronize memory to the newly opened database
 	SyncToDatabase();
@@ -172,6 +186,15 @@ void pSketcherModel::InitializeDatabase()
         sqlite3_free(zErrMsg);
         throw pSketcherException(error_description);
     }
+    
+    // Allow program to continue before db writes are complete
+    // provides dramatic increase in performance
+    rc = sqlite3_exec(database_, "PRAGMA synchronous=OFF;", 0, 0, &zErrMsg);
+    if( rc!=SQLITE_OK ){
+        std::string error_description = "SQL error: " + std::string(zErrMsg);
+        sqlite3_free(zErrMsg);
+        throw pSketcherException(error_description);
+    }
 	
 }
 
@@ -203,7 +226,7 @@ bool pSketcherModel::Save(const std::string &file_name, bool save_copy)
 				boost::filesystem::remove(file_name); // delete file if it already exists
 			boost::filesystem::copy_file(psketcher_current_database_file,file_name);
 		}
-	} catch (boost::filesystem::basic_filesystem_error<string> e) {
+	} catch (boost::filesystem::filesystem_error& e) {
 		success = false;
 	}
 
@@ -349,7 +372,7 @@ void pSketcherModel::SolveConstraints()
 		
 			ConstraintSolver my_constraint_solver(constraints, weights, free_parameters, fixed_parameters, fixed_values);
 		
-			mmcMatrix computed_free_values = my_constraint_solver.MinimizeMeritFunction(initial_free_values, 1000, 1e-10, 1e-15, 100, 1, &std::cerr);
+			mmcMatrix computed_free_values = my_constraint_solver.MinimizeMeritFunction(initial_free_values, 1000, 1e-10, 1e-15, 500, 1, &std::cerr);
 		
 			// Update the free DOF's with the solution
 			for(unsigned int current_dof = 0; current_dof < free_parameters.size(); current_dof++)
@@ -1652,7 +1675,7 @@ bool pSketcherModel::ExportDXF(const std::string &file_name)
 		if(boost::filesystem::exists(file_name))
 			boost::filesystem::remove(file_name); 
 	}
-	catch (boost::filesystem::basic_filesystem_error<string> e) {
+	catch (boost::filesystem::filesystem_error& e) {
 		success = false;
 	}
 
