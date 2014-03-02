@@ -36,13 +36,13 @@ FIND_PACKAGE (OpenGL REQUIRED)
 INCLUDE_DIRECTORIES(${OPENGL_INCLUDE_DIR})
 
 #Glut
-FIND_PACKAGE (GLUT REQUIRED)
+#FIND_PACKAGE (GLUT REQUIRED)
 
 # The following module is included so that the pkg_check_modules macro can be used below
 find_package(PkgConfig)
 
 #Boost
-find_package( Boost 1.34 COMPONENTS filesystem )
+find_package( Boost 1.43 COMPONENTS filesystem system)
 link_directories ( ${Boost_LIBRARY_DIRS} )
 include_directories ( ${Boost_INCLUDE_DIRS} )
 
@@ -61,8 +61,9 @@ add_executable(psketcher
     ${psketcher_RCC_SRCS})
 
 TARGET_LINK_LIBRARIES (psketcher ${Boost_LIBRARIES})
-TARGET_LINK_LIBRARIES(psketcher ${OPENGL_LIBRARIES})
-TARGET_LINK_LIBRARIES(psketcher ${GLUT_Xmu_LIBRARY})
+TARGET_LINK_LIBRARIES (psketcher ${CMAKE_DL_LIBS})
+#TARGET_LINK_LIBRARIES(psketcher ${OPENGL_LIBRARIES})
+#TARGET_LINK_LIBRARIES(psketcher ${GLUT_Xmu_LIBRARY})
 target_link_libraries(psketcher ${QT_LIBRARIES})
 TARGET_LINK_LIBRARIES(psketcher dime)
 #TARGET_LINK_LIBRARIES (psketcher psketcher_module)

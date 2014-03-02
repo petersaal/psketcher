@@ -1,59 +1,57 @@
-/****************************************************************************
-**
-** This file is part of the QtOpenCascade Toolkit.
-**
-** This file may be used under the terms of the GNU General Public
-** License version 2.0 as published by the Free Software Foundation
-** and appearing in the file LICENSE.GPL included in the packaging of
-** this file.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-**
-** Copyright (C) Peter Dolbey 2006. All rights reserved.
-**
-** Adapted for use as part of pSketcher by Michael Greminger on 3-1-08
-**
-****************************************************************************/
+/*
+Copyright (c) 2006-2014, Michael Greminger
+All rights reserved.
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation 
+and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
+STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF A
+DVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
+#ifndef PSKETCHERWINDOW_H
+#define PSKETCHERWINDOW_H
 
 #include <QMainWindow>
 #include <QActionGroup>
 
 #include "pSketcherWidget.h"
 
-class QAction;
-class QLabel;
-class QMenu;
-
 class pSketcherWindow : public QMainWindow
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    pSketcherWindow();
+	pSketcherWindow();
 
 private slots:
-    void about();
-	void triggerSketchActionGroup();
-	void switchToSelectionMode();
+	void About();
+	void TriggerSketchActionGroup();
+	void SwitchToSelectionMode();
 
 private:
-    void createActions();
-    void createMenus();
-	void createToolBars();
+	void CreateActions();
+	void CreateMenus();
+	void CreateToolbars();
 
-    QMenu *fileMenu;
-    QMenu *editMenu;
+	QMenu *fileMenu;
+	QMenu *editMenu;
 	QMenu *viewMenu;
-    QMenu *helpMenu;
+	QMenu *helpMenu;
 
 	QToolBar *viewToolBar;
 
-    QAction *exitAction;
-    QAction *aboutAction;
+	QAction *exitAction;
+	QAction *aboutAction;
 
 	QAction *fitAction;
 	QAction *zoomAction;
@@ -80,11 +78,11 @@ private:
 
 	// Sketching action
 	QActionGroup *sketchActionGroup;
-    QAction *selectAction;
+	QAction *selectAction;
 	QAction *makeLineAction;
 	QAction *makePointAction;
 	QAction *makeArcAction;
-    QAction *makeCircleAction;
+	QAction *makeCircleAction;
 	QAction *makeDistanceConstraintAction;
 	QAction *makeAngleConstraintAction;
 	QAction *makeParallelConstraintAction;
@@ -94,10 +92,9 @@ private:
 	QToolBar *sketchToolBar;
 
 	// The OpenCASCADE Qt widget and the QGraphicsScene;
-	pSketcherWidget		*view;
-	QGraphicsScene 	*scene;
+	pSketcherWidget *view;
+	QGraphicsScene *scene;
 
-	QString myLastFolder;
 };
 
 #endif
