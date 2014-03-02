@@ -75,7 +75,9 @@ void QtPrimitiveBase::Erase()
 
 void QtPrimitiveBase::PaintPoint(QPainter *painter, const QStyleOptionGraphicsItem *option, double x, double y)
 {
-	double radius = 3.0/option->levelOfDetail;
+	double level_of_detail = QStyleOptionGraphicsItem::levelOfDetailFromTransform(painter->worldTransform());
+	
+	double radius = 3.0/level_of_detail;
 	QRectF rect(QPointF(x-radius,y-radius),
  				QPointF(x+radius,y+radius));
 	painter->drawEllipse(rect);
@@ -83,7 +85,9 @@ void QtPrimitiveBase::PaintPoint(QPainter *painter, const QStyleOptionGraphicsIt
 
 void QtPrimitiveBase::PaintPointAndSelectionPath(QPainter *painter, const QStyleOptionGraphicsItem *option, double x, double y,QPainterPath &selection_path)
 {
-	selection_path.addEllipse(QPointF(x,y),1.0*selection_diameter_/option->levelOfDetail,1.0*selection_diameter_/option->levelOfDetail);
+	double level_of_detail = QStyleOptionGraphicsItem::levelOfDetailFromTransform(painter->worldTransform());
+  
+	selection_path.addEllipse(QPointF(x,y),1.0*selection_diameter_/level_of_detail,1.0*selection_diameter_/level_of_detail);
 
 	PaintPoint(painter, option, x, y);
 }

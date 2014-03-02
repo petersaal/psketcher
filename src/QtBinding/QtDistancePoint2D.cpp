@@ -93,6 +93,8 @@ QRectF QtDistancePoint2D::boundingRect() const
 
 void QtDistancePoint2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget * /* widget */)
 {
+	double level_of_detail = QStyleOptionGraphicsItem::levelOfDetailFromTransform(painter->worldTransform());
+  
 	DisplayProperties current_properties;
 
 	if(option->state & QStyle::State_MouseOver && IsSelectable())
@@ -104,13 +106,13 @@ void QtDistancePoint2D::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 		current_properties = GetProperties();
 	}
 	
-	double leader_gap = current_properties.GetLeaderGap()/option->levelOfDetail;
-	double leader_extension = current_properties.GetLeaderExtension()/option->levelOfDetail;
+	double leader_gap = current_properties.GetLeaderGap()/level_of_detail;
+	double leader_extension = current_properties.GetLeaderExtension()/level_of_detail;
 
-	double arrow_head_length = current_properties.GetArrowHeadLength()/option->levelOfDetail;
-	double arrow_head_width = current_properties.GetArrowHeadWidth()/option->levelOfDetail;
+	double arrow_head_length = current_properties.GetArrowHeadLength()/level_of_detail;
+	double arrow_head_width = current_properties.GetArrowHeadWidth()/level_of_detail;
 
-	painter->setPen(current_properties.GetPen(option->levelOfDetail));
+	painter->setPen(current_properties.GetPen(level_of_detail));
 	painter->setBrush(current_properties.GetBrush());
 
 	mmcMatrix point1 = point1_->GetmmcMatrix();
@@ -153,7 +155,7 @@ void QtDistancePoint2D::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 	painter->drawLine(QPointF(arrow_end_1(0,0),-arrow_end_1(1,0)),QPointF(text_location(0,0),-text_location(1,0)));
 
 	QPainterPath arrow_selection_path;
-	QPolygonF arrow = GetArrowPolygonAndSelectionPath(arrow_end_1(0,0),-arrow_end_1(1,0),arrow_end_2(0,0),-arrow_end_2(1,0),arrow_head_length,arrow_head_width,arrow_selection_path,option->levelOfDetail);
+	QPolygonF arrow = GetArrowPolygonAndSelectionPath(arrow_end_1(0,0),-arrow_end_1(1,0),arrow_end_2(0,0),-arrow_end_2(1,0),arrow_head_length,arrow_head_width,arrow_selection_path,level_of_detail);
 	current_shape_ = arrow_selection_path;
 
 	painter->drawPolygon(arrow);
@@ -166,7 +168,7 @@ void QtDistancePoint2D::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 		distance_widget_ = new QtDistancePoint2DWidget(shared_from_this(),dynamic_cast<QGraphicsItem*>(const_cast<QtDistancePoint2D*>(this)));
 	}
 
-	distance_widget_->UpdateGeometry(option->levelOfDetail);
+	distance_widget_->UpdateGeometry(level_of_detail);
 }
 
 

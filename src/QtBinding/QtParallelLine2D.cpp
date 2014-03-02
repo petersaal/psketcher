@@ -101,6 +101,8 @@ QRectF QtParallelLine2D::boundingRect() const
 
 void QtParallelLine2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget * /* widget */)
 {
+	double level_of_detail = QStyleOptionGraphicsItem::levelOfDetailFromTransform(painter->worldTransform());
+  
 	DisplayProperties current_properties;
 
 	if(option->state & QStyle::State_MouseOver && IsSelectable())
@@ -112,7 +114,7 @@ void QtParallelLine2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 		current_properties = GetProperties();
 	}
 
-	painter->setPen(current_properties.GetPen(option->levelOfDetail));
+	painter->setPen(current_properties.GetPen(level_of_detail));
 	painter->setBrush(current_properties.GetBrush());
 
 	QFont current_font;
@@ -136,7 +138,7 @@ void QtParallelLine2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 	QPainterPath text_path1;
 	text_path1.addText (0.0, 0.0, current_font, marker_text);
 	QTransform text_transform;
-	text_path1 = text_transform.scale(1.0/option->levelOfDetail,1.0/option->levelOfDetail).map(text_path1);
+	text_path1 = text_transform.scale(1.0/level_of_detail,1.0/level_of_detail).map(text_path1);
 	text_transform.reset();
 	QRectF bounding_box_1 = text_path1.boundingRect();
 	text_transform.reset();
@@ -147,7 +149,7 @@ void QtParallelLine2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 	QPainterPath text_path2; 
 	text_path2.addText (0.0, 0.0, current_font, marker_text);
 	text_transform.reset();
-	text_path2 = text_transform.scale(1.0/option->levelOfDetail,1.0/option->levelOfDetail).map(text_path2);
+	text_path2 = text_transform.scale(1.0/level_of_detail,1.0/level_of_detail).map(text_path2);
 	text_transform.reset();
 	QRectF bounding_box_2 = text_path2.boundingRect();
 	text_transform.reset();

@@ -111,6 +111,8 @@ QRectF QtArc2D::boundingRect() const
 
 void QtArc2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget * /* widget */) 
 {
+	double level_of_detail = QStyleOptionGraphicsItem::levelOfDetailFromTransform(painter->worldTransform());
+  
 	DisplayProperties current_properties;
 
 	// @fixme the way radius_properties is defined in the following if statement block will prevent the user from changing the display properties of the radius dimension or the points at run time since the DisplayProperties constructor is used to set these properties
@@ -128,11 +130,11 @@ void QtArc2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 		radius_properties = DisplayProperties(Annotation);
 	}
 	
-	double leader_gap = current_properties.GetLeaderGap()/option->levelOfDetail;
-	double leader_extension = current_properties.GetLeaderExtension()/option->levelOfDetail;
+	double leader_gap = current_properties.GetLeaderGap()/level_of_detail;
+	double leader_extension = current_properties.GetLeaderExtension()/level_of_detail;
 
-	double leader_extension_angle = ((leader_extension/GetRadius()->GetValue())*(180.0/mmcPI))/option->levelOfDetail;
-	double leader_gap_angle = ((leader_gap/GetRadius()->GetValue())*(180.0/mmcPI))/option->levelOfDetail;
+	double leader_extension_angle = ((leader_extension/GetRadius()->GetValue())*(180.0/mmcPI))/level_of_detail;
+	double leader_gap_angle = ((leader_gap/GetRadius()->GetValue())*(180.0/mmcPI))/level_of_detail;
 
 	double radius = GetRadius()->GetValue();
 	QRectF rect(QPointF(GetSCenter()->GetValue()-radius,-GetTCenter()->GetValue()-radius),
@@ -163,11 +165,11 @@ void QtArc2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 	// If it is a free parameter, it is not really a constraint and should not be displayed as such
 	if( ! radius_->IsFree())
 	{
-		painter->setPen(radius_properties.GetPen(option->levelOfDetail));
+		painter->setPen(radius_properties.GetPen(level_of_detail));
 		painter->setBrush(radius_properties.GetBrush());
 
 		QPolygonF radius_arrow = GetArrowPolygon(s_center_->GetValue(),-t_center_->GetValue(),s_center_->GetValue()+radius_->GetValue()*cos(GetTextAngle()),
-							   -(t_center_->GetValue()+radius_->GetValue()*sin(GetTextAngle())), 15.0/option->levelOfDetail,12.0/option->levelOfDetail);
+							   -(t_center_->GetValue()+radius_->GetValue()*sin(GetTextAngle())), 15.0/level_of_detail,12.0/level_of_detail);
 		painter->drawPolygon(radius_arrow);
 
 		// extend arc to radius arrow if radius arrow is outside the arc
@@ -188,15 +190,15 @@ void QtArc2D::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 			// @fixme need to make sure the following dyname_cast won't create a pointer that is need used even if this shared_ptr class is freed from memory
 			radius_widget_ = new QtArc2DWidget(shared_from_this(),dynamic_cast<QGraphicsItem*>(const_cast<QtArc2D*>(this)));
 		}
-		radius_widget_->UpdateGeometry(option->levelOfDetail);
+		radius_widget_->UpdateGeometry(level_of_detail);
 	}
 
-	painter->setPen(current_properties.GetPen(option->levelOfDetail));
+	painter->setPen(current_properties.GetPen(level_of_detail));
 	painter->setBrush(current_properties.GetBrush());
 
 	// paint the actual arc
 	QPainterPath arc_selection_path;
-	painter->drawPath(GetArcAndSelectionPath(GetSCenter()->GetValue(), -GetTCenter()->GetValue(), radius, angle1*(mmcPI/180.0), angle2*(mmcPI/180.0), arc_selection_path, option->levelOfDetail));
+	painter->drawPath(GetArcAndSelectionPath(GetSCenter()->GetValue(), -GetTCenter()->GetValue(), radius, angle1*(mmcPI/180.0), angle2*(mmcPI/180.0), arc_selection_path, level_of_detail));
 	current_shape_ = arc_selection_path;
 }
 
