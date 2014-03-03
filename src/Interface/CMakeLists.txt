@@ -46,11 +46,6 @@ find_package( Boost 1.43 COMPONENTS filesystem system)
 link_directories ( ${Boost_LIBRARY_DIRS} )
 include_directories ( ${Boost_INCLUDE_DIRS} )
 
-#gsl
-pkg_check_modules(GSL gsl)
-LINK_DIRECTORIES (${GSL_LIBRARY_DIRS})
-INCLUDE_DIRECTORIES (${GSL_INCLUDE_DIRS})
-
 #Python
 # FIND_PACKAGE(PythonLibs)
 # INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_PATH})
@@ -71,7 +66,6 @@ TARGET_LINK_LIBRARIES (psketcher Ark3dQtBinding)
 TARGET_LINK_LIBRARIES (psketcher Ark3d)
 TARGET_LINK_LIBRARIES (psketcher mmcMatrix)
 TARGET_LINK_LIBRARIES (psketcher InteractiveConstructors)
-TARGET_LINK_LIBRARIES (psketcher ${GSL_LIBRARIES})
 TARGET_LINK_LIBRARIES (psketcher bfgs)
 TARGET_LINK_LIBRARIES (psketcher sqlite3)
 #TARGET_LINK_LIBRARIES (psketcher ${PYTHON_LIBRARIES})

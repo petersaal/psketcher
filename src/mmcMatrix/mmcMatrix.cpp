@@ -1011,118 +1011,67 @@ mmcMatrix mmcMatrix::ElementWiseMultiplication(const mmcMatrix & rhs)const
 	return(result);
 }
 
-//Calculates the inverse of a matrix using gausian elimination
-mmcMatrix mmcMatrix::GetInverse()const
+//Calculates the inverse of a 3x3 matrix
+mmcMatrix mmcMatrix::GetInverse3By3()const
 {
-	int row, col;
+	if(MMC_ERROR_CHECK)
+	{
+	  //Check to insure that the matrix is a 3x3 matrix
+	  if(GetNumRows() != 3 && GetNumColumns() != 3)
+		throw mmcException(NOT_3X3, __LINE__);
 
-  if(MMC_ERROR_CHECK)
-  {
-    //Check to insure that the matrix is a square matrix
-    if(GetNumRows() != GetNumColumns())
-      throw mmcException(NOT_SQUARE, __LINE__);
-  
-    //Insure that memory is allocated
-    if(MatrixData == NULL)
-      throw mmcException(SIZE_ZERO, __LINE__);
-  }
+	  //Insure that memory is allocated
+	  if(MatrixData == NULL)
+		throw mmcException(SIZE_ZERO, __LINE__);
+	}
 
-	int num_dims = GetNumRows();
+	mmcMatrix solution(3, 3);
 
-	mmcMatrix solution(num_dims, num_dims);
+	double determinate = GetDeterminate3By3();
+	
+	if(determinate == 0.0)
+	  throw mmcException(SINGULAR, __LINE__);
 
-  // declare some temporary variables needed by gsl
-  int s;
-  gsl_permutation *p = gsl_permutation_alloc(num_dims);
-  mmcMatrix temp_matrix = *this;
-  gsl_matrix_view A = gsl_matrix_view_array(temp_matrix.GetMatrixData(), num_dims, num_dims);
-  gsl_matrix_view inverse = gsl_matrix_view_array(solution.GetMatrixData(), num_dims, num_dims);
-
-  
-  // perform the lu decomposition
-  gsl_linalg_LU_decomp(&A.matrix, p, &s);
-  
-  // now compute the inverse
-  gsl_linalg_LU_invert(&A.matrix, p, &inverse.matrix);
-  
-  // free up memory declared for gsl
-  gsl_permutation_free(p);
-
+	solution(0,0) = GetElement(1,1)*GetElement(2,2) - GetElement(1,2)*GetElement(2,1);
+	solution(0,1) = GetElement(0,2)*GetElement(2,1) - GetElement(0,1)*GetElement(2,2);
+	solution(0,2) = GetElement(0,1)*GetElement(1,2) - GetElement(0,2)*GetElement(1,1);
+	
+	solution(1,0) = GetElement(1,2)*GetElement(2,0) - GetElement(1,0)*GetElement(2,2);
+	solution(1,1) = GetElement(0,0)*GetElement(2,2) - GetElement(0,2)*GetElement(2,0);
+	solution(1,2) = GetElement(0,2)*GetElement(1,0) - GetElement(0,0)*GetElement(1,2);
+	
+	solution(2,0) = GetElement(1,0)*GetElement(2,1) - GetElement(1,1)*GetElement(2,0);
+	solution(2,1) = GetElement(0,1)*GetElement(2,0) - GetElement(0,0)*GetElement(2,1);
+	solution(2,2) = GetElement(0,0)*GetElement(1,1) - GetElement(0,1)*GetElement(1,0);
+	
+	solution = (1.0/determinate)*solution;
+	
 	return(solution);
 }
 
-//Calculates the determinate of a matrix using Gaussian elimination
-double mmcMatrix::GetDeterminate()const
+//Calculates the determinate of a 3x3 matrix
+double mmcMatrix::GetDeterminate3By3()const
 {
-	int row_changes = 0;
+	if(MMC_ERROR_CHECK)
+	{
+	  //Check to insure that the matrix is a 3x3 matrix
+	  if(GetNumRows() != 3 && GetNumColumns() != 3)
+		throw mmcException(NOT_3X3, __LINE__);
 
-  if(MMC_ERROR_CHECK)
-  {
-    //Check to insure that the matrix is a square matrix
-    if(GetNumRows() != GetNumColumns())
-      throw mmcException(NOT_SQUARE, __LINE__);
-  
-    //Insure that memory is allocated
-    if(MatrixData == NULL)
-      throw mmcException(SIZE_ZERO, __LINE__);
-  }
+	  //Insure that memory is allocated
+	  if(MatrixData == NULL)
+		throw mmcException(SIZE_ZERO, __LINE__);
+	}
 
-	int num_dims = GetNumRows();
-  
-  double solution;
-  
-  // declare some temporary variables needed by gsl
-  int s;
-  gsl_permutation *p = gsl_permutation_alloc(num_dims);
-  mmcMatrix temp_matrix = *this;
-  gsl_matrix_view A = gsl_matrix_view_array(temp_matrix.GetMatrixData(), num_dims, num_dims);
-  
-  // perform the lu decomposition
-  gsl_linalg_LU_decomp(&A.matrix, p, &s);
-  
-  // now compute the inverse
-  solution = gsl_linalg_LU_det(&A.matrix, s);
-  
-  // free up memory declared for gsl
-  gsl_permutation_free(p);
-
+	double solution;
+	
+	solution = GetElement(0,0)*(GetElement(1,1)*GetElement(2,2)-GetElement(1,2)*GetElement(2,1)) 
+			 - GetElement(0,1)*(GetElement(1,0)*GetElement(2,2)-GetElement(1,2)*GetElement(2,0)) 
+			 + GetElement(0,2)*(GetElement(1,0)*GetElement(2,1)-GetElement(1,1)*GetElement(2,0));
+		
 	return(solution);
 }
 
-void mmcMatrix::GetQRDecomp(mmcMatrix &Q, mmcMatrix &R)
-{
-  if(MMC_ERROR_CHECK)
-  {
-    // Must have at least one element
-    if(NumRows < 1 || NumColumns < 1)
-      throw mmcException(NOT_VECTOR, __LINE__);
-  }
-  
-  // Will compute the QR decomposition using the GSL library
-  
-  // declare variables neede by gsl
-  mmcMatrix temp_matrix = *this;
-  gsl_matrix_view A = gsl_matrix_view_array(temp_matrix.GetMatrixData(), NumRows, NumColumns); 
-  int vector_size;
-  if(NumRows < NumColumns)
-    vector_size = NumRows;
-  else
-    vector_size = NumColumns;
-  mmcMatrix vector(vector_size,1);
-  gsl_vector_view tau = gsl_vector_view_array(vector.GetMatrixData(), vector_size);
-  
-  // compute the QR decomposition
-  gsl_linalg_QR_decomp(&A.matrix, &tau.vector);
-  
-  // now construct the Q and R matrices
-  Q.SetSize(NumRows, NumRows,0.0);
-  R.SetSize(NumRows, NumColumns,0.0);
-  gsl_matrix_view q = gsl_matrix_view_array(Q.GetMatrixData(), NumRows, NumRows); 
-  gsl_matrix_view r = gsl_matrix_view_array(R.GetMatrixData(), NumRows, NumColumns);   
-  
-  // now have gsl construct Q and R
-  gsl_linalg_QR_unpack(&A.matrix, &tau.vector, &q.matrix, &r.matrix);
-}
 
 void mmcMatrix::DisplayMatrix()const
 {
