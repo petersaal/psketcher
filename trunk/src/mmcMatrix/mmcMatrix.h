@@ -31,7 +31,7 @@ DVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 const double mmcPI = 3.14159265359;
 
-enum mmcECODE {CANNOT_CREATE, ADD_INCOMPAT, SIZE_ZERO, MULT_INCOMPAT, OVERRUN, NOT_SQUARE, NOT_VECTOR, VECTOR_INCOMPAT, SINGULAR, CANNOT_CROSS, CANNOT_COMBINE, CANNOT_SUB, CHILD_ERROR, IP_ERROR, CANNOT_OPEN, DIVIDE_BY_ZERO};
+enum mmcECODE {CANNOT_CREATE, ADD_INCOMPAT, SIZE_ZERO, MULT_INCOMPAT, OVERRUN, NOT_SQUARE, NOT_VECTOR, VECTOR_INCOMPAT, SINGULAR, CANNOT_CROSS, CANNOT_COMBINE, CANNOT_SUB, CHILD_ERROR, IP_ERROR, CANNOT_OPEN, DIVIDE_BY_ZERO, NOT_3X3};
 
 const char mmcECODE_STRINGS[][250] = {"Attempt to create or resize a matrix with the number of rows or columns less that or equal to 0.",
                 "Matrices not compatible for addition, subraction or element-wise multiplication operations.",
@@ -48,7 +48,9 @@ const char mmcECODE_STRINGS[][250] = {"Attempt to create or resize a matrix with
 								"Error occurred in child class.",
                 "Result formal paramter can not be the class itself or another formal parameter.",
 								"Cannot open file.",
-								"Divide by zero."};
+								"Divide by zero.",
+								"Matrix must be 3x3 to perform this operation."
+};
 
 // format to use when writing the matrix to the output buffer
 enum mmcOUTPUT_FORMAT {MMC_NATIVE, MATLAB_ASCII};
@@ -137,10 +139,10 @@ public:
   
   // functions that return a mmcMatrix object without changing 
   // the original matrix.
-  mmcMatrix GetInverse()const;  // return inverse of original matrix
+  mmcMatrix GetInverse3By3()const;  // return inverse of original a 3x3 matrix
+  double GetDeterminate3By3()const; // return the determinate of a 3x3 matrix
   mmcMatrix GetTranspose()const; // return transpose of original matrix
   mmcMatrix GetScaled(double scale_factor)const; // return scaled version of original matrix
-  double GetDeterminate()const; // return determinate of matrix
   double DotProduct(const mmcMatrix & rhs)const; // calculates dot product
   mmcMatrix CrossProduct(const mmcMatrix & rhs)const;  // calculates dot product
   mmcMatrix ElementWiseMultiplication(const mmcMatrix & rhs)const; 
@@ -148,8 +150,6 @@ public:
   mmcMatrix CombineAsRow(const mmcMatrix & rhs)const;
   mmcMatrix GetSubMatrix(int start_row, int start_col,
 	                     int end_row, int end_col)const;
-
-  void GetQRDecomp(mmcMatrix &Q, mmcMatrix &R);
   
   // Preforms a Discrete Cosine Transform on the vector or matrix
   mmcMatrix GetDCT()const;

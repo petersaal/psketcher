@@ -13,8 +13,3 @@ find_package( Boost 1.34 COMPONENTS filesystem )
 link_directories ( ${Boost_LIBRARY_DIRS} )
 include_directories ( ${Boost_INCLUDE_DIRS} )
 
-#gsl
-pkg_check_modules(GSL gsl)
-LINK_DIRECTORIES (${GSL_LIBRARY_DIRS})
-INCLUDE_DIRECTORIES (${GSL_INCLUDE_DIRS})
-

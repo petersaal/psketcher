@@ -97,7 +97,7 @@ void SketchPlane::Get3DLocation ( double s, double t, double & x, double & y, do
 	z = global_position(2,0);
 }
 
-// Find the closest pont on the sketch plane to the global coordinates x,y, and z and return its s and t coordinates
+// Find the closest point on the sketch plane to the global coordinates x,y, and z and return its s and t coordinates
 // the return value is the distance of the global point to the sketch plane (if the sketch plane normal vector is not normalized than the distance will be scaled)
 double SketchPlane::GetSTLocation( double x, double y, double z, double &s, double &t)
 {
@@ -114,7 +114,7 @@ double SketchPlane::GetSTLocation( double x, double y, double z, double &s, doub
 	a_matrix = a_matrix.CombineAsRow(j_vector);
 	a_matrix = a_matrix.CombineAsRow(normal_vector);
 
-	mmcMatrix result = a_matrix.GetInverse()*(global_point - base_->GetmmcMatrix());
+	mmcMatrix result = a_matrix.GetInverse3By3()*(global_point - base_->GetmmcMatrix());
 
 	s = result(0,0);
 	t = result(1,0);
